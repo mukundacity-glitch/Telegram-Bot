@@ -1,0 +1,1 @@
+"""Standalone FPL VORTEX Telegram-only graphics automation."""

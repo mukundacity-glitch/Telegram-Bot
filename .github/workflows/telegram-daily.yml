@@ -1,0 +1,115 @@
+name: FPL VORTEX Telegram Daily
+
+on:
+  schedule:
+    - cron: '30 6 * * *'
+      timezone: America/New_York
+    - cron: '0 8 * * *'
+      timezone: America/New_York
+    - cron: '0 10 * * *'
+      timezone: America/New_York
+    - cron: '0 12 * * *'
+      timezone: America/New_York
+    - cron: '0 14 * * *'
+      timezone: America/New_York
+    - cron: '0 16 * * *'
+      timezone: America/New_York
+    - cron: '30 17 * * *'
+      timezone: America/New_York
+    - cron: '0 20 * * *'
+      timezone: America/New_York
+    # Backup triggers check the same day for a missed/failed delivery.
+    - cron: '45 6 * * *'
+      timezone: America/New_York
+    - cron: '15 8 * * *'
+      timezone: America/New_York
+    - cron: '15 10 * * *'
+      timezone: America/New_York
+    - cron: '15 12 * * *'
+      timezone: America/New_York
+    - cron: '15 14 * * *'
+      timezone: America/New_York
+    - cron: '15 16 * * *'
+      timezone: America/New_York
+    - cron: '45 17 * * *'
+      timezone: America/New_York
+    - cron: '15 20 * * *'
+      timezone: America/New_York
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: 'Run a specific slot or discover/test Telegram chat'
+        required: true
+        type: choice
+        default: test
+        options:
+          - discover
+          - test
+          - elite
+          - comparison
+          - news
+          - prices
+          - transfer
+          - captaincy
+          - review
+          - evening
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fpl-vortex-telegram-single-workflow
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.PUBLISH_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 14
+    steps:
+      - name: Checkout isolated Telegram-Bot repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+
+      - name: Install free renderer dependencies
+        run: python -m pip install -r requirements.txt
+
+      - name: Run validation tests
+        run: python -m pytest -q
+
+      - name: Deliver to Telegram
+        id: deliver
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          SCHEDULED_CRON: ${{ github.event.schedule }}
+          REQUESTED_SLOT: ${{ inputs.slot || 'auto' }}
+        run: |
+          python -m vortex.bot --slot "$REQUESTED_SLOT"
+
+      - name: Save newest PNG as short-lived artifact
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fpl-vortex-${{ github.run_id }}
+          path: output/*.png
+          if-no-files-found: ignore
+          retention-days: 2
+
+      - name: Preserve delivery dedup and official price baseline
+        if: success()
+        run: |
+          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json)" ]; then
+            echo "No new state to commit."
+            exit 0
+          fi
+          git config user.name 'FPL VORTEX Telegram Bot'
+          git config user.email 'fpl-vortex-bot@users.noreply.github.com'
+          git add state/prices.json state/deliveries.json
+          git commit -m 'Update Telegram delivery state [skip ci]'
+          git push origin HEAD:${{ github.ref_name }}
