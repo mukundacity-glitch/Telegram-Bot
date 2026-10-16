@@ -61,11 +61,12 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         print("Telegram test delivered successfully")
         return 0
 
+    preview_only = slot == "preview"
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"
     delivery_state = read_state(delivery_state_path)
     key = f"{now.astimezone(ZoneInfo('America/New_York')).date()}:{slot}"
-    if delivery_state.get(key, {}).get("delivered"):
+    if not preview_only and delivery_state.get(key, {}).get("delivered"):
         print(f"ALREADY DELIVERED {key}; skipping duplicate")
         return 0
 
@@ -75,10 +76,13 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             print("Captaincy is not due: tomorrow is not a FPL deadline day")
             return 0
         previous_prices = read_state(price_state_path)
-        article = generate(slot, snapshot, now, previous_prices)
+        article = generate("comparison" if preview_only else slot, snapshot, now, previous_prices)
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
         render(article, path)
-        message_id = client.send_png(path, article.caption, article.title, article.gw)
+        message_id = client.send_png(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
+        if preview_only:
+            print(f"PREVIEW DELIVERED with Telegram message {message_id}; normal daily delivery state unchanged")
+            return 0
         delivery_state[key] = {"delivered": True, "telegram_message_id": message_id, "timestamp": now.isoformat(), "gameweek": article.gw}
         if len(delivery_state) > 150:
             keys = sorted(delivery_state.keys())[-120:]
@@ -101,7 +105,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="FPL Vortex Telegram content delivery")
-    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "news", "prices", "transfer", "captaincy", "review", "evening"])
+    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening"])
     args = parser.parse_args()
     return run(args.slot, os.environ.get("SCHEDULED_CRON"))
 
