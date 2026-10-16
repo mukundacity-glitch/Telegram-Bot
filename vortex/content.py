@@ -151,7 +151,7 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
     elif kind == "captaincy":
         ranked = choose_captains(snapshot)
         cards = [_card(snapshot, p, f"CAPTAIN OPTION {i + 1}", ["NEXT: " + (snapshot.fixtures_for(p, 1)[0][0] if snapshot.fixtures_for(p, 1) else "TBD")]) for i, p in enumerate(ranked)]
-        title, kicker = "CAPTAINCY SHOWDOWN", "4:00 PM • PRE-DEADLINE ANALYSIS"
+        title, kicker = "CAPTAINCY SHOWDOWN", "4:00 PM • DAILY CAPTAINCY ANALYSIS"
         verdict = f"CAPTAIN: {snapshot.name(ranked[0])} • VC: {snapshot.name(ranked[1])}"
         lines = [f"FPL GW{gw}: captaincy showdown.", f"Top pick: {snapshot.name(ranked[0])}.", f"Vice-captain: {snapshot.name(ranked[1])}.", "Balance form, fixtures and minutes risk.", "Who gets your armband?"]
     elif kind == "review":
