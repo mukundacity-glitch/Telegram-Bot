@@ -1,7 +1,7 @@
 """Produce fact-grounded data cards and six-line X captions."""
 from __future__ import annotations
 
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from datetime import datetime
 from typing import Any
 
@@ -77,6 +77,10 @@ def _card(snapshot: FplSnapshot, player: dict[str, Any], label: str, extra: list
     )
 
 
+def _card_with_metrics(base: Card, fields: tuple[str, ...], extra_metrics: dict[str, int | str]) -> Card:
+    return replace(base, fields=fields, metrics={**(base.metrics or {}), **extra_metrics})
+
+
 def _caption(lines: list[str], gw: int) -> str:
     if len(lines) != 5:
         raise ValueError("Exactly five X caption lines required")
@@ -97,7 +101,9 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
     cards: list[Card]
     if kind == "elite":
         p = choose_elite(snapshot)
-        cards = [_card(snapshot, p, "ELITE DIFFERENTIAL", [f"Owned by {p.get('selected_by_percent', 'N/A')}%", " | ".join(f"{opp} FDR{fdr}" for opp, fdr in snapshot.fixtures_for(p, 3))])]
+        original_card = _card(snapshot, p, "ELITE DIFFERENTIAL", [f"Owned by {p.get('selected_by_percent', 'N/A')}%", " | ".join(f"{opp} FDR{fdr}" for opp, fdr in snapshot.fixtures_for(p, 3))])
+        cards = [replace(original_card, metrics={**original_card.metrics,
+                       "ownership": str(p.get("selected_by_percent") or "N/A")})]
         title, kicker = "ELITE FPL EDGE", "6:30 AM • UNDER-OWNED SCOUT PICK"
         verdict = "DATA-LED DIFFERENTIAL • RECHECK LINEUP"
         lines = [f"FPL GW{gw}: an under-owned player to watch.", f"{snapshot.name(p)} ({snapshot.team(p)}) at {snapshot.price(p)}.", f"{p.get('form', '0')} form; {p.get('selected_by_percent', 'N/A')}% owned.", "Assess fixtures and team news before buying.", "Who is your differential pick?"]
@@ -109,7 +115,11 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
         lines = [f"FPL GW{gw}: player comparison showdown.", f"{snapshot.name(first)} vs {snapshot.name(second)}.", f"Prices: {snapshot.price(first)} vs {snapshot.price(second)}.", "Compare form, minutes and fixture difficulty.", "Who makes your team?"]
     elif kind == "news":
         news = choose_news(snapshot, now)
-        cards = [Card(snapshot.name(p), snapshot.team(p), "FPL STATUS UPDATE", (snapshot.price(p), str(p.get("news") or "")[:120], "FPL flag: " + str(p.get("status") or "unknown")), snapshot.photo_code(p), snapshot.team_code(p)) for p in news[:3]]
+        cards = [replace(
+            _card(snapshot, player, "FPL STATUS UPDATE"),
+            fields=(snapshot.price(player), str(player.get("news") or ""), "FPL flag: " + str(player.get("status") or "unknown")),
+            metrics={**_card(snapshot, player, "FPL STATUS UPDATE").metrics, "status": str(player.get("status") or "unknown")},
+        ) for player in news[:3]]
         if not cards:
             cards = [Card("NO NEW DATED FPL FLAGS", "Official FPL", "VERIFIED STATUS", ("No fresh changes in the last 72 hours.", "No injury story has been invented."))]
         title, kicker = "FPL NEWS BOARD", "10:00 AM • OFFICIAL FPL STATUS"
@@ -118,7 +128,13 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
     elif kind == "prices":
         changes = confirmed_price_changes(snapshot, previous_prices)
         valid_baseline = isinstance(previous_prices.get("prices"), dict)
-        cards = [Card(snapshot.name(p), snapshot.team(p), "CONFIRMED PRICE MOVE", (f"£{old / 10:.1f}m → £{new / 10:.1f}m", f"{'▲ RISE' if new > old else '▼ FALL'} £{abs(new-old) / 10:.1f}m", "Official snapshots compared"), snapshot.photo_code(p), snapshot.team_code(p)) for p, old, new in changes[:4]]
+        cards = [replace(
+            _card(snapshot, player, "CONFIRMED PRICE MOVE"),
+            fields=(f"£{old / 10:.1f}m → £{new / 10:.1f}m", "Official snapshots compared"),
+            metrics={**_card(snapshot, player, "CONFIRMED PRICE MOVE").metrics,
+                     "before": f"£{old / 10:.1f}m", "after": f"£{new / 10:.1f}m",
+                     "change": f"{'+' if new > old else '-'}£{abs(new-old) / 10:.1f}m"},
+        ) for player, old, new in changes[:4]]
         if not cards:
             label = "BASELINE ESTABLISHED" if not valid_baseline else "NO CHANGES DETECTED"
             cards = [Card(label, "Official FPL", "PRICE MONITOR", ("Next run compares official snapshots.", "Predictions are never presented as confirmed."))]
@@ -141,7 +157,12 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
     elif kind == "review":
         highlights = previous_gw_top_players(snapshot)
         prev = latest_completed_gw(snapshot)
-        cards = [Card(snapshot.name(p), snapshot.team(p), f"GW{prev} RETURN", (f"{points} FPL points", f"Current price: {snapshot.price(p)}", f"Season total: {p.get('total_points', 0)}"), snapshot.photo_code(p), snapshot.team_code(p)) for p, points in highlights[:4]]
+        cards = [replace(
+            _card(snapshot, player, f"GW{prev} RETURN"),
+            fields=(f"{points} FPL points", f"Current price: {snapshot.price(player)}",
+                    f"Season total: {player.get('total_points', 0)}"),
+            metrics={**_card(snapshot, player, f"GW{prev} RETURN").metrics, "gw_points": points},
+        ) for player, points in highlights[:4]]
         if not cards:
             cards = [Card("NO COMPLETED GW YET", "Official FPL", "REVIEW STATUS", ("Upcoming GW watch only.", "Do not treat unfinished fixtures as final."))]
         title, kicker = f"GW{prev or '–'} REVIEW → GW{gw} WATCH", "5:30 PM • VERIFIED COMPLETED GAMEWEEK"
@@ -150,7 +171,12 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
         lines = [f"FPL GW{prev or 0} review → GW{gw} watch.", f"Top completed-GW return: {leader}.", "Review official points and upcoming fixtures.", "Avoid chasing points without checking minutes.", "Who is your next target?"]
     elif kind == "evening":
         creators = choose_creators(snapshot)
-        cards = [_card(snapshot, p, "ASSISTS / CREATOR WATCH", [f"{int(p.get('assists') or 0)} assists", f"xA: {p.get('expected_assists', 'N/A')}"]) for p in creators]
+        cards = [replace(
+            _card(snapshot, player, "ASSISTS / CREATOR WATCH",
+                  [f"{int(player.get('assists') or 0)} assists", f"xA: {player.get('expected_assists', 'N/A')}"]),
+            metrics={**_card(snapshot, player, "ASSISTS / CREATOR WATCH").metrics,
+                     "xa": str(player.get("expected_assists") or "N/A")},
+        ) for player in creators]
         title, kicker = "EVENING CREATOR WATCH", "8:00 PM • ASSISTS & NEXT GW TARGETS"
         verdict = "CREATOR METRICS • NOT A BREAKING NEWS CLAIM"
         top = snapshot.name(creators[0]) if creators else "None"
