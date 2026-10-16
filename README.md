@@ -32,8 +32,8 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 
 ## Setup (new repository only)
 
-1. The standalone `mukundacity-glitch/Telegram-Bot` repository is created and this source has been uploaded. **No other repository is modified.**
-2. Your repository is currently **public**. GitHub Actions Secrets are required for credentials. You can change it to private in repository settings if preferred.
+1. Create an **empty private** GitHub repository named `Telegram-Bot` in the `mukundacity-glitch` account. (Display title: **Telegram Bot**.) Do not fork an existing project.
+2. Upload the contents of this directory to that new repository, including `.github/workflows/telegram-daily.yml`, `vortex/`, `state/`, `tests/`, and `assets/references/`.
 3. In your Telegram app, open [@FPLVortexDailyBot](https://t.me/FPLVortexDailyBot) and tap **Start** or send `/start`.
 4. GitHub → new repository → **Settings → Secrets and variables → Actions → New repository secret**. Set:
    - `TELEGRAM_BOT_TOKEN` = BotFather bot token (never post or commit it).
@@ -41,9 +41,9 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 6. Add the other Actions secret `TELEGRAM_CHAT_ID` with that chat ID. For a Telegram channel, add the bot as an administrator and use its numeric channel chat ID instead. 
 7. Run workflow manually with **test**. Confirm you receive the Telegram test message.
 8. Run workflow manually with **comparison**. Confirm the PNG is downloadable and its text is correct.
-9. After both delivery tests succeed, create repository **Variable** `PUBLISH_ENABLED=true` under **Settings → Secrets and variables → Actions → Variables**. The sixteen schedule rules are defined but **won't post unless this variable is set**. To pause automatic publication set `PUBLISH_ENABLED=false`; manual tests remain available.
+9. Once testing succeeds, leave GitHub Actions enabled. The sixteen schedule rules (eight primary, eight backup) are in `.github/workflows/telegram-daily.yml` and take effect when present on the default branch. To stop publishing, disable that single workflow in the GitHub Actions interface.
 
-**Safety:** Auto-posting is disabled by default using `PUBLISH_ENABLED`; do not enable it before adding both secrets and confirming a manual test. GitHub Actions schedule timing is best effort.
+**Warning:** When you first upload the workflow, the cron schedule becomes active. Set the two secrets promptly; otherwise early scheduled jobs will fail until configured.
 
 ## Assists background
 
@@ -68,3 +68,11 @@ python -m vortex.bot --slot comparison
 ## Source verification
 
 Data source: `https://fantasy.premierleague.com/api/bootstrap-static/`, `/fixtures/`, and `/event/{gw}/live/` for completed-GW returns. The `state/prices.json` baseline is updated only after the noon price report succeeds. Do not compare the `now_cost` against `cost_change_start` and claim it happened overnight; official day-over-day snapshots are required for that wording.
+
+## October 16 comparison design (reference-faithful)
+
+The **8:00 AM player-vs-player** renderer uses `vortex/matchup.py`, which recreates the supplied two-column reference at **1536 × 864**: portrait-led cyan/gold panels, each club crest, price, points, form, goals, assists, minutes, clean sheets, bonus, three opponent crests and FDR-colored fixture chips, and a bottom verdict. Numbers are populated from **live official FPL** player and fixture records, not pixels or text from the example design.
+
+Player portraits and team crests are requested from public Premier League CDNs. Only if a matching live portrait is unavailable, the renderer may use a portrait cutout **from the user-supplied example** for the explicitly named players De Cuyper and Tarkowski (`assets/players/*.webp.b64`). The rest of the roster never receives an unrelated fallback face. A missing featured portrait or required club crest aborts publishing that graphic; the bot will report the failure instead of silently sending a card without images. Missing upcoming fixtures display `NO FIXTURE` instead of fictional pairings.
+
+The mock design preview contains illustrative sample values and is **not** proof of current live stats. The `comparison` manual workflow should be run again, and its delivered PNG visually checked, before enabling `PUBLISH_ENABLED`.
