@@ -177,8 +177,13 @@ def previous_gw_top_players(snapshot: FplSnapshot, session: requests.Session | N
         return []
     client = session or requests.Session()
     payload = _fetch_json(client, f"event/{latest}/live/")
-    elements = payload.get("elements") if isinstance(payload, dict) else None
-    if not isinstance(elements, dict):
+    raw_elements = payload.get("elements") if isinstance(payload, dict) else None
+    if isinstance(raw_elements, list):
+        elements = {str(item["id"]): item for item in raw_elements
+                    if isinstance(item, dict) and isinstance(item.get("id"), int)}
+    elif isinstance(raw_elements, dict):
+        elements = raw_elements
+    else:
         raise ValueError("Live GW response missing element records")
     records: list[tuple[dict[str, Any], int]] = []
     for player in snapshot.players:
