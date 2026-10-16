@@ -115,3 +115,19 @@ def test_player_stats_are_not_embedded_in_background_templates():
     root = Path(__file__).resolve().parents[1]
     assert (root / "assets" / "references" / "brand_background.png").exists()
     assert (root / "assets" / "assists" / "5.png").exists()
+
+
+def test_matched_reference_portraits_are_a_safe_fallback(tmp_path, monkeypatch):
+    from dataclasses import replace
+    snapshot = fake_snapshot()
+    original = generate("comparison", snapshot, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
+    left, right = original.cards
+    content = replace(original, cards=(replace(left, headline="DE CUYPER"), replace(right, headline="TARKOWSKI")))
+
+    def missing_photos(session, code, kind, cache):
+        return None if kind == "photo" else Image.new("RGBA", (70, 70), (225, 235, 250, 255))
+
+    monkeypatch.setattr("vortex.matchup._media", missing_photos)
+    output = tmp_path / "fallback.png"
+    render(content, output, session=object())
+    assert output.exists()
