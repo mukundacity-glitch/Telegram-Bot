@@ -38,7 +38,7 @@ SLOT_HOURS: dict[str, tuple[int, int]] = {
 
 def resolve_slot(requested: str, scheduled_cron: str | None, current: datetime) -> str:
     if requested != "auto":
-        if requested not in set(SLOT_HOURS) | {"test", "discover"}:
+        if requested not in set(SLOT_HOURS) | {"test", "discover", "preview"}:
             raise ValueError(f"Unknown requested slot: {requested}")
         return requested
     if scheduled_cron:
