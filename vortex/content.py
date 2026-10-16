@@ -26,6 +26,8 @@ class Card:
     fields: tuple[str, ...]
     photo_code: int | None = None
     team_code: int | None = None
+    metrics: dict[str, int | str] | None = None
+    fixtures: tuple[tuple[str, str, int, int | None], ...] = ()
 
 
 @dataclass(frozen=True)
@@ -49,7 +51,30 @@ def _card(snapshot: FplSnapshot, player: dict[str, Any], label: str, extra: list
     ]
     if extra:
         stats.extend(extra)
-    return Card(snapshot.name(player), snapshot.team(player), label, tuple(stats), snapshot.photo_code(player), snapshot.team_code(player))
+    upcoming: list[tuple[str, str, int, int | None]] = []
+    for label_text, difficulty in snapshot.fixtures_for(player, 3):
+        opponent, _, side = label_text.partition(" (")
+        venue = side.rstrip(")") if side else "?"
+        opponent_code = next(
+            (int(team["code"]) for team in snapshot.teams.values()
+             if team.get("short_name") == opponent and isinstance(team.get("code"), int)),
+            None,
+        )
+        upcoming.append((opponent, venue, difficulty, opponent_code))
+    metrics: dict[str, int | str] = {
+        "price": snapshot.price(player),
+        "total_points": int(player.get("total_points") or 0),
+        "form": str(player.get("form") or "0"),
+        "goals": int(player.get("goals_scored") or 0),
+        "assists": int(player.get("assists") or 0),
+        "minutes": int(player.get("minutes") or 0),
+        "clean_sheets": int(player.get("clean_sheets") or 0),
+        "bonus": int(player.get("bonus") or 0),
+    }
+    return Card(
+        snapshot.name(player), snapshot.team(player), label, tuple(stats),
+        snapshot.photo_code(player), snapshot.team_code(player), metrics, tuple(upcoming),
+    )
 
 
 def _caption(lines: list[str], gw: int) -> str:
