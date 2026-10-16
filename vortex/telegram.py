@@ -37,7 +37,7 @@ class TelegramClient:
         except (requests.RequestException, ValueError):
             raise RuntimeError("Telegram getMe failed; verify TELEGRAM_BOT_TOKEN") from None
         result = payload.get("result", {}) if isinstance(payload, dict) else {}
-        if not payload.get("ok") or not isinstance(result, dict) or not result.get("username"):
+        if not isinstance(payload, dict) or not payload.get("ok") or not isinstance(result, dict) or not result.get("username"):
             raise RuntimeError("Telegram getMe did not return a valid bot username")
         return str(result["username"])
 
