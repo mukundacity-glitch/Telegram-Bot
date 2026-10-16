@@ -4,5 +4,11 @@
     "gameweek": 7,
     "telegram_message_id": 6,
     "timestamp": "2026-10-16T13:58:31.714487+00:00"
+  },
+  "2026-10-16:news": {
+    "delivered": true,
+    "gameweek": 7,
+    "telegram_message_id": 7,
+    "timestamp": "2026-10-16T14:27:39.256046+00:00"
   }
 }
