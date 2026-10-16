@@ -128,6 +128,9 @@ def _draw_card(canvas: Image.Image, card: Card, box: tuple[int, int, int, int], 
 def render(content: Content, output: Path, session: requests.Session | None = None) -> Path:
     if not content.cards:
         raise ValueError("Cannot render without sourced content")
+    if content.kind == "comparison":
+        from .matchup import render_comparison
+        return render_comparison(content, output, session or requests.Session())
     canvas = _background(content)
     draw = ImageDraw.Draw(canvas, "RGBA")
     if content.kind == "evening":
