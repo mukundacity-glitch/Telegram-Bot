@@ -61,7 +61,8 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         print("Telegram test delivered successfully")
         return 0
 
-    preview_only = slot == "preview"
+    preview_only = slot == "preview" or slot.startswith("preview-")
+    publication_slot = "comparison" if slot == "preview" else slot.removeprefix("preview-") if preview_only else slot
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"
     delivery_state = read_state(delivery_state_path)
@@ -76,7 +77,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             print("Captaincy is not due: tomorrow is not a FPL deadline day")
             return 0
         previous_prices = read_state(price_state_path)
-        article = generate("comparison" if preview_only else slot, snapshot, now, previous_prices)
+        article = generate(publication_slot, snapshot, now, previous_prices)
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
         render(article, path)
         message_id = client.send_png(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
@@ -105,7 +106,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="FPL Vortex Telegram content delivery")
-    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening"])
+    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening"])
     args = parser.parse_args()
     return run(args.slot, os.environ.get("SCHEDULED_CRON"))
 
