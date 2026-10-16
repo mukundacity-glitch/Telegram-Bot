@@ -67,7 +67,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
     price_state_path = STATE / "prices.json"
     delivery_state = read_state(delivery_state_path)
     key = f"{now.astimezone(ZoneInfo('America/New_York')).date()}:{slot}"
-    if not preview_only and delivery_state.get(key, {}).get("delivered"):
+    if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered"):
         print(f"ALREADY DELIVERED {key}; skipping duplicate")
         return 0
 
