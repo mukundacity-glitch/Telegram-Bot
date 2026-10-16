@@ -47,6 +47,7 @@ on:
           - test
           - elite
           - comparison
+          - preview
           - news
           - prices
           - transfer
