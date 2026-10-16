@@ -29,6 +29,18 @@ class TelegramClient:
             raise RuntimeError(f"Telegram {method} rejected: {description[:180]}")
         return payload
 
+    def get_bot_username(self) -> str:
+        try:
+            response = requests.get(f"{self.base_url}/getMe", timeout=25)
+            response.raise_for_status()
+            payload = response.json()
+        except (requests.RequestException, ValueError):
+            raise RuntimeError("Telegram getMe failed; verify TELEGRAM_BOT_TOKEN") from None
+        result = payload.get("result", {}) if isinstance(payload, dict) else {}
+        if not payload.get("ok") or not isinstance(result, dict) or not result.get("username"):
+            raise RuntimeError("Telegram getMe did not return a valid bot username")
+        return str(result["username"])
+
     def discover_chats(self) -> list[dict[str, Any]]:
         try:
             response = requests.get(f"{self.base_url}/getUpdates", timeout=25)
