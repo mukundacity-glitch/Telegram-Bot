@@ -58,3 +58,9 @@ def test_manual_preview_never_modifies_daily_state(delivery_environment: list[st
     assert bot.run('preview-news') == 0
     assert delivery_environment == ['THE FPL DECISION ROOM — PREVIEW']
     assert path.read_bytes() == before
+
+def test_daily_captaincy_publishes_without_deadline_tomorrow(
+    delivery_environment: list[str],
+) -> None:
+    assert bot.run('captaincy', '0 16 * * *') == 0
+    assert delivery_environment == ['THE FPL DECISION ROOM']
