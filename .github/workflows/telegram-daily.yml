@@ -48,6 +48,13 @@ on:
           - elite
           - comparison
           - preview
+          - preview-news
+          - preview-transfer
+          - preview-prices
+          - preview-captaincy
+          - preview-review
+          - preview-elite
+          - preview-evening
           - news
           - prices
           - transfer
@@ -64,7 +71,7 @@ concurrency:
 
 jobs:
   publish:
-    if: ${{ github.event_name == 'workflow_dispatch' || vars.PUBLISH_ENABLED == 'true' }}
+    if: ${{ github.event_name == 'workflow_dispatch' || vars.PUBLISH_ENABLED != 'false' }}
     runs-on: ubuntu-latest
     timeout-minutes: 14
     steps:
