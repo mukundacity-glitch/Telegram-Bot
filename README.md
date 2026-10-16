@@ -25,15 +25,15 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 - This version renders fixed layouts with Pillow using the supplied **blank FPL VORTEX master background**; supplied sample cards are **design references only** and their historical statistics are never reused. Genuine AI image synthesis would need an additional, possibly paid, provider.
 - The price tracker can confirm a **change between its own official snapshots**, but not the exact minute of the change. **Its first execution establishes a baseline** and does not invent movements.
 - 10 AM board uses fresh dated FPL availability/news flags; it does **not** claim to aggregate every official club press conference. No flagged news means an honest no-update card.
-- Player photos and club crests are downloaded opportunistically from the Premier League image CDN; if unavailable, text-only layouts remain usable. Respect image and logo rights for public redistribution.
+- Featured player photos and club crests are mandatory. If a photo or required crest cannot be verified/downloaded, that graphic does not publish; the bot attempts to send a Telegram failure alert. Respect image and logo rights for public redistribution.
 - Telegram receives attachments and retains message history. No Google Drive storage or paid AI is used. 
 - GitHub state is committed to **this new repository only**; concurrency prevents overlapping state pushes. Rare delivery-then-push failures can cause duplicates on retry; the delivery ledger reduces but does not eliminate this risk.
-- An occasional missing FPL player-photo URL will **not** break rendering. Failed official data verification prevents a fabricated card and sends an alert if Telegram works.
+- Missing mandatory images stop the affected graphic rather than producing a half-empty poster. Data-source failures also fail closed and attempt an alert. No external service can guarantee delivery, particularly when GitHub Actions scheduled runs are delayed.
 
 ## Setup (new repository only)
 
-1. Create an **empty private** GitHub repository named `Telegram-Bot` in the `mukundacity-glitch` account. (Display title: **Telegram Bot**.) Do not fork an existing project.
-2. Upload the contents of this directory to that new repository, including `.github/workflows/telegram-daily.yml`, `vortex/`, `state/`, `tests/`, and `assets/references/`.
+1. Existing production repository: `mukundacity-glitch/Telegram-Bot` (public). Do not publish Telegram tokens or personal data in tracked files.
+2. All current Python sources, branded assets, and workflow configuration are already deployed to the default branch.
 3. In your Telegram app, open [@FPLVortexDailyBot](https://t.me/FPLVortexDailyBot) and tap **Start** or send `/start`.
 4. GitHub → new repository → **Settings → Secrets and variables → Actions → New repository secret**. Set:
    - `TELEGRAM_BOT_TOKEN` = BotFather bot token (never post or commit it).
@@ -41,13 +41,13 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 6. Add the other Actions secret `TELEGRAM_CHAT_ID` with that chat ID. For a Telegram channel, add the bot as an administrator and use its numeric channel chat ID instead. 
 7. Run workflow manually with **test**. Confirm you receive the Telegram test message.
 8. Run workflow manually with **comparison**. Confirm the PNG is downloadable and its text is correct.
-9. Once testing succeeds, leave GitHub Actions enabled. The sixteen schedule rules (eight primary, eight backup) are in `.github/workflows/telegram-daily.yml` and take effect when present on the default branch. To stop publishing, disable that single workflow in the GitHub Actions interface.
+9. **Automatic Telegram publishing is ON by default** when the Actions workflow is enabled. To pause scheduled posts without disabling manual testing, set repository Actions Variable `PUBLISH_ENABLED=false`. Setting it back to `true` or deleting it resumes publishing.
 
-**Warning:** When you first upload the workflow, the cron schedule becomes active. Set the two secrets promptly; otherwise early scheduled jobs will fail until configured.
+**Warning:** The workflow is active. Telegram secrets are already connected in this deployment. The eight Eastern-time schedules are best effort and the 4 PM captaincy card is sent only ahead of the next official FPL deadline.
 
 ## Assists background
 
-The user's shared [Drive asset folder](https://drive.google.com/drive/folders/1BI4O_ZmxaXVNeGMS8ahkbLf4CUUWdA_a) includes `5.png`. A copy has **already been included** under `assets/assists/5.png` in this new starter package. It is used for the 8 PM evening/assists slide only. The master Drive file and existing repositories are unchanged. The renderer overlays the old footer credit with an accurate official-FPL attribution.
+The user's shared [Drive asset folder](https://drive.google.com/drive/folders/1BI4O_ZmxaXVNeGMS8ahkbLf4CUUWdA_a) includes `5.png`, preserved under `assets/assists/5.png` for reference. The evening graphic deliberately uses the same blank premium broadcast master as the other seven slots, because `5.png` contains dated embedded copy that would otherwise appear underneath new live data.
 
 ## Run tests locally
 
@@ -75,5 +75,12 @@ The **8:00 AM player-vs-player** renderer uses `vortex/matchup.py`, which recrea
 
 Player portraits and team crests are requested from public Premier League CDNs. Only if a matching live portrait is unavailable, the renderer may use a portrait cutout **from the user-supplied example** for the explicitly named players De Cuyper and Tarkowski (`assets/players/*.webp.b64`). The rest of the roster never receives an unrelated fallback face. A missing featured portrait or required club crest aborts publishing that graphic; the bot will report the failure instead of silently sending a card without images. Missing upcoming fixtures display `NO FIXTURE` instead of fictional pairings.
 
-The mock design preview contains illustrative sample values and is **not** proof of current live stats. The `comparison` manual workflow should be run again, and its delivered PNG visually checked, before enabling `PUBLISH_ENABLED`.
-**Same-day validation:** use Actions → FPL VORTEX Telegram Daily → Run workflow → `preview` to send a fresh 8:00 AM comparison without writing to `state/deliveries.json`. The regular `comparison` slot remains deduplicated once per Eastern date. Preview is manual-only and never enables recurring publishing.
+The mock design preview contains illustrative sample values and is **not** proof of current live stats.
+
+## All eight premium layouts and manual preview
+
+Seven additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, `captaincy`, `review`, `elite`, and `evening`, with `transfer` sharing the two-player comparison layout. All feature the same typography, high-contrast cyan/gold section headers, portrait-led player cards, visible club badges, official FPL metrics, result-focused verdict strips, and safe no-update states. The module tests include full rendering and required-image validation for every slot.
+
+To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-news`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review`, `preview-elite`, or `preview-evening`.
+
+**Manual normal runs:** explicitly selecting `comparison`, `news`, etc. sends a new post even if one already went out today. **Automatic scheduled runs:** deduplicated by the Eastern calendar date and slot. This avoids silently ignoring the user's manual tests while preventing routine duplicate scheduled posts.
