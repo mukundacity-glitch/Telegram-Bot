@@ -45,11 +45,16 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
     slot = resolve_slot(requested, scheduled_cron, now)
     client = TelegramClient()
     if slot == "discover":
+        connected_username = client.get_bot_username()
+        print(f"GitHub secret connects to Telegram bot: @{connected_username}")
+        if connected_username.casefold() != "fplvortexdailybot":
+            print("WRONG BOT TOKEN: TELEGRAM_BOT_TOKEN does not belong to @FPLVortexDailyBot.", file=sys.stderr)
+            return 1
         chats = client.discover_chats()
         for item in chats:
             print(f"Telegram chat: {item['title']} ({item['type']}) => chat id {item['id']}")
         if not chats:
-            print("No chat found. Open @FPLVortexDailyBot, send /start, then repeat discovery.")
+            print("No pending chat messages found for @FPLVortexDailyBot. Send a NEW message such as 'hello' to the bot, then immediately run discover again. Check that another service is not polling the same bot.")
         return 0
     if slot == "test":
         client.send_text("🦁 FPL VORTEX Telegram delivery test ✅\nNo scheduled graphics have been activated by this test.")
