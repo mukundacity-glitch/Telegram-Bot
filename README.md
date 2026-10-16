@@ -32,8 +32,8 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 
 ## Setup (new repository only)
 
-1. Create an **empty private** GitHub repository named `Telegram-Bot` in the `mukundacity-glitch` account. (Display title: **Telegram Bot**.) Do not fork an existing project.
-2. Upload the contents of this directory to that new repository, including `.github/workflows/telegram-daily.yml`, `vortex/`, `state/`, `tests/`, and `assets/references/`.
+1. The standalone `mukundacity-glitch/Telegram-Bot` repository is created and this source has been uploaded. **No other repository is modified.**
+2. Your repository is currently **public**. GitHub Actions Secrets are required for credentials. You can change it to private in repository settings if preferred.
 3. In your Telegram app, open [@FPLVortexDailyBot](https://t.me/FPLVortexDailyBot) and tap **Start** or send `/start`.
 4. GitHub → new repository → **Settings → Secrets and variables → Actions → New repository secret**. Set:
    - `TELEGRAM_BOT_TOKEN` = BotFather bot token (never post or commit it).
@@ -41,9 +41,9 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 6. Add the other Actions secret `TELEGRAM_CHAT_ID` with that chat ID. For a Telegram channel, add the bot as an administrator and use its numeric channel chat ID instead. 
 7. Run workflow manually with **test**. Confirm you receive the Telegram test message.
 8. Run workflow manually with **comparison**. Confirm the PNG is downloadable and its text is correct.
-9. Once testing succeeds, leave GitHub Actions enabled. The sixteen schedule rules (eight primary, eight backup) are in `.github/workflows/telegram-daily.yml` and take effect when present on the default branch. To stop publishing, disable that single workflow in the GitHub Actions interface.
+9. After both delivery tests succeed, create repository **Variable** `PUBLISH_ENABLED=true` under **Settings → Secrets and variables → Actions → Variables**. The sixteen schedule rules are defined but **won't post unless this variable is set**. To pause automatic publication set `PUBLISH_ENABLED=false`; manual tests remain available.
 
-**Warning:** When you first upload the workflow, the cron schedule becomes active. Set the two secrets promptly; otherwise early scheduled jobs will fail until configured.
+**Safety:** Auto-posting is disabled by default using `PUBLISH_ENABLED`; do not enable it before adding both secrets and confirming a manual test. GitHub Actions schedule timing is best effort.
 
 ## Assists background
 
