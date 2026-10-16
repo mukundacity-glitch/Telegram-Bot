@@ -13,7 +13,7 @@ from typing import Any
 from .content import generate
 from .fpl import collect_snapshot, price_snapshot
 from .render import render
-from .schedule import captaincy_due, resolve_slot
+from .schedule import resolve_slot
 from .telegram import TelegramClient
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -73,9 +73,6 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
     try:
         snapshot = collect_snapshot()
-        if slot == "captaincy" and not captaincy_due(snapshot.events, now):
-            print("Captaincy is not due: tomorrow is not a FPL deadline day")
-            return 0
         previous_prices = read_state(price_state_path)
         article = generate(publication_slot, snapshot, now, previous_prices)
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
