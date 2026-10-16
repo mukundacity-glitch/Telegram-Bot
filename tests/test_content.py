@@ -1,5 +1,8 @@
 from datetime import datetime, timezone
 
+import pytest
+from PIL import Image
+
 from vortex.content import _caption, generate
 from vortex.fpl import FplSnapshot, confirmed_price_changes, price_snapshot
 from vortex.render import render
@@ -55,18 +58,36 @@ def test_seven_unconditional_content_slots():
         assert content.cards
 
 
-def test_renderer_creates_png_without_external_images(tmp_path):
+def test_matchup_does_not_publish_without_player_images(tmp_path):
     class Offline:
         def get(self, *args, **kwargs):
             raise OSError("no network")
+
     s = fake_snapshot()
     content = generate("comparison", s, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
     output = tmp_path / "comparison.png"
-    render(content, output, session=Offline())
-    from PIL import Image
+    with pytest.raises(RuntimeError, match="Player portrait unavailable"):
+        render(content, output, session=Offline())
+    assert not output.exists()
+
+
+def test_comparison_layout_renders_real_metrics_with_available_images(tmp_path, monkeypatch):
+    s = fake_snapshot()
+    content = generate("comparison", s, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
+    assert all(card.metrics and card.metrics["total_points"] == 80 for card in content.cards)
+    assert all(card.fixtures for card in content.cards)
+
+    def fake_media(session, code, kind, cache):
+        return Image.new("RGBA", (250, 300) if kind == "photo" else (70, 70),
+                         (100, 165, 235, 255) if kind == "photo" else (220, 230, 245, 255))
+
+    monkeypatch.setattr("vortex.matchup._media", fake_media)
+    output = tmp_path / "comparison.png"
+    render(content, output, session=object())
     with Image.open(output) as image:
         assert image.size == (1536, 864)
         assert image.mode == "RGB"
+        assert image.getpixel((40, 160)) != image.getpixel((800, 160))
 
 
 def test_caption_does_not_accept_six_story_lines():
