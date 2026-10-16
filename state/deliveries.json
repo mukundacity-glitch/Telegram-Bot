@@ -16,5 +16,11 @@
     "gameweek": 7,
     "telegram_message_id": 10,
     "timestamp": "2026-10-16T19:34:36.909295+00:00"
+  },
+  "2026-10-16:transfer": {
+    "delivered": true,
+    "gameweek": 7,
+    "telegram_message_id": 11,
+    "timestamp": "2026-10-16T20:10:41.230874+00:00"
   }
 }
