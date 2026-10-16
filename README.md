@@ -13,7 +13,7 @@ One GitHub Actions workflow, eight Eastern-time publication slots plus eight 15-
 | 10:00 AM | Official FPL player-status/news board | Daily |
 | 12:00 PM | Confirmed official FPL price snapshot differences | Daily |
 | 2:00 PM | Transfer comparison/decision | Daily |
-| 4:00 PM | Captaincy showdown | **Only when tomorrow is an official FPL deadline** |
+| 4:00 PM | Captaincy showdown | Daily |
 | 5:30 PM | Last completed gameweek review | Daily |
 | 8:00 PM | Evening assists/creator watch | Daily |
 
@@ -43,7 +43,7 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 8. Run workflow manually with **comparison**. Confirm the PNG is downloadable and its text is correct.
 9. **Automatic Telegram publishing is ON by default** when the Actions workflow is enabled. To pause scheduled posts without disabling manual testing, set repository Actions Variable `PUBLISH_ENABLED=false`. Setting it back to `true` or deleting it resumes publishing.
 
-**Warning:** The workflow is active. Telegram secrets are already connected in this deployment. The eight Eastern-time schedules are best effort and the 4 PM captaincy card is sent only ahead of the next official FPL deadline.
+**Warning:** The workflow is active. Telegram secrets are already connected in this deployment. All eight Eastern-time schedules run daily, including the 4 PM captaincy card. Schedules are best effort.
 
 ## Assists background
 
