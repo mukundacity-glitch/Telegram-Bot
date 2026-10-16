@@ -1,7 +1,8 @@
 """FPL VORTEX two-player matchup layout based on the supplied 1536x864 reference."""
 from __future__ import annotations
 
-from datetime import datetime
+import base64
+import binascii
 from io import BytesIO
 from pathlib import Path
 from typing import Any
@@ -96,6 +97,24 @@ def _angular_panel(draw: ImageDraw.ImageDraw, bounds: tuple[int, int, int, int],
 
 def _draw_stat_box(draw: ImageDraw.ImageDraw, bounds: tuple[int, int, int, int], outline: tuple[int, int, int] | None = None) -> None:
     draw.rounded_rectangle(bounds, radius=9, fill=(1, 14, 34, 229), outline=(*outline, 255) if outline else (21, 65, 105, 255), width=2)
+
+
+def _bundled_portrait(player_name: str) -> Image.Image | None:
+    # These are explicitly matched crops from the user's reference, never applied to other players.
+    built_in = {"DE CUYPER": "de_cuyper.webp", "TARKOWSKI": "tarkowski.webp"}
+    filename = built_in.get(player_name.upper().strip())
+    if not filename:
+        return None
+    path = ROOT / "assets" / "players" / (filename + ".b64")
+    if not path.exists():
+        return None
+    try:
+        image_bytes = base64.b64decode(path.read_text(encoding="ascii"), validate=False)
+        with Image.open(BytesIO(image_bytes)) as image:
+            image.load()
+            return image.convert("RGBA")
+    except (OSError, ValueError, binascii.Error):
+        return None
 
 
 def _brighten_portrait(portrait: Image.Image) -> Image.Image:
@@ -221,7 +240,10 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
         raise ValueError("Live player comparison metrics are required")
 
     cache: dict[tuple[str, int], Image.Image | None] = {}
-    portraits = [_media(session, card.photo_code, "photo", cache) for card in content.cards]
+    portraits = [
+        _media(session, card.photo_code, "photo", cache) or _bundled_portrait(card.headline)
+        for card in content.cards
+    ]
     for card, portrait in zip(content.cards, portraits):
         if portrait is None:
             # Photos are mandatory; never silently post a large empty data panel.
