@@ -128,46 +128,9 @@ def _draw_card(canvas: Image.Image, card: Card, box: tuple[int, int, int, int], 
 def render(content: Content, output: Path, session: requests.Session | None = None) -> Path:
     if not content.cards:
         raise ValueError("Cannot render without sourced content")
-    if content.kind == "comparison":
-        from .matchup import render_comparison
-        return render_comparison(content, output, session or requests.Session())
-    canvas = _background(content)
-    draw = ImageDraw.Draw(canvas, "RGBA")
-    if content.kind == "evening":
-        # The user's 5.png has a printed Opta credit; this workflow does not consume Opta.
-        draw.rectangle((0, 800, 1536, 864), fill=(0, 8, 26, 255))
-        draw.text((72, 812), "FPL VORTEX  •  Verified data: Official FPL API  •  @FPLVORTEXM", font=font(21), fill=MUTED)
-    draw.rounded_rectangle((45, 93, 1491, 176), radius=16, fill=(0, 12, 33, 235), outline=(*CYAN, 230), width=3)
-    heading = _trim(ImageDraw.Draw(canvas), content.title, 1340, 45)
-    text_font = _fit_text(ImageDraw.Draw(canvas), heading, 1340, 45, 29)
-    draw.text((73, 111), heading, font=text_font, fill=WHITE)
-    draw.text((70, 188), content.kicker, font=font(26), fill=CYAN)
-    draw.text((1250, 190), f"GW{content.gw}", font=font(29), fill=GOLD)
-    cards = list(content.cards[:4]); count = len(cards)
-    gap = 22
-    if count == 1:
-        boxes = [(140, 245, 1396, 657)]
-    elif count == 2:
-        boxes = [(55, 245, 757, 658), (779, 245, 1481, 658)]
-    elif count == 3:
-        width = (1450 - 2 * gap) // 3
-        boxes = [(46 + i * (width + gap), 245, 46 + i * (width + gap) + width, 658) for i in range(3)]
-    else:
-        width = (1450 - 3 * gap) // 4
-        boxes = [(45 + i * (width + gap), 245, 45 + i * (width + gap) + width, 658) for i in range(4)]
-    palette = [CYAN, GOLD, GREEN, (180, 133, 255)]
     client = session or requests.Session()
-    for card, box, tint in zip(cards, boxes, palette):
-        _draw_card(canvas, card, box, tint, client)
-    draw = ImageDraw.Draw(canvas, "RGBA")
-    draw.rounded_rectangle((60, 681, 1470, 740), radius=16, fill=(1, 13, 33, 245), outline=(*GOLD, 255), width=3)
-    verdict = _trim(ImageDraw.Draw(canvas), content.verdict.upper(), 1340, 31)
-    draw.text((84, 697), verdict, font=_fit_text(ImageDraw.Draw(canvas), verdict, 1320, 31), fill=GOLD)
-    draw.rounded_rectangle((60, 751, 1470, 792), radius=9, fill=(0, 12, 35, 205))
-    footer = f"{content.footer}   •   VERIFIED {content.data_at}"
-    draw.text((74, 760), _trim(ImageDraw.Draw(canvas), footer, 1350, 20), font=font(20, False), fill=MUTED)
-    output.parent.mkdir(parents=True, exist_ok=True)
-    temp = output.with_suffix(".tmp.png")
-    canvas.save(temp, format="PNG", optimize=True)
-    temp.replace(output)
-    return output
+    if content.kind in {"comparison", "transfer"}:
+        from .matchup import render_comparison
+        return render_comparison(content, output, client)
+    from .premium import render_premium
+    return render_premium(content, output, client)
