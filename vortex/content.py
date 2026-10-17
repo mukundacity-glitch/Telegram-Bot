@@ -124,7 +124,22 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
             cards = [Card("NO NEW DATED FPL FLAGS", "Official FPL", "VERIFIED STATUS", ("No fresh changes in the last 72 hours.", "No injury story has been invented."))]
         title, kicker = "FPL NEWS BOARD", "10:00 AM • OFFICIAL FPL STATUS"
         verdict = "FPL FLAGS ARE NOT MEDICAL CONFIRMATIONS"
-        lines = [f"FPL GW{gw}: morning status board.", "Latest dated FPL availability notes checked.", f"{len(news)} relevant player flags in the last 72h.", "Verify club team news before final transfers.", "Which fitness update matters to your squad?"]
+        if news:
+            actions = {"a": "HOLD", "d": "MONITOR", "i": "MONITOR / PLAN REPLACEMENT",
+                       "s": "REPLACE IF SUSPENDED", "u": "MONITOR"}
+            updates = [
+                f"{snapshot.name(player)} ({snapshot.team(player)}): "
+                f"{actions.get(str(player.get('status') or ''), 'MONITOR')}."
+                for player in news[:2]
+            ]
+            while len(updates) < 2:
+                updates.append("Recheck confirmed club team news.")
+            lines = [f"FPL GW{gw}: verified player availability.", *updates,
+                     f"{len(news)} new official flags in 72h.", "Make transfers after club updates."]
+        else:
+            lines = [f"FPL GW{gw}: official status checked.", "No fresh dated FPL player flags in 72h.",
+                     "HOLD: no injury transfer on rumours alone.", "Monitor manager press conferences.",
+                     "Save a transfer until there is real news."]
     elif kind == "prices":
         changes = confirmed_price_changes(snapshot, previous_prices)
         valid_baseline = isinstance(previous_prices.get("prices"), dict)
@@ -141,13 +156,26 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
         title, kicker = "FPL PRICE MOVEMENTS", "12:00 PM • VERIFIED BEFORE / AFTER"
         verdict = "OFFICIAL FPL PRICES • SNAPSHOT COMPARISON"
         count = len(changes)
-        lines = [f"FPL GW{gw}: confirmed price tracker.", f"{count} official price movements detected." if valid_baseline else "Today's official price baseline is saved.", "Previous vs current FPL prices compared.", "Review selling value before any transfer.", "Which price move affects your squad?"]
+        if changes:
+            moves = [
+                f"{snapshot.name(player)}: £{old / 10:.1f}m to £{new / 10:.1f}m; MONITOR."
+                for player, old, new in changes[:2]
+            ]
+            while len(moves) < 2:
+                moves.append("Check your player selling value before moving.")
+            lines = [f"FPL GW{gw}: official price moves.", *moves,
+                     f"{count} verified changes vs prior snapshot.", "Price alone is not a reason to sell."]
+        else:
+            lines = [f"FPL GW{gw}: official price monitor.",
+                     "Today's baseline saved." if not valid_baseline else "No new confirmed moves.",
+                     "Compared FPL player cost snapshots.", "HOLD: avoid speculative transfers.",
+                     "Check your selling value before switching."]
     elif kind == "transfer":
         lead, other = choose_comparison(snapshot)
         cards = [_card(snapshot, p, label, ["NEXT: " + " • ".join(opp for opp, _ in snapshot.fixtures_for(p, 3))]) for label, p in (("TRANSFER TARGET", lead), ("ALTERNATIVE", other))]
         title, kicker = "TRANSFER DECISION", "2:00 PM • FREE TRANSFER INTELLIGENCE"
         verdict = "CONSIDER • DO NOT TAKE A HIT ON THIS ALONE"
-        lines = [f"FPL GW{gw}: transfer decision desk.", f"{snapshot.name(lead)} or {snapshot.name(other)}?", f"{snapshot.price(lead)} vs {snapshot.price(other)} today.", "Compare fixtures, fitness and free transfers.", "Who is your priority transfer?"]
+        lines = [f"FPL GW{gw}: transfer decision desk.", f"MONITOR: {snapshot.name(lead)} ({snapshot.price(lead)}).", f"ALTERNATIVE: {snapshot.name(other)} ({snapshot.price(other)}).", "Confirm starts and next three fixtures first.", "BUY only if it fits your team and budget."]
     elif kind == "captaincy":
         ranked = choose_captains(snapshot)
         cards = [_card(snapshot, p, f"CAPTAIN OPTION {i + 1}", ["NEXT: " + (snapshot.fixtures_for(p, 1)[0][0] if snapshot.fixtures_for(p, 1) else "TBD")]) for i, p in enumerate(ranked)]
