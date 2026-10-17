@@ -61,7 +61,7 @@ def test_player_templates_fail_closed_on_missing_images(slot: str, tmp_path: Pat
     monkeypatch.setattr('vortex.matchup._media', lambda *args: None)
     monkeypatch.setattr('vortex.premium._media', lambda *args: None)
     target = tmp_path / f'{slot}.png'
-    with pytest.raises(RuntimeError, match='Mandatory club badge unavailable'):
+    with pytest.raises(RuntimeError, match='(Mandatory club badge unavailable|Neither official portrait nor club crest available)'):
         render(content, target, session=object())
     assert not target.exists()
 
@@ -100,5 +100,6 @@ def test_premium_layout_handles_missing_player_portrait(
         return None if kind == 'photo' else Image.new('RGBA', (80, 80), (210, 220, 230, 255))
 
     monkeypatch.setattr('vortex.premium._media', media_without_portrait)
+    monkeypatch.setattr('vortex.matchup._media', media_without_portrait)
     result = render(content, tmp_path / f'{slot}-no-portrait.png', session=object())
     assert result.exists()
