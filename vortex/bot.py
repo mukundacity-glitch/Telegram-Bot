@@ -94,10 +94,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         safe_type = type(error).__name__
         safe_message = str(error).replace(os.environ.get("TELEGRAM_BOT_TOKEN", ""), "[REDACTED]") if os.environ.get("TELEGRAM_BOT_TOKEN") else str(error)
         print(f"Delivery failed: {safe_type}: {safe_message[:300]}", file=sys.stderr)
-        try:
-            client.send_text(f"⚠️ FPL VORTEX: {slot} delivery failed. Check GitHub Actions; no unverified graphic was sent.")
-        except (RuntimeError, ValueError):
-            pass
+        # GitHub Actions records failed runs; do not spam the audience with retry alerts.
         return 1
 
 
