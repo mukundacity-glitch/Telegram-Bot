@@ -67,3 +67,28 @@ def test_discovery_finds_chat(monkeypatch: pytest.MonkeyPatch, capsys: pytest.Ca
     output = capsys.readouterr().out
     assert "@FPLVortexDailyBot" in output
     assert "chat id 123456789" in output
+
+
+def test_telegram_post_is_inline_photo_with_readable_caption(
+    tmp_path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    image = tmp_path / 'FPLVortex_GW8_news.png'
+    image.write_bytes(b'x' * 600)
+    client = TelegramClient(token='test-token', chat_id='123')
+    calls: list[tuple[str, dict[str, Any], dict[str, Any] | None]] = []
+
+    def fake_post(method: str, data: dict[str, Any], files: dict[str, Any] | None = None) -> dict[str, Any]:
+        calls.append((method, data, files))
+        return {'ok': True, 'result': {'message_id': 77}}
+
+    monkeypatch.setattr(client, '_post', fake_post)
+    message_id = client.send_png(
+        image, 'Status update\nMONITOR Mosquera\nCheck the lineups\nStay patient\nWhat next?\n#FPL #GW8 #FPLVortex',
+        'FPL NEWS BOARD', 8,
+    )
+    assert message_id == 77
+    assert calls[0][0] == 'sendPhoto'
+    assert calls[0][2] is not None and 'photo' in calls[0][2]
+    assert '<pre>' not in calls[0][1]['caption']
+    assert '<b>FPL VORTEX • GW8</b>' in calls[0][1]['caption']
+    assert '#FPL #GW8 #FPLVortex' in calls[0][1]['caption']

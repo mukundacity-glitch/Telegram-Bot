@@ -61,7 +61,7 @@ def test_player_templates_fail_closed_on_missing_images(slot: str, tmp_path: Pat
     monkeypatch.setattr('vortex.matchup._media', lambda *args: None)
     monkeypatch.setattr('vortex.premium._media', lambda *args: None)
     target = tmp_path / f'{slot}.png'
-    with pytest.raises(RuntimeError, match='(Mandatory player image|Player portrait unavailable)'):
+    with pytest.raises(RuntimeError, match='(Mandatory club badge unavailable|Neither official portrait nor club crest available)'):
         render(content, target, session=object())
     assert not target.exists()
 
@@ -89,3 +89,17 @@ def test_last_gw_live_payload_supports_list_form(monkeypatch: pytest.MonkeyPatch
     winners = previous_gw_top_players(snapshot)
     assert winners[0][0]['id'] == snapshot.players[1]['id']
     assert winners[0][1] == 14
+
+@pytest.mark.parametrize('slot', SLOTS)
+def test_premium_layout_handles_missing_player_portrait(
+    slot: str, tmp_path: Path, monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    content = sample_content(slot, monkeypatch)
+
+    def media_without_portrait(session: object, code: int | None, kind: str, cache: dict):
+        return None if kind == 'photo' else Image.new('RGBA', (80, 80), (210, 220, 230, 255))
+
+    monkeypatch.setattr('vortex.premium._media', media_without_portrait)
+    monkeypatch.setattr('vortex.matchup._media', media_without_portrait)
+    result = render(content, tmp_path / f'{slot}-no-portrait.png', session=object())
+    assert result.exists()

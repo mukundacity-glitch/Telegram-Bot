@@ -89,8 +89,6 @@ def _media_required(cards: tuple[Card, ...], session: requests.Session) -> list[
         if portrait is None:
             portrait = _bundled_portrait(card.headline)
         crest = _media(session, card.team_code, 'crest', cache)
-        if portrait is None:
-            raise RuntimeError(f'Mandatory player image unavailable: {card.headline} ({card.photo_code})')
         if crest is None:
             raise RuntimeError(f'Mandatory club badge unavailable: {card.headline} ({card.team_code})')
         found.append((portrait, crest))
@@ -182,6 +180,9 @@ def _news(canvas: Image.Image, content: Content,
             _crest(canvas, crest, x + width - 96, 202, 66)
         if portrait is not None:
             _photo(canvas, portrait, (x + width - 227, 300, x + width - 19, 510), accent)
+        elif crest is not None:
+            _crest(canvas, crest, x + width - 208, 334, 145)
+            _text(draw, 'PORTRAIT UNAVAILABLE', x + width - 221, 495, 203, 15, MUTED)
         price = str(card.metrics.get('price', '')) if card.metrics else ''
         _badge(draw, price, 'CURRENT PRICE', (x + 18, 318, x + width - 236 if width > 400 else x + 170, 386), accent)
         draw.rounded_rectangle((x + 18, 518, x + width - 18, 666), radius=11,
@@ -198,9 +199,13 @@ def _large_feature(canvas: Image.Image, content: Content, card: Card,
                    portrait: Image.Image | None, crest: Image.Image | None, session: requests.Session) -> None:
     draw = ImageDraw.Draw(canvas, 'RGBA')
     _panel(draw, (35, 152, 1500, 715), CYAN)
-    if portrait is None or crest is None or not card.metrics:
-        raise RuntimeError('Elite feature must include real player portrait, club badge and metrics')
-    _photo(canvas, portrait, (42, 190, 525, 702), CYAN)
+    if crest is None or not card.metrics:
+        raise RuntimeError('Elite feature must include verified club badge and metrics')
+    if portrait is not None:
+        _photo(canvas, portrait, (42, 190, 525, 702), CYAN)
+    else:
+        _crest(canvas, crest, 139, 315, 250)
+        _text(draw, 'PORTRAIT UNAVAILABLE', 108, 592, 345, 20, MUTED)
     _crest(canvas, crest, 1340, 190, 100)
     _text(draw, card.label.upper(), 568, 180, 600, 27, CYAN)
     _text(draw, card.headline.upper(), 566, 220, 750, 65, WHITE)
@@ -239,6 +244,9 @@ def _four_card_layout(canvas: Image.Image, content: Content,
             _crest(canvas, crest, x + width - 79, 209, 64)
         if portrait is not None:
             _photo(canvas, portrait, (x + width - 234, 288, x + width - 13, 521), accent)
+        elif crest is not None:
+            _crest(canvas, crest, x + width - 196, 329, 140)
+            _text(draw, 'PORTRAIT UNAVAILABLE', x + width - 225, 498, 209, 14, MUTED)
         if content.kind == 'prices' and card.metrics:
             change = str(card.metrics['change'])
             before = str(card.metrics['before'])
@@ -268,7 +276,7 @@ def _four_card_layout(canvas: Image.Image, content: Content,
 
 
 def render_premium(content: Content, output: Path, session: requests.Session) -> Path:
-    """Render one verified-content desk, failing before posting if a required image is missing."""
+    """Render verified data with club crests when a CDN player portrait is unavailable."""
     supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening'}
     if content.kind not in supported:
         raise ValueError(f'No premium layout for {content.kind}')

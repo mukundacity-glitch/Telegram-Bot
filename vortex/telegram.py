@@ -69,9 +69,21 @@ class TelegramClient:
             raise ValueError("TELEGRAM_CHAT_ID secret is not configured")
         if not image.exists() or image.stat().st_size < 500:
             raise ValueError("Image file missing or unexpectedly small")
-        message = f"🦁 <b>FPL VORTEX | {html.escape(title)} | GW{gw}</b>\n<pre>{html.escape(caption)}</pre>\n📥 Download original PNG below"
+        lines = [line.strip() for line in caption.splitlines() if line.strip()]
+        hashtags = lines[-1] if lines and lines[-1].startswith("#") else ""
+        story = lines[:-1] if hashtags else lines
+        icons = ("📣", "👤", "📊", "🎯", "💬")
+        body = "\n".join(f"{icons[index % len(icons)]} {html.escape(line)}" for index, line in enumerate(story))
+        header = f"🦁 <b>FPL VORTEX • GW{gw}</b>\n<b>{html.escape(title)}</b>"
+        message = f"{header}\n\n{body}"
+        if hashtags:
+            message += f"\n\n{html.escape(hashtags)}"
         if len(message) > 1024:
-            raise ValueError("Telegram document caption exceeds 1024 characters")
+            raise ValueError("Telegram photo caption exceeds 1024 characters")
         with image.open("rb") as file_handle:
-            payload = self._post("sendDocument", {"chat_id": self.chat_id, "caption": message, "parse_mode": "HTML"}, {"document": (image.name, file_handle, "image/png")})
+            payload = self._post(
+                "sendPhoto",
+                {"chat_id": self.chat_id, "caption": message, "parse_mode": "HTML"},
+                {"photo": (image.name, file_handle, "image/png")},
+            )
         return int(payload["result"]["message_id"])

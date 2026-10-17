@@ -69,9 +69,11 @@ def _media(session: requests.Session, code: int | None, kind: str, cache: dict[t
         return cache[key]
     if kind == "photo":
         urls = [
+            f"https://resources.premierleague.com/premierleague25/photos/players/250x250/{code}.png",
+            f"https://resources.premierleague.com/premierleague25/photos/players/110x140/{code}.png",
+            f"https://resources.premierleague.com/premierleague25/photos/players/250x250/p{code}.png",
             f"https://resources.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
             f"https://resources.premierleague.com/premierleague/photos/players/110x140/p{code}.png",
-            f"https://resources.premierleague.com/premierleague25/photos/players/250x250/p{code}.png",
             f"https://images.fantasy.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
         ]
     elif kind == "crest":
@@ -245,9 +247,8 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
         for card in content.cards
     ]
     for card, portrait in zip(content.cards, portraits):
-        if portrait is None:
-            # Photos are mandatory; never silently post a large empty data panel.
-            raise RuntimeError(f"Player portrait unavailable for {card.headline} ({card.photo_code})")
+        if portrait is None and _media(session, card.team_code, "crest", cache) is None:
+            raise RuntimeError(f"Neither official portrait nor club crest available for {card.headline}")
 
     background_path = ROOT / "assets" / "references" / "brand_background.png"
     with Image.open(background_path) as original:
@@ -270,10 +271,17 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
     _angular_panel(draw, (32, 151, 722, 715), CYAN)
     _angular_panel(draw, (814, 151, 1504, 715), GOLD)
 
-    # The players sit outside the stat blocks, matching the portrait-first reference.
-    assert portraits[0] is not None and portraits[1] is not None
-    _paste_player(canvas, portraits[0], left_player=True)
-    _paste_player(canvas, portraits[1], left_player=False)
+    # Prefer verified portraits; display the correct club crest if the CDN has no headshot.
+    for index, (card, portrait) in enumerate(zip(content.cards, portraits)):
+        left_side = index == 0
+        if portrait is not None:
+            _paste_player(canvas, portrait, left_player=left_side)
+            continue
+        club = _media(session, card.team_code, "crest", cache)
+        assert club is not None
+        center_x = 174 if left_side else 1360
+        _crest(canvas, club, center_x, 330, 200)
+        _center_text(ImageDraw.Draw(canvas), center_x, 545, "PORTRAIT UNAVAILABLE", _font(15), MUTED)
     _draw_player_data(canvas, content.cards[0], left_side=True, session=session, cache=cache)
     _draw_player_data(canvas, content.cards[1], left_side=False, session=session, cache=cache)
     draw = ImageDraw.Draw(canvas, "RGBA")
