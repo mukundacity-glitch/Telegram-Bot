@@ -4,7 +4,7 @@ import pytest
 from PIL import Image
 
 from vortex.content import _caption, generate
-from vortex.fpl import FplSnapshot, confirmed_price_changes, price_snapshot
+from vortex.fpl import FplSnapshot, choose_comparison, confirmed_price_changes, price_snapshot
 from vortex.render import render
 
 
@@ -66,7 +66,7 @@ def test_matchup_does_not_publish_without_player_images(tmp_path):
     s = fake_snapshot()
     content = generate("comparison", s, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
     output = tmp_path / "comparison.png"
-    with pytest.raises(RuntimeError, match="Player portrait unavailable"):
+    with pytest.raises(RuntimeError, match="Neither official portrait nor club crest"):
         render(content, output, session=Offline())
     assert not output.exists()
 
@@ -131,3 +131,28 @@ def test_matched_reference_portraits_are_a_safe_fallback(tmp_path, monkeypatch):
     output = tmp_path / "fallback.png"
     render(content, output, session=object())
     assert output.exists()
+
+def test_comparison_skips_unmatched_top_player() -> None:
+    snapshot = fake_snapshot()
+    isolated = snapshot.players[0]
+    isolated['form'] = '99.0'
+    isolated['now_cost'] = 200
+    first, second = choose_comparison(snapshot)
+    assert first['id'] != isolated['id']
+    assert first['element_type'] == second['element_type']
+    assert first['team'] != second['team']
+    assert abs(first['now_cost'] - second['now_cost']) <= 30
+
+
+def test_comparison_renders_with_verified_club_badge_if_player_photo_missing(tmp_path, monkeypatch) -> None:
+    snapshot = fake_snapshot()
+    content = generate('comparison', snapshot, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
+
+    def fake_media(session, code, kind, cache):
+        if kind == 'photo':
+            return None
+        return Image.new('RGBA', (70, 70), (240, 200, 80, 255))
+
+    monkeypatch.setattr('vortex.matchup._media', fake_media)
+    result = render(content, tmp_path / 'badge-fallback.png', session=object())
+    assert result.is_file()
