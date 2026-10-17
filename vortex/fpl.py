@@ -99,11 +99,17 @@ def choose_comparison(snapshot: FplSnapshot) -> list[dict[str, Any]]:
     ranked = sorted(current_players(snapshot, 180), key=score, reverse=True)
     if len(ranked) < 2:
         raise ValueError("Not enough eligible active players")
-    lead = ranked[0]
-    alternatives = [p for p in ranked[1:] if p.get("element_type") == lead.get("element_type") and abs(int(p.get("now_cost") or 0) - int(lead.get("now_cost") or 0)) <= 30 and p.get("team") != lead.get("team")]
-    if not alternatives:
-        raise ValueError("No reasonable same-position comparison exists")
-    return [lead, alternatives[0]]
+    # The highest-ranked player may be unusually expensive; find the strongest viable pair.
+    for index, lead in enumerate(ranked):
+        alternatives = [
+            player for player in ranked[index + 1:]
+            if player.get("element_type") == lead.get("element_type")
+            and player.get("team") != lead.get("team")
+            and abs(int(player.get("now_cost") or 0) - int(lead.get("now_cost") or 0)) <= 30
+        ]
+        if alternatives:
+            return [lead, alternatives[0]]
+    raise ValueError("No two active same-position players from different clubs within £3.0m")
 
 
 def choose_elite(snapshot: FplSnapshot) -> dict[str, Any]:
