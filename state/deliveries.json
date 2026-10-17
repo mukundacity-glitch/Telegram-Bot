@@ -11,6 +11,12 @@
     "telegram_message_id": 6,
     "timestamp": "2026-10-16T13:58:31.714487+00:00"
   },
+  "2026-10-16:evening": {
+    "delivered": true,
+    "gameweek": 7,
+    "telegram_message_id": 14,
+    "timestamp": "2026-10-17T03:49:57.073301+00:00"
+  },
   "2026-10-16:news": {
     "delivered": true,
     "gameweek": 7,
