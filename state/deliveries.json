@@ -142,5 +142,11 @@
     "gameweek": 8,
     "telegram_message_id": 33,
     "timestamp": "2026-10-19T04:05:12.384239+00:00"
+  },
+  "2026-10-19:news": {
+    "delivered": true,
+    "gameweek": 8,
+    "telegram_message_id": 37,
+    "timestamp": "2026-10-19T19:34:09.164117+00:00"
   }
 }
