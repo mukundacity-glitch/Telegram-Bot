@@ -244,5 +244,11 @@
     "gameweek": 8,
     "telegram_message_id": 53,
     "timestamp": "2026-10-21T18:18:56.190181+00:00"
+  },
+  "2026-10-21:prices": {
+    "delivered": true,
+    "gameweek": 8,
+    "telegram_message_id": 54,
+    "timestamp": "2026-10-21T19:57:41.813397+00:00"
   }
 }
