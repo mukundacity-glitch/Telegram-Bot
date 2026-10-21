@@ -220,5 +220,11 @@
     "gameweek": 8,
     "telegram_message_id": 47,
     "timestamp": "2026-10-20T20:58:23.363342+00:00"
+  },
+  "2026-10-21:evening": {
+    "delivered": true,
+    "gameweek": 8,
+    "telegram_message_id": 50,
+    "timestamp": "2026-10-21T04:06:42.653918+00:00"
   }
 }
