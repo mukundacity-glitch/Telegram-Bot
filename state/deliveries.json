@@ -317,6 +317,12 @@
     "telegram_message_id": 63,
     "timestamp": "2026-10-22T20:56:36.679689+00:00"
   },
+  "2026-10-23:elite": {
+    "delivered": true,
+    "gameweek": 8,
+    "telegram_message_id": 67,
+    "timestamp": "2026-10-23T15:22:01.368826+00:00"
+  },
   "2026-10-23:evening": {
     "delivered": true,
     "gameweek": 8,
