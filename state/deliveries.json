@@ -394,5 +394,11 @@
     "gameweek": 9,
     "telegram_message_id": 79,
     "timestamp": "2026-10-24T18:37:46.892974+00:00"
+  },
+  "2026-10-24:transfer": {
+    "delivered": true,
+    "gameweek": 9,
+    "telegram_message_id": 80,
+    "timestamp": "2026-10-24T19:55:23.504852+00:00"
   }
 }
