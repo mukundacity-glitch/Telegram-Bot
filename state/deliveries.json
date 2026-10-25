@@ -413,6 +413,12 @@
     "telegram_message_id": 80,
     "timestamp": "2026-10-24T19:55:23.504852+00:00"
   },
+  "2026-10-25:captaincy": {
+    "delivered": true,
+    "gameweek": 9,
+    "telegram_message_id": 89,
+    "timestamp": "2026-10-25T22:09:01.679539+00:00"
+  },
   "2026-10-25:comparison": {
     "delivered": true,
     "gameweek": 9,
