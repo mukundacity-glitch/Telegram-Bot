@@ -449,6 +449,12 @@
     "telegram_message_id": 87,
     "timestamp": "2026-10-25T18:45:55.413591+00:00"
   },
+  "2026-10-25:review": {
+    "delivered": true,
+    "gameweek": 9,
+    "telegram_message_id": 90,
+    "timestamp": "2026-10-25T23:27:48.665577+00:00"
+  },
   "2026-10-25:transfer": {
     "delivered": true,
     "gameweek": 9,
