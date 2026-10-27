@@ -526,5 +526,11 @@
     "gameweek": 9,
     "telegram_message_id": 99,
     "timestamp": "2026-10-27T04:28:18.224443+00:00"
+  },
+  "2026-10-27:news": {
+    "delivered": true,
+    "gameweek": 9,
+    "telegram_message_id": 102,
+    "timestamp": "2026-10-27T19:05:27.418409+00:00"
   }
 }
