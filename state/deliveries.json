@@ -683,6 +683,12 @@
     "telegram_message_id": 129,
     "timestamp": "2026-10-30T20:29:03.289629+00:00"
   },
+  "2026-10-30:review": {
+    "delivered": true,
+    "gameweek": 9,
+    "telegram_message_id": 132,
+    "timestamp": "2026-10-31T00:57:31.665652+00:00"
+  },
   "2026-10-30:transfer": {
     "delivered": true,
     "gameweek": 9,
