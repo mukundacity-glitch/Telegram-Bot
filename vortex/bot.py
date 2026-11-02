@@ -113,6 +113,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                             gameweek=article.gw, image=path, source="Official FPL")
             receipts = publish_shared(post, delivery_state_path, client,
                                       DiscordWebhookClient(), now_iso=now.isoformat())
+            message_id = receipts.get("telegram_message_id")
             print(f"SHARED DELIVERY {key}: Telegram={bool(receipts.get('delivered'))}, "
                   f"Discord={bool(receipts.get('discord_delivered'))}")
         else:
