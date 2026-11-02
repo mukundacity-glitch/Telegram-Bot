@@ -97,8 +97,8 @@ def _make_cards(snapshot: FplSnapshot, players: list[dict], labels: list[str]) -
     for player, label in zip(players, labels):
         if not _valid_current(snapshot, player, include_flags=True):
             raise RuntimeError("Player missing current real photograph, crest or fixture")
-        if player.get("now_cost") is None or player.get("selected_by_percent") is None:
-            raise RuntimeError("Missing verified player price/ownership")
+        if any(player.get(key) is None for key in ("now_cost", "selected_by_percent", "form", "minutes")):
+            raise RuntimeError("Missing verified player price, ownership, form or minutes")
         details = [
             f"{snapshot.price(player)} • {snapshot.team(player)} • {int(player.get('minutes') or 0)} min",
             f"OWN {player['selected_by_percent']}% • FORM {player.get('form')}",
@@ -114,7 +114,7 @@ def _report(gw: int, hook: str, factual: str, action: str, topic: str) -> str:
     lines = [
         f"GW{gw}: {hook}.",
         factual,
-        "Check five fixtures and predicted minutes before acting.",
+        "Assess actual minutes, fixtures and latest lineup news.",
         f"{action}; confirm the lineup before deadline.",
         f"#FPL #GW{gw} #FPLVortex #{topic}",
     ]
@@ -200,8 +200,10 @@ def generate_edition(edition: Edition, snapshot: FplSnapshot, now: datetime,
     lead = choices[0]
     evidence = _evidence(snapshot, lead)
     # All real source audit details remain in internal logs; never in pixels.
+    hashtags = {"task1": "FPLTips", "task2": "FPLStats",
+                "three_daily": "FPLTransfers", "press_news": "TeamNews"}
     caption = _report(gw, heading.lower(), f"{snapshot.name(lead)}: {evidence}.",
-                      action, edition.task.upper())
+                      action, hashtags[edition.task])
     return Content(
         kind="ported_task", title=heading, kicker=f"NEXT GW • {edition.task.upper()}",
         cards=cards, verdict=action, caption=caption,
