@@ -16,6 +16,8 @@ from .render import render
 from .schedule import resolve_slot
 from .telegram import TelegramClient
 from .syndication import DiscordWebhookClient, NewsPost, publish_shared
+from .editorial_dedup import check_revision, revision_record
+from .publication_rules import publication_group
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "state"
@@ -75,6 +77,8 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"
     delivery_state = read_state(delivery_state_path)
+    editorial_path = STATE / "editorial_versions.json"
+    editorial = read_state(editorial_path)
     key = f"{now.astimezone(ZoneInfo('America/New_York')).date()}:{slot}"
     if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered") and (
         not dual_publish or delivery_state.get(key, {}).get("discord_delivered")
@@ -99,8 +103,25 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             ):
                 print(f"ALREADY DELIVERED {key}; skipping duplicate")
                 return 0
+        if not preview_only and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
+            group, article, key, version, evidence, already_posted = check_revision(
+                editorial, article, delivery_state, key, dual_publish)
+            if already_posted:
+                print(f"UNCHANGED TOPIC {group}; skipped repeated publication")
+                return 0
+            editorial[group] = revision_record(
+                group, key, version, evidence, delivery_state.get(key, {}),
+                dual_publish, now.isoformat())
+            write_state(editorial_path, editorial)
+        else:
+            group = None
+
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
-        render(article, path)
+        if os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
+            from .publish_checks import render_checked
+            render_checked(article, snapshot, path)
+        else:
+            render(article, path)
         if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions", "midfielders", "start_bench"):
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
@@ -111,8 +132,18 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             # Discord failed or was enabled later.
             post = NewsPost(identity=key, title=article.title, caption=article.caption,
                             gameweek=article.gw, image=path, source="Official FPL")
-            receipts = publish_shared(post, delivery_state_path, client,
-                                      DiscordWebhookClient(), now_iso=now.isoformat())
+            try:
+                receipts = publish_shared(post, delivery_state_path, client,
+                                          DiscordWebhookClient(), now_iso=now.isoformat())
+            finally:
+                # publish_shared checkpoints each platform even on a partial
+                # error. Persist editorial recovery mapping for the next run.
+                if group is not None:
+                    latest_receipt = read_state(delivery_state_path).get(key, {})
+                    editorial[group] = revision_record(
+                        group, key, version, evidence, latest_receipt,
+                        True, now.isoformat())
+                    write_state(editorial_path, editorial)
             message_id = receipts.get("telegram_message_id")
             print(f"SHARED DELIVERY {key}: Telegram={bool(receipts.get('delivered'))}, "
                   f"Discord={bool(receipts.get('discord_delivered'))}")
@@ -126,6 +157,11 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                 keys = sorted(delivery_state.keys())[-120:]
                 delivery_state = {old_key: delivery_state[old_key] for old_key in keys}
             write_state(delivery_state_path, delivery_state)
+            if group is not None:
+                editorial[group] = revision_record(
+                    group, key, version, evidence, delivery_state[key],
+                    False, now.isoformat())
+                write_state(editorial_path, editorial)
         if slot == "prices":
             write_state(price_state_path, price_snapshot(snapshot))
         print(f"DELIVERED {key} with message {message_id} and {article.gw=} ({path.name})")
