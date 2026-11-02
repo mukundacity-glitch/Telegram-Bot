@@ -290,11 +290,49 @@ def _transfers(canvas: Image.Image, post: ExtraPost,
     return "FOUR POSITIONS · EVENT-TO-DATE TRANSFERS · OFFICIAL NEXT-GW FDR · NO INVENTED xPTS"
 
 
+
+def _start_bench(canvas: Image.Image, post: ExtraPost,
+                 session: requests.Session, cache: dict) -> str:
+    """Two balanced five-player watchlist panels, each with photo and crest."""
+    rows = post.start_bench
+    if len(rows) != 10 or any(x.get("advice") != ("START" if i < 5 else "BENCH") for i,x in enumerate(rows)):
+        raise ValueError("Start/bench board requires exactly five players per group")
+    draw = ImageDraw.Draw(canvas, "RGBA")
+    for col in range(2):
+        x0 = 33 if col == 0 else 784
+        x1 = x0 + 717
+        accent = GREEN if col == 0 else GOLD
+        title = "START WATCHLIST" if col == 0 else "BENCH WATCHLIST"
+        draw.rounded_rectangle((x0, 151, x1, 725), radius=14,
+                               fill=PANEL, outline=(*accent, 243), width=3)
+        _line(draw, title, x0 + 26, 162, 620, 31, accent, 25)
+        for j, row in enumerate(rows[col*5:col*5+5]):
+            y0 = 212 + j*101
+            draw.rounded_rectangle((x0+12, y0, x1-12, y0+94),
+                                   radius=10, fill=BG, outline=(*accent, 111), width=1)
+            photo = _required(session, cache, row.get("photo_code"), "photo", row["name"])
+            crest = _required(session, cache, row.get("club_code"), "crest", row["team"])
+            _portrait(canvas, photo, x0+20, y0+5, 85, 86)
+            _crest(canvas, crest, x0+125, y0+5, 40)
+            _line(draw, row["name"].upper(), x0+155, y0+6, 220, 24, WHITE, 18)
+            _line(draw, f"{row['pos']} • {row['team']} • {row['price']}", x0+158,
+                  y0+39, 255, 19, accent, 15)
+            _line(draw, f"NEXT {row['opponent']} · FDR {row['fdr']:.1f}",
+                  x0+420, y0+11, 265, 18, WHITE, 14)
+            _line(draw, f"FORM {row['form']:.1f} • PPG {row['ppg']:.1f} • MINS {row['minutes']}",
+                  x0+420, y0+44, 265, 18, CYAN, 14)
+            _line(draw, "AVAILABLE (FPL) • xPTS N/A", x0+422,
+                  y0+70, 259, 15, MUTED, 12)
+    return "GENERIC FPL COMPARISONS • NOT YOUR PERSONAL SQUAD • NO FABRICATED xPTS"
+
+
 def render_extra(post: ExtraPost, output: Path, session: requests.Session) -> Path:
     canvas = _base(post)
     cache = {}
     _header(canvas, post)
-    if post.kind == "projections":
+    if post.kind == "start_bench":
+        detail = _start_bench(canvas, post, session, cache)
+    elif post.kind == "projections":
         detail = _fixtures(canvas, post, session, cache)
     elif post.kind == "team_analysis":
         detail = _team(canvas, post, session, cache)
@@ -305,6 +343,8 @@ def render_extra(post: ExtraPost, output: Path, session: requests.Session) -> Pa
     _footer(canvas, post, detail)
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_suffix(".tmp.png")
+    if post.kind == "start_bench":
+        canvas = canvas.resize((1920, 1080), Image.Resampling.LANCZOS)
     canvas.save(tmp, format="PNG", optimize=True)
     tmp.replace(output)
     return output
