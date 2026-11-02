@@ -162,7 +162,17 @@ def _fixtures(canvas: Image.Image, post: ExtraPost,
     for idx, (x0, x1) in enumerate(columns):
         _line(draw, f"OFFICIAL MATCHUPS {idx*per_side + 1}–{min(count, (idx + 1)*per_side)}",
               x0 + 21, 158, x1-x0-40, 18, GOLD, 16)
-    detail = (f"VERIFIED MARKET MODELS: {valid}/{count} MATCHES · O/U 0.5 · 2+ BOOKS · UNAVAILABLE = N/A"
+    quotes = [x for f in rows for x in (f.get("home_quote_utc"), f.get("away_quote_utc")) if x]
+    latest = max(quotes) if quotes else None
+    if latest:
+        from datetime import datetime
+        from zoneinfo import ZoneInfo
+        latest_et = datetime.fromisoformat(latest).astimezone(ZoneInfo("America/New_York"))
+        quote_note = f" · LATEST BOOK QUOTE {latest_et:%I:%M %p ET}"
+    else:
+        quote_note = ""
+    detail = (f"VERIFIED MARKET MODELS: {valid}/{count} · O/U 0.5 · 2+ BOOKS"
+              + quote_note + " · OTHERS N/A"
               if valid else "FPL FIXTURES VERIFIED · NO FRESH TWO-BOOKMAKER ODDS · ALL PROJECTIONS N/A")
     if count != 10:
         detail = f"NONSTANDARD GW: {count} FIXTURES · " + detail
