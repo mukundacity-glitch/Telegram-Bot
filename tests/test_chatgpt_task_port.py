@@ -52,7 +52,9 @@ def test_no_fake_press_conference_when_no_new_status(monkeypatch):
 def _source_with_safe_deadline():
     s = snap()
     now = datetime.now(timezone.utc)
-    s.events[0]["deadline_time"] = (now + timedelta(days=5)).isoformat()
+    for event in s.events:
+        if isinstance(event.get("id"), int) and event["id"] >= 10:
+            event["deadline_time"] = (now + timedelta(days=5 + (event["id"]-10)*7)).isoformat()
     s.fixtures[1]["kickoff_time"] = (now + timedelta(days=6)).isoformat()
     s.fixtures[2]["kickoff_time"] = (now + timedelta(days=7)).isoformat()
     return s, now
