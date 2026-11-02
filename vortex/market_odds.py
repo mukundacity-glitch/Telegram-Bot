@@ -248,13 +248,53 @@ def verified_match_odds(snapshot: FplSnapshot,
             if canonical(odds.get("home_team", "")) != home or canonical(odds.get("away_team", "")) != away:
                 continue
             when = _datetime(odds.get("commence_time"))
-            if when is None or abs(when - kick) > timedelta(hours=12) or when <= now:
+            if when is not None and (abs(when - kick) > timedelta(hours=12) or when <= now):
+                continue
+            # Event ID and kickoff already matched in /events. Some valid
+            # event-odds payloads omit commence_time; do not fabricate it.
                 continue
             h2h = _h2h_projection(odds, (home, away), now)
             consensus = market_consensus(odds, home, away, now, canonical)
             model = model_from_consensus(consensus) if consensus else None
             if model is not None:
                 verified[f["id"]] = model
+                break
+            # Preserve the original verified two-bookmaker team-total 0.5
+            # projection path (it was in production before this upgrade).
+            # These markets are optional and independently authenticated;
+            # try the current response first, then a market-specific request.
+            market_payloads = [odds]
+            additional = _safe_get(client, f"/events/{event_id}/odds", key, {
+                "regions": region,
+                "markets": "team_totals,alternate_team_totals",
+                "oddsFormat": "decimal", "dateFormat": "iso",
+            })
+            if (isinstance(additional, dict)
+                    and canonical(additional.get("home_team", "")) == home
+                    and canonical(additional.get("away_team", "")) == away):
+                when_extra = _datetime(additional.get("commence_time"))
+                if when_extra is None or (abs(when_extra-kick) <= timedelta(hours=12) and when_extra > now):
+                    market_payloads.append(additional)
+            for market_payload in market_payloads:
+                quotes = _two_sided_quotes(market_payload, (home, away), now)
+                hm, am = _projection(quotes.get(home, [])), _projection(quotes.get(away, []))
+                if hm and am:
+                    verified[f["id"]] = {
+                        "home_goals": hm["goals"], "away_goals": am["goals"],
+                        "home_cs": round(am["p_zero"]*100),
+                        "away_cs": round(hm["p_zero"]*100),
+                        "home_books": hm["books"], "away_books": am["books"],
+                        "home_quote_utc": hm["updated_at"],
+                        "away_quote_utc": am["updated_at"],
+                        "source": "The Odds API · two-book team O/U 0.5 · Poisson-equivalent",
+                        "method": "Independent no-vig team total 0.5 market; not an FPL prediction",
+                        "home_win_market_pct": h2h["home_win_pct"] if h2h else None,
+                        "draw_market_pct": h2h["draw_pct"] if h2h else None,
+                        "away_win_market_pct": h2h["away_win_pct"] if h2h else None,
+                        "win_market_bookmakers": h2h["bookmakers"] if h2h else 0,
+                    }
+                    break
+            if f["id"] in verified:
                 break
             # Partial verified h2h is NOT a valid goal-rate forecast.
             # Its 1X2 percentage may still be cited separately.
