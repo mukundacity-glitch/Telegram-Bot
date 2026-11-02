@@ -41,7 +41,7 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
     title = post.title.upper()
     if "API" in title or "SOURCE" in title or "OFFICIAL FPL AVAILABILITY" in title:
         title = "PLAYER DECISION DESK"
-    _text(draw, title, 59, 104, 1110, 38)
+    _text(draw, title, 59, 104, 1110, 40)
     _text(draw, f"GW{post.gw}", 1376, 111, 100, 29, (244, 202, 96))
     gap = 14
     width = (1470 - gap*(len(cards)-1))//len(cards)
@@ -74,7 +74,7 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
         # unavailable/doubtful player to start or buy on a numeric score.
         published_label = str(card.label or "").upper()
         if player.get("status") == "a":
-            if post.kind in ("buy", "sell") and published_label in ("BUY", "SELL", "HOLD", "WATCHLIST"):
+            if published_label in ("BUY", "SELL", "HOLD", "MONITOR", "START", "BENCH", "CAPTAIN", "WATCHLIST"):
                 action = "MONITOR" if published_label == "WATCHLIST" else published_label
             elif post.kind == "captaincy" and idx == 0:
                 action = "CAPTAIN"
@@ -82,7 +82,7 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
                   (160, 166, 250))[idx]
         draw.rounded_rectangle((x0, 168, x1, 715), radius=13,
                                fill=(1, 21, 50, 247), outline=(*accent, 255), width=2)
-        _text(draw, card.headline.upper(), x0+14, 178, width-80, 28)
+        _text(draw, card.headline.upper(), x0+14, 178, width-80, 30)
         emblem = badge.convert("RGBA").copy()
         emblem.thumbnail((57, 57), Image.Resampling.LANCZOS)
         canvas.paste(emblem, (x1-65, 172), emblem)
@@ -100,7 +100,7 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
         right_limit = width-166
         for row, (label, value) in enumerate(metrics):
             _text(draw, f"{label}  {value}", x0+17, 249+row*33,
-                  max(120, right_limit), 20)
+                  max(120, right_limit), 24)
         # Small position-specific evidence strip; actual DC actions never
         # appear under an FPL points label.
         relevant = ("SAVES", "CS") if player["element_type"] == 1 else (
@@ -133,7 +133,7 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
                 color = tuple(bytes.fromhex(FDR_COLORS[fi["fdr"]][1:]))
                 tag = f"GW{event} {fi['opponent']}({fi['venue']}) FDR{fi['fdr']}"
                 _text(draw, tag, cx, top+4,
-                      int(span)-6, 17, color)
+                      int(span)-6, 22, color)
                 if fi["xpts"] is not None:
                     _text(draw, f"xPts {fi['xpts']:.2f}", cx+3, top+25,
                           int(span)-8, 16, (242, 247, 252))

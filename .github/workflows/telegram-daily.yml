@@ -159,6 +159,10 @@ jobs:
     steps:
       - name: Checkout isolated Telegram-Bot repository
         uses: actions/checkout@v4
+        with:
+          # Read receipts after acquiring concurrency, even for delayed cron events.
+          ref: ${{ github.event_name == 'schedule' && github.event.repository.default_branch || github.sha }}
+          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -226,6 +230,8 @@ jobs:
         # An unrelated blocked legacy image must not cancel this edition.
         if: ${{ always() && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-AUTOPOST-ONCE]'))) }}
         env:
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -279,7 +285,7 @@ jobs:
             state/news_deliveries.json
             state/telegram_news_deliveries.json
           if-no-files-found: ignore
-          retention-days: 2
+          retention-days: 30
 
       - name: Preserve both-platform delivery receipts even after partial failure
         if: always()

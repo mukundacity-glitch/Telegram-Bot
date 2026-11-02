@@ -30,7 +30,7 @@ def _font(size: int, bold: bool = False) -> ImageFont.ImageFont:
     try:
         return ImageFont.truetype(BOLD if bold else FONT, size=size)
     except OSError:
-        return ImageFont.load_default()
+        return ImageFont.load_default(size=size)
 
 
 def _fit(draw: ImageDraw.ImageDraw, value: str, width: int,

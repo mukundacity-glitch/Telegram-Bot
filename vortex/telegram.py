@@ -113,6 +113,11 @@ class TelegramClient:
         return message_id
 
     def send_png(self, image: Path, caption: str, title: str, gw: int) -> int:
+        # Finished production captions already contain the hook and hashtags.
+        # Preserve their exact five lines on Telegram, as on Discord.
+        if len(caption.splitlines()) == 5 and len([
+                word for word in caption.split() if word.startswith("#")]) == 4:
+            return self.send_shared_png(image, caption, title, gw)
         if not self.chat_id:
             raise ValueError("TELEGRAM_CHAT_ID secret is not configured")
         if not image.exists() or image.stat().st_size < 500:

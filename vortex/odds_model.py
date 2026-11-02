@@ -90,8 +90,8 @@ def market_consensus(odds: dict[str, Any], home: str, away: str,
         return None
     prob = [_median([p[i] for _, p in h2h.values()]) for i in range(3)]
     total = sum(prob)
-    if not 0.995 <= total <= 1.005:
-        prob = [p/total for p in prob]
+    # Coordinate medians need renormalization even for small deviations.
+    prob = [p/total for p in prob]
     latest = max(updated for market in prices.values() for updated, _ in market.values())
     return {"home": prob[0], "draw": prob[1], "away": prob[2],
             "over25": _median([p for _, p in totals.values()]),

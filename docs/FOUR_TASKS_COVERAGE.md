@@ -94,3 +94,8 @@ PR #5 was merged to `main` as `0085b32c634ea2eeb4ededa42805c7262f5181ff`. All ol
 The subsequent production workflow makes all three live flags (`DUAL_PUBLISH_ENABLED`, `FPL_PORTED_TASKS_ENABLED`, `FPL_ENRICHED_VISUALS_ENABLED`) automatically TRUE **only when** `secrets.DISCORD_WEBHOOK_URL` exists in THIS Telegram repo and `vars.FPL_PUBLISH_PAUSED != 'true'`. Adding the existing Discord webhook URL to **Telegram-Bot → Settings → Secrets and variables → Actions → New repository secret**, name exactly `DISCORD_WEBHOOK_URL`, activates live paired posting at the next valid schedule. Never put the webhook URL in chat, source, logs, variables or captions. `THE_ODDS_API_KEY` was also absent in the most recent Telegram run; market-derived predictions are held without real verified odds. The emergency pause variable is `FPL_PUBLISH_PAUSED=true` in Telegram-Bot Actions variables (or revert the activation commit).
 
 The original four ChatGPT automations remain active until BOTH live Telegram and Discord receipt IDs and no-duplicate production behavior are confirmed. Do not tell user they can delete the four ChatGPT tasks yet. Independent Discord injury/price jobs remain active; cross-repo topic dedup is not exhaustively proven. This is a conditioned deployment, NOT a confirmed identical post to both platforms.
+
+
+## Current audit correction — 2026-11-02
+
+The latest explicit user instruction selects Library asset libfile_0947818b02d88191b357fe10080957ce, Git blob b0d890a529ad7416a142d3cfbbadfc800eb26bd0 (194358 bytes). This supersedes the earlier GitHub-asset confirmation above. Both renderer pins now require the original Library bytes. No new schedule or public test post is authorized by this correction.

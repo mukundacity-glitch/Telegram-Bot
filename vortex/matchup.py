@@ -23,10 +23,16 @@ MUTED = (174, 206, 226)
 
 
 def _font(size: int, *, bold: bool = True) -> ImageFont.ImageFont:
-    try:
-        return ImageFont.truetype(FONT_BOLD if bold else FONT_REGULAR, size)
-    except OSError:
-        return ImageFont.load_default()
+    candidates = (FONT_BOLD if bold else FONT_REGULAR,
+                  '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf'
+                  if bold else '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf')
+    for path in candidates:
+        try:
+            return ImageFont.truetype(path, size)
+        except OSError:
+            continue
+    # Pillow's unsized default silently shrinks every headline to ~10 px.
+    return ImageFont.load_default(size=size)
 
 
 def _text_width(draw: ImageDraw.ImageDraw, value: str, font: ImageFont.ImageFont) -> int:

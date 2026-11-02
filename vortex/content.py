@@ -1,4 +1,4 @@
-"""Produce fact-grounded data cards and six-line X captions."""
+"""Produce fact-grounded data cards and five-line X captions."""
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
@@ -86,7 +86,9 @@ def _caption(lines: list[str], gw: int) -> str:
         raise ValueError("Exactly five X caption lines required")
     sanitized = [line.replace("\n", " ").replace("#", "").strip() for line in lines]
     hashtags = f"#FPL #GW{gw} #FPLVortex #PremierLeague"
-    result = "\n".join([*sanitized, hashtags])
+    # Keep the action and optional engagement prompt on one line; hashtags
+    # occupy line five in every publication path.
+    result = "\n".join([*sanitized[:3], " ".join(sanitized[3:]), hashtags])
     if len(result) > 280:
         raise ValueError(f"X description too long ({len(result)} characters)")
     if any(not line for line in sanitized):
