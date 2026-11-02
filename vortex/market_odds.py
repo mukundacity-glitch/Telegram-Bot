@@ -217,7 +217,10 @@ def verified_match_odds(snapshot: FplSnapshot,
     """
     from .odds_model import market_consensus, model_from_consensus
 
-    key = api_key if api_key is not None else os.getenv("THE_ODDS_API_KEY", "")
+    # Only secrets already injected into THIS repository's runner are usable.
+    # A secret name in another repository does not expose its value here.
+    key = (api_key if api_key is not None
+           else (os.getenv("THE_ODDS_API_KEY") or os.getenv("ODDS_API_KEY") or ""))
     if not key or not fixtures:
         return {}
     client = session or requests.Session()

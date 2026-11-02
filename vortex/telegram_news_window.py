@@ -1,15 +1,18 @@
-"""FPL VORTEX Telegram news monitoring, 06:00-21:00 Eastern, in EXISTING job.
+"""Telegram-only official FPL news and actionable decisions, 05:00–22:00 ET.
 
-Official FPL *changes* only; exact approved master and actual portrait/crest;
-one graphic + five-line caption per new verified item, not hourly filler.
+Retains all pre-existing Telegram graphics/times. Builds a genuine original-blue
+1920x1080 image only for an actual changed official FPL status or price.
+Updates an earlier *same player + same topic + same GW* Telegram photo in place
+rather than posting it again; never claims delivery without a message receipt.
 """
 from __future__ import annotations
 
+from datetime import datetime, timedelta, timezone
+from hashlib import sha256
+from pathlib import Path
 import json
 import os
 import re
-from datetime import datetime, timedelta, timezone
-from pathlib import Path
 
 from PIL import Image
 
@@ -25,147 +28,218 @@ PENDING = STATE / "telegram_news_pending.json"
 RECEIPTS = STATE / "telegram_news_deliveries.json"
 SHARED = STATE / "news_deliveries.json"
 OUTPUT = ROOT / "output" / "telegram-news"
+STALE_AFTER = timedelta(hours=8)
 
 
-def in_window(cron):
+def in_window(cron: str | None) -> bool:
+    """Route by the exact GitHub triggering cron, not a delayed runner clock."""
+    if (cron or "").strip() == "15 5 * * *":
+        return True  # existing 05:15 backup; never an extra news edition
     match = re.fullmatch(r"0 (\d{1,2}) \* \* \*", (cron or "").strip())
-    return bool(match and 6 <= int(match.group(1)) <= 21)
+    return bool(match and 5 <= int(match.group(1)) <= 22)
 
 
 def _player(snapshot, entry):
     found = [p for p in snapshot.players
              if snapshot.photo_code(p) == entry["photo_code"]
              and snapshot.team_code(p) == entry["club_code"]
-             and snapshot.name(p) == entry["player_name"]]
+             and snapshot.name(p) == entry["player_name"]
+             and isinstance(p.get("id"), int)]
     if len(found) != 1:
-        raise RuntimeError("Official player/club identity not unique")
+        raise RuntimeError("Official player/current club join is not unique")
     return found[0]
 
 
-def _copy(snapshot, entry, player, now):
+def _version(player, kind):
+    """No generation time/date in version: stable across unchanged news."""
+    if kind == "price":
+        values = (player.get("id"), player.get("team"), player.get("now_cost"))
+    elif kind == "availability":
+        values = (player.get("id"), player.get("team"), player.get("status"),
+                  player.get("news"), player.get("chance_of_playing_next_round"),
+                  player.get("chance_of_playing_this_round"))
+    else:
+        raise ValueError("Unsupported official FPL news topic")
+    return sha256(json.dumps(values, ensure_ascii=False).encode()).hexdigest()[:24]
+
+
+def _copy(snapshot, entry, player, now, *, edited=False):
     gw = snapshot.gameweek()
     deadline = upcoming_deadline(snapshot)
     if not gw or deadline is None or deadline <= now:
-        raise RuntimeError("Verified actionable deadline missing")
+        raise RuntimeError("Next actionable FPL deadline unverified/passed")
     matches = snapshot.fixtures_for_gameweek(player, gw)
     if not matches or any(not opp or not code or fdr not in (1, 2, 3, 4, 5)
+                          or venue not in ("H", "A")
                           for opp, venue, fdr, code in matches):
-        raise RuntimeError("Verified next-GW fixture missing")
-    target = ", ".join(f"{opp}({venue})" for opp, venue, fdr, code in matches)
+        raise RuntimeError("Official upcoming opponent or fixture missing")
+    target = ", ".join(f"{op} ({ha})" for op, ha, _, _ in matches)
     name = snapshot.name(player)
-    old = entry.get("old", {})
-    if entry["identity"].startswith("price:"):
+    old = entry.get("old") or {}
+    kind = entry["kind"]
+    if kind == "price":
         before, after = old.get("now_cost"), player.get("now_cost")
         if type(before) is not int or type(after) is not int or before == after:
-            raise RuntimeError("No dated prior price evidence")
+            raise RuntimeError("Price movement lacks previous real FPL snapshot")
         direction = "RISE" if after > before else "FALL"
         headline = f"GW{gw} • CONFIRMED PRICE {direction}"
-        fact = f"{name}: £{before/10:.1f}m → £{after/10:.1f}m."
+        fact = f"{name}: £{before/10:.1f}m → £{after/10:.1f}m on FPL."
         action = "HOLD" if after > before else "MONITOR"
-    else:
+    elif kind == "availability":
+        flag = {"a": "AVAILABLE", "d": "DOUBT", "i": "INJURY FLAG",
+                "s": "SUSPENDED", "u": "UNAVAILABLE"}
         status = player.get("status")
-        labels = {"a": "AVAILABLE", "d": "DOUBT", "i": "INJURY FLAG",
-                  "s": "SUSPENDED", "u": "UNAVAILABLE"}
-        if status not in labels:
-            raise RuntimeError("Missing official FPL player status")
-        changes = ("status", "news", "chance_of_playing_next_round",
+        if status not in flag:
+            raise RuntimeError("Official FPL status unknown")
+        changed = ("status", "news", "chance_of_playing_next_round",
                    "chance_of_playing_this_round")
-        if not any(old.get(k) != player.get(k) for k in changes):
-            raise RuntimeError("Availability update no longer verified")
-        headline = f"GW{gw} • PLAYER STATUS UPDATE"
-        fact = f"{name}: FPL status {labels[status].lower()}."
+        if not any(old.get(field) != player.get(field) for field in changed):
+            raise RuntimeError("No verified changed official FPL status/news")
+        headline = f"GW{gw} • PLAYER AVAILABILITY UPDATE"
+        fact = f"{name}: FPL status {flag[status].lower()}."
+        note = " ".join(str(player.get("news") or "").split())
+        if note:
+            fact += f" {note[:100].rstrip()}."
         action = "HOLD" if status == "a" else "MONITOR"
-    caption = "\n".join((
+    else:
+        raise RuntimeError("News edition is not a sourced official FPL change")
+    if edited:
+        headline = "UPDATED • " + headline
+    caption = "\n".join([
         headline,
         fact,
-        f"Next GW: {target}. Check updated squad news.",
-        f"{action} {name}; confirm minutes before the deadline.",
+        f"Next GW: {target}; check confirmed squad news.",
+        f"{action} {name}; verify minutes before the deadline.",
         f"#FPL #FantasyPremierLeague #FPLVortex #GW{gw}",
-    ))
+    ])
     if len(caption.splitlines()) != 5 or len(caption) > 1024:
-        raise RuntimeError("Caption must be exactly five lines and Telegram-sized")
+        raise RuntimeError("Telegram image caption must contain exactly five short lines")
     return headline, caption, action
 
 
-def _artwork(snapshot, player, headline, caption, action, path):
-    path.parent.mkdir(parents=True, exist_ok=True)
+def _artwork(snapshot, player, title, caption, action, target):
+    """Approved pinned blue master; real portrait, crest, and five GW fixtures."""
+    target.parent.mkdir(parents=True, exist_ok=True)
     article = Content(
-        kind="news_profile", title=headline, kicker="FPL VORTEX",
+        kind="news_profile", title=title, kicker="FPL VORTEX",
         cards=(Card(snapshot.name(player), snapshot.team(player), action, (),
                     snapshot.photo_code(player), snapshot.team_code(player)),),
         verdict=action, caption=caption, data_at=snapshot.fetched_at.isoformat(),
         gw=snapshot.gameweek(), footer="")
-    render_player_profile(article, snapshot, path)
-    with Image.open(path) as im:
-        if im.size != (1920, 1080):
-            raise RuntimeError("Final Telegram graphic is not 1920x1080")
-        im.verify()
+    render_player_profile(article, snapshot, target)
+    with Image.open(target) as verified:
+        if verified.size != (1920, 1080) or verified.format != "PNG":
+            raise RuntimeError("Original-branded news graphic failed 1920x1080 PNG QA")
+        verified.verify()
+
+
+def _story_kind(story):
+    kind = story.identity.split(":", 1)[0]
+    if kind not in ("availability", "price"):
+        raise RuntimeError("Unknown FPL news category")
+    return kind
 
 
 def run(cron=None, now=None, snapshot=None, telegram=None, renderer=None):
+    """Exactly one new or edited news image at most; no generic hourly filler."""
     if not in_window(cron):
-        return {"status": "outside-window", "posted": 0}
+        return {"status": "outside-window", "posted": 0, "edited": 0}
     if os.getenv("FPL_PUBLISH_PAUSED", "false").lower() == "true":
-        return {"status": "paused", "posted": 0}
+        return {"status": "paused", "posted": 0, "edited": 0}
+    if os.getenv("UNIFIED_NEWS_ENABLED", "false").lower() == "true":
+        # The existing shared Telegram/Discord FPL news queue owns these
+        # topics when enabled. Never have two news lanes send the same fact.
+        return {"status": "shared-news-owns-topic", "posted": 0, "edited": 0}
     now = now or datetime.now(timezone.utc)
+    if now.tzinfo is None:
+        raise ValueError("News snapshot time requires timezone")
     snapshot = snapshot or collect_snapshot()
-    old = read_state(BASELINE)
+    baseline = read_state(BASELINE)
     if not BASELINE.exists():
         write_state(BASELINE, fpl_baseline(snapshot))
-        return {"status": "baseline-initialized-no-backfill", "posted": 0}
+        print("FPL NEWS: initialized real official baseline; not backfilling old news")
+        return {"status": "baseline-initialized", "posted": 0, "edited": 0}
+
     pending = read_state(PENDING)
     receipts = read_state(RECEIPTS)
     shared = read_state(SHARED)
-    changes = collect_fpl_changes(snapshot, old, now)
-    for story in changes:
-        key = f"2026-27:GW{snapshot.gameweek()}:news:{story.identity}"
-        if (key not in pending and key not in receipts
-                and not shared.get(story.identity, {}).get("telegram_message_id")):
-            player = _player(snapshot, {
-                "photo_code": story.photo_code,
-                "club_code": story.club_code,
-                "player_name": story.player_name})
-            pending[key] = {
-                "identity": story.identity, "player_name": story.player_name,
-                "photo_code": story.photo_code, "club_code": story.club_code,
-                "old": old.get(str(player["id"]), {}), "seen": now.isoformat(),
-            }
+    for story in collect_fpl_changes(snapshot, baseline, now):
+        player = _player(snapshot, {
+            "photo_code": story.photo_code, "club_code": story.club_code,
+            "player_name": story.player_name})
+        kind = _story_kind(story)
+        topic = f"2026-27:GW{snapshot.gameweek()}:news:{kind}:{player['id']}"
+        version = _version(player, kind)
+        previous = receipts.get(topic, {})
+        if previous.get("content_version") == version and previous.get("telegram_message_id"):
+            continue
+        if shared.get(story.identity, {}).get("telegram_message_id"):
+            continue  # this exact verified item already delivered by shared news
+        pending[topic] = {
+            "identity": story.identity, "player_name": story.player_name,
+            "photo_code": story.photo_code, "club_code": story.club_code,
+            "kind": kind, "old": baseline.get(str(player["id"]), {}),
+            "first_seen": now.isoformat(), "content_version": version,
+        }
     write_state(BASELINE, fpl_baseline(snapshot))
     write_state(PENDING, pending)
-    posted = 0
-    held = 0
-    for key, entry in list(pending.items()):
-        if (receipts.get(key, {}).get("telegram_message_id")
-                or shared.get(entry["identity"], {}).get("telegram_message_id")):
-            pending.pop(key)
-            continue
+
+    posted = edited = held = 0
+    for topic, record in list(pending.items()):
         try:
-            seen = datetime.fromisoformat(entry["seen"].replace("Z", "+00:00"))
-            if now - seen > timedelta(hours=8):
-                pending.pop(key)
+            seen = datetime.fromisoformat(record["first_seen"].replace("Z", "+00:00"))
+            if seen.tzinfo is None or not timedelta(0) <= now - seen <= STALE_AFTER:
+                pending.pop(topic, None)
                 continue
-            player = _player(snapshot, entry)
-            title, caption, action = _copy(snapshot, entry, player, now)
-            image = OUTPUT / f"gw{snapshot.gameweek()}_{key.replace(':', '_')}.png"
-            (renderer or _artwork)(snapshot, player, title, caption, action, image)
+            if shared.get(record["identity"], {}).get("telegram_message_id"):
+                pending.pop(topic, None)
+                continue
+            player = _player(snapshot, record)
+            if _version(player, record["kind"]) != record["content_version"]:
+                # Source changed again before publication: never publish a
+                # stale cached "injured" or "available" claim.
+                pending.pop(topic, None)
+                continue
+            existing = receipts.get(topic, {})
+            if existing.get("content_version") == record["content_version"] and existing.get("telegram_message_id"):
+                pending.pop(topic, None)
+                continue
+            is_update = bool(existing.get("telegram_message_id"))
+            title, caption, action = _copy(snapshot, record, player, now, edited=is_update)
+            file = OUTPUT / f"gw{snapshot.gameweek()}_{record['identity'].replace(':', '_')}.png"
+            (renderer or _artwork)(snapshot, player, title, caption, action, file)
             client = telegram or TelegramClient()
-            message_id = client.send_shared_png(image, caption, title, snapshot.gameweek())
-            if type(message_id) is not int or message_id <= 0:
-                raise RuntimeError("Telegram did not return a valid message ID")
-            receipts[key] = {"delivered": True, "telegram_message_id": message_id,
-                             "gameweek": snapshot.gameweek(),
-                             "published_at": now.isoformat(), "player_id": player["id"]}
-            write_state(RECEIPTS, receipts)
-            pending.pop(key)
-            print(f"TELEGRAM NEWS POSTED: message={message_id}, GW={snapshot.gameweek()}")
-            posted += 1
-            break  # Do not flood channel: maximum one real news story per check.
-        except (RuntimeError, ValueError, OSError, KeyError, TypeError) as exc:
+            if is_update:
+                # Don't send a second post for the same player/topic/GW.
+                # If Telegram won't allow editing, HOLD rather than reposting.
+                mid = client.edit_shared_png(file, caption, int(existing["telegram_message_id"]))
+            else:
+                mid = client.send_shared_png(file, caption, title, snapshot.gameweek())
+            if type(mid) is not int or mid <= 0:
+                raise RuntimeError("Telegram returned no valid send/edit receipt")
+            receipts[topic] = {
+                "delivered": True, "telegram_message_id": mid,
+                "gameweek": snapshot.gameweek(), "player_id": player["id"],
+                "topic": topic, "content_version": record["content_version"],
+                "source_identity": record["identity"],
+                "published_at": existing.get("published_at") or now.isoformat(),
+                "last_updated_at": now.isoformat(),
+                "edit_count": int(existing.get("edit_count") or 0) + int(is_update),
+            }
+            write_state(RECEIPTS, receipts)  # checkpoint confirmed message ID
+            pending.pop(topic, None)
+            posted += int(not is_update)
+            edited += int(is_update)
+            print(f"FPL NEWS {'EDITED' if is_update else 'POSTED'}: "
+                  f"GW{snapshot.gameweek()}, Telegram message_id={mid}")
+            break
+        except (RuntimeError, ValueError, OSError, KeyError, TypeError, AttributeError) as exc:
             held += 1
-            print(f"TELEGRAM NEWS HELD: {type(exc).__name__}; no post claimed")
+            print(f"FPL NEWS HELD: {type(exc).__name__}; no delivery claimed")
+            # Keep pending for bounded retries; never issue a duplicate.
     write_state(PENDING, pending)
-    return {"status": "checked", "posted": posted, "held": held,
-            "pending": len(pending)}
+    return {"status": "checked", "posted": posted, "edited": edited,
+            "held": held, "pending": len(pending)}
 
 
 def main():

@@ -36,12 +36,12 @@ class ExtraPost:
 
 
 def caption(lines: list[str], gw: int) -> str:
-    """New editions: original 5-story-line format, exactly FOUR hashtags."""
-    if len(lines) != 5 or any(not line.strip() for line in lines):
-        raise ValueError("New Telegram posts require exactly five story lines")
+    """Four short factual/action lines plus one line of exactly four hashtags."""
+    if len(lines) != 4 or any(not line.strip() for line in lines):
+        raise ValueError("Task 2 caption requires four lines plus hashtag line")
     body = [s.replace("#", "").replace("\n", " ").strip() for s in lines]
     result = "\n".join([*body, f"#FPL #GW{gw} #FPLVortex #PremierLeague"])
-    if len(result) > 280 or len(result.splitlines()) != 6:
+    if len(result) > 280 or len(result.splitlines()) != 5:
         raise ValueError("New caption exceeds original X limits")
     return result
 
@@ -270,22 +270,20 @@ def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost
         n = len(games)
         confirmed = sum(1 for f in games if f["home_goals"] is not None and f["away_goals"] is not None)
         c = caption([
-            f"GW{gw}: {n} official matchups for next GW.",
-            f"{confirmed}/{n} backed by two-bookmaker markets.",
-            "Projected goals/CS: model estimate or N/A.",
-            "Crests and fixtures: official FPL API.",
-            "Which fixture is your next target?",
+            f"GW{gw}: {n} verified matchups for the next GW.",
+            f"{confirmed}/{n} have valid independently modeled goal/CS rates.",
+            "Other figures omitted without verified market evidence.",
+            "MONITOR fixtures and team news before investing.",
         ], gw)
         return ExtraPost(kind, f"GW{gw} · GOALS & CLEAN SHEETS", "ALL CLUBS · 10 MATCHUPS WHEN STANDARD",
                          c, time_label, gw, "FPL fixtures + separately checked bookmaker markets", fixtures=games)
     if kind == "team_analysis":
         subject = _best_team(snapshot, _next_fixtures(snapshot), now)
         c = caption([
-            f"GW{gw}: {subject['short']} attack and defence under the microscope.",
-            f"Next: {subject['opponent']} ({subject['venue']}) · official FDR {subject['fdr']}.",
-            f"GF/GA chart: {subject['period'].lower()}.",
-            f"FPL options: {', '.join(p['name'] for p in subject['players'][:2])}.",
-            "Minutes and availability matter before buying.",
+            f"GW{gw}: {subject['short']} attack and defence evaluated.",
+            f"Next: {subject['opponent']} ({subject['venue']}), official FDR {subject['fdr']}.",
+            f"Verified GF/GA: {subject['period'].lower()}.",
+            "START/HOLD only after checking minutes and team availability.",
         ], gw)
         return ExtraPost(kind, f"GW{gw} · TEAM DECISION DESK", "ATTACK · DEFENCE · FPL OPTIONS",
                          c, time_label, gw, "Official FPL fixture scores and player totals",
@@ -293,11 +291,10 @@ def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost
     rows = tuple(_transfers(snapshot))
     swaps = sum(row["verdict"] != "HOLD" for row in rows)
     c = caption([
-        f"GW{gw}: one-GW transfer calls across all four positions.",
-        f"{swaps} evidence-led swaps; {4-swaps} HOLD decisions.",
-        "Out/in counts: official FPL event-to-date totals.",
-        "Same position, budget-aware picks; no invented xPts.",
-        "Avoid hits without checking your exact team.",
+        f"GW{gw}: transfer calls across GK, DEF, MID and FWD.",
+        f"{swaps} qualified swaps; {4-swaps} HOLD alternatives.",
+        "Official event transfers; budget and fixture-aware options.",
+        "HOLD unless a better value improves your own team.",
     ], gw)
     return ExtraPost(kind, f"GW{gw} · TRANSFER SUGGESTIONS", "GK · DEF · MID · FWD · BUY / HOLD / SELL",
                      c, time_label, gw, "Official Fantasy Premier League API",

@@ -52,7 +52,7 @@ def test_matchup_board_uses_all_20_clubs_in_actual_ten_matchups(monkeypatch):
     assert len({x for item in post.fixtures for x in (item["home_name"], item["away_name"])}) == 20
     assert all(row["home_goals"] is None and row["away_cs"] is None for row in post.fixtures)
     assert post.caption.endswith("#FPL #GW7 #FPLVortex #PremierLeague")
-    assert len(post.caption.splitlines()) == 6
+    assert len(post.caption.splitlines()) == 5
     assert len(post.caption) <= 280
 
 
@@ -62,7 +62,7 @@ def test_nonstandard_gw_never_invents_missing_fixtures(monkeypatch):
     monkeypatch.setattr("vortex.extra_posts.verified_match_odds", lambda s, fixtures: {})
     post = generate_extra("projections", snap, snap.fetched_at)
     assert len(post.fixtures) == 9
-    assert "9 official matchups" in post.caption
+    assert "9 verified matchups" in post.caption
 
 
 def test_team_history_uses_only_completed_fpl_scorelines():
@@ -75,7 +75,7 @@ def test_team_history_uses_only_completed_fpl_scorelines():
     assert len(club["players"]) == 3
     assert all(player["status"] == "a" for player in club["players"])
     assert club["team"] in data.caption or club["short"] in data.caption
-    assert len(data.caption.splitlines()) == 6
+    assert len(data.caption.splitlines()) == 5
 
 
 def test_transfer_suggestions_cover_four_positions_and_event_period():
@@ -89,7 +89,7 @@ def test_transfer_suggestions_cover_four_positions_and_event_period():
         if row["incoming"]:
             assert row["incoming"]["position"] == row["position"]
             assert row["incoming"]["cost"] <= row["out"]["cost"] + 5
-    assert len(post.caption.splitlines()) == 6
+    assert len(post.caption.splitlines()) == 5
 
 
 def test_no_fake_24_hour_market_data():
@@ -177,7 +177,7 @@ def test_new_blue_master_graphics_render_with_authentic_media_mock(kind, tmp_pat
     result = render(post, target, session=object())
     assert result.is_file() and result.stat().st_size > 50_000
     with Image.open(result) as img:
-        assert img.size == (1536, 864)
+        assert img.size == (1920, 1080)
 
 
 @pytest.mark.parametrize("kind", ["projections", "team_analysis", "transfer_suggestions"])
@@ -194,5 +194,6 @@ def test_new_editions_never_publish_missing_verified_images(kind, tmp_path, monk
 def test_new_posts_have_exact_four_hashtags_not_legacy_three():
     with pytest.raises(ValueError):
         caption(["a"] * 6, 7)
-    text = caption(["a", "b", "c", "d", "e"], 7)
+    text = caption(["a", "b", "c", "d"], 7)
+    assert len(text.splitlines()) == 5
     assert text.splitlines()[-1] == "#FPL #GW7 #FPLVortex #PremierLeague"

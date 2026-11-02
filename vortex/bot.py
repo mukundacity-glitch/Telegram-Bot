@@ -83,8 +83,9 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             # New migrated tasks still fail closed without both destinations.
             print("Discord credential not configured here; retaining legacy Telegram delivery")
             dual_publish = False
-            os.environ["FPL_ENRICHED_VISUALS_ENABLED"] = "false"
-            os.environ["FPL_SEMANTIC_DEDUP_ENABLED"] = "false"
+            # Telegram-only runs still require the real blue master, authentic
+            # player/club imagery, and semantic cross-day duplicate checks.
+            # Missing Discord credentials must NOT disable Telegram QA.
     publication_slot = "comparison" if slot == "preview" else slot.removeprefix("preview-") if preview_only else slot
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"

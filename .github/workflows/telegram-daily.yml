@@ -65,6 +65,9 @@ on:
     # This is an extra check in the EXISTING workflow, not a new task.
     - cron: '0 21 * * *'
       timezone: America/New_York
+    # End-of-window news check: 22:00 ET, existing hours are retained.
+    - cron: '0 22 * * *'
+      timezone: America/New_York
     # Backup triggers check the same day for a missed/failed delivery.
     - cron: '45 6 * * *'
       timezone: America/New_York
@@ -171,11 +174,12 @@ jobs:
 
       - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
-        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 17 * * *","0 18 * * *","0 21 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
+        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 17 * * *","0 18 * * *","0 21 * * *","0 22 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DUAL_PUBLISH_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
@@ -184,7 +188,7 @@ jobs:
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           # Staging-only until true branded master and both public handles verified.
-          FPL_ENRICHED_VISUALS_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
           FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'true' }}
           # Optional independent per-fixture xPts. Never infer it from FPL xG.
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
@@ -219,7 +223,8 @@ jobs:
         run: python -m vortex.unified_runner
 
       - name: Publish original four ChatGPT editions to both platforms (opt-in)
-        if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-AUTOPOST-ONCE]')) }}
+        # An unrelated blocked legacy image must not cancel this edition.
+        if: ${{ always() && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-AUTOPOST-ONCE]'))) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -243,14 +248,15 @@ jobs:
             python -m vortex.task_publisher
           fi
 
-      - name: Check verified Telegram news from 6 AM through 9 PM ET
-        # One confirmed new official FPL story at most per hourly check.
-        # Original Telegram editions, Discord and ChatGPT schedules unchanged.
-        if: ${{ github.event_name == 'schedule' }}
+      - name: Check verified Telegram news from 5 AM through 10 PM ET
+        # One confirmed new official FPL story at most per scheduled check.
+        # A blocked earlier graphic cannot suppress an independently verified story.
+        if: ${{ always() && github.event_name == 'schedule' }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           FPL_PUBLISH_PAUSED: ${{ vars.FPL_PUBLISH_PAUSED || 'false' }}
+          UNIFIED_NEWS_ENABLED: ${{ vars.UNIFIED_NEWS_ENABLED || 'false' }}
           FPL_ENRICHED_VISUALS_ENABLED: 'true'
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
@@ -258,13 +264,20 @@ jobs:
         run: python -m vortex.telegram_news_window
 
       - name: Save newest PNG as short-lived artifact
-        if: success()
+        # Preserve the graphic and locally confirmed receipts even if another
+        # edition failed; those are needed to recover from a push race.
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: fpl-vortex-${{ github.run_id }}
           path: |
             output/*.png
             output/telegram-news/*.png
+            state/deliveries.json
+            state/editorial_versions.json
+            state/ported_task_versions.json
+            state/news_deliveries.json
+            state/telegram_news_deliveries.json
           if-no-files-found: ignore
           retention-days: 2
 
@@ -281,7 +294,25 @@ jobs:
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           git commit -m 'Update shared delivery receipts and official snapshots [skip ci]'
-          git push origin HEAD:${{ github.ref_name }}
+          # A verified platform message may have been sent while a PR changed
+          # main. Rebase ONLY our receipt commit; never force-push or silently
+          # discard a Telegram/Discord delivery ID after a fast-forward race.
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:${{ github.ref_name }}; then
+              echo "Receipt state safely persisted on GitHub."
+              exit 0
+            fi
+            echo "Receipt push race: fetching latest default branch and rebasing."
+            git fetch origin ${{ github.ref_name }}
+            if ! git rebase origin/${{ github.ref_name }}; then
+              git rebase --abort || true
+              echo "::error::Receipt ledger rebase conflict; archived state is in this run's artifact. Manual reconciliation required before replay."
+              exit 1
+            fi
+            sleep 2
+          done
+          echo "::error::Unable to persist delivery receipts after four safe retries."
+          exit 1
 
 # Authorized direct publication attempt after user confirmed GitHub Actions Discord secret.
 # Uses current FPL data, paired per-platform receipts and existing duplicate safeguards.

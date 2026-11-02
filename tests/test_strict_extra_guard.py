@@ -35,3 +35,31 @@ def test_transfer_suggestions_holds_unverified_visible_fdr(monkeypatch):
                                      for _ in range(4)))
     with pytest.raises(RuntimeError, match="unverified visible field"):
         validate_article(post, s)
+
+def test_all20_fixture_only_graphic_is_not_blocked_by_missing_optional_bookmaker_odds(monkeypatch):
+    s = snap()
+    monkeypatch.setenv("FPL_TELEGRAM_HANDLE", "@verifiedTelegram")
+    monkeypatch.setenv("FPL_DISCORD_HANDLE", "@verifiedDiscord")
+    fixture = {"id": 100, "home": "ARS", "away": "CHE",
+               "home_code": 3, "away_code": 8, "h_fdr": 2, "a_fdr": 4,
+               "home_goals": None, "away_goals": None,
+               "home_cs": None, "away_cs": None}
+    post = ExtraPost(kind="projections", title="GW10 MATCHUPS", kicker="NEXT",
+                     caption="Real fixture only\n#FPL #GW10 #FPLVortex #Fixtures",
+                     data_at="", gw=10, footer="", fixtures=(fixture,))
+    validate_article(post, s)
+    # Partial model data is misleading: must withhold numeric estimates.
+    import dataclasses
+    incomplete = dataclasses.replace(post,
+        fixtures=(dict(fixture, home_goals=1.2),))
+    with pytest.raises(RuntimeError, match="Partial bookmaker"):
+        validate_article(incomplete, s)
+
+
+def test_news_early_window_defers_to_shared_news_publisher(monkeypatch, tmp_path):
+    import vortex.telegram_news_window as news
+    monkeypatch.setenv("UNIFIED_NEWS_ENABLED", "true")
+    monkeypatch.setattr(news, "BASELINE", tmp_path / "not-used.json")
+    result = news.run(cron="0 22 * * *")
+    assert result["status"] == "shared-news-owns-topic"
+    assert result["posted"] == 0 and result["edited"] == 0
