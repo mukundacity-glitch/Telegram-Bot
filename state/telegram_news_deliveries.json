@@ -1,0 +1,14 @@
+{
+  "2026-27:GW10:news:availability:456": {
+    "content_version": "0f0882a412b0e189eb16b2fa",
+    "delivered": true,
+    "edit_count": 0,
+    "gameweek": 10,
+    "last_updated_at": "2026-11-02T22:13:55.907542+00:00",
+    "player_id": 456,
+    "published_at": "2026-11-02T22:13:55.907542+00:00",
+    "source_identity": "availability:e097e87353cf87d6cbe7c725",
+    "telegram_message_id": 157,
+    "topic": "2026-27:GW10:news:availability:456"
+  }
+}

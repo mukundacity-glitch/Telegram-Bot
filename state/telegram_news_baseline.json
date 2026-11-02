@@ -2772,11 +2772,11 @@
     "status": "a"
   },
   "456": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Suspended until 21 Nov",
     "now_cost": 48,
-    "status": "a"
+    "status": "s"
   },
   "457": {
     "chance_of_playing_next_round": null,
