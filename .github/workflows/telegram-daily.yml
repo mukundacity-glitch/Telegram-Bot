@@ -251,3 +251,6 @@ jobs:
           done
           git commit -m 'Update shared delivery receipts and official snapshots [skip ci]'
           git push origin HEAD:${{ github.ref_name }}
+
+# Authorized direct publication attempt after user confirmed GitHub Actions Discord secret.
+# Uses current FPL data, paired per-platform receipts and existing duplicate safeguards.
