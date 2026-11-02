@@ -81,6 +81,9 @@ def render_checked(article: Any, snapshot: Any, output: Path,
     if article.kind == "elite":
         from .player_profile import render_player_profile
         result = render_player_profile(article, snapshot, output, session=session)
+    elif hasattr(article, "cards") and 2 <= len(article.cards) <= 4:
+        from .multi_profile import render_multi_profile
+        result = render_multi_profile(article, snapshot, output, session=session)
     else:
         result = render(article, output, session=session)
         # Keep the entire approved user master graphic, logo, and original
