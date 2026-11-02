@@ -40,10 +40,12 @@ def setup_files(monkeypatch, path):
 
 
 def test_news_window_follows_scheduled_local_cron_not_wall_clock():
+    assert news.in_window("0 5 * * *")
+    assert news.in_window("15 5 * * *")
     assert news.in_window("0 6 * * *")
     assert news.in_window("0 21 * * *")
-    assert not news.in_window("0 5 * * *")
-    assert not news.in_window("0 22 * * *")
+    assert news.in_window("0 22 * * *")
+    assert not news.in_window("0 23 * * *")
     assert not news.in_window("15 21 * * *")
     assert not news.in_window(None)
 
@@ -51,13 +53,13 @@ def test_news_window_follows_scheduled_local_cron_not_wall_clock():
 def test_existing_cron_times_and_task_jobs_are_retained():
     workflow = WORKFLOW.read_text()
     crons = re.findall(r"^\s+- cron: '([^']+)'", workflow, re.MULTILINE)
-    assert len(crons) == len(set(crons)) == 41
+    assert len(crons) == len(set(crons)) == 42
     assert "0 5 * * *" in crons and "15 5 * * *" in crons
     assert "0 6 * * *" in crons and "0 19 * * *" in crons
     assert "0 17 * * *" in crons and "0 18 * * *" in crons
-    assert "0 20 * * *" in crons and "0 21 * * *" in crons
+    assert "0 20 * * *" in crons and "0 21 * * *" in crons and "0 22 * * *" in crons
     assert workflow.count("  publish:\n") == 1
-    assert "Check verified Telegram news from 6 AM through 9 PM ET" in workflow
+    assert "Check verified Telegram news from 5 AM through 10 PM ET" in workflow
     assert '"0 21 * * *"' in workflow.split("      - name: Deliver existing graphic")[1].split(
         "      - name: Audit unified news")[0]
     assert "python -m vortex.task_publisher" in workflow
@@ -120,6 +122,84 @@ def test_no_fake_image_means_no_post_and_retriable_queue(monkeypatch, tmp_path):
 
 def test_manual_and_5am_do_not_publish(monkeypatch, tmp_path):
     setup_files(monkeypatch, tmp_path)
-    for cron in ("0 5 * * *", "", "0 22 * * *"):
+    for cron in ("", "0 23 * * *", "15 21 * * *"):
         assert news.run(cron=cron, now=NOW)["posted"] == 0
     assert not news.BASELINE.exists()
+
+def test_changed_player_news_edits_original_telegram_photo_in_place(monkeypatch, tmp_path):
+    setup_files(monkeypatch, tmp_path)
+    news.run(cron="0 5 * * *", now=NOW, snapshot=snap())
+    delivered = []
+    class Telegram:
+        def send_shared_png(self, file, caption, title, gw):
+            delivered.append(("send", 725, caption))
+            return 725
+        def edit_shared_png(self, file, caption, message_id):
+            assert message_id == 725
+            assert caption.startswith("UPDATED")
+            delivered.append(("edit", message_id, caption))
+            return message_id
+    def render(snapshot, player, title, caption, action, path):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        Image.new("RGB", (1920, 1080)).save(path)
+    bot = Telegram()
+    first = news.run(cron="0 6 * * *", now=NOW + timedelta(hours=1),
+                     snapshot=snap(status="d"), telegram=bot, renderer=render)
+    assert first["posted"] == 1 and first["edited"] == 0
+    update = news.run(cron="0 7 * * *", now=NOW + timedelta(hours=2),
+                      snapshot=snap(status="i"), telegram=bot, renderer=render)
+    assert update["posted"] == 0 and update["edited"] == 1
+    assert [item[0] for item in delivered] == ["send", "edit"]
+    receipts = news.read_state(news.RECEIPTS)
+    assert len(receipts) == 1
+    assert next(iter(receipts.values()))["telegram_message_id"] == 725
+    assert next(iter(receipts.values()))["edit_count"] == 1
+    same = news.run(cron="0 8 * * *", now=NOW + timedelta(hours=3),
+                    snapshot=snap(status="i"), telegram=bot, renderer=render)
+    assert same["posted"] == 0 and same["edited"] == 0
+    assert len(delivered) == 2
+
+
+def test_failed_edit_is_held_without_creating_second_post(monkeypatch, tmp_path):
+    setup_files(monkeypatch, tmp_path)
+    news.run(cron="0 5 * * *", now=NOW, snapshot=snap())
+    calls = []
+    class Telegram:
+        def send_shared_png(self, *args):
+            calls.append("send")
+            return 725
+        def edit_shared_png(self, *args):
+            calls.append("edit")
+            raise RuntimeError("message can't be edited")
+    def render(snapshot, player, title, caption, action, path):
+        path.parent.mkdir(parents=True, exist_ok=True)
+        Image.new("RGB", (1920, 1080)).save(path)
+    bot = Telegram()
+    news.run(cron="0 6 * * *", now=NOW + timedelta(hours=1),
+             snapshot=snap(status="d"), telegram=bot, renderer=render)
+    update = news.run(cron="0 7 * * *", now=NOW + timedelta(hours=2),
+                      snapshot=snap(status="i"), telegram=bot, renderer=render)
+    assert update["posted"] == 0 and update["edited"] == 0 and update["held"] == 1
+    assert calls == ["send", "edit"]
+    assert next(iter(news.read_state(news.RECEIPTS).values()))["edit_count"] == 0
+
+
+def test_unserved_stale_queued_story_replaced_by_latest_evidence(monkeypatch, tmp_path):
+    setup_files(monkeypatch, tmp_path)
+    news.run(cron="0 5 * * *", now=NOW, snapshot=snap())
+    class Telegram:
+        def send_shared_png(self, *args):
+            return 100
+    def held(*args):
+        raise RuntimeError("source image 403")
+    first = news.run(cron="0 6 * * *", now=NOW + timedelta(hours=1),
+                     snapshot=snap(status="d"), telegram=Telegram(), renderer=held)
+    assert first["held"] == 1 and first["posted"] == 0
+    def render(snapshot, player, title, caption, action, path):
+        assert "injury flag" in caption
+        path.parent.mkdir(parents=True, exist_ok=True)
+        Image.new("RGB", (1920, 1080)).save(path)
+    result = news.run(cron="0 7 * * *", now=NOW + timedelta(hours=2),
+                      snapshot=snap(status="i"), telegram=Telegram(), renderer=render)
+    assert result["posted"] == 1
+    assert len(news.read_state(news.RECEIPTS)) == 1
