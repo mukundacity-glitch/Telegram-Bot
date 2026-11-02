@@ -85,14 +85,23 @@ def render_checked(article: Any, snapshot: Any, output: Path,
         result = render(article, output, session=session)
         # Keep the entire approved user master graphic, logo, and original
         # footer. The closing strip is restored and includes verified handles.
-        from .publication_rules import USABLE_ACTIONS
-        action = next((word for word in ("CAPTAIN", "SELL", "BUY", "BENCH",
-                                        "START", "HOLD", "MONITOR")
-                       if word in article.verdict.upper().split()),
-                      "MONITOR") if hasattr(article, "verdict") else "MONITOR"
+        action = "MONITOR"
+        if hasattr(article, "verdict"):
+            for choice in ("CAPTAIN", "SELL", "BUY", "BENCH", "START", "HOLD", "MONITOR"):
+                if re.search(r"\\b" + choice + r"\\b", article.verdict.upper()):
+                    action = choice
+                    break
         result = apply_footer(result, verdict=f"{action} • NEXT GW DECISION")
     with Image.open(result) as opened:
         if opened.width * 9 != opened.height * 16 or min(opened.size) < 800:
             raise RuntimeError("Final image failed full-resolution mobile-quality aspect check")
-        opened.verify()
+        if opened.size != (1920, 1080):
+            scaled = opened.convert("RGB").resize((1920, 1080), Image.Resampling.LANCZOS)
+            staging = result.with_suffix(".mobile.tmp.png")
+            scaled.save(staging, "PNG", optimize=True)
+            staging.replace(result)
+    with Image.open(result) as verified:
+        if verified.size != (1920, 1080):
+            raise RuntimeError("Final FPL VORTEX image must be 1920x1080")
+        verified.verify()
     return result
