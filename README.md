@@ -2,6 +2,26 @@
 
 Independent, no-paid-API required Python + GitHub Actions automation. **This repository is new**: do not fork, edit or commit into the user's existing repositories.
 
+## Automatic Telegram publishing — enabled
+
+**You do not have to click "Run workflow"** to start automatic publishing.
+GitHub Actions fires all 13 `schedule` entries on the default `main` branch.
+The manual workflow dropdown defaults to `auto`, not `test`. Clicking manual
+`auto` safely confirms the schedule configuration **without sending a message**;
+actual publication happens when a scheduled cron event triggers.
+
+Scheduled jobs are explicitly enabled; a stale `PUBLISH_ENABLED=false` repository
+variable can no longer silently prevent publishing. To stop scheduled posts,
+disable **FPL VORTEX Telegram Daily** from the repository's **Actions** tab.
+The 15-minute backup checks reuse the same scheduled-delivery ledger, so they
+cannot intentionally publish a duplicate after a successful first delivery.
+
+GitHub's cron service can still queue, delay, or occasionally drop scheduled
+runs. A scheduled job must successfully fetch official FPL data and verified
+images, pass its deadline checks, and send to Telegram; no setting can guarantee
+delivery if those prerequisites fail. The 07:00 bookmaker figures remain N/A
+until `THE_ODDS_API_KEY` and independent market odds are available.
+
 ## The schedule
 
 One **existing** GitHub Actions workflow, thirteen Eastern-time publication slots plus thirteen 15-minute-later catch-up checks (DST-aware). No new task or separate automation is created:
@@ -70,7 +90,7 @@ New manual preview choices: `preview-projections`, `preview-team_analysis`, `pre
 6. Add the other Actions secret `TELEGRAM_CHAT_ID` with that chat ID. For a Telegram channel, add the bot as an administrator and use its numeric channel chat ID instead. 
 7. Run workflow manually with **test**. Confirm you receive the Telegram test message.
 8. Run workflow manually with **comparison**. Confirm the PNG is downloadable and its text is correct.
-9. **Automatic Telegram publishing is ON by default** when the Actions workflow is enabled. To pause scheduled posts without disabling manual testing, set repository Actions Variable `PUBLISH_ENABLED=false`. Setting it back to `true` or deleting it resumes publishing.
+9. **Automatic Telegram publishing is ON by default.** You never need to press **Run workflow**. To stop posts, disable the existing **FPL VORTEX Telegram Daily** workflow under **Actions**; re-enable the same workflow to resume. A stale `PUBLISH_ENABLED` variable no longer blocks the scheduled publisher.
 
 **Warning:** The workflow is active. Telegram secrets are already connected in this deployment. All thirteen Eastern-time schedules run daily, including the 4 PM captaincy card. Schedules are best effort.
 

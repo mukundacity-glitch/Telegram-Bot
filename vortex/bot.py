@@ -42,6 +42,13 @@ def write_state(path: Path, data: dict[str, Any]) -> None:
 
 def run(requested: str, scheduled_cron: str | None = None) -> int:
     now = datetime.now(timezone.utc)
+    # The GitHub "Run workflow" button is NOT how to turn on cron.
+    # A manual AUTO selection must never send a test message or
+    # accidentally post a duplicate at the wrong time.
+    if requested == "auto" and not scheduled_cron:
+        print("AUTO SCHEDULING CONFIGURED: no manual post. GitHub's scheduled "
+              "cron events publish the appropriate slot automatically.")
+        return 0
     slot = resolve_slot(requested, scheduled_cron, now)
     client = TelegramClient()
     if slot == "discover":
