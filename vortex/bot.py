@@ -15,6 +15,7 @@ from .fpl import collect_snapshot, price_snapshot, upcoming_deadline
 from .render import render
 from .schedule import resolve_slot
 from .telegram import TelegramClient
+from .syndication import DiscordWebhookClient, NewsPost, publish_shared
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "state"
@@ -69,12 +70,15 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         return 0
 
     preview_only = slot == "preview" or slot.startswith("preview-")
+    dual_publish = os.getenv("DUAL_PUBLISH_ENABLED", "false").lower() == "true" and not preview_only
     publication_slot = "comparison" if slot == "preview" else slot.removeprefix("preview-") if preview_only else slot
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"
     delivery_state = read_state(delivery_state_path)
     key = f"{now.astimezone(ZoneInfo('America/New_York')).date()}:{slot}"
-    if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered"):
+    if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered") and (
+        not dual_publish or delivery_state.get(key, {}).get("discord_delivered")
+    ):
         print(f"ALREADY DELIVERED {key}; skipping duplicate")
         return 0
 
@@ -90,7 +94,9 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                 raise RuntimeError("Next-GW recommendation deadline has passed or is unavailable")
             # Existing slots retain their original dedup keys and publish behavior.
             key += f":GW{article.gw}"
-            if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered"):
+            if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered") and (
+                not dual_publish or delivery_state.get(key, {}).get("discord_delivered")
+            ):
                 print(f"ALREADY DELIVERED {key}; skipping duplicate")
                 return 0
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
@@ -99,15 +105,26 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
                 raise RuntimeError("GW deadline elapsed during recommendation generation")
-        message_id = client.send_png(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
-        if preview_only:
-            print(f"PREVIEW DELIVERED with Telegram message {message_id}; normal daily delivery state unchanged")
-            return 0
-        delivery_state[key] = {"delivered": True, "telegram_message_id": message_id, "timestamp": now.isoformat(), "gameweek": article.gw}
-        if len(delivery_state) > 150:
-            keys = sorted(delivery_state.keys())[-120:]
-            delivery_state = {old_key: delivery_state[old_key] for old_key in keys}
-        write_state(delivery_state_path, delivery_state)
+        if dual_publish:
+            # One canonical image/caption, two independent durable receipts.
+            # An existing Telegram delivery is never resent solely because
+            # Discord failed or was enabled later.
+            post = NewsPost(identity=key, title=article.title, caption=article.caption,
+                            gameweek=article.gw, image=path, source="Official FPL")
+            receipts = publish_shared(post, delivery_state_path, client,
+                                      DiscordWebhookClient(), now_iso=now.isoformat())
+            print(f"SHARED DELIVERY {key}: Telegram={bool(receipts.get('delivered'))}, "
+                  f"Discord={bool(receipts.get('discord_delivered'))}")
+        else:
+            message_id = client.send_png(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
+            if preview_only:
+                print(f"PREVIEW DELIVERED with Telegram message {message_id}; normal daily delivery state unchanged")
+                return 0
+            delivery_state[key] = {"delivered": True, "telegram_message_id": message_id, "timestamp": now.isoformat(), "gameweek": article.gw}
+            if len(delivery_state) > 150:
+                keys = sorted(delivery_state.keys())[-120:]
+                delivery_state = {old_key: delivery_state[old_key] for old_key in keys}
+            write_state(delivery_state_path, delivery_state)
         if slot == "prices":
             write_state(price_state_path, price_snapshot(snapshot))
         print(f"DELIVERED {key} with message {message_id} and {article.gw=} ({path.name})")
