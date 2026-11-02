@@ -110,7 +110,24 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
             # The news lane never silently falls back to text-only delivery.
             from dataclasses import replace
             image_path = NEWS_OUTPUT / f"{record.identity.replace(':', '_')}.png"
-            render_news_card(record, image_path)
+            if os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
+                # Keep original approved blue slide and genuine current player
+                # portrait/crest. Source and technical verification never enter
+                # the image; the same exact caption accompanies both channels.
+                from .content import Card, Content
+                from .player_profile import render_player_profile
+                if not record.photo_code or not record.club_code or not record.player_name:
+                    raise RuntimeError("Verified player identity and club portrait required")
+                tag = "PRICE CHANGE" if record.identity.startswith("price:") else "STATUS CHANGE"
+                visual = Content(
+                    kind="news_profile", title=tag, kicker="GW NEWS",
+                    cards=(Card(record.player_name, record.team_name, tag, (),
+                                record.photo_code, record.club_code),),
+                    verdict="MONITOR", caption=record.caption,
+                    data_at="", gw=record.gameweek, footer="")
+                render_player_profile(visual, snapshot, image_path)
+            else:
+                render_news_card(record, image_path)
             record = replace(record, image=image_path)
             result = publish_shared(record, RECEIPTS, telegram, discord,
                                     now_iso=current_time.isoformat())
