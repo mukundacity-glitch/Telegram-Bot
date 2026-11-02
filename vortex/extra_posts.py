@@ -14,6 +14,7 @@ from zoneinfo import ZoneInfo
 
 from .fpl import FplSnapshot, upcoming_deadline
 from .market_odds import verified_match_odds
+from .solio import solio_match_projections
 from .recommendations import number, integer, display
 
 ET = ZoneInfo("America/New_York")
@@ -93,7 +94,8 @@ def _fixture_model(snapshot: FplSnapshot, item: dict[str, Any],
         "bookmakers_away": odds.get("away_books", 0),
         "home_quote_utc": odds.get("home_quote_utc"),
         "away_quote_utc": odds.get("away_quote_utc"),
-        "odds_source": odds.get("source") or "NO VERIFIED 0.5 TEAM-TOTAL MARKET",
+        "odds_source": odds.get("source") or "NO VERIFIED GOAL/CS MODEL",
+        "model_generated_utc": odds.get("model_generated_utc"),
     }
 
 
@@ -266,17 +268,31 @@ def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost
     if kind == "projections":
         future = _next_fixtures(snapshot)
         odds = verified_match_odds(snapshot, future)
-        games = tuple(_fixture_model(snapshot, f, odds.get(f.get("id"))) for f in future)
+        # An independent two-bookmaker market takes priority; otherwise use
+        # fresh public Solio model values, never FDR masquerading as prG/CS%.
+        complete = lambda m: bool(m and all(m.get(k) is not None for k in (
+            "home_goals", "away_goals", "home_cs", "away_cs")))
+        missing = [f for f in future if not complete(odds.get(f.get("id")))]
+        solio = solio_match_projections(snapshot, future) if missing else {}
+        chosen = {f["id"]: (odds.get(f["id"]) if complete(odds.get(f["id"]))
+                             else solio.get(f["id"]) or odds.get(f["id"]))
+                  for f in future}
+        games = tuple(_fixture_model(snapshot, f, chosen.get(f.get("id"))) for f in future)
         n = len(games)
-        confirmed = sum(1 for f in games if f["home_goals"] is not None and f["away_goals"] is not None)
+        confirmed = sum(1 for f in games if complete(chosen.get(f["id"])))
+        solio_count = sum(1 for f in games if "Solio Analytics" in f["odds_source"])
+        label = ("Solio Analytics market-informed model" if solio_count == confirmed and confirmed
+                 else "verified markets + Solio model" if solio_count
+                 else "verified independent bookmaker markets" if confirmed
+                 else "no fresh verified goal/CS data")
         c = caption([
             f"GW{gw}: {n} verified matchups for the next GW.",
-            f"{confirmed}/{n} have valid independently modeled goal/CS rates.",
-            "Other figures omitted without verified market evidence.",
+            f"{confirmed}/{n} have source-verified projected goals and CS odds.",
+            f"Source: {label}; FDR is not a goal forecast.",
             "MONITOR fixtures and team news before investing.",
         ], gw)
         return ExtraPost(kind, f"GW{gw} · GOALS & CLEAN SHEETS", "ALL CLUBS · 10 MATCHUPS WHEN STANDARD",
-                         c, time_label, gw, "FPL fixtures + separately checked bookmaker markets", fixtures=games)
+                         c, time_label, gw, "Official FPL · " + label, fixtures=games)
     if kind == "team_analysis":
         subject = _best_team(snapshot, _next_fixtures(snapshot), now)
         c = caption([
