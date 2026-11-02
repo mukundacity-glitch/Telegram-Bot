@@ -282,6 +282,7 @@ jobs:
             state/deliveries.json
             state/editorial_versions.json
             state/ported_task_versions.json
+            state/projection_history.json
             state/news_deliveries.json
             state/telegram_news_deliveries.json
           if-no-files-found: ignore
@@ -290,13 +291,13 @@ jobs:
       - name: Preserve both-platform delivery receipts even after partial failure
         if: always()
         run: |
-          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json state/telegram_news_baseline.json state/telegram_news_pending.json state/telegram_news_deliveries.json)" ]; then
+          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/projection_history.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json state/telegram_news_baseline.json state/telegram_news_pending.json state/telegram_news_deliveries.json)" ]; then
             echo "No new state to commit."
             exit 0
           fi
           git config user.name 'FPL VORTEX Telegram Bot'
           git config user.email 'fpl-vortex-bot@users.noreply.github.com'
-          for file in state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json state/telegram_news_baseline.json state/telegram_news_pending.json state/telegram_news_deliveries.json; do
+          for file in state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/projection_history.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json state/telegram_news_baseline.json state/telegram_news_pending.json state/telegram_news_deliveries.json; do
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           git commit -m 'Update shared delivery receipts and official snapshots [skip ci]'

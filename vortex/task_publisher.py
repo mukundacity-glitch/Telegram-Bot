@@ -97,6 +97,11 @@ def run(*, cron: str | None = None, selected_name: str | None = None,
             raise RuntimeError("Invalid historical topic record; cannot risk reposting")
         try:
             post = generate_edition(edition, source, now, read_state(STATE / "prices.json"))
+            if edition.kind == "projections":
+                from .projection_trends import compare, require_publishable
+                require_publishable(post)
+                history = read_state(STATE / "projection_history.json")
+                post, _ = compare(post, history, now)
             if post.gw != gw:
                 raise RuntimeError("Output GW mismatch vs official next deadline")
             # A press report requires genuinely new official player flags.
@@ -154,6 +159,9 @@ def run(*, cron: str | None = None, selected_name: str | None = None,
             deliveries = read_state(RECEIPTS)
             if not (result.get("delivered") and result.get("discord_delivered")):
                 raise RuntimeError("Both actual posting receipts were not received")
+            if edition.kind == "projections":
+                from .projection_trends import record
+                write_state(STATE / "projection_history.json", record(post, history, now))
             report["published"] += 1
             print(f"POSTED BOTH {topic} Telegram#{result.get('telegram_message_id')} "
                   f"Discord#{result.get('discord_message_id')}")

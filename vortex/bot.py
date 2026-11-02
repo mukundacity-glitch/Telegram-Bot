@@ -93,7 +93,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
     editorial_path = STATE / "editorial_versions.json"
     editorial = read_state(editorial_path)
     key = f"{now.astimezone(ZoneInfo('America/New_York')).date()}:{slot}"
-    if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered") and (
+    if scheduled_cron and not preview_only and slot != "projections" and delivery_state.get(key, {}).get("delivered") and (
         not dual_publish or delivery_state.get(key, {}).get("discord_delivered")
     ):
         print(f"ALREADY DELIVERED {key}; skipping duplicate")
@@ -103,6 +103,15 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         snapshot = collect_snapshot()
         previous_prices = read_state(price_state_path)
         article = generate(publication_slot, snapshot, now, previous_prices)
+        projection_history_path = STATE / "projection_history.json"
+        projection_history = {}
+        if publication_slot == "projections":
+            from .projection_trends import compare, require_publishable
+            # Do not render or acknowledge an all-unverified FDR-only board.
+            require_publishable(article)
+            projection_history = read_state(projection_history_path)
+            article, major_moves = compare(article, projection_history, now)
+            print(f"PROJECTION QA: sufficient verified data; {major_moves} major moves")
         if (not preview_only
             and os.getenv("FPL_PORTED_TASKS_ENABLED", "false").lower() == "true"
             and dual_publish):
@@ -122,8 +131,26 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered") and (
                 not dual_publish or delivery_state.get(key, {}).get("discord_delivered")
             ):
-                print(f"ALREADY DELIVERED {key}; skipping duplicate")
-                return 0
+                if publication_slot != "projections":
+                    print(f"ALREADY DELIVERED {key}; skipping duplicate")
+                    return 0
+                # Old release delivered an unsourced FDR-only graphic.
+                # Permit exactly one sourced correction, but never a second
+                # successful full-coverage report on the same Eastern day.
+                from .publication_rules import publication_group, semantic_fingerprint
+                from math import ceil
+                prior = editorial.get(publication_group(article), {})
+                rows = (prior.get("evidence") or {}).get("fixtures") or []
+                valid_previous = sum(
+                    all(row.get(k) is not None for k in
+                        ("home_goals", "away_goals", "home_cs", "away_cs"))
+                    for row in rows
+                )
+                if not (prior.get("confirmed") and rows
+                        and valid_previous < ceil(0.8 * len(rows))):
+                    print(f"ALREADY DELIVERED {key}; one valid daily board already sent")
+                    return 0
+                key += f":corrected:{semantic_fingerprint(article)[:12]}"
         if not preview_only and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
             group, article, key, version, evidence, already_posted = check_revision(
                 editorial, article, delivery_state, key, dual_publish)
@@ -133,7 +160,8 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             editorial[group] = revision_record(
                 group, key, version, evidence, delivery_state.get(key, {}),
                 dual_publish, now.isoformat())
-            write_state(editorial_path, editorial)
+            # Write the new version only AFTER rendering and delivery.
+            # A missing crest must not leave a permanent pending revision.
         else:
             group = None
 
@@ -185,6 +213,9 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                 write_state(editorial_path, editorial)
         if slot == "prices":
             write_state(price_state_path, price_snapshot(snapshot))
+        if publication_slot == "projections" and not preview_only:
+            from .projection_trends import record
+            write_state(projection_history_path, record(article, projection_history, now))
         print(f"DELIVERED {key} with message {message_id} and {article.gw=} ({path.name})")
         return 0
     except Exception as error:
