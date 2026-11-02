@@ -142,3 +142,22 @@ def test_new_schedule_is_non_conflicting_and_has_backup():
     assert len(set(SLOT_HOURS.values())) == len(SLOT_HOURS)
     assert SLOT_CRONS["15 9 * * *"] == "buy"
     assert SLOT_CRONS["45 18 * * *"] == "sell"
+
+
+def test_recommendation_risk_text_is_bounded_by_card_width():
+    from PIL import ImageDraw
+    from vortex.premium import _safe_line
+    img = Image.new("RGB", (600, 100), (0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    left, width = 20, 315
+    before = Image.new("RGB", img.size, (0, 0, 0))
+    _safe_line(draw,
+               "RISK: HOLD if a free transfer has higher value elsewhere because an exceptionally "
+               "long official status note might otherwise overlap the adjacent player card",
+               left, 20, width, 15, (255, 255, 255), 13)
+    # Text pixels must stay entirely within the assigned card's usable region.
+    changes = Image.new("RGB", img.size)
+    from PIL import ImageChops
+    bbox = ImageChops.difference(img, before).getbbox()
+    assert bbox is not None
+    assert bbox[2] <= left + width + 1
