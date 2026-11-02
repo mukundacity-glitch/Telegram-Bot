@@ -56,6 +56,11 @@ on:
       timezone: America/New_York
     - cron: '0 20 * * *'
       timezone: America/New_York
+    # Fill missing hourly 17:00/18:00 checks (original 17:30/18:30 stay).
+    - cron: '0 17 * * *'
+      timezone: America/New_York
+    - cron: '0 18 * * *'
+      timezone: America/New_York
     # Verified NEW official FPL news window closes at 21:00 Eastern.
     # This is an extra check in the EXISTING workflow, not a new task.
     - cron: '0 21 * * *'
@@ -166,7 +171,7 @@ jobs:
 
       - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
-        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 21 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
+        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 17 * * *","0 18 * * *","0 21 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
