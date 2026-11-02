@@ -58,13 +58,13 @@ on:
   workflow_dispatch:
     inputs:
       slot:
-        description: 'Run a specific slot or discover/test Telegram chat'
+        description: 'Scheduled posts run automatically. Manual auto does not send a test or duplicate post.'
         required: true
         type: choice
-        default: test
+        default: auto
         options:
+          - auto
           - discover
-          - test
           - elite
           - comparison
           - preview
@@ -101,7 +101,9 @@ concurrency:
 
 jobs:
   publish:
-    if: ${{ github.event_name == 'workflow_dispatch' || vars.PUBLISH_ENABLED != 'false' }}
+    # Scheduled publishing is ON. To stop all posts, disable this workflow in GitHub Actions.
+    # Do not rely on a stale PUBLISH_ENABLED variable that can silently skip cron runs.
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     timeout-minutes: 14
     steps:
@@ -128,7 +130,9 @@ jobs:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
-          REQUESTED_SLOT: ${{ inputs.slot || 'auto' }}
+          # A cron trigger must always enter the automatic, gameweek-aware dispatcher.
+          # Manual input never changes a scheduled run.
+          REQUESTED_SLOT: ${{ github.event_name == 'schedule' && 'auto' || inputs.slot || 'auto' }}
         run: |
           python -m vortex.bot --slot "$REQUESTED_SLOT"
 
