@@ -518,5 +518,84 @@
     "group": "projections:10:general",
     "timestamp": "2026-11-02T21:38:17.656338+00:00",
     "version": "9f41edc88119e55c83e5ae687aeeefa69e3d086ddcc49c8328edbd2c5e9095dd"
+  },
+  "team_analysis:10:Everton": {
+    "confirmed": true,
+    "delivery_key": "2026-11-02:team_analysis:GW10",
+    "evidence": {
+      "gw": 10,
+      "history": [
+        {
+          "ga": 0,
+          "gf": 2,
+          "gw": 1,
+          "kickoff": "2026-08-22T14:00:00Z",
+          "opponent": "CRY",
+          "venue": "H"
+        },
+        {
+          "ga": 1,
+          "gf": 1,
+          "gw": 2,
+          "kickoff": "2026-08-29T14:00:00Z",
+          "opponent": "BOU",
+          "venue": "A"
+        },
+        {
+          "ga": 2,
+          "gf": 2,
+          "gw": 3,
+          "kickoff": "2026-09-06T13:00:00Z",
+          "opponent": "MUN",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 0,
+          "gw": 4,
+          "kickoff": "2026-09-12T16:30:00Z",
+          "opponent": "TOT",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 5,
+          "kickoff": "2026-09-19T14:00:00Z",
+          "opponent": "IPS",
+          "venue": "H"
+        },
+        {
+          "ga": 2,
+          "gf": 2,
+          "gw": 6,
+          "kickoff": "2026-10-11T13:00:00Z",
+          "opponent": "HUL",
+          "venue": "A"
+        },
+        {
+          "ga": 2,
+          "gf": 0,
+          "gw": 7,
+          "kickoff": "2026-10-17T11:30:00Z",
+          "opponent": "CHE",
+          "venue": "H"
+        },
+        {
+          "ga": 2,
+          "gf": 0,
+          "gw": 8,
+          "kickoff": "2026-10-24T14:00:00Z",
+          "opponent": "ARS",
+          "venue": "A"
+        }
+      ],
+      "kind": "team_analysis",
+      "players": [],
+      "team": "Everton"
+    },
+    "group": "team_analysis:10:Everton",
+    "timestamp": "2026-11-02T23:21:55.946893+00:00",
+    "version": "8a4a2636c93d29b8e4593989a0bfa6d402d1abc4230c9474011dd609ebebbb85"
   }
 }
