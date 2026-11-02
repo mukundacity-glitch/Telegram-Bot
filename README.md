@@ -4,20 +4,32 @@ Independent, no-paid-API required Python + GitHub Actions automation. **This rep
 
 ## The schedule
 
-One GitHub Actions workflow, eight Eastern-time publication slots plus eight 15-minute-later catch-up checks (DST-aware):
+One GitHub Actions workflow, ten Eastern-time publication slots plus ten 15-minute-later catch-up checks (DST-aware):
 
 | ET | Content | Frequency |
 |---|---|---|
 | 6:30 AM | Elite under-owned scout pick | Daily |
 | 8:00 AM | Player comparison | Daily |
+| 9:00 AM | Four next-GW buy candidates (firm or conditional) | Daily |
 | 10:00 AM | Official FPL player-status/news board | Daily |
 | 12:00 PM | Confirmed official FPL price snapshot differences | Daily |
 | 2:00 PM | Transfer comparison/decision | Daily |
 | 4:00 PM | Captaincy showdown | Daily |
 | 5:30 PM | Last completed gameweek review | Daily |
+| 6:30 PM | Four next-GW sell candidates (firm or conditional) | Daily |
 | 8:00 PM | Evening assists/creator watch | Daily |
 
 Each successful delivery sends a downloadable 1536×864 branded PNG **document** to Telegram, with 5 short X-copy lines followed by exactly `#FPL #GW<number> #FPLVortex` in a code-formatted caption. The graphic contains sourced official FPL details. Telegram does **not** automatically publish on X.
+
+## Next-GW recommendations and metric periods
+
+The two new graphics target the **first future FPL deadline event**. They identify the most recently **confirmed completed** review GW by checking the official event completion marker **and every assigned fixture**, rather than subtracting one from the next event. During an unfinished round the review explicitly notes that the prior round remains live; postponed fixtures prevent premature completion labels.
+
+The next-GW BUY/SELL research starts with the official `transfers_in_event` and `transfers_out_event` counters, clearly labeled **event-to-date at the snapshot**. These counters are not 24-hour movements and are not treated as evidence of managers' motives. Four names appear, but those without a defensible strong verdict are explicitly **WATCHLIST**. Only the next gameweek's official fixtures enter the FDR table; a blank is marked and double fixtures are individually shown. No automatic transfer or points hit is executed.
+
+Season counts, points from the last three **verified completed** gameweeks, and official current playing status are kept separate. Outfield defensive contributions are **actions**, not automatic points: the award is +2 points per match at 10 (DEF) or 12 (MID/FWD) qualifying actions, never to GK. GK save points are calculated per fixture in groups of three saves, not from season totals. If a required metric is absent it is N/A, never an assumed zero. Featured authentic Premier League portraits and crests are mandatory for the two new graphics, otherwise the publish fails closed.
+
+The default Telegram copy and `#FPL #GW<number> #FPLVortex` hashtag line remain unchanged. Use workflow dispatch `preview-buy` or `preview-sell` to send a **preview to Telegram** without writing the scheduled-delivery ledger; use normal `buy`/`sell` only when intentional repeat posting is desired. All source retrieval timestamps display **America/New_York**.
 
 ## Important limits
 
@@ -43,7 +55,7 @@ Each successful delivery sends a downloadable 1536×864 branded PNG **document**
 8. Run workflow manually with **comparison**. Confirm the PNG is downloadable and its text is correct.
 9. **Automatic Telegram publishing is ON by default** when the Actions workflow is enabled. To pause scheduled posts without disabling manual testing, set repository Actions Variable `PUBLISH_ENABLED=false`. Setting it back to `true` or deleting it resumes publishing.
 
-**Warning:** The workflow is active. Telegram secrets are already connected in this deployment. All eight Eastern-time schedules run daily, including the 4 PM captaincy card. Schedules are best effort.
+**Warning:** The workflow is active. Telegram secrets are already connected in this deployment. All ten Eastern-time schedules run daily, including the 4 PM captaincy card. Schedules are best effort.
 
 ## Assists background
 
@@ -79,7 +91,7 @@ The mock design preview contains illustrative sample values and is **not** proof
 
 ## All eight premium layouts and manual preview
 
-Seven additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, `captaincy`, `review`, `elite`, and `evening`, with `transfer` sharing the two-player comparison layout. All feature the same typography, high-contrast cyan/gold section headers, portrait-led player cards, visible club badges, official FPL metrics, result-focused verdict strips, and safe no-update states. The module tests include full rendering and required-image validation for every slot.
+Additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, `captaincy`, `review`, `elite`, and `evening`, with `transfer` sharing the two-player comparison layout. All feature the same typography, high-contrast cyan/gold section headers, portrait-led player cards, visible club badges, official FPL metrics, result-focused verdict strips, and safe no-update states. The module tests include full rendering and required-image validation for every slot.
 
 To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-news`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review`, `preview-elite`, or `preview-evening`.
 
