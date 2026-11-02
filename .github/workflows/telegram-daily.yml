@@ -270,6 +270,11 @@ jobs:
           path: |
             output/*.png
             output/telegram-news/*.png
+            state/deliveries.json
+            state/editorial_versions.json
+            state/ported_task_versions.json
+            state/news_deliveries.json
+            state/telegram_news_deliveries.json
           if-no-files-found: ignore
           retention-days: 2
 
@@ -286,7 +291,25 @@ jobs:
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           git commit -m 'Update shared delivery receipts and official snapshots [skip ci]'
-          git push origin HEAD:${{ github.ref_name }}
+          # A verified platform message may have been sent while a PR changed
+          # main. Rebase ONLY our receipt commit; never force-push or silently
+          # discard a Telegram/Discord delivery ID after a fast-forward race.
+          for attempt in 1 2 3 4; do
+            if git push origin HEAD:${{ github.ref_name }}; then
+              echo "Receipt state safely persisted on GitHub."
+              exit 0
+            fi
+            echo "Receipt push race: fetching latest default branch and rebasing."
+            git fetch origin ${{ github.ref_name }}
+            if ! git rebase origin/${{ github.ref_name }}; then
+              git rebase --abort || true
+              echo "::error::Receipt ledger rebase conflict; archived state is in this run's artifact. Manual reconciliation required before replay."
+              exit 1
+            fi
+            sleep 2
+          done
+          echo "::error::Unable to persist delivery receipts after four safe retries."
+          exit 1
 
 # Authorized direct publication attempt after user confirmed GitHub Actions Discord secret.
 # Uses current FPL data, paired per-platform receipts and existing duplicate safeguards.
