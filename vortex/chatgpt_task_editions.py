@@ -62,7 +62,14 @@ COVERED_BY_ORIGINAL = {
 def due_editions(now: datetime, cron: str | None = None) -> tuple[Edition, ...]:
     local = now.astimezone(ET)
     if cron:
-        candidate = CRONS.get(cron.strip())
+        # 05:00/05:15 ET are early checks for the EXISTING 06:00 Task 1
+        # availability edition. Same task, same GW/topic/content version,
+        # shared receipts: an unchanged 06:00 rerun is a no-op.
+        requested = cron.strip()
+        candidate = (next(e for e in EDITIONS
+                          if e.task == "task1" and e.kind == "availability")
+                     if requested in ("0 5 * * *", "15 5 * * *")
+                     else CRONS.get(requested))
         selected = (candidate,) if candidate else ()
     else:
         selected = tuple(e for e in EDITIONS
