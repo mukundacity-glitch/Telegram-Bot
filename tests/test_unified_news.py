@@ -198,8 +198,8 @@ def test_x_source_registry_rss_filters_and_deduplicates():
             self.calls.append(url)
             return Response()
     session = Session()
-    registry = {"feeds": [{"id": "rss-a", "url": "https://feeds.example/a"},
-                          {"id": "rss-b", "url": "https://feeds.example/b"}]}
+    registry = {"feeds": [{"id": "rss-a", "url": "https://feeds.bbci.co.uk/a"},
+                          {"id": "rss-b", "url": "https://feeds.bbci.co.uk/b"}]}
     posts = collect_reported_headlines(sample_snapshot(now), now,
                                       session=session, registry=registry)
     assert len(session.calls) == 2
@@ -207,3 +207,13 @@ def test_x_source_registry_rss_filters_and_deduplicates():
     assert posts[0].source == "rss-a"
     assert "Report only; details not independently confirmed." in posts[0].caption
     assert "https://example.org/arsenal/1" in posts[0].caption
+
+
+def test_unapproved_feed_host_is_not_fetched():
+    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+    class NeverRequest:
+        def get(self, url, **kwargs):
+            raise AssertionError("Unapproved external domain must not be fetched")
+    registry = {"feeds": [{"id": "bad", "url": "https://127.0.0.1/internal"}]}
+    assert collect_reported_headlines(sample_snapshot(now), now, session=NeverRequest(),
+                                      registry=registry) == []
