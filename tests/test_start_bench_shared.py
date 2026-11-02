@@ -31,7 +31,7 @@ def test_start_bench_is_one_unique_card_per_player_and_four_positions():
     for group in (output.start_bench[:5], output.start_bench[5:]):
         assert {p["pos"] for p in group} == {"GK", "DEF", "MID", "FWD"}
     assert all(p["photo_code"] is not None and p["club_code"] is not None
-               and p["xpts"] == "N/A" for p in output.start_bench)
+               and p["xpts"] is None for p in output.start_bench)
     assert len([word for word in output.caption.split() if word.startswith("#")]) == 4
 
 
