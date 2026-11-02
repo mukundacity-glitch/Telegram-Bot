@@ -18,6 +18,8 @@ on:
       timezone: America/New_York
     - cron: '0 12 * * *'
       timezone: America/New_York
+    - cron: '0 13 * * *'
+      timezone: America/New_York
     - cron: '0 14 * * *'
       timezone: America/New_York
     - cron: '0 15 * * *'
@@ -46,6 +48,8 @@ on:
     - cron: '25 11 * * *'
       timezone: America/New_York
     - cron: '15 12 * * *'
+      timezone: America/New_York
+    - cron: '15 13 * * *'
       timezone: America/New_York
     - cron: '15 14 * * *'
       timezone: America/New_York
@@ -84,6 +88,7 @@ on:
           - preview-sell
           - preview-projections
           - preview-midfielders
+          - preview-start_bench
           - preview-team_analysis
           - preview-transfer_suggestions
           - news
@@ -97,6 +102,7 @@ on:
           - projections
           - team_analysis
           - midfielders
+          - start_bench
           - transfer_suggestions
 
 permissions:
