@@ -155,6 +155,6 @@ def test_shared_delivery_backfills_only_discord_for_previously_delivered_slot(
     journal = bot.read_state(bot.STATE / "deliveries.json")
     key = f"{datetime.now(timezone.utc).astimezone(ZoneInfo('America/New_York')).date()}:comparison"
     assert journal[key]["discord_delivered"] is True
-    assert journal[key]["telegram_message_id"] != 0 if "telegram_message_id" in journal[key] else True
+    assert journal[key]["delivered"] is True
     assert bot.run("auto", "15 8 * * *") == 0
     assert len(posts) == 1
