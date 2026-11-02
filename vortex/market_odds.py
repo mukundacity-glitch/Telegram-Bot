@@ -147,8 +147,10 @@ def _projection(quotes: list[tuple[str, float, float]]) -> dict[str, Any] | None
     goals = -log(p_nil)
     if not 0 <= goals <= 5:
         return None
+    latest_quote = datetime.fromtimestamp(max(row[2] for row in quotes), tz=timezone.utc)
     return {"goals": round(goals, 2), "p_zero": p_nil,
-            "books": len(unique), "source": "The Odds API · team totals 0.5"}
+            "books": len(unique), "updated_at": latest_quote.isoformat(),
+            "source": "The Odds API · team totals 0.5"}
 
 
 def verified_match_odds(snapshot: FplSnapshot,
@@ -196,6 +198,8 @@ def verified_match_odds(snapshot: FplSnapshot,
             "away_cs": round(h["p_zero"] * 100) if h else None,
             "home_books": h["books"] if h else 0,
             "away_books": a["books"] if a else 0,
+            "home_quote_utc": h["updated_at"] if h else None,
+            "away_quote_utc": a["updated_at"] if a else None,
             "source": "The Odds API · 2+ books · team totals O/U 0.5",
             "method": "no-vig, Poisson-equivalent mean",
         }
