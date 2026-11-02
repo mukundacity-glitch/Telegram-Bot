@@ -120,6 +120,17 @@ def _header(canvas: Image.Image, content: Content) -> None:
 
 def _footer(canvas: Image.Image, content: Content) -> None:
     draw = ImageDraw.Draw(canvas, 'RGBA')
+    if content.kind in ('buy', 'sell'):
+        draw.rounded_rectangle((69, 755, 1468, 796), radius=10,
+                               fill=(0, 13, 35, 251), outline=(*CYAN, 221), width=2)
+        _center_text(draw, 764, 761, content.verdict.upper(),
+                     _fitted_font(draw, content.verdict.upper(), 1250, 25, 19), WHITE)
+        draw.rectangle((1162, 802, 1536, 864), fill=(0, 12, 30, 244))
+        _center_text(draw, 1347, 806, 'Source: Official Fantasy Premier League API',
+                     _font(14, bold=False), MUTED)
+        _center_text(draw, 1347, 831, 'Verified ' + content.data_at,
+                     _fitted_font(draw, 'Verified ' + content.data_at, 350, 15, 11), MUTED)
+        return
     draw.rounded_rectangle((69, 735, 1468, 797), radius=13,
                            fill=(0, 13, 35, 251), outline=(*CYAN, 221), width=3)
     _center_text(draw, 764, 748, content.verdict.upper(),
@@ -275,9 +286,67 @@ def _four_card_layout(canvas: Image.Image, content: Content,
             _text(draw, 'VERIFIED OFFICIAL FPL DATA', x + 22, 666, width - 44, 16, MUTED)
 
 
+
+def _recommendation_layout(canvas: Image.Image, content: Content,
+                           media: list[tuple[Image.Image | None, Image.Image | None]]) -> None:
+    """Four portrait-first compact cards and an exact next-GW fixture/FDR strip."""
+    if len(content.cards) != 4:
+        raise ValueError('Recommendation graphic needs exactly four evaluated players')
+    draw = ImageDraw.Draw(canvas, 'RGBA')
+    gap = 14
+    width = (1474 - 3 * gap) // 4
+    for index, (card, (portrait, crest)) in enumerate(zip(content.cards, media)):
+        if card.metrics is None or portrait is None or crest is None:
+            raise RuntimeError('BUY/SELL publication requires verified player photo and club crest')
+        x = 31 + index * (width + gap)
+        m = card.metrics
+        accent = PALETTE[index] if card.label != 'WATCHLIST' else MUTED
+        _panel(draw, (x, 151, x + width, 631), accent)
+        status_color = GREEN if card.label == 'BUY' else MAGENTA if card.label == 'SELL' else MUTED
+        draw.rounded_rectangle((x + 17, 165, x + 155, 202), radius=9,
+                               fill=(6, 31, 56, 253), outline=(*status_color, 220), width=2)
+        _text(draw, card.label, x + 30, 168, 116, 23, status_color, 19)
+        _text(draw, card.headline.upper(), x + 17, 211, width - 98, 33, WHITE, 20)
+        _text(draw, card.subtitle.upper(), x + 18, 253, width - 35, 23, GOLD, 18)
+        _crest(canvas, crest, x + width - 80, 204, 64)
+        _photo(canvas, portrait, (x + 172, 287, x + width - 11, 462), accent)
+        transfer_label = 'IN · EVENT TO DATE' if content.kind == 'buy' else 'OUT · EVENT TO DATE'
+        _badge(draw, str(m.get('transfers', 'N/A')), transfer_label,
+               (x + 15, 296, x + 162, 366), accent)
+        _badge(draw, str(m.get('price', 'N/A')), 'PRICE',
+               (x + 15, 378, x + 162, 445), accent)
+        _text(draw, 'OWN ' + str(m.get('ownership', 'N/A')) + '  •  FORM ' + str(m.get('form', 'N/A')),
+              x + 16, 451, width - 30, 19, CYAN, 15)
+        draw.line((x + 14, 479, x + width - 14, 479), fill=(*accent, 125), width=2)
+        _text(draw, str(m.get('season_stat', 'N/A')), x + 17, 486, width - 32, 21, WHITE, 14)
+        _text(draw, str(m.get('recent_stat', 'N/A')), x + 17, 515, width - 32, 19, WHITE, 14)
+        _wrapped(draw, str(m.get('reason', '')), x + 17, 544, width - 34, 2, 18, GOLD)
+        risk_text = str(m.get('caveat', '')).split('. ')[0]
+        _text(draw, 'RISK: ' + risk_text, x + 16, 604, width - 32, 15, MUTED, 13)
+
+    # Compact next-GW FDR table; doubles are explicitly two entries, blanks marked.
+    draw.rounded_rectangle((41, 641, 1494, 746), radius=12,
+                           fill=(0, 13, 35, 252), outline=(*CYAN, 202), width=2)
+    _text(draw, f'GW{content.gw} · EXACT FIXTURES / OFFICIAL FDR', 59, 647, 850, 20, CYAN, 17)
+    for index, card in enumerate(content.cards):
+        x = 58 + index * (width + gap)
+        _text(draw, card.headline.upper(), x, 672, width - 15, 18, GOLD, 15)
+        if not card.fixtures:
+            _text(draw, 'BLANK · NO FIXTURE', x, 701, width - 16, 19, MAGENTA, 16)
+            continue
+        for line, (opp, venue, difficulty, _code) in enumerate(card.fixtures[:2]):
+            yy = 701 + line * 23
+            color = _fixture_color(difficulty) if 1 <= difficulty <= 5 else MUTED
+            _text(draw, f'{opp} ({venue}) · FDR {difficulty if difficulty else "N/A"}',
+                  x, yy, width - 16, 19, color, 16)
+        if len(card.fixtures) > 2:
+            _text(draw, f'+{len(card.fixtures)-2} more (verify full fixture list)',
+                  x, 736, width - 16, 12, MUTED, 11)
+
+
 def render_premium(content: Content, output: Path, session: requests.Session) -> Path:
     """Render verified data with club crests when a CDN player portrait is unavailable."""
-    supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening'}
+    supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening', 'buy', 'sell'}
     if content.kind not in supported:
         raise ValueError(f'No premium layout for {content.kind}')
     if not content.cards:
@@ -287,6 +356,8 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
     _header(canvas, content)
     if content.kind == 'elite':
         _large_feature(canvas, content, content.cards[0], *media[0], session)
+    elif content.kind in ('buy', 'sell'):
+        _recommendation_layout(canvas, content, media)
     elif content.kind == 'news':
         _news(canvas, content, media, session)
     else:
