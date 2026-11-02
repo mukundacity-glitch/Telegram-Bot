@@ -8,7 +8,7 @@ from pathlib import Path
 import pytest
 
 from vortex.fpl import FplSnapshot
-from vortex.news_sources import _feed_items, collect_fpl_changes, fpl_baseline, _tags
+from vortex.news_sources import _feed_items, collect_fpl_changes, collect_reported_headlines, fpl_baseline, _tags
 from vortex.syndication import DiscordWebhookClient, NewsPost, load_journal, publish_shared
 import vortex.unified_runner as runner
 
@@ -158,3 +158,52 @@ def test_discord_rate_limit_bounded_and_success():
     assert receipt == "123"
     assert len(session.calls) == 2 and sleeps == [0.5]
     assert all(call["json"]["allowed_mentions"] == {"parse": []} for call in session.calls)
+
+
+
+def test_telegram_failure_does_not_block_discord_and_recovers(tmp_path):
+    class FailingTelegram(FakeTelegram):
+        fail = True
+        def send_text(self, text):
+            self.calls += 1
+            if self.fail:
+                raise RuntimeError("temporarily unavailable")
+            return 42
+
+    path = tmp_path / "receipts.json"
+    telegram, discord = FailingTelegram(), FakeDiscord()
+    post = NewsPost("new-story", "headline", "verified fact and tags", 10)
+    with pytest.raises(RuntimeError):
+        publish_shared(post, path, telegram, discord)
+    assert telegram.calls == discord.calls == 1
+    assert load_journal(path)["new-story"]["discord_delivered"] is True
+    telegram.fail = False
+    publish_shared(post, path, telegram, discord)
+    assert (telegram.calls, discord.calls) == (2, 1)
+
+
+def test_x_source_registry_rss_filters_and_deduplicates():
+    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
+    xml = ('''<rss><channel><item><title>Arsenal injury update from club</title>
+    <link>https://example.org/arsenal/1</link><pubDate>Mon, 02 Nov 2026 11:00:00 GMT</pubDate>
+    </item></channel></rss>''').encode()
+    class Response:
+        content = xml
+        def raise_for_status(self):
+            return None
+    class Session:
+        def __init__(self):
+            self.calls = []
+        def get(self, url, **kwargs):
+            self.calls.append(url)
+            return Response()
+    session = Session()
+    registry = {"feeds": [{"id": "rss-a", "url": "https://feeds.example/a"},
+                          {"id": "rss-b", "url": "https://feeds.example/b"}]}
+    posts = collect_reported_headlines(sample_snapshot(now), now,
+                                      session=session, registry=registry)
+    assert len(session.calls) == 2
+    assert len(posts) == 1
+    assert posts[0].source == "rss-a"
+    assert "Report only; details not independently confirmed." in posts[0].caption
+    assert "https://example.org/arsenal/1" in posts[0].caption
