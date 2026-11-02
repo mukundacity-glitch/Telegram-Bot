@@ -32,6 +32,7 @@ class ExtraPost:
     fixtures: tuple[dict[str, Any], ...] = ()
     team_analysis: dict[str, Any] | None = None
     transfers: tuple[dict[str, Any], ...] = ()
+    start_bench: tuple[dict[str, Any], ...] = ()
 
 
 def caption(lines: list[str], gw: int) -> str:
@@ -84,6 +85,10 @@ def _fixture_model(snapshot: FplSnapshot, item: dict[str, Any],
         "away_goals": odds.get("away_goals"),
         "home_cs": odds.get("home_cs"),
         "away_cs": odds.get("away_cs"),
+        "home_win_market_pct": odds.get("home_win_market_pct"),
+        "draw_market_pct": odds.get("draw_market_pct"),
+        "away_win_market_pct": odds.get("away_win_market_pct"),
+        "win_market_bookmakers": odds.get("win_market_bookmakers", 0),
         "bookmakers_home": odds.get("home_books", 0),
         "bookmakers_away": odds.get("away_books", 0),
         "home_quote_utc": odds.get("home_quote_utc"),
@@ -248,6 +253,9 @@ def _transfers(snapshot: FplSnapshot) -> list[dict[str, Any]]:
 
 
 def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost:
+    if kind == "start_bench":
+        from .decision_board import start_bench
+        return start_bench(snapshot, now)
     if kind not in {"projections", "team_analysis", "transfer_suggestions"}:
         raise ValueError("Unsupported extra post kind")
     gw = snapshot.gameweek()

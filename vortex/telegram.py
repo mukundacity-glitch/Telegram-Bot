@@ -64,6 +64,26 @@ class TelegramClient:
         payload = self._post("sendMessage", {"chat_id": self.chat_id, "text": text[:4000]})
         return int(payload["result"]["message_id"])
 
+    def send_shared_png(self, image: Path, caption: str, title: str, gw: int) -> int:
+        """Send exact copy-ready caption in Telegram; identical to Discord text.
+
+        This is opt-in for the shared news system only. Legacy Telegram
+        send_png remains unchanged until verified production cutover.
+        """
+        if not self.chat_id:
+            raise ValueError("TELEGRAM_CHAT_ID secret is not configured")
+        if not image.is_file() or image.stat().st_size < 500:
+            raise ValueError("Shared PNG is missing or unexpectedly small")
+        if not caption.strip() or len(caption) > 1024:
+            raise ValueError("Shared Telegram caption must fit in 1024 characters")
+        with image.open("rb") as source:
+            data = self._post(
+                "sendPhoto",
+                {"chat_id": self.chat_id, "caption": caption},
+                {"photo": (image.name, source, "image/png")},
+            )
+        return int(data["result"]["message_id"])
+
     def send_png(self, image: Path, caption: str, title: str, gw: int) -> int:
         if not self.chat_id:
             raise ValueError("TELEGRAM_CHAT_ID secret is not configured")

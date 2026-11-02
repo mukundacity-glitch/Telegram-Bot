@@ -124,12 +124,46 @@ def test_existing_cron_still_executes_normal_publish(delivery_environment):
     assert delivery_environment == ["THE FPL DECISION ROOM"]
 
 
-def test_workflow_default_is_auto_and_never_test():
+def test_workflow_defaults_to_direct_post_without_test_or_preview_ui():
     """Regression guard on workflow_dispatch and forced scheduled AUTO selection."""
     path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "telegram-daily.yml"
     workflow = path.read_text(encoding="utf-8")
-    assert "default: auto" in workflow
+    # Manual workflow selector posts the selected edition; no preview/test choice.
+    assert "default: task-edition" in workflow
+    assert "\n          - task-edition\n" in workflow
+    assert "\n          - preview\n" not in workflow
+    assert "\n          - audit-news\n" not in workflow
+    assert "\n          - audit-tasks\n" not in workflow
     assert "default: test" not in workflow
     assert "\\n          - test\\n" not in workflow
     assert "REQUESTED_SLOT: ${{ github.event_name == 'schedule' && 'auto' || inputs.slot || 'auto' }}" in workflow
     assert "timezone: America/New_York" in workflow
+
+
+
+def test_shared_delivery_backfills_only_discord_for_previously_delivered_slot(
+    delivery_environment, monkeypatch
+):
+    """No duplicate Telegram photo if Discord is enabled after the slot ran."""
+    posts = []
+
+    class FakeDiscord:
+        def send(self, post):
+            posts.append((post.title, post.caption, post.gameweek))
+            return "discord-883"
+
+    monkeypatch.setenv("DUAL_PUBLISH_ENABLED", "true")
+    # Mocked Telegram/Discord transports: inert non-network secrets for preflight.
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "INERT-UNIT-TEST")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "INERT-UNIT-TEST")
+    monkeypatch.setenv("DISCORD_WEBHOOK_URL", "https://discord.com/api/webhooks/0/inert-test")
+    monkeypatch.setattr(bot, "DiscordWebhookClient", FakeDiscord)
+    assert bot.run("auto", "0 8 * * *") == 0
+    assert delivery_environment == []
+    assert posts == [("THE FPL DECISION ROOM", "six\nline\ncaption\nfor\nunit\ntest", 7)]
+    journal = bot.read_state(bot.STATE / "deliveries.json")
+    key = f"{datetime.now(timezone.utc).astimezone(ZoneInfo('America/New_York')).date()}:comparison"
+    assert journal[key]["discord_delivered"] is True
+    assert journal[key]["delivered"] is True
+    assert bot.run("auto", "15 8 * * *") == 0
+    assert len(posts) == 1

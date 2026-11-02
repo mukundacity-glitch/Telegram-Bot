@@ -85,7 +85,7 @@ def _caption(lines: list[str], gw: int) -> str:
     if len(lines) != 5:
         raise ValueError("Exactly five X caption lines required")
     sanitized = [line.replace("\n", " ").replace("#", "").strip() for line in lines]
-    hashtags = f"#FPL #GW{gw} #FPLVortex"
+    hashtags = f"#FPL #GW{gw} #FPLVortex #PremierLeague"
     result = "\n".join([*sanitized, hashtags])
     if len(result) > 280:
         raise ValueError(f"X description too long ({len(result)} characters)")
@@ -95,9 +95,12 @@ def _caption(lines: list[str], gw: int) -> str:
 
 
 def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: dict[str, Any]) -> Content:
-    if kind in ("projections", "team_analysis", "transfer_suggestions"):
+    if kind in ("projections", "team_analysis", "transfer_suggestions", "start_bench"):
         from .extra_posts import generate_extra
         return generate_extra(kind, snapshot, now)
+    if kind == "midfielders":
+        from .midfielders import generate_midfielders
+        return generate_midfielders(snapshot, now)
     if kind in ("buy", "sell"):
         from .recommendations import build
         return build(kind, snapshot, now)

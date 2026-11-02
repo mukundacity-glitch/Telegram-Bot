@@ -2,6 +2,19 @@ name: FPL VORTEX Telegram Daily
 
 on:
   schedule:
+    # Four ChatGPT task editions are routed through this SAME workflow.
+    - cron: '0 6 * * *'
+      timezone: America/New_York
+    - cron: '30 7 * * *'
+      timezone: America/New_York
+    - cron: '30 12 * * *'
+      timezone: America/New_York
+    - cron: '45 15 * * *'
+      timezone: America/New_York
+    - cron: '0 19 * * *'
+      timezone: America/New_York
+    - cron: '30 19 * * *'
+      timezone: America/New_York
     - cron: '30 6 * * *'
       timezone: America/New_York
     - cron: '0 7 * * *'
@@ -12,9 +25,13 @@ on:
       timezone: America/New_York
     - cron: '0 10 * * *'
       timezone: America/New_York
+    - cron: '45 10 * * *'
+      timezone: America/New_York
     - cron: '0 11 * * *'
       timezone: America/New_York
     - cron: '0 12 * * *'
+      timezone: America/New_York
+    - cron: '0 13 * * *'
       timezone: America/New_York
     - cron: '0 14 * * *'
       timezone: America/New_York
@@ -41,7 +58,11 @@ on:
       timezone: America/New_York
     - cron: '15 11 * * *'
       timezone: America/New_York
+    - cron: '25 11 * * *'
+      timezone: America/New_York
     - cron: '15 12 * * *'
+      timezone: America/New_York
+    - cron: '15 13 * * *'
       timezone: America/New_York
     - cron: '15 14 * * *'
       timezone: America/New_York
@@ -61,25 +82,9 @@ on:
         description: 'Scheduled posts run automatically. Manual auto does not send a test or duplicate post.'
         required: true
         type: choice
-        default: auto
+        default: task-edition
         options:
-          - auto
-          - discover
-          - elite
-          - comparison
-          - preview
-          - preview-news
-          - preview-transfer
-          - preview-prices
-          - preview-captaincy
-          - preview-review
-          - preview-elite
-          - preview-evening
-          - preview-buy
-          - preview-sell
-          - preview-projections
-          - preview-team_analysis
-          - preview-transfer_suggestions
+          - task-edition
           - news
           - prices
           - transfer
@@ -90,7 +95,29 @@ on:
           - sell
           - projections
           - team_analysis
+          - midfielders
+          - start_bench
           - transfer_suggestions
+          - elite
+          - comparison
+      task_edition:
+        description: 'Choose one former ChatGPT edition for a safe receipt-checked manual run'
+        required: false
+        type: choice
+        default: availability-transfer-decisions
+        options:
+          - availability-transfer-decisions
+          - fixture-targets
+          - all20-projected-goals
+          - form-minutes-targets
+          - three-midfielders
+          - team-attack-defence
+          - transfer-squad-structure
+          - verified-press-availability
+          - captain-differential
+          - four-position-transfers
+          - transfer-market-team-news
+          - next-gw-evening-decisions
 
 permissions:
   contents: write
@@ -122,19 +149,78 @@ jobs:
       - name: Run validation tests
         run: python -m pytest -q
 
-      - name: Deliver to Telegram
+      - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
+        if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || 'false' }}
+          # Account handles are NEVER inferred from chat IDs or webhook URLs.
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          # Staging-only until true branded master and both public handles verified.
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          # Optional independent per-fixture xPts. Never infer it from FPL xG.
+          FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
           # A cron trigger must always enter the automatic, gameweek-aware dispatcher.
           # Manual input never changes a scheduled run.
           REQUESTED_SLOT: ${{ github.event_name == 'schedule' && 'auto' || inputs.slot || 'auto' }}
         run: |
           python -m vortex.bot --slot "$REQUESTED_SLOT"
+
+      - name: Audit unified news without live posting or changing state
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.slot == 'audit-news' }}
+        run: python -m vortex.unified_runner --dry-run
+
+      - name: Publish new FPL/RSS news to both platforms (cutover opt-in)
+        if: ${{ always() && github.event_name == 'schedule' && vars.UNIFIED_NEWS_ENABLED == 'true' }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          UNIFIED_NEWS_ENABLED: 'true'
+          # Account handles are NEVER inferred from chat IDs or webhook URLs.
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          # Staging-only until true branded master and both public handles verified.
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          # Optional independent per-fixture xPts. Never infer it from FPL xG.
+          FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
+          NEWS_BASE_HASHTAGS: ${{ vars.NEWS_BASE_HASHTAGS || 'FPL,FPLVortex' }}
+          MAX_NEWS_PER_RUN: ${{ vars.MAX_NEWS_PER_RUN || '2' }}
+        run: python -m vortex.unified_runner
+
+      - name: Publish original four ChatGPT editions to both platforms (opt-in)
+        if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || 'false' }}
+          FPL_PORTED_TASKS_ENABLED: ${{ vars.FPL_PORTED_TASKS_ENABLED || 'false' }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
+          SCHEDULED_CRON: ${{ github.event.schedule }}
+          REQUESTED_SLOT: ${{ inputs.slot || 'auto' }}
+          TASK_EDITION: ${{ inputs.task_edition || 'availability-transfer-decisions' }}
+        run: |
+          if [ "$REQUESTED_SLOT" = "audit-tasks" ]; then
+            python -m vortex.task_publisher --dry-run
+          elif [ "$REQUESTED_SLOT" = "task-edition" ]; then
+            python -m vortex.task_publisher --edition "$TASK_EDITION"
+          else
+            python -m vortex.task_publisher
+          fi
 
       - name: Save newest PNG as short-lived artifact
         if: success()
@@ -145,15 +231,17 @@ jobs:
           if-no-files-found: ignore
           retention-days: 2
 
-      - name: Preserve delivery dedup and official price baseline
-        if: success()
+      - name: Preserve both-platform delivery receipts even after partial failure
+        if: always()
         run: |
-          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json)" ]; then
+          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json)" ]; then
             echo "No new state to commit."
             exit 0
           fi
           git config user.name 'FPL VORTEX Telegram Bot'
           git config user.email 'fpl-vortex-bot@users.noreply.github.com'
-          git add state/prices.json state/deliveries.json
-          git commit -m 'Update Telegram delivery state [skip ci]'
+          for file in state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json; do
+            if [ -f "$file" ]; then git add -- "$file"; fi
+          done
+          git commit -m 'Update shared delivery receipts and official snapshots [skip ci]'
           git push origin HEAD:${{ github.ref_name }}

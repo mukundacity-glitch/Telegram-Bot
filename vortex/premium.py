@@ -360,9 +360,44 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
                   x, 736, width - 16, 12, MUTED, 11)
 
 
+
+def _midfielders_layout(canvas: Image.Image, content: Content,
+                       media: list[tuple[Image.Image | None, Image.Image | None]],
+                       session: requests.Session) -> None:
+    """Three natural-portrait cards with official current club badge and FDR."""
+    if len(content.cards) != 3:
+        raise ValueError("Three-midfielder edition requires exactly three available players")
+    draw = ImageDraw.Draw(canvas, 'RGBA')
+    width, gap = 474, 25
+    for i, (card, (portrait, crest)) in enumerate(zip(content.cards, media)):
+        if portrait is None or crest is None or not card.metrics:
+            raise RuntimeError("Midfielder card requires actual portrait and genuine club crest")
+        x, accent = 30 + i * (width + gap), PALETTE[i]
+        _panel(draw, (x, 151, x + width, 715), accent)
+        _text(draw, card.label, x + 20, 166, width - 42, 24, accent, 17)
+        _text(draw, card.headline.upper(), x + 20, 213, width - 125, 37, WHITE, 21)
+        _crest(canvas, crest, x + width - 90, 203, 67)
+        _text(draw, card.subtitle.upper(), x + 21, 258, width - 42, 21, GOLD)
+        _photo(canvas, portrait, (x + width - 238, 298, x + width - 17, 507), accent)
+        _badge(draw, str(card.metrics.get('price', 'N/A')), 'OFFICIAL PRICE',
+               (x + 18, 320, x + 208, 394), accent)
+        _badge(draw, str(card.metrics.get('ownership', 'N/A')), 'OWNERSHIP',
+               (x + 18, 410, x + 208, 484), accent)
+        _text(draw, 'NEXT FIXTURE', x + 22, 517, width - 44, 19, CYAN)
+        for j, (opponent, side, fdr, code) in enumerate(card.fixtures[:2]):
+            _text(draw, f'{opponent} ({side})  FDR {fdr}',
+                  x + 21, 548 + j * 29, width - 42, 25, WHITE, 19)
+        _text(draw, f"FORM {card.metrics.get('form', 'N/A')}   MINS {card.metrics.get('minutes', 'N/A')}",
+              x + 22, 617, width - 42, 20, GOLD, 17)
+        _text(draw, f"xG {card.metrics.get('xg','N/A')}  /  xA {card.metrics.get('xa','N/A')}",
+              x + 22, 650, width - 42, 23, WHITE, 18)
+        _text(draw, "OFFICIAL FPL SEASON xG / xA • NOT xPTS", x + 22, 684,
+              width - 42, 15, MUTED, 13)
+
+
 def render_premium(content: Content, output: Path, session: requests.Session) -> Path:
     """Render verified data with club crests when a CDN player portrait is unavailable."""
-    supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening', 'buy', 'sell'}
+    supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening', 'buy', 'sell', 'midfielders'}
     if content.kind not in supported:
         raise ValueError(f'No premium layout for {content.kind}')
     if not content.cards:
@@ -374,6 +409,8 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
         _large_feature(canvas, content, content.cards[0], *media[0], session)
     elif content.kind in ('buy', 'sell'):
         _recommendation_layout(canvas, content, media)
+    elif content.kind == 'midfielders':
+        _midfielders_layout(canvas, content, media, session)
     elif content.kind == 'news':
         _news(canvas, content, media, session)
     else:
@@ -381,6 +418,8 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
     _footer(canvas, content)
     output.parent.mkdir(parents=True, exist_ok=True)
     temp = output.with_suffix('.tmp.png')
+    if content.kind == 'midfielders':
+        canvas = canvas.resize((1920, 1080), Image.Resampling.LANCZOS)
     canvas.save(temp, format='PNG', optimize=True)
     temp.replace(output)
     return output
