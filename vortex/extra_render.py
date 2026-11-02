@@ -118,6 +118,44 @@ def _num(value: object, suffix: str = "", decimal: int = 2) -> str:
     return "N/A"
 
 
+def _market_chip(draw: ImageDraw.ImageDraw, x: int, y: int,
+                 name: str, value: object, kind: str) -> None:
+    """Premium traffic-light fills: green/black is favorable, red/white risky."""
+    if kind == "goals":
+        favorable = type(value) in (int, float) and value >= 1.65
+        risky = type(value) in (int, float) and value <= 0.90
+        display = f"{value:.2f}" if type(value) in (int, float) else "N/A"
+    else:
+        favorable = type(value) in (int, float) and value >= 42
+        risky = type(value) in (int, float) and value <= 20
+        display = f"{value:.0f}%" if type(value) in (int, float) else "N/A"
+    fill, foreground = ((50, 229, 138, 255), (0, 19, 24)) if favorable else (
+        ((218, 44, 74, 255), WHITE) if risky else
+        ((204, 155, 60, 255), (14, 20, 24)) if display != "N/A" else
+        ((45, 62, 77, 255), WHITE)
+    )
+    draw.rounded_rectangle((x, y, x + 112, y + 31), radius=7, fill=fill)
+    message = f"{name} {display}"
+    _center_text(draw, x + 56, y + 6, message,
+                 _fitted_font(draw, message, 107, 19, 14), foreground)
+
+
+def _major_tag(draw: ImageDraw.ImageDraw, x: int, y: int,
+               data: dict | None) -> None:
+    if not data:
+        return
+    details = []
+    if data.get("goals") is not None:
+        details.append(f"prG {data['goals']:+.2f}")
+    if data.get("cs_points") is not None:
+        details.append(f"CS {data['cs_points']:+.0f}pp")
+    if not details:
+        return
+    label = "MAJOR " + ("DROP" if (data.get("goals") or data.get("cs_points") or 0) < 0 else "RISE")
+    label += "  " + " · ".join(details)
+    _line(draw, label, x, y, 239, 15, RED if "DROP" in label else GREEN, 12)
+
+
 def _fixtures(canvas: Image.Image, post: ExtraPost,
               session: requests.Session, cache: dict) -> str:
     rows = post.fixtures
@@ -150,12 +188,15 @@ def _fixtures(canvas: Image.Image, post: ExtraPost,
         _center_text(draw, (x0+x1)//2, y0 + 10, "VS", _font(23), GOLD)
         if match["home_goals"] is not None and match["away_goals"] is not None:
             valid += 1
-        # Never substitute fixture difficulty for the requested goal/CS odds.
-        # Make unverified values explicit while retaining correct FPL crests.
-        htext = f"prG {_num(match['home_goals'])} · CS {_num(match['home_cs'], '%', 0)}"
-        atext = f"prG {_num(match['away_goals'])} · CS {_num(match['away_cs'], '%', 0)}"
-        _line(draw, htext, x0 + 93, y0 + 44, 244, 19, CYAN, 15)
-        _line(draw, atext, x1 - 347, y0 + 44, 245, 19, GREEN, 15)
+        # Distinct projected-goals and clean-sheet colored cells for BOTH
+        # teams, not FDR. Dark text on green; white text on red.
+        for chip_x, side in ((x0 + 92, "home"), (x1 - 346, "away")):
+            _market_chip(draw, chip_x, y0 + 43, "prG",
+                         match.get(side + "_goals"), "goals")
+            _market_chip(draw, chip_x + 120, y0 + 43, "CS",
+                         match.get(side + "_cs"), "cs")
+            _major_tag(draw, chip_x, y0 + 77,
+                       match.get(side + "_major_change"))
     for idx, (x0, x1) in enumerate(columns):
         _line(draw, f"OFFICIAL MATCHUPS {idx*per_side + 1}–{min(count, (idx + 1)*per_side)}",
               x0 + 21, 158, x1-x0-40, 18, GOLD, 16)
@@ -176,6 +217,10 @@ def _fixtures(canvas: Image.Image, post: ExtraPost,
         detail = f"GOAL/CS: {valid}/{count} · VERIFIED BOOKMAKER MODELS"
     else:
         detail = "GOAL/CS DATA UNAVAILABLE · DO NOT SUBSTITUTE FDR"
+    changes = sum(bool(f.get(side + "_major_change")) for f in rows
+                  for side in ("home", "away"))
+    if changes:
+        detail += f" · {changes} MAJOR DAILY SHIFTS"
     if count != 10:
         detail = f"GW WITH {count} FIXTURES • " + detail
     return detail
