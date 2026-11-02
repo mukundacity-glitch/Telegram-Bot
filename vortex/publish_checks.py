@@ -56,10 +56,23 @@ def validate_article(article: Any, snapshot: Any) -> None:
     if getattr(article, "kind", None) == "projections":
         if not article.fixtures:
             raise RuntimeError("No verified fixture rows")
+        used = []
         for row in article.fixtures:
-            if (row.get("home_goals") is None or row.get("away_goals") is None
-                or row.get("home_cs") is None or row.get("away_cs") is None):
-                raise RuntimeError("Goal/CS projections unverified; hold this edition, not N/A")
+            if (not isinstance(row.get("id"), int)
+                    or not row.get("home") or not row.get("away")
+                    or not isinstance(row.get("home_code"), int)
+                    or not isinstance(row.get("away_code"), int)
+                    or row.get("h_fdr") not in (1, 2, 3, 4, 5)
+                    or row.get("a_fdr") not in (1, 2, 3, 4, 5)):
+                raise RuntimeError("Official fixture, club crest ID or FDR unverified")
+            used.extend((row["home_code"], row["away_code"]))
+            goal_cs = [row.get(k) for k in ("home_goals", "away_goals", "home_cs", "away_cs")]
+            if any(x is None for x in goal_cs) and not all(x is None for x in goal_cs):
+                raise RuntimeError("Partial bookmaker model figures cannot appear on slide")
+        if len(article.fixtures) == 10 and len(set(used)) != 20:
+            raise RuntimeError("Standard 10-fixture GW must cover 20 distinct current clubs")
+        # Missing bookmaker odds are optional. Render real official matchups
+        # with real crests and FDR instead of blocking ALL graphic production.
     if getattr(article, "kind", None) == "team_analysis":
         data = article.team_analysis or {}
         if (not data.get("history") or data.get("gf_total") is None
