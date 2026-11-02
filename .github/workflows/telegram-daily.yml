@@ -65,6 +65,9 @@ on:
     # This is an extra check in the EXISTING workflow, not a new task.
     - cron: '0 21 * * *'
       timezone: America/New_York
+    # End-of-window news check: 22:00 ET, existing hours are retained.
+    - cron: '0 22 * * *'
+      timezone: America/New_York
     # Backup triggers check the same day for a missed/failed delivery.
     - cron: '45 6 * * *'
       timezone: America/New_York
@@ -171,7 +174,7 @@ jobs:
 
       - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
-        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 17 * * *","0 18 * * *","0 21 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
+        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 17 * * *","0 18 * * *","0 21 * * *","0 22 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
@@ -243,8 +246,8 @@ jobs:
             python -m vortex.task_publisher
           fi
 
-      - name: Check verified Telegram news from 6 AM through 9 PM ET
-        # One confirmed new official FPL story at most per hourly check.
+      - name: Check verified Telegram news from 5 AM through 10 PM ET
+        # One confirmed new official FPL story at most per scheduled check.
         # Original Telegram editions, Discord and ChatGPT schedules unchanged.
         if: ${{ github.event_name == 'schedule' }}
         env:
