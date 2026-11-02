@@ -153,6 +153,58 @@ def _projection(quotes: list[tuple[str, float, float]]) -> dict[str, Any] | None
             "source": "The Odds API · team totals 0.5"}
 
 
+
+
+def _h2h_projection(payload: dict[str, Any], teams: tuple[str, str],
+                    now: datetime) -> dict[str, Any] | None:
+    """No-vig 90-minute HOME/DRAW/AWAY consensus from fresh three-way h2h.
+
+    This is a market-implied probability, never a model-generated win forecast.
+    Exclude two-way markets and bookmaker duplicates.
+    """
+    quotes: dict[str, tuple[float, tuple[float, float, float]]] = {}
+    for book in payload.get("bookmakers", []):
+        if not isinstance(book, dict) or not isinstance(book.get("key"), str):
+            continue
+        for market in book.get("markets", []):
+            if not isinstance(market, dict) or market.get("key") != "h2h":
+                continue
+            updated = _datetime(market.get("last_update") or book.get("last_update"))
+            if updated is None or not (timedelta(0) <= now - updated <= MAX_MARKET_AGE):
+                continue
+            prices = {}
+            for outcome in market.get("outcomes", []):
+                if not isinstance(outcome, dict):
+                    continue
+                name = canonical(outcome.get("name", ""))
+                value = outcome.get("price")
+                if name in {*teams, "draw"} and type(value) in (int, float) and 1.01 < value <= 80:
+                    prices[name] = 1.0 / float(value)
+            if set(prices) != {*teams, "draw"}:
+                continue
+            overround = sum(prices.values())
+            if not 0.99 <= overround <= 1.4:
+                continue
+            probabilities = (prices[teams[0]] / overround,
+                             prices["draw"] / overround,
+                             prices[teams[1]] / overround)
+            if book["key"] not in quotes or updated.timestamp() > quotes[book["key"]][0]:
+                quotes[book["key"]] = (updated.timestamp(), probabilities)
+    if len(quotes) < MIN_BOOKMAKERS:
+        return None
+    estimates = [_median([row[1][idx] for row in quotes.values()]) for idx in range(3)]
+    total = sum(estimates)
+    if total <= 0:
+        return None
+    return {
+        "home_win_pct": round(100 * estimates[0] / total, 1),
+        "draw_pct": round(100 * estimates[1] / total, 1),
+        "away_win_pct": round(100 * estimates[2] / total, 1),
+        "bookmakers": len(quotes),
+        "source": "The Odds API · no-vig 3-way h2h market",
+    }
+
+
 def verified_match_odds(snapshot: FplSnapshot,
                         fixtures: list[dict[str, Any]],
                         session: requests.Session | None = None,
@@ -178,7 +230,7 @@ def verified_match_odds(snapshot: FplSnapshot,
         if event_id is None:
             continue
         odds = _safe_get(client, f"/events/{event_id}/odds", key, {
-            "regions": "uk,eu", "markets": "alternate_team_totals,team_totals",
+            "regions": "uk,eu", "markets": "alternate_team_totals,team_totals,h2h",
             "oddsFormat": "decimal", "dateFormat": "iso",
         })
         if not isinstance(odds, dict):
@@ -190,6 +242,7 @@ def verified_match_odds(snapshot: FplSnapshot,
             continue
         quotes = _two_sided_quotes(odds, (home, away), now)
         h, a = _projection(quotes.get(home, [])), _projection(quotes.get(away, []))
+        h2h = _h2h_projection(odds, (home, away), now)
         verified[f["id"]] = {
             "home_goals": h["goals"] if h else None,
             "away_goals": a["goals"] if a else None,
@@ -201,6 +254,10 @@ def verified_match_odds(snapshot: FplSnapshot,
             "home_quote_utc": h["updated_at"] if h else None,
             "away_quote_utc": a["updated_at"] if a else None,
             "source": "The Odds API · 2+ books · team totals O/U 0.5",
-            "method": "no-vig, Poisson-equivalent mean",
+            "method": "no-vig team totals + model Poisson-equivalent goals; independent no-vig h2h",
+            "home_win_market_pct": h2h["home_win_pct"] if h2h else None,
+            "draw_market_pct": h2h["draw_pct"] if h2h else None,
+            "away_win_market_pct": h2h["away_win_pct"] if h2h else None,
+            "win_market_bookmakers": h2h["bookmakers"] if h2h else 0,
         }
     return verified
