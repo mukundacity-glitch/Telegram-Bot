@@ -8,7 +8,7 @@ from __future__ import annotations
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-ET = ZoneInfo("America/New_YORK".replace("YORK", "York"))
+ET = ZoneInfo("America/New_York")
 MAP = {
     "news": ("task1:availability-transfer-decisions", "press_news:verified-press-availability"),
     "captaincy": ("task1:captain-differential",),
