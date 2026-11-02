@@ -82,9 +82,12 @@ def check_revision(history: dict[str, Any], post: Any,
             caption = post.caption
             lines = caption.splitlines()
             if lines and lines[-1].startswith("#"):
-                lines.insert(-1, f"UPDATED: {changed}.")
+                # Update the existing hook, not an extra caption line.
+                # Task 2/new news use exactly five lines total.
+                new_hook = f"UPDATED • {lines[0]}"
+                lines[0] = new_hook if len(new_hook) <= 125 else "UPDATED • " + lines[0][:105]
                 maybe = "\n".join(lines)
-                if len(maybe) <= 1024 and (len(maybe) < 280 or len(caption) >= 280):
+                if len(maybe) <= 1024 and (len(maybe) <= 280 or len(caption) >= 280):
                     post = replace(post, caption=maybe)
     return group, post, delivery_key, version, evidence, False
 
