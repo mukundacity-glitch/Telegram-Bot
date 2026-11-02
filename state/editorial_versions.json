@@ -46,5 +46,89 @@
     "group": "elite:10:6:469142",
     "timestamp": "2026-11-02T20:52:03.551298+00:00",
     "version": "eac42ab0b3a28b2adf5ab57cb2a3aee8387ab1a94309d10da5887b67abd6fc52"
+  },
+  "projections:10:general": {
+    "confirmed": true,
+    "delivery_key": "2026-11-02:projections:GW10",
+    "evidence": {
+      "fixtures": [
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 94
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 97
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 91
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 95
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 99
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 92
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 93
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 96
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 100
+        },
+        {
+          "away_cs": null,
+          "away_goals": null,
+          "home_cs": null,
+          "home_goals": null,
+          "id": 98
+        }
+      ],
+      "gw": 10,
+      "kind": "projections",
+      "players": []
+    },
+    "group": "projections:10:general",
+    "timestamp": "2026-11-02T21:38:17.656338+00:00",
+    "version": "9f41edc88119e55c83e5ae687aeeefa69e3d086ddcc49c8328edbd2c5e9095dd"
   }
 }

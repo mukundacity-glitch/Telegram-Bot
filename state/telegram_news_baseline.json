@@ -1,0 +1,4692 @@
+{
+  "1": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "10": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "100": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knock - Expected back 23 Nov",
+    "now_cost": 50,
+    "status": "i"
+  },
+  "101": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 100,
+    "news": "Illness - 75% chance of playing",
+    "now_cost": 49,
+    "status": "d"
+  },
+  "102": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 0,
+    "news": "",
+    "now_cost": 47,
+    "status": "a"
+  },
+  "103": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Unknown return date",
+    "now_cost": 48,
+    "status": "i"
+  },
+  "104": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "105": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "106": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 78,
+    "status": "a"
+  },
+  "107": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Unspecified injury - Unknown return date",
+    "now_cost": 44,
+    "status": "i"
+  },
+  "108": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "109": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 46,
+    "status": "a"
+  },
+  "11": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "110": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "111": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "112": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "113": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Hip injury - 75% chance of playing",
+    "now_cost": 44,
+    "status": "d"
+  },
+  "114": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "115": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "116": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "117": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "118": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Burnley permanently",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "119": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "12": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Thigh injury - Unknown return date",
+    "now_cost": 95,
+    "status": "i"
+  },
+  "120": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "121": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Expected back 22 Nov",
+    "now_cost": 59,
+    "status": "i"
+  },
+  "122": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "123": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "124": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "125": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "126": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "127": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "128": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Elche on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "129": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "13": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 75,
+    "news": "",
+    "now_cost": 74,
+    "status": "a"
+  },
+  "130": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "131": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "132": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Leicester City on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "133": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Leicester City on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "134": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "135": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Unspecified injury - Expected back 22 Nov",
+    "now_cost": 48,
+    "status": "i"
+  },
+  "136": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "137": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 54,
+    "status": "i"
+  },
+  "138": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "139": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Ankle injury - Unknown return date",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "14": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "140": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Como on loan for the rest of the season",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "141": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined RC Strasbourg on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "142": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 52,
+    "status": "i"
+  },
+  "143": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Como permanently",
+    "now_cost": 55,
+    "status": "u"
+  },
+  "144": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "145": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "146": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Napoli on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "147": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Calf injury - Unknown return date",
+    "now_cost": 43,
+    "status": "i"
+  },
+  "148": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Unspecified injury - Unknown return date",
+    "now_cost": 45,
+    "status": "i"
+  },
+  "149": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "15": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 67,
+    "status": "a"
+  },
+  "150": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Real Sociedad on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "151": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "152": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "153": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "154": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 98,
+    "status": "a"
+  },
+  "155": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 69,
+    "status": "a"
+  },
+  "156": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 66,
+    "status": "a"
+  },
+  "157": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 63,
+    "status": "a"
+  },
+  "158": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Ankle injury - Unknown return date",
+    "now_cost": 58,
+    "status": "i"
+  },
+  "159": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "16": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 50,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "160": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "161": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "162": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 47,
+    "status": "a"
+  },
+  "163": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined RC Strasbourg on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "164": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "165": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Thigh injury - Unknown return date",
+    "now_cost": 77,
+    "status": "i"
+  },
+  "166": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 70,
+    "status": "a"
+  },
+  "167": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "168": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined RB Leipzig permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "169": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "17": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "170": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "171": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "not included in squad.",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "172": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "173": {
+    "chance_of_playing_next_round": 50,
+    "chance_of_playing_this_round": 50,
+    "news": "Calf injury - 50% chance of playing",
+    "now_cost": 40,
+    "status": "d"
+  },
+  "174": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Sheffield United on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "175": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "176": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "177": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "178": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "179": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "18": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Al Hilal permanently",
+    "now_cost": 63,
+    "status": "u"
+  },
+  "180": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 39,
+    "status": "i"
+  },
+  "181": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Academico de Viseu on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "182": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Calf injury - Unknown return date",
+    "now_cost": 39,
+    "status": "i"
+  },
+  "183": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "184": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "185": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "186": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "187": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Ankle injury - Unknown return date",
+    "now_cost": 48,
+    "status": "i"
+  },
+  "188": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "189": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "19": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "190": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "191": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Burton Albion on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "192": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Oxford United on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "193": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Thigh injury - Unknown return date",
+    "now_cost": 53,
+    "status": "i"
+  },
+  "194": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "195": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "196": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Shabab Al-Ahli Dubai permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "197": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined KVC Westerlo on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "198": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "199": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "2": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "20": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Suspended until 29 Nov",
+    "now_cost": 53,
+    "status": "s"
+  },
+  "200": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Unknown return date",
+    "now_cost": 59,
+    "status": "i"
+  },
+  "201": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "202": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "203": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "204": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "205": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined FC Cologne on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "206": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 43,
+    "status": "i"
+  },
+  "207": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "208": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Groin injury - Expected back 8 Nov",
+    "now_cost": 62,
+    "status": "i"
+  },
+  "209": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "21": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "210": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "211": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "212": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "213": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "214": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "215": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Stoke City permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "216": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Millwall on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "217": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Alverca on loan for the rest of the season",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "218": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "219": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "has joined  Kasimpasa on loan for the rest of the seaon.",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "22": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Borussia Dortmund on loan for the rest of the season",
+    "now_cost": 54,
+    "status": "u"
+  },
+  "220": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Bristol City on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "221": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "222": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Ankle injury - 75% chance of playing",
+    "now_cost": 60,
+    "status": "d"
+  },
+  "223": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 100,
+    "news": "Suspended until 2 Dec",
+    "now_cost": 63,
+    "status": "s"
+  },
+  "224": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "225": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "has returned to Getafe CF",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "226": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "227": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "228": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "229": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "23": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Hamburger SV permanently",
+    "now_cost": 55,
+    "status": "u"
+  },
+  "230": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 75,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "231": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 47,
+    "status": "a"
+  },
+  "232": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "233": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 46,
+    "status": "a"
+  },
+  "234": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Torino permanently",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "235": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Malaga on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "236": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 66,
+    "status": "a"
+  },
+  "237": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "238": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 65,
+    "status": "a"
+  },
+  "239": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "24": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "has departed the club as a free agent.",
+    "now_cost": 55,
+    "status": "u"
+  },
+  "240": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "241": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "242": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "243": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "244": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "245": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "246": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "247": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "248": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Fiorentina permanently",
+    "now_cost": 54,
+    "status": "u"
+  },
+  "249": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 56,
+    "status": "a"
+  },
+  "25": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 70,
+    "status": "a"
+  },
+  "250": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "251": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "252": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined York City on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "253": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "254": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "255": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "256": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "257": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "258": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "259": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "26": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 74,
+    "status": "a"
+  },
+  "260": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "261": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "262": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "263": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "264": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "265": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "266": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "267": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Groin injury - 75% chance of playing",
+    "now_cost": 49,
+    "status": "d"
+  },
+  "268": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "269": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 0,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "27": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined FC Barcelona permanently",
+    "now_cost": 59,
+    "status": "u"
+  },
+  "270": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "271": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "272": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "273": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "274": {
+    "chance_of_playing_next_round": 50,
+    "chance_of_playing_this_round": 50,
+    "news": "Arm injury - 50% chance of playing",
+    "now_cost": 44,
+    "status": "d"
+  },
+  "275": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Grimsby Town on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "276": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Colchester United on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "277": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 41,
+    "status": "a"
+  },
+  "278": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Groin injury - Unknown return date",
+    "now_cost": 39,
+    "status": "i"
+  },
+  "279": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 42,
+    "status": "a"
+  },
+  "28": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Head injury - Unknown return date",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "280": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "281": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Genoa permanently",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "282": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "283": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Newport County on loan until January",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "284": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "285": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "286": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "287": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Birmingham on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "288": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "289": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 100,
+    "news": "Suspended until 22 Nov",
+    "now_cost": 44,
+    "status": "s"
+  },
+  "29": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "290": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "291": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 45,
+    "status": "i"
+  },
+  "292": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "293": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Portsmouth permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "294": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "295": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "296": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Omonoia FC permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "297": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Thigh injury - Unknown return date",
+    "now_cost": 44,
+    "status": "i"
+  },
+  "298": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Konyaspor permanently",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "299": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Sheffield Wednesday on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "3": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "30": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Paris Saint-Germain permanently",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "300": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "301": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "302": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "303": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "304": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "305": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "306": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "307": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Stoke City on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "308": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "309": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "31": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 47,
+    "status": "a"
+  },
+  "310": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "311": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Leicester City permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "312": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "313": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "314": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Lincoln City on loan until January",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "315": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "316": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "317": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Stoke City permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "318": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "319": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Derby County on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "32": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 100,
+    "news": "Suspended until 21 Nov",
+    "now_cost": 43,
+    "status": "s"
+  },
+  "320": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "321": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "322": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Sheffield Wednesday on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "323": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "324": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "325": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "326": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Torino on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "327": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "328": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Expected back 8 Nov",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "329": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Expected back 21 Nov",
+    "now_cost": 43,
+    "status": "i"
+  },
+  "33": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "330": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "331": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "332": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "333": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Hamburg SV on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "334": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 51,
+    "status": "a"
+  },
+  "335": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 50,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "336": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 100,
+    "news": "Thigh injury - 75% chance of playing",
+    "now_cost": 58,
+    "status": "d"
+  },
+  "337": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "338": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "339": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "34": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "340": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "341": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined ACF Fiorentina on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "342": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined New England Revolution permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "343": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "344": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "345": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "346": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 61,
+    "status": "a"
+  },
+  "347": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "348": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined West Ham United on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "349": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 45,
+    "status": "i"
+  },
+  "35": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "350": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "351": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "352": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "353": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined TSV Hartberg on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "354": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 40,
+    "status": "i"
+  },
+  "355": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "356": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 64,
+    "status": "a"
+  },
+  "357": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Unknown return date",
+    "now_cost": 52,
+    "status": "i"
+  },
+  "358": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "359": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "36": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "360": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "361": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "362": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 51,
+    "status": "a"
+  },
+  "363": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 39,
+    "status": "i"
+  },
+  "364": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "365": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined St Mirren on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "366": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 72,
+    "status": "a"
+  },
+  "367": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 71,
+    "status": "a"
+  },
+  "368": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 50,
+    "news": "",
+    "now_cost": 67,
+    "status": "a"
+  },
+  "369": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "37": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "370": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "371": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "372": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "373": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Internazionale permanently",
+    "now_cost": 55,
+    "status": "u"
+  },
+  "374": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "375": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "376": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Celta Vigo permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "377": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 50,
+    "news": "",
+    "now_cost": 65,
+    "status": "a"
+  },
+  "378": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "379": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 92,
+    "status": "a"
+  },
+  "38": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Getafe on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "380": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Achilles injury - Unknown return date",
+    "now_cost": 74,
+    "status": "i"
+  },
+  "381": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "382": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "383": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Valencia on loan for the rest of the season",
+    "now_cost": 54,
+    "status": "u"
+  },
+  "384": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "385": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "386": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "387": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "388": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "389": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "39": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Rangers on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "390": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "391": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "392": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "393": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "394": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Burnley on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "395": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "396": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "397": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 82,
+    "status": "i"
+  },
+  "398": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 68,
+    "status": "a"
+  },
+  "399": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 79,
+    "status": "a"
+  },
+  "4": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 80,
+    "status": "a"
+  },
+  "40": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 81,
+    "status": "a"
+  },
+  "400": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 75,
+    "status": "a"
+  },
+  "401": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 70,
+    "status": "a"
+  },
+  "402": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Barcelona permanently",
+    "now_cost": 65,
+    "status": "u"
+  },
+  "403": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Muscular injury - Expected back 21 Nov",
+    "now_cost": 65,
+    "status": "i"
+  },
+  "404": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Al Qadsiah permanently",
+    "now_cost": 60,
+    "status": "u"
+  },
+  "405": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "406": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "407": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Benfica on loan for the rest of the season",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "408": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Sheffield United on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "409": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "has joined West Ham on loan for the rest of the seaon.",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "41": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "410": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Swansea City on loan for the rest of the season",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "411": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 158,
+    "status": "a"
+  },
+  "412": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "413": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Celta Vigo on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "414": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "415": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Unknown return date",
+    "now_cost": 57,
+    "status": "i"
+  },
+  "416": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "417": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "418": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 47,
+    "status": "a"
+  },
+  "419": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 100,
+    "news": "Suspended until 22 Nov",
+    "now_cost": 48,
+    "status": "s"
+  },
+  "42": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "420": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "421": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "422": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "423": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Unspecified injury - Unknown return date",
+    "now_cost": 42,
+    "status": "i"
+  },
+  "424": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "425": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Lausanne-Sport permanently",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "426": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 117,
+    "status": "a"
+  },
+  "427": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 79,
+    "status": "a"
+  },
+  "428": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 78,
+    "status": "a"
+  },
+  "429": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Hip injury - 75% chance of playing",
+    "now_cost": 68,
+    "status": "d"
+  },
+  "43": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "430": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "431": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 100,
+    "news": "Calf injury - 75% chance of playing",
+    "now_cost": 57,
+    "status": "d"
+  },
+  "432": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 25,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "433": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 50,
+    "status": "i"
+  },
+  "434": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "435": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "436": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined West Brom permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "437": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "438": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "439": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Shin injury - Unknown return date",
+    "now_cost": 69,
+    "status": "i"
+  },
+  "44": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Olympiakos permanently",
+    "now_cost": 54,
+    "status": "u"
+  },
+  "440": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "441": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Willem II on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "442": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "443": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "444": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Unknown return date",
+    "now_cost": 44,
+    "status": "i"
+  },
+  "445": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "446": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "447": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "448": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "449": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "45": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "450": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 48,
+    "status": "i"
+  },
+  "451": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined FC Kaiserslautern on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "452": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 67,
+    "status": "a"
+  },
+  "453": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 61,
+    "status": "a"
+  },
+  "454": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "455": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "456": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "457": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "458": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "459": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Muscular injury - 75% chance of playing",
+    "now_cost": 55,
+    "status": "d"
+  },
+  "46": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "460": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "461": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "462": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "463": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Juventus on loan for the rest of the season",
+    "now_cost": 59,
+    "status": "u"
+  },
+  "464": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "465": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 50,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "466": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Wolves on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "467": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "468": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "469": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "47": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "470": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined West Ham on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "471": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "472": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "473": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "474": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "475": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 45,
+    "status": "i"
+  },
+  "476": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "477": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Southampton on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "478": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "479": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Charlton Athletic on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "48": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "480": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 79,
+    "status": "a"
+  },
+  "481": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 63,
+    "status": "a"
+  },
+  "482": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "483": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 50,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "484": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined AC Milan on loan for the rest of the season",
+    "now_cost": 54,
+    "status": "u"
+  },
+  "485": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Lille on loan for the rest of the season",
+    "now_cost": 55,
+    "status": "u"
+  },
+  "486": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "487": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Muscular injury - 75% chance of playing",
+    "now_cost": 48,
+    "status": "d"
+  },
+  "488": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 47,
+    "status": "a"
+  },
+  "489": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "49": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Bolton Wanderers on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "490": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "491": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Calf injury - Unknown return date",
+    "now_cost": 56,
+    "status": "i"
+  },
+  "492": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "493": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "494": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Juventus on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "495": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "496": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "497": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "498": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "499": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "5": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 65,
+    "status": "a"
+  },
+  "50": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "500": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Atletico Madrid permanently",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "501": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "502": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 43,
+    "status": "a"
+  },
+  "503": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "504": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "505": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Internazionale permanently",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "506": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "507": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Middlesbrough permanently",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "508": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "509": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "51": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "510": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "511": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined FC Porto on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "512": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 65,
+    "status": "a"
+  },
+  "513": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 59,
+    "status": "i"
+  },
+  "514": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 56,
+    "status": "a"
+  },
+  "515": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "516": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 0,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "517": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 55,
+    "status": "i"
+  },
+  "518": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Juventus on loan for the rest of the season",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "519": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "52": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "520": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Expected back 31 Oct",
+    "now_cost": 53,
+    "status": "i"
+  },
+  "521": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 65,
+    "status": "a"
+  },
+  "522": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "523": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined FC Köln on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "524": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "525": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 56,
+    "status": "a"
+  },
+  "526": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 58,
+    "status": "a"
+  },
+  "527": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "not included in squad.",
+    "now_cost": 59,
+    "status": "u"
+  },
+  "528": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Leyton Orient permanently",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "529": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "53": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 61,
+    "status": "a"
+  },
+  "530": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Wrexham permanently",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "531": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "532": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Unknown return date",
+    "now_cost": 47,
+    "status": "i"
+  },
+  "533": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Concussion - 75% chance of playing",
+    "now_cost": 54,
+    "status": "d"
+  },
+  "534": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 42,
+    "status": "a"
+  },
+  "535": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 100,
+    "news": "Suspended until 21 Nov",
+    "now_cost": 48,
+    "status": "s"
+  },
+  "536": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "537": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Swansea City on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "538": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined KV Mechelen on loan for the rest of the season",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "539": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "54": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "540": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Konyaspor permanently",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "541": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "542": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "543": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 100,
+    "news": "Muscular injury - 75% chance of playing",
+    "now_cost": 53,
+    "status": "d"
+  },
+  "544": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "545": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "546": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Ajax on loan for the rest of the season",
+    "now_cost": 49,
+    "status": "u"
+  },
+  "547": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 48,
+    "status": "i"
+  },
+  "548": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "549": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "55": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Al Hilal permanently",
+    "now_cost": 78,
+    "status": "u"
+  },
+  "550": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "551": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "552": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 57,
+    "status": "a"
+  },
+  "553": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 50,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "554": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Valencia on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "555": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "556": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Ankle injury - Unknown return date",
+    "now_cost": 39,
+    "status": "i"
+  },
+  "557": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 75,
+    "news": "",
+    "now_cost": 61,
+    "status": "a"
+  },
+  "558": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "559": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "56": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "560": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "561": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Unspecified injury - Unknown return date",
+    "now_cost": 45,
+    "status": "i"
+  },
+  "562": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "563": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "564": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "565": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "566": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "567": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "568": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "569": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "57": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "570": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "571": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "572": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 47,
+    "status": "a"
+  },
+  "573": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "574": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "575": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "576": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "577": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Calf injury - Expected back 8 Nov",
+    "now_cost": 43,
+    "status": "i"
+  },
+  "578": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Ankle injury - Unknown return date",
+    "now_cost": 53,
+    "status": "i"
+  },
+  "579": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "58": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "580": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "581": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "582": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "583": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "584": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "585": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "586": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 41,
+    "status": "a"
+  },
+  "587": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "588": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "589": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Calf injury - 75% chance of playing",
+    "now_cost": 49,
+    "status": "d"
+  },
+  "59": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined MK Dons permanently",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "590": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "591": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "592": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "593": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "594": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "595": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "596": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Expected back 2 Jan",
+    "now_cost": 44,
+    "status": "i"
+  },
+  "597": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "598": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "599": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "6": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Back injury - Unknown return date",
+    "now_cost": 59,
+    "status": "i"
+  },
+  "60": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "600": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "601": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "602": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Huddersfield Town on loan for the rest of the season",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "603": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "604": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "605": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "606": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "607": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Oxford United on loan until January",
+    "now_cost": 45,
+    "status": "u"
+  },
+  "608": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "609": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "has joined Arouca on loan for the rest of the seaon.",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "61": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "610": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "has joined  Real Salt Lake on loan for the rest of the seaon.",
+    "now_cost": 40,
+    "status": "u"
+  },
+  "611": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Expected back 21 Nov",
+    "now_cost": 45,
+    "status": "i"
+  },
+  "612": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "613": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "614": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "615": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "616": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "617": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "618": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "619": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "62": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "620": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "621": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "622": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "623": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "624": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Middlesbrough on loan for the rest of the season",
+    "now_cost": 50,
+    "status": "u"
+  },
+  "625": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "626": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "627": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 81,
+    "status": "a"
+  },
+  "628": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "629": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "63": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Thigh injury - Expected back 31 Oct",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "630": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "631": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "632": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Back injury - Unknown return date",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "633": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "634": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Illness - 75% chance of playing",
+    "now_cost": 59,
+    "status": "d"
+  },
+  "635": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "636": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "637": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "638": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 39,
+    "status": "a"
+  },
+  "639": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 75,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "64": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "640": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "641": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "642": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "643": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "644": {
+    "chance_of_playing_next_round": 75,
+    "chance_of_playing_this_round": 75,
+    "news": "Hamstring injury - 75% chance of playing",
+    "now_cost": 50,
+    "status": "d"
+  },
+  "645": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "646": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "647": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "648": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "649": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "65": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Thigh injury - Unknown return date",
+    "now_cost": 44,
+    "status": "i"
+  },
+  "650": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "651": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "652": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Expected back 8 Nov",
+    "now_cost": 55,
+    "status": "i"
+  },
+  "653": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "654": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "655": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "656": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "657": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "658": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "659": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "66": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "660": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "661": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "662": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "663": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "664": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "665": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "666": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "667": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "668": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "669": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "67": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 63,
+    "status": "a"
+  },
+  "670": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 40,
+    "status": "a"
+  },
+  "68": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 66,
+    "status": "a"
+  },
+  "69": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Thigh injury - Expected back 21 Nov",
+    "now_cost": 59,
+    "status": "i"
+  },
+  "7": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "70": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "71": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "72": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "73": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "74": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "75": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "76": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hamstring injury - Unknown return date",
+    "now_cost": 49,
+    "status": "i"
+  },
+  "77": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 48,
+    "status": "a"
+  },
+  "78": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 73,
+    "status": "a"
+  },
+  "79": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 64,
+    "status": "a"
+  },
+  "8": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 75,
+    "news": "",
+    "now_cost": 59,
+    "status": "a"
+  },
+  "80": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Has joined Getafe permanently",
+    "now_cost": 55,
+    "status": "u"
+  },
+  "81": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 60,
+    "status": "a"
+  },
+  "82": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "83": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "84": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "85": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 49,
+    "status": "a"
+  },
+  "86": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 55,
+    "status": "a"
+  },
+  "87": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "88": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 46,
+    "status": "a"
+  },
+  "89": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Hip injury - Unknown return date",
+    "now_cost": 44,
+    "status": "i"
+  },
+  "9": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 52,
+    "status": "a"
+  },
+  "90": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "91": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "92": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 44,
+    "status": "a"
+  },
+  "93": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
+  "94": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "95": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 62,
+    "status": "a"
+  },
+  "96": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 53,
+    "status": "a"
+  },
+  "97": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 54,
+    "status": "a"
+  },
+  "98": {
+    "chance_of_playing_next_round": 100,
+    "chance_of_playing_this_round": 100,
+    "news": "",
+    "now_cost": 50,
+    "status": "a"
+  },
+  "99": {
+    "chance_of_playing_next_round": 0,
+    "chance_of_playing_this_round": 0,
+    "news": "Knee injury - Unknown return date",
+    "now_cost": 50,
+    "status": "i"
+  }
+}
