@@ -4,22 +4,25 @@ Independent, no-paid-API required Python + GitHub Actions automation. **This rep
 
 ## The schedule
 
-One GitHub Actions workflow, ten Eastern-time publication slots plus ten 15-minute-later catch-up checks (DST-aware):
+One **existing** GitHub Actions workflow, thirteen Eastern-time publication slots plus thirteen 15-minute-later catch-up checks (DST-aware). No new task or separate automation is created:
 
 | ET | Content | Frequency |
 |---|---|---|
 | 6:30 AM | Elite under-owned scout pick | Daily |
+| **7:00 AM** | **NEW — All 20 teams projected goals & clean-sheet board** | Daily |
 | 8:00 AM | Player comparison | Daily |
 | 9:00 AM | Four next-GW buy candidates (firm or conditional) | Daily |
 | 10:00 AM | Official FPL player-status/news board | Daily |
+| **11:00 AM** | **NEW — Single-team attack, defence & FPL decision desk** | Daily |
 | 12:00 PM | Confirmed official FPL price snapshot differences | Daily |
 | 2:00 PM | Transfer comparison/decision | Daily |
+| **3:00 PM** | **NEW — Positional GK/DEF/MID/FWD transfer suggestions** | Daily |
 | 4:00 PM | Captaincy showdown | Daily |
 | 5:30 PM | Last completed gameweek review | Daily |
 | 6:30 PM | Four next-GW sell candidates (firm or conditional) | Daily |
 | 8:00 PM | Evening assists/creator watch | Daily |
 
-Each successful delivery sends a downloadable 1536×864 branded PNG **document** to Telegram, with 5 short X-copy lines followed by exactly `#FPL #GW<number> #FPLVortex` in a code-formatted caption. The graphic contains sourced official FPL details. Telegram does **not** automatically publish on X.
+Each successful delivery sends a 1536×864 branded PNG to Telegram with five short X-copy lines. The **existing ten posts** retain their exact existing hashtags (`#FPL #GW<number> #FPLVortex`); **the three new editions** use four hashtags (`#FPL #GW<number> #FPLVortex #PremierLeague`). The graphic contains sourced official FPL details. Telegram does **not** automatically publish on X.
 
 ## Next-GW recommendations and metric periods
 
@@ -30,6 +33,20 @@ The next-GW BUY/SELL research starts with the official `transfers_in_event` and 
 Season counts, points from the last three **verified completed** gameweeks, and official current playing status are kept separate. Outfield defensive contributions are **actions**, not automatic points: the award is +2 points per match at 10 (DEF) or 12 (MID/FWD) qualifying actions, never to GK. GK save points are calculated per fixture in groups of three saves, not from season totals. If a required metric is absent it is N/A, never an assumed zero. Featured authentic Premier League portraits and crests are mandatory for the two new graphics, otherwise the publish fails closed.
 
 The default Telegram copy and `#FPL #GW<number> #FPLVortex` hashtag line remain unchanged. Use workflow dispatch `preview-buy` or `preview-sell` to send a **preview to Telegram** without writing the scheduled-delivery ledger; use normal `buy`/`sell` only when intentional repeat posting is desired. All source retrieval timestamps display **America/New_York**.
+
+## Three additional blue-master editions (added November 2, 2026)
+
+- **07:00 ET · Projected Goals & Clean Sheets.** All confirmed next-event official FPL fixtures, with five matchups on the left and five on the right for a standard 10-match, 20-club gameweek. Each team has its official club crest and its OWN market-implied goals / opponent-nil clean-sheet probability. No matchup is invented; irregular blank/double events report the true number of fixtures instead. Numbers are calculated only from **current and independently corroborated sportsbook 0.5 team-goal Over/Under prices**, de-vigged across at least two bookmakers using a Poisson-equivalent conversion. Figures are model-based market forecasts, not actual FPL points or published bookmaker xG. Without credible fresh markets, projected goals and CS% are **N/A** (the verified official fixtures and crests can still publish).
+- **11:00 ET · Team Attack & Defence.** Dynamic next-GW favourable opponent selection, rotating the featured club among high-potential fixtures to avoid identical daily editions. Display the last up to nine FINISHED league-match goals for and against from the official FPL fixture scores, not unverified xG. Show three available FPL assets with verified photos, crests, season minutes/form and next-GW fixture FDR.
+- **15:00 ET · Transfer Suggestions.** Four clearly different goalkeeper/defender/midfielder/forward one-GW comparisons. Official event-to-date transfer-out/in counts, price, form, minutes, status and next-GW fixture FDR drive conservative BUY/HOLD/SELL-to-BUY decisions. A swap only appears if a same-position, near-budget alternative has stronger verified indicators. There are no invented expected-point figures and no automatic transfers or points hits.
+
+All three use the unchanged FPL VORTEX **blue stadium master** plus original portrait-and-crest layouts. The references are **design inspiration only**, and their numbers/teams are never copied.
+
+### Optional real bookmaker data
+
+To enable odds, set an Actions secret named `THE_ODDS_API_KEY` with a valid [The Odds API](https://the-odds-api.com/) key supporting `soccer_epl` **event odds** and `alternate_team_totals` or `team_totals` markets. Do not store the key in source or chat messages. The 07:00 run checks the API for exact matching matchups and accurate kickoff times, and accepts a metric **only** when 2+ different bookmaker records each provide valid Over AND Under 0.5 goal odds updated within 12 hours. Missing credentials, bookmaker offerings, unavailable fixtures, stale quotes or API failures give **N/A**; the FPL API itself does **not** include sportsbook odds. This optional odds provider can incur API usage charges.
+
+New manual preview choices: `preview-projections`, `preview-team_analysis`, `preview-transfer_suggestions`. These send explicitly labeled previews to Telegram without modifying the scheduled delivery ledger. All three scheduled posts use the existing serialized queue and GW-aware duplicate protection; their generation rechecks the FPL deadline before sending.
 
 ## Important limits
 
@@ -55,7 +72,7 @@ The default Telegram copy and `#FPL #GW<number> #FPLVortex` hashtag line remain 
 8. Run workflow manually with **comparison**. Confirm the PNG is downloadable and its text is correct.
 9. **Automatic Telegram publishing is ON by default** when the Actions workflow is enabled. To pause scheduled posts without disabling manual testing, set repository Actions Variable `PUBLISH_ENABLED=false`. Setting it back to `true` or deleting it resumes publishing.
 
-**Warning:** The workflow is active. Telegram secrets are already connected in this deployment. All ten Eastern-time schedules run daily, including the 4 PM captaincy card. Schedules are best effort.
+**Warning:** The workflow is active. Telegram secrets are already connected in this deployment. All thirteen Eastern-time schedules run daily, including the 4 PM captaincy card. Schedules are best effort.
 
 ## Assists background
 
