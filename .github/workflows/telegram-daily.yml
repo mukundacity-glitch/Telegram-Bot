@@ -7,6 +7,12 @@ on:
     branches: [main]
     paths: ['.github/workflows/telegram-daily.yml']
   schedule:
+    # Early 5 AM availability check uses the SAME Task 1 6 AM content/receipt;
+    # every existing 06:00-20:00 slot stays in place, no new workflow/job.
+    - cron: '0 5 * * *'
+      timezone: America/New_York
+    - cron: '15 5 * * *'
+      timezone: America/New_York
     # Four ChatGPT task editions are routed through this SAME workflow.
     - cron: '0 6 * * *'
       timezone: America/New_York
@@ -156,7 +162,7 @@ jobs:
 
       - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
-        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
+        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
