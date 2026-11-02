@@ -1,4 +1,193 @@
 {
+  "buy:10:91:444102|91:201658|14:219168|6:469142": {
+    "confirmed": false,
+    "delivery_key": "2026-11-02:buy:GW10",
+    "evidence": {
+      "gw": 10,
+      "kind": "buy",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ]
+          ],
+          "metrics": {
+            "assists_season": "4",
+            "bonus_season": "7",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "5",
+            "dc_actions_season": "56",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "BUY",
+            "fixture": "IPS (A) FDR 2",
+            "form": "8.5",
+            "goals_conceded_season": "10",
+            "goals_season": "4",
+            "minutes": "753",
+            "minutes_last_three_completed_gws": "254",
+            "next_gw": "10",
+            "ownership": "17.4%",
+            "points_last_three_completed_gws": "25",
+            "position": "FWD",
+            "price": "£6.4m",
+            "reason": "Good GW fixture (FDR 2.0); FPL form 8.5 with 753 season mins.",
+            "recent_stat": "L3: 3 G · 1 A",
+            "replacement": "N/A",
+            "save_points_last_three_completed_gws": "N/A",
+            "saves_season": "0",
+            "season_stat": "SZN: 3.6 xG · 1.0 xA",
+            "set_pieces_current_order": "N/A",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "338,682",
+            "xa_season": "1.01",
+            "xg_season": "3.60",
+            "xgc_season": "9.17"
+          },
+          "player": "Evanilson",
+          "team": 91
+        },
+        {
+          "fixtures": [
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ]
+          ],
+          "metrics": {
+            "assists_season": "0",
+            "bonus_season": "12",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "3",
+            "dc_actions_season": "66",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "BUY",
+            "fixture": "IPS (A) FDR 2",
+            "form": "6.0",
+            "goals_conceded_season": "13",
+            "goals_season": "5",
+            "minutes": "750",
+            "minutes_last_three_completed_gws": "236",
+            "next_gw": "10",
+            "ownership": "27.2%",
+            "points_last_three_completed_gws": "21",
+            "position": "MID",
+            "price": "£6.6m",
+            "reason": "Good GW fixture (FDR 2.0); FPL form 6.0 with 750 season mins.",
+            "recent_stat": "L3: 21 pts · 21 DC acts",
+            "replacement": "N/A",
+            "save_points_last_three_completed_gws": "N/A",
+            "saves_season": "0",
+            "season_stat": "SZN: 3.7 xG · 1.4 xA",
+            "set_pieces_current_order": "FK #1 · COR #1",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "216,673",
+            "xa_season": "1.36",
+            "xg_season": "3.71",
+            "xgc_season": "9.42"
+          },
+          "player": "Tavernier",
+          "team": 91
+        },
+        {
+          "fixtures": [
+            [
+              "CRY",
+              "A",
+              3,
+              31
+            ]
+          ],
+          "metrics": {
+            "assists_season": "0",
+            "bonus_season": "14",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "4",
+            "dc_actions_season": "12",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "BUY",
+            "fixture": "CRY (A) FDR 3",
+            "form": "5.0",
+            "goals_conceded_season": "6",
+            "goals_season": "6",
+            "minutes": "657",
+            "minutes_last_three_completed_gws": "154",
+            "next_gw": "10",
+            "ownership": "21.4%",
+            "points_last_three_completed_gws": "18",
+            "position": "FWD",
+            "price": "£9.2m",
+            "reason": "Good GW fixture (FDR 3.0); FPL form 5.0 with 657 season mins.",
+            "recent_stat": "L3: 2 G · 0 A",
+            "replacement": "N/A",
+            "save_points_last_three_completed_gws": "N/A",
+            "saves_season": "0",
+            "season_stat": "SZN: 4.3 xG · 0.3 xA",
+            "set_pieces_current_order": "PEN #2",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "167,903",
+            "xa_season": "0.26",
+            "xg_season": "4.35",
+            "xgc_season": "8.73"
+          },
+          "player": "Isak",
+          "team": 14
+        },
+        {
+          "fixtures": [
+            [
+              "LEE",
+              "A",
+              3,
+              2
+            ]
+          ],
+          "metrics": {
+            "assists_season": "0",
+            "bonus_season": "6",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "4",
+            "dc_actions_season": "75",
+            "dc_points_last_three_completed_gws": "4",
+            "decision": "BUY",
+            "fixture": "LEE (A) FDR 3",
+            "form": "7.2",
+            "goals_conceded_season": "10",
+            "goals_season": "2",
+            "minutes": "810",
+            "minutes_last_three_completed_gws": "270",
+            "next_gw": "10",
+            "ownership": "10.8%",
+            "points_last_three_completed_gws": "14",
+            "position": "DEF",
+            "price": "£5.0m",
+            "reason": "Good GW fixture (FDR 3.0); FPL form 7.2 with 810 season mins.",
+            "recent_stat": "L3: 4 DC pts · 14 FPL pts",
+            "replacement": "N/A",
+            "save_points_last_three_completed_gws": "N/A",
+            "saves_season": "0",
+            "season_stat": "SZN: 75 DC acts · 4 CS",
+            "set_pieces_current_order": "N/A",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "157,484",
+            "xa_season": "0.69",
+            "xg_season": "1.63",
+            "xgc_season": "9.96"
+          },
+          "player": "Van Hecke",
+          "team": 6
+        }
+      ]
+    },
+    "group": "buy:10:91:444102|91:201658|14:219168|6:469142",
+    "timestamp": "2026-11-02T22:39:17.734416+00:00",
+    "version": "f24f417745af2f278fe86eca0719931416e4eb668054536d07ce4d9ce0ff3772"
+  },
   "comparison:10:3:199798|36:465730": {
     "confirmed": true,
     "delivery_key": "2026-11-02:comparison",
