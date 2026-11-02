@@ -63,3 +63,26 @@
 
 ## User clarification: approved slide exists in GitHub
 On 2026-11-02 the user explicitly confirmed that the existing `Telegram-Bot/assets/references/brand_background.png` in the `upgrade/unified-telegram-discord-news` branch is their desired slide. Its verified Git blob SHA-1 is `01d87ec98cf4d8d8ccff4814f4ddf5b3c339725e` (172062 bytes). The other in-chat PNG file (`59698.png`, blob `b0d890a529ad7416a142d3cfbbadfc800eb26bd0`) is a distinct binary. **Use the user-confirmed GitHub master without asking for a re-upload.** Renderer fingerprints were updated to match the confirmed GitHub master. Prior guidance in this document requiring re-upload of `59698.png` is superseded. Actual Telegram+Discord delivery/staging configuration and end-to-end duplicate safety remain separate release gates.
+
+## Four ChatGPT task schedules added to this single existing GitHub workflow (2026-11-02)
+
+All four ORIGINAL ChatGPT tasks are mapped to **12 distinct editorial slots** in `vortex/chatgpt_task_editions.py`; each is one factual current-GW editorial edition, never hardcoded to the screenshots. The new `vortex/task_publisher.py` requires paired Telegram+Discord receipts, automatically skips an already delivered identical current-GW edition, retains its topic and version, and uses strict user-confirmed master/photo/crest/current-FPL verification. Publishing **must not** be claimed live before the feature flags and delivery proof are available.
+
+| Source ChatGPT task | ET slot | Edition | Current source |
+| --- | --- | --- | --- |
+| Task 1 | 06:00 | Availability and transfer decisions | Verified dated official FPL flags; do not fabricate news |
+| Task 1 | 10:00 | Form, minutes and best targets | Sourced player cards and five-GW FDR |
+| Task 1 | 15:00 | Captaincy and differential edge | Eligible attacking players and five-GW FDR |
+| Task 1 | 19:00 | Transfer market and team news | Verified FPL event transfer totals and player flags |
+| Task 2 | 08:00 | All-20 match projected goals & CS | Existing `projections` graphics; skip duplicate after 07:00 original |
+| Task 2 | 10:45 | Three midfielders | Existing `midfielders` edition; skip original duplicate |
+| Task 2 | 12:00 | Attack / defence team analysis | Existing `team_analysis`; skip original 11:00 duplicate |
+| Task 2 | 15:45 | Four-position transfer comparison | Existing `transfer_suggestions`; skip original 15:00 duplicate |
+| Three Daily Posts | 07:30 | Upcoming fixture targets | Verified next FPL fixture action |
+| Three Daily Posts | 12:30 | Transfer and squad structure | Budget-aware comparison, no claimed manager-specific chip advice |
+| Three Daily Posts | 19:30 | Next-GW decision | Current FPL form, minutes and fixtures |
+| Press News | 14:00 every third day, from 2026-10-30 | Team news / status changes | Official FPL dated flags only; absent verified press quotes are never invented |
+
+The original 15 Telegram slots and all Discord schedules remain preserved. Six previously missing ET timestamps (06:00, 07:30, 12:30, 15:45, 19:00, 19:30) are added **only** as cron triggers to the existing `telegram-daily.yml`; the other six slots share existing cron events, so no extra jobs/tasks are created. The new task-only slots skip the original `vortex.bot` dispatcher to avoid unrecognized schedules. The press edition checks the user's actual 3-day cadence.
+
+**Production flags remain OFF:** `FPL_PORTED_TASKS_ENABLED`, `DUAL_PUBLISH_ENABLED`, `FPL_ENRICHED_VISUALS_ENABLED`. Existing Telegram/Dicord publishing is not altered without verified cutover. New bot still cannot guarantee X press-conference parity or nine detailed transfer comparisons; do not disable the four ChatGPT tasks until full parity and receipts are proven. **An existing Telegram-only 07:00/11:00/15:00 graphic must never be silently reposted as a different 'identical' Discord image on the later Task 2 slot.** It is held/skipped instead.
