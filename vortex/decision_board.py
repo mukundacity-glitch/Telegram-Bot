@@ -61,7 +61,7 @@ def start_bench(snapshot: FplSnapshot, now: datetime) -> ExtraPost:
             "opponent": opponent, "fdr": round(avg_fdr, 1),
             "form": round(form, 1), "ppg": round(ppg, 1),
             "minutes": int(minutes), "priority": priority,
-            "status": "AVAILABLE", "xpts": "N/A",
+            "status": "AVAILABLE", "xpts": None,
         })
     starting: list[dict] = []
     benching: list[dict] = []
