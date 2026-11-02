@@ -73,6 +73,9 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
     preview_only = slot == "preview" or slot.startswith("preview-")
     dual_publish = os.getenv("DUAL_PUBLISH_ENABLED", "false").lower() == "true" and not preview_only
+    if dual_publish:
+        from .delivery_preflight import assert_dual_destinations
+        assert_dual_destinations()  # fail BEFORE posting to either platform
     publication_slot = "comparison" if slot == "preview" else slot.removeprefix("preview-") if preview_only else slot
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"
