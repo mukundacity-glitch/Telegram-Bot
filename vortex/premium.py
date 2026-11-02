@@ -409,6 +409,8 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
         _large_feature(canvas, content, content.cards[0], *media[0], session)
     elif content.kind in ('buy', 'sell'):
         _recommendation_layout(canvas, content, media)
+    elif content.kind == 'midfielders':
+        _midfielders_layout(canvas, content, media, session)
     elif content.kind == 'news':
         _news(canvas, content, media, session)
     else:
