@@ -85,7 +85,7 @@ def _caption(lines: list[str], gw: int) -> str:
     if len(lines) != 5:
         raise ValueError("Exactly five X caption lines required")
     sanitized = [line.replace("\n", " ").replace("#", "").strip() for line in lines]
-    hashtags = f"#FPL #GW{gw} #FPLVortex"
+    hashtags = f"#FPL #GW{gw} #FPLVortex #PremierLeague"
     result = "\n".join([*sanitized, hashtags])
     if len(result) > 280:
         raise ValueError(f"X description too long ({len(result)} characters)")
