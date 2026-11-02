@@ -30,7 +30,7 @@ def snap():
                   expected_goals="1.24", expected_assists="1.01")
     teams = {1: {"id": 1, "code": 3, "name": "Arsenal", "short_name": "ARS"},
              2: {"id": 2, "code": 8, "name": "Chelsea", "short_name": "CHE"}}
-    events = [{"id": n, "deadline_time": (now+timedelta(days=n-10)).isoformat(),
+    events = [{"id": n, "deadline_time": (now+timedelta(days=n-9)).isoformat(),
                "finished": False} for n in range(10, 15)]
     events += [{"id": 9, "deadline_time": (now-timedelta(days=3)).isoformat(),
                 "finished": True}]
