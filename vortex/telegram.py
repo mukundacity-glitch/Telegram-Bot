@@ -84,6 +84,34 @@ class TelegramClient:
             )
         return int(data["result"]["message_id"])
 
+    def edit_shared_png(self, image: Path, caption: str, message_id: int) -> int:
+        """Update the EXISTING Telegram photo in place, never publish a repeat.
+
+        Telegram editMessageMedia returns the edited Message for chat_id
+        targets (True is for inline-message edits). Require actual matching
+        message ID before recording any edit as confirmed.
+        """
+        import json
+        if not self.chat_id or type(message_id) is not int or message_id <= 0:
+            raise ValueError("Existing Telegram chat and post ID are required")
+        if not image.is_file() or image.stat().st_size < 500:
+            raise ValueError("Cannot edit Telegram news with missing image")
+        if len(caption.splitlines()) != 5 or len(caption) > 1024:
+            raise ValueError("Updated caption must be five Telegram-sized lines")
+        media = {"type": "photo", "media": "attach://edited_photo",
+                 "caption": caption}
+        with image.open("rb") as source:
+            payload = self._post(
+                "editMessageMedia",
+                {"chat_id": self.chat_id, "message_id": message_id,
+                 "media": json.dumps(media, ensure_ascii=False)},
+                {"edited_photo": (image.name, source, "image/png")},
+            )
+        msg = payload.get("result")
+        if not isinstance(msg, dict) or msg.get("message_id") != message_id:
+            raise RuntimeError("Telegram edit did not confirm the original post ID")
+        return message_id
+
     def send_png(self, image: Path, caption: str, title: str, gw: int) -> int:
         if not self.chat_id:
             raise ValueError("TELEGRAM_CHAT_ID secret is not configured")
