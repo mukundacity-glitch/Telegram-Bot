@@ -90,6 +90,14 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         snapshot = collect_snapshot()
         previous_prices = read_state(price_state_path)
         article = generate(publication_slot, snapshot, now, previous_prices)
+        if (not preview_only
+            and os.getenv("FPL_PORTED_TASKS_ENABLED", "false").lower() == "true"
+            and dual_publish):
+            from .ported_topic_guard import previously_posted_same_players
+            recorded = read_state(STATE / "ported_task_versions.json")
+            if previously_posted_same_players(publication_slot, article, recorded, now):
+                print(f"ALREADY COVERED TODAY {publication_slot}: official player/topic overlap; skip duplicate")
+                return 0
         if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions", "midfielders", "start_bench"):
             deadline = upcoming_deadline(snapshot)
             # Use the same API snapshot for both the heading and the deadline.
