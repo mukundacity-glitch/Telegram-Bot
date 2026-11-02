@@ -62,6 +62,10 @@ def _source_with_safe_deadline():
 
 def test_true_same_caption_real_dual_receipts_and_no_repost(monkeypatch, tmp_path):
     s, now = _source_with_safe_deadline()
+    # Inert unit-test credentials only; mock transports prohibit real sending.
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "UNIT_TEST_PLACEHOLDER")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "UNIT_TEST_CHAT")
+    monkeypatch.setenv("DISCORD_WEBHOOK_URL", "https://discord.com/api/webhooks/0/inert-unit-test")
     monkeypatch.setenv("FPL_PORTED_TASKS_ENABLED", "true")
     monkeypatch.setenv("DUAL_PUBLISH_ENABLED", "true")
     monkeypatch.setenv("FPL_ENRICHED_VISUALS_ENABLED", "true")
@@ -99,6 +103,10 @@ def test_true_same_caption_real_dual_receipts_and_no_repost(monkeypatch, tmp_pat
 
 def test_original_task2_edition_never_fires_duplicate_after_legacy_delivery(monkeypatch, tmp_path):
     s, now = _source_with_safe_deadline()
+    # Inert unit-test credentials only; mock transports prohibit real sending.
+    monkeypatch.setenv("TELEGRAM_BOT_TOKEN", "UNIT_TEST_PLACEHOLDER")
+    monkeypatch.setenv("TELEGRAM_CHAT_ID", "UNIT_TEST_CHAT")
+    monkeypatch.setenv("DISCORD_WEBHOOK_URL", "https://discord.com/api/webhooks/0/inert-unit-test")
     monkeypatch.setenv("FPL_PORTED_TASKS_ENABLED", "true")
     monkeypatch.setenv("DUAL_PUBLISH_ENABLED", "true")
     monkeypatch.setenv("FPL_ENRICHED_VISUALS_ENABLED", "true")
