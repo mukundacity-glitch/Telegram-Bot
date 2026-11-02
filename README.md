@@ -19,8 +19,10 @@ cannot intentionally publish a duplicate after a successful first delivery.
 GitHub's cron service can still queue, delay, or occasionally drop scheduled
 runs. A scheduled job must successfully fetch official FPL data and verified
 images, pass its deadline checks, and send to Telegram; no setting can guarantee
-delivery if those prerequisites fail. The 07:00 bookmaker figures remain N/A
-until `THE_ODDS_API_KEY` and independent market odds are available.
+delivery if those prerequisites fail. The 07:00 goals/CS board uses fresh, fixture-verified public Solio Analytics
+market-informed model projections when independent bookmaker odds cannot be
+verified. These are MODEL estimates, not live bookmaker prices. Missing or stale
+metrics display N/A, never FDR substituted as a goal forecast.
 
 ## The schedule
 
@@ -56,7 +58,7 @@ The default Telegram copy and `#FPL #GW<number> #FPLVortex` hashtag line remain 
 
 ## Three additional blue-master editions (added November 2, 2026)
 
-- **07:00 ET · Projected Goals & Clean Sheets.** All confirmed next-event official FPL fixtures, with five matchups on the left and five on the right for a standard 10-match, 20-club gameweek. Each team has its official club crest and its OWN market-implied goals / opponent-nil clean-sheet probability. No matchup is invented; irregular blank/double events report the true number of fixtures instead. Numbers are calculated only from **current and independently corroborated sportsbook 0.5 team-goal Over/Under prices**, de-vigged across at least two bookmakers using a Poisson-equivalent conversion. Figures are model-based market forecasts, not actual FPL points or published bookmaker xG. Without credible fresh markets, projected goals and CS% are **N/A** (the verified official fixtures and crests can still publish).
+- **07:00 ET · Projected Goals & Clean Sheets.** All confirmed next-event official FPL fixtures, with five matchups on the left and five on the right for a standard 10-match, 20-club gameweek. Each team has its official club crest and its OWN market-implied goals / opponent-nil clean-sheet probability. No matchup is invented; irregular blank/double events report the true number of fixtures instead. Numbers are calculated only from **current and independently corroborated sportsbook 0.5 team-goal Over/Under prices**, de-vigged across at least two bookmakers using a Poisson-equivalent conversion. Figures are model-based market forecasts, not actual FPL points or published bookmaker xG. The existing two-bookmaker odds path is preferred where valid. When no complete verified bookmaker forecast exists, the public Solio Analytics model (refreshed about every four hours) provides goal and CS projections when its published GW, opponent, venue and generated-at timestamp match official FPL. Solio's explicit CS% is used where published; otherwise CS% is labelled a Poisson model implication of its projected goals (not a directly quoted bookmaker probability). Aggregate Solio forecasts are rejected for double-gameweek fixtures. If neither source can be verified, **prG N/A · CS N/A** is shown (never FDR substituted).
 - **11:00 ET · Team Attack & Defence.** Dynamic next-GW favourable opponent selection, rotating the featured club among high-potential fixtures to avoid identical daily editions. Display the last up to nine FINISHED league-match goals for and against from the official FPL fixture scores, not unverified xG. Show three available FPL assets with verified photos, crests, season minutes/form and next-GW fixture FDR.
 - **15:00 ET · Transfer Suggestions.** Four clearly different goalkeeper/defender/midfielder/forward one-GW comparisons. Official event-to-date transfer-out/in counts, price, form, minutes, status and next-GW fixture FDR drive conservative BUY/HOLD/SELL-to-BUY decisions. A swap only appears if a same-position, near-budget alternative has stronger verified indicators. There are no invented expected-point figures and no automatic transfers or points hits.
 

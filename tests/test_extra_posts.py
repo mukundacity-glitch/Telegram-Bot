@@ -15,6 +15,15 @@ from vortex.render import render
 from vortex.schedule import SLOT_CRONS, SLOT_HOURS
 
 
+@pytest.fixture(autouse=True)
+def no_live_solio_in_legacy_unit_tests(monkeypatch):
+    # Unit tests must be deterministic and never request a public live model.
+    # Solio parsing, freshness and integration are tested in test_solio.py.
+    monkeypatch.setattr("vortex.extra_posts.solio_match_projections",
+                        lambda *_args, **_kwargs: {})
+
+
+
 def sample():
     snap = fake_snapshot()
     now = snap.fetched_at
