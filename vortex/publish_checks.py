@@ -62,9 +62,26 @@ def validate_article(article: Any, snapshot: Any) -> None:
                 raise RuntimeError("Goal/CS projections unverified; hold this edition, not N/A")
     if getattr(article, "kind", None) == "team_analysis":
         data = article.team_analysis or {}
+        if (not data.get("history") or data.get("gf_total") is None
+            or data.get("ga_total") is None or not data.get("opponent_code")):
+            raise RuntimeError("Incomplete verified historical team form; hold team graphic")
         for p in data.get("players", []):
             if not p.get("photo_code") or not p.get("club_code"):
                 raise RuntimeError("Missing portrait or club badge for a scout pick")
+            if any(_unverified(p.get(f)) or p.get(f) is None
+                   for f in ("price", "form", "opponent", "fdr", "minutes")):
+                raise RuntimeError("Incomplete verified scout stats; hold this team graphic")
+    if getattr(article, "kind", None) == "transfer_suggestions":
+        rows = article.transfers
+        if len(rows) != 4:
+            raise RuntimeError("Four-position comparison must include GK DEF MID FWD")
+        for row in rows:
+            for p in (row["out"], row.get("incoming")):
+                if p is None:
+                    continue
+                if any(_unverified(p.get(f)) or p.get(f) is None
+                       for f in ("photo_code", "club_code", "price", "form", "fdr", "out_event", "opponent")):
+                    raise RuntimeError("Transfer card contains an unverified visible field")
     if getattr(article, "kind", None) == "start_bench":
         for p in article.start_bench:
             if not p.get("photo_code") or not p.get("club_code"):
