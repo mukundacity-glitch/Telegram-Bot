@@ -418,6 +418,8 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
     _footer(canvas, content)
     output.parent.mkdir(parents=True, exist_ok=True)
     temp = output.with_suffix('.tmp.png')
+    if content.kind == 'midfielders':
+        canvas = canvas.resize((1920, 1080), Image.Resampling.LANCZOS)
     canvas.save(temp, format='PNG', optimize=True)
     temp.replace(output)
     return output
