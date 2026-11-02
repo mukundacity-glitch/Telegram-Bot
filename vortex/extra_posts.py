@@ -32,6 +32,7 @@ class ExtraPost:
     fixtures: tuple[dict[str, Any], ...] = ()
     team_analysis: dict[str, Any] | None = None
     transfers: tuple[dict[str, Any], ...] = ()
+    start_bench: tuple[dict[str, Any], ...] = ()
 
 
 def caption(lines: list[str], gw: int) -> str:
@@ -252,6 +253,9 @@ def _transfers(snapshot: FplSnapshot) -> list[dict[str, Any]]:
 
 
 def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost:
+    if kind == "start_bench":
+        from .decision_board import start_bench
+        return start_bench(snapshot, now)
     if kind not in {"projections", "team_analysis", "transfer_suggestions"}:
         raise ValueError("Unsupported extra post kind")
     gw = snapshot.gameweek()
