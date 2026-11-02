@@ -322,7 +322,10 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
         _text(draw, str(m.get('recent_stat', 'N/A')), x + 17, 515, width - 32, 19, WHITE, 14)
         _wrapped(draw, str(m.get('reason', '')), x + 17, 544, width - 34, 2, 18, GOLD)
         risk_text = str(m.get('caveat', '')).split('. ')[0]
-        _text(draw, 'RISK: ' + risk_text, x + 16, 604, width - 32, 15, MUTED, 13)
+        _text(draw, 'RISK: ' + risk_text, x + 16, 590, width - 32, 15, MUTED, 13)
+        if content.kind == 'sell':
+            _text(draw, 'ALT: ' + str(m.get('replacement', 'N/A')),
+                  x + 16, 610, width - 32, 15, CYAN, 13)
 
     # Compact next-GW FDR table; doubles are explicitly two entries, blanks marked.
     draw.rounded_rectangle((41, 641, 1494, 746), radius=12,
