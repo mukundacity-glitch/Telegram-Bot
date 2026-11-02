@@ -88,7 +88,7 @@ def render_checked(article: Any, snapshot: Any, output: Path,
         action = "MONITOR"
         if hasattr(article, "verdict"):
             for choice in ("CAPTAIN", "SELL", "BUY", "BENCH", "START", "HOLD", "MONITOR"):
-                if re.search(r"\\b" + choice + r"\\b", article.verdict.upper()):
+                if re.search(r"\b" + choice + r"\b", article.verdict.upper()):
                     action = choice
                     break
         result = apply_footer(result, verdict=f"{action} • NEXT GW DECISION")
