@@ -62,7 +62,7 @@ def test_nonstandard_gw_never_invents_missing_fixtures(monkeypatch):
     monkeypatch.setattr("vortex.extra_posts.verified_match_odds", lambda s, fixtures: {})
     post = generate_extra("projections", snap, snap.fetched_at)
     assert len(post.fixtures) == 9
-    assert "9 official matchups" in post.caption
+    assert "9 verified matchups" in post.caption
 
 
 def test_team_history_uses_only_completed_fpl_scorelines():
