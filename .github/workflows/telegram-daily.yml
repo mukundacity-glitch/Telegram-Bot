@@ -223,7 +223,8 @@ jobs:
         run: python -m vortex.unified_runner
 
       - name: Publish original four ChatGPT editions to both platforms (opt-in)
-        if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-AUTOPOST-ONCE]')) }}
+        # An unrelated blocked legacy image must not cancel this edition.
+        if: ${{ always() && (github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-AUTOPOST-ONCE]'))) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -249,8 +250,8 @@ jobs:
 
       - name: Check verified Telegram news from 5 AM through 10 PM ET
         # One confirmed new official FPL story at most per scheduled check.
-        # Original Telegram editions, Discord and ChatGPT schedules unchanged.
-        if: ${{ github.event_name == 'schedule' }}
+        # A blocked earlier graphic cannot suppress an independently verified story.
+        if: ${{ always() && github.event_name == 'schedule' }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -263,7 +264,9 @@ jobs:
         run: python -m vortex.telegram_news_window
 
       - name: Save newest PNG as short-lived artifact
-        if: success()
+        # Preserve the graphic and locally confirmed receipts even if another
+        # edition failed; those are needed to recover from a push race.
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: fpl-vortex-${{ github.run_id }}
