@@ -75,7 +75,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         snapshot = collect_snapshot()
         previous_prices = read_state(price_state_path)
         article = generate(publication_slot, snapshot, now, previous_prices)
-        if publication_slot in ("buy", "sell"):
+        if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions"):
             deadline = upcoming_deadline(snapshot)
             # Use the same API snapshot for both the heading and the deadline.
             # A delayed scheduled job must never publish a locked GW.
@@ -88,7 +88,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                 return 0
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
         render(article, path)
-        if publication_slot in ("buy", "sell"):
+        if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions"):
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
                 raise RuntimeError("GW deadline elapsed during recommendation generation")
@@ -115,7 +115,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="FPL Vortex Telegram content delivery")
-    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening", "buy", "sell", "preview-buy", "preview-sell"])
+    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening", "buy", "sell", "preview-buy", "preview-sell", "projections", "team_analysis", "transfer_suggestions", "preview-projections", "preview-team_analysis", "preview-transfer_suggestions"])
     args = parser.parse_args()
     return run(args.slot, os.environ.get("SCHEDULED_CRON"))
 

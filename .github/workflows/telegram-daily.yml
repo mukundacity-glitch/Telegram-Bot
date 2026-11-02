@@ -4,15 +4,21 @@ on:
   schedule:
     - cron: '30 6 * * *'
       timezone: America/New_York
+    - cron: '0 7 * * *'
+      timezone: America/New_York
     - cron: '0 8 * * *'
       timezone: America/New_York
     - cron: '0 9 * * *'
       timezone: America/New_York
     - cron: '0 10 * * *'
       timezone: America/New_York
+    - cron: '0 11 * * *'
+      timezone: America/New_York
     - cron: '0 12 * * *'
       timezone: America/New_York
     - cron: '0 14 * * *'
+      timezone: America/New_York
+    - cron: '0 15 * * *'
       timezone: America/New_York
     - cron: '0 16 * * *'
       timezone: America/New_York
@@ -25,15 +31,21 @@ on:
     # Backup triggers check the same day for a missed/failed delivery.
     - cron: '45 6 * * *'
       timezone: America/New_York
+    - cron: '15 7 * * *'
+      timezone: America/New_York
     - cron: '15 8 * * *'
       timezone: America/New_York
     - cron: '15 9 * * *'
       timezone: America/New_York
     - cron: '15 10 * * *'
       timezone: America/New_York
+    - cron: '15 11 * * *'
+      timezone: America/New_York
     - cron: '15 12 * * *'
       timezone: America/New_York
     - cron: '15 14 * * *'
+      timezone: America/New_York
+    - cron: '15 15 * * *'
       timezone: America/New_York
     - cron: '15 16 * * *'
       timezone: America/New_York
@@ -65,6 +77,9 @@ on:
           - preview-evening
           - preview-buy
           - preview-sell
+          - preview-projections
+          - preview-team_analysis
+          - preview-transfer_suggestions
           - news
           - prices
           - transfer
@@ -73,6 +88,9 @@ on:
           - evening
           - buy
           - sell
+          - projections
+          - team_analysis
+          - transfer_suggestions
 
 permissions:
   contents: write
@@ -106,6 +124,8 @@ jobs:
         id: deliver
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          # Optional: absent key means no bookmaker projections (N/A, never guessed).
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
           REQUESTED_SLOT: ${{ inputs.slot || 'auto' }}

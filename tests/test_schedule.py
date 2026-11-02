@@ -6,9 +6,9 @@ import pytest
 from vortex.schedule import SLOT_CRONS, captaincy_due, resolve_slot
 
 
-def test_all_ten_slots_have_distinct_times_and_backup_checks():
-    assert len(SLOT_CRONS) == 20
-    assert len(set(SLOT_CRONS.values())) == 10
+def test_all_thirteen_slots_have_distinct_times_and_backup_checks():
+    assert len(SLOT_CRONS) == 26
+    assert len(set(SLOT_CRONS.values())) == 13
     assert resolve_slot("auto", "15 8 * * *", datetime.now(timezone.utc)) == "comparison"
 
 
@@ -35,3 +35,14 @@ def test_dst_zone_is_eastern():
     winter = datetime(2026, 12, 1, tzinfo=ZoneInfo("America/New_York"))
     assert summer.utcoffset().total_seconds() == -14400
     assert winter.utcoffset().total_seconds() == -18000
+
+def test_three_extra_slots_use_eastern_and_have_no_conflicts():
+    from vortex.schedule import SLOT_HOURS
+    assert SLOT_HOURS["projections"] == (7, 0)
+    assert SLOT_HOURS["team_analysis"] == (11, 0)
+    assert SLOT_HOURS["transfer_suggestions"] == (15, 0)
+    assert SLOT_CRONS["15 7 * * *"] == "projections"
+    assert SLOT_CRONS["15 11 * * *"] == "team_analysis"
+    assert SLOT_CRONS["15 15 * * *"] == "transfer_suggestions"
+    assert len(set(SLOT_HOURS.values())) == len(SLOT_HOURS)
+    assert all((6, 0) <= when <= (20, 0) for when in SLOT_HOURS.values())

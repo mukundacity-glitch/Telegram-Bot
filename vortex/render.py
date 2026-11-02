@@ -126,6 +126,10 @@ def _draw_card(canvas: Image.Image, card: Card, box: tuple[int, int, int, int], 
 
 
 def render(content: Content, output: Path, session: requests.Session | None = None) -> Path:
+    from .extra_posts import ExtraPost
+    if isinstance(content, ExtraPost):
+        from .extra_render import render_extra
+        return render_extra(content, output, session or requests.Session())
     if not content.cards:
         raise ValueError("Cannot render without sourced content")
     client = session or requests.Session()
