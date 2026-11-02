@@ -82,30 +82,9 @@ on:
         description: 'Scheduled posts run automatically. Manual auto does not send a test or duplicate post.'
         required: true
         type: choice
-        default: auto
+        default: task-edition
         options:
-          - auto
-          - audit-news
-          - audit-tasks
           - task-edition
-          - discover
-          - elite
-          - comparison
-          - preview
-          - preview-news
-          - preview-transfer
-          - preview-prices
-          - preview-captaincy
-          - preview-review
-          - preview-elite
-          - preview-evening
-          - preview-buy
-          - preview-sell
-          - preview-projections
-          - preview-midfielders
-          - preview-start_bench
-          - preview-team_analysis
-          - preview-transfer_suggestions
           - news
           - prices
           - transfer
@@ -119,7 +98,8 @@ on:
           - midfielders
           - start_bench
           - transfer_suggestions
-
+          - elite
+          - comparison
       task_edition:
         description: 'Choose one former ChatGPT edition for a safe receipt-checked manual run'
         required: false
