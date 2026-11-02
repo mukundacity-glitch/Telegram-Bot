@@ -70,6 +70,14 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
         values = player_metrics(snapshot, player, recent[-3:])
         fixtures = five_gw_fixtures(snapshot, player, xpts)
         action, reason = choose_manager_action(player, fixtures, recent[-3:])
+        # Preserve existing editorial categories, while not advising an
+        # unavailable/doubtful player to start or buy on a numeric score.
+        published_label = str(card.label or "").upper()
+        if player.get("status") == "a":
+            if post.kind in ("buy", "sell") and published_label in ("BUY", "SELL", "HOLD", "WATCHLIST"):
+                action = "MONITOR" if published_label == "WATCHLIST" else published_label
+            elif post.kind == "captaincy" and idx == 0:
+                action = "CAPTAIN"
         accent = ((53, 227, 244), (240, 202, 97), (71, 224, 148),
                   (160, 166, 250))[idx]
         draw.rounded_rectangle((x0, 168, x1, 715), radius=13,
