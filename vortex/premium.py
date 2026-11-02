@@ -30,6 +30,19 @@ def _text(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, max_width: int,
     draw.text((x, y), value, font=_fitted_font(draw, value, max_width, size, minimum), fill=color)
 
 
+
+def _safe_line(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, width: int,
+               size: int, color: tuple[int, int, int], minimum: int = 13) -> None:
+    """Prevent long player risk/replacement copy escaping into adjacent cards."""
+    value = str(text).replace('\\n', ' ').strip()
+    font = _fitted_font(draw, value, width, size, minimum)
+    if _text_width(draw, value, font) > width:
+        while value and _text_width(draw, value.rstrip() + '…', font) > width:
+            value = value[:-1]
+        value = value.rstrip() + '…' if value else '…'
+    draw.text((x, y), value, font=font, fill=color)
+
+
 def _wrapped(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, width: int,
              max_lines: int, size: int, color: tuple[int, int, int]) -> None:
     words = str(text).replace('\n', ' ').split()
@@ -322,10 +335,10 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
         _text(draw, str(m.get('recent_stat', 'N/A')), x + 17, 515, width - 32, 19, WHITE, 14)
         _wrapped(draw, str(m.get('reason', '')), x + 17, 544, width - 34, 2, 18, GOLD)
         risk_text = str(m.get('caveat', '')).split('. ')[0]
-        _text(draw, 'RISK: ' + risk_text, x + 16, 590, width - 32, 15, MUTED, 13)
+        _safe_line(draw, 'RISK: ' + risk_text, x + 16, 588, width - 32, 15, MUTED, 13)
         if content.kind == 'sell':
-            _text(draw, 'ALT: ' + str(m.get('replacement', 'N/A')),
-                  x + 16, 610, width - 32, 15, CYAN, 13)
+            _safe_line(draw, 'ALT: ' + str(m.get('replacement', 'N/A')),
+                       x + 16, 610, width - 32, 15, CYAN, 13)
 
     # Compact next-GW FDR table; doubles are explicitly two entries, blanks marked.
     draw.rounded_rectangle((41, 641, 1494, 746), radius=12,
