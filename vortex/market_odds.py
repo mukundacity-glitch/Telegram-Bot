@@ -226,6 +226,9 @@ def verified_match_odds(snapshot: FplSnapshot,
     for f in fixtures[:12]:
         if not isinstance(f.get("id"), int):
             continue
+        kick = _datetime(f.get("kickoff_time"))
+        if kick is None or kick <= now or f.get("finished"):
+            continue
         event_id = _matched_event([e for e in events if isinstance(e, dict)], f, snapshot)
         if event_id is None:
             continue
@@ -233,6 +236,13 @@ def verified_match_odds(snapshot: FplSnapshot,
             "regions": "uk,eu", "markets": "alternate_team_totals,team_totals,h2h",
             "oddsFormat": "decimal", "dateFormat": "iso",
         })
+        if not isinstance(odds, dict):
+            # Some sportsbooks do not offer 0.5 team totals at all. Do not
+            # discard valid independent 1X2 win-market data as a side effect.
+            odds = _safe_get(client, f"/events/{event_id}/odds", key, {
+                "regions": "uk,eu", "markets": "h2h",
+                "oddsFormat": "decimal", "dateFormat": "iso",
+            })
         if not isinstance(odds, dict):
             continue
         home = canonical(snapshot.teams.get(f.get("team_h"), {}).get("name", ""))
