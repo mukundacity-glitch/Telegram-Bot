@@ -83,3 +83,26 @@ def test_new_buy_slot_never_sends_after_deadline(delivery_environment, monkeypat
     monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: datetime.now(timezone.utc) - timedelta(minutes=1))
     assert bot.run("auto", "0 9 * * *") == 1
     assert delivery_environment == []
+
+
+def test_new_projection_slot_deduplicates_across_backup_check(delivery_environment, monkeypatch):
+    from datetime import timedelta
+    now = datetime.now(timezone.utc)
+    today = now.astimezone(ZoneInfo("America/New_York")).date()
+    state_path = bot.STATE / "deliveries.json"
+    ledger = json.loads(state_path.read_text(encoding="utf-8"))
+    ledger[f"{today}:projections:GW7"] = {"delivered": True}
+    state_path.write_text(json.dumps(ledger), encoding="utf-8")
+    monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: now + timedelta(days=1))
+    assert bot.run("auto", "0 7 * * *") == 0
+    assert bot.run("auto", "15 7 * * *") == 0
+    assert delivery_environment == []
+
+
+def test_new_team_and_transfer_slots_abort_after_deadline(delivery_environment, monkeypatch):
+    from datetime import timedelta
+    now = datetime.now(timezone.utc)
+    monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: now - timedelta(minutes=1))
+    assert bot.run("auto", "0 11 * * *") == 1
+    assert bot.run("auto", "0 15 * * *") == 1
+    assert delivery_environment == []
