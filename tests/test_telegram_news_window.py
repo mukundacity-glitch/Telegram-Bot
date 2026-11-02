@@ -51,9 +51,10 @@ def test_news_window_follows_scheduled_local_cron_not_wall_clock():
 def test_existing_cron_times_and_task_jobs_are_retained():
     workflow = WORKFLOW.read_text()
     crons = re.findall(r"^\s+- cron: '([^']+)'", workflow, re.MULTILINE)
-    assert len(crons) == len(set(crons)) == 39
+    assert len(crons) == len(set(crons)) == 41
     assert "0 5 * * *" in crons and "15 5 * * *" in crons
     assert "0 6 * * *" in crons and "0 19 * * *" in crons
+    assert "0 17 * * *" in crons and "0 18 * * *" in crons
     assert "0 20 * * *" in crons and "0 21 * * *" in crons
     assert workflow.count("  publish:\n") == 1
     assert "Check verified Telegram news from 6 AM through 9 PM ET" in workflow
