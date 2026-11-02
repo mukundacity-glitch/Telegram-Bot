@@ -188,10 +188,31 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
                              and r[0]["id"] != player["id"]), None)
             if possible is not None:
                 replacement = f"{snapshot.name(possible)} ({snapshot.price(possible)})"
+        set_pieces = [
+            f"{label} #{player[field]}" for label, field in (
+                ("PEN", "penalties_order"), ("FK", "direct_freekicks_order"),
+                ("COR", "corners_and_indirect_freekicks_order"))
+            if integer(player.get(field)) is not None and 1 <= player[field] <= 2
+        ] if pos in ("MID", "FWD") else []
         metrics = {
             "price": snapshot.price(player),
             "position": pos,
             "ownership": f"{display(player.get('selected_by_percent'), 1)}%",
+            "goals_season": display(player.get("goals_scored")),
+            "assists_season": display(player.get("assists")),
+            "bonus_season": display(player.get("bonus")),
+            "clean_sheets_season": display(player.get("clean_sheets")),
+            "goals_conceded_season": display(player.get("goals_conceded")),
+            "saves_season": display(player.get("saves")),
+            "xg_season": display(player.get("expected_goals"), 2),
+            "xa_season": display(player.get("expected_assists"), 2),
+            "xgc_season": display(player.get("expected_goals_conceded"), 2),
+            "dc_actions_season": display(player.get("defensive_contribution")) if pos != "GK" else "N/A",
+            "dc_points_last_three_completed_gws": display(recent.get("dc_points")) if pos != "GK" else "N/A",
+            "save_points_last_three_completed_gws": display(recent.get("save_points")) if pos == "GK" else "N/A",
+            "minutes_last_three_completed_gws": display(recent.get("minutes")),
+            "points_last_three_completed_gws": display(recent.get("points")),
+            "set_pieces_current_order": " · ".join(set_pieces) if set_pieces else "N/A",
             "form": display(player.get("form"), 1),
             "minutes": display(player.get("minutes")),
             "transfers": display(transferred),
