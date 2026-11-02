@@ -64,3 +64,22 @@ def test_daily_captaincy_publishes_without_deadline_tomorrow(
 ) -> None:
     assert bot.run('captaincy', '0 16 * * *') == 0
     assert delivery_environment == ['THE FPL DECISION ROOM']
+
+
+def test_new_buy_slot_deduplicates_by_gw(delivery_environment, monkeypatch):
+    from datetime import timedelta
+    today = datetime.now(timezone.utc).astimezone(ZoneInfo("America/New_York")).date()
+    store = bot.STATE / "deliveries.json"
+    state = json.loads(store.read_text())
+    state[f"{today}:buy:GW7"] = {"delivered": True}
+    store.write_text(json.dumps(state))
+    monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: datetime.now(timezone.utc) + timedelta(days=1))
+    assert bot.run("auto", "0 9 * * *") == 0
+    assert delivery_environment == []
+
+
+def test_new_buy_slot_never_sends_after_deadline(delivery_environment, monkeypatch):
+    from datetime import timedelta
+    monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: datetime.now(timezone.utc) - timedelta(minutes=1))
+    assert bot.run("auto", "0 9 * * *") == 1
+    assert delivery_environment == []
