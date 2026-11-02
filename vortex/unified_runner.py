@@ -15,6 +15,7 @@ from typing import Any
 
 from .fpl import collect_snapshot
 from .news_sources import collect_fpl_changes, collect_reported_headlines, fpl_baseline
+from .news_graphics import render_news_card
 from .syndication import DiscordWebhookClient, NewsPost, load_journal, publish_shared, save_journal
 from .telegram import TelegramClient
 
@@ -23,6 +24,7 @@ PENDING = BASE / "news_pending.json"
 BASELINE = BASE / "news_baseline.json"
 SEEN = BASE / "news_seen.json"
 RECEIPTS = BASE / "news_deliveries.json"
+NEWS_OUTPUT = BASE.parent / "output" / "news"
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -101,11 +103,18 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
         # Persisted media attachments are not supported by the news queue.
         record = NewsPost(**{k: data[k] for k in (
             "identity", "title", "caption", "gameweek", "image", "source", "source_url"
-        )})
+        )} | {k: data.get(k) for k in ("player_name", "team_name", "photo_code", "club_code")
+             if k in data})
         try:
+            # One immutable story ID and ONE image are supplied to both.
+            # The news lane never silently falls back to text-only delivery.
+            from dataclasses import replace
+            image_path = NEWS_OUTPUT / f"{record.identity.replace(':', '_')}.png"
+            render_news_card(record, image_path)
+            record = replace(record, image=image_path)
             result = publish_shared(record, RECEIPTS, telegram, discord,
                                     now_iso=current_time.isoformat())
-        except (RuntimeError, ValueError) as exc:
+        except (RuntimeError, ValueError, FileNotFoundError) as exc:
             failures.append(f"{identity}: {type(exc).__name__}")
             continue  # another story may be valid; no platform success is undone
         if result.get("delivered") and result.get("discord_delivered"):
