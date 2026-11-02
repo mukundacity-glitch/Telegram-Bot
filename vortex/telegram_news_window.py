@@ -146,6 +146,10 @@ def run(cron=None, now=None, snapshot=None, telegram=None, renderer=None):
         return {"status": "outside-window", "posted": 0, "edited": 0}
     if os.getenv("FPL_PUBLISH_PAUSED", "false").lower() == "true":
         return {"status": "paused", "posted": 0, "edited": 0}
+    if os.getenv("UNIFIED_NEWS_ENABLED", "false").lower() == "true":
+        # The existing shared Telegram/Discord FPL news queue owns these
+        # topics when enabled. Never have two news lanes send the same fact.
+        return {"status": "shared-news-owns-topic", "posted": 0, "edited": 0}
     now = now or datetime.now(timezone.utc)
     if now.tzinfo is None:
         raise ValueError("News snapshot time requires timezone")
