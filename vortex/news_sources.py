@@ -269,8 +269,10 @@ def collect_reported_headlines(snapshot: FplSnapshot, now: datetime,
             if not published or not (timedelta(0) <= now - published <= MAX_AGE):
                 continue
             category = _topic(title)
-            if category is None or not _team_matches(title, snapshot):
+            if category is None:
                 continue
+            # A unique current FPL player match is stronger than relying on a
+            # club-name substring. Headlines often omit the player's club.
             # Mandatory photo + authentic crest: match exactly one FPL player.
             # Do not pretend a club/manager-only story has a player portrait.
             player = _headline_player(title, snapshot)
