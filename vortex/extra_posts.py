@@ -86,6 +86,8 @@ def _fixture_model(snapshot: FplSnapshot, item: dict[str, Any],
         "away_cs": odds.get("away_cs"),
         "bookmakers_home": odds.get("home_books", 0),
         "bookmakers_away": odds.get("away_books", 0),
+        "home_quote_utc": odds.get("home_quote_utc"),
+        "away_quote_utc": odds.get("away_quote_utc"),
         "odds_source": odds.get("source") or "NO VERIFIED 0.5 TEAM-TOTAL MARKET",
     }
 
@@ -202,7 +204,8 @@ def _transfers(snapshot: FplSnapshot) -> list[dict[str, Any]]:
     rows: list[dict[str, Any]] = []
     for position in POS.values():
         outgoing = [p for p in players if p["position"] == position
-                    and integer(p["out_event"]) is not None]
+                    and integer(p["out_event"]) is not None
+                    and isinstance(p.get("photo_code"), int) and isinstance(p.get("club_code"), int)]
         outgoing.sort(key=lambda p: (-p["out_event"], str(p["name"])))
         incoming = [p for p in players if p["position"] == position
                     and integer(p["in_event"]) is not None and p["status"] == "a"
