@@ -15,6 +15,20 @@ from .publication_rules import required_footer_handles
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "assets" / "references" / "brand_background.png"
+# SHA-1 Git blob of the exact user-provided 59698.png original broadcast master.
+APPROVED_MASTER_BLOB_SHA = "b0d890a529ad7416a142d3cfbbadfc800eb26bd0"
+
+
+def verify_exact_master() -> None:
+    """Strict publishing uses only the actual supplied master; no substitutes."""
+    import hashlib
+    if not MASTER.is_file():
+        raise FileNotFoundError("Approved original blue master not installed")
+    content = MASTER.read_bytes()
+    blob = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\\0" + content).hexdigest()
+    if blob != APPROVED_MASTER_BLOB_SHA:
+        raise RuntimeError("Repository brand background differs from user-approved 59698.png; hold post")
+
 
 
 def apply_footer(output: Path, *, verdict: str = "",
