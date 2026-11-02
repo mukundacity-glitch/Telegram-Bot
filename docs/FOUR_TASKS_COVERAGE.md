@@ -60,3 +60,6 @@
 4. Resolve remaining special Discord price/injury multi-page parity, Task 1 market xPts/full market-trends board, and cross-repo editorial-level dedup in live production. This PR alone does **not** disable any existing bot/task or guarantee duplicate freedom across all independent systems.
 5. Do not merge these PRs or enable the new feature flags until the gates above pass. Rollback is to switch the flags OFF and retain both existing bots, ledgers, history and posting times.
 
+
+## User clarification: approved slide exists in GitHub
+On 2026-11-02 the user explicitly confirmed that the existing `Telegram-Bot/assets/references/brand_background.png` in the `upgrade/unified-telegram-discord-news` branch is their desired slide. Its verified Git blob SHA-1 is `01d87ec98cf4d8d8ccff4814f4ddf5b3c339725e` (172062 bytes). The other in-chat PNG file (`59698.png`, blob `b0d890a529ad7416a142d3cfbbadfc800eb26bd0`) is a distinct binary. **Use the user-confirmed GitHub master without asking for a re-upload.** Renderer fingerprints were updated to match the confirmed GitHub master. Prior guidance in this document requiring re-upload of `59698.png` is superseded. Actual Telegram+Discord delivery/staging configuration and end-to-end duplicate safety remain separate release gates.
