@@ -36,3 +36,27 @@
 7. Record rollback: disable canonical `UNIFIED_NEWS_ENABLED`/`DUAL_PUBLISH_ENABLED`, restore previous active schedule statuses and preserve checkpoints; avoid broadcasting replayed posts without reviewing retained receipts.
 
 **Current blocker:** GitHub connector cannot read/provision Actions secrets for this repository or confirm end-to-end Telegram + Discord staging channels; no live confirmation. Do **not** enable `DUAL_PUBLISH_ENABLED` / `UNIFIED_NEWS_ENABLED` or disable ChatGPT tasks yet.
+
+
+## Unified quality upgrade (2026-11-02, staged — NOT deployed)
+
+### Existing schedules reviewed and preserved
+- Four ChatGPT tasks **updated in place** without modifying their RRULEs: Task 1 `6ae494793fdc8191a72c714c4bdad61f` (06:00/10:00/15:00/19:00 ET), Task 2 `6ae1ba5280248191970af7523572ca38` (08:00/10:45/12:00/15:45 ET), Three Daily `6ae4947a31608191815d3915528bdacd` (07:30/12:30/19:30 ET), Press News `6ae4da1e097c81919ccaef4c8fba191a` (every third day 14:00 ET). All remain enabled; these are **existing** ChatGPT tasks, not GitHub jobs.
+- Telegram GitHub workflow `.github/workflows/telegram-daily.yml` preserves its current 15 primary schedules and corresponding backup checks as found on this branch. No new workflow/task and no time change in this upgrade.
+- Existing Discord GitHub workflows `injury-news.yml` every 15 min UTC and `price-change.yml` 23:45 Europe/London have separate staging changes in draft PR #3, with their scheduled times preserved. No secrets exposed, external messages sent or current production bots altered.
+
+### Specific implementation
+- Strict broadcast graphics use the user's **actual attached original** `59698.png` blue master. Its Git blob SHA is `b0d890a529ad7416a142d3cfbbadfc800eb26bd0`. The repository's **existing** `assets/references/brand_background.png` currently has a *different* Git blob SHA `01d87ec98cf4d8d8ccff4814f4ddf5b3c339725e`; **do not claim the files are identical or enable strict publishing until the attached original has been installed and verified in the repository**. SHA checking holds rather than silently substituting a different background.
+- Two real public social handles are mandatory GitHub Actions variables `FPL_TELEGRAM_HANDLE` and `FPL_DISCORD_HANDLE`; no inferred usernames. Old YouTube/X/social geometry and original logo/footer are restored before inserting those handles. No source/API/version notes printed onto the strict public slide.
+- Official current FPL IDs/prices/availability/ownership/minutes and completed-GW history govern all player decisions. Public FPL Core Insights project `olbauday/FPL-Core-Insights` season `data/2026-2027/` is a **read-only optional supplemental** source. Date and exact FPL player/team-code joins are validated against the official API. Screenshot data are layout references, **never live values**. Source provenance remains in internal logs.
+- Shared source checks for **five consecutive Gameweek fixture slots** include future opponent, (H/A), authentic crest, colored FDR, blanks and doubles. Optional per-fixture xPts require an independently verified fresh model snapshot joined on player ID, fixture ID and GW through `FPL_XPTS_SNAPSHOT_URL`; absent xPts are omitted, not fabricated.
+- Single player (`elite`, live injury/news) and 2-4 player (`comparison`, `midfielders`, `buy`, `sell`, `captaincy`, player `news`) have source-enriched clean-table original-blue slide layouts in strict mode. Other team/many-player templates retain current content and gain common strict source/brand/visual gates; complex eight-or-more player full five-GW layouts remain a **publication-quality limitation** and should be held rather than misrepresented as verified full profiles.
+- Strict original-blue publishing only activates if `FPL_ENRICHED_VISUALS_ENABLED=true`; cross-day editorial version checking if `FPL_SEMANTIC_DEDUP_ENABLED=true`; Telegram-to-Discord paired delivery if `DUAL_PUBLISH_ENABLED=true`; newly sourced player news if `UNIFIED_NEWS_ENABLED=true`. Defaults remain OFF pending staged validation. Real Telegram+Discord receipts are required; changes to old tasks/bots must not be switched over without confirming the shared ledger. Old functionality is preserved.
+
+### Release blockers
+1. Install/verify the exact user-provided `59698.png` original as canonical `assets/references/brand_background.png`, and confirm the new Git blob SHA matches the approved one.
+2. Confirm actual Telegram and Discord **public** handle strings and configure them as Actions variables in both repositories; bot token/chat ID/webhook URL is **not** a public social handle.
+3. Configure one authorized staging Telegram destination and Discord webhook and verify photo+caption+real receipt on both services; verify retry protection and accepted-image quality on mobile.
+4. Resolve remaining special Discord price/injury multi-page parity, Task 1 market xPts/full market-trends board, and cross-repo editorial-level dedup in live production. This PR alone does **not** disable any existing bot/task or guarantee duplicate freedom across all independent systems.
+5. Do not merge these PRs or enable the new feature flags until the gates above pass. Rollback is to switch the flags OFF and retain both existing bots, ledgers, history and posting times.
+
