@@ -22,10 +22,10 @@ def fixture(snapshot, event, home=1, away=2, finished=False, fdr=2, index=100):
 
 def test_latest_review_rejects_unfinished_or_postponed_fixture():
     snap = fake_snapshot()
-    snap.events = [{"id": 8, "finished": True},
+    snap.events[:] = [{"id": 8, "finished": True},
                    {"id": 9, "finished": True},
                    {"id": 10, "is_next": True, "finished": False, "deadline_time": "2026-10-22T10:00:00Z"}]
-    snap.fixtures = [fixture(snap, 8, finished=True), fixture(snap, 9, finished=False)]
+    snap.fixtures[:] = [fixture(snap, 8, finished=True), fixture(snap, 9, finished=False)]
     assert latest_completed_gw(snap) == 8
     assert next_upcoming_gw(snap) == 10
     snap.fixtures[1]["finished"] = True
@@ -34,7 +34,7 @@ def test_latest_review_rejects_unfinished_or_postponed_fixture():
 
 def test_upcoming_gw_uses_deadline_not_stale_is_next_flag():
     snap = fake_snapshot()
-    snap.events = [{"id": 9, "finished": False, "is_next": True,
+    snap.events[:] = [{"id": 9, "finished": False, "is_next": True,
                     "deadline_time": "2026-10-15T10:00:00Z"},
                    {"id": 10, "finished": False, "is_next": False,
                     "deadline_time": "2026-10-23T10:00:00Z"}]
@@ -43,7 +43,7 @@ def test_upcoming_gw_uses_deadline_not_stale_is_next_flag():
 
 def test_exact_event_blank_and_double():
     snap = fake_snapshot()
-    snap.fixtures = [fixture(snap, 7, home=2, away=3, fdr=2),
+    snap.fixtures[:] = [fixture(snap, 7, home=2, away=3, fdr=2),
                      fixture(snap, 7, home=4, away=2, fdr=5, index=101),
                      fixture(snap, 8, home=2, away=5, fdr=1, index=102)]
     player = snap.players[0]  # team 2
@@ -81,9 +81,9 @@ def recommendation_snapshot():
             "expected_goals": "2.1",
             "expected_assists": "1.0",
         })
-    snap.fixtures = [fixture(snap, 7, home=i, away=i + 1, index=100 + i)
+    snap.fixtures[:] = [fixture(snap, 7, home=i, away=i + 1, index=100 + i)
                      for i in range(1, 20, 2)]
-    snap.fixtures += [fixture(snap, 6, finished=True, index=500)]
+    snap.fixtures.extend([fixture(snap, 6, finished=True, index=500)])
     return snap
 
 
