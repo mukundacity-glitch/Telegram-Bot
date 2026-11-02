@@ -163,13 +163,13 @@ jobs:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
-          FPL_PORTED_TASKS_ENABLED: ${{ vars.FPL_PORTED_TASKS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          DUAL_PUBLISH_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
+          FPL_PORTED_TASKS_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
           # Account handles are NEVER inferred from chat IDs or webhook URLs.
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           # Staging-only until true branded master and both public handles verified.
-          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
           FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'true' }}
           # Optional independent per-fixture xPts. Never infer it from FPL xG.
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
@@ -195,7 +195,7 @@ jobs:
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           # Staging-only until true branded master and both public handles verified.
-          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
           FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'true' }}
           # Optional independent per-fixture xPts. Never infer it from FPL xG.
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
@@ -209,9 +209,9 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
-          FPL_PORTED_TASKS_ENABLED: ${{ vars.FPL_PORTED_TASKS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
-          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          DUAL_PUBLISH_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
+          FPL_PORTED_TASKS_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
           FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'true' }}
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
