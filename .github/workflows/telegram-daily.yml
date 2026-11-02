@@ -1,6 +1,11 @@
 name: FPL VORTEX Telegram Daily
 
 on:
+  # One direct production post on THIS explicitly marked release commit only.
+  # Future normal source/data commits cannot trigger extra posts.
+  push:
+    branches: [main]
+    paths: ['.github/workflows/telegram-daily.yml']
   schedule:
     # Four ChatGPT task editions are routed through this SAME workflow.
     - cron: '0 6 * * *'
@@ -130,7 +135,7 @@ jobs:
   publish:
     # Scheduled publishing is ON. To stop all posts, disable this workflow in GitHub Actions.
     # Do not rely on a stale PUBLISH_ENABLED variable that can silently skip cron runs.
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' }}
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-AUTOPOST-ONCE]')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 14
     steps:
@@ -151,20 +156,21 @@ jobs:
 
       - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
-        if: ${{ !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
+        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || 'false' }}
+          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_PORTED_TASKS_ENABLED: ${{ vars.FPL_PORTED_TASKS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
           # Account handles are NEVER inferred from chat IDs or webhook URLs.
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           # Staging-only until true branded master and both public handles verified.
-          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
-          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'true' }}
           # Optional independent per-fixture xPts. Never infer it from FPL xG.
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
@@ -189,8 +195,8 @@ jobs:
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           # Staging-only until true branded master and both public handles verified.
-          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
-          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'true' }}
           # Optional independent per-fixture xPts. Never infer it from FPL xG.
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           NEWS_BASE_HASHTAGS: ${{ vars.NEWS_BASE_HASHTAGS || 'FPL,FPLVortex' }}
@@ -198,21 +204,21 @@ jobs:
         run: python -m vortex.unified_runner
 
       - name: Publish original four ChatGPT editions to both platforms (opt-in)
-        if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) }}
+        if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && (inputs.slot == 'task-edition' || inputs.slot == 'audit-tasks')) || (github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-AUTOPOST-ONCE]')) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || 'false' }}
-          FPL_PORTED_TASKS_ENABLED: ${{ vars.FPL_PORTED_TASKS_ENABLED || 'false' }}
-          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
-          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_PORTED_TASKS_ENABLED: ${{ vars.FPL_PORTED_TASKS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || (secrets.DISCORD_WEBHOOK_URL != '' && 'true' || 'false') }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'true' }}
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
-          REQUESTED_SLOT: ${{ inputs.slot || 'auto' }}
-          TASK_EDITION: ${{ inputs.task_edition || 'availability-transfer-decisions' }}
+          REQUESTED_SLOT: ${{ github.event_name == 'push' && 'task-edition' || inputs.slot || 'auto' }}
+          TASK_EDITION: ${{ github.event_name == 'push' && 'form-minutes-targets' || inputs.task_edition || 'availability-transfer-decisions' }}
         run: |
           if [ "$REQUESTED_SLOT" = "audit-tasks" ]; then
             python -m vortex.task_publisher --dry-run
