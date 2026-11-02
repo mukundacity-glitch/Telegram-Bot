@@ -26,6 +26,13 @@ X_FEED_REGISTRY = os.getenv(
     "https://raw.githubusercontent.com/mukundacity-glitch/Vortexnews-bot-Xpost/main/config/feeds.json",
 )
 MAX_AGE = timedelta(hours=8)
+# Deny arbitrary endpoints if a feed registry is altered; extend through an
+# explicit reviewed GitHub variable, never from arbitrary RSS metadata.
+DEFAULT_FEED_HOSTS = frozenset({
+    "news.google.com", "www.fotmob.com", "feeds.bbci.co.uk",
+    "www.transfermarkt.com", "www.skysports.com", "www.theguardian.com",
+    "www.espn.com",
+})
 FPL_NEWS_FIELDS = ("status", "chance_of_playing_next_round",
                    "chance_of_playing_this_round", "news")
 
@@ -205,8 +212,15 @@ def collect_reported_headlines(snapshot: FplSnapshot, now: datetime,
         return []
     gw = snapshot.gameweek()
     found: list[NewsPost] = []
+    approved_hosts = DEFAULT_FEED_HOSTS | frozenset(
+        part.strip().lower() for part in os.getenv("NEWS_EXTRA_FEED_HOSTS", "").split(",") if part.strip()
+    )
     for feed in feeds[:40]:
-        if not isinstance(feed, dict) or not str(feed.get("url", "")).startswith("https://"):
+        if not isinstance(feed, dict):
+            continue
+        feed_url = str(feed.get("url", ""))
+        parsed = urlsplit(feed_url)
+        if parsed.scheme != "https" or (parsed.hostname or "").lower() not in approved_hosts:
             continue
         try:
             response = client.get(feed["url"], timeout=8, headers={"User-Agent": "FPL-VORTEX-News/1.0"})
