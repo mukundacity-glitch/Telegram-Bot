@@ -259,11 +259,11 @@ def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost
         n = len(games)
         confirmed = sum(1 for f in games if f["home_goals"] is not None and f["away_goals"] is not None)
         c = caption([
-            f"GW{gw}: {n} official matchups on one decision board.",
-            f"{confirmed} matches with two-bookmaker market projections.",
-            "Projected goals and clean sheets are model estimates or N/A.",
-            "All team crests, opponents and FDR from official FPL.",
-            "Which fixture deserves your next transfer?",
+            f"GW{gw}: {n} official matchups for next GW.",
+            f"{confirmed}/{n} backed by two-bookmaker markets.",
+            "Projected goals/CS: model estimate or N/A.",
+            "Crests and fixtures: official FPL API.",
+            "Which fixture is your next target?",
         ], gw)
         return ExtraPost(kind, f"GW{gw} · GOALS & CLEAN SHEETS", "ALL CLUBS · 10 MATCHUPS WHEN STANDARD",
                          c, time_label, gw, "FPL fixtures + separately checked bookmaker markets", fixtures=games)
