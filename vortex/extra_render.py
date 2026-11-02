@@ -100,11 +100,6 @@ def _footer(canvas: Image.Image, post: ExtraPost, detail: str) -> None:
                            outline=(*CYAN, 217), width=2)
     _center_text(draw, 758, 754, detail.upper(),
                  _fitted_font(draw, detail.upper(), 1290, 24, 17), WHITE)
-    draw.rectangle((1100, 802, 1536, 864), fill=(0, 12, 30, 247))
-    _center_text(draw, 1320, 805, post.footer,
-                 _fitted_font(draw, post.footer, 413, 15, 11), MUTED)
-    _center_text(draw, 1320, 831, "Data " + post.data_at,
-                 _fitted_font(draw, "Data " + post.data_at, 410, 15, 12), MUTED)
 
 
 def _required(session: requests.Session, cache: dict, code: int | None,
@@ -155,8 +150,15 @@ def _fixtures(canvas: Image.Image, post: ExtraPost,
         _center_text(draw, (x0+x1)//2, y0 + 10, "VS", _font(23), GOLD)
         if match["home_goals"] is not None and match["away_goals"] is not None:
             valid += 1
-        htext = f"GOALS {_num(match['home_goals'])}  ·  CS {_num(match['home_cs'], '%', 0)}"
-        atext = f"GOALS {_num(match['away_goals'])}  ·  CS {_num(match['away_cs'], '%', 0)}"
+        if (match["home_goals"] is not None and match["away_goals"] is not None
+                and match["home_cs"] is not None and match["away_cs"] is not None):
+            htext = f"prG {_num(match['home_goals'])} · CS {_num(match['home_cs'], '%', 0)}"
+            atext = f"prG {_num(match['away_goals'])} · CS {_num(match['away_cs'], '%', 0)}"
+        else:
+            # No invented precision and no "N/A" technical placeholders on
+            # public artwork: the club matchup and verified FDR still render.
+            htext = f"H · FDR {match['h_fdr']}" if match.get("h_fdr") in range(1, 6) else "HOME"
+            atext = f"A · FDR {match['a_fdr']}" if match.get("a_fdr") in range(1, 6) else "AWAY"
         _line(draw, htext, x0 + 93, y0 + 44, 244, 19, CYAN, 15)
         _line(draw, atext, x1 - 347, y0 + 44, 245, 19, GREEN, 15)
     for idx, (x0, x1) in enumerate(columns):
@@ -171,11 +173,10 @@ def _fixtures(canvas: Image.Image, post: ExtraPost,
         quote_note = f" · LATEST BOOK QUOTE {latest_et:%I:%M %p ET}"
     else:
         quote_note = ""
-    detail = (f"VERIFIED MARKET MODELS: {valid}/{count} · O/U 0.5 · 2+ BOOKS"
-              + quote_note + " · OTHERS N/A"
-              if valid else "FPL FIXTURES VERIFIED · NO FRESH TWO-BOOKMAKER ODDS · ALL PROJECTIONS N/A")
+    detail = (f"GOAL/CS FORECASTS: {valid}/{count} VERIFIABLE MARKET MODELS"
+              if valid else "OFFICIAL MATCHUPS & FDR • SCOUT FOR THE NEXT GW")
     if count != 10:
-        detail = f"NONSTANDARD GW: {count} FIXTURES · " + detail
+        detail = f"GW WITH {count} FIXTURES • " + detail
     return detail
 
 
@@ -343,8 +344,9 @@ def render_extra(post: ExtraPost, output: Path, session: requests.Session) -> Pa
     _footer(canvas, post, detail)
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_suffix(".tmp.png")
-    if post.kind == "start_bench":
-        canvas = canvas.resize((1920, 1080), Image.Resampling.LANCZOS)
+    # Every edition is a true 1920x1080 PNG, without cropping, stretching
+    # portraits or rewriting any part of the approved blue master.
+    canvas = canvas.resize((1920, 1080), Image.Resampling.LANCZOS)
     canvas.save(tmp, format="PNG", optimize=True)
     tmp.replace(output)
     return output
