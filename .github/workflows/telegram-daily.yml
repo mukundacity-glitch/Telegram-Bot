@@ -56,6 +56,15 @@ on:
       timezone: America/New_York
     - cron: '0 20 * * *'
       timezone: America/New_York
+    # Fill missing hourly 17:00/18:00 checks (original 17:30/18:30 stay).
+    - cron: '0 17 * * *'
+      timezone: America/New_York
+    - cron: '0 18 * * *'
+      timezone: America/New_York
+    # Verified NEW official FPL news window closes at 21:00 Eastern.
+    # This is an extra check in the EXISTING workflow, not a new task.
+    - cron: '0 21 * * *'
+      timezone: America/New_York
     # Backup triggers check the same day for a missed/failed delivery.
     - cron: '45 6 * * *'
       timezone: America/New_York
@@ -162,7 +171,7 @@ jobs:
 
       - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
-        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
+        if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 17 * * *","0 18 * * *","0 21 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
@@ -234,25 +243,41 @@ jobs:
             python -m vortex.task_publisher
           fi
 
+      - name: Check verified Telegram news from 6 AM through 9 PM ET
+        # One confirmed new official FPL story at most per hourly check.
+        # Original Telegram editions, Discord and ChatGPT schedules unchanged.
+        if: ${{ github.event_name == 'schedule' }}
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          FPL_PUBLISH_PAUSED: ${{ vars.FPL_PUBLISH_PAUSED || 'false' }}
+          FPL_ENRICHED_VISUALS_ENABLED: 'true'
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          SCHEDULED_CRON: ${{ github.event.schedule }}
+        run: python -m vortex.telegram_news_window
+
       - name: Save newest PNG as short-lived artifact
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: fpl-vortex-${{ github.run_id }}
-          path: output/*.png
+          path: |
+            output/*.png
+            output/telegram-news/*.png
           if-no-files-found: ignore
           retention-days: 2
 
       - name: Preserve both-platform delivery receipts even after partial failure
         if: always()
         run: |
-          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json)" ]; then
+          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json state/telegram_news_baseline.json state/telegram_news_pending.json state/telegram_news_deliveries.json)" ]; then
             echo "No new state to commit."
             exit 0
           fi
           git config user.name 'FPL VORTEX Telegram Bot'
           git config user.email 'fpl-vortex-bot@users.noreply.github.com'
-          for file in state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json; do
+          for file in state/prices.json state/deliveries.json state/editorial_versions.json state/ported_task_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json state/telegram_news_baseline.json state/telegram_news_pending.json state/telegram_news_deliveries.json; do
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           git commit -m 'Update shared delivery receipts and official snapshots [skip ci]'

@@ -32,7 +32,7 @@ def test_no_original_telegram_times_or_jobs_removed():
     times = re.findall(r"^\s+- cron: '([^']+)'", workflow, re.MULTILINE)
     assert len(times) == len(set(times))
     assert ORIGINAL_CRONS.issubset(set(times))
-    assert set(times) - ORIGINAL_CRONS == {"0 5 * * *", "15 5 * * *"}
+    assert set(times) - ORIGINAL_CRONS == {"0 5 * * *", "15 5 * * *", "0 17 * * *", "0 18 * * *", "0 21 * * *"}
     assert workflow.count("  publish:\n") == 1
     assert "  ported-task:" not in workflow
     assert "timezone: America/New_York" in workflow
