@@ -66,8 +66,10 @@ def apply_footer(output: Path, *, verdict: str = "",
                            outline=(48, 178, 235, 180), width=2)
     draw.text((left + 16, y + 12), "TELEGRAM",
               font=_font(15), fill=(69, 226, 252))
-    draw.text((left + 16, y + 30), telegram,
-              font=_fitted_font(draw, telegram, int(w * 0.22), 23, 14),
+    # Use the user's real direct Telegram link, not an invented handle.
+    telegram_link = "t.me/" + telegram.lstrip("@")
+    draw.text((left + 16, y + 30), telegram_link,
+              font=_fitted_font(draw, telegram_link, int(w * 0.22), 23, 14),
               fill=(248, 252, 255))
     second = int(w * 0.70)
     draw.line((second, y + 12, second, image.height - 12),
