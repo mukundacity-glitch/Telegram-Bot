@@ -28,7 +28,7 @@ OUTPUT = ROOT / "output" / "telegram-news"
 
 
 def in_window(cron):
-    match = re.fullmatch(r"0 (\\d{1,2}) \\* \\* \\*", (cron or "").strip())
+    match = re.fullmatch(r"0 (\d{1,2}) \* \* \*", (cron or "").strip())
     return bool(match and 6 <= int(match.group(1)) <= 21)
 
 
@@ -118,12 +118,14 @@ def run(cron=None, now=None, snapshot=None, telegram=None, renderer=None):
     shared = read_state(SHARED)
     changes = collect_fpl_changes(snapshot, old, now)
     for story in changes:
-        if story.identity not in pending and not receipts.get(story.identity):
+        key = f"2026-27:GW{snapshot.gameweek()}:news:{story.identity}"
+        if (key not in pending and key not in receipts
+                and not shared.get(story.identity, {}).get("telegram_message_id")):
             player = _player(snapshot, {
                 "photo_code": story.photo_code,
                 "club_code": story.club_code,
                 "player_name": story.player_name})
-            pending[story.identity] = {
+            pending[key] = {
                 "identity": story.identity, "player_name": story.player_name,
                 "photo_code": story.photo_code, "club_code": story.club_code,
                 "old": old.get(str(player["id"]), {}), "seen": now.isoformat(),
@@ -134,7 +136,7 @@ def run(cron=None, now=None, snapshot=None, telegram=None, renderer=None):
     held = 0
     for key, entry in list(pending.items()):
         if (receipts.get(key, {}).get("telegram_message_id")
-                or shared.get(key, {}).get("telegram_message_id")):
+                or shared.get(entry["identity"], {}).get("telegram_message_id")):
             pending.pop(key)
             continue
         try:
