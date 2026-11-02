@@ -321,7 +321,7 @@ def _start_bench(canvas: Image.Image, post: ExtraPost,
                   x0+420, y0+11, 265, 18, WHITE, 14)
             _line(draw, f"FORM {row['form']:.1f} • PPG {row['ppg']:.1f} • MINS {row['minutes']}",
                   x0+420, y0+44, 265, 18, CYAN, 14)
-            _line(draw, "AVAILABLE (FPL) • xPTS N/A", x0+422,
+            _line(draw, "CHECK LATEST TEAM NEWS", x0+422,
                   y0+70, 259, 15, MUTED, 12)
     return "GENERIC FPL COMPARISONS • NOT YOUR PERSONAL SQUAD • NO FABRICATED xPTS"
 
