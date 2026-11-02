@@ -227,8 +227,10 @@ def next_upcoming_gw(snapshot: FplSnapshot) -> int:
             future.append((dt, gw))
     if future:
         return min(future)[1]
+    # Only trust a flag without a supplied deadline as a compatibility fallback.
+    # If its deadline exists and has passed, there is no valid future target.
     flagged = next((event for event in snapshot.events if event.get("is_next") and not event.get("finished")), None)
-    if flagged and isinstance(flagged.get("id"), int):
+    if flagged and isinstance(flagged.get("id"), int) and not flagged.get("deadline_time"):
         return flagged["id"]
     return 0
 
