@@ -6,6 +6,8 @@ on:
       timezone: America/New_York
     - cron: '0 8 * * *'
       timezone: America/New_York
+    - cron: '0 9 * * *'
+      timezone: America/New_York
     - cron: '0 10 * * *'
       timezone: America/New_York
     - cron: '0 12 * * *'
@@ -16,12 +18,16 @@ on:
       timezone: America/New_York
     - cron: '30 17 * * *'
       timezone: America/New_York
+    - cron: '30 18 * * *'
+      timezone: America/New_York
     - cron: '0 20 * * *'
       timezone: America/New_York
     # Backup triggers check the same day for a missed/failed delivery.
     - cron: '45 6 * * *'
       timezone: America/New_York
     - cron: '15 8 * * *'
+      timezone: America/New_York
+    - cron: '15 9 * * *'
       timezone: America/New_York
     - cron: '15 10 * * *'
       timezone: America/New_York
@@ -32,6 +38,8 @@ on:
     - cron: '15 16 * * *'
       timezone: America/New_York
     - cron: '45 17 * * *'
+      timezone: America/New_York
+    - cron: '45 18 * * *'
       timezone: America/New_York
     - cron: '15 20 * * *'
       timezone: America/New_York
@@ -55,12 +63,16 @@ on:
           - preview-review
           - preview-elite
           - preview-evening
+          - preview-buy
+          - preview-sell
           - news
           - prices
           - transfer
           - captaincy
           - review
           - evening
+          - buy
+          - sell
 
 permissions:
   contents: write

@@ -11,7 +11,7 @@ from zoneinfo import ZoneInfo
 from typing import Any
 
 from .content import generate
-from .fpl import collect_snapshot, price_snapshot
+from .fpl import collect_snapshot, price_snapshot, upcoming_deadline
 from .render import render
 from .schedule import resolve_slot
 from .telegram import TelegramClient
@@ -75,8 +75,23 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         snapshot = collect_snapshot()
         previous_prices = read_state(price_state_path)
         article = generate(publication_slot, snapshot, now, previous_prices)
+        if publication_slot in ("buy", "sell"):
+            deadline = upcoming_deadline(snapshot)
+            # Use the same API snapshot for both the heading and the deadline.
+            # A delayed scheduled job must never publish a locked GW.
+            if deadline is None or deadline <= datetime.now(timezone.utc):
+                raise RuntimeError("Next-GW recommendation deadline has passed or is unavailable")
+            # Existing slots retain their original dedup keys and publish behavior.
+            key += f":GW{article.gw}"
+            if scheduled_cron and not preview_only and delivery_state.get(key, {}).get("delivered"):
+                print(f"ALREADY DELIVERED {key}; skipping duplicate")
+                return 0
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
         render(article, path)
+        if publication_slot in ("buy", "sell"):
+            # Rendering can run across a deadline; abort before external delivery.
+            if datetime.now(timezone.utc) >= deadline:
+                raise RuntimeError("GW deadline elapsed during recommendation generation")
         message_id = client.send_png(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
         if preview_only:
             print(f"PREVIEW DELIVERED with Telegram message {message_id}; normal daily delivery state unchanged")
@@ -100,7 +115,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="FPL Vortex Telegram content delivery")
-    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening"])
+    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening", "buy", "sell", "preview-buy", "preview-sell"])
     args = parser.parse_args()
     return run(args.slot, os.environ.get("SCHEDULED_CRON"))
 

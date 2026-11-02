@@ -95,8 +95,14 @@ def _caption(lines: list[str], gw: int) -> str:
 
 
 def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: dict[str, Any]) -> Content:
+    if kind in ("buy", "sell"):
+        from .recommendations import build
+        return build(kind, snapshot, now)
     gw = snapshot.gameweek()
-    timestamp = snapshot.fetched_at.strftime("%d %b %Y • %H:%M UTC")
+    if not gw:
+        raise ValueError("No verified upcoming FPL deadline; refusing a stale GW label")
+    from zoneinfo import ZoneInfo
+    timestamp = snapshot.fetched_at.astimezone(ZoneInfo("America/New_York")).strftime("%d %b %Y • %I:%M %p ET")
     source = "Source: Official Fantasy Premier League API"
     cards: list[Card]
     if kind == "elite":
@@ -193,7 +199,11 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
         ) for player, points in highlights[:4]]
         if not cards:
             cards = [Card("NO COMPLETED GW YET", "Official FPL", "REVIEW STATUS", ("Upcoming GW watch only.", "Do not treat unfinished fixtures as final."))]
-        title, kicker = f"GW{prev or '–'} REVIEW → GW{gw} WATCH", "5:30 PM • VERIFIED COMPLETED GAMEWEEK"
+        title = f"GW{prev or '–'} REVIEW → GW{gw} WATCH"
+        pending = [e["id"] for e in snapshot.events if isinstance(e.get("id"), int)
+                   and prev is not None and prev < e["id"] < gw and not e.get("finished")]
+        kicker = (f"GW{max(pending)} UNFINISHED • LAST VERIFIED GW{prev}" if pending
+                  else "5:30 PM • VERIFIED COMPLETED GAMEWEEK")
         verdict = "PREVIOUS RESULTS + NEXT FIXTURE TARGETS"
         leader = snapshot.name(highlights[0][0]) if highlights else "No completed GW"
         lines = [f"FPL GW{prev or 0} review → GW{gw} watch.", f"Top completed-GW return: {leader}.", "Review official points and upcoming fixtures.", "Avoid chasing points without checking minutes.", "Who is your next target?"]

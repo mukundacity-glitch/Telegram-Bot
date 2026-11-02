@@ -20,12 +20,8 @@ class FplSnapshot:
     live: dict[str, Any] | None = None
 
     def gameweek(self) -> int:
-        upcoming = next((event for event in self.events if event.get("is_next")), None)
-        current = next((event for event in self.events if event.get("is_current")), None)
-        selected = upcoming or current or next((event for event in self.events if not event.get("finished")), None)
-        if selected is None:
-            return int(self.events[-1]["id"]) if self.events else 0
-        return int(selected["id"])
+        """Next FPL transfer-deadline event, never a live/locked gameweek."""
+        return next_upcoming_gw(self)
 
     def name(self, player: dict[str, Any]) -> str:
         return str(player.get("web_name") or player.get("second_name") or "Unknown")
@@ -45,6 +41,25 @@ class FplSnapshot:
 
     def price(self, player: dict[str, Any]) -> str:
         return f"£{int(player.get('now_cost') or 0) / 10:.1f}m"
+
+    def fixtures_for_gameweek(self, player: dict[str, Any], gw: int | None = None) -> list[tuple[str, str, int | None, int | None]]:
+        """Official opponent, venue, FDR and club code, scoped to EXACTLY one event."""
+        event_id = gw if gw is not None else self.gameweek()
+        club = int(player.get("team") or 0)
+        results: list[tuple[str, str, int | None, int | None]] = []
+        matches = sorted((f for f in self.fixtures if f.get("event") == event_id
+                          and not f.get("finished")
+                          and club in (f.get("team_h"), f.get("team_a"))),
+                         key=lambda f: (f.get("kickoff_time") or "9999", f.get("id") or 0))
+        for fixture in matches:
+            home = fixture.get("team_h") == club
+            other = self.teams.get(int(fixture.get("team_a" if home else "team_h") or 0), {})
+            difficulty = fixture.get("team_h_difficulty" if home else "team_a_difficulty")
+            fdr = difficulty if isinstance(difficulty, int) and 1 <= difficulty <= 5 else None
+            code = other.get("code")
+            results.append((str(other.get("short_name") or "TBD"), "H" if home else "A", fdr,
+                            code if isinstance(code, int) else None))
+        return results
 
     def fixtures_for(self, player: dict[str, Any], limit: int = 5) -> list[tuple[str, int]]:
         club = int(player.get("team") or 0)
@@ -173,8 +188,64 @@ def price_snapshot(snapshot: FplSnapshot) -> dict[str, Any]:
 
 
 def latest_completed_gw(snapshot: FplSnapshot) -> int | None:
-    done = [int(e["id"]) for e in snapshot.events if e.get("finished") and isinstance(e.get("id"), int)]
-    return max(done) if done else None
+    """Only a confirmed finished FPL event with no unfinished assigned fixtures.
+
+    A postponed match still assigned to the event prevents a completed review.
+    Do not infer completion from chronological gameweek numbers.
+    """
+    complete: list[int] = []
+    for event in snapshot.events:
+        gw = event.get("id")
+        if not isinstance(gw, int) or event.get("finished") is not True:
+            continue
+        fixtures = [row for row in snapshot.fixtures if row.get("event") == gw]
+        if any(row.get("finished") is not True for row in fixtures):
+            continue
+        # If fixture metadata has event ids but this round has no assignments,
+        # require FPL's explicit finished marker (already checked above).
+        complete.append(gw)
+    return max(complete) if complete else None
+
+
+def next_upcoming_gw(snapshot: FplSnapshot) -> int:
+    """Select the first future FPL deadline, even while the prior GW is live.
+
+    Fall back only when the FPL API does not expose a usable future deadline.
+    """
+    future: list[tuple[datetime, int]] = []
+    for event in snapshot.events:
+        gw, deadline = event.get("id"), event.get("deadline_time")
+        if not isinstance(gw, int) or event.get("finished") is True or not isinstance(deadline, str):
+            continue
+        try:
+            dt = datetime.fromisoformat(deadline.replace("Z", "+00:00"))
+            if dt.tzinfo is None:
+                continue
+        except ValueError:
+            continue
+        if dt > snapshot.fetched_at:
+            future.append((dt, gw))
+    if future:
+        return min(future)[1]
+    # Only trust a flag without a supplied deadline as a compatibility fallback.
+    # If its deadline exists and has passed, there is no valid future target.
+    flagged = next((event for event in snapshot.events if event.get("is_next") and not event.get("finished")), None)
+    if flagged and isinstance(flagged.get("id"), int) and not flagged.get("deadline_time"):
+        return flagged["id"]
+    return 0
+
+
+def upcoming_deadline(snapshot: FplSnapshot) -> datetime | None:
+    gw = snapshot.gameweek()
+    event = next((row for row in snapshot.events if row.get("id") == gw), {})
+    value = event.get("deadline_time")
+    if not isinstance(value, str):
+        return None
+    try:
+        deadline = datetime.fromisoformat(value.replace("Z", "+00:00"))
+        return deadline if deadline.tzinfo is not None else None
+    except ValueError:
+        return None
 
 
 def previous_gw_top_players(snapshot: FplSnapshot, session: requests.Session | None = None) -> list[tuple[dict[str, Any], int]]:

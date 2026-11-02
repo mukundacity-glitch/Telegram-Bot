@@ -6,9 +6,9 @@ import pytest
 from vortex.schedule import SLOT_CRONS, captaincy_due, resolve_slot
 
 
-def test_all_eight_slots_have_different_schedule():
-    assert len(SLOT_CRONS) == 16
-    assert len(set(SLOT_CRONS.values())) == 8
+def test_all_ten_slots_have_distinct_times_and_backup_checks():
+    assert len(SLOT_CRONS) == 20
+    assert len(set(SLOT_CRONS.values())) == 10
     assert resolve_slot("auto", "15 8 * * *", datetime.now(timezone.utc)) == "comparison"
 
 
