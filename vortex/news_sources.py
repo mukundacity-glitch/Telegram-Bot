@@ -58,6 +58,40 @@ def _clean(text: Any) -> str:
     return re.sub(r"\s+", " ", re.sub(r"<[^>]*>", "", str(text or ""))).strip()
 
 
+def _visual_fields(snapshot: FplSnapshot, player: dict[str, Any]) -> dict[str, Any]:
+    # Official FPL identifiers; do not invent likenesses, club badges or transfers.
+    return {
+        "player_name": snapshot.name(player),
+        "team_name": snapshot.team(player),
+        "photo_code": snapshot.photo_code(player),
+        "club_code": snapshot.team_code(player),
+    }
+
+
+def _headline_player(title: str, snapshot: FplSnapshot) -> dict[str, Any] | None:
+    """Require a uniquely matched official player before making a portrait graphic."""
+    words = " " + re.sub(r"[^a-z0-9 ]", " ", title.casefold()).strip() + " "
+    words = re.sub(r"\\s+", " ", words)
+    best: list[dict[str, Any]] = []
+    lengths: list[int] = []
+    for player in snapshot.players:
+        full = f"{player.get('first_name', '')} {player.get('second_name', '')}".strip()
+        aliases = [full, str(player.get("web_name") or "")]
+        match_len = 0
+        for alias in aliases:
+            needle = re.sub(r"\\s+", " ", re.sub(r"[^a-z0-9 ]", " ", alias.casefold())).strip()
+            if len(needle) >= 5 and f" {needle} " in words:
+                match_len = max(match_len, len(needle))
+        if match_len:
+            best.append(player)
+            lengths.append(match_len)
+    if not best:
+        return None
+    winning = max(lengths)
+    selected = [player for player, length in zip(best, lengths) if length == winning]
+    return selected[0] if len(selected) == 1 else None
+
+
 def fpl_baseline(snapshot: FplSnapshot) -> dict[str, dict[str, Any]]:
     return {str(p["id"]): {k: p.get(k) for k in (*FPL_NEWS_FIELDS, "now_cost")}
             for p in snapshot.players if isinstance(p.get("id"), int)}
@@ -102,6 +136,7 @@ def collect_fpl_changes(snapshot: FplSnapshot, previous: dict[str, Any],
                 identity=_identity("availability", pid, *(actual[k] for k in FPL_NEWS_FIELDS)),
                 title=title, caption=caption, gameweek=gw, source="Official FPL",
                 source_url="https://fantasy.premierleague.com/",
+                **_visual_fields(snapshot, p),
             ))
         old_cost, new_cost = old.get("now_cost"), p.get("now_cost")
         if type(old_cost) is int and type(new_cost) is int and old_cost != new_cost:
@@ -115,6 +150,7 @@ def collect_fpl_changes(snapshot: FplSnapshot, previous: dict[str, Any],
                 identity=_identity("price", pid, old_cost, new_cost),
                 title=title, caption=caption, gameweek=gw, source="Official FPL",
                 source_url="https://fantasy.premierleague.com/",
+                **_visual_fields(snapshot, p),
             ))
     return outputs
 
@@ -235,13 +271,18 @@ def collect_reported_headlines(snapshot: FplSnapshot, now: datetime,
             category = _topic(title)
             if category is None or not _team_matches(title, snapshot):
                 continue
-            # No fabricated attribution: only title, linked feed and publication time.
+            # Mandatory photo + authentic crest: match exactly one FPL player.
+            # Do not pretend a club/manager-only story has a player portrait.
+            player = _headline_player(title, snapshot)
+            if player is None:
+                continue
             headline = f"GW{gw} • {category.upper()} WATCH"
             body = f"Reported headline: {title}\nFeed: {source} • {published:%Y-%m-%d %H:%M} UTC\n{link}"
             caption = f"{headline}\n{body}\nReport only; details not independently confirmed.\n{_tags(category, gw)}"
             found.append(NewsPost(
                 identity=_identity("rss", _link_clean(link)),
                 title=headline, caption=caption, gameweek=gw, source=source, source_url=link,
+                **_visual_fields(snapshot, player),
             ))
     # Cross-feed overlap: identical URL, or very similar reported headlines.
     # Keep materially different updates, even about the same club/player.
