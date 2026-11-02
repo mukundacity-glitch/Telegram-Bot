@@ -16,7 +16,8 @@ import vortex.unified_runner as runner
 def sample_snapshot(now=None, *, status="a", cost=70, news=""):
     now = now or datetime(2026, 11, 2, tzinfo=timezone.utc)
     player = {"id": 99, "web_name": "Example", "team": 1, "status": status,
-              "now_cost": cost, "news": news, "chance_of_playing_next_round": None,
+              "now_cost": cost, "news": news, "code": 123456,
+              "chance_of_playing_next_round": None,
               "chance_of_playing_this_round": None}
     teams = {1: {"short_name": "ABC", "name": "Arsenal", "code": 3},
              2: {"short_name": "XYZ", "name": "Chelsea", "code": 8}}
@@ -50,6 +51,11 @@ class FakeTelegram:
         self.calls = 0
 
     def send_text(self, text):
+        self.calls += 1
+        return 987
+
+    def send_png(self, image, caption, title, gameweek):
+        assert image.is_file()
         self.calls += 1
         return 987
 
@@ -120,10 +126,18 @@ def test_first_run_warms_baseline_without_flood(monkeypatch, tmp_path):
 def test_news_queue_dispatched_to_both_without_repeating(monkeypatch, tmp_path):
     for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
         monkeypatch.setattr(runner, name, tmp_path / (name.lower() + ".json"))
+    from PIL import Image
+    def fake_render(post, output):
+        output.parent.mkdir(parents=True, exist_ok=True)
+        Image.new("RGB", (1920, 1080), "navy").save(output)
+        return output
+    monkeypatch.setattr(runner, "render_news_card", fake_render)
+    monkeypatch.setattr(runner, "NEWS_OUTPUT", tmp_path / "output")
     snap = sample_snapshot()
     runner.run(snapshot=snap, rss=[], telegram=FakeTelegram(), discord=FakeDiscord())
     t, d = FakeTelegram(), FakeDiscord()
-    story = NewsPost("rss-new", "Headline", "Attributed report with source", 10)
+    story = NewsPost("rss-new", "Headline", "Attributed report with source", 10,
+                     player_name="Example", photo_code=123456, club_code=3)
     first = runner.run(snapshot=snap, rss=[story], telegram=t, discord=d)
     second = runner.run(snapshot=snap, rss=[story], telegram=t, discord=d)
     assert first["sent"] == 1 and second["sent"] == 0
@@ -184,7 +198,7 @@ def test_telegram_failure_does_not_block_discord_and_recovers(tmp_path):
 
 def test_x_source_registry_rss_filters_and_deduplicates():
     now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
-    xml = ('''<rss><channel><item><title>Arsenal injury update from club</title>
+    xml = ('''<rss><channel><item><title>Arsenal player Example injury update from club</title>
     <link>https://example.org/arsenal/1</link><pubDate>Mon, 02 Nov 2026 11:00:00 GMT</pubDate>
     </item></channel></rss>''').encode()
     class Response:
