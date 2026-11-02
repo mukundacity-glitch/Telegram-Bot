@@ -32,6 +32,7 @@ def test_midfielder_edition_exact_three_official_current_players(monkeypatch, tm
     assert all(card.photo_code is not None and card.team_code is not None for card in content.cards)
     assert all(card.metrics["xg"] == "1.42" for card in content.cards)
     assert "not next-GW xPts" in content.caption
+    assert len(content.caption.splitlines()) == 5
     assert len([word for word in content.caption.split() if word.startswith("#")]) == 4
 
     monkeypatch.setattr("vortex.premium._media",
