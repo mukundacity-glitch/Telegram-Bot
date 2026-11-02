@@ -106,3 +106,30 @@ def test_new_team_and_transfer_slots_abort_after_deadline(delivery_environment, 
     assert bot.run("auto", "0 11 * * *") == 1
     assert bot.run("auto", "0 15 * * *") == 1
     assert delivery_environment == []
+
+
+def test_default_manual_auto_never_sends_test_or_posts(delivery_environment, monkeypatch):
+    """Clicking default 'Run workflow → auto' must be harmless, not a test send."""
+    class TelegramMustNotStart:
+        def __init__(self):
+            raise AssertionError("Manual AUTO must not instantiate Telegram client")
+    monkeypatch.setattr(bot, "TelegramClient", TelegramMustNotStart)
+    assert bot.run("auto", None) == 0
+    assert delivery_environment == []
+
+
+def test_existing_cron_still_executes_normal_publish(delivery_environment):
+    """The cron dispatcher, unlike manual AUTO, must deliver as before."""
+    assert bot.run("auto", "30 6 * * *") == 0
+    assert delivery_environment == ["THE FPL DECISION ROOM"]
+
+
+def test_workflow_default_is_auto_and_never_test():
+    """Regression guard on workflow_dispatch and forced scheduled AUTO selection."""
+    path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "telegram-daily.yml"
+    workflow = path.read_text(encoding="utf-8")
+    assert "default: auto" in workflow
+    assert "default: test" not in workflow
+    assert "\\n          - test\\n" not in workflow
+    assert "REQUESTED_SLOT: ${{ github.event_name == 'schedule' && 'auto' || inputs.slot || 'auto' }}" in workflow
+    assert "timezone: America/New_York" in workflow
