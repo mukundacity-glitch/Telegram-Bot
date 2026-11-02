@@ -162,7 +162,11 @@ def generate_edition(edition: Edition, snapshot: FplSnapshot, now: datetime,
             labels = ["HOLD", "MONITOR"]
             heading, action = "TRANSFER & SQUAD STRUCTURE", "HOLD"
         elif edition.kind == "fixture_targets":
-            candidates = [p for p in candidate if p.get("element_type") in (2, 3, 4)]
+            candidates = [
+                p for p in candidate if p.get("element_type") in (2, 3, 4)
+                and all(isinstance(fdr, int) and 1 <= fdr <= 5
+                        for _, _, fdr, _ in snapshot.fixtures_for_gameweek(p, gw))
+            ]
             choices = sorted(candidates, key=lambda p: (
                 min(fdr for _, _, fdr, _ in snapshot.fixtures_for_gameweek(p, gw)
                     if isinstance(fdr, int)), -score(p)))[:3]
@@ -191,6 +195,7 @@ def generate_edition(edition: Edition, snapshot: FplSnapshot, now: datetime,
         raise ValueError("Unknown former ChatGPT task edition")
     if not 1 <= len(choices) <= 3:
         raise RuntimeError("Insufficient verified current options for edition")
+    labels = labels[:len(choices)]
     cards = _make_cards(snapshot, choices, labels)
     lead = choices[0]
     evidence = _evidence(snapshot, lead)
