@@ -71,7 +71,7 @@ def _visual_fields(snapshot: FplSnapshot, player: dict[str, Any]) -> dict[str, A
 def _headline_player(title: str, snapshot: FplSnapshot) -> dict[str, Any] | None:
     """Require a uniquely matched official player before making a portrait graphic."""
     words = " " + re.sub(r"[^a-z0-9 ]", " ", title.casefold()).strip() + " "
-    words = re.sub(r"\\s+", " ", words)
+    words = re.sub(r"\s+", " ", words)
     best: list[dict[str, Any]] = []
     lengths: list[int] = []
     for player in snapshot.players:
@@ -79,7 +79,7 @@ def _headline_player(title: str, snapshot: FplSnapshot) -> dict[str, Any] | None
         aliases = [full, str(player.get("web_name") or "")]
         match_len = 0
         for alias in aliases:
-            needle = re.sub(r"\\s+", " ", re.sub(r"[^a-z0-9 ]", " ", alias.casefold())).strip()
+            needle = re.sub(r"\s+", " ", re.sub(r"[^a-z0-9 ]", " ", alias.casefold())).strip()
             if len(needle) >= 5 and f" {needle} " in words:
                 match_len = max(match_len, len(needle))
         if match_len:
