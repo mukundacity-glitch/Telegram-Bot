@@ -15,8 +15,8 @@ from .publication_rules import required_footer_handles
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "assets" / "references" / "brand_background.png"
-# SHA-1 Git blob of the exact user-provided 59698.png original broadcast master.
-APPROVED_MASTER_BLOB_SHA = "b0d890a529ad7416a142d3cfbbadfc800eb26bd0"
+# SHA-1 Git blob of the user-confirmed existing FPL VORTEX master at assets/references/brand_background.png.
+APPROVED_MASTER_BLOB_SHA = "01d87ec98cf4d8d8ccff4814f4ddf5b3c339725e"
 
 
 def verify_exact_master() -> None:
