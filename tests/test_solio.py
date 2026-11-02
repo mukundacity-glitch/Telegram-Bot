@@ -100,9 +100,10 @@ def test_solio_fetched_once_and_preferred_only_when_no_complete_bookmaker(monkey
                         lambda *_: calls.append("fetched") or data)
     post = generate_extra("projections", s, NOW)
     assert calls == ["fetched"]
-    assert post.fixtures[0]["home_goals"] == 1.88
-    assert post.fixtures[1]["home_goals"] == 1.90
-    assert "Solio Analytics" in post.fixtures[1]["odds_source"]
+    by_id = {row["id"]: row for row in post.fixtures}
+    assert by_id[101]["home_goals"] == 1.88
+    assert by_id[102]["home_goals"] == 1.90
+    assert "Solio Analytics" in by_id[102]["odds_source"]
     assert "#PremierLeague" in post.caption
 
 
