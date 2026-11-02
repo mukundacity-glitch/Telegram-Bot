@@ -98,6 +98,9 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
     if kind in ("projections", "team_analysis", "transfer_suggestions"):
         from .extra_posts import generate_extra
         return generate_extra(kind, snapshot, now)
+    if kind == "midfielders":
+        from .midfielders import generate_midfielders
+        return generate_midfielders(snapshot, now)
     if kind in ("buy", "sell"):
         from .recommendations import build
         return build(kind, snapshot, now)
