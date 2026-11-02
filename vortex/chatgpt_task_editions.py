@@ -15,6 +15,7 @@ from .content import Card, Content, generate
 from .fpl import FplSnapshot, choose_news, choose_comparison, score
 from .extra_posts import generate_extra
 from .recommendations import completed_rounds
+from .publication_rules import player_metrics, five_gw_fixtures
 
 ET = ZoneInfo("America/New_York")
 PRESS_START = date(2026, 10, 30)
@@ -105,8 +106,19 @@ def _make_cards(snapshot: FplSnapshot, players: list[dict], labels: list[str]) -
         ]
         if player.get("status") != "a":
             details.append("CHECK TEAM NEWS • PLAYER FLAG")
+        profile = player_metrics(snapshot, player)
+        future = five_gw_fixtures(snapshot, player)
+        signature = ";".join(
+            f"{row['gw']}:{row['fixture_id']}:{row['opponent']}:{row['venue']}:{row['fdr']}"
+            if not row["blank"] else f"{row['gw']}:BLANK"
+            for row in future)
+        # Position-specific real FPL profile metrics and five-GW fixture
+        # signatures are part of the *editorial version*. Updated statistics
+        # require a changed post, while new retrieval timestamps alone do not.
+        profile["FIVE GW FIXTURE VERSION"] = signature
         result.append(Card(snapshot.name(player), snapshot.team(player), label,
-                           tuple(details), snapshot.photo_code(player), snapshot.team_code(player)))
+                           tuple(details), snapshot.photo_code(player), snapshot.team_code(player),
+                           metrics=profile))
     return tuple(result)
 
 
