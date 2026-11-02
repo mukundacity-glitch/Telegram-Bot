@@ -74,6 +74,9 @@ def run(*, cron: str | None = None, selected_name: str | None = None,
         print("FOUR TASKS STAGED BUT NOT ENABLED: dual-channel verified branding is required")
         return {"due": [e.label for e in due], "published": 0,
                 "skipped": len(due), "reason": "staging"}
+    if not dry_run:
+        from .delivery_preflight import assert_dual_destinations
+        assert_dual_destinations()  # no Telegram-only partial post if webhook missing
     source = snapshot or collect_snapshot()
     deadline = upcoming_deadline(source)
     if deadline is None or deadline <= now:
