@@ -34,3 +34,15 @@ jobs:
         run: python -m compileall -q vortex tests
       - name: Validate all graphics and scheduling
         run: python -m pytest -q
+      - name: Render real FPL BUY / SELL previews without publishing
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        run: python -m vortex.preview_posts
+      - name: Upload short-lived BUY / SELL preview files
+        if: github.event_name == 'pull_request'
+        uses: actions/upload-artifact@v4
+        with:
+          name: fpl-vortex-buy-sell-previews-${{ github.run_id }}
+          path: output/pr-preview/*
+          if-no-files-found: ignore
+          retention-days: 5
