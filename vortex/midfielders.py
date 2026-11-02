@@ -64,34 +64,46 @@ def generate_midfielders(snapshot: FplSnapshot, now: datetime) -> Content:
     roles = ("PRIMARY MIDFIELD PICK", "STRONG ALTERNATIVE", "THIRD OPTION")
     for rank, (_, player, fixtures) in enumerate(eligible[:3]):
         opponent = ", ".join(f"{opp} ({side}) FDR {fdr}" for opp, side, fdr, _ in fixtures)
-        xg = _shown(player.get("expected_goals"))
-        xa = _shown(player.get("expected_assists"))
+        xg = _num(player.get("expected_goals"))
+        xa = _num(player.get("expected_assists"))
         form = _shown(player.get("form"), digits=1)
         ownership = _shown(player.get("selected_by_percent"), "%", 1)
-        fields = (f"{snapshot.price(player)} • {ownership} owned",
-                  f"NEXT: {opponent}", f"FORM {form} • xG {xg} • xA {xa}",
-                  "Availability: available (official FPL)")
-        cards.append(Card(snapshot.name(player), snapshot.team(player), roles[rank], fields,
-                          snapshot.photo_code(player), snapshot.team_code(player),
-                          metrics={"price": snapshot.price(player), "ownership": ownership,
-                                   "form": form, "xg": xg, "xa": xa,
-                                   "minutes": int(player.get("minutes") or 0),
-                                   "role": roles[rank]},
-                          fixtures=tuple((opp, side, int(fdr), code) for opp, side, fdr, code in fixtures)))
+        if "N/A" in (form, ownership):
+            raise RuntimeError("Mandatory form or ownership missing")
+        attacks = " • ".join(
+            f"{label} {value:.2f}" for label, value in (("xG", xg), ("xA", xa))
+            if value is not None)
+        fields = [f"{snapshot.price(player)} • {ownership} owned",
+                  f"NEXT: {opponent}",
+                  f"FORM {form}" + (f" • {attacks}" if attacks else ""),
+                  "HOLD/START only after checking current minutes risk"]
+        metrics = {"price": snapshot.price(player), "ownership": ownership,
+                   "form": form, "minutes": int(player.get("minutes") or 0),
+                   "role": roles[rank]}
+        if xg is not None:
+            metrics["xg"] = f"{xg:.2f}"
+        if xa is not None:
+            metrics["xa"] = f"{xa:.2f}"
+        cards.append(Card(snapshot.name(player), snapshot.team(player), roles[rank],
+                          tuple(fields), snapshot.photo_code(player),
+                          snapshot.team_code(player), metrics=metrics,
+                          fixtures=tuple((opp, side, int(fdr), code)
+                                         for opp, side, fdr, code in fixtures)))
     names = ", ".join(card.headline for card in cards)
     stamp = snapshot.fetched_at.astimezone(ET).strftime("%d %b %Y • %I:%M %p ET")
     lines = [
-        f"GW{gw}: three current eligible midfielders.",
+        f"GW{gw}: three eligible midfielders for the next fixture.",
         f"Watch: {names}.",
-        "Ranked by FPL form, PPG, minutes and FDR.",
-        "xG/xA shown are season totals, not next-GW xPts.",
-        "START only after checking latest team news.",
+        "FPL form, PPG and minutes; xG/xA are season totals, not next-GW xPts.",
+        "START/HOLD based on fixture and verified availability.",
         f"#FPL #GW{gw} #FPLVortex #Midfield",
     ]
     caption = "\n".join(lines)
     if len(caption) > 280:
         lines[1] = f"Primary mid: {cards[0].headline}."
         caption = "\n".join(lines)
+    if len(caption.splitlines()) != 5 or caption.splitlines()[-1].count("#") != 4:
+        raise RuntimeError("Midfielder caption must be five lines with four hashtags")
     return Content("midfielders", "TOP 3 MIDFIELDERS", "ONE UPCOMING GW • OFFICIAL DATA",
                    tuple(cards), "SCOUTING RANK • NOT PROJECTED FPL POINTS",
                    caption, stamp, gw, "Official Fantasy Premier League API")
