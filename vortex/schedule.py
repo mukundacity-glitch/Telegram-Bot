@@ -1,4 +1,4 @@
-"""Eight Eastern-time publishing windows, resolved from GitHub's triggering cron."""
+"""Eastern-time publication windows, resolved from GitHub's triggering cron."""
 from __future__ import annotations
 
 from datetime import datetime, timedelta
@@ -8,30 +8,36 @@ TIMEZONE = ZoneInfo("America/New_York")
 SLOT_CRONS: dict[str, str] = {
     "30 6 * * *": "elite",
     "0 8 * * *": "comparison",
+    "0 9 * * *": "buy",
     "0 10 * * *": "news",
     "0 12 * * *": "prices",
     "0 14 * * *": "transfer",
     "0 16 * * *": "captaincy",
     "30 17 * * *": "review",
+    "30 18 * * *": "sell",
     "0 20 * * *": "evening",
     # Backup schedule checks 15 minutes later; previously delivered slots are skipped.
     "45 6 * * *": "elite",
     "15 8 * * *": "comparison",
+    "15 9 * * *": "buy",
     "15 10 * * *": "news",
     "15 12 * * *": "prices",
     "15 14 * * *": "transfer",
     "15 16 * * *": "captaincy",
     "45 17 * * *": "review",
+    "45 18 * * *": "sell",
     "15 20 * * *": "evening",
 }
 SLOT_HOURS: dict[str, tuple[int, int]] = {
     "elite": (6, 30),
     "comparison": (8, 0),
+    "buy": (9, 0),
     "news": (10, 0),
     "prices": (12, 0),
     "transfer": (14, 0),
     "captaincy": (16, 0),
     "review": (17, 30),
+    "sell": (18, 30),
     "evening": (20, 0),
 }
 
