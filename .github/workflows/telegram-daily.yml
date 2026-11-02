@@ -145,6 +145,14 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DUAL_PUBLISH_ENABLED: ${{ vars.DUAL_PUBLISH_ENABLED || 'false' }}
+          # Account handles are NEVER inferred from chat IDs or webhook URLs.
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '' }}
+          # Staging-only until true branded master and both public handles verified.
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          # Optional independent per-fixture xPts. Never infer it from FPL xG.
+          FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
           # A cron trigger must always enter the automatic, gameweek-aware dispatcher.
           # Manual input never changes a scheduled run.
@@ -163,6 +171,14 @@ jobs:
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           UNIFIED_NEWS_ENABLED: 'true'
+          # Account handles are NEVER inferred from chat IDs or webhook URLs.
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '' }}
+          # Staging-only until true branded master and both public handles verified.
+          FPL_ENRICHED_VISUALS_ENABLED: ${{ vars.FPL_ENRICHED_VISUALS_ENABLED || 'false' }}
+          FPL_SEMANTIC_DEDUP_ENABLED: ${{ vars.FPL_SEMANTIC_DEDUP_ENABLED || 'false' }}
+          # Optional independent per-fixture xPts. Never infer it from FPL xG.
+          FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           NEWS_BASE_HASHTAGS: ${{ vars.NEWS_BASE_HASHTAGS || 'FPL,FPLVortex' }}
           MAX_NEWS_PER_RUN: ${{ vars.MAX_NEWS_PER_RUN || '2' }}
         run: python -m vortex.unified_runner
@@ -179,13 +195,13 @@ jobs:
       - name: Preserve both-platform delivery receipts even after partial failure
         if: always()
         run: |
-          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json)" ]; then
+          if [ -z "$(git status --porcelain -- state/prices.json state/deliveries.json state/editorial_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json)" ]; then
             echo "No new state to commit."
             exit 0
           fi
           git config user.name 'FPL VORTEX Telegram Bot'
           git config user.email 'fpl-vortex-bot@users.noreply.github.com'
-          for file in state/prices.json state/deliveries.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json; do
+          for file in state/prices.json state/deliveries.json state/editorial_versions.json state/news_baseline.json state/news_pending.json state/news_seen.json state/news_deliveries.json; do
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           git commit -m 'Update shared delivery receipts and official snapshots [skip ci]'
