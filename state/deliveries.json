@@ -817,6 +817,16 @@
     "telegram_message_id": 150,
     "timestamp": "2026-11-02T07:30:14.603126+00:00"
   },
+  "2026-11-02:news": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1566949417037074462",
+    "gameweek": 10,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 158,
+    "timestamp": "2026-11-02T22:57:26.492193+00:00"
+  },
   "2026-11-02:projections:GW10": {
     "delivered": true,
     "discord_delivered": true,
@@ -836,6 +846,16 @@
     "source_url": "",
     "telegram_message_id": 152,
     "timestamp": "2026-11-02T17:32:32.426919+00:00"
+  },
+  "2026-27:GW10:task1:form-minutes-targets:cecc86a0d21f1f79": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1566949451350675622",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 159,
+    "timestamp": "2026-11-02T22:57:34.654746+00:00"
   },
   "recovery:run41523140792:telegram154": {
     "delivered": true,

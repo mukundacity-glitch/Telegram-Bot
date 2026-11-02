@@ -1,13 +1,13 @@
 {
   "2026-27:GW10:task1:form-minutes-targets": {
     "confirmed": true,
-    "identity": "2026-27:GW10:task1:form-minutes-targets:3f6da902b79d5ae6",
+    "identity": "2026-27:GW10:task1:form-minutes-targets:cecc86a0d21f1f79",
     "last_player_ids": [
       199798,
       465730,
       226597
     ],
-    "published_at": "2026-11-02T17:32:32.426919+00:00",
-    "version": "3f6da902b79d5ae675d68719821a02f6f245a343189489cac838386a70c6f8b7"
+    "published_at": "2026-11-02T22:57:34.654746+00:00",
+    "version": "cecc86a0d21f1f790cb8e903b4d9bcefc647d990f25a89215af94424f76c3ffa"
   }
 }

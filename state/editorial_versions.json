@@ -317,6 +317,124 @@
     "timestamp": "2026-11-02T20:52:03.551298+00:00",
     "version": "eac42ab0b3a28b2adf5ab57cb2a3aee8387ab1a94309d10da5887b67abd6fc52"
   },
+  "news:10:4:232653|56:547027|7:199796": {
+    "confirmed": true,
+    "delivery_key": "2026-11-02:news",
+    "evidence": {
+      "gw": 10,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "EVE",
+              "H",
+              3,
+              11
+            ],
+            [
+              "FUL",
+              "A",
+              3,
+              54
+            ],
+            [
+              "ARS",
+              "H",
+              4,
+              3
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "-0.2",
+            "goals": 1,
+            "minutes": 97,
+            "price": "£4.8m",
+            "status": "s",
+            "total_points": 6
+          },
+          "player": "J.Ramsey",
+          "team": 4
+        },
+        {
+          "fixtures": [
+            [
+              "COV",
+              "A",
+              2,
+              9
+            ],
+            [
+              "CHE",
+              "H",
+              4,
+              8
+            ],
+            [
+              "AVL",
+              "A",
+              3,
+              7
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "0.5",
+            "goals": 0,
+            "minutes": 70,
+            "price": "£5.3m",
+            "status": "d",
+            "total_points": 7
+          },
+          "player": "Diarra",
+          "team": 56
+        },
+        {
+          "fixtures": [
+            [
+              "FUL",
+              "H",
+              2,
+              54
+            ],
+            [
+              "MUN",
+              "A",
+              4,
+              1
+            ],
+            [
+              "SUN",
+              "H",
+              3,
+              56
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 2,
+            "form": "3.0",
+            "goals": 0,
+            "minutes": 656,
+            "price": "£4.3m",
+            "status": "s",
+            "total_points": 18
+          },
+          "player": "Cash",
+          "team": 7
+        }
+      ]
+    },
+    "group": "news:10:4:232653|56:547027|7:199796",
+    "timestamp": "2026-11-02T22:57:26.492193+00:00",
+    "version": "7c4aa47f2352129e80e5f9d796282c4275762acace57717bf7fb5803454a24dc"
+  },
   "projections:10:general": {
     "confirmed": true,
     "delivery_key": "2026-11-02:projections:GW10",
