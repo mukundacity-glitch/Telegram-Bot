@@ -99,6 +99,8 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
         from .recommendations import build
         return build(kind, snapshot, now)
     gw = snapshot.gameweek()
+    if not gw:
+        raise ValueError("No verified upcoming FPL deadline; refusing a stale GW label")
     from zoneinfo import ZoneInfo
     timestamp = snapshot.fetched_at.astimezone(ZoneInfo("America/New_York")).strftime("%d %b %Y • %I:%M %p ET")
     source = "Source: Official Fantasy Premier League API"
