@@ -397,7 +397,7 @@ def _midfielders_layout(canvas: Image.Image, content: Content,
 
 def render_premium(content: Content, output: Path, session: requests.Session) -> Path:
     """Render verified data with club crests when a CDN player portrait is unavailable."""
-    supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening', 'buy', 'sell'}
+    supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening', 'buy', 'sell', 'midfielders'}
     if content.kind not in supported:
         raise ValueError(f'No premium layout for {content.kind}')
     if not content.cards:
