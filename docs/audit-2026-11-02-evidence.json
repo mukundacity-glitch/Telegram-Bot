@@ -1,0 +1,761 @@
+{
+  "as_of": "2026-11-02",
+  "window_start": "2026-10-30T21:00:00Z",
+  "evidence": [
+    {
+      "repo": "Telegram-Bot",
+      "run": 41523140792,
+      "event": "schedule",
+      "at": "2026-11-02T20:52:15Z",
+      "result": "failure",
+      "evidence": [
+        "2026-11-02T20:53:12.4429413Z DELIVERED 2026-11-02:elite with message 154 and article.gw=10 (FPLVortex_GW10_elite.png)",
+        "2026-11-02T20:53:12.6247926Z Task edition status: {'due': [], 'published': 0, 'skipped': 0}",
+        "2026-11-02T20:53:14.6012517Z ##[error]Process completed with exit code 1."
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41522981732,
+      "event": "schedule",
+      "at": "2026-11-02T20:51:13Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T20:52:12.0746521Z DELIVERED 2026-11-02:elite with message 153 and article.gw=10 (FPLVortex_GW10_elite.png)",
+        "2026-11-02T20:52:12.2629196Z Task edition status: {'due': [], 'published': 0, 'skipped': 0}"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41492032343,
+      "event": "push",
+      "at": "2026-11-02T17:31:53Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T17:32:41.5709700Z POSTED BOTH 2026-27:GW10:task1:form-minutes-targets Telegram#152 Discord#1566867655191699547",
+        "2026-11-02T17:32:41.5714204Z Task edition status: {'due': ['form-minutes-targets'], 'published': 1, 'skipped': 0, 'held': [], 'version_updates': 0}"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41488102170,
+      "event": "push",
+      "at": "2026-11-02T17:07:25Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T17:08:06.7790630Z Task edition status: {'due': ['form-minutes-targets'], 'published': 0, 'skipped': 1, 'reason': 'staging'}"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41482394325,
+      "event": "workflow_dispatch",
+      "at": "2026-11-02T16:32:01Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41448818348,
+      "event": "workflow_dispatch",
+      "at": "2026-11-02T12:56:55Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41407957342,
+      "event": "schedule",
+      "at": "2026-11-02T07:41:49Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T07:42:13.9151358Z ALREADY DELIVERED 2026-11-02:evening; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41406656833,
+      "event": "schedule",
+      "at": "2026-11-02T07:29:45Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T07:30:19.2487959Z DELIVERED 2026-11-02:evening with message 150 and article.gw=10 (FPLVortex_GW10_evening.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41374454421,
+      "event": "schedule",
+      "at": "2026-11-02T01:49:18Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T01:49:47.6487107Z ALREADY DELIVERED 2026-11-01:review; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41373813415,
+      "event": "schedule",
+      "at": "2026-11-02T01:41:43Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T01:42:22.1000808Z DELIVERED 2026-11-01:review with message 149 and article.gw=10 (FPLVortex_GW10_review.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41368741597,
+      "event": "schedule",
+      "at": "2026-11-02T00:44:14Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T00:44:43.5452434Z ALREADY DELIVERED 2026-11-01:captaincy; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41364769818,
+      "event": "schedule",
+      "at": "2026-11-01T23:59:40Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T00:00:13.8315899Z DELIVERED 2026-11-01:captaincy with message 148 and article.gw=10 (FPLVortex_GW10_captaincy.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41359258473,
+      "event": "schedule",
+      "at": "2026-11-01T22:52:01Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T22:52:30.9101206Z ALREADY DELIVERED 2026-11-01:transfer; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41357469048,
+      "event": "schedule",
+      "at": "2026-11-01T22:30:28Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T22:31:00.9520237Z DELIVERED 2026-11-01:transfer with message 147 and article.gw=10 (FPLVortex_GW10_transfer.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41350776879,
+      "event": "schedule",
+      "at": "2026-11-01T21:12:08Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T21:12:32.5973122Z ALREADY DELIVERED 2026-11-01:prices; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41349539238,
+      "event": "schedule",
+      "at": "2026-11-01T20:58:13Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T20:58:48.0720655Z DELIVERED 2026-11-01:prices with message 146 and article.gw=10 (FPLVortex_GW10_prices.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41343079688,
+      "event": "schedule",
+      "at": "2026-11-01T19:42:25Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T19:42:47.0380403Z ALREADY DELIVERED 2026-11-01:news; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41340933539,
+      "event": "schedule",
+      "at": "2026-11-01T19:16:56Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T19:17:22.0229000Z DELIVERED 2026-11-01:news with message 145 and article.gw=10 (FPLVortex_GW10_news.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41336554636,
+      "event": "schedule",
+      "at": "2026-11-01T18:25:35Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T18:26:04.3934049Z ALREADY DELIVERED 2026-11-01:comparison; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41335861293,
+      "event": "schedule",
+      "at": "2026-11-01T18:17:35Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T18:18:07.8367895Z DELIVERED 2026-11-01:comparison with message 144 and article.gw=10 (FPLVortex_GW10_comparison.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41330443032,
+      "event": "schedule",
+      "at": "2026-11-01T17:14:23Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T17:14:47.4663909Z DELIVERED 2026-11-01:elite with message 143 and article.gw=10 (FPLVortex_GW10_elite.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41330307384,
+      "event": "schedule",
+      "at": "2026-11-01T17:12:43Z",
+      "result": "failure",
+      "evidence": [
+        "2026-11-01T17:14:14.2962281Z Delivery failed: RuntimeError: Telegram sendPhoto network or JSON failure (ReadTimeout)",
+        "2026-11-01T17:14:14.3284997Z ##[error]Process completed with exit code 1."
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41279611371,
+      "event": "schedule",
+      "at": "2026-11-01T06:08:36Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T06:09:07.4743546Z ALREADY DELIVERED 2026-11-01:evening; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41276792274,
+      "event": "schedule",
+      "at": "2026-11-01T05:23:54Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T05:24:29.8903992Z DELIVERED 2026-11-01:evening with message 141 and article.gw=10 (FPLVortex_GW10_evening.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41256730955,
+      "event": "schedule",
+      "at": "2026-11-01T00:26:05Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T00:26:43.1352045Z ALREADY DELIVERED 2026-10-31:review; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41256102194,
+      "event": "schedule",
+      "at": "2026-11-01T00:17:33Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T00:18:00.4856896Z DELIVERED 2026-10-31:review with message 140 and article.gw=10 (FPLVortex_GW10_review.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41252324335,
+      "event": "schedule",
+      "at": "2026-10-31T23:23:20Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T23:23:41.7150141Z ALREADY DELIVERED 2026-10-31:captaincy; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41250187586,
+      "event": "schedule",
+      "at": "2026-10-31T22:53:45Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T22:54:17.9635712Z DELIVERED 2026-10-31:captaincy with message 139 and article.gw=10 (FPLVortex_GW10_captaincy.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41244612491,
+      "event": "schedule",
+      "at": "2026-10-31T21:39:34Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T21:40:03.0268902Z ALREADY DELIVERED 2026-10-31:transfer; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41240298802,
+      "event": "schedule",
+      "at": "2026-10-31T20:44:22Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T20:44:47.0346190Z DELIVERED 2026-10-31:transfer with message 138 and article.gw=10 (FPLVortex_GW10_transfer.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41236805299,
+      "event": "schedule",
+      "at": "2026-10-31T20:00:07Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T20:00:42.5760724Z ALREADY DELIVERED 2026-10-31:prices; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41235674466,
+      "event": "schedule",
+      "at": "2026-10-31T19:45:10Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T19:45:45.0556790Z DELIVERED 2026-10-31:prices with message 137 and article.gw=10 (FPLVortex_GW10_prices.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41230156681,
+      "event": "schedule",
+      "at": "2026-10-31T18:35:25Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T18:35:54.8375673Z ALREADY DELIVERED 2026-10-31:news; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41227485582,
+      "event": "schedule",
+      "at": "2026-10-31T18:03:11Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T18:03:43.7376192Z DELIVERED 2026-10-31:news with message 136 and article.gw=10 (FPLVortex_GW10_news.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41223578993,
+      "event": "schedule",
+      "at": "2026-10-31T17:14:46Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T17:15:17.3262878Z ALREADY DELIVERED 2026-10-31:comparison; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41222217527,
+      "event": "schedule",
+      "at": "2026-10-31T16:58:23Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T16:59:04.1601678Z DELIVERED 2026-10-31:comparison with message 135 and article.gw=10 (FPLVortex_GW10_comparison.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41216860748,
+      "event": "schedule",
+      "at": "2026-10-31T15:51:47Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T15:52:16.5153969Z ALREADY DELIVERED 2026-10-31:elite; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41216643804,
+      "event": "schedule",
+      "at": "2026-10-31T15:49:02Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T15:49:36.0349686Z DELIVERED 2026-10-31:elite with message 134 and article.gw=10 (FPLVortex_GW10_elite.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41173785754,
+      "event": "schedule",
+      "at": "2026-10-31T05:44:27Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T05:44:55.6043951Z ALREADY DELIVERED 2026-10-31:evening; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41170509442,
+      "event": "schedule",
+      "at": "2026-10-31T04:55:35Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T04:56:07.6879976Z DELIVERED 2026-10-31:evening with message 133 and article.gw=9 (FPLVortex_GW9_evening.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41153394520,
+      "event": "schedule",
+      "at": "2026-10-31T01:03:04Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T01:03:26.2906390Z ALREADY DELIVERED 2026-10-30:review; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41152895166,
+      "event": "schedule",
+      "at": "2026-10-31T00:57:11Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T00:57:35.7449959Z DELIVERED 2026-10-30:review with message 132 and article.gw=9 (FPLVortex_GW9_review.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41146333642,
+      "event": "schedule",
+      "at": "2026-10-30T23:45:26Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-30T23:45:54.9386609Z ALREADY DELIVERED 2026-10-30:captaincy; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41143914178,
+      "event": "schedule",
+      "at": "2026-10-30T23:20:49Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-30T23:21:25.3892384Z DELIVERED 2026-10-30:captaincy with message 131 and article.gw=9 (FPLVortex_GW9_captaincy.png)"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41138022568,
+      "event": "schedule",
+      "at": "2026-10-30T22:25:24Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-30T22:25:54.9378339Z ALREADY DELIVERED 2026-10-30:transfer; skipping duplicate"
+      ]
+    },
+    {
+      "repo": "Telegram-Bot",
+      "run": 41133256280,
+      "event": "schedule",
+      "at": "2026-10-30T21:44:33Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-30T21:44:57.1494544Z DELIVERED 2026-10-30:transfer with message 130 and article.gw=9 (FPLVortex_GW9_transfer.png)"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41518297806,
+      "event": "schedule",
+      "at": "2026-11-02T20:20:21Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T20:20:37.4997906Z Verified branded status delivery: True; receipt ID=1566909920903831663"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41488573891,
+      "event": "push",
+      "at": "2026-11-02T17:10:16Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T17:10:31.7528436Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p483067.png",
+        "2026-11-02T17:10:31.7530244Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p445087.png",
+        "2026-11-02T17:10:31.7531943Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p433969.png",
+        "2026-11-02T17:10:31.7533566Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p551466.png",
+        "2026-11-02T17:10:31.7535686Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p500040.png",
+        "2026-11-02T17:10:31.7537613Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p549940.png",
+        "2026-11-02T17:10:31.7539280Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p208481.png",
+        "2026-11-02T17:10:31.7540433Z Price-change prediction is unchanged; no duplicate post sent."
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41488564608,
+      "event": "push",
+      "at": "2026-11-02T17:10:14Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41485483194,
+      "event": "workflow_dispatch",
+      "at": "2026-11-02T16:51:06Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T16:51:26.0471709Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p483067.png",
+        "2026-11-02T16:51:26.0473347Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p445087.png",
+        "2026-11-02T16:51:26.0474880Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p433969.png",
+        "2026-11-02T16:51:26.0476412Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p551466.png",
+        "2026-11-02T16:51:26.0478005Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p500040.png",
+        "2026-11-02T16:51:26.0479059Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p549940.png",
+        "2026-11-02T16:51:26.0480083Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p208481.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41485463118,
+      "event": "workflow_dispatch",
+      "at": "2026-11-02T16:50:58Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41482431884,
+      "event": "workflow_dispatch",
+      "at": "2026-11-02T16:32:15Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41425952417,
+      "event": "schedule",
+      "at": "2026-11-02T10:05:36Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41379256717,
+      "event": "schedule",
+      "at": "2026-11-02T02:43:44Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-02T02:44:03.6045476Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p445087.png",
+        "2026-11-02T02:44:03.6047477Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p433969.png",
+        "2026-11-02T02:44:03.6049086Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p483067.png",
+        "2026-11-02T02:44:03.6050642Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p500040.png",
+        "2026-11-02T02:44:03.6052276Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p551466.png",
+        "2026-11-02T02:44:03.6053852Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p485337.png",
+        "2026-11-02T02:44:03.6055425Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p208481.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41378699078,
+      "event": "schedule",
+      "at": "2026-11-02T02:37:06Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41360665592,
+      "event": "schedule",
+      "at": "2026-11-01T23:09:03Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41342704801,
+      "event": "schedule",
+      "at": "2026-11-01T19:37:54Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T19:38:05.2924129Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p424876.png",
+        "2026-11-01T19:38:05.2926397Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p551499.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41319422080,
+      "event": "schedule",
+      "at": "2026-11-01T15:05:27Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T15:05:38.3575456Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p200834.png",
+        "2026-11-01T15:05:38.3577698Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p547027.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41287433316,
+      "event": "schedule",
+      "at": "2026-11-01T09:06:25Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41265635242,
+      "event": "schedule",
+      "at": "2026-11-01T02:32:38Z",
+      "result": "success",
+      "evidence": [
+        "2026-11-01T02:33:01.5832267Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p433969.png",
+        "2026-11-01T02:33:01.5833695Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p445087.png",
+        "2026-11-01T02:33:01.5834619Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p483067.png",
+        "2026-11-01T02:33:01.5835535Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p208481.png",
+        "2026-11-01T02:33:01.5836439Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p519440.png",
+        "2026-11-01T02:33:01.5837389Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p500040.png",
+        "2026-11-01T02:33:01.5838290Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p471551.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41261225174,
+      "event": "schedule",
+      "at": "2026-11-01T01:28:21Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41248990460,
+      "event": "schedule",
+      "at": "2026-10-31T22:37:00Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T22:37:14.3545123Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p435997.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41233289500,
+      "event": "schedule",
+      "at": "2026-10-31T19:14:45Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T19:14:58.1120322Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p101282.png",
+        "2026-10-31T19:14:58.1123757Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p201895.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41212554809,
+      "event": "schedule",
+      "at": "2026-10-31T14:57:57Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T14:58:14.9384237Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p551210.png",
+        "2026-10-31T14:58:14.9385600Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p622758.png",
+        "2026-10-31T14:58:14.9386826Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p424876.png",
+        "2026-10-31T14:58:14.9388097Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p200834.png",
+        "2026-10-31T14:58:14.9389279Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p551499.png",
+        "2026-10-31T14:58:14.9390467Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p616077.png",
+        "2026-10-31T14:58:14.9391620Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p614071.png",
+        "2026-10-31T14:58:14.9392958Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p441264.png",
+        "2026-10-31T14:58:14.9394110Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p494595.png",
+        "2026-10-31T14:58:14.9395439Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p606930.png",
+        "2026-10-31T14:58:14.9396598Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p466525.png",
+        "2026-10-31T14:58:14.9397736Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p437505.png",
+        "2026-10-31T14:58:14.9398888Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p448104.png",
+        "2026-10-31T14:58:14.9400076Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p442299.png",
+        "2026-10-31T14:58:14.9401234Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p456512.png",
+        "2026-10-31T14:58:14.9402577Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p560262.png",
+        "2026-10-31T14:58:14.9403730Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p513086.png",
+        "2026-10-31T14:58:14.9405500Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p435997.png",
+        "2026-10-31T14:58:14.9406668Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p498444.png",
+        "2026-10-31T14:58:14.9407848Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p93605.png",
+        "2026-10-31T14:58:14.9409177Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p592984.png",
+        "2026-10-31T14:58:14.9410278Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p503037.png",
+        "2026-10-31T14:58:14.9411389Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p631000.png",
+        "2026-10-31T14:58:14.9412716Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p173774.png",
+        "2026-10-31T14:58:14.9413800Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p490884.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41186246381,
+      "event": "schedule",
+      "at": "2026-10-31T08:50:46Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41161153574,
+      "event": "schedule",
+      "at": "2026-10-31T02:41:50Z",
+      "result": "success",
+      "evidence": [
+        "2026-10-31T02:42:03.7835669Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p540324.png",
+        "2026-10-31T02:42:03.7836529Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p465730.png",
+        "2026-10-31T02:42:03.7837296Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p433969.png",
+        "2026-10-31T02:42:03.7838047Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p445087.png",
+        "2026-10-31T02:42:03.7838768Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p551466.png",
+        "2026-10-31T02:42:03.7839278Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p482973.png",
+        "2026-10-31T02:42:03.7839777Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p223827.png",
+        "2026-10-31T02:42:03.7840278Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p593174.png",
+        "2026-10-31T02:42:03.7840774Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p549940.png",
+        "2026-10-31T02:42:03.7841270Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p519440.png",
+        "2026-10-31T02:42:03.7841768Z Could not download image: 403 Client Error: Forbidden for url: https://resources.premierleague.com/premierleague/photos/players/250x250/p485337.png"
+      ]
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41160507711,
+      "event": "schedule",
+      "at": "2026-10-31T02:33:00Z",
+      "result": "success",
+      "evidence": []
+    },
+    {
+      "repo": "Vortex-Injury-Price-Discord",
+      "run": 41143654396,
+      "event": "schedule",
+      "at": "2026-10-30T23:18:19Z",
+      "result": "success",
+      "evidence": []
+    }
+  ],
+  "tasks": [
+    {
+      "id": "6ae4947a31608191815d3915528bdacd",
+      "title": "FPL VORTEX · Three Daily Posts",
+      "enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261030T073000\nRRULE:FREQ=DAILY;BYHOUR=7,12,19;BYMINUTE=30;BYSECOND=0\nEND:VEVENT",
+      "timezone": "America/New_York",
+      "last_run_time": "2026-11-02T17:31:31.984950+00:00"
+    },
+    {
+      "id": "6ae1ba5280248191970af7523572ca38",
+      "title": "Task 2 · FPL VORTEX Daily Graphics",
+      "enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261102T080000\nRRULE:FREQ=DAILY;BYHOUR=8,10,12,15;BYMINUTE=0,45;BYSECOND=0;BYSETPOS=1,4,5,8\nEND:VEVENT",
+      "timezone": "America/New_York",
+      "last_run_time": "2026-11-02T20:42:24.279706+00:00"
+    },
+    {
+      "id": "6ae4da1e097c81919ccaef4c8fba191a",
+      "title": "FPL VORTEX · Press News",
+      "enabled": true,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261030T140000\nRRULE:FREQ=DAILY;INTERVAL=3\nEND:VEVENT",
+      "timezone": "America/New_York",
+      "last_run_time": "2026-11-02T18:56:05.670995+00:00"
+    },
+    {
+      "id": "6ae494793fdc8191a72c714c4bdad61f",
+      "title": "Task 1 · FPL VORTEX",
+      "enabled": false,
+      "schedule": "BEGIN:VEVENT\nDTSTART:20261102T060000\nRRULE:FREQ=DAILY;BYHOUR=6,10,15,19;BYMINUTE=0;BYSECOND=0\nEND:VEVENT",
+      "timezone": "America/New_York",
+      "last_run_time": "2026-11-02T20:01:52.672459+00:00"
+    }
+  ]
+}

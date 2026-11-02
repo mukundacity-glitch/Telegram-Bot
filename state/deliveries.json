@@ -816,5 +816,15 @@
     "source_url": "",
     "telegram_message_id": 152,
     "timestamp": "2026-11-02T17:32:32.426919+00:00"
+  },
+  "recovery:run41523140792:telegram154": {
+    "delivered": true,
+    "discord_delivery_logged": true,
+    "gameweek": 10,
+    "original_identity": "2026-11-02:elite",
+    "recovery_note": "Telegram ID confirmed in job log; Discord success logged but ID absent. Preserve primary receipt #153; this is historical recovery, not a new publication.",
+    "recovery_source": "https://github.com/mukundacity-glitch/Telegram-Bot/actions/runs/41523140792",
+    "telegram_message_id": 154,
+    "timestamp": "2026-11-02T20:53:12.442941+00:00"
   }
 }

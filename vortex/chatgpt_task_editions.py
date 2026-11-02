@@ -198,7 +198,14 @@ def generate_edition(edition: Edition, snapshot: FplSnapshot, now: datetime,
                                if edition.kind == "form_targets" else "NEXT GW • DECISION"), "HOLD"
     elif edition.kind == "captain_differential":
         available = [p for p in candidate if p.get("element_type") in (3, 4)]
-        choices = available[:3]
+        # A third high-owned star is not a differential. Require verified
+        # ownership at or below 15%, independent of the top two captains.
+        differential = next((p for p in available[2:]
+                             if p.get("selected_by_percent") is not None
+                             and 0 <= float(p["selected_by_percent"]) <= 15), None)
+        if len(available) < 3 or differential is None:
+            raise RuntimeError("No verified available low-ownership differential")
+        choices = available[:2] + [differential]
         labels = ["CAPTAIN", "STRONG ALTERNATIVE", "DIFFERENTIAL"]
         heading, action = "CAPTAINCY & DIFFERENTIAL EDGE", "CAPTAIN"
     elif edition.kind == "transfer_market":

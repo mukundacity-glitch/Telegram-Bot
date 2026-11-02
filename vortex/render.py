@@ -24,7 +24,7 @@ def font(size: int, bold: bool = True) -> ImageFont.FreeTypeFont | ImageFont.Ima
     try:
         return ImageFont.truetype(FONT_BOLD if bold else FONT_REG, size)
     except OSError:
-        return ImageFont.load_default()
+        return ImageFont.load_default(size=size)
 
 
 def _fit_text(draw: ImageDraw.ImageDraw, value: str, max_width: int, size: int, min_size: int = 17) -> ImageFont.ImageFont:

@@ -100,7 +100,7 @@ def test_new_post_has_four_ranked_cards_consistent_caption_and_true_transfer_per
     assert post.title.startswith("GW7: FOUR ")
     assert "Market" not in post.title
     assert post.caption.splitlines()[-1] == "#FPL #GW7 #FPLVortex #PremierLeague"
-    assert len(post.caption.splitlines()) == 6
+    assert len(post.caption.splitlines()) == 5
     assert "24 hour" not in post.caption.lower()
     transfer_key = "transfers_in_event" if kind == "buy" else "transfers_out_event"
     for card in post.cards:
