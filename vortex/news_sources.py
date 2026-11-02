@@ -229,5 +229,27 @@ def collect_reported_headlines(snapshot: FplSnapshot, now: datetime,
                 identity=_identity("rss", _link_clean(link)),
                 title=headline, caption=caption, gameweek=gw, source=source, source_url=link,
             ))
-    # One title/link identity across overlapping X feed categories.
-    return list({entry.identity: entry for entry in found}.values())
+    # Cross-feed overlap: identical URL, or very similar reported headlines.
+    # Keep materially different updates, even about the same club/player.
+    selected: list[NewsPost] = []
+    seen_ids: set[str] = set()
+    tokens: list[set[str]] = []
+    noise = {"latest", "news", "report", "reports", "premier", "league",
+             "football", "update", "updates", "club", "could", "after",
+             "from", "with", "about", "says", "said", "team"}
+    for post in found:
+        if post.identity in seen_ids:
+            continue
+        reported = post.caption.partition("Reported headline: ")[2].partition("\n")[0]
+        words = {w for w in re.findall(r"[a-z]{4,}", reported.casefold()) if w not in noise}
+        near_repeat = any(
+            bool(words and prior) and
+            len(words & prior) / len(words | prior) >= 0.75
+            for prior in tokens
+        )
+        if near_repeat:
+            continue
+        selected.append(post)
+        tokens.append(words)
+        seen_ids.add(post.identity)
+    return selected
