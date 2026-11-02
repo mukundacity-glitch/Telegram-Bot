@@ -118,7 +118,7 @@ def run(*, cron: str | None = None, selected_name: str | None = None,
                 # Only actual content version changes can become a new post.
                 post = replace(post, title="UPDATED • " + post.title)
                 report["version_updates"] += 1
-            if len(post.cards) == 1 and isinstance(post, Content):
+            if isinstance(post, Content) and len(post.cards) == 1:
                 # The original single-player evidence table is preserved.
                 post = replace(post, kind="elite")
             file = OUTPUT / f"ported_{edition.task}_{edition.label}_GW{gw}.png"
