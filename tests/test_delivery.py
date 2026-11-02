@@ -133,3 +133,28 @@ def test_workflow_default_is_auto_and_never_test():
     assert "\\n          - test\\n" not in workflow
     assert "REQUESTED_SLOT: ${{ github.event_name == 'schedule' && 'auto' || inputs.slot || 'auto' }}" in workflow
     assert "timezone: America/New_York" in workflow
+
+
+
+def test_shared_delivery_backfills_only_discord_for_previously_delivered_slot(
+    delivery_environment, monkeypatch
+):
+    """No duplicate Telegram photo if Discord is enabled after the slot ran."""
+    posts = []
+
+    class FakeDiscord:
+        def send(self, post):
+            posts.append((post.title, post.caption, post.gameweek))
+            return "discord-883"
+
+    monkeypatch.setenv("DUAL_PUBLISH_ENABLED", "true")
+    monkeypatch.setattr(bot, "DiscordWebhookClient", FakeDiscord)
+    assert bot.run("auto", "0 8 * * *") == 0
+    assert delivery_environment == []
+    assert posts == [("THE FPL DECISION ROOM", "six\nline\ncaption\nfor\nunit\ntest", 7)]
+    journal = bot.read_state(bot.STATE / "deliveries.json")
+    key = f"{datetime.now(timezone.utc).astimezone(ZoneInfo('America/New_York')).date()}:comparison"
+    assert journal[key]["discord_delivered"] is True
+    assert journal[key]["telegram_message_id"] != 0 if "telegram_message_id" in journal[key] else True
+    assert bot.run("auto", "15 8 * * *") == 0
+    assert len(posts) == 1
