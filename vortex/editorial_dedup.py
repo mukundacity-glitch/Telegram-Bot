@@ -66,6 +66,11 @@ def check_revision(history: dict[str, Any], post: Any,
     old = history.get(group) if isinstance(history.get(group), dict) else None
     if old and old.get("version") == version:
         key = str(old.get("delivery_key") or delivery_key)
+        # Daily odds boards are time-sensitive even when rounded figures are
+        # unchanged. On the following Eastern day, publish one freshly sourced
+        # edition, while same-day retries remain receipt-deduplicated.
+        if getattr(post, "kind", None) == "projections" and key[:10] != delivery_key[:10]:
+            return group, post, delivery_key, version, evidence, False
         receipt = deliveries.get(key, {})
         done = bool(receipt.get("delivered")) and (
             not dual or bool(receipt.get("discord_delivered")))
