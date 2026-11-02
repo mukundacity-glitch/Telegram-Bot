@@ -139,7 +139,10 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
                 if post.image is None:
                     message_id = telegram.send_text(post.caption)
                 else:
-                    message_id = telegram.send_png(post.image, post.caption, post.title, post.gameweek)
+                    # Preserve legacy formatting for single-platform calls,
+                    # but new unified delivery uses exact copy-ready captions.
+                    send = getattr(telegram, "send_shared_png", telegram.send_png)
+                    message_id = send(post.image, post.caption, post.title, post.gameweek)
                 entry.update({"delivered": True, "telegram_message_id": message_id})
             else:
                 message_id = discord.send(post)
