@@ -54,7 +54,7 @@ def test_seven_unconditional_content_slots():
         content = generate(slot, s, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
         assert len(content.caption.splitlines()) == 6
         assert len(content.caption) <= 280
-        assert content.caption.endswith("#FPL #GW7 #FPLVortex")
+        assert content.caption.endswith("#FPL #GW7 #FPLVortex #PremierLeague")
         assert content.cards
 
 
@@ -107,7 +107,7 @@ def test_review_uses_only_last_completed_gameweek(monkeypatch):
     content = generate("review", snapshot, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
     assert "GW6 REVIEW" in content.title
     assert "14 FPL points" in content.cards[0].fields[0]
-    assert content.caption.endswith("#FPL #GW7 #FPLVortex")
+    assert content.caption.endswith("#FPL #GW7 #FPLVortex #PremierLeague")
 
 
 def test_player_stats_are_not_embedded_in_background_templates():
