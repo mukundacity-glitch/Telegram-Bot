@@ -179,6 +179,7 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           # Optional: absent key means no bookmaker projections (N/A, never guessed).
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           DUAL_PUBLISH_ENABLED: ${{ secrets.DISCORD_WEBHOOK_URL != '' && vars.FPL_PUBLISH_PAUSED != 'true' && 'true' || 'false' }}
