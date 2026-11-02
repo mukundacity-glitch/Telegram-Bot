@@ -123,23 +123,32 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
         raise ValueError("Missing immutable identity or content")
     journal = load_journal(journal_path)
     entry = dict(journal.get(post.identity, {}))
+    errors: list[str] = []
     for platform, enabled in (("telegram", send_telegram), ("discord", send_discord)):
         if not enabled:
             continue
         already = bool(entry.get("delivered")) if platform == "telegram" else bool(entry.get("discord_delivered"))
         if already:
             continue
-        if platform == "telegram":
-            if post.image is None:
-                message_id = telegram.send_text(post.caption)
+        try:
+            if platform == "telegram":
+                if post.image is None:
+                    message_id = telegram.send_text(post.caption)
+                else:
+                    message_id = telegram.send_png(post.image, post.caption, post.title, post.gameweek)
+                entry.update({"delivered": True, "telegram_message_id": message_id})
             else:
-                message_id = telegram.send_png(post.image, post.caption, post.title, post.gameweek)
-            entry.update({"delivered": True, "telegram_message_id": message_id})
-        else:
-            message_id = discord.send(post)
-            entry.update({"discord_delivered": True, "discord_message_id": str(message_id)})
+                message_id = discord.send(post)
+                entry.update({"discord_delivered": True, "discord_message_id": str(message_id)})
+        except (RuntimeError, ValueError, OSError, requests.RequestException) as exc:
+            # A failed destination must not block the other destination. Do not
+            # include external exception messages (which can include secrets).
+            errors.append(f"{platform} {type(exc).__name__}")
+            continue
         entry.update({"timestamp": now_iso, "gameweek": post.gameweek,
                       "source": post.source, "source_url": post.source_url})
         journal[post.identity] = entry
         save_journal(journal_path, journal)
+    if errors:
+        raise RuntimeError("Partial delivery; retained successful receipts: " + ", ".join(errors))
     return entry
