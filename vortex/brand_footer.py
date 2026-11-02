@@ -25,7 +25,7 @@ def verify_exact_master() -> None:
     if not MASTER.is_file():
         raise FileNotFoundError("Approved original blue master not installed")
     content = MASTER.read_bytes()
-    blob = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\\0" + content).hexdigest()
+    blob = hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
     if blob != APPROVED_MASTER_BLOB_SHA:
         raise RuntimeError("Repository brand background differs from user-approved 59698.png; hold post")
 
@@ -33,6 +33,8 @@ def verify_exact_master() -> None:
 
 def apply_footer(output: Path, *, verdict: str = "",
                  strict: bool = True) -> Path:
+    if strict and os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
+        verify_exact_master()
     telegram, discord = required_footer_handles()
     if not MASTER.is_file():
         raise FileNotFoundError("Approved FPL VORTEX blue broadcast master not installed")
