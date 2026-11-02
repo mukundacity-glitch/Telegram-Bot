@@ -25,6 +25,10 @@ class NewsPost:
     image: Path | None = None
     source: str = ""
     source_url: str = ""
+    player_name: str = ""
+    team_name: str = ""
+    photo_code: int | None = None
+    club_code: int | None = None
 
 
 def load_journal(path: Path) -> dict[str, dict[str, Any]]:
