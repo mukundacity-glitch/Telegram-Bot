@@ -209,11 +209,14 @@ def verified_match_odds(snapshot: FplSnapshot,
                         fixtures: list[dict[str, Any]],
                         session: requests.Session | None = None,
                         api_key: str | None = None) -> dict[int, dict[str, Any]]:
-    """Return per-fixture modeled goals and CS for both teams, or no estimates.
+    """Live bookmaker-derived matchup projections, or explicit unavailable.
 
-    API v4 optional key: THE_ODDS_API_KEY. Market availability cannot be
-    guaranteed and no API key is ever persisted into a card, caption or log.
+    Official fixtures constrain teams/kickoff. The Odds API gives h2h/total
+    prices, devigged per bookmaker, fitted by bounded Poisson L-BFGS-B.
+    A rate from market odds is a model output, never an official FPL metric.
     """
+    from .odds_model import market_consensus, model_from_consensus
+
     key = api_key if api_key is not None else os.getenv("THE_ODDS_API_KEY", "")
     if not key or not fixtures:
         return {}
@@ -232,42 +235,40 @@ def verified_match_odds(snapshot: FplSnapshot,
         event_id = _matched_event([e for e in events if isinstance(e, dict)], f, snapshot)
         if event_id is None:
             continue
-        odds = _safe_get(client, f"/events/{event_id}/odds", key, {
-            "regions": "uk,eu", "markets": "alternate_team_totals,team_totals,h2h",
-            "oddsFormat": "decimal", "dateFormat": "iso",
-        })
-        if not isinstance(odds, dict):
-            # Some sportsbooks do not offer 0.5 team totals at all. Do not
-            # discard valid independent 1X2 win-market data as a side effect.
-            odds = _safe_get(client, f"/events/{event_id}/odds", key, {
-                "regions": "uk,eu", "markets": "h2h",
-                "oddsFormat": "decimal", "dateFormat": "iso",
-            })
-        if not isinstance(odds, dict):
-            continue
         home = canonical(snapshot.teams.get(f.get("team_h"), {}).get("name", ""))
         away = canonical(snapshot.teams.get(f.get("team_a"), {}).get("name", ""))
-        # Verify event match again in the odds payload, not only event list.
-        if canonical(odds.get("home_team", "")) != home or canonical(odds.get("away_team", "")) != away:
-            continue
-        quotes = _two_sided_quotes(odds, (home, away), now)
-        h, a = _projection(quotes.get(home, [])), _projection(quotes.get(away, []))
-        h2h = _h2h_projection(odds, (home, away), now)
-        verified[f["id"]] = {
-            "home_goals": h["goals"] if h else None,
-            "away_goals": a["goals"] if a else None,
-            # Clean sheet = opponent scores zero, never team's own nil chance.
-            "home_cs": round(a["p_zero"] * 100) if a else None,
-            "away_cs": round(h["p_zero"] * 100) if h else None,
-            "home_books": h["books"] if h else 0,
-            "away_books": a["books"] if a else 0,
-            "home_quote_utc": h["updated_at"] if h else None,
-            "away_quote_utc": a["updated_at"] if a else None,
-            "source": "The Odds API · 2+ books · team totals O/U 0.5",
-            "method": "no-vig team totals + model Poisson-equivalent goals; independent no-vig h2h",
-            "home_win_market_pct": h2h["home_win_pct"] if h2h else None,
-            "draw_market_pct": h2h["draw_pct"] if h2h else None,
-            "away_win_market_pct": h2h["away_win_pct"] if h2h else None,
-            "win_market_bookmakers": h2h["bookmakers"] if h2h else 0,
-        }
+        for region in ("uk,eu", "uk"):
+            odds = _safe_get(client, f"/events/{event_id}/odds", key, {
+                "regions": region, "markets": "h2h,totals",
+                "oddsFormat": "decimal", "dateFormat": "iso",
+            })
+            if not isinstance(odds, dict):
+                continue
+            # Verify match identity *again* on returned market data.
+            if canonical(odds.get("home_team", "")) != home or canonical(odds.get("away_team", "")) != away:
+                continue
+            when = _datetime(odds.get("commence_time"))
+            if when is None or abs(when - kick) > timedelta(hours=12) or when <= now:
+                continue
+            h2h = _h2h_projection(odds, (home, away), now)
+            consensus = market_consensus(odds, home, away, now, canonical)
+            model = model_from_consensus(consensus) if consensus else None
+            if model is not None:
+                verified[f["id"]] = model
+                break
+            # Partial verified h2h is NOT a valid goal-rate forecast.
+            # Its 1X2 percentage may still be cited separately.
+            if h2h is not None and f["id"] not in verified:
+                verified[f["id"]] = {
+                    "home_goals": None, "away_goals": None,
+                    "home_cs": None, "away_cs": None,
+                    "home_books": 0, "away_books": 0,
+                    "home_quote_utc": None, "away_quote_utc": None,
+                    "source": "The Odds API · partial h2h (goals/CS N/A)",
+                    "method": "Missing independently verified totals market; goals/CS not estimated",
+                    "home_win_market_pct": h2h["home_win_pct"],
+                    "draw_market_pct": h2h["draw_pct"],
+                    "away_win_market_pct": h2h["away_win_pct"],
+                    "win_market_bookmakers": h2h["bookmakers"],
+                }
     return verified
