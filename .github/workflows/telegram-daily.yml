@@ -145,7 +145,7 @@ jobs:
         run: python -m vortex.unified_runner --dry-run
 
       - name: Publish new FPL/RSS news to both platforms (cutover opt-in)
-        if: ${{ github.event_name == 'schedule' && vars.UNIFIED_NEWS_ENABLED == 'true' }}
+        if: ${{ always() && github.event_name == 'schedule' && vars.UNIFIED_NEWS_ENABLED == 'true' }}
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
