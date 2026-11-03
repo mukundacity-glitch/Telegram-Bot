@@ -857,6 +857,14 @@
     "telegram_message_id": 160,
     "timestamp": "2026-11-02T23:21:55.946893+00:00"
   },
+  "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
+    "discord_delivered": true,
+    "discord_message_id": "1566986392335294705",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "timestamp": "2026-11-03T01:24:08.340751+00:00"
+  },
   "2026-27:GW10:task1:form-minutes-targets:3f6da902b79d5ae6": {
     "delivered": true,
     "discord_delivered": true,
