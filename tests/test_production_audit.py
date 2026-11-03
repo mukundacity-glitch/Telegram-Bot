@@ -9,9 +9,10 @@ ROOT = Path(__file__).resolve().parents[1]
 WORKFLOW = ROOT / '.github/workflows/telegram-daily.yml'
 
 
-def test_delayed_cron_reads_latest_default_branch_and_full_rebase_history():
+def test_scheduled_and_manual_runs_read_latest_receipts_and_full_rebase_history():
     checkout = WORKFLOW.read_text().split('      - name: Checkout isolated')[1].split('      - name: Set up Python')[0]
-    assert "github.event_name == 'schedule' && github.event.repository.default_branch" in checkout
+    assert 'ref: ${{ github.event.repository.default_branch }}' in checkout
+    assert 'github.sha' not in checkout
     assert 'fetch-depth: 0' in checkout
 
 
