@@ -34,5 +34,15 @@
     "telegram_layout_revision": "one-four-player-graphic-v1",
     "telegram_message_id": 170,
     "timestamp": "2026-11-03T14:59:01.144295+00:00"
+  },
+  "chatgpt:2026-27:GW10:three_daily:vortex-captain:fe20101bf013359e7daf:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1567315557441871992",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 172,
+    "timestamp": "2026-11-03T23:12:25.599169+00:00"
   }
 }

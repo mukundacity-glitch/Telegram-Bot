@@ -1,8 +1,8 @@
 {
   "2026-11-03-vortex-captain.json": {
-    "at": "2026-11-03T23:08:26.513332+00:00",
-    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
-    "status": "held"
+    "at": "2026-11-03T23:12:25.599169+00:00",
+    "identity": "chatgpt:2026-27:GW10:three_daily:vortex-captain:fe20101bf013359e7daf",
+    "status": "delivered"
   },
   "gw10-four-midfielders.json": {
     "at": "2026-11-03T23:08:26.513332+00:00",
