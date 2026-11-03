@@ -1,5 +1,5 @@
 name: FPL VORTEX Telegram Daily
-# Retry transient Telegram gateway responses without changing edition schedules.
+# Keep upload timeout diagnostics visible without exposing credentials.
 
 on:
   # One direct production post on THIS explicitly marked release commit only.
