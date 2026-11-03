@@ -1,18 +1,1 @@
-{
-  "2026-27:GW10:news:price:569": {
-    "club_code": 54,
-    "content_version": "6704601fc702ba426139990b",
-    "first_seen": "2026-11-03T00:27:15.513390+00:00",
-    "identity": "price:79aeb2ecb473d9c19e170029",
-    "kind": "price",
-    "old": {
-      "chance_of_playing_next_round": null,
-      "chance_of_playing_this_round": null,
-      "news": "",
-      "now_cost": 60,
-      "status": "a"
-    },
-    "photo_code": 551466,
-    "player_name": "Gonzalo"
-  }
-}
+{}
