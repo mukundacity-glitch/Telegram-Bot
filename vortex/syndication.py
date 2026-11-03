@@ -150,6 +150,9 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
         except (RuntimeError, ValueError, OSError, requests.RequestException) as exc:
             # A failed destination must not block the other destination. Do not
             # include external exception messages (which can include secrets).
+            from .telegram import TelegramDeliveryError
+            if isinstance(exc, TelegramDeliveryError):
+                print(str(exc))
             errors.append(f"{platform} {type(exc).__name__}")
             continue
         entry.update({"timestamp": now_iso, "gameweek": post.gameweek,
