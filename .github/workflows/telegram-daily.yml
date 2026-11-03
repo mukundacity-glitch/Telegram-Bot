@@ -176,6 +176,21 @@ jobs:
       - name: Run validation tests
         run: python -m pytest -q
 
+      - name: Diagnose Telegram bot and destination (read-only)
+        continue-on-error: true
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python - <<'PY'
+          from vortex.telegram import TelegramClient
+          try:
+              TelegramClient().verify_destination()
+          except (RuntimeError, ValueError) as exc:
+              print(str(exc))
+              raise SystemExit(1)
+          PY
+
       - name: Deliver existing graphic (Telegram; Discord opt-in)
         id: deliver
         if: ${{ github.event_name != 'push' && !(github.event_name == 'workflow_dispatch' && (inputs.slot == 'audit-news' || inputs.slot == 'audit-tasks' || inputs.slot == 'task-edition')) && !(github.event_name == 'schedule' && contains(fromJSON('["0 17 * * *","0 18 * * *","0 21 * * *","0 22 * * *","0 5 * * *","15 5 * * *","0 6 * * *","30 7 * * *","30 12 * * *","45 15 * * *","0 19 * * *","30 19 * * *"]'), github.event.schedule)) }}

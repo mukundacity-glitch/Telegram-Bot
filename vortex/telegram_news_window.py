@@ -235,6 +235,9 @@ def run(cron=None, now=None, snapshot=None, telegram=None, renderer=None):
             break
         except (RuntimeError, ValueError, OSError, KeyError, TypeError, AttributeError) as exc:
             held += 1
+            from .telegram import TelegramDeliveryError
+            if isinstance(exc, TelegramDeliveryError):
+                print(str(exc))
             # Log only a fixed diagnostic category; never expose API responses,
             # bot tokens, destination identifiers, or player-specific payloads.
             reason = "unknown-runtime"

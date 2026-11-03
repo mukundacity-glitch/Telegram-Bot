@@ -9,6 +9,24 @@ from typing import Any
 import requests
 
 
+class TelegramDeliveryError(RuntimeError):
+    """Safe diagnostic code; never includes token, chat ID or API response."""
+
+
+def rejection_code(status, payload):
+    description = str(payload.get("description", "")).casefold() if isinstance(payload, dict) else ""
+    for text, code in (("chat not found", "chat-not-found"),
+                       ("bot was blocked", "bot-blocked"),
+                       ("bot can't send messages to bots", "target-is-another-bot"),
+                       ("not enough rights", "posting-permission-missing"),
+                       ("not a member", "bot-not-in-target-chat"),
+                       ("wrong file", "invalid-photo"),
+                       ("caption is too long", "caption-too-long")):
+        if text in description:
+            return code
+    return {401: "invalid-bot-token", 403: "target-access-denied", 429: "rate-limited"}.get(status, f"http-{status}")
+
+
 class TelegramClient:
     def __init__(self, token: str | None = None, chat_id: str | None = None):
         self.token = token or os.environ.get("TELEGRAM_BOT_TOKEN", "")
@@ -25,13 +43,27 @@ class TelegramClient:
         except requests.HTTPError as error:
             # Never print response bodies or destination identifiers.
             status = error.response.status_code if error.response is not None else "unknown"
-            raise RuntimeError(f"Telegram {method} HTTP {status}") from None
+            try:
+                detail = error.response.json() if error.response is not None else {}
+            except ValueError:
+                detail = {}
+            raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, detail)}") from None
         except (requests.RequestException, ValueError) as error:
             raise RuntimeError(f"Telegram {method} network or JSON failure ({type(error).__name__})") from None
         if not isinstance(payload, dict) or not payload.get("ok"):
-            description = str(payload.get("description", "unknown API error")) if isinstance(payload, dict) else "invalid response"
-            raise RuntimeError(f"Telegram {method} rejected: {description[:180]}")
+            status = payload.get("error_code", "unknown") if isinstance(payload, dict) else "unknown"
+            raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, payload)}")
         return payload
+
+    def verify_destination(self) -> None:
+        """Read-only identity/destination checks, with no IDs in logs."""
+        if self.get_bot_username().casefold() != "fplvortexdailybot":
+            raise TelegramDeliveryError("Telegram preflight: wrong-bot-token")
+        payload = self._post("getChat", {"chat_id": self.chat_id})
+        chat = payload.get("result", {})
+        if chat.get("username", "").casefold() == "fplvortexdailybot":
+            raise TelegramDeliveryError("Telegram preflight: destination-is-bot-itself")
+        print("Telegram preflight: bot identity and target chat verified")
 
     def get_bot_username(self) -> str:
         try:

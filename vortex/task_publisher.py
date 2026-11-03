@@ -168,7 +168,9 @@ def run(*, cron: str | None = None, selected_name: str | None = None,
         except (ValueError, RuntimeError, OSError, TypeError) as exc:
             # No generic audience-facing story or fabricated asset on failure.
             report["held"].append({"edition": edition.label, "reason": type(exc).__name__})
-            print(f"HOLD {topic}: {type(exc).__name__}", file=sys.stderr)
+            from .telegram import TelegramDeliveryError
+            reason = str(exc) if isinstance(exc, TelegramDeliveryError) else type(exc).__name__
+            print(f"HOLD {topic}: {reason}", file=sys.stderr)
     return report
 
 
