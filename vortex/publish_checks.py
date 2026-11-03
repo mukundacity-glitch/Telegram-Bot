@@ -108,7 +108,7 @@ def render_checked(article: Any, snapshot: Any, output: Path,
     if not enriched_mode():
         return render(article, output, session=session)
     validate_article(article, snapshot)
-    if article.kind == "elite":
+    if hasattr(article, "cards") and len(article.cards) == 1:
         from .player_profile import render_player_profile
         result = render_player_profile(article, snapshot, output, session=session)
     elif hasattr(article, "cards") and 2 <= len(article.cards) <= 4:
