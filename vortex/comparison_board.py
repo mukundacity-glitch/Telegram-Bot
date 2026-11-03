@@ -164,6 +164,23 @@ def comparison_board(master, title, gw, players, *, verdict=""):
         x1 = round(x0+width)
         accent = CYAN if n % 2 else GOLD
         panel(draw, (x0, 124, x1, 496), accent)
+        if len(players) == 4:
+            # Four equal columns: no portrait/table squeeze or clipped names.
+            draw.rounded_rectangle((x0+12, 132, x1-12, 161), radius=4, fill=GOLD)
+            text(draw, player.get('label') or player['action'], x0+18, 136,
+                 width-36, 21, TABLE_INK, 18, center=True)
+            text(draw, player['name'].upper(), x0+16, 168, width-32, 29, WHITE, 23, center=True)
+            text(draw, f"{player['club']} • {player['position']}", x0+14, 203,
+                 width-28, 17, WHITE, 15, center=True)
+            contain(canvas, player['portrait'], (x0+52, 222, width-104, 124), bottom=True, crop_alpha=True)
+            contain(canvas, player['badge'], (x1-69, 232, 48, 48))
+            draw = ImageDraw.Draw(canvas, 'RGBA')
+            metrics = player['metrics']
+            opponent, difficulty = current_fixture(player['fixtures'], gw)
+            compact_table(draw, [('PRICE', metrics['PRICE']), ('OWNERSHIP', metrics['OWNERSHIP']),
+                                ('FORM', metrics['FORM']), ('FIXTURE', opponent), ('FDR', difficulty)],
+                          (x0+12, 352, x1-12, 487))
+            continue
         photo_width = min(400, round(width*.40))
         detail_x = x0+photo_width+16
         detail_w = x1-detail_x-13
@@ -209,5 +226,11 @@ def comparison_board(master, title, gw, players, *, verdict=""):
             x = left+offset*cell_width
             draw.rounded_rectangle((x, 738, x+cell_width-4, 795), radius=5, fill=NAVY, outline=color, width=2)
             text(draw, f'GW{week}', x+5, 740, cell_width-12, 16, WHITE, 13, center=True)
-            text(draw, fixture, x+5, 761, cell_width-12, 21, WHITE, 14, center=True)
+            if len(players) == 4:
+                teams = '/'.join(r['opponent'] for r in rows if not r.get('blank')) or 'BLANK'
+                venues = '/'.join(r['venue'] for r in rows if not r.get('blank'))
+                text(draw, teams, x+4, 758, cell_width-10, 18, WHITE, 10, center=True)
+                text(draw, venues, x+4, 780, cell_width-10, 12, WHITE, 10, center=True)
+            else:
+                text(draw, fixture, x+5, 761, cell_width-12, 21, WHITE, 14, center=True)
     return canvas

@@ -4,14 +4,13 @@
   "season": "2026-27",
   "gameweek": 10,
   "title": "FOUR MIDFIELDERS • THREE PREMIUM + ONE VALUE",
-  "generated_at": "2026-11-03T14:54:34.131592+00:00",
-  "publish_at": "2026-11-03T14:54:34.131592+00:00",
+  "generated_at": "2026-11-03T16:09:40.289362+00:00",
+  "publish_at": "2026-11-03T16:09:40.289362+00:00",
   "deadline": "2026-11-06T18:30:00+00:00",
   "pre_deadline": true,
   "caption": "GW10 midfield decisions.\nRice, Tavernier, Neto, Rudoni: each reached 70+ minutes in their last three completed appearances.\nCompare next-GW fixtures, price and attacking form.\nMONITOR team news; prioritise secure starters.\n#FPL #FPLVortex #GW10 #FPLTips",
   "images": [
-    "outbox/assets/gw10-four-midfielders-1.png",
-    "outbox/assets/gw10-four-midfielders-2.png"
+    "outbox/assets/gw10-four-midfielders-combined.png"
   ],
   "facts": {
     "players": [
@@ -29,12 +28,6 @@
         "expected_assists": "2.01",
         "recent": [
           {
-            "fixture": 51,
-            "round": 6,
-            "minutes": 90,
-            "total_points": 7
-          },
-          {
             "fixture": 69,
             "round": 7,
             "minutes": 90,
@@ -45,6 +38,12 @@
             "round": 8,
             "minutes": 79,
             "total_points": 3
+          },
+          {
+            "fixture": 87,
+            "round": 9,
+            "minutes": 90,
+            "total_points": 8
           }
         ],
         "fixtures": [
@@ -114,12 +113,6 @@
         "expected_assists": "1.36",
         "recent": [
           {
-            "fixture": 53,
-            "round": 6,
-            "minutes": 72,
-            "total_points": 1
-          },
-          {
             "fixture": 61,
             "round": 7,
             "minutes": 78,
@@ -130,6 +123,12 @@
             "round": 8,
             "minutes": 86,
             "total_points": 10
+          },
+          {
+            "fixture": 82,
+            "round": 9,
+            "minutes": 90,
+            "total_points": 3
           }
         ],
         "fixtures": [
@@ -199,12 +198,6 @@
         "expected_assists": "0.98",
         "recent": [
           {
-            "fixture": 53,
-            "round": 6,
-            "minutes": 82,
-            "total_points": 5
-          },
-          {
             "fixture": 64,
             "round": 7,
             "minutes": 90,
@@ -214,6 +207,12 @@
             "fixture": 73,
             "round": 8,
             "minutes": 87,
+            "total_points": 3
+          },
+          {
+            "fixture": 84,
+            "round": 9,
+            "minutes": 86,
             "total_points": 3
           }
         ],
@@ -284,12 +283,6 @@
         "expected_assists": "1.42",
         "recent": [
           {
-            "fixture": 54,
-            "round": 6,
-            "minutes": 82,
-            "total_points": 7
-          },
-          {
             "fixture": 70,
             "round": 7,
             "minutes": 86,
@@ -300,6 +293,12 @@
             "round": 8,
             "minutes": 90,
             "total_points": 2
+          },
+          {
+            "fixture": 85,
+            "round": 9,
+            "minutes": 90,
+            "total_points": 9
           }
         ],
         "fixtures": [

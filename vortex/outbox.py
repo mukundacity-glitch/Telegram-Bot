@@ -45,6 +45,8 @@ def validate(record, root=ROOT, now=None):
     if not caption.strip() or len(caption) > 1024 or len(re.findall(r'(?<!\w)#[\w]+', caption)) != 4:
         raise ValueError('Caption must fit Telegram and contain exactly four hashtags')
     images = record.get('images') or []
+    if record.get('edition') == 'four-midfielders' and len(images) != 1:
+        raise ValueError('Four midfielders require ONE combined graphic and ONE caption')
     if not 1 <= len(images) <= 6:
         raise ValueError('One to six finished PNG pages required')
     resolved = []
