@@ -1,0 +1,369 @@
+{
+  "task": "task2",
+  "edition": "four-midfielders",
+  "season": "2026-27",
+  "gameweek": 10,
+  "title": "FOUR MIDFIELDERS • THREE PREMIUM + ONE VALUE",
+  "generated_at": "2026-11-03T14:54:34.131592+00:00",
+  "publish_at": "2026-11-03T14:54:34.131592+00:00",
+  "deadline": "2026-11-06T18:30:00+00:00",
+  "pre_deadline": true,
+  "caption": "GW10 midfield decisions.\nRice, Tavernier, Neto, Rudoni: each reached 70+ minutes in their last three completed appearances.\nCompare next-GW fixtures, price and attacking form.\nMONITOR team news; prioritise secure starters.\n#FPL #FPLVortex #GW10 #FPLTips",
+  "images": [
+    "outbox/assets/gw10-four-midfielders-1.png",
+    "outbox/assets/gw10-four-midfielders-2.png"
+  ],
+  "facts": {
+    "players": [
+      {
+        "id": 13,
+        "code": 204480,
+        "team": 1,
+        "now_cost": 74,
+        "status": "a",
+        "selected_by_percent": "12.4",
+        "minutes": 760,
+        "total_points": 47,
+        "form": "6.8",
+        "expected_goals": "0.44",
+        "expected_assists": "2.01",
+        "recent": [
+          {
+            "fixture": 51,
+            "round": 6,
+            "minutes": 90,
+            "total_points": 7
+          },
+          {
+            "fixture": 69,
+            "round": 7,
+            "minutes": 90,
+            "total_points": 9
+          },
+          {
+            "fixture": 71,
+            "round": 8,
+            "minutes": 79,
+            "total_points": 3
+          }
+        ],
+        "fixtures": [
+          {
+            "gw": 10,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 91,
+            "double": false
+          },
+          {
+            "gw": 11,
+            "blank": false,
+            "opponent": "NEW",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 109,
+            "double": false
+          },
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "MCI",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 111,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BRE",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 123,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "TOT",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 140,
+            "double": false
+          }
+        ]
+      },
+      {
+        "id": 68,
+        "code": 201658,
+        "team": 3,
+        "now_cost": 66,
+        "status": "a",
+        "selected_by_percent": "27.5",
+        "minutes": 750,
+        "total_points": 55,
+        "form": "6.0",
+        "expected_goals": "3.71",
+        "expected_assists": "1.36",
+        "recent": [
+          {
+            "fixture": 53,
+            "round": 6,
+            "minutes": 72,
+            "total_points": 1
+          },
+          {
+            "fixture": 61,
+            "round": 7,
+            "minutes": 78,
+            "total_points": 10
+          },
+          {
+            "fixture": 79,
+            "round": 8,
+            "minutes": 86,
+            "total_points": 10
+          }
+        ],
+        "fixtures": [
+          {
+            "gw": 10,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 96,
+            "double": false
+          },
+          {
+            "gw": 11,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 102,
+            "double": false
+          },
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 115,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BHA",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 132,
+            "double": false
+          }
+        ]
+      },
+      {
+        "id": 156,
+        "code": 247632,
+        "team": 6,
+        "now_cost": 66,
+        "status": "a",
+        "selected_by_percent": "4.9",
+        "minutes": 677,
+        "total_points": 40,
+        "form": "6.5",
+        "expected_goals": "1.79",
+        "expected_assists": "0.98",
+        "recent": [
+          {
+            "fixture": 53,
+            "round": 6,
+            "minutes": 82,
+            "total_points": 5
+          },
+          {
+            "fixture": 64,
+            "round": 7,
+            "minutes": 90,
+            "total_points": 15
+          },
+          {
+            "fixture": 73,
+            "round": 8,
+            "minutes": 87,
+            "total_points": 3
+          }
+        ],
+        "fixtures": [
+          {
+            "gw": 10,
+            "blank": false,
+            "opponent": "SUN",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 100,
+            "double": false
+          },
+          {
+            "gw": 11,
+            "blank": false,
+            "opponent": "LEE",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 104,
+            "double": false
+          },
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 119,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "CRY",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 124,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "LIV",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 134,
+            "double": false
+          }
+        ]
+      },
+      {
+        "id": 183,
+        "code": 480457,
+        "team": 7,
+        "now_cost": 49,
+        "status": "a",
+        "selected_by_percent": "0.9",
+        "minutes": 645,
+        "total_points": 37,
+        "form": "6.0",
+        "expected_goals": "2.11",
+        "expected_assists": "1.42",
+        "recent": [
+          {
+            "fixture": 54,
+            "round": 6,
+            "minutes": 82,
+            "total_points": 7
+          },
+          {
+            "fixture": 70,
+            "round": 7,
+            "minutes": 86,
+            "total_points": 6
+          },
+          {
+            "fixture": 74,
+            "round": 8,
+            "minutes": 90,
+            "total_points": 2
+          }
+        ],
+        "fixtures": [
+          {
+            "gw": 10,
+            "blank": false,
+            "opponent": "EVE",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 94,
+            "double": false
+          },
+          {
+            "gw": 11,
+            "blank": false,
+            "opponent": "CRY",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 105,
+            "double": false
+          },
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "LEE",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 117,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 125,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "MUN",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 137,
+            "double": false
+          }
+        ]
+      }
+    ]
+  },
+  "qa_passed": true,
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://fantasy.premierleague.com/api/element-summary/13/",
+    "https://fantasy.premierleague.com/api/element-summary/68/",
+    "https://fantasy.premierleague.com/api/element-summary/156/",
+    "https://fantasy.premierleague.com/api/element-summary/183/"
+  ]
+}
