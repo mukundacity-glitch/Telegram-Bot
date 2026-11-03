@@ -519,6 +519,100 @@
     "timestamp": "2026-11-02T21:38:17.656338+00:00",
     "version": "9f41edc88119e55c83e5ae687aeeefa69e3d086ddcc49c8328edbd2c5e9095dd"
   },
+  "start_bench:10:31:START|79:START|13:START|68:START|1:START|501:BENCH|51:BENCH|290:BENCH|198:BENCH|552:BENCH": {
+    "confirmed": true,
+    "delivery_key": "2026-11-02:start_bench:GW10",
+    "evidence": {
+      "gw": 10,
+      "kind": "start_bench",
+      "picks": [
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 9.2,
+          "id": 31,
+          "opponent": "HUL (H)",
+          "price": "£4.7m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 8.5,
+          "id": 79,
+          "opponent": "IPS (A)",
+          "price": "£6.4m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 6.8,
+          "id": 13,
+          "opponent": "HUL (H)",
+          "price": "£7.4m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 6.0,
+          "id": 68,
+          "opponent": "IPS (A)",
+          "price": "£6.6m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 6.0,
+          "id": 1,
+          "opponent": "HUL (H)",
+          "price": "£6.2m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": -0.5,
+          "id": 501,
+          "opponent": "CHE (H)",
+          "price": "£5.0m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.0,
+          "id": 51,
+          "opponent": "MUN (A)",
+          "price": "£4.4m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 5.0,
+          "form": 1.8,
+          "id": 290,
+          "opponent": "ARS (A)",
+          "price": "£4.5m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.8,
+          "id": 198,
+          "opponent": "LIV (H)",
+          "price": "£4.9m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 1.0,
+          "id": 552,
+          "opponent": "CHE (H)",
+          "price": "£5.7m"
+        }
+      ],
+      "players": []
+    },
+    "group": "start_bench:10:31:START|79:START|13:START|68:START|1:START|501:BENCH|51:BENCH|290:BENCH|198:BENCH|552:BENCH",
+    "timestamp": "2026-11-03T00:27:04.101568+00:00",
+    "version": "e619ec6e3fd9a6f60280911e7dd3df1c651511c4e9f4b7cf44459e75a938b6bb"
+  },
   "team_analysis:10:Everton": {
     "confirmed": true,
     "delivery_key": "2026-11-02:team_analysis:GW10",
