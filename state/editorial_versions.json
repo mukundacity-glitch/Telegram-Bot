@@ -188,6 +188,155 @@
     "timestamp": "2026-11-02T22:39:17.734416+00:00",
     "version": "f24f417745af2f278fe86eca0719931416e4eb668054536d07ce4d9ce0ff3772"
   },
+  "captaincy:10:3:199798|91:444102|7:517052|43:223094": {
+    "confirmed": false,
+    "delivery_key": "2026-11-02:captaincy",
+    "evidence": {
+      "gw": 10,
+      "kind": "captaincy",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 4,
+            "form": "9.2",
+            "goals": 1,
+            "minutes": 641,
+            "price": "£4.7m",
+            "total_points": 49
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ],
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ],
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ]
+          ],
+          "metrics": {
+            "assists": 4,
+            "bonus": 7,
+            "clean_sheets": 5,
+            "form": "8.5",
+            "goals": 4,
+            "minutes": 753,
+            "price": "£6.4m",
+            "total_points": 52
+          },
+          "player": "Evanilson",
+          "team": 91
+        },
+        {
+          "fixtures": [
+            [
+              "FUL",
+              "H",
+              2,
+              54
+            ],
+            [
+              "MUN",
+              "A",
+              4,
+              1
+            ],
+            [
+              "SUN",
+              "H",
+              3,
+              56
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 10,
+            "clean_sheets": 2,
+            "form": "8.2",
+            "goals": 5,
+            "minutes": 637,
+            "price": "£7.0m",
+            "total_points": 43
+          },
+          "player": "N.Jackson",
+          "team": 7
+        },
+        {
+          "fixtures": [
+            [
+              "BHA",
+              "H",
+              3,
+              36
+            ],
+            [
+              "NFO",
+              "A",
+              3,
+              17
+            ],
+            [
+              "FUL",
+              "H",
+              2,
+              54
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 14,
+            "clean_sheets": 3,
+            "form": "7.2",
+            "goals": 9,
+            "minutes": 799,
+            "price": "£15.8m",
+            "total_points": 68
+          },
+          "player": "Haaland",
+          "team": 43
+        }
+      ]
+    },
+    "group": "captaincy:10:3:199798|91:444102|7:517052|43:223094",
+    "timestamp": "2026-11-03T02:42:48.835495+00:00",
+    "version": "212b94c276be517acad4c09c71a178bf29e67b8c6f6d7d4c246caa128485049d"
+  },
   "comparison:10:3:199798|36:465730": {
     "confirmed": true,
     "delivery_key": "2026-11-02:comparison",

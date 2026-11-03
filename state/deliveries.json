@@ -791,6 +791,14 @@
     "telegram_message_id": 147,
     "timestamp": "2026-11-01T22:30:57.501294+00:00"
   },
+  "2026-11-02:captaincy": {
+    "discord_delivered": true,
+    "discord_message_id": "1567006200267284492",
+    "gameweek": 10,
+    "source": "Official FPL",
+    "source_url": "",
+    "timestamp": "2026-11-03T02:42:48.835495+00:00"
+  },
   "2026-11-02:comparison": {
     "delivered": true,
     "discord_delivered": true,
