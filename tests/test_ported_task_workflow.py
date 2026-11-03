@@ -1,33 +1,28 @@
-"""Same-workflow schedule migration must never change old primaries or create jobs."""
+"""The user-authorized Nov 3 migration uses one transport for all tasks."""
 from pathlib import Path
-import re
-from vortex.chatgpt_task_editions import CRONS
-from vortex.schedule import SLOT_CRONS
+import json
+ROOT = Path(__file__).resolve().parents[1]
+WORKFLOW = ROOT / '.github/workflows/telegram-daily.yml'
 
-WORKFLOW = Path(__file__).resolve().parents[1] / ".github/workflows/telegram-daily.yml"
+def test_all_four_complete_task_specs_copied_and_primary_hours_do_not_overlap():
+    tasks = json.loads((ROOT / 'docs/chatgpt-task-specifications.json').read_text())['tasks']
+    active = [t for t in tasks if t['is_enabled']]
+    assert len(active) == 5
+    hours = []
+    for task in active:
+        assert len(task['prompt']) > 3000
+        assert 'outbox' in task['prompt'] and 'BOTH Telegram and Discord' in task['prompt']
+        rrule = task['schedule'].split('BYHOUR=')[1].split(';')[0]
+        hours.extend(map(int, rrule.split(',')))
+    assert len(hours) == len(set(hours))
+    assert all(5 <= h < 20 for h in hours)
 
-
-def test_all_four_task_schedules_are_present_in_one_existing_workflow():
-    yml = WORKFLOW.read_text(encoding="utf-8")
-    scheduled = re.findall(r"^\s+- cron: '([^']+)'", yml, flags=re.MULTILINE)
-    assert len(scheduled) == len(set(scheduled))
-    for cron in CRONS:
-        assert cron in scheduled, f"Missing former ChatGPT edition {cron}"
-    for cron in SLOT_CRONS:
-        assert cron in scheduled, f"Original Telegram scheduled trigger {cron} removed"
-    assert "FPL_PORTED_TASKS_ENABLED" in yml
-    assert "DUAL_PUBLISH_ENABLED" in yml
-    assert "FPL_ENRICHED_VISUALS_ENABLED" in yml
-    assert "python -m vortex.task_publisher" in yml
-    assert "state/ported_task_versions.json" in yml
-    assert yml.count("  publish:\n") == 1
-    assert "  ported-task:" not in yml
-    assert yml.count("name: Publish original four ChatGPT editions to both platforms") == 1
-
-
-def test_new_task_only_crons_are_excluded_from_legacy_slot_dispatch():
-    yml = WORKFLOW.read_text(encoding="utf-8")
-    for cron in ("0 6 * * *", "30 7 * * *", "30 12 * * *",
-                 "45 15 * * *", "0 19 * * *", "30 19 * * *"):
-        assert cron not in SLOT_CRONS
-        assert f'"{cron}"' in yml
+def test_only_one_shared_publisher_and_no_legacy_scheduled_sender():
+    source = WORKFLOW.read_text()
+    assert source.count('  publish:\n') == 1
+    assert "cron: '15,45 5-19 * * *'" in source
+    assert 'python -m vortex.outbox' in source
+    assert 'python -m vortex.bot' not in source
+    assert 'python -m vortex.task_publisher' not in source
+    assert 'TELEGRAM_BOT_TOKEN' in source and 'DISCORD_WEBHOOK_URL' in source
+    assert "FPL_PUBLISH_WINDOW_ENFORCED: 'true'" in source

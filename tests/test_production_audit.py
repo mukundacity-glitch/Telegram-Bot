@@ -16,9 +16,9 @@ def test_scheduled_and_manual_runs_read_latest_receipts_and_full_rebase_history(
     assert 'fetch-depth: 0' in checkout
 
 
-def test_task2_runtime_receives_both_supported_odds_secrets():
-    step = WORKFLOW.read_text().split('      - name: Publish original four ChatGPT editions')[1].split('      - name: Check verified')[0]
-    for name in ('THE_ODDS_API_KEY', 'ODDS_API_KEY'):
+def test_transport_receives_both_destination_secrets():
+    step = WORKFLOW.read_text()
+    for name in ('TELEGRAM_BOT_TOKEN', 'TELEGRAM_CHAT_ID', 'DISCORD_WEBHOOK_URL'):
         assert f'{name}: ${{{{ secrets.{name} }}}}' in step
 
 
@@ -33,7 +33,7 @@ def test_receipt_retry_preserves_confirmed_delivery_after_unrelated_main_push(tm
     git(source, 'config', 'user.name', 'Regression')
     git(source, 'config', 'user.email', 'regression@example.invalid')
     (source / 'state').mkdir()
-    (source / 'state/deliveries.json').write_text('{}\n')
+    (source / 'state/chatgpt_deliveries.json').write_text('{}\n')
     git(source, 'add', '.'); git(source, 'commit', '-m', 'baseline')
     git(source, 'remote', 'add', 'origin', str(remote))
     git(source, 'push', '-u', 'origin', 'main')
@@ -42,7 +42,7 @@ def test_receipt_retry_preserves_confirmed_delivery_after_unrelated_main_push(tm
     git(source, 'add', '.'); git(source, 'commit', '-m', 'independent release')
     git(source, 'push')
     receipt = {'topic': {'delivered': True, 'telegram_message_id': 154}}
-    (worker / 'state/deliveries.json').write_text(json.dumps(receipt))
+    (worker / 'state/chatgpt_deliveries.json').write_text(json.dumps(receipt))
     tail = WORKFLOW.read_text().split('      - name: Preserve both-platform delivery receipts')[1].split('        run: |\n')[1]
     lines = []
     for line in tail.splitlines():
@@ -54,7 +54,7 @@ def test_receipt_retry_preserves_confirmed_delivery_after_unrelated_main_push(tm
                             capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     assert 'Receipt push race' in result.stdout
-    assert json.loads(git(remote, 'show', 'main:state/deliveries.json')) == receipt
+    assert json.loads(git(remote, 'show', 'main:state/chatgpt_deliveries.json')) == receipt
     assert git(remote, 'show', 'main:code.py') == '# independent release'
 
 

@@ -60,16 +60,20 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
                 action = "CAPTAIN"
         elif player.get("news"):
             reason = str(player["news"])
+        elif recent:
+            reason = 'Recent minutes: ' + '/'.join(str(int(r.get('minutes') or 0)) for r in recent[-3:]) + f". Form {values['FORM']}."
         club = snapshot.teams[player["team"]]
         profiles.append({"name": snapshot.name(player),
                          "club": club.get("name") or snapshot.team(player),
                          "position": values["POSITION"], "metrics": values,
                          "fixtures": fixtures, "portrait": portrait, "badge": badge,
-                         "action": action, "reason": reason, "label": action})
+                         "action": action, "reason": reason,
+                         "label": published_label if published_label in ('PREMIUM', 'BUDGET VALUE') else action})
     canvas = comparison_board(master, post.title, post.gw, profiles,
                               verdict=post.verdict)
     output.parent.mkdir(parents=True, exist_ok=True)
     interim = output.with_suffix(".tmp.png")
     canvas.resize((1920, 1080), Image.Resampling.LANCZOS).save(interim, "PNG", optimize=True)
     interim.replace(output)
-    return apply_footer(output, verdict="VERIFY MINUTES • FIXTURES • PLAYER FORM BEFORE TRANSFERS")
+    # Preserve the five-GW fixture bands drawn immediately above the footer.
+    return apply_footer(output)

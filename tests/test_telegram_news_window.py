@@ -50,19 +50,11 @@ def test_news_window_follows_scheduled_local_cron_not_wall_clock():
     assert not news.in_window(None)
 
 
-def test_existing_cron_times_and_task_jobs_are_retained():
+def test_existing_news_lane_is_manual_only_after_shared_task_migration():
     workflow = WORKFLOW.read_text()
-    crons = re.findall(r"^\s+- cron: '([^']+)'", workflow, re.MULTILINE)
-    assert len(crons) == len(set(crons)) == 42
-    assert "0 5 * * *" in crons and "15 5 * * *" in crons
-    assert "0 6 * * *" in crons and "0 19 * * *" in crons
-    assert "0 17 * * *" in crons and "0 18 * * *" in crons
-    assert "0 20 * * *" in crons and "0 21 * * *" in crons and "0 22 * * *" in crons
-    assert workflow.count("  publish:\n") == 1
-    assert "Check verified Telegram news from 5 AM through 10 PM ET" in workflow
-    assert '"0 21 * * *"' in workflow.split("      - name: Deliver existing graphic")[1].split(
-        "      - name: Audit unified news")[0]
-    assert "python -m vortex.task_publisher" in workflow
+    assert "cron: '15,45 5-19 * * *'" in workflow
+    assert 'python -m vortex.telegram_news_window' not in workflow
+    assert 'python -m vortex.outbox' in workflow
 
 
 def test_cold_start_is_baseline_not_false_news(monkeypatch, tmp_path):

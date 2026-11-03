@@ -103,6 +103,8 @@ class DiscordWebhookClient:
         raise RuntimeError("Discord rate limit persisted after bounded retries")
 
     def send(self, post: NewsPost) -> str:
+        from .publishing_window import assert_allowed
+        assert_allowed()
         content = post.caption
         if len(content) > 2000:
             raise ValueError("Discord content exceeds 2000 characters; no silent truncation")
