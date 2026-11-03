@@ -898,14 +898,14 @@
     "timestamp": "2026-11-03T02:08:03.981969+00:00"
   },
   "2026-27:GW10:task1:form-minutes-targets:15d48984f96b9090": {
+    "delivered": true,
     "discord_delivered": true,
     "discord_message_id": "1567041079621058560",
     "gameweek": 10,
     "source": "",
     "source_url": "",
-    "timestamp": "2026-11-03T07:31:19.985595+00:00",
-    "delivered": true,
-    "telegram_message_id": 165
+    "telegram_message_id": 165,
+    "timestamp": "2026-11-03T07:31:19.985595+00:00"
   },
   "2026-27:GW10:task1:form-minutes-targets:3f6da902b79d5ae6": {
     "delivered": true,
@@ -962,6 +962,12 @@
     "source_url": "",
     "telegram_message_id": 161,
     "timestamp": "2026-11-03T00:01:22.680339+00:00"
+  },
+  "recovery:manual-run41582362577:duplicate166": {
+    "duplicate_of": 165,
+    "removed": true,
+    "telegram_message_id": 166,
+    "timestamp": "2026-11-03T07:40:50.027111+00:00"
   },
   "recovery:run41523140792:telegram154": {
     "delivered": true,
