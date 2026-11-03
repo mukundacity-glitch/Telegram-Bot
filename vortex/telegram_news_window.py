@@ -235,7 +235,31 @@ def run(cron=None, now=None, snapshot=None, telegram=None, renderer=None):
             break
         except (RuntimeError, ValueError, OSError, KeyError, TypeError, AttributeError) as exc:
             held += 1
-            print(f"FPL NEWS HELD: {type(exc).__name__}; no delivery claimed")
+            # Log only a fixed diagnostic category; never expose API responses,
+            # bot tokens, destination identifiers, or player-specific payloads.
+            reason = "unknown-runtime"
+            if isinstance(exc, (KeyError, AttributeError, TypeError)):
+                reason = "unexpected-data-shape"
+            elif isinstance(exc, OSError):
+                reason = "file-or-renderer-io"
+            elif isinstance(exc, ValueError):
+                reason = "invalid-value-or-receipt"
+            elif isinstance(exc, RuntimeError):
+                safe_reasons = {
+                    "Official player/current club join is not unique": "ambiguous-player-club",
+                    "Next actionable FPL deadline unverified/passed": "deadline-unverified",
+                    "Official upcoming opponent or fixture missing": "fixture-unverified",
+                    "Price movement lacks previous real FPL snapshot": "price-baseline-missing",
+                    "Official FPL status unknown": "player-status-unknown",
+                    "No verified changed official FPL status/news": "no-verified-news-change",
+                    "News edition is not a sourced official FPL change": "source-verification-failed",
+                    "Telegram image caption must contain exactly five short lines": "caption-validation",
+                    "Original-branded news graphic failed 1920x1080 PNG QA": "graphic-validation",
+                    "Unknown FPL news category": "unknown-news-category",
+                    "Telegram returned no valid send/edit receipt": "telegram-receipt-missing",
+                }
+                reason = safe_reasons.get(str(exc), "telegram-or-runtime-failure")
+            print(f"FPL NEWS HELD: {reason}; no delivery claimed")
             # Keep pending for bounded retries; never issue a duplicate.
     write_state(PENDING, pending)
     return {"status": "checked", "posted": posted, "edited": edited,
