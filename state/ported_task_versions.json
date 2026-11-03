@@ -22,14 +22,14 @@
     "version": "09d35f3d80c9bfdb9a4216869270a0997b143e3aea0ec0e191d43d5d8772d56b"
   },
   "2026-27:GW10:task1:form-minutes-targets": {
-    "confirmed": false,
+    "confirmed": true,
     "identity": "2026-27:GW10:task1:form-minutes-targets:15d48984f96b9090",
     "last_player_ids": [
       199798,
       465730,
       226597
     ],
-    "published_at": "2026-11-03T05:12:32.858595+00:00",
+    "published_at": "2026-11-03T07:31:19.985595+00:00",
     "version": "15d48984f96b9090f14e0ccfd8aeda8b3c8b6816c32baa7190054b153b0cac1b"
   },
   "2026-27:GW10:task1:transfer-market-team-news": {
