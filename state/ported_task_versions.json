@@ -10,6 +10,17 @@
     "published_at": "2026-11-03T01:24:08.340751+00:00",
     "version": "0a5191a683228e8a75c703a7c12026dfc2e59ede2b4e91ca00e7927a3824bc35"
   },
+  "2026-27:GW10:task1:captain-differential": {
+    "confirmed": false,
+    "identity": "2026-27:GW10:task1:captain-differential:09d35f3d80c9bfdb",
+    "last_player_ids": [
+      444102,
+      223094,
+      509416
+    ],
+    "published_at": "2026-11-03T02:08:03.981969+00:00",
+    "version": "09d35f3d80c9bfdb9a4216869270a0997b143e3aea0ec0e191d43d5d8772d56b"
+  },
   "2026-27:GW10:task1:form-minutes-targets": {
     "confirmed": true,
     "identity": "2026-27:GW10:task1:form-minutes-targets:cecc86a0d21f1f79",

@@ -691,5 +691,17 @@
     "group": "team_analysis:10:Everton",
     "timestamp": "2026-11-02T23:21:55.946893+00:00",
     "version": "8a4a2636c93d29b8e4593989a0bfa6d402d1abc4230c9474011dd609ebebbb85"
+  },
+  "transfer_suggestions:10:general": {
+    "confirmed": false,
+    "delivery_key": "2026-11-02:transfer_suggestions:GW10",
+    "evidence": {
+      "gw": 10,
+      "kind": "transfer_suggestions",
+      "players": []
+    },
+    "group": "transfer_suggestions:10:general",
+    "timestamp": "2026-11-03T02:07:41.849393+00:00",
+    "version": "7f9106e39aa93d6169736ca37f8a321686ee3a15ee54c2bb4d9f4db6ca2235df"
   }
 }

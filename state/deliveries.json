@@ -857,6 +857,14 @@
     "telegram_message_id": 160,
     "timestamp": "2026-11-02T23:21:55.946893+00:00"
   },
+  "2026-11-02:transfer_suggestions:GW10": {
+    "discord_delivered": true,
+    "discord_message_id": "1566997357000659024",
+    "gameweek": 10,
+    "source": "Official FPL",
+    "source_url": "",
+    "timestamp": "2026-11-03T02:07:41.849393+00:00"
+  },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,
     "discord_message_id": "1566986392335294705",
@@ -864,6 +872,14 @@
     "source": "",
     "source_url": "",
     "timestamp": "2026-11-03T01:24:08.340751+00:00"
+  },
+  "2026-27:GW10:task1:captain-differential:09d35f3d80c9bfdb": {
+    "discord_delivered": true,
+    "discord_message_id": "1566997446062776341",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "timestamp": "2026-11-03T02:08:03.981969+00:00"
   },
   "2026-27:GW10:task1:form-minutes-targets:3f6da902b79d5ae6": {
     "delivered": true,
