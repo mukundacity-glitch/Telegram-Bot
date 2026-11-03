@@ -128,16 +128,12 @@ def test_workflow_defaults_to_direct_post_without_test_or_preview_ui():
     """Regression guard on workflow_dispatch and forced scheduled AUTO selection."""
     path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "telegram-daily.yml"
     workflow = path.read_text(encoding="utf-8")
-    # Manual workflow selector posts the selected edition; no preview/test choice.
-    assert "default: task-edition" in workflow
-    assert "\n          - task-edition\n" in workflow
-    assert "\n          - preview\n" not in workflow
-    assert "\n          - audit-news\n" not in workflow
-    assert "\n          - audit-tasks\n" not in workflow
-    assert "default: test" not in workflow
-    assert "\\n          - test\\n" not in workflow
-    assert "REQUESTED_SLOT: ${{ github.event_name == 'schedule' && 'auto' || inputs.slot || 'auto' }}" in workflow
+    assert "default: outbox" in workflow
+    assert "options: [outbox]" in workflow
+    assert "python -m vortex.outbox" in workflow
+    assert "python -m vortex.bot" not in workflow
     assert "timezone: America/New_York" in workflow
+
 
 
 

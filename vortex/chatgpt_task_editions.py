@@ -99,8 +99,8 @@ def _evidence(snapshot: FplSnapshot, player: dict) -> str:
 
 
 def _make_cards(snapshot: FplSnapshot, players: list[dict], labels: list[str]) -> tuple[Card, ...]:
-    if not 1 <= len(players) <= 3 or len(players) != len(labels):
-        raise ValueError("Decision edition supports one to three real players")
+    if not 1 <= len(players) <= 4 or len(players) != len(labels):
+        raise ValueError("Decision edition supports one to four real players")
     result = []
     for player, label in zip(players, labels):
         if not _valid_current(snapshot, player, include_flags=True):

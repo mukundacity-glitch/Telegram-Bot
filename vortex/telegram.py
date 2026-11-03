@@ -37,6 +37,9 @@ class TelegramClient:
         self.base_url = f"https://api.telegram.org/bot{self.token}"
 
     def _post(self, method: str, data: dict[str, Any], files: dict[str, Any] | None = None) -> dict[str, Any]:
+        if method in ('sendPhoto', 'sendMessage', 'sendMediaGroup', 'editMessageMedia'):
+            from .publishing_window import assert_allowed
+            assert_allowed()
         try:
             for attempt in range(3):
                 if files:

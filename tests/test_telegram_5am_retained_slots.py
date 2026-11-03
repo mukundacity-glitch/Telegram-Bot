@@ -27,15 +27,11 @@ ORIGINAL_CRONS = {
 }
 
 
-def test_no_original_telegram_times_or_jobs_removed():
-    workflow = WORKFLOW.read_text(encoding="utf-8")
-    times = re.findall(r"^\s+- cron: '([^']+)'", workflow, re.MULTILINE)
-    assert len(times) == len(set(times))
-    assert ORIGINAL_CRONS.issubset(set(times))
-    assert set(times) - ORIGINAL_CRONS == {"0 5 * * *", "15 5 * * *", "0 17 * * *", "0 18 * * *", "0 21 * * *", "0 22 * * *"}
+def test_user_requested_window_replaces_older_overnight_triggers():
+    workflow = WORKFLOW.read_text()
+    assert "cron: '15,45 5-19 * * *'" in workflow
+    assert "0 21 * * *" not in workflow and "0 22 * * *" not in workflow
     assert workflow.count("  publish:\n") == 1
-    assert "  ported-task:" not in workflow
-    assert "timezone: America/New_York" in workflow
 
 
 def test_5am_and_backup_reuse_exact_task1_6am_receipt_topic():
@@ -52,10 +48,7 @@ def test_5am_and_backup_reuse_exact_task1_6am_receipt_topic():
 
 
 def test_no_legacy_5am_double_publication():
-    workflow = WORKFLOW.read_text(encoding="utf-8")
-    legacy_step = workflow.split("      - name: Deliver existing graphic", 1)[1].split(
-        "      - name: Audit unified news", 1)[0]
-    assert '"0 5 * * *"' in legacy_step
-    assert '"15 5 * * *"' in legacy_step
-    assert "python -m vortex.bot" in legacy_step
-    assert "python -m vortex.task_publisher" in workflow
+    workflow = WORKFLOW.read_text()
+    assert 'python -m vortex.outbox' in workflow
+    assert 'python -m vortex.bot' not in workflow
+    assert 'python -m vortex.task_publisher' not in workflow

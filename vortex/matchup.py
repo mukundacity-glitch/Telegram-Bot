@@ -91,6 +91,11 @@ def _media(session: requests.Session, code: int | None, kind: str, cache: dict[t
     else:
         raise ValueError(f"Unsupported media kind: {kind}")
     image = next((found for url in urls if (found := _image_from_url(session, url)) is not None), None)
+    if image is None and kind == 'photo':
+        from .ai_portraits import load_portrait, record_missing
+        image = load_portrait(code)
+        if image is None:
+            record_missing(code)
     cache[key] = image
     return image
 
