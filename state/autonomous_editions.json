@@ -1,0 +1,12 @@
+{
+  "2026-11-03:three_daily:vortex-captain:GW10": {
+    "caption_hashtags": 4,
+    "edition": "vortex-captain",
+    "file": "outbox/2026-11-03-vortex-captain.json",
+    "identity": "chatgpt:2026-27:GW10:three_daily:vortex-captain:fe20101bf013359e7daf",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "queued-or-partial",
+    "task": "three_daily"
+  }
+}

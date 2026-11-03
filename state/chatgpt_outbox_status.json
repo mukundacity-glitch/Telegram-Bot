@@ -1,6 +1,11 @@
 {
+  "2026-11-03-vortex-captain.json": {
+    "at": "2026-11-03T23:08:26.513332+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
   "gw10-four-midfielders.json": {
-    "at": "2026-11-03T21:00:12.929889+00:00",
+    "at": "2026-11-03T23:08:26.513332+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   }
