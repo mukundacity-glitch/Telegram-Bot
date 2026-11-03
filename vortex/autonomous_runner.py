@@ -117,7 +117,9 @@ def run(*,cron=None,edition=None,audit=False,now=None,snapshot=None,model=None,r
             row={'task':slot.task,'edition':slot.edition,'status':'generated','file':str(file.relative_to(ROOT)),
                  'identity':identity,'pages':count,'caption_hashtags':4}
             if not audit:
-                result=publish_outbox(now)
+                # Validation must use delivery time: the fresh snapshot was fetched
+                # after the scheduler captured its original start timestamp.
+                result=publish_outbox(datetime.now(timezone.utc))
                 receipts=read_state(RECEIPTS)
                 complete=all(receipts.get(f'{identity}:page{i+1}',{}).get('delivered') and
                              receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered') for i in range(count))
