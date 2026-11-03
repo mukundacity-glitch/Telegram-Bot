@@ -50,6 +50,17 @@
     "published_at": "2026-11-03T02:40:36.977101+00:00",
     "version": "9aaf9bbca9773c274c2b5f8aa6e93508520e2128d94ff5b521d429fab8dbf9c2"
   },
+  "2026-27:GW10:three_daily:fixture-targets": {
+    "confirmed": true,
+    "identity": "2026-27:GW10:three_daily:fixture-targets:60d06ea8b8394c99",
+    "last_player_ids": [
+      199798,
+      226597,
+      444102
+    ],
+    "published_at": "2026-11-03T14:31:46.553417+00:00",
+    "version": "60d06ea8b8394c995cc3910f0067c06bb1a60db8bc29b5597edcc27094285ddc"
+  },
   "2026-27:GW10:three_daily:next-gw-evening-decisions": {
     "confirmed": true,
     "identity": "2026-27:GW10:three_daily:next-gw-evening-decisions:da567d12c8ea2e48",

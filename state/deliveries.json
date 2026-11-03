@@ -953,6 +953,16 @@
     "source_url": "",
     "timestamp": "2026-11-03T02:40:36.977101+00:00"
   },
+  "2026-27:GW10:three_daily:fixture-targets:60d06ea8b8394c99": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1567184546162675712",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 169,
+    "timestamp": "2026-11-03T14:31:46.553417+00:00"
+  },
   "2026-27:GW10:three_daily:next-gw-evening-decisions:da567d12c8ea2e48": {
     "delivered": true,
     "discord_delivered": true,
