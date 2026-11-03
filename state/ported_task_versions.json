@@ -50,6 +50,17 @@
     "published_at": "2026-11-03T02:40:36.977101+00:00",
     "version": "9aaf9bbca9773c274c2b5f8aa6e93508520e2128d94ff5b521d429fab8dbf9c2"
   },
+  "2026-27:GW10:three_daily:next-gw-evening-decisions": {
+    "confirmed": true,
+    "identity": "2026-27:GW10:three_daily:next-gw-evening-decisions:da567d12c8ea2e48",
+    "last_player_ids": [
+      199798,
+      465730,
+      226597
+    ],
+    "published_at": "2026-11-03T07:03:08.059626+00:00",
+    "version": "da567d12c8ea2e48980dcf41c164a3110d138dfaed8377c6f12f67f16d6e2045"
+  },
   "2026-27:GW10:three_daily:transfer-squad-structure": {
     "confirmed": true,
     "identity": "2026-27:GW10:three_daily:transfer-squad-structure:64014617413c8df0",
