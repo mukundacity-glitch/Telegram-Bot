@@ -9,5 +9,15 @@
     ],
     "published_at": "2026-11-02T22:57:34.654746+00:00",
     "version": "cecc86a0d21f1f790cb8e903b4d9bcefc647d990f25a89215af94424f76c3ffa"
+  },
+  "2026-27:GW10:three_daily:transfer-squad-structure": {
+    "confirmed": true,
+    "identity": "2026-27:GW10:three_daily:transfer-squad-structure:64014617413c8df0",
+    "last_player_ids": [
+      199798,
+      465730
+    ],
+    "published_at": "2026-11-03T00:01:22.680339+00:00",
+    "version": "64014617413c8df00518630fd0250770c386d835dbf0830844469e756cc5f61a"
   }
 }

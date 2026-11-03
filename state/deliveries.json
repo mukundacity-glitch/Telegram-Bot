@@ -867,6 +867,16 @@
     "telegram_message_id": 159,
     "timestamp": "2026-11-02T22:57:34.654746+00:00"
   },
+  "2026-27:GW10:three_daily:transfer-squad-structure:64014617413c8df0": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1566965503262466189",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 161,
+    "timestamp": "2026-11-03T00:01:22.680339+00:00"
+  },
   "recovery:run41523140792:telegram154": {
     "delivered": true,
     "discord_delivery_logged": true,
