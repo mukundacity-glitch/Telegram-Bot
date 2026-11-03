@@ -16,6 +16,10 @@ from urllib.parse import urlsplit, urlunsplit
 import requests
 
 
+class DeliveryRejected(RuntimeError):
+    """Confirmed rejection: no message was accepted; retry is safe."""
+
+
 @dataclass(frozen=True)
 class NewsPost:
     identity: str
@@ -124,7 +128,8 @@ class DiscordWebhookClient:
                 files=[(f'files[{i}]',(path.name,stack.enter_context(path.open('rb')),'image/png')) for i,path in enumerate(images)]
                 response=self.session.post(self.url,params={'wait':'true'},timeout=60,
                                            data={'payload_json':json.dumps(payload)},files=files)
-            if not 200<=response.status_code<300:raise RuntimeError('Discord rejected album delivery')
+            if 400<=response.status_code<500:raise DeliveryRejected('Discord rejected album delivery')
+            if not 200<=response.status_code<300:raise RuntimeError('Discord album acceptance is uncertain')
             receipt=response.json()
             if not receipt.get('id') or len(receipt.get('attachments',[]))!=len(images):
                 raise RuntimeError('Discord album did not confirm every attachment')
@@ -193,15 +198,29 @@ def publish_album(identity,images,caption,journal_path,telegram,discord,now_iso=
         if all(row.get(flag) for row in rows):continue
         if any(row.get(flag) for row in rows):
             raise RuntimeError('Legacy partial page group cannot be replayed as a new album')
+        pending=platform+'_album_pending'
+        if any(row.get(pending) for row in rows):
+            errors.append(platform+' acceptance uncertain; reconcile before retry')
+            continue
+        # Persist before the external call: even process termination must not
+        # silently replay an album whose receipt may have been lost.
+        for key,row in zip(keys,rows):
+            row[pending]=True;journal[key]=row
+        save_journal(journal_path,journal)
         try:
             ids=telegram.send_album(images,caption) if platform=='telegram' else [discord.send_album(images,caption)]*len(images)
             if len(ids)!=len(images):raise RuntimeError('Album receipt count mismatch')
             for key,row,message_id in zip(keys,rows,ids):
                 row[flag]=True
+                row.pop(pending,None)
                 row['telegram_message_id' if platform=='telegram' else 'discord_message_id']=message_id
                 row['timestamp']=now_iso;row['caption_once_album']=True;journal[key]=row
             save_journal(journal_path,journal)
         except (RuntimeError,ValueError,OSError,requests.RequestException) as exc:
+            if isinstance(exc,DeliveryRejected) or getattr(exc,'confirmed_rejection',False):
+                for key,row in zip(keys,rows):
+                    row.pop(pending,None);journal[key]=row
+                save_journal(journal_path,journal)
             errors.append(platform+' '+type(exc).__name__)
     if errors:raise RuntimeError('Partial delivery; retained album receipts: '+', '.join(errors))
     return rows

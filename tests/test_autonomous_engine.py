@@ -125,7 +125,9 @@ def test_album_has_one_caption_per_platform_and_partial_retry_never_repeats(tmp_
     class Discord:
         fail=True
         def send_album(self,images,caption):
-            if self.fail:raise RuntimeError('temporary failure')
+            if self.fail:
+                from vortex.syndication import DeliveryRejected
+                raise DeliveryRejected('temporary rejection')
             sent.append(('discord',caption));return 'id'
     d=Discord();images=[tmp_path/str(i) for i in range(4)];ledger=tmp_path/'receipts.json'
     with pytest.raises(RuntimeError,match='Partial delivery'):publish_album('one-edition',images,'one caption',ledger,Telegram(),d)
@@ -164,3 +166,21 @@ def test_market_eo_is_explicitly_unavailable_without_verified_source(world):
     assert _eo_label(plan,s.players[0])=='25.0%'
     feed.pop('eo_meta')
     assert _eo_label(plan,s.players[0])=='Unavailable'
+
+
+def test_album_lost_receipt_holds_instead_of_resending(tmp_path):
+    calls=[]
+    class Telegram:
+        def send_album(self,images,caption):
+            calls.append('telegram')
+            raise RuntimeError('receipt lost after possible acceptance')
+    class Discord:
+        def send_album(self,images,caption):
+            calls.append('discord');return 'confirmed'
+    ledger=tmp_path/'receipts.json'
+    for _ in range(2):
+        with pytest.raises(RuntimeError,match='Partial delivery'):
+            publish_album('album',[tmp_path/'a',tmp_path/'b'],'caption',ledger,Telegram(),Discord())
+    assert calls==['telegram','discord']
+    receipts=json.loads(ledger.read_text())
+    assert all(r.get('telegram_album_pending') and r.get('discord_delivered') for r in receipts.values())

@@ -49,7 +49,7 @@ class TelegramClient:
                             stream.seek(0)
                 response = requests.post(f"{self.base_url}/{method}", data=data, files=files, timeout=60)
                 status = getattr(response, "status_code", 200)
-                if status in (429, 500, 502, 503, 504) and attempt < 2:
+                if status in (429, 500, 502, 503, 504) and attempt < 2 and (method != 'sendMediaGroup' or status == 429):
                     try:
                         delay = float(response.json().get("parameters", {}).get("retry_after", 2 ** (attempt + 1)))
                     except (ValueError, TypeError, AttributeError):
@@ -70,12 +70,16 @@ class TelegramClient:
                 detail = error.response.json() if error.response is not None else {}
             except ValueError:
                 detail = {}
-            raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, detail)}") from None
+            error = TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, detail)}")
+            error.confirmed_rejection = isinstance(status,int) and 400 <= status < 500
+            raise error from None
         except (requests.RequestException, ValueError) as error:
             raise TelegramDeliveryError(f"Telegram {method} network or JSON failure ({type(error).__name__})") from None
         if not isinstance(payload, dict) or not payload.get("ok"):
             status = payload.get("error_code", "unknown") if isinstance(payload, dict) else "unknown"
-            raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, payload)}")
+            error = TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, payload)}")
+            error.confirmed_rejection = isinstance(status,int) and 400 <= status < 500
+            raise error
         return payload
 
     def verify_destination(self) -> None:

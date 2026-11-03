@@ -40,7 +40,9 @@ deletes audience messages or ChatGPT tasks.
 Telegram and Discord use independently persisted receipts. Four midfielders
 always produce one combined 1920x1080 graphic. Four-slide market posts use a
 Telegram media group and one Discord message, each with one caption. A successful
-destination is skipped on a partial retry. Existing posts and journals are kept.
+destination is skipped on a partial retry. An album with a lost or ambiguous
+receipt is held for reconciliation instead of blindly resending. Existing posts
+and journals are kept.
 
 ## Data and graphics
 
