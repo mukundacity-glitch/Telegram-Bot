@@ -32,6 +32,17 @@
     "published_at": "2026-11-02T22:57:34.654746+00:00",
     "version": "cecc86a0d21f1f790cb8e903b4d9bcefc647d990f25a89215af94424f76c3ffa"
   },
+  "2026-27:GW10:task1:transfer-market-team-news": {
+    "confirmed": false,
+    "identity": "2026-27:GW10:task1:transfer-market-team-news:2ea1553ab3f17a65",
+    "last_player_ids": [
+      475168,
+      466052,
+      141746
+    ],
+    "published_at": "2026-11-03T04:17:50.651015+00:00",
+    "version": "2ea1553ab3f17a653f22c2e67c7676ed5574ef8ef6357f62d8229ac636889b83"
+  },
   "2026-27:GW10:task2:four-position-transfers": {
     "confirmed": false,
     "identity": "2026-27:GW10:task2:four-position-transfers:9aaf9bbca9773c27",

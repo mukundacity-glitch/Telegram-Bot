@@ -917,6 +917,14 @@
     "telegram_message_id": 159,
     "timestamp": "2026-11-02T22:57:34.654746+00:00"
   },
+  "2026-27:GW10:task1:transfer-market-team-news:2ea1553ab3f17a65": {
+    "discord_delivered": true,
+    "discord_message_id": "1567030109213294739",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "timestamp": "2026-11-03T04:17:50.651015+00:00"
+  },
   "2026-27:GW10:task2:four-position-transfers:9aaf9bbca9773c27": {
     "discord_delivered": true,
     "discord_message_id": "1567005642546352181",
