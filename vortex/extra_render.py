@@ -11,6 +11,7 @@ from PIL import Image, ImageDraw, ImageOps
 import requests
 
 from .extra_posts import ExtraPost
+from .comparison_board import TABLE_YELLOW, TABLE_INK, TABLE_RULE
 from .matchup import (ROOT, CANVAS_SIZE, _font, _fitted_font, _text_width,
                       _center_text, _media, _brighten_portrait,
                       CYAN, GOLD, WHITE, MUTED, _fixture_color)
@@ -68,10 +69,10 @@ def _crest(canvas: Image.Image, img: Image.Image, cx: int, y: int, size: int) ->
 
 
 def _badge(draw: ImageDraw.ImageDraw, label: str, box: tuple, color=CYAN) -> None:
-    draw.rounded_rectangle(box, radius=9, fill=(2, 25, 52, 242), outline=(*color, 230), width=2)
+    draw.rounded_rectangle(box, radius=9, fill=TABLE_YELLOW, outline=TABLE_RULE, width=2)
     x0, y0, x1, y1 = box
     _center_text(draw, (x0 + x1) // 2, y0 + 9, label,
-                 _fitted_font(draw, label, x1 - x0 - 10, 21, 14), color)
+                 _fitted_font(draw, label, x1 - x0 - 10, 21, 14), TABLE_INK)
 
 
 def _base(post: ExtraPost) -> Image.Image:
@@ -129,12 +130,10 @@ def _market_chip(draw: ImageDraw.ImageDraw, x: int, y: int,
         favorable = type(value) in (int, float) and value >= 42
         risky = type(value) in (int, float) and value <= 20
         display = f"{value:.0f}%" if type(value) in (int, float) else "N/A"
-    fill, foreground = ((50, 229, 138, 255), (0, 19, 24)) if favorable else (
-        ((218, 44, 74, 255), WHITE) if risky else
-        ((204, 155, 60, 255), (14, 20, 24)) if display != "N/A" else
-        ((45, 62, 77, 255), WHITE)
-    )
-    draw.rounded_rectangle((x, y, x + 112, y + 31), radius=7, fill=fill)
+    fill, foreground = TABLE_YELLOW, TABLE_INK
+    border = GREEN if favorable else RED if risky else TABLE_RULE
+    draw.rounded_rectangle((x, y, x + 112, y + 31), radius=7,
+                           fill=fill, outline=border, width=2)
     message = f"{name} {display}"
     _center_text(draw, x + 56, y + 6, message,
                  _fitted_font(draw, message, 107, 19, 14), foreground)
@@ -153,7 +152,7 @@ def _major_tag(draw: ImageDraw.ImageDraw, x: int, y: int,
         return
     label = "MAJOR " + ("DROP" if (data.get("goals") or data.get("cs_points") or 0) < 0 else "RISE")
     label += "  " + " · ".join(details)
-    _line(draw, label, x, y, 239, 15, RED if "DROP" in label else GREEN, 12)
+    _line(draw, label, x, y, 239, 15, TABLE_INK, 12)
 
 
 def _fixtures(canvas: Image.Image, post: ExtraPost,
@@ -178,14 +177,14 @@ def _fixtures(canvas: Image.Image, post: ExtraPost,
         y0 = top + 31 + row * height
         y1 = y0 + height - 8
         draw.rounded_rectangle((x0, y0, x1, y1), radius=12,
-                               fill=PANEL, outline=(40, 123, 154, 222), width=2)
+                               fill=TABLE_YELLOW, outline=TABLE_RULE, width=2)
         home = _required(session, cache, match.get("home_code"), "crest", match["home"])
         away = _required(session, cache, match.get("away_code"), "crest", match["away"])
         _crest(canvas, home, x0 + 55, y0 + 5, 56)
         _crest(canvas, away, x1 - 52, y0 + 5, 56)
-        _line(draw, match["home"], x0 + 96, y0 + 8, 108, 25, WHITE, 18)
-        _line(draw, match["away"], x1 - 205, y0 + 8, 105, 25, WHITE, 18)
-        _center_text(draw, (x0+x1)//2, y0 + 10, "VS", _font(23), GOLD)
+        _line(draw, match["home"], x0 + 96, y0 + 8, 108, 25, TABLE_INK, 18)
+        _line(draw, match["away"], x1 - 205, y0 + 8, 105, 25, TABLE_INK, 18)
+        _center_text(draw, (x0+x1)//2, y0 + 10, "VS", _font(23), TABLE_INK)
         if match["home_goals"] is not None and match["away_goals"] is not None:
             valid += 1
         # Distinct projected-goals and clean-sheet colored cells for BOTH
@@ -285,10 +284,12 @@ def _team(canvas: Image.Image, post: ExtraPost,
         _portrait(canvas, portrait, x0 + 13, 551, 122, 158)
         _crest(canvas, club_logo, x1 - 40, 542, 49)
         _line(draw, player["name"].upper(), x0 + 143, 546, 263, 25, WHITE, 18)
+        draw.rounded_rectangle((x0+140, 579, x1-14, 712), radius=7,
+                               fill=TABLE_YELLOW, outline=TABLE_RULE, width=1)
         _line(draw, f"{player['position']} · {player['price']} · FORM {player['form']}",
-              x0 + 143, 583, 297, 20, GOLD, 14)
+              x0 + 143, 583, 297, 20, TABLE_INK, 14)
         _line(draw, f"SEASON MINS {player['minutes'] if player['minutes'] is not None else 'N/A'}",
-              x0 + 143, 615, 291, 20, CYAN, 14)
+              x0 + 143, 615, 291, 20, TABLE_INK, 14)
         _paragraph(draw, player["opponent"], x0 + 143, 651, 296, 18, 2, WHITE)
     return (f"{team['short']} LAST {len(hist)} FINISHED MATCHES: GF "
             f"{team['gf_total'] if team['gf_total'] is not None else 'N/A'} · "
@@ -306,19 +307,19 @@ def _transfers(canvas: Image.Image, post: ExtraPost,
         x0, x1 = 34, 1503
         y0 = 158 + idx * 143
         y1 = y0 + 132
-        color = (CYAN, GOLD, GREEN, (168, 135, 255))[idx]
-        draw.rounded_rectangle((x0, y0, x1, y1), radius=12, fill=PANEL,
+        color = (CYAN, TABLE_INK, TABLE_INK, (168, 135, 255))[idx]
+        draw.rounded_rectangle((x0, y0, x1, y1), radius=12, fill=TABLE_YELLOW,
                                outline=(*color, 224), width=2)
         _badge(draw, row["position"], (x0 + 12, y0 + 15, x0 + 92, y0 + 55), color)
         outbound = _required(session, cache, out.get("photo_code"), "photo", out["name"])
         outgoing_crest = _required(session, cache, out.get("club_code"), "crest", out["team"])
         _portrait(canvas, outbound, x0 + 102, y0 + 13, 104, 111)
         _crest(canvas, outgoing_crest, x0 + 227, y0 + 7, 39)
-        _line(draw, out["name"].upper(), x0 + 250, y0 + 10, 306, 31, WHITE, 19)
+        _line(draw, out["name"].upper(), x0 + 250, y0 + 10, 306, 31, TABLE_INK, 19)
         _line(draw, f"{out['price']} · FORM {out['form']} · FDR {_num(out['fdr'],'',1)}",
-              x0 + 250, y0 + 49, 350, 20, CYAN, 16)
+              x0 + 250, y0 + 49, 350, 20, TABLE_INK, 16)
         _line(draw, f"OUT EVENT: {_num(out['out_event'], '', 0)} · {out['opponent']}",
-              x0 + 250, y0 + 78, 405, 18, MUTED, 13)
+              x0 + 250, y0 + 78, 405, 18, TABLE_INK, 13)
         _badge(draw, row["verdict"], (x0 + 682, y0 + 13, x0 + 855, y0 + 54),
                GREEN if incoming else GOLD)
         if incoming:
@@ -326,14 +327,14 @@ def _transfers(canvas: Image.Image, post: ExtraPost,
             crest = _required(session, cache, incoming.get("club_code"), "crest", incoming["team"])
             _portrait(canvas, pic, x0 + 887, y0 + 13, 104, 111)
             _crest(canvas, crest, x0 + 1010, y0 + 7, 39)
-            _line(draw, incoming["name"].upper(), x0 + 1034, y0 + 10, 346, 30, WHITE, 18)
+            _line(draw, incoming["name"].upper(), x0 + 1034, y0 + 10, 346, 30, TABLE_INK, 18)
             _line(draw, f"{incoming['price']} · FORM {incoming['form']} · FDR {_num(incoming['fdr'],'',1)}",
-                  x0 + 1034, y0 + 49, 355, 20, GREEN, 15)
+                  x0 + 1034, y0 + 49, 355, 20, TABLE_INK, 15)
             _line(draw, f"IN EVENT: {_num(incoming['in_event'], '', 0)} · {incoming['opponent']}",
-                  x0 + 1034, y0 + 77, 387, 18, MUTED, 13)
+                  x0 + 1034, y0 + 77, 387, 18, TABLE_INK, 13)
         else:
-            _line(draw, "HOLD · NO CLEAR SAME-BUDGET UPGRADE", x0 + 885, y0 + 28, 514, 27, GOLD, 18)
-        _line(draw, row["reason"], x0 + 108, y0 + 108, x1-x0-139, 15, MUTED, 13)
+            _line(draw, "HOLD · NO CLEAR SAME-BUDGET UPGRADE", x0 + 885, y0 + 28, 514, 27, TABLE_INK, 18)
+        _line(draw, row["reason"], x0 + 108, y0 + 108, x1-x0-139, 15, TABLE_INK, 13)
     return "FOUR POSITIONS · EVENT-TO-DATE TRANSFERS · OFFICIAL NEXT-GW FDR · NO INVENTED xPTS"
 
 
@@ -356,20 +357,20 @@ def _start_bench(canvas: Image.Image, post: ExtraPost,
         for j, row in enumerate(rows[col*5:col*5+5]):
             y0 = 212 + j*101
             draw.rounded_rectangle((x0+12, y0, x1-12, y0+94),
-                                   radius=10, fill=BG, outline=(*accent, 111), width=1)
+                                   radius=10, fill=TABLE_YELLOW, outline=(*accent, 111), width=1)
             photo = _required(session, cache, row.get("photo_code"), "photo", row["name"])
             crest = _required(session, cache, row.get("club_code"), "crest", row["team"])
             _portrait(canvas, photo, x0+20, y0+5, 85, 86)
             _crest(canvas, crest, x0+125, y0+5, 40)
-            _line(draw, row["name"].upper(), x0+155, y0+6, 220, 24, WHITE, 18)
+            _line(draw, row["name"].upper(), x0+155, y0+6, 220, 24, TABLE_INK, 18)
             _line(draw, f"{row['pos']} • {row['team']} • {row['price']}", x0+158,
-                  y0+39, 255, 19, accent, 15)
+                  y0+39, 255, 19, TABLE_INK, 15)
             _line(draw, f"NEXT {row['opponent']} · FDR {row['fdr']:.1f}",
-                  x0+420, y0+11, 265, 18, WHITE, 14)
+                  x0+420, y0+11, 265, 18, TABLE_INK, 14)
             _line(draw, f"FORM {row['form']:.1f} • PPG {row['ppg']:.1f} • MINS {row['minutes']}",
-                  x0+420, y0+44, 265, 18, CYAN, 14)
+                  x0+420, y0+44, 265, 18, TABLE_INK, 14)
             _line(draw, "CHECK LATEST TEAM NEWS", x0+422,
-                  y0+70, 259, 15, MUTED, 12)
+                  y0+70, 259, 15, TABLE_INK, 12)
     return "GENERIC FPL COMPARISONS • NOT YOUR PERSONAL SQUAD • NO FABRICATED xPTS"
 
 
