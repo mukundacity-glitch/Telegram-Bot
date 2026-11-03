@@ -20,7 +20,7 @@ def test_all_four_complete_task_specs_copied_and_primary_hours_do_not_overlap():
 def test_only_one_shared_publisher_and_no_legacy_scheduled_sender():
     source = WORKFLOW.read_text()
     assert source.count('  publish:\n') == 1
-    assert "cron: '15,45 5-19 * * *'" in source
+    assert "cron: '20 9 * * *'" in source and "cron: '5 9 * * *'" in source
     assert 'python -m vortex.outbox' in source
     assert 'python -m vortex.bot' not in source
     assert 'python -m vortex.task_publisher' not in source

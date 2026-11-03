@@ -87,6 +87,14 @@ def run(now=None, telegram=None, discord=None):
             keys = [f'{identity}:page{i+1}' for i in range(len(images))]
             if all(journal.get(k, {}).get('delivered') and journal.get(k, {}).get('discord_delivered') for k in keys):
                 continue
+            if len(images)>1:
+                from .syndication import publish_album
+                receipts=publish_album(identity,images,record['caption'],RECEIPTS,
+                                        telegram or TelegramClient(),discord or DiscordWebhookClient(),now.isoformat())
+                status[file.name]={'status':'delivered','identity':identity,'at':now.isoformat(),'caption_once_album':True}
+                write_state(STATUS,status)
+                print(f'POSTED BOTH ALBUM {identity}: {len(receipts)} pages, one caption per platform')
+                return 0
             for key, image in zip(keys, images):
                 assert_allowed()
                 post = NewsPost(identity=key, title=record['title'], caption=record['caption'],

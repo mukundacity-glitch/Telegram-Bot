@@ -162,7 +162,7 @@ def comparison_board(master, title, gw, players, *, verdict=""):
     for n, player in enumerate(players):
         x0 = round(38+n*(width+gap))
         x1 = round(x0+width)
-        accent = CYAN if n % 2 else GOLD
+        accent = GOLD if player.get('label') == 'VORTEX CAPTAIN' else CYAN if len(players) == 3 else CYAN if n % 2 else GOLD
         panel(draw, (x0, 124, x1, 496), accent)
         if len(players) == 4:
             # Four equal columns: no portrait/table squeeze or clipped names.

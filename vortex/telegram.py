@@ -148,6 +148,20 @@ class TelegramClient:
             )
         return int(data["result"]["message_id"])
 
+    def send_album(self, images, caption):
+        import json
+        from contextlib import ExitStack
+        if not 2 <= len(images) <= 10 or len(caption)>1024:
+            raise ValueError('Invalid shared album size/caption')
+        with ExitStack() as stack:
+            files={f'photo{i}':(path.name,stack.enter_context(path.open('rb')),'image/png') for i,path in enumerate(images)}
+            media=[{'type':'photo','media':f'attach://photo{i}',**({'caption':caption} if i==0 else {})} for i in range(len(images))]
+            result=self._post('sendMediaGroup',{'chat_id':self.chat_id,'media':json.dumps(media)},files)
+        rows=result.get('result')
+        if not isinstance(rows,list) or len(rows)!=len(images) or any(type(row.get('message_id')) is not int for row in rows):
+            raise RuntimeError('Telegram album did not confirm every page receipt')
+        return [row['message_id'] for row in rows]
+
     def edit_shared_png(self, image: Path, caption: str, message_id: int) -> int:
         """Update the EXISTING Telegram photo in place, never publish a repeat.
 

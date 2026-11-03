@@ -114,6 +114,24 @@ class DiscordWebhookClient:
             raise ValueError("Shared image missing or invalid")
         return self._send(payload, post.image)
 
+    def send_album(self, images, caption):
+        from contextlib import ExitStack
+        from .publishing_window import assert_allowed
+        assert_allowed()
+        payload={'username':'FPL VORTEX','content':caption,'allowed_mentions':{'parse':[]}}
+        try:
+            with ExitStack() as stack:
+                files=[(f'files[{i}]',(path.name,stack.enter_context(path.open('rb')),'image/png')) for i,path in enumerate(images)]
+                response=self.session.post(self.url,params={'wait':'true'},timeout=60,
+                                           data={'payload_json':json.dumps(payload)},files=files)
+            if not 200<=response.status_code<300:raise RuntimeError('Discord rejected album delivery')
+            receipt=response.json()
+            if not receipt.get('id') or len(receipt.get('attachments',[]))!=len(images):
+                raise RuntimeError('Discord album did not confirm every attachment')
+            return str(receipt['id'])
+        except (requests.RequestException,ValueError):
+            raise RuntimeError('Discord album network/JSON failure; receipt not confirmed') from None
+
 
 def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
                    discord: DiscordWebhookClient | Any,
@@ -164,3 +182,26 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
     if errors:
         raise RuntimeError("Partial delivery; retained successful receipts: " + ", ".join(errors))
     return entry
+
+
+def publish_album(identity,images,caption,journal_path,telegram,discord,now_iso=''):
+    journal=load_journal(journal_path);errors=[]
+    keys=[f'{identity}:page{i+1}' for i in range(len(images))]
+    rows=[dict(journal.get(key,{})) for key in keys]
+    for platform in ('telegram','discord'):
+        flag='delivered' if platform=='telegram' else 'discord_delivered'
+        if all(row.get(flag) for row in rows):continue
+        if any(row.get(flag) for row in rows):
+            raise RuntimeError('Legacy partial page group cannot be replayed as a new album')
+        try:
+            ids=telegram.send_album(images,caption) if platform=='telegram' else [discord.send_album(images,caption)]*len(images)
+            if len(ids)!=len(images):raise RuntimeError('Album receipt count mismatch')
+            for key,row,message_id in zip(keys,rows,ids):
+                row[flag]=True
+                row['telegram_message_id' if platform=='telegram' else 'discord_message_id']=message_id
+                row['timestamp']=now_iso;row['caption_once_album']=True;journal[key]=row
+            save_journal(journal_path,journal)
+        except (RuntimeError,ValueError,OSError,requests.RequestException) as exc:
+            errors.append(platform+' '+type(exc).__name__)
+    if errors:raise RuntimeError('Partial delivery; retained album receipts: '+', '.join(errors))
+    return rows

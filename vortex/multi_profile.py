@@ -56,19 +56,26 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
         if player.get("status") == "a":
             if published_label in ("BUY", "SELL", "HOLD", "MONITOR", "START", "BENCH", "CAPTAIN", "WATCHLIST"):
                 action = "MONITOR" if published_label == "WATCHLIST" else published_label
+            elif published_label == 'VORTEX CAPTAIN':
+                action = 'CAPTAIN'
             elif post.kind == "captaincy" and idx == 0:
                 action = "CAPTAIN"
         elif player.get("news"):
             reason = str(player["news"])
         elif recent:
             reason = 'Recent minutes: ' + '/'.join(str(int(r.get('minutes') or 0)) for r in recent[-3:]) + f". Form {values['FORM']}."
+        if player.get('status') == 'a' and recent:
+            recent_rows = recent[-3:]
+            points = sum(int(r.get('total_points') or 0) for r in recent_rows)
+            minutes = '/'.join(str(int(r.get('minutes') or 0)) for r in recent_rows)
+            reason = f'Last 3: {points} pts; {minutes} minutes.'
         club = snapshot.teams[player["team"]]
         profiles.append({"name": snapshot.name(player),
                          "club": club.get("name") or snapshot.team(player),
                          "position": values["POSITION"], "metrics": values,
                          "fixtures": fixtures, "portrait": portrait, "badge": badge,
                          "action": action, "reason": reason,
-                         "label": published_label if published_label in ('PREMIUM', 'BUDGET VALUE') else action})
+                         "label": published_label if published_label in ('PREMIUM', 'BUDGET VALUE', 'VORTEX CAPTAIN', 'DIFFERENTIAL CAPTAIN 1', 'DIFFERENTIAL CAPTAIN 2') else action})
     canvas = comparison_board(master, post.title, post.gw, profiles,
                               verdict=post.verdict)
     output.parent.mkdir(parents=True, exist_ok=True)
