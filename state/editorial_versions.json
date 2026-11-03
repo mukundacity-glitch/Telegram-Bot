@@ -668,6 +668,159 @@
     "timestamp": "2026-11-02T21:38:17.656338+00:00",
     "version": "9f41edc88119e55c83e5ae687aeeefa69e3d086ddcc49c8328edbd2c5e9095dd"
   },
+  "review:10:3:226597|3:199798|7:517052|91:463981": {
+    "confirmed": false,
+    "delivery_key": "2026-11-02:review",
+    "evidence": {
+      "gw": 10,
+      "kind": "review",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 5,
+            "clean_sheets": 6,
+            "form": "8.2",
+            "goals": 1,
+            "gw_points": 17,
+            "minutes": 810,
+            "price": "£8.0m",
+            "total_points": 58
+          },
+          "player": "Gabriel",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 4,
+            "form": "9.2",
+            "goals": 1,
+            "gw_points": 14,
+            "minutes": 641,
+            "price": "£4.7m",
+            "total_points": 49
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "FUL",
+              "H",
+              2,
+              54
+            ],
+            [
+              "MUN",
+              "A",
+              4,
+              1
+            ],
+            [
+              "SUN",
+              "H",
+              3,
+              56
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 10,
+            "clean_sheets": 2,
+            "form": "8.2",
+            "goals": 5,
+            "gw_points": 13,
+            "minutes": 637,
+            "price": "£7.0m",
+            "total_points": 43
+          },
+          "player": "N.Jackson",
+          "team": 7
+        },
+        {
+          "fixtures": [
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ],
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ],
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 4,
+            "clean_sheets": 3,
+            "form": "6.5",
+            "goals": 0,
+            "gw_points": 11,
+            "minutes": 810,
+            "price": "£5.5m",
+            "total_points": 38
+          },
+          "player": "Hill",
+          "team": 91
+        }
+      ]
+    },
+    "group": "review:10:3:226597|3:199798|7:517052|91:463981",
+    "timestamp": "2026-11-03T03:38:11.139692+00:00",
+    "version": "b195b6b01ebf62bfb99303edd9d2f51e647fd0d5bacbe29c764eb09a34b81517"
+  },
   "start_bench:10:31:START|79:START|13:START|68:START|1:START|501:BENCH|51:BENCH|290:BENCH|198:BENCH|552:BENCH": {
     "confirmed": true,
     "delivery_key": "2026-11-02:start_bench:GW10",

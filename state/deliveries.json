@@ -845,6 +845,14 @@
     "telegram_message_id": 155,
     "timestamp": "2026-11-02T21:38:17.656338+00:00"
   },
+  "2026-11-02:review": {
+    "discord_delivered": true,
+    "discord_message_id": "1567020132876951572",
+    "gameweek": 10,
+    "source": "Official FPL",
+    "source_url": "",
+    "timestamp": "2026-11-03T03:38:11.139692+00:00"
+  },
   "2026-11-02:start_bench:GW10": {
     "delivered": true,
     "discord_delivered": true,
