@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import html
 import os
+import time
 from pathlib import Path
 from typing import Any
 
@@ -37,7 +38,26 @@ class TelegramClient:
 
     def _post(self, method: str, data: dict[str, Any], files: dict[str, Any] | None = None) -> dict[str, Any]:
         try:
-            response = requests.post(f"{self.base_url}/{method}", data=data, files=files, timeout=60)
+            for attempt in range(3):
+                if files:
+                    for part in files.values():
+                        stream = part[1] if isinstance(part, tuple) else part
+                        if hasattr(stream, "seek"):
+                            stream.seek(0)
+                response = requests.post(f"{self.base_url}/{method}", data=data, files=files, timeout=60)
+                status = getattr(response, "status_code", 200)
+                if status in (429, 500, 502, 503, 504) and attempt < 2:
+                    try:
+                        delay = float(response.json().get("parameters", {}).get("retry_after", 2 ** (attempt + 1)))
+                    except (ValueError, TypeError, AttributeError):
+                        delay = 2 ** (attempt + 1)
+                    # Respect long rate limits by deferring to the next scheduled
+                    # check, rather than retrying earlier than Telegram permits.
+                    if delay > 30:
+                        break
+                    time.sleep(max(1, delay))
+                    continue
+                break
             response.raise_for_status()
             payload = response.json()
         except requests.HTTPError as error:
@@ -67,7 +87,12 @@ class TelegramClient:
 
     def get_bot_username(self) -> str:
         try:
-            response = requests.get(f"{self.base_url}/getMe", timeout=25)
+            for attempt in range(3):
+                response = requests.get(f"{self.base_url}/getMe", timeout=25)
+                if getattr(response, "status_code", 200) in (500, 502, 503, 504) and attempt < 2:
+                    time.sleep(2 ** (attempt + 1))
+                    continue
+                break
             response.raise_for_status()
             payload = response.json()
         except (requests.RequestException, ValueError):

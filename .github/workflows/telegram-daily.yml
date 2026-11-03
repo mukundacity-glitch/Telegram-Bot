@@ -1,4 +1,5 @@
 name: FPL VORTEX Telegram Daily
+# Retry transient Telegram gateway responses without changing edition schedules.
 
 on:
   # One direct production post on THIS explicitly marked release commit only.
