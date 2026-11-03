@@ -32,6 +32,13 @@
     "published_at": "2026-11-02T22:57:34.654746+00:00",
     "version": "cecc86a0d21f1f790cb8e903b4d9bcefc647d990f25a89215af94424f76c3ffa"
   },
+  "2026-27:GW10:task2:four-position-transfers": {
+    "confirmed": false,
+    "identity": "2026-27:GW10:task2:four-position-transfers:9aaf9bbca9773c27",
+    "last_player_ids": [],
+    "published_at": "2026-11-03T02:40:36.977101+00:00",
+    "version": "9aaf9bbca9773c274c2b5f8aa6e93508520e2128d94ff5b521d429fab8dbf9c2"
+  },
   "2026-27:GW10:three_daily:transfer-squad-structure": {
     "confirmed": true,
     "identity": "2026-27:GW10:three_daily:transfer-squad-structure:64014617413c8df0",
