@@ -22,6 +22,10 @@ class TelegramClient:
             response = requests.post(f"{self.base_url}/{method}", data=data, files=files, timeout=60)
             response.raise_for_status()
             payload = response.json()
+        except requests.HTTPError as error:
+            # Never print response bodies or destination identifiers.
+            status = error.response.status_code if error.response is not None else "unknown"
+            raise RuntimeError(f"Telegram {method} HTTP {status}") from None
         except (requests.RequestException, ValueError) as error:
             raise RuntimeError(f"Telegram {method} network or JSON failure ({type(error).__name__})") from None
         if not isinstance(payload, dict) or not payload.get("ok"):
