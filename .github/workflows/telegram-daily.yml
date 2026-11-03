@@ -291,7 +291,7 @@ jobs:
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
           REQUESTED_SLOT: ${{ github.event_name == 'push' && 'task-edition' || inputs.slot || 'auto' }}
-          TASK_EDITION: ${{ github.event_name == 'push' && 'form-minutes-targets' || inputs.task_edition || 'availability-transfer-decisions' }}
+          TASK_EDITION: ${{ github.event_name == 'push' && 'fixture-targets' || inputs.task_edition || 'availability-transfer-decisions' }}
         run: |
           if [ "$REQUESTED_SLOT" = "audit-tasks" ]; then
             python -m vortex.task_publisher --dry-run
