@@ -184,3 +184,23 @@ def test_album_lost_receipt_holds_instead_of_resending(tmp_path):
     assert calls==['telegram','discord']
     receipts=json.loads(ledger.read_text())
     assert all(r.get('telegram_album_pending') and r.get('discord_delivered') for r in receipts.values())
+
+
+def test_delivery_validates_at_send_time_after_snapshot_fetch(world,tmp_path,monkeypatch):
+    s,now,e,feed=world
+    started=now-timedelta(seconds=10)
+    monkeypatch.setattr(runner,'allowed',lambda when:True)
+    monkeypatch.setattr(runner,'Evidence',lambda snapshot,when:e)
+    monkeypatch.setattr(runner,'write_state',lambda *args:None)
+    monkeypatch.setattr(runner,'read_state',lambda path: {
+        'test-identity:page1':{'delivered':True,'discord_delivered':True}
+    } if path==runner.RECEIPTS else {})
+    monkeypatch.setattr(runner,'stage',lambda *args,**kwargs:(runner.ROOT/'outbox/test.json','test-identity',1))
+    sent=[]
+    def publish(when):
+        assert when>=s.fetched_at
+        sent.append(when)
+        return 0
+    monkeypatch.setattr(runner,'publish_outbox',publish)
+    result=runner.run(now=started,snapshot=s,edition='vortex-captain')
+    assert sent and result['confirmed_edition_deliveries']==1
