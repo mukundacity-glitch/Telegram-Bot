@@ -66,3 +66,5 @@ or allow the next scheduled check. Check state/chatgpt_deliveries.json for BOTH
 Telegram and Discord IDs before saying POSTED. Queued is not delivered.
 For a partial failure, retry the same immutable outbox record. Never resend a
 confirmed destination or discard an ambiguous timeout receipt.
+
+Four-midfielder comparisons must use ONE combined four-player graphic and ONE caption, never two posts.

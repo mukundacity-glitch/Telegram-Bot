@@ -54,11 +54,10 @@ def main():
                    kicker='NEXT GW', cards=cards, verdict='MONITOR TEAM NEWS BEFORE BUYING',
                    caption=caption, data_at=snapshot.fetched_at.isoformat(), gw=gw,
                    footer='Verified official FPL snapshot; forecasts are not guaranteed')
-    pages = []
-    for index in range(2):
-        file = ROOT/'outbox/assets'/f'gw{gw}-four-midfielders-{index+1}.png'
-        render_checked(replace(base, cards=cards[index*2:index*2+2]), snapshot, file)
-        pages.append(str(file.relative_to(ROOT)))
+    # One complete comparison and ONE caption for all four selected players.
+    file = ROOT/'outbox/assets'/f'gw{gw}-four-midfielders-combined.png'
+    render_checked(base, snapshot, file)
+    pages = [str(file.relative_to(ROOT))]
     facts = {'players': [{k: p.get(k) for k in (
         'id', 'code', 'team', 'now_cost', 'status', 'selected_by_percent', 'minutes',
         'total_points', 'form', 'expected_goals', 'expected_assists')} | {
