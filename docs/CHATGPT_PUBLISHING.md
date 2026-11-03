@@ -1,3 +1,10 @@
+# Publishing transition
+
+The GitHub autonomous generator now owns additional editorial slots. See
+[AUTONOMOUS_PUBLISHING.md](AUTONOMOUS_PUBLISHING.md) for the current schedule,
+data contract and migration gates. The manual outbox procedure below remains
+available for reviewed editions; its old generation timetable is historical.
+
 # Shared ChatGPT → Telegram and Discord publishing
 
 All five existing tasks' full latest instructions are in

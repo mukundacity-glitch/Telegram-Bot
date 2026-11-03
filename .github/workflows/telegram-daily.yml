@@ -4,16 +4,199 @@ on:
     branches: [main]
     paths: ['outbox/**', '.github/workflows/telegram-daily.yml']
   schedule:
-    - cron: '15,45 5-19 * * *'
+    - cron: '5 5 * * *'
+      timezone: America/New_York
+    - cron: '20 5 * * *'
+      timezone: America/New_York
+    - cron: '35 5 * * *'
+      timezone: America/New_York
+    - cron: '50 5 * * *'
+      timezone: America/New_York
+    - cron: '5 6 * * *'
+      timezone: America/New_York
+    - cron: '20 6 * * *'
+      timezone: America/New_York
+    - cron: '30 6 * * *'
+      timezone: America/New_York
+    - cron: '35 6 * * *'
+      timezone: America/New_York
+    - cron: '45 6 * * *'
+      timezone: America/New_York
+    - cron: '50 6 * * *'
+      timezone: America/New_York
+    - cron: '0 7 * * *'
+      timezone: America/New_York
+    - cron: '5 7 * * *'
+      timezone: America/New_York
+    - cron: '15 7 * * *'
+      timezone: America/New_York
+    - cron: '20 7 * * *'
+      timezone: America/New_York
+    - cron: '35 7 * * *'
+      timezone: America/New_York
+    - cron: '50 7 * * *'
+      timezone: America/New_York
+    - cron: '0 8 * * *'
+      timezone: America/New_York
+    - cron: '5 8 * * *'
+      timezone: America/New_York
+    - cron: '15 8 * * *'
+      timezone: America/New_York
+    - cron: '20 8 * * *'
+      timezone: America/New_York
+    - cron: '35 8 * * *'
+      timezone: America/New_York
+    - cron: '50 8 * * *'
+      timezone: America/New_York
+    - cron: '0 9 * * *'
+      timezone: America/New_York
+    - cron: '5 9 * * *'
+      timezone: America/New_York
+    - cron: '15 9 * * *'
+      timezone: America/New_York
+    - cron: '20 9 * * *'
+      timezone: America/New_York
+    - cron: '35 9 * * *'
+      timezone: America/New_York
+    - cron: '50 9 * * *'
+      timezone: America/New_York
+    - cron: '0 10 * * *'
+      timezone: America/New_York
+    - cron: '5 10 * * *'
+      timezone: America/New_York
+    - cron: '15 10 * * *'
+      timezone: America/New_York
+    - cron: '20 10 * * *'
+      timezone: America/New_York
+    - cron: '35 10 * * *'
+      timezone: America/New_York
+    - cron: '45 10 * * *'
+      timezone: America/New_York
+    - cron: '50 10 * * *'
+      timezone: America/New_York
+    - cron: '0 11 * * *'
+      timezone: America/New_York
+    - cron: '5 11 * * *'
+      timezone: America/New_York
+    - cron: '15 11 * * *'
+      timezone: America/New_York
+    - cron: '20 11 * * *'
+      timezone: America/New_York
+    - cron: '25 11 * * *'
+      timezone: America/New_York
+    - cron: '35 11 * * *'
+      timezone: America/New_York
+    - cron: '50 11 * * *'
+      timezone: America/New_York
+    - cron: '0 12 * * *'
+      timezone: America/New_York
+    - cron: '5 12 * * *'
+      timezone: America/New_York
+    - cron: '15 12 * * *'
+      timezone: America/New_York
+    - cron: '20 12 * * *'
+      timezone: America/New_York
+    - cron: '35 12 * * *'
+      timezone: America/New_York
+    - cron: '50 12 * * *'
+      timezone: America/New_York
+    - cron: '0 13 * * *'
+      timezone: America/New_York
+    - cron: '5 13 * * *'
+      timezone: America/New_York
+    - cron: '15 13 * * *'
+      timezone: America/New_York
+    - cron: '20 13 * * *'
+      timezone: America/New_York
+    - cron: '35 13 * * *'
+      timezone: America/New_York
+    - cron: '50 13 * * *'
+      timezone: America/New_York
+    - cron: '0 14 * * *'
+      timezone: America/New_York
+    - cron: '5 14 * * *'
+      timezone: America/New_York
+    - cron: '15 14 * * *'
+      timezone: America/New_York
+    - cron: '20 14 * * *'
+      timezone: America/New_York
+    - cron: '35 14 * * *'
+      timezone: America/New_York
+    - cron: '50 14 * * *'
+      timezone: America/New_York
+    - cron: '0 15 * * *'
+      timezone: America/New_York
+    - cron: '5 15 * * *'
+      timezone: America/New_York
+    - cron: '15 15 * * *'
+      timezone: America/New_York
+    - cron: '20 15 * * *'
+      timezone: America/New_York
+    - cron: '35 15 * * *'
+      timezone: America/New_York
+    - cron: '50 15 * * *'
+      timezone: America/New_York
+    - cron: '0 16 * * *'
+      timezone: America/New_York
+    - cron: '5 16 * * *'
+      timezone: America/New_York
+    - cron: '15 16 * * *'
+      timezone: America/New_York
+    - cron: '20 16 * * *'
+      timezone: America/New_York
+    - cron: '35 16 * * *'
+      timezone: America/New_York
+    - cron: '50 16 * * *'
+      timezone: America/New_York
+    - cron: '5 17 * * *'
+      timezone: America/New_York
+    - cron: '20 17 * * *'
+      timezone: America/New_York
+    - cron: '30 17 * * *'
+      timezone: America/New_York
+    - cron: '35 17 * * *'
+      timezone: America/New_York
+    - cron: '45 17 * * *'
+      timezone: America/New_York
+    - cron: '50 17 * * *'
+      timezone: America/New_York
+    - cron: '5 18 * * *'
+      timezone: America/New_York
+    - cron: '20 18 * * *'
+      timezone: America/New_York
+    - cron: '30 18 * * *'
+      timezone: America/New_York
+    - cron: '35 18 * * *'
+      timezone: America/New_York
+    - cron: '45 18 * * *'
+      timezone: America/New_York
+    - cron: '50 18 * * *'
+      timezone: America/New_York
+    - cron: '5 19 * * *'
+      timezone: America/New_York
+    - cron: '20 19 * * *'
+      timezone: America/New_York
+    - cron: '35 19 * * *'
+      timezone: America/New_York
+    - cron: '50 19 * * *'
+      timezone: America/New_York
+    - cron: '0 20 * * *'
+      timezone: America/New_York
+    - cron: '15 20 * * *'
       timezone: America/New_York
   workflow_dispatch:
     inputs:
       slot:
-        description: Deliver queued ChatGPT graphics to both platforms with receipts
-        default: outbox
+        description: Generate and publish, audit all editions without posting, or retry the queue
+        default: autonomous
         required: true
         type: choice
-        options: [outbox]
+        options: [autonomous, audit, news, outbox]
+      edition:
+        description: Optional single additional edition for a real manual production run
+        required: false
+        type: string
+        default: vortex-captain
 permissions:
   contents: write
 concurrency:
@@ -21,7 +204,7 @@ concurrency:
   cancel-in-progress: false
 jobs:
   publish:
-    if: ${{ github.event_name != 'push' || (contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]')) }}
+    if: ${{ github.event_name != 'push' || (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]')) }}
     runs-on: ubuntu-latest
     timeout-minutes: 14
     steps:
@@ -38,22 +221,45 @@ jobs:
       - name: Install renderer dependencies
         run: python -m pip install -r requirements.txt
       - name: Verify publishing and duplicate contracts
+        if: ${{ github.event_name != 'schedule' }}
         run: python -m pytest -q
-      - name: Update original four-midfielder posts in place
-        if: ${{ github.event_name == 'push' && contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]') }}
+      - name: Generate and deliver from GitHub; preserve separate original news lane
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           FPL_PUBLISH_WINDOW_ENFORCED: 'true'
-        run: python -m vortex.combine_midfielder_posts
-      - name: Publish ONE fresh ChatGPT edition to BOTH platforms
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          FPL_PUBLISH_WINDOW_ENFORCED: 'true'
-        run: python -m vortex.outbox
+          FPL_ENRICHED_VISUALS_ENABLED: 'true'
+          DUAL_PUBLISH_ENABLED: 'true'
+          FPL_PORTED_TASKS_ENABLED: 'false'
+          FPL_SEMANTIC_DEDUP_ENABLED: 'true'
+          UNIFIED_NEWS_ENABLED: 'true'
+          MAX_NEWS_PER_RUN: '1'
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          FPL_EDITORIAL_MODEL_URL: ${{ vars.FPL_EDITORIAL_MODEL_URL || '' }}
+          FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
+          THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
+          ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          SCHEDULED_CRON: ${{ github.event.schedule }}
+          EVENT_NAME: ${{ github.event_name }}
+          REQUESTED_MODE: ${{ inputs.slot || 'autonomous' }}
+          REQUESTED_EDITION: ${{ inputs.edition || 'vortex-captain' }}
+        run: |
+          if [ "$REQUESTED_MODE" = 'audit' ]; then
+            python -m vortex.autonomous_runner --audit-all
+          elif [ "$REQUESTED_MODE" = 'outbox' ]; then
+            python -m vortex.outbox
+          elif [ "$REQUESTED_MODE" = 'news' ]; then
+            python -m vortex.unified_runner
+          elif [ "$EVENT_NAME" = 'schedule' ]; then
+            case "$SCHEDULED_CRON" in
+              '50 '*) python -m vortex.outbox ;;
+              *) python -m vortex.autonomous_runner ;;
+            esac
+          else
+            python -m vortex.autonomous_runner --edition "$REQUESTED_EDITION"
+          fi
       - name: Archive graphic and confirmed receipts
         if: always()
         uses: actions/upload-artifact@v4
@@ -64,6 +270,10 @@ jobs:
             state/chatgpt_deliveries.json
             state/chatgpt_outbox_status.json
             state/missing_portraits.json
+            state/autonomous_editions.json
+            output/autonomous-audit.json
+            output/news/*.png
+            output/*.png
           if-no-files-found: ignore
           retention-days: 30
       - name: Preserve both-platform delivery receipts before any retry
@@ -71,11 +281,11 @@ jobs:
         run: |
           git config user.name 'FPL VORTEX Publisher'
           git config user.email 'fpl-vortex-bot@users.noreply.github.com'
-          for file in state/chatgpt_deliveries.json state/chatgpt_outbox_status.json state/missing_portraits.json; do
+          for file in state/*.json outbox/*.json outbox/assets/*.png; do
             if [ -f "$file" ]; then git add -- "$file"; fi
           done
           if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Save ChatGPT cross-platform delivery receipts [skip ci]'
+          git commit -m 'Save autonomous source baselines, editions and platform receipts [skip ci]'
           for attempt in 1 2 3 4; do
             if git push origin HEAD:main; then exit 0; fi
             echo "Receipt push race: rebase the receipt commit on newest main."

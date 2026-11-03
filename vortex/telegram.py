@@ -49,7 +49,7 @@ class TelegramClient:
                             stream.seek(0)
                 response = requests.post(f"{self.base_url}/{method}", data=data, files=files, timeout=60)
                 status = getattr(response, "status_code", 200)
-                if status in (429, 500, 502, 503, 504) and attempt < 2:
+                if status in (429, 500, 502, 503, 504) and attempt < 2 and (method != 'sendMediaGroup' or status == 429):
                     try:
                         delay = float(response.json().get("parameters", {}).get("retry_after", 2 ** (attempt + 1)))
                     except (ValueError, TypeError, AttributeError):
@@ -70,12 +70,16 @@ class TelegramClient:
                 detail = error.response.json() if error.response is not None else {}
             except ValueError:
                 detail = {}
-            raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, detail)}") from None
+            error = TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, detail)}")
+            error.confirmed_rejection = isinstance(status,int) and 400 <= status < 500
+            raise error from None
         except (requests.RequestException, ValueError) as error:
             raise TelegramDeliveryError(f"Telegram {method} network or JSON failure ({type(error).__name__})") from None
         if not isinstance(payload, dict) or not payload.get("ok"):
             status = payload.get("error_code", "unknown") if isinstance(payload, dict) else "unknown"
-            raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, payload)}")
+            error = TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, payload)}")
+            error.confirmed_rejection = isinstance(status,int) and 400 <= status < 500
+            raise error
         return payload
 
     def verify_destination(self) -> None:
@@ -147,6 +151,20 @@ class TelegramClient:
                 {"photo": (image.name, source, "image/png")},
             )
         return int(data["result"]["message_id"])
+
+    def send_album(self, images, caption):
+        import json
+        from contextlib import ExitStack
+        if not 2 <= len(images) <= 10 or len(caption)>1024:
+            raise ValueError('Invalid shared album size/caption')
+        with ExitStack() as stack:
+            files={f'photo{i}':(path.name,stack.enter_context(path.open('rb')),'image/png') for i,path in enumerate(images)}
+            media=[{'type':'photo','media':f'attach://photo{i}',**({'caption':caption} if i==0 else {})} for i in range(len(images))]
+            result=self._post('sendMediaGroup',{'chat_id':self.chat_id,'media':json.dumps(media)},files)
+        rows=result.get('result')
+        if not isinstance(rows,list) or len(rows)!=len(images) or any(type(row.get('message_id')) is not int for row in rows):
+            raise RuntimeError('Telegram album did not confirm every page receipt')
+        return [row['message_id'] for row in rows]
 
     def edit_shared_png(self, image: Path, caption: str, message_id: int) -> int:
         """Update the EXISTING Telegram photo in place, never publish a repeat.
