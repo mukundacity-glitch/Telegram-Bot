@@ -169,7 +169,12 @@ def run(*, cron: str | None = None, selected_name: str | None = None,
             # No generic audience-facing story or fabricated asset on failure.
             report["held"].append({"edition": edition.label, "reason": type(exc).__name__})
             from .telegram import TelegramDeliveryError
-            reason = str(exc) if isinstance(exc, TelegramDeliveryError) else type(exc).__name__
+            known = {
+                "Previous topic version not fully delivered; resolve partial receipt first": "partial-version-pending",
+                "Full verified portrait and authentic crest mandatory": "verified-player-media-unavailable",
+                "Full FPL profile needs a verified player photo and authentic club badge": "verified-player-media-unavailable",
+            }
+            reason = str(exc) if isinstance(exc, TelegramDeliveryError) else known.get(str(exc), type(exc).__name__)
             print(f"HOLD {topic}: {reason}", file=sys.stderr)
     return report
 

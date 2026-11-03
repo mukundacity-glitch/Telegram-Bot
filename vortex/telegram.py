@@ -69,7 +69,7 @@ class TelegramClient:
                 detail = {}
             raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, detail)}") from None
         except (requests.RequestException, ValueError) as error:
-            raise RuntimeError(f"Telegram {method} network or JSON failure ({type(error).__name__})") from None
+            raise TelegramDeliveryError(f"Telegram {method} network or JSON failure ({type(error).__name__})") from None
         if not isinstance(payload, dict) or not payload.get("ok"):
             status = payload.get("error_code", "unknown") if isinstance(payload, dict) else "unknown"
             raise TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, payload)}")
