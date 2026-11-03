@@ -158,7 +158,7 @@ def player_metrics(snapshot: Any, player: dict[str, Any],
         "xGC": "expected_goals_conceded",
     }
     selected = {"GK": ("SAVES", "CS", "GC", "xGC"),
-                "DEF": ("CS", "GC", "DC ACTIONS", "xGC", "GOALS", "xG", "xA"),
+                "DEF": ("CS", "GC", "DC ACTIONS", "xGC", "GOALS", "ASSISTS", "xG", "xA", "xGI"),
                 "MID": ("GOALS", "ASSISTS", "xG", "xA", "xGI", "DC ACTIONS"),
                 "FWD": ("GOALS", "ASSISTS", "xG", "xA", "xGI")}[position]
     for label in selected:

@@ -1,9 +1,7 @@
-"""One-player original-blue-master FPL decision board, not a generated slide.
+"""Single-player edition of the reference-2 yellow-table broadcast graphic.
 
-Visuals contain only verified, position-relevant facts and concise advice.
-Five successive future Gameweeks are always shown. Doubles have 2 fixtures;
-blanks are clearly marked. Independent verified xPts appear immediately under
-each associated fixture, otherwise the xPts field is *omitted* (never N/A).
+Only verified facts and existing advice rules are used. The current fixture
+appears once; the five-GW model context still informs the existing advice.
 """
 from __future__ import annotations
 
@@ -11,29 +9,16 @@ from pathlib import Path
 from typing import Any
 from datetime import timezone
 
-from PIL import Image, ImageDraw
+from PIL import Image
 import requests
 
 from .brand_footer import MASTER, apply_footer
-from .publication_rules import (FDR_COLORS, fetch_verified_xpts,
+from .publication_rules import (fetch_verified_xpts,
                                 five_gw_fixtures, player_metrics,
                                 choose_manager_action)
-from .matchup import (_font, _fitted_font, _media, _brighten_portrait,
-                      _bundled_portrait)
+from .matchup import _media, _bundled_portrait
 from .recommendations import completed_rounds, get_history
 from .fplcore import completed_gw_enrichment
-
-
-def _draw_text(draw: ImageDraw.ImageDraw, value: str, x: int, y: int,
-               width: int, size: int = 22, color=(243, 251, 255)) -> None:
-    val = str(value)
-    draw.text((x, y), val, font=_fitted_font(draw, val, width, size, min(14, size)),
-              fill=color)
-
-
-def _panel(draw: ImageDraw.ImageDraw, rect: tuple[int, int, int, int], accent) -> None:
-    draw.rounded_rectangle(rect, radius=12, fill=(1, 18, 43, 247),
-                           outline=(*accent, 223), width=2)
 
 
 def render_player_profile(content: Any, snapshot: Any, output: Path,
@@ -86,74 +71,18 @@ def render_player_profile(content: Any, snapshot: Any, output: Path,
     action, reason = choose_manager_action(p, fixtures, previous[-3:])
     # Avoid policy-inappropriate "SELL" if club player remains in unusually
     # strong form despite one hard fixture; this is advice, not a guarantee.
+    from .comparison_board import comparison_board
+    club = snapshot.teams[p["team"]]
+    profile = {"name": snapshot.name(p), "club": club.get("name") or snapshot.team(p),
+               "position": metrics["POSITION"], "metrics": metrics,
+               "fixtures": fixtures, "portrait": photo, "badge": logo,
+               "action": action, "reason": str(p.get("news") or reason)
+               if p.get("status") != "a" else reason, "label": action}
     with Image.open(MASTER) as template:
-        canvas = template.convert("RGB")
-    draw = ImageDraw.Draw(canvas, "RGBA")
-    cyanish = (45, 220, 249)
-    green = (54, 238, 150)
-    gold = (242, 193, 89)
-    _panel(draw, (39, 90, 1500, 158), cyanish)
-    _draw_text(draw, f"{snapshot.name(p).upper()} • {snapshot.team(p).upper()}",
-               425, 101, 835, 42)
-    _draw_text(draw, f"GW{snapshot.gameweek()} • {metrics['POSITION']}",
-               1240, 111, 225, 25, gold)
-    _panel(draw, (39, 174, 492, 728), cyanish)
-    portrait = _brighten_portrait(photo.convert("RGBA").copy())
-    box = portrait.getchannel("A").getbbox()
-    if box:
-        portrait = portrait.crop(box)
-    portrait.thumbnail((410, 440), Image.Resampling.LANCZOS)
-    canvas.paste(portrait, (266 - portrait.width//2, 260 + 440-portrait.height), portrait)
-    badge = logo.convert("RGBA").copy()
-    badge.thumbnail((89, 89), Image.Resampling.LANCZOS)
-    canvas.paste(badge, (70, 196), badge)
-    draw = ImageDraw.Draw(canvas, "RGBA")
-    _draw_text(draw, snapshot.name(p).upper(), 77, 675, 390, 32, gold)
-
-    _panel(draw, (514, 174, 1495, 505), cyanish)
-    ordered = ["PRICE", "OWNERSHIP", "TOTAL PTS", "FORM", "MINUTES",
-               "LAST RETURNS", "CS", "DC ACTIONS", "DC AWARDED PTS",
-               "GOALS", "ASSISTS", "xG", "xA", "xGI", "SAVES",
-               "xGC", "RECENT STARTS", "DC HIT / GAMES", "LAST GW TACKLES",
-               "LAST GW CBI", "GC"]
-    relevant = [(key, metrics[key]) for key in ordered if key in metrics]
-    # 12 readable tiles per panel; all extras recorded internally.
-    for index, (label, value) in enumerate(relevant[:12]):
-        col, row = index % 4, index // 4
-        x, y = 526 + col*239, 188 + row*100
-        draw.rounded_rectangle((x, y, x+225, y+88), radius=8,
-                               fill=(4, 34, 66, 240), outline=(70, 152, 200, 150), width=1)
-        _draw_text(draw, label, x+14, y+8, 204, 17, cyanish)
-        _draw_text(draw, str(value), x+15, y+35, 198, 33, gold)
-
-    _panel(draw, (516, 516, 1496, 729), gold)
-    _draw_text(draw, "NEXT FIVE GAMEWEEKS • FIXTURE DIFFICULTY",
-               535, 522, 920, 23, gold)
-    # Exactly five GW columns. Each column allows two independently scored
-    # matches; multiple fixtures on the same GW remain distinct.
-    grouped = {k: [r for r in fixtures if r["gw"] == k]
-               for k in range(snapshot.gameweek(), min(39, snapshot.gameweek()+5))}
-    for index, (gw, rows) in enumerate(grouped.items()):
-        x0 = 527 + index * 192
-        _draw_text(draw, f"GW{gw}", x0+7, 554, 165, 22, (255, 255, 255))
-        for n, fi in enumerate(rows[:2]):
-            y0 = 582 + n * 70
-            color = (104, 138, 171) if fi["blank"] else tuple(bytes.fromhex(FDR_COLORS[fi["fdr"]][1:]))
-            draw.rounded_rectangle((x0+5, y0, x0+181, y0+60),
-                                   radius=6, fill=(2, 29, 59, 248), outline=(*color, 255), width=2)
-            if fi["blank"]:
-                _draw_text(draw, "BLANK", x0+17, y0+14, 154, 21, (224, 233, 243))
-            else:
-                _draw_text(draw, f"{fi['opponent']} ({fi['venue']})  FDR {fi['fdr']}",
-                           x0+15, y0+5, 162, 18, color)
-                if fi["xpts"] is not None:
-                    _draw_text(draw, f"xPts {fi['xpts']:.2f}",
-                               x0+16, y0+31, 157, 20, (242, 244, 254))
-    # Finish with existing footer restoration and real handles.
-    _draw_text(draw, f"{action} • {reason}", 556, 741, 895, 21, green)
+        canvas = comparison_board(template, content.title, snapshot.gameweek(),
+                                  [profile], verdict=content.verdict)
     output.parent.mkdir(parents=True, exist_ok=True)
     scratch = output.with_suffix(".staging.png")
     canvas.resize((1920, 1080), Image.Resampling.LANCZOS).save(scratch, "PNG", optimize=True)
     scratch.replace(output)
-    apply_footer(output, verdict=f"{action} • {reason}")
-    return output
+    return apply_footer(output, verdict="VERIFY MINUTES • FIXTURES • PLAYER FORM BEFORE TRANSFERS")
