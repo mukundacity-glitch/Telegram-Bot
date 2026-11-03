@@ -466,6 +466,159 @@
     "timestamp": "2026-11-02T20:52:03.551298+00:00",
     "version": "eac42ab0b3a28b2adf5ab57cb2a3aee8387ab1a94309d10da5887b67abd6fc52"
   },
+  "evening:10:36:60307|3:204480|8:244851|14:494595": {
+    "confirmed": true,
+    "delivery_key": "2026-11-03:evening",
+    "evidence": {
+      "gw": 10,
+      "kind": "evening",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "MCI",
+              "A",
+              5,
+              43
+            ],
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ],
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ]
+          ],
+          "metrics": {
+            "assists": 6,
+            "bonus": 9,
+            "clean_sheets": 6,
+            "form": "3.2",
+            "goals": 3,
+            "minutes": 790,
+            "price": "£6.2m",
+            "total_points": 60,
+            "xa": "1.57"
+          },
+          "player": "Groß",
+          "team": 36
+        },
+        {
+          "fixtures": [
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 5,
+            "bonus": 7,
+            "clean_sheets": 6,
+            "form": "6.8",
+            "goals": 0,
+            "minutes": 760,
+            "price": "£7.4m",
+            "total_points": 47,
+            "xa": "2.01"
+          },
+          "player": "Rice",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "MUN",
+              "H",
+              4,
+              1
+            ],
+            [
+              "SUN",
+              "A",
+              3,
+              56
+            ],
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ]
+          ],
+          "metrics": {
+            "assists": 4,
+            "bonus": 3,
+            "clean_sheets": 2,
+            "form": "4.2",
+            "goals": 3,
+            "minutes": 788,
+            "price": "£9.8m",
+            "total_points": 45,
+            "xa": "1.11"
+          },
+          "player": "Palmer",
+          "team": 8
+        },
+        {
+          "fixtures": [
+            [
+              "ARS",
+              "H",
+              4,
+              3
+            ],
+            [
+              "CRY",
+              "A",
+              3,
+              31
+            ],
+            [
+              "MUN",
+              "H",
+              4,
+              1
+            ]
+          ],
+          "metrics": {
+            "assists": 4,
+            "bonus": 0,
+            "clean_sheets": 4,
+            "form": "3.8",
+            "goals": 0,
+            "minutes": 701,
+            "price": "£7.2m",
+            "total_points": 33,
+            "xa": "1.09"
+          },
+          "player": "Wirtz",
+          "team": 14
+        }
+      ]
+    },
+    "group": "evening:10:36:60307|3:204480|8:244851|14:494595",
+    "timestamp": "2026-11-03T07:45:05.574915+00:00",
+    "version": "6d68f2b74e1b32c50c50bd8fc7ea648b98bbab88c86843605296d8da787b7685"
+  },
   "news:10:4:232653|56:547027|7:199796": {
     "confirmed": true,
     "delivery_key": "2026-11-02:news",
