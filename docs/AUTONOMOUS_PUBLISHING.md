@@ -108,7 +108,12 @@ selected-by ownership is never relabeled EO.
 
 ## Verification and remaining migration gates
 
-Run `python -m pytest -q` and `python -m vortex.autonomous_runner --audit-all`.
+Run `python -m pytest -q`. For a local read-only audit, use the same rendering
+configuration as the workflow:
+
+```sh
+FPL_ENRICHED_VISUALS_ENABLED=true FPL_TELEGRAM_HANDLE=@FPLVortexDailyBot FPL_DISCORD_HANDLE=@fplvortex python -m vortex.autonomous_runner --audit-all
+```
 Audit art is isolated under `output/autonomous-audit/`; audit never queues a
 production post or changes price baselines. Download the workflow artifact for
 its report and PNGs. Manual `slot=audit` runs this same read-only audit.
@@ -130,3 +135,22 @@ cutover, without deleting them until the remaining feed and delivery gates pass.
 Release commits with `[FPL-AUTONOMOUS]` request one real autonomous captain
 edition inside the window. Rollback is a code revert to the preceding workflow;
 retain all delivery journals and audience posts when reverting.
+
+
+## Verified release, 2026-11-03
+
+PR #21 added autonomous generation; PR #23 corrected delivery-time freshness
+validation. GitHub Actions run [41736609285, attempt 2](https://github.com/mukundacity-glitch/Telegram-Bot/actions/runs/41736609285)
+passed **228 tests**, generated the actual GW10 captain PNG and four-hashtag
+caption, and confirmed Telegram message **172** and Discord message
+**1567315557441871992**. Both receipts are persisted for immutable version
+`fe20101bf013359e7daf`. The generation report records
+`generation_owner=github-actions` and `chatgpt_required=false`.
+
+The journal's historical `chatgpt:` identity prefix is retained so older receipts
+continue to prevent duplicates; that prefix does not describe the current
+generation engine. Existing audience posts were preserved.
+
+Full migration is still gated on the verified model/EO feed in
+[issue #22](https://github.com/mukundacity-glitch/Telegram-Bot/issues/22).
+Do not delete the ChatGPT tasks yet.
