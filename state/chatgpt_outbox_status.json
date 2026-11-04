@@ -5,9 +5,9 @@
     "status": "held"
   },
   "2026-11-04-availability-transfer-decisions.json": {
-    "at": "2026-11-04T18:04:45.516591+00:00",
-    "identity": "chatgpt:2026-27:GW10:task1:availability-transfer-decisions:68160d3a2c02e1db78dc",
-    "status": "delivered"
+    "at": "2026-11-04T21:34:44.165370+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-04-form-minutes-targets.json": {
     "at": "2026-11-04T20:27:38.924437+00:00",
