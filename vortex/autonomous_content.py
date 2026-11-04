@@ -162,7 +162,8 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         title='NEXT GW • FPL PROJECTION + VORTEX FDR' if not (feed.get('players')or{}) else 'NEXT GW • FORECAST VALUE BOARD'
         return Plan(slot.task,name,title,caption(snapshot,'next-GW forecast value',players),gw,players,['MONITOR']*len(players),
                     kind='value',extra={'values':values,'model':feed['model_version'],
-                                        'forecast_disclosure':'FPL ep_next is official FPL forecast, not Day 1 model xPts; forecasts are not guaranteed returns.'})
+                                        'forecast_disclosure':'FPL ep_next is official FPL forecast, not Day 1 model xPts; forecasts are not guaranteed returns.',
+                                        'fpl_core_commit':feed.get('fpl_core_source_commit')})
     elif name == 'market-trends-next-five':
         players=[]
         for pos,quota in ((1,2),(2,5),(3,5),(4,3)):
@@ -201,7 +202,8 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         if len(attacks+defences)!=4: raise RequiredInput('Four verified independent team forecast targets not available')
         return Plan(slot.task,name,'FOUR FIXTURE TARGETS',_report(gw,'four next-GW fixture targets',
                     'Two attacking targets and two defensive targets; five-GW context.', 'MONITOR','FPLFixtures'),
-                    gw,[],[],kind='teams',extra={'teams':attacks+defences,'categories':['ATTACKING']*2+['DEFENSIVE']*2,'model':feed['model_version']})
+                    gw,[],[],kind='teams',extra={'teams':attacks+defences,'categories':['ATTACKING']*2+['DEFENSIVE']*2,'model':feed['model_version'],
+                             'fpl_core_commit':feed.get('fpl_core_source_commit')})
     elif name == 'market-verdict':
         feed=verified_feed(snapshot,now,e.session,payload=model)
         safe=e.qualified(30)
