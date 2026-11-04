@@ -231,3 +231,36 @@ def test_unapproved_feed_host_is_not_fetched():
     registry = {"feeds": [{"id": "bad", "url": "https://127.0.0.1/internal"}]}
     assert collect_reported_headlines(sample_snapshot(now), now, session=NeverRequest(),
                                       registry=registry) == []
+
+
+def test_failed_head_story_cannot_starve_following_verified_news(monkeypatch, tmp_path):
+    """A held story remains retryable without blocking tomorrow's usable news."""
+    from PIL import Image
+    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
+        monkeypatch.setattr(runner, name, tmp_path / (name.lower() + ".json"))
+    monkeypatch.setattr(runner, "NEWS_OUTPUT", tmp_path / "images")
+    now = datetime(2026, 11, 2, 15, 0, tzinfo=timezone.utc)
+    snapshot = sample_snapshot(now)
+    telegram, discord = FakeTelegram(), FakeDiscord()
+    runner.run(snapshot=snapshot, now=now, rss=[],
+               telegram=telegram, discord=discord)
+
+    def render(post, output):
+        if post.identity == "unrenderable":
+            raise RuntimeError("Missing verified media")
+        output.parent.mkdir(parents=True, exist_ok=True)
+        Image.new("RGB", (1920, 1080), "navy").save(output)
+        return output
+
+    monkeypatch.setattr(runner, "render_news_card", render)
+    unavailable = NewsPost("unrenderable", "Bad media", "Verified facts", 10)
+    ready = NewsPost("ready", "Verified news", "Verified facts", 10)
+    with pytest.raises(RuntimeError, match="unrenderable"):
+        runner.run(snapshot=snapshot, now=now, rss=[unavailable, ready],
+                   telegram=telegram, discord=discord, max_posts=1)
+    assert list(json.loads(runner.PENDING.read_text())) == ["ready", "unrenderable"]
+    report = runner.run(snapshot=snapshot, now=now, rss=[unavailable, ready],
+                        telegram=telegram, discord=discord, max_posts=1)
+    assert report["sent"] == 1
+    assert telegram.calls == discord.calls == 1
+    assert list(json.loads(runner.PENDING.read_text())) == ["unrenderable"]
