@@ -74,5 +74,15 @@
     "reason": "Missing verified custom FDR / per-fixture xPts / EO feed: FPL_EDITORIAL_MODEL_URL",
     "status": "held",
     "task": "three_daily"
+  },
+  "2026-11-04:three_daily:squad-surgery:GW10": {
+    "caption_hashtags": 4,
+    "edition": "squad-surgery",
+    "file": "outbox/2026-11-04-squad-surgery.json",
+    "identity": "chatgpt:2026-27:GW10:three_daily:squad-surgery:eb92a6719ff2fbdc0665",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "three_daily"
   }
 }

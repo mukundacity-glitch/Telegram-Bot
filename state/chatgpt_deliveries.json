@@ -95,6 +95,16 @@
     "telegram_message_id": 174,
     "timestamp": "2026-11-04T18:40:47.155990+00:00"
   },
+  "chatgpt:2026-27:GW10:three_daily:squad-surgery:eb92a6719ff2fbdc0665:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1567686229192081440",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 187,
+    "timestamp": "2026-11-04T23:45:20.797053+00:00"
+  },
   "chatgpt:2026-27:GW10:three_daily:vortex-captain:fe20101bf013359e7daf:page1": {
     "delivered": true,
     "discord_delivered": true,

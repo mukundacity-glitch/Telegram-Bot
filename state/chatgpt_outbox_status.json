@@ -15,9 +15,9 @@
     "status": "delivered"
   },
   "2026-11-04-form-minutes-targets.json": {
-    "at": "2026-11-04T20:27:38.924437+00:00",
-    "identity": "chatgpt:2026-27:GW10:task1:form-minutes-targets:030cdabe8e41d7dd73f1",
-    "status": "delivered"
+    "at": "2026-11-04T23:45:20.797053+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-04-four-midfielders.json": {
     "at": "2026-11-04T20:51:20.865962+00:00",
@@ -33,6 +33,11 @@
     "at": "2026-11-04T22:15:31.810491+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
+  },
+  "2026-11-04-squad-surgery.json": {
+    "at": "2026-11-04T23:45:20.797053+00:00",
+    "identity": "chatgpt:2026-27:GW10:three_daily:squad-surgery:eb92a6719ff2fbdc0665",
+    "status": "delivered"
   },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",
