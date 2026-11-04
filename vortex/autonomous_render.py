@@ -253,8 +253,39 @@ def _market15(plan,snapshot,output,client):
     return _save(canvas,output)
 
 
+def _deadline(plan,snapshot,output,client):
+    from datetime import datetime
+    from .deadline_watch import clock,ET,UK
+    from .comparison_board import comparison_board,current_fixture
+    cache={};profiles=[]
+    for p,label in zip(plan.players,plan.labels):
+        photo,badge=_assets(snapshot,p,client,cache)
+        recent=plan.extra['recent'][str(p['id'])]
+        metrics=player_metrics(snapshot,p,recent)
+        fixtures=five_gw_fixtures(snapshot,p)
+        profile={'name':snapshot.name(p),'club':snapshot.teams[p['team']]['name'],
+                 'position':metrics['POSITION'],'metrics':metrics,'fixtures':fixtures,
+                 'portrait':photo,'badge':badge,'label':label,'action':'MONITOR',
+                 'reason':str(p.get('news') or 'Confirm the latest lineup before deadline.')}
+        if p.get('status')!='a':
+            chance=p.get('chance_of_playing_next_round')
+            opponent,fdr=current_fixture(fixtures,plan.gw)
+            profile['summary_rows']=[('PRICE',snapshot.price(p)),('STATUS',{'i':'INJURED','d':'DOUBTFUL','s':'SUSPENDED','u':'UNAVAILABLE'}.get(p['status'],'MONITOR')),
+                ('NEXT GW CHANCE',str(chance)+'%' if type(chance) is int else 'Unconfirmed'),
+                ('FIXTURE',opponent),('FDR',fdr)]
+        profiles.append(profile)
+    with Image.open(MASTER) as source:
+        canvas=comparison_board(source,plan.title,plan.gw,profiles,
+            verdict='WAIT FOR VERIFIED TEAM NEWS • CONFIRM THE ARMBAND BEFORE DEADLINE')
+    deadline=datetime.fromisoformat(plan.extra['deadline'])
+    d=ImageDraw.Draw(canvas,'RGBA');d.rectangle((300,46,1340,74),fill=NAVY)
+    text(d,'DEADLINE: '+clock(deadline,ET)+'  |  '+clock(deadline,UK),310,49,1020,19,CYAN,15,center=True)
+    return _save(canvas,output)
+
+
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind=='deadline':return [_deadline(plan,snapshot,output,client)]
     if plan.kind=='six':return [_six(plan,snapshot,now,output,client)]
     if plan.kind=='teams':return [_teams(plan,snapshot,output,client)]
     if plan.kind=='surgery':return [_surgery(plan,snapshot,output,client)]

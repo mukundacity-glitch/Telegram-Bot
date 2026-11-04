@@ -142,7 +142,7 @@ on:
       timezone: America/New_York
     - cron: '15 16 * * *'
       timezone: America/New_York
-    - cron: '20 16 * * *'
+    - cron: '29 16 * * *'
       timezone: America/New_York
     - cron: '35 16 * * *'
       timezone: America/New_York
