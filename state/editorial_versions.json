@@ -420,19 +420,13 @@
   },
   "elite:10:6:469142": {
     "confirmed": true,
-    "delivery_key": "2026-11-02:elite",
+    "delivery_key": "2026-11-04:elite",
     "evidence": {
       "gw": 10,
       "kind": "elite",
       "players": [
         {
           "fixtures": [
-            [
-              "CRY",
-              "H",
-              2,
-              31
-            ],
             [
               "LEE",
               "A",
@@ -444,6 +438,12 @@
               "H",
               2,
               40
+            ],
+            [
+              "SUN",
+              "A",
+              3,
+              56
             ]
           ],
           "metrics": {
@@ -453,7 +453,7 @@
             "form": "7.2",
             "goals": 2,
             "minutes": 810,
-            "ownership": "10.8",
+            "ownership": "11.5",
             "price": "£5.0m",
             "total_points": 53
           },
@@ -463,8 +463,8 @@
       ]
     },
     "group": "elite:10:6:469142",
-    "timestamp": "2026-11-02T20:52:03.551298+00:00",
-    "version": "eac42ab0b3a28b2adf5ab57cb2a3aee8387ab1a94309d10da5887b67abd6fc52"
+    "timestamp": "2026-11-04T18:45:53.759359+00:00",
+    "version": "d3f3f2919684d9324c1d25f234501e64ff2c23bf20a5bd71a5239959036476f2"
   },
   "evening:10:36:60307|3:204480|8:244851|14:494595": {
     "confirmed": true,
