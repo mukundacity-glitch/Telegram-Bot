@@ -2,3 +2,5 @@ requests>=2.32,<3
 Pillow>=11,<13
 pytest>=8,<10
 scipy>=1.12,<2
+pandas>=2.2,<3
+numpy>=1.26,<3
