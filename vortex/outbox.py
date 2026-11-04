@@ -113,8 +113,13 @@ def run(now=None, telegram=None, discord=None):
             # Retain actionable validation reasons, but never external response
             # strings that might contain credentials.
             reason = str(exc) if isinstance(exc, (ValueError, KeyError)) else type(exc).__name__
-            status[file.name] = {'status': 'held', 'reason': reason, 'at': now.isoformat()}
-            write_state(STATUS, status)
+            previous = status.get(file.name, {})
+            # Historical stale queue records are not new incidents. Avoid
+            # rewriting the same held state on every frequent cron check,
+            # which otherwise causes unnecessary git commits and churn.
+            if previous.get('status') != 'held' or previous.get('reason') != reason:
+                status[file.name] = {'status': 'held', 'reason': reason, 'at': now.isoformat()}
+                write_state(STATUS, status)
             print(f'HOLD {file.name}: {reason}')
             if delivery_due:
                 # Actual due delivery failed, including missing credentials,
