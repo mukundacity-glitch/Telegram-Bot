@@ -99,3 +99,17 @@ def test_due_delivery_failure_is_not_reported_as_green_success(tmp_path, monkeyp
     status = json.loads((tmp_path/'status.json').read_text())
     assert status['edition.json']['status'] == 'held'
     assert not (tmp_path/'receipts.json').exists()
+
+
+def test_repeated_historical_hold_does_not_churn_status_file(tmp_path, monkeypatch):
+    r = record(tmp_path)
+    r['generated_at'] = (NOW-timedelta(hours=5)).isoformat()
+    (tmp_path/'outbox/stale.json').write_text(json.dumps(r))
+    monkeypatch.setattr(outbox, 'ROOT', tmp_path)
+    monkeypatch.setattr(outbox, 'QUEUE', tmp_path/'outbox')
+    monkeypatch.setattr(outbox, 'RECEIPTS', tmp_path/'receipts.json')
+    monkeypatch.setattr(outbox, 'STATUS', tmp_path/'status.json')
+    assert outbox.run(NOW) == 0
+    first = (tmp_path/'status.json').read_bytes()
+    assert outbox.run(NOW+timedelta(minutes=15)) == 0
+    assert (tmp_path/'status.json').read_bytes() == first
