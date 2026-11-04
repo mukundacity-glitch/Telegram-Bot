@@ -1,4 +1,14 @@
 {
+  "chatgpt:2026-27:GW10:task1:availability-transfer-decisions:68160d3a2c02e1db78dc:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1567600519390699670",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 173,
+    "timestamp": "2026-11-04T18:04:45.516591+00:00"
+  },
   "chatgpt:2026-27:GW10:task2:four-midfielders:2ccfe73e1055162653f9:page1": {
     "delivered": true,
     "discord_delivered": true,
