@@ -122,26 +122,47 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         return Plan(slot.task,name,article.title,article.caption,gw,[],[],kind='legacy',extra={'content':asdict(article)})
     elif name == 'value-board':
         feed=verified_feed(snapshot,now,e.session,payload=model)
+        from math import isfinite
         players=[];values={}
         for pos in (1,2,3,4):
             options=[]
             for p in snapshot.players:
                 if p.get('element_type')!=pos or p.get('status')!='a':continue
                 current={f['id'] for f in snapshot.fixtures if f.get('event')==gw and p['team'] in (f.get('team_h'),f.get('team_a')) and not f.get('finished')}
-                rows=(feed.get('players')or{}).get(str(p['id']),{}).get('fixtures')or[]
-                next_rows=[r for r in rows if r.get('gw')==gw]
-                if not current or set(r.get('fixture_id') for r in next_rows)!=current:continue
-                if any(type(r.get('xpts')) not in (int,float) or not 0<=r['xpts']<=40 for r in next_rows):continue
+                if not current:continue
                 team=_team_rows(feed,snapshot,p['team'])
                 fdr_key='defensive_fdr' if pos in (1,2) else 'attacking_fdr'
                 fdrs=[r[fdr_key] for r in team if r['gw']==gw]
-                points=sum(r['xpts'] for r in next_rows)
-                values[str(p['id'])]={'xpts':points,'fdr':sum(fdrs)/len(fdrs)}
+                if not fdrs:continue
+                rows=(feed.get('players')or{}).get(str(p['id']),{}).get('fixtures')or[]
+                next_rows=[r for r in rows if r.get('gw')==gw]
+                if next_rows:
+                    # Full per-fixture xPts from the separately proven Day 1
+                    # model is usable ONLY with exact official fixture joins.
+                    if set(r.get('fixture_id') for r in next_rows)!=current:continue
+                    if any(type(r.get('xpts')) not in (int,float) or
+                           not isfinite(r['xpts']) or not 0<=r['xpts']<=40
+                           for r in next_rows):continue
+                    points=sum(r['xpts'] for r in next_rows)
+                    source='MODEL xPTS'
+                else:
+                    # The official next-GW FPL projection is NOT custom xPts.
+                    # Never divide it across a double Gameweek or relabel it.
+                    if type(p.get('ep_next')) not in (str,int,float):continue
+                    try:points=float(p['ep_next'])
+                    except ValueError:continue
+                    if not isfinite(points) or not 0 < points <= 40:continue
+                    source='FPL EP_NEXT'
+                values[str(p['id'])]={'xpts':points,'fdr':sum(fdrs)/len(fdrs),
+                                     'points_source':source,'fdr_source':feed['model_version']}
                 options.append(p)
             options.sort(key=lambda p:values[str(p['id'])]['xpts'],reverse=True)
-            if len(options)<3:raise RequiredInput('Value board lacks three verified per-fixture model forecasts in every position')
+            if len(options)<3:raise RequiredInput('Value board lacks three verified official/model forecasts in every position')
             players+=options[:3]
-        return Plan(slot.task,name,'NEXT GAMEWEEK • VALUE BOARD',caption(snapshot,'next-GW forecast value',players),gw,players,['MONITOR']*len(players),kind='value',extra={'values':values,'model':feed['model_version']})
+        title='NEXT GW • FPL PROJECTION + VORTEX FDR' if not (feed.get('players')or{}) else 'NEXT GW • FORECAST VALUE BOARD'
+        return Plan(slot.task,name,title,caption(snapshot,'next-GW forecast value',players),gw,players,['MONITOR']*len(players),
+                    kind='value',extra={'values':values,'model':feed['model_version'],
+                                        'forecast_disclosure':'FPL ep_next is official FPL forecast, not Day 1 model xPts; forecasts are not guaranteed returns.'})
     elif name == 'market-trends-next-five':
         players=[]
         for pos,quota in ((1,2),(2,5),(3,5),(4,3)):
@@ -214,14 +235,21 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
             title='VORTEX CAPTAIN • TWO ALTERNATIVES'
             return Plan(slot.task,name,title,caption(snapshot,title,[main]+alternatives,'CAPTAIN'),gw,players,labels)
         if name == 'fixture-targets':
-            feed=verified_feed(snapshot,now,e.session,payload=model)
             players=pool[:4]
-            for p in players: eo_for(feed,p['id'])
+            # Effective ownership is fundamentally unavailable until the
+            # managers' GW picks/captaincies can be independently observed.
+            # Never block the otherwise official-data fixture card for EO.
+            feed=model
+            eo={}
+            if feed is not None:
+                for p in players:
+                    try:eo[str(p['id'])]=eo_for(feed,p['id'])
+                    except RequiredInput:eo[str(p['id'])]=None
             labels=['START','HOLD','MONITOR','HOLD'];title='NEXT GAMEWEEK • FOUR TARGETS'
             if len(players)==4:
                 return Plan(slot.task,name,title,caption(snapshot,title,players),gw,players,labels,kind='targets',
-                            extra={'eo':{str(p['id']):eo_for(feed,p['id']) for p in players},
-                                   'recent':{str(p['id']):e.recent(p) for p in players}})
+                            extra={'eo':eo,'recent':{str(p['id']):e.recent(p) for p in players},
+                                   'eo_disclosure':'EO N/A without verified GW-specific manager captaincy sample.'})
             if len(players)!=4: raise RequiredInput('Four verified fixture targets unavailable')
         elif name == 'form-minutes-targets':
             players=pool[:3];labels=['MONITOR','HOLD','START'];title='FORM • MINUTES • UNDERLYING STATS'
