@@ -79,6 +79,9 @@ def run(now=None, telegram=None, discord=None):
     # ONE edition per serialized job. Failed pages resume independently and
     # never cause a successful destination to receive a repeated copy.
     for file in sorted(QUEUE.glob('*.json')):
+        # Only an eligible, due, unserved edition is a failed publication.
+        # Historical stale queue entries must not make new runs fail.
+        delivery_due = False
         try:
             record = json.loads(file.read_text())
             identity, images, due = validate(record, root=ROOT, now=now)
@@ -87,6 +90,7 @@ def run(now=None, telegram=None, discord=None):
             keys = [f'{identity}:page{i+1}' for i in range(len(images))]
             if all(journal.get(k, {}).get('delivered') and journal.get(k, {}).get('discord_delivered') for k in keys):
                 continue
+            delivery_due = True
             if len(images)>1:
                 from .syndication import publish_album
                 receipts=publish_album(identity,images,record['caption'],RECEIPTS,
@@ -112,7 +116,11 @@ def run(now=None, telegram=None, discord=None):
             status[file.name] = {'status': 'held', 'reason': reason, 'at': now.isoformat()}
             write_state(STATUS, status)
             print(f'HOLD {file.name}: {reason}')
-            if 'Partial delivery' in str(exc):
+            if delivery_due:
+                # Actual due delivery failed, including missing credentials,
+                # rejected uploads, and an unconfirmed transport response.
+                # Do not make GitHub Actions show success with zero posts.
+                print('::error::An eligible Telegram/Discord edition was not fully delivered')
                 return 1
     print('OUTBOX CHECKED: no fresh unserved edition ready')
     return 0
