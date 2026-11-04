@@ -25,7 +25,7 @@ the runtime window check also applies to delayed jobs.
 | 13:20 | Squad surgery, actual recent manager question evidence |
 | 14:20 | Transfer market and team news |
 | 15:20 | Market verdicts: four position slides, one caption |
-| 16:20 | Changed verified press/availability news |
+| 16:29 | Deadline Watch: mainstream captain, two differentials and official availability risks |
 | 17:20 | Confirmed price changes only |
 | 18:20 | Changed verified press/availability news |
 | 19:20 | VORTEX captain and two alternatives |
@@ -154,3 +154,24 @@ generation engine. Existing audience posts were preserved.
 Full migration is still gated on the verified model/EO feed in
 [issue #22](https://github.com/mukundacity-glitch/Telegram-Bot/issues/22).
 Do not delete the ChatGPT tasks yet.
+
+
+## Deadline Watch replacement
+
+The former 16:20 press-update edition is replaced by `deadline-watch` at
+**16:29 America/New_York** in the same workflow. The 10:20 and 18:20 press
+checks and original verified news schedule remain. Existing Telegram/Discord
+messages are not deleted. The uploaded four-column blue/gold comparison style
+is retained, with a dynamic GW DEADLINE WATCH heading and official deadline
+in New York and UK time. One landscape PNG and one caption (four hashtags)
+are delivered to both platforms.
+
+The mainstream captain is the most-owned available attacker within the
+verified-minute shortlist; two lower-owned alternatives use observed recent
+form and official fixtures, including a defender when eligible. Defender
+contrasts prioritise observed season xGI per 90 rather than clean-sheet points. This does not
+claim effective ownership, captaincy popularity or rank neutrality. Flagged
+players and zero-chance candidates cannot be captain picks. Injury/status
+watch players, current clubs, chance fields and news come from the current
+official snapshot. No fixed player names, prices, deadlines, return dates,
+transfer counts, or opponent xGC ranks are copied from the example post.

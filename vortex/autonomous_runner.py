@@ -25,7 +25,7 @@ AUDIT=ROOT/'output/autonomous-audit.json'
 def canonical(value):
     if isinstance(value,dict):
         return {k:canonical(v) for k,v in value.items() if k not in {
-            'generated_at','fetched_at','computed_at','data_at','caption','title','kicker','footer'}}
+            'generated_at','retrieved_at','fetched_at','computed_at','data_at','caption','title','kicker','footer'}}
     if isinstance(value,(list,tuple)):return [canonical(v) for v in value]
     return value
 

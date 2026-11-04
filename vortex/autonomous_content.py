@@ -96,6 +96,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'deadline-watch':
+        from .deadline_watch import build_deadline_watch
+        return build_deadline_watch(slot,snapshot,now,e)
     if name == 'four-midfielders':
         # Reuse the approved quantile/match-minutes selection, now called by
         # the GitHub generator rather than a ChatGPT task.

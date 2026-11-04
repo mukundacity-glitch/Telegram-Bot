@@ -26,7 +26,7 @@ SLOTS = (
     Slot('three_daily', 'squad-surgery', 13),
     Slot('task1', 'transfer-market-team-news', 14),
     Slot('task2', 'market-verdict', 15),
-    Slot('press_news', 'verified-press-availability', 16),
+    Slot('task1', 'deadline-watch', 16, 29),
     Slot('price_changes', 'confirmed-price-changes', 17),
     Slot('press_news', 'verified-press-availability', 18),
     Slot('three_daily', 'vortex-captain', 19),

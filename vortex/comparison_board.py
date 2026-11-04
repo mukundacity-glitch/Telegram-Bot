@@ -177,7 +177,7 @@ def comparison_board(master, title, gw, players, *, verdict=""):
             draw = ImageDraw.Draw(canvas, 'RGBA')
             metrics = player['metrics']
             opponent, difficulty = current_fixture(player['fixtures'], gw)
-            compact_table(draw, [('PRICE', metrics['PRICE']), ('OWNERSHIP', metrics['OWNERSHIP']),
+            compact_table(draw, player.get('summary_rows') or [('PRICE', metrics['PRICE']), ('OWNERSHIP', metrics['OWNERSHIP']),
                                 ('FORM', metrics['FORM']), ('FIXTURE', opponent), ('FDR', difficulty)],
                           (x0+12, 352, x1-12, 487))
             continue
