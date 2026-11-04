@@ -285,6 +285,9 @@ def _deadline(plan,snapshot,output,client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind=='low_owned_six':
+        from .low_owned_six import render_low_owned
+        return [render_low_owned(plan,snapshot,output,client,_assets)]
     if plan.kind=='deadline':return [_deadline(plan,snapshot,output,client)]
     if plan.kind=='six':return [_six(plan,snapshot,now,output,client)]
     if plan.kind=='teams':return [_teams(plan,snapshot,output,client)]

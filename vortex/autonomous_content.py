@@ -96,6 +96,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'rank-booster':
+        from .low_owned_six import build_low_owned
+        return build_low_owned(slot,snapshot,now,e)
     if name == 'deadline-watch':
         from .deadline_watch import build_deadline_watch
         return build_deadline_watch(slot,snapshot,now,e)
@@ -220,12 +223,6 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
                             extra={'eo':{str(p['id']):eo_for(feed,p['id']) for p in players},
                                    'recent':{str(p['id']):e.recent(p) for p in players}})
             if len(players)!=4: raise RequiredInput('Four verified fixture targets unavailable')
-        elif name == 'rank-booster':
-            upside=pool[:4]
-            differentials=[p for p in pool[4:] if float(p['selected_by_percent'])<=15][:2]
-            players=upside+differentials;labels=['HIGH UPSIDE']*4+['DIFFERENTIAL']*2
-            if len(players)!=6: raise RequiredInput('Six secure-minute rank-booster candidates unavailable')
-            return Plan(slot.task,name,'SIX RANK-BOOSTER CANDIDATES',caption(snapshot,'rank opportunities',players),gw,players,labels,kind='six')
         elif name == 'form-minutes-targets':
             players=pool[:3];labels=['MONITOR','HOLD','START'];title='FORM • MINUTES • UNDERLYING STATS'
         else:

@@ -17,7 +17,7 @@ def world():
     from dataclasses import replace
     s=snap();now=datetime.now(timezone.utc)
     teams={n:{'id':n,'code':n+2,'short_name':f'T{n}','name':f'Team {n}'} for n in range(1,5)}
-    events=[{'id':n,'finished':False,'deadline_time':(now+timedelta(days=(n-9)*7)).isoformat()} for n in range(10,15)]
+    events=[{'id':n,'is_next':n==10,'finished':False,'deadline_time':(now+timedelta(days=(n-9)*7)).isoformat()} for n in range(10,15)]
     events += [{'id':n,'finished':True,'deadline_time':(now-timedelta(days=(10-n)*7)).isoformat()} for n in (7,8,9)]
     fixtures=[]
     for gw in range(10,15):
@@ -31,7 +31,7 @@ def world():
         for i in range(12):
             p=dict(s.players[0]);pid=pos*100+i
             p.update(id=pid,code=pid+1000,web_name=f'Player {pid}',element_type=pos,team=i%4+1,
-                     now_cost=40+i*10+pos*2,selected_by_percent=str(1+i*2),transfers_in_event=1000+i,
+                     now_cost=40+i*10+pos*2,selected_by_percent=str(1+i*2),ep_next=str(2+i*.25),transfers_in_event=1000+i,
                      transfers_out_event=200+i,saves=20,goals_scored=3,assists=2,expected_goal_involvements='2.25')
             people.append(p)
     s=replace(s,players=people,teams=teams,events=events,fixtures=fixtures,fetched_at=now)
