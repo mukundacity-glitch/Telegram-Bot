@@ -1341,6 +1341,93 @@
     "timestamp": "2026-11-02T23:21:55.946893+00:00",
     "version": "8a4a2636c93d29b8e4593989a0bfa6d402d1abc4230c9474011dd609ebebbb85"
   },
+  "team_analysis:10:Man City": {
+    "confirmed": true,
+    "delivery_key": "2026-11-04:team_analysis:GW10",
+    "evidence": {
+      "gw": 10,
+      "history": [
+        {
+          "ga": 1,
+          "gf": 2,
+          "gw": 1,
+          "kickoff": "2026-08-23T13:00:00Z",
+          "opponent": "BOU",
+          "venue": "H"
+        },
+        {
+          "ga": 1,
+          "gf": 4,
+          "gw": 2,
+          "kickoff": "2026-08-28T19:00:00Z",
+          "opponent": "CRY",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 3,
+          "kickoff": "2026-09-05T14:00:00Z",
+          "opponent": "COV",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 4,
+          "kickoff": "2026-09-13T15:30:00Z",
+          "opponent": "MUN",
+          "venue": "A"
+        },
+        {
+          "ga": 3,
+          "gf": 5,
+          "gw": 5,
+          "kickoff": "2026-09-20T13:00:00Z",
+          "opponent": "SUN",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 3,
+          "gw": 6,
+          "kickoff": "2026-10-11T15:30:00Z",
+          "opponent": "LIV",
+          "venue": "A"
+        },
+        {
+          "ga": 2,
+          "gf": 3,
+          "gw": 7,
+          "kickoff": "2026-10-17T14:00:00Z",
+          "opponent": "IPS",
+          "venue": "H"
+        },
+        {
+          "ga": 2,
+          "gf": 1,
+          "gw": 8,
+          "kickoff": "2026-10-24T11:30:00Z",
+          "opponent": "AVL",
+          "venue": "A"
+        },
+        {
+          "ga": 1,
+          "gf": 0,
+          "gw": 9,
+          "kickoff": "2026-10-31T15:00:00Z",
+          "opponent": "BHA",
+          "venue": "H"
+        }
+      ],
+      "kind": "team_analysis",
+      "players": [],
+      "team": "Man City"
+    },
+    "group": "team_analysis:10:Man City",
+    "timestamp": "2026-11-04T21:45:43.490261+00:00",
+    "version": "e0ef3354ab8f61145688d1b811797de321728e47faa497e233830f3f9d9fa5b2"
+  },
   "transfer_suggestions:10:general": {
     "confirmed": false,
     "delivery_key": "2026-11-02:transfer_suggestions:GW10",
