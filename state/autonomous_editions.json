@@ -28,5 +28,11 @@
     "publisher_exit_code": 0,
     "status": "delivered",
     "task": "task2"
+  },
+  "2026-11-04:three_daily:fixture-targets:GW10": {
+    "edition": "fixture-targets",
+    "reason": "Missing verified custom FDR / per-fixture xPts / EO feed: FPL_EDITORIAL_MODEL_URL",
+    "status": "held",
+    "task": "three_daily"
   }
 }
