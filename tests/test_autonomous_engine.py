@@ -204,3 +204,19 @@ def test_delivery_validates_at_send_time_after_snapshot_fetch(world,tmp_path,mon
     monkeypatch.setattr(runner,'publish_outbox',publish)
     result=runner.run(now=started,snapshot=s,edition='vortex-captain')
     assert sent and result['confirmed_edition_deliveries']==1
+
+
+def test_due_edition_hold_fails_actions_instead_of_reporting_published(monkeypatch):
+    import sys
+    monkeypatch.setattr(sys, 'argv', ['autonomous_runner'])
+    monkeypatch.setattr(runner, 'run', lambda **kwargs: {
+        'exit_code': 0, 'editions': [{'status': 'held', 'edition': 'captain-differential'}]})
+    assert runner.main() == 1
+
+
+def test_no_new_facts_is_not_a_false_delivery_failure(monkeypatch):
+    import sys
+    monkeypatch.setattr(sys, 'argv', ['autonomous_runner'])
+    monkeypatch.setattr(runner, 'run', lambda **kwargs: {
+        'exit_code': 0, 'editions': [{'status': 'no-new-facts'}]})
+    assert runner.main() == 0
