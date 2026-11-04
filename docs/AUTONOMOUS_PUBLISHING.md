@@ -15,7 +15,7 @@ the runtime window check also applies to delayed jobs.
 | Time ET | Additional edition |
 |---|---|
 | 05:20 | Availability and transfer decisions |
-| 06:20 | Six rank-booster candidates |
+| 06:20 | Six under-10%-owned players, official FPL ep_next ranking, minimal 3×2 graphic |
 | 07:20 | Four fixture targets, verified EO required |
 | 08:20 | Form and reliable-minute targets |
 | 09:20 | Four midfielders in ONE graphic |
@@ -175,3 +175,23 @@ players and zero-chance candidates cannot be captain picks. Injury/status
 watch players, current clubs, chance fields and news come from the current
 official snapshot. No fixed player names, prices, deadlines, return dates,
 transfer counts, or opponent xGC ranks are copied from the example post.
+
+
+## 06:20 six-player update
+
+Only the `rank-booster` edition changes. It selects exactly six available
+players with selected_by_percent strictly below 10 and positive finite official
+`ep_next`, across the full bootstrap player list. The official `is_next` event
+must match the upcoming deadline GW, so a rollover cannot relabel forecasts. Raw ep_next sorts descending;
+mean official next-GW FDR breaks ties, followed by minutes and official ID.
+The source forecast is never relabeled VORTEX xPts or multiplied again for a
+double gameweek. A blank, flagged player, zero-chance player, missing forecast,
+or unverified fixture difficulty is excluded. Fewer than six candidates holds
+the edition; high-owned players are never added to fill it.
+
+Official element summaries add actual recent points/minutes and role metrics.
+The image uses a restrained dark palette, three cards above and three below,
+with portraits, badges, FPL forecast, ownership, price, form, season minutes/points,
+recent returns, position-specific stats and next-GW opponents/FDR. Missing
+optional history uses a dash, never a fabricated zero. All other edition
+schedules and graphics remain unchanged.
