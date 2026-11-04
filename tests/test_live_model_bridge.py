@@ -93,3 +93,26 @@ def test_official_fpl_projection_is_not_mislabelled_as_custom_model(world):
     # The first selected player's points are exactly the FPL ep_next value.
     p=plan.players[0]
     assert plan.extra['values'][str(p['id'])]['xpts']==pytest.approx(float(p['ep_next']))
+
+
+def test_espn_name_alias_changes_only_the_verified_team_label():
+    from vortex.editorial_live_model import _JsonClient
+    from copy import deepcopy
+
+    original={'events':[{'date':'2026-10-18T13:00:00Z',
+               'competitions':[{'competitors':[
+                  {'homeAway':'home','score':'2','team':{'displayName':'AFC Bournemouth'}},
+                  {'homeAway':'away','score':'0','team':{'displayName':'Sunderland'}},
+               ]}]}]}
+    class Response:
+        def raise_for_status(self):pass
+        def json(self):return deepcopy(original)
+    class Session:
+        def get(self,url,timeout,headers):return Response()
+    actual=_JsonClient(Session()).get('https://site.api.espn.com/apis/site/v2/sports/soccer/eng.1/scoreboard')
+    got=actual['events'][0]['competitions'][0]['competitors']
+    assert got[0]['team']['displayName']=='Bournemouth'
+    assert got[0]['score']=='2' and got[1]['score']=='0'
+    assert actual['events'][0]['date']==original['events'][0]['date']
+    unmodified=_JsonClient(Session()).get('https://example.invalid/data')
+    assert unmodified==original
