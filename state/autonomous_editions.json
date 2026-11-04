@@ -19,6 +19,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-04:task1:form-minutes-targets:GW10": {
+    "caption_hashtags": 4,
+    "edition": "form-minutes-targets",
+    "file": "outbox/2026-11-04-form-minutes-targets.json",
+    "identity": "chatgpt:2026-27:GW10:task1:form-minutes-targets:030cdabe8e41d7dd73f1",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-11-04:task2:rank-booster:GW10": {
     "caption_hashtags": 4,
     "edition": "rank-booster",
