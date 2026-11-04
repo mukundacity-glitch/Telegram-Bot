@@ -25,7 +25,26 @@ class _JsonClient:
         response = self.session.get(url, timeout=timeout,
                                     headers={'Accept': 'application/json'})
         response.raise_for_status()
-        return response.json()
+        payload = response.json()
+        # ESPN's display names sometimes add a club prefix/suffix absent
+        # from the verified official FPL clubs and Day 3 normalization.
+        # Canonicalize NAMES ONLY, never event times, scores or incidents.
+        if ('site.api.espn.com/' in url and isinstance(payload, dict)):
+            aliases={'AFC Bournemouth':'Bournemouth','Sunderland AFC':'Sunderland',
+                     'Crystal Palace FC':'Crystal Palace',
+                     'Manchester United FC':'Manchester United',
+                     'Tottenham Hotspur FC':'Tottenham Hotspur'}
+            for event in payload.get('events', []):
+                for comp in event.get('competitions', []):
+                    for side in comp.get('competitors', []):
+                        team=side.get('team') or {}
+                        name=team.get('displayName')
+                        if name in aliases:team['displayName']=aliases[name]
+            for side in payload.get('rosters', []):
+                team=side.get('team') or {}
+                name=team.get('displayName')
+                if name in aliases:team['displayName']=aliases[name]
+        return payload
 
 
 def build_live_team_feed(snapshot, now, session=None):
