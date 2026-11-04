@@ -619,6 +619,124 @@
     "timestamp": "2026-11-03T07:45:05.574915+00:00",
     "version": "6d68f2b74e1b32c50c50bd8fc7ea648b98bbab88c86843605296d8da787b7685"
   },
+  "news:10:1:535301|14:441266|4:232653": {
+    "confirmed": true,
+    "delivery_key": "2026-11-04:news",
+    "evidence": {
+      "gw": 10,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "AVL",
+              "H",
+              3,
+              7
+            ],
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "2.0",
+            "goals": 0,
+            "minutes": 232,
+            "price": "£4.9m",
+            "status": "d",
+            "total_points": 8
+          },
+          "player": "Baleba",
+          "team": 1
+        },
+        {
+          "fixtures": [
+            [
+              "CRY",
+              "A",
+              2,
+              31
+            ],
+            [
+              "MUN",
+              "H",
+              3,
+              1
+            ],
+            [
+              "EVE",
+              "A",
+              3,
+              11
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 0,
+            "clean_sheets": 1,
+            "form": "0.5",
+            "goals": 0,
+            "minutes": 341,
+            "price": "£5.8m",
+            "status": "d",
+            "total_points": 11
+          },
+          "player": "Gravenberch",
+          "team": 14
+        },
+        {
+          "fixtures": [
+            [
+              "FUL",
+              "A",
+              3,
+              54
+            ],
+            [
+              "ARS",
+              "H",
+              4,
+              3
+            ],
+            [
+              "BHA",
+              "A",
+              4,
+              36
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "-0.2",
+            "goals": 1,
+            "minutes": 97,
+            "price": "£4.8m",
+            "status": "s",
+            "total_points": 6
+          },
+          "player": "J.Ramsey",
+          "team": 4
+        }
+      ]
+    },
+    "group": "news:10:1:535301|14:441266|4:232653",
+    "timestamp": "2026-11-04T21:04:47.357111+00:00",
+    "version": "b2916b41862a37f9a6029a63a87b4e0807e974e8b36fd4102de98ddd00a7e1dc"
+  },
   "news:10:4:232653|56:547027|7:199796": {
     "confirmed": true,
     "delivery_key": "2026-11-02:news",
