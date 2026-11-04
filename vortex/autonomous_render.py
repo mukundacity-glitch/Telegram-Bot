@@ -135,7 +135,7 @@ def _targets(plan,snapshot,output,client):
         contain(canvas,badge,(x+283,180,54,54));d=ImageDraw.Draw(canvas,'RGBA')
         recent=plan.extra['recent'][str(p['id'])]
         rows=[('POSITION',{1:'GK',2:'DEF',3:'MID',4:'FWD'}[p['element_type']]),('PRICE',snapshot.price(p)),
-              ('OWNERSHIP',str(p['selected_by_percent'])+'%'),('EFFECTIVE OWN',f"{plan.extra['eo'][str(p['id'])]:.1f}%"),
+              ('OWNERSHIP',str(p['selected_by_percent'])+'%'),('EFFECTIVE OWN',f"{plan.extra['eo'][str(p['id'])]:.1f}%" if type(plan.extra.get('eo',{}).get(str(p['id']))) in (int,float) else 'N/A'),
               ('SEASON MIN',str(p['minutes'])),('LAST 3 PTS',str(sum(int(r.get('total_points')or 0) for r in recent)))]
         compact_table(d,rows,(x+12,333,x+346,516))
         metrics=player_metrics(snapshot,p)
@@ -226,7 +226,7 @@ def _value(plan,snapshot,output,client):
             contain(canvas,badge,(x+305,top+8,38,38));d=ImageDraw.Draw(canvas,'RGBA')
             text(d,snapshot.name(p),x+122,top+6,216,23,WHITE,17)
             forecast=plan.extra['values'][str(p['id'])]
-            rows=[('PRICE',snapshot.price(p)),('MODEL xPTS',f"{forecast['xpts']:.2f}"),('CUSTOM FDR',f"{forecast['fdr']:.2f}"),('OWN',str(p['selected_by_percent'])+'%')]
+            rows=[('PRICE',snapshot.price(p)),(forecast.get('points_source','MODEL xPTS'),f"{forecast['xpts']:.2f}"),('VORTEX FDR',f"{forecast['fdr']:.2f}"),('OWN',str(p['selected_by_percent'])+'%')]
             compact_table(d,rows,(x+122,top+45,x+344,top+166))
     return _save(canvas,output)
 
