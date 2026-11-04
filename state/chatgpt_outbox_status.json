@@ -25,9 +25,9 @@
     "status": "delivered"
   },
   "2026-11-04-rank-booster.json": {
-    "at": "2026-11-04T18:40:47.155990+00:00",
-    "identity": "chatgpt:2026-27:GW10:task2:rank-booster:1d762f1b4e9116454e3b",
-    "status": "delivered"
+    "at": "2026-11-04T22:15:31.810491+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",
