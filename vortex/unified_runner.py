@@ -133,7 +133,14 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                                     now_iso=current_time.isoformat())
         except (RuntimeError, ValueError, FileNotFoundError) as exc:
             failures.append(f"{identity}: {type(exc).__name__}")
-            continue  # another story may be valid; no platform success is undone
+            # A permanently unrenderable first item must not starve every
+            # newer verified news story when MAX_NEWS_PER_RUN is one.
+            # Move it to the back of the durable queue; the next scheduled
+            # check retries its missing platform(s) using the same identity.
+            pending.pop(identity, None)
+            pending[identity] = data
+            save_journal(PENDING, pending)
+            continue
         if result.get("delivered") and result.get("discord_delivered"):
             pending.pop(identity, None)
             save_journal(PENDING, pending)
