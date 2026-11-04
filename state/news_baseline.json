@@ -3885,11 +3885,11 @@
     "status": "a"
   },
   "6": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 0,
-    "news": "Back injury - 75% chance of playing",
+    "news": "",
     "now_cost": 59,
-    "status": "d"
+    "status": "a"
   },
   "60": {
     "chance_of_playing_next_round": null,
