@@ -38,7 +38,8 @@ def build_live_team_feed(snapshot, now, session=None):
 
     if now.tzinfo is None or snapshot.fetched_at.tzinfo is None:
         raise RequiredInput('Official FPL source or calculation timestamp has no timezone')
-    if not timedelta(0) <= now - snapshot.fetched_at <= timedelta(hours=3):
+    calculation_time = max(now, snapshot.fetched_at, datetime.now(timezone.utc))
+    if not timedelta(0) <= calculation_time - snapshot.fetched_at <= timedelta(hours=3):
         raise RequiredInput('Official FPL snapshot is too old for new Day 3 calculations')
     gw = snapshot.gameweek()
     if gw not in range(1, 39) or len(snapshot.teams) != 20:
@@ -57,9 +58,9 @@ def build_live_team_feed(snapshot, now, session=None):
         with TemporaryDirectory(prefix='fpl-vortex-day3-') as directory:
             root = Path(directory)
             source = day3.refresh_fpl_core(
-                boot, snapshot.fixtures, root, now, client)
+                boot, snapshot.fixtures, root, calculation_time, client)
             computed = day3.rebuild(
-                boot, snapshot.fixtures, source, root, now)
+                boot, snapshot.fixtures, source, root, calculation_time)
             source_commit = source.name
     except (RuntimeError, ValueError, KeyError, TypeError, IndexError,
             requests.RequestException, OSError) as exc:
@@ -105,7 +106,7 @@ def build_live_team_feed(snapshot, now, session=None):
     if sum(len(item['fixtures']) for item in teams.values()) != required_rows:
         raise RequiredInput('Incomplete Day 3 forecast coverage of both fixture sides')
     return {
-        'gw': gw, 'generated_at': now.isoformat(),
+        'gw': gw, 'generated_at': datetime.now(timezone.utc).isoformat(),
         'model_version': day3.CANONICAL_MODEL_VERSION,
         'methodology_url': (
             'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/'
