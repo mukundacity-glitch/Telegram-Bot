@@ -34,6 +34,11 @@ jobs:
         run: python -m compileall -q vortex tests
       - name: Validate all graphics and scheduling
         run: python -m pytest -q
+      - name: Read-only live Day 3 + FPL Core source-to-forecast audit
+        if: github.event_name == 'pull_request'
+        continue-on-error: true
+        timeout-minutes: 7
+        run: python -m vortex.editorial_live_model
       - name: Render real FPL BUY / SELL previews without publishing
         if: github.event_name == 'pull_request'
         continue-on-error: true
