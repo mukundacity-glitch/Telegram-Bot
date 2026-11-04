@@ -21,20 +21,24 @@ def verified_feed(snapshot, now, session=None, payload=None):
     if payload is None:
         url = os.getenv('FPL_EDITORIAL_MODEL_URL', '').strip()
         if not url:
-            raise RequiredInput('Missing verified custom FDR / per-fixture xPts / EO feed: FPL_EDITORIAL_MODEL_URL')
-        parts = urlsplit(url)
-        if parts.scheme != 'https' or parts.username or parts.hostname not in {
-            'fplvortex.onrender.com', 'raw.githubusercontent.com'}:
-            raise RequiredInput('Editorial model source must be the reviewed VORTEX/GitHub HTTPS feed')
-        try:
-            response = (session or requests.Session()).get(url, timeout=20)
-            response.raise_for_status()
-            payload = response.json()
-        except (requests.RequestException, ValueError):
-            raise RequiredInput('Verified editorial model feed is unreachable') from None
+            # Calculate the original Day 3 math against freshly verified FPL
+            # and FPL Core evidence; never pretend this also supplies EO/xPts.
+            from .editorial_live_model import build_live_team_feed
+            payload = build_live_team_feed(snapshot, now, session=session)
+        else:
+            parts = urlsplit(url)
+            if parts.scheme != 'https' or parts.username or parts.hostname not in {
+                'fplvortex.onrender.com', 'raw.githubusercontent.com'}:
+                raise RequiredInput('Editorial model source must be the reviewed VORTEX/GitHub HTTPS feed')
+            try:
+                response = (session or requests.Session()).get(url, timeout=20)
+                response.raise_for_status()
+                payload = response.json()
+            except (requests.RequestException, ValueError):
+                raise RequiredInput('Verified editorial model feed is unreachable') from None
     try:
         stamp = datetime.fromisoformat(payload['generated_at'].replace('Z', '+00:00'))
-        if stamp.tzinfo is None or not timedelta(0) <= now-stamp <= timedelta(hours=3):
+        if stamp.tzinfo is None or not timedelta(0) <= max(now, snapshot.fetched_at, datetime.now(timezone.utc))-stamp <= timedelta(hours=3):
             raise ValueError('stale')
         if payload['gw'] != snapshot.gameweek() or not payload.get('model_version') or not payload.get('methodology_url'):
             raise ValueError('unverified model/GW')
