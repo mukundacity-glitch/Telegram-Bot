@@ -77,3 +77,25 @@ def test_partial_delivery_retries_only_missing_platform(tmp_path, monkeypatch):
 def test_outside_window_never_attempts_transport(tmp_path, monkeypatch):
     monkeypatch.setattr(outbox, 'QUEUE', tmp_path)
     assert outbox.run(datetime(2026, 11, 3, 7, 0, tzinfo=timezone.utc)) == 0
+
+def test_due_delivery_failure_is_not_reported_as_green_success(tmp_path, monkeypatch):
+    r = record(tmp_path)
+    (tmp_path/'outbox/edition.json').write_text(json.dumps(r))
+    monkeypatch.setattr(outbox, 'ROOT', tmp_path)
+    monkeypatch.setattr(outbox, 'QUEUE', tmp_path/'outbox')
+    monkeypatch.setattr(outbox, 'RECEIPTS', tmp_path/'receipts.json')
+    monkeypatch.setattr(outbox, 'STATUS', tmp_path/'status.json')
+
+    class UnavailableTelegram:
+        def send_shared_png(self, *args):
+            raise RuntimeError('transport rejected')
+        send_png = send_shared_png
+
+    class UnavailableDiscord:
+        def send(self, post):
+            raise RuntimeError('webhook rejected')
+
+    assert outbox.run(NOW, UnavailableTelegram(), UnavailableDiscord()) == 1
+    status = json.loads((tmp_path/'status.json').read_text())
+    assert status['edition.json']['status'] == 'held'
+    assert not (tmp_path/'receipts.json').exists()
