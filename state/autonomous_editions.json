@@ -18,5 +18,15 @@
     "publisher_exit_code": 0,
     "status": "delivered",
     "task": "task1"
+  },
+  "2026-11-04:task2:rank-booster:GW10": {
+    "caption_hashtags": 4,
+    "edition": "rank-booster",
+    "file": "outbox/2026-11-04-rank-booster.json",
+    "identity": "chatgpt:2026-27:GW10:task2:rank-booster:1d762f1b4e9116454e3b",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2"
   }
 }
