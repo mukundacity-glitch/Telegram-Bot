@@ -9,6 +9,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-04-captain-differential.json": {
+    "at": "2026-11-04T21:56:51.078185+00:00",
+    "identity": "chatgpt:2026-27:GW10:task1:captain-differential:871d8de83af6fb3d81e1",
+    "status": "delivered"
+  },
   "2026-11-04-form-minutes-targets.json": {
     "at": "2026-11-04T20:27:38.924437+00:00",
     "identity": "chatgpt:2026-27:GW10:task1:form-minutes-targets:030cdabe8e41d7dd73f1",
