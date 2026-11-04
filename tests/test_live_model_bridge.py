@@ -8,6 +8,7 @@ from vortex.autonomous_content import build
 from vortex.autonomous_schedule import Slot
 from vortex.editorial_inputs import RequiredInput, verified_feed, eo_for
 from vortex.editorial_live_model import build_live_team_feed
+from test_autonomous_engine import world  # shared synthetic official FPL snapshot fixture
 
 
 def test_original_day3_model_is_imported_unchanged():
