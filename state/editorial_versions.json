@@ -339,19 +339,13 @@
   },
   "comparison:10:3:199798|36:465730": {
     "confirmed": true,
-    "delivery_key": "2026-11-02:comparison",
+    "delivery_key": "2026-11-04:comparison",
     "evidence": {
       "gw": 10,
       "kind": "comparison",
       "players": [
         {
           "fixtures": [
-            [
-              "LIV",
-              "A",
-              4,
-              14
-            ],
             [
               "HUL",
               "H",
@@ -363,6 +357,12 @@
               "A",
               3,
               4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
             ]
           ],
           "metrics": {
@@ -372,7 +372,7 @@
             "form": "9.2",
             "goals": 1,
             "minutes": 641,
-            "price": "£4.7m",
+            "price": "£4.8m",
             "total_points": 49
           },
           "player": "Konsa",
@@ -380,12 +380,6 @@
         },
         {
           "fixtures": [
-            [
-              "MCI",
-              "A",
-              5,
-              43
-            ],
             [
               "BRE",
               "H",
@@ -397,6 +391,12 @@
               "A",
               2,
               88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
             ]
           ],
           "metrics": {
@@ -415,8 +415,8 @@
       ]
     },
     "group": "comparison:10:3:199798|36:465730",
-    "timestamp": "2026-11-02T22:13:46.412189+00:00",
-    "version": "e8ce0f166478a090ef6ba8233f1696c82df79a7e3e7e878935df2b07fb79c830"
+    "timestamp": "2026-11-04T20:22:19.657263+00:00",
+    "version": "26fecbca086cde2a74a2277fd55b78260da61ad06241b90c8882e36c4e02f7f7"
   },
   "elite:10:6:469142": {
     "confirmed": true,
