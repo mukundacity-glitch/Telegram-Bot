@@ -153,7 +153,11 @@ def main():
     args=parser.parse_args()
     result=run(cron=os.getenv('SCHEDULED_CRON'),edition=args.edition,audit=args.audit_all)
     print(json.dumps(result,ensure_ascii=False))
-    return 1 if result.get('exit_code',0) or any(r.get('status')=='queued-or-partial' for r in result.get('editions',[])) else 0
+    # A generated graphic is not a published post. Surface a failed due edition
+    # as a failed Actions run instead of reporting a misleading green success.
+    failures = {'held', 'queued-or-partial'}
+    return 1 if result.get('exit_code', 0) or any(
+        row.get('status') in failures for row in result.get('editions', [])) else 0
 
 
 if __name__=='__main__':raise SystemExit(main())
