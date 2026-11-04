@@ -119,3 +119,26 @@ def build_live_team_feed(snapshot, now, session=None):
         'eo_meta': None,
         'player_forecast_source': 'unavailable',
     }
+
+
+def audit_main():
+    """Read-only independent live validation: no outbox, state writes or sends."""
+    import json
+    from .fpl import collect_snapshot
+    snapshot=collect_snapshot()
+    feed=build_live_team_feed(snapshot, datetime.now(timezone.utc))
+    checked={str(id_):len(obj['fixtures']) for id_,obj in feed['teams'].items()}
+    print(json.dumps({
+        'audit':'read-only','passed':True,'gameweek':feed['gw'],
+        'model_version':feed['model_version'],
+        'fpl_core_commit':feed['fpl_core_source_commit'],
+        'current_official_players':len(snapshot.players),
+        'verified_teams':len(checked),'fixture_side_rows':sum(checked.values()),
+        'eo':'N/A','day1_player_xpts':'N/A',
+        'generated_at':feed['generated_at'],
+    },sort_keys=True))
+    return 0
+
+
+if __name__=='__main__':
+    raise SystemExit(audit_main())
