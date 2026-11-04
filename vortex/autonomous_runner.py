@@ -56,11 +56,16 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     record={'task':slot.task,'edition':slot.edition,'season':season,'gameweek':plan.gw,
             'title':plan.title,'caption':plan.caption,'facts':facts(plan,snapshot,evidence),
             'generated_at':snapshot.fetched_at.isoformat(),'publish_at':now.isoformat(),
+            'data_retrieval_at_et':snapshot.fetched_at.astimezone(ET).isoformat(),
+            'graphic_generated_at_et':datetime.now(timezone.utc).astimezone(ET).isoformat(),
             'deadline':deadline.isoformat(),'pre_deadline':True,'qa_passed':True,
             'generation_owner':'github-actions','sources':[
                 'https://fantasy.premierleague.com/api/bootstrap-static/',
                 'https://fantasy.premierleague.com/api/fixtures/']+[
-                f"https://fantasy.premierleague.com/api/element-summary/{p['id']}/" for p in plan.players],
+                f"https://fantasy.premierleague.com/api/element-summary/{p['id']}/" for p in plan.players]+(
+                    ['https://github.com/olbauday/FPL-Core-Insights',
+                     'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
+                    if plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
     if audit and not allowed(now):
         target=now.astimezone(ET).replace(hour=5,minute=20,second=0,microsecond=0)
