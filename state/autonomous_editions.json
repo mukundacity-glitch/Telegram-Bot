@@ -115,6 +115,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-05:task2:rank-booster:GW10": {
+    "caption_hashtags": 4,
+    "edition": "rank-booster",
+    "file": "outbox/2026-11-05-rank-booster.json",
+    "identity": "chatgpt:2026-27:GW10:task2:rank-booster:4ac68f7693034af3b8fe",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2"
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
