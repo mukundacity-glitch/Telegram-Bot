@@ -702,7 +702,7 @@
   },
   "midfielders:10:3:204480|91:201658|36:509416": {
     "confirmed": true,
-    "delivery_key": "2026-11-04:midfielders:GW10",
+    "delivery_key": "2026-11-05:midfielders:GW10",
     "evidence": {
       "gw": 10,
       "kind": "midfielders",
@@ -719,7 +719,7 @@
           "metrics": {
             "form": "6.8",
             "minutes": 760,
-            "ownership": "12.6%",
+            "ownership": "12.8%",
             "price": "£7.4m",
             "role": "PRIMARY MIDFIELD PICK",
             "xa": "2.01",
@@ -740,7 +740,7 @@
           "metrics": {
             "form": "6.0",
             "minutes": 750,
-            "ownership": "27.9%",
+            "ownership": "28.5%",
             "price": "£6.6m",
             "role": "STRONG ALTERNATIVE",
             "xa": "1.36",
@@ -761,7 +761,7 @@
           "metrics": {
             "form": "7.0",
             "minutes": 664,
-            "ownership": "1.5%",
+            "ownership": "1.7%",
             "price": "£5.4m",
             "role": "THIRD OPTION",
             "xa": "0.29",
@@ -773,8 +773,8 @@
       ]
     },
     "group": "midfielders:10:3:204480|91:201658|36:509416",
-    "timestamp": "2026-11-04T21:33:04.552162+00:00",
-    "version": "f4cffc440d2e41dc158782197c24a79926a81edf1a058e3548e52e965dfa06ed"
+    "timestamp": "2026-11-05T21:36:08.434116+00:00",
+    "version": "e74c7825577037ec45e0a4688003c386ee02630094ac3557045e74406dc4158f"
   },
   "news:10:1:535301|14:441266|4:232653": {
     "confirmed": true,
