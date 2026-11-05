@@ -64,6 +64,11 @@
     "identity": "chatgpt:2026-27:GW10:three_daily:fixture-targets:20d1c44a20ebe8c09d74",
     "status": "delivered"
   },
+  "2026-11-05-form-minutes-targets.json": {
+    "at": "2026-11-05T20:42:31.887235+00:00",
+    "identity": "chatgpt:2026-27:GW10:task1:form-minutes-targets:2cdb6ff43919a46edb54",
+    "status": "delivered"
+  },
   "2026-11-05-rank-booster.json": {
     "at": "2026-11-05T18:49:01.437640+00:00",
     "identity": "chatgpt:2026-27:GW10:task2:rank-booster:4ac68f7693034af3b8fe",
