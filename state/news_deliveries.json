@@ -28,5 +28,15 @@
     "source_url": "https://fantasy.premierleague.com/",
     "telegram_message_id": 189,
     "timestamp": "2026-11-05T00:12:09.065116+00:00"
+  },
+  "price:8674ff8d3d412aeed1d57fcb": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1567959989195247646",
+    "gameweek": 10,
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "telegram_message_id": 196,
+    "timestamp": "2026-11-05T17:52:59.077257+00:00"
   }
 }
