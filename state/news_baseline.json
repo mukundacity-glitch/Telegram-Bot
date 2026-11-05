@@ -1788,7 +1788,7 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Hamstring injury - Expected back 21 Nov",
-    "now_cost": 43,
+    "now_cost": 42,
     "status": "i"
   },
   "33": {
@@ -2481,7 +2481,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 47,
+    "now_cost": 46,
     "status": "a"
   },
   "419": {
@@ -2964,7 +2964,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 79,
+    "now_cost": 78,
     "status": "a"
   },
   "481": {
@@ -4420,7 +4420,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 50,
+    "now_cost": 49,
     "status": "a"
   },
   "669": {
