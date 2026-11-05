@@ -894,6 +894,124 @@
     "timestamp": "2026-11-04T21:04:47.357111+00:00",
     "version": "b2916b41862a37f9a6029a63a87b4e0807e974e8b36fd4102de98ddd00a7e1dc"
   },
+  "news:10:3:199798|88:445028|2:177815": {
+    "confirmed": true,
+    "delivery_key": "2026-11-05:news",
+    "evidence": {
+      "gw": 10,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 4,
+            "form": "9.2",
+            "goals": 1,
+            "minutes": 641,
+            "price": "£4.8m",
+            "status": "d",
+            "total_points": 49
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "ARS",
+              "A",
+              5,
+              3
+            ],
+            [
+              "BHA",
+              "H",
+              4,
+              36
+            ],
+            [
+              "CRY",
+              "A",
+              2,
+              31
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "1.0",
+            "goals": 0,
+            "minutes": 106,
+            "price": "£4.9m",
+            "status": "i",
+            "total_points": 5
+          },
+          "player": "Morita",
+          "team": 88
+        },
+        {
+          "fixtures": [
+            [
+              "TOT",
+              "H",
+              3,
+              6
+            ],
+            [
+              "CHE",
+              "A",
+              4,
+              8
+            ],
+            [
+              "COV",
+              "H",
+              2,
+              9
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 7,
+            "clean_sheets": 4,
+            "form": "3.8",
+            "goals": 3,
+            "minutes": 773,
+            "price": "£6.1m",
+            "status": "d",
+            "total_points": 37
+          },
+          "player": "Calvert-Lewin",
+          "team": 2
+        }
+      ]
+    },
+    "group": "news:10:3:199798|88:445028|2:177815",
+    "timestamp": "2026-11-05T21:21:48.680706+00:00",
+    "version": "37d7763ea1d4c316a4e8b79acd427e3d7950b14fcc5c90324eabefdbf1b78858"
+  },
   "news:10:4:232653|56:547027|7:199796": {
     "confirmed": true,
     "delivery_key": "2026-11-02:news",
