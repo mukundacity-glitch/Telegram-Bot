@@ -1,16 +1,29 @@
 {
-  "availability:289b7e079e300a7ef2741226": {
-    "caption": "GW10 • FPL INJURY FLAG — Joelinton\nJoelinton (NEW): FPL injury flag. Official FPL note: Unspecified injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: FUL (A).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #NEW",
-    "club_code": 4,
+  "availability:077e5f01a16634db6b1bbe7e": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Calvert-Lewin\nCalvert-Lewin (LEE): FPL doubtful flag. Official FPL note: Foot injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
+    "club_code": 2,
     "gameweek": 10,
-    "identity": "availability:289b7e079e300a7ef2741226",
+    "identity": "availability:077e5f01a16634db6b1bbe7e",
     "image": null,
-    "photo_code": 180974,
-    "player_name": "Joelinton",
+    "photo_code": 177815,
+    "player_name": "Calvert-Lewin",
     "source": "Official FPL",
     "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "NEW",
-    "title": "GW10 • FPL INJURY FLAG — Joelinton"
+    "team_name": "LEE",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Calvert-Lewin"
+  },
+  "availability:36dac23d7ae6fadf90d55d97": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Stach\nStach (LEE): FPL doubtful flag. Official FPL note: Foot injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
+    "club_code": 2,
+    "gameweek": 10,
+    "identity": "availability:36dac23d7ae6fadf90d55d97",
+    "image": null,
+    "photo_code": 466525,
+    "player_name": "Stach",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "LEE",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Stach"
   },
   "availability:3f857c7d5809c63c090e8592": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Onyeka\nOnyeka (COV): FPL doubtful flag. Official FPL note: Groin injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: EVE (A).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #COV",
@@ -25,6 +38,19 @@
     "team_name": "COV",
     "title": "GW10 • FPL DOUBTFUL FLAG — Onyeka"
   },
+  "availability:878536c1faa6f4ecb52928a1": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Okafor\nOkafor (LEE): FPL doubtful flag. Official FPL note: Thigh injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
+    "club_code": 2,
+    "gameweek": 10,
+    "identity": "availability:878536c1faa6f4ecb52928a1",
+    "image": null,
+    "photo_code": 435997,
+    "player_name": "Okafor",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "LEE",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Okafor"
+  },
   "availability:8c05d176048649a0c4c9756d": {
     "caption": "GW10 • FPL INJURY FLAG — Dominguez\nDominguez (NFO): FPL injury flag. Official FPL note: Muscular injury - Expected back 30 Dec. FPL next-round flag: 0% (not a predicted start probability). Next GW: MCI (H).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #NFO",
     "club_code": 17,
@@ -37,6 +63,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NFO",
     "title": "GW10 • FPL INJURY FLAG — Dominguez"
+  },
+  "availability:a0c241e87c2c88b2e3a9595a": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Gyabi\nGyabi (HUL): FPL doubtful flag. Official FPL note: Thigh injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: ARS (A).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #HUL",
+    "club_code": 88,
+    "gameweek": 10,
+    "identity": "availability:a0c241e87c2c88b2e3a9595a",
+    "image": null,
+    "photo_code": 470294,
+    "player_name": "Gyabi",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "HUL",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Gyabi"
   },
   "availability:aeca6e3d8a1a708adedcadf6": {
     "caption": "GW10 • FPL AVAILABLE FLAG — Rodon\nRodon (LEE): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #LEE",
@@ -64,6 +103,19 @@
     "team_name": "NFO",
     "title": "GW10 • FPL DOUBTFUL FLAG — Igor Jesus"
   },
+  "availability:e9a3ee4cf560065367d3c0d5": {
+    "caption": "GW10 • FPL AVAILABLE FLAG — Butland\nButland (HUL): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (A).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #HUL",
+    "club_code": 88,
+    "gameweek": 10,
+    "identity": "availability:e9a3ee4cf560065367d3c0d5",
+    "image": null,
+    "photo_code": 105666,
+    "player_name": "Butland",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "HUL",
+    "title": "GW10 • FPL AVAILABLE FLAG — Butland"
+  },
   "availability:eb398f17c46942f57bc735af": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Branthwaite\nBranthwaite (EVE): FPL doubtful flag. Official FPL note: Unspecified injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: COV (H).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #EVE",
     "club_code": 11,
@@ -76,6 +128,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "EVE",
     "title": "GW10 • FPL DOUBTFUL FLAG — Branthwaite"
+  },
+  "availability:eecbd81e569bede02082acc5": {
+    "caption": "GW10 • FPL INJURY FLAG — Morita\nMorita (HUL): FPL injury flag. Official FPL note: Groin injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: ARS (A).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #HUL",
+    "club_code": 88,
+    "gameweek": 10,
+    "identity": "availability:eecbd81e569bede02082acc5",
+    "image": null,
+    "photo_code": 445028,
+    "player_name": "Morita",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "HUL",
+    "title": "GW10 • FPL INJURY FLAG — Morita"
   },
   "price:d8e9623def29ec3001c99505": {
     "caption": "GW10 • CONFIRMED PRICE FALL — Tutierov\nTutierov (SUN) officially changed from £5.0m to £4.9m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-05 00:12 UTC\n#FPL #FPLVortex #Pricechange #SUN",

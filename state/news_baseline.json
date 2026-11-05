@@ -1358,11 +1358,11 @@
     "status": "a"
   },
   "274": {
-    "chance_of_playing_next_round": 50,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 50,
-    "news": "Arm injury - 50% chance of playing",
+    "news": "",
     "now_cost": 44,
-    "status": "d"
+    "status": "a"
   },
   "275": {
     "chance_of_playing_next_round": 0,
@@ -1533,11 +1533,11 @@
     "status": "u"
   },
   "297": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 0,
-    "news": "Thigh injury - Unknown return date",
+    "news": "Thigh injury - 75% chance of playing",
     "now_cost": 44,
-    "status": "i"
+    "status": "d"
   },
   "298": {
     "chance_of_playing_next_round": 0,
@@ -1834,16 +1834,16 @@
     "status": "a"
   },
   "335": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 50,
     "chance_of_playing_this_round": 50,
-    "news": "",
+    "news": "Foot injury - 50% chance of playing",
     "now_cost": 60,
-    "status": "a"
+    "status": "d"
   },
   "336": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 50,
     "chance_of_playing_this_round": 100,
-    "news": "Thigh injury - 75% chance of playing",
+    "news": "Thigh injury - 50% chance of playing",
     "now_cost": 58,
     "status": "d"
   },
@@ -1918,11 +1918,11 @@
     "status": "a"
   },
   "346": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Foot injury - 75% chance of playing",
     "now_cost": 61,
-    "status": "a"
+    "status": "d"
   },
   "347": {
     "chance_of_playing_next_round": null,
@@ -3605,11 +3605,11 @@
     "status": "a"
   },
   "563": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Groin injury - Unknown return date",
     "now_cost": 49,
-    "status": "a"
+    "status": "i"
   },
   "564": {
     "chance_of_playing_next_round": null,
