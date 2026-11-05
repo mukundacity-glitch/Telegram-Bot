@@ -3682,11 +3682,11 @@
     "status": "a"
   },
   "573": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Ankle injury - Unknown return date",
     "now_cost": 44,
-    "status": "a"
+    "status": "i"
   },
   "574": {
     "chance_of_playing_next_round": null,
