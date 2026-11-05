@@ -114,5 +114,15 @@
     "publisher_exit_code": 0,
     "status": "delivered",
     "task": "task1"
+  },
+  "2026-27:GW10:task1:captaincy-comparison": {
+    "caption_hashtags": 4,
+    "edition": "captaincy-comparison",
+    "file": "outbox/2026-11-05-captaincy-comparison.json",
+    "identity": "chatgpt:2026-27:GW10:task1:captaincy-comparison:d031014dac8ed6e3ac6e",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
   }
 }

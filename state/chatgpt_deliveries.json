@@ -29,6 +29,16 @@
     "telegram_message_id": 184,
     "timestamp": "2026-11-04T21:56:51.078185+00:00"
   },
+  "chatgpt:2026-27:GW10:task1:captaincy-comparison:d031014dac8ed6e3ac6e:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1567965609235456040",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 198,
+    "timestamp": "2026-11-05T18:15:29.616274+00:00"
+  },
   "chatgpt:2026-27:GW10:task1:form-minutes-targets:030cdabe8e41d7dd73f1:page1": {
     "delivered": true,
     "discord_delivered": true,
