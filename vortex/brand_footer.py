@@ -1,9 +1,4 @@
-"""FPL VORTEX original blue-slide footer: preserve brand, no fabricated handles.
-
-The original artwork at assets/references/brand_background.png is the ONLY
-background. We restore its existing branded footer pixels, then add Telegram
-and Discord handles from GitHub Actions variables (never guessed).
-"""
+"""Minimal Telegram/Discord footer with configured, verified handles."""
 from __future__ import annotations
 
 from pathlib import Path
@@ -48,38 +43,12 @@ def apply_footer(output: Path, *, verdict: str = "",
         original_size = exported.size
         image = exported.convert("RGB").resize(master_img.size, Image.Resampling.LANCZOS)
 
-    # Restore untouched original branded footer (logo/icon positioning, shape,
-    # left-hand social handles). Never reproduce it with AI-generated artwork.
-    # Displace only the footer's blank/right-side text to create two new handles.
-    footer_top = round(master_img.height * 0.928)
-    original_strip = master_img.crop((0, footer_top, master_img.width, master_img.height))
-    image.paste(original_strip, (0, footer_top))
-
+    from .minimal_theme import social_footer
+    social_footer(image, telegram, discord)
+    footer_top = round(image.height * .928)
     from .matchup import _font, _fitted_font
     draw = ImageDraw.Draw(image, "RGBA")
     w = image.width
-    y = footer_top
-    # Reserve the existing logo/YouTube/X region; retain its original pixels.
-    left = int(w * 0.42)
-    draw.rounded_rectangle((left, y + 6, w - 17, image.height - 6),
-                           radius=7, fill=(1, 13, 36, 248),
-                           outline=(48, 178, 235, 180), width=2)
-    draw.text((left + 16, y + 12), "TELEGRAM",
-              font=_font(15), fill=(69, 226, 252))
-    # Use the user's real direct Telegram link, not an invented handle.
-    telegram_link = "t.me/" + telegram.lstrip("@")
-    draw.text((left + 16, y + 30), telegram_link,
-              font=_fitted_font(draw, telegram_link, int(w * 0.22), 23, 14),
-              fill=(248, 252, 255))
-    second = int(w * 0.70)
-    draw.line((second, y + 12, second, image.height - 12),
-              fill=(87, 165, 218, 180), width=2)
-    draw.text((second + 15, y + 12), "DISCORD",
-              font=_font(15), fill=(146, 178, 253))
-    draw.text((second + 15, y + 30), discord,
-              font=_fitted_font(draw, discord, int(w * 0.25), 23, 14),
-              fill=(248, 252, 255))
-
     if verdict:
         # Replace technical/source/timestamp text below the cards with
         # the user's actionable concise manager guidance.
@@ -90,13 +59,13 @@ def apply_footer(output: Path, *, verdict: str = "",
             raise ValueError("Source/technical notes must not appear in graphic verdict")
         top = int(master_img.height * .853)
         draw.rounded_rectangle((71, top, w-71, footer_top-7), radius=11,
-                               fill=(2, 25, 57, 250),
+                               fill=(255, 255, 255, 255),
                                outline=(51, 217, 238, 220), width=2)
         label = "FPL VORTEX • DECISION"
-        draw.text((90, top+8), label, font=_font(23), fill=(248, 195, 78))
+        draw.text((90, top+8), label, font=_font(23), fill=(12, 16, 20))
         draw.text((475, top+9), clean,
                   font=_fitted_font(draw, clean, w-568, 26, 18),
-                  fill=(250, 252, 255))
+                  fill=(12, 16, 20))
     tmp = output.with_suffix(".footer.tmp.png")
     image.resize(original_size, Image.Resampling.LANCZOS).save(tmp, format="PNG", optimize=True)
     with Image.open(tmp) as check:

@@ -1,5 +1,8 @@
 """Deterministic branded art from verified plans. No LLM/image prompt needed."""
+from datetime import datetime
+from zoneinfo import ZoneInfo
 from pathlib import Path
+from .minimal_theme import background, action_fill, social_footer
 from PIL import Image,ImageDraw,ImageOps
 import requests
 
@@ -21,7 +24,7 @@ def _eo_label(plan, player):
 
 def _base(title,gw):
     verify_exact_master()
-    with Image.open(MASTER) as source: canvas=source.convert('RGB').resize((1536,864))
+    with Image.open(MASTER) as source: canvas=background(source,f'{title}|{gw}|{datetime.now(ZoneInfo("America/New_York")).date()}',(1536,864))
     d=ImageDraw.Draw(canvas,'RGBA')
     text(d,title,300,7,1055,34,WHITE,20,center=True)
     text(d,f'GW{gw} • VERIFIED MINUTES • FIXTURES • DECISIONS',340,55,1030,19,CYAN,16,center=True)
@@ -129,7 +132,8 @@ def _targets(plan,snapshot,output,client):
     canvas=_base(plan.title,plan.gw);cache={}
     for i,p in enumerate(plan.players):
         x=31+i*374;d=ImageDraw.Draw(canvas,'RGBA');panel(d,(x,120,x+358,790),CYAN if i%2 else GOLD)
-        text(d,plan.labels[i]+' • '+snapshot.name(p),x+12,132,334,25,GOLD,18,center=True)
+        d.rounded_rectangle((x+12,130,x+346,170),radius=8,fill=action_fill(plan.labels[i]))
+        text(d,plan.labels[i]+' • '+snapshot.name(p),x+18,134,322,29,TABLE_INK,21,center=True)
         photo,badge=_assets(snapshot,p,client,cache)
         contain(canvas,photo,(x+75,175,200,140),bottom=True,crop_alpha=True)
         contain(canvas,badge,(x+283,180,54,54));d=ImageDraw.Draw(canvas,'RGBA')
@@ -160,14 +164,14 @@ def _targets(plan,snapshot,output,client):
 def _market(plan,snapshot,output,client):
     pages=[];cache={};by_id={p['id']:p for p in plan.players};labels=dict(zip([p['id'] for p in plan.players],plan.labels))
     for group_index,ids in enumerate(plan.extra['groups']):
-        with Image.open(MASTER) as src: master=src.convert('RGB').resize((1536,864))
-        canvas=Image.new('RGB',(1080,1920),'#03172d')
+        with Image.open(MASTER) as src: master=background(src,f'{plan.title}|{plan.gw}|{group_index}',(1536,864))
+        canvas=Image.new('RGB',(1080,1920),'#fcfcfa')
         # Background is cropped, never stretched; original header/footer
         # logos are pasted with a uniform scale.
         texture=ImageOps.fit(master.crop((300,180,1230,760)),(1080,1788))
         canvas.paste(texture,(0,85));canvas.paste(master.crop((0,0,1536,120)).resize((1080,84)),(0,0))
         canvas.paste(master.crop((0,800,1536,864)).resize((1080,45)),(0,1875))
-        d=ImageDraw.Draw(canvas,'RGBA');d.rectangle((210,0,925,82),fill='#03172d')
+        d=ImageDraw.Draw(canvas,'RGBA');d.rectangle((210,0,925,82),fill='#fcfcfa')
         text(d,'MARKET VERDICTS • '+('GK','DEF','MID','FWD')[group_index],220,18,690,29,WHITE,23,center=True)
         text(d,f'GW{plan.gw} • VERIFIED TRANSFERS • NEXT FIVE',35,102,1010,30,GOLD,24,center=True)
         row_height=1660/len(ids)
@@ -207,7 +211,7 @@ def _market(plan,snapshot,output,client):
                 text(d,f"GW{r['gw']} {opp}({r['venue']})",left,top+205,150,19,WHITE,14,center=True)
                 text(d,f"FDR {r[key]:.2f}",left,top+236,150,22,CYAN,17,center=True)
         telegram,discord=required_footer_handles();d=ImageDraw.Draw(canvas,'RGBA')
-        d.rectangle((0,1810,1080,1875),fill='#03172d')
+        d.rectangle((0,1810,1080,1875),fill='#fcfcfa')
         text(d,'TELEGRAM t.me/'+telegram.lstrip('@')+'  •  DISCORD '+discord,22,1826,1036,26,WHITE,18,center=True)
         path=output.with_name(output.stem+f'-{group_index+1}.png');path.parent.mkdir(parents=True,exist_ok=True)
         canvas.save(path,'PNG',optimize=True);pages.append(path)

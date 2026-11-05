@@ -107,7 +107,7 @@ def test_missing_verified_footer_handle_blocks_publishing(monkeypatch):
         required_footer_handles()
 
 
-def test_user_original_footer_restored_and_both_verified_handles(monkeypatch, tmp_path):
+def test_minimal_footer_and_both_verified_handles(monkeypatch, tmp_path):
     master = tmp_path / "blue.png"
     image = Image.new("RGB", (1536, 864), (4, 17, 53))
     Image.Image.save(image, master)
@@ -119,7 +119,7 @@ def test_user_original_footer_restored_and_both_verified_handles(monkeypatch, tm
     assert footer.apply_footer(output, verdict="HOLD • Strong fixture evidence") == output
     with Image.open(output) as checked:
         assert checked.size == (1920, 1080)
-        assert checked.getpixel((5, 1070)) == (4, 17, 53)
+        assert checked.getpixel((5, 1070)) == (255, 255, 255)
 
 
 def test_semantic_revision_avoids_repeat_cross_day_but_allows_real_change():

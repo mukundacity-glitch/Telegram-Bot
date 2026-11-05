@@ -48,10 +48,12 @@ def test_premium_templates_render_with_verified_media(slot: str, tmp_path: Path,
     monkeypatch.setattr('vortex.matchup._media', mock_media)
     monkeypatch.setattr('vortex.premium._media', mock_media)
     result = render(content, tmp_path / f'{slot}.png', session=object())
-    assert result.is_file() and result.stat().st_size > 100_000
+    assert result.is_file()
+    # Flat paper backgrounds compress far smaller than the retired stadium art.
     with Image.open(result) as image:
         assert image.size == (1536, 864)
         assert image.mode == 'RGB'
+        assert min(image.getpixel((0, 400))) > 235
 
 
 @pytest.mark.parametrize('slot', SLOTS)

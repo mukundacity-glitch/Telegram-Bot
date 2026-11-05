@@ -9,7 +9,7 @@ import vortex.player_profile as profile
 import vortex.brand_footer as footer
 
 
-def test_real_blue_master_full_player_graphic_with_fixture_fdr_and_source_free_footer(monkeypatch, tmp_path):
+def test_minimal_full_player_graphic_with_fixture_fdr_and_source_free_footer(monkeypatch, tmp_path):
     data = snap()
     bg = tmp_path / "original-master.png"
     Image.new("RGB", (1536, 864), (5, 22, 57)).save(bg)
@@ -37,4 +37,4 @@ def test_real_blue_master_full_player_graphic_with_fixture_fdr_and_source_free_f
     with Image.open(path) as result:
         assert result.size == (1920, 1080)
         assert result.getpixel((1000, 400)) != result.getpixel((0, 400))
-        assert result.getpixel((5, 1060)) == (5, 22, 57)
+        assert result.getpixel((5, 1060)) == (255, 255, 255)
