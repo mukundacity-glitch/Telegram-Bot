@@ -134,5 +134,15 @@
     "publisher_exit_code": 0,
     "status": "delivered",
     "task": "task1"
+  },
+  "2026-27:GW10:task1:value-board": {
+    "caption_hashtags": 4,
+    "edition": "value-board",
+    "file": "outbox/2026-11-05-value-board.json",
+    "identity": "chatgpt:2026-27:GW10:task1:value-board:8ff9043f579d888fc42b",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
   }
 }
