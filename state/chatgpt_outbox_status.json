@@ -54,6 +54,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-05-captain-differential.json": {
+    "at": "2026-11-05T22:05:07.637090+00:00",
+    "identity": "chatgpt:2026-27:GW10:task1:captain-differential:237d1d8e8bcd67dcad2b",
+    "status": "delivered"
+  },
   "2026-11-05-captaincy-comparison.json": {
     "at": "2026-11-05T21:36:51.031310+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
