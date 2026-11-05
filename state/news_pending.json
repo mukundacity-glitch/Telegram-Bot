@@ -1,16 +1,29 @@
 {
-  "availability:337ed491700ef49abc26a89d": {
-    "caption": "GW10 • FPL DOUBTFUL FLAG — L.Miley\nL.Miley (NEW): FPL doubtful flag. Official FPL note: Muscular injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: FUL (A).\nSource: Official Fantasy Premier League, 2026-11-05 19:52 UTC\n#FPL #FPLVortex #Availability #NEW",
-    "club_code": 4,
+  "availability:08daa7b56e3dcfbad324c055": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Konsa\nKonsa (ARS): FPL doubtful flag. Official FPL note: Knee injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: HUL (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #ARS",
+    "club_code": 3,
     "gameweek": 10,
-    "identity": "availability:337ed491700ef49abc26a89d",
+    "identity": "availability:08daa7b56e3dcfbad324c055",
     "image": null,
-    "photo_code": 547719,
-    "player_name": "L.Miley",
+    "photo_code": 199798,
+    "player_name": "Konsa",
     "source": "Official FPL",
     "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "NEW",
-    "title": "GW10 • FPL DOUBTFUL FLAG — L.Miley"
+    "team_name": "ARS",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Konsa"
+  },
+  "availability:2e60bd32ddc1c01e9ba49d63": {
+    "caption": "GW10 • FPL AVAILABLE FLAG — Timber\nTimber (CRY): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #CRY",
+    "club_code": 31,
+    "gameweek": 10,
+    "identity": "availability:2e60bd32ddc1c01e9ba49d63",
+    "image": null,
+    "photo_code": 450063,
+    "player_name": "Timber",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CRY",
+    "title": "GW10 • FPL AVAILABLE FLAG — Timber"
   },
   "availability:36dac23d7ae6fadf90d55d97": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Stach\nStach (LEE): FPL doubtful flag. Official FPL note: Foot injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
@@ -24,6 +37,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "LEE",
     "title": "GW10 • FPL DOUBTFUL FLAG — Stach"
+  },
+  "availability:3896d05f963a2a55cfd3ed44": {
+    "caption": "GW10 • FPL AVAILABLE FLAG — Strand Larsen\nStrand Larsen (CRY): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #CRY",
+    "club_code": 31,
+    "gameweek": 10,
+    "identity": "availability:3896d05f963a2a55cfd3ed44",
+    "image": null,
+    "photo_code": 247412,
+    "player_name": "Strand Larsen",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CRY",
+    "title": "GW10 • FPL AVAILABLE FLAG — Strand Larsen"
   },
   "availability:3f857c7d5809c63c090e8592": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Onyeka\nOnyeka (COV): FPL doubtful flag. Official FPL note: Groin injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: EVE (A).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #COV",
@@ -50,6 +76,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BRE",
     "title": "GW10 • FPL DOUBTFUL FLAG — Dasilva"
+  },
+  "availability:49ba198f88bffb307c671e29": {
+    "caption": "GW10 • FPL INJURY FLAG — Diarra\nDiarra (SUN): FPL injury flag. Official FPL note: Muscular injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: CHE (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #SUN",
+    "club_code": 56,
+    "gameweek": 10,
+    "identity": "availability:49ba198f88bffb307c671e29",
+    "image": null,
+    "photo_code": 547027,
+    "player_name": "Diarra",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "SUN",
+    "title": "GW10 • FPL INJURY FLAG — Diarra"
   },
   "availability:878536c1faa6f4ecb52928a1": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Okafor\nOkafor (LEE): FPL doubtful flag. Official FPL note: Thigh injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
@@ -167,5 +206,18 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "SUN",
     "title": "GW10 • CONFIRMED PRICE FALL — Tutierov"
+  },
+  "rss:975b92c24da245b13095aa88": {
+    "caption": "GW10 • INJURY WATCH\nReported headline: Kamada earns Palace injury-time Hoffenheim draw and offers Sage respite\nFeed: media.sky_sports • 2026-11-05 20:00 UTC\nhttps://www.skysports.com/football/crystal-palace-vs-tsg-hoffenheim/report/577801\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",
+    "club_code": 31,
+    "gameweek": 10,
+    "identity": "rss:975b92c24da245b13095aa88",
+    "image": null,
+    "photo_code": 209400,
+    "player_name": "Kamada",
+    "source": "media.sky_sports",
+    "source_url": "https://www.skysports.com/football/crystal-palace-vs-tsg-hoffenheim/report/577801",
+    "team_name": "CRY",
+    "title": "GW10 • INJURY WATCH"
   }
 }

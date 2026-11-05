@@ -959,11 +959,11 @@
     "status": "a"
   },
   "222": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Ankle injury - 75% chance of playing",
+    "news": "",
     "now_cost": 60,
-    "status": "d"
+    "status": "a"
   },
   "223": {
     "chance_of_playing_next_round": 0,
@@ -1638,11 +1638,11 @@
     "status": "a"
   },
   "31": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Knee injury - 75% chance of playing",
     "now_cost": 48,
-    "status": "a"
+    "status": "d"
   },
   "310": {
     "chance_of_playing_next_round": 100,
@@ -3451,11 +3451,11 @@
     "status": "a"
   },
   "543": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 100,
-    "news": "Muscular injury - 75% chance of playing",
+    "news": "Muscular injury - Unknown return date",
     "now_cost": 53,
-    "status": "d"
+    "status": "i"
   },
   "544": {
     "chance_of_playing_next_round": null,
@@ -4235,11 +4235,11 @@
     "status": "a"
   },
   "644": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Hamstring injury - 75% chance of playing",
+    "news": "",
     "now_cost": 50,
-    "status": "d"
+    "status": "a"
   },
   "645": {
     "chance_of_playing_next_round": null,
