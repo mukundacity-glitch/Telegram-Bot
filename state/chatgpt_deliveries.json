@@ -177,6 +177,16 @@
     "telegram_message_id": 200,
     "timestamp": "2026-11-05T18:49:01.437640+00:00"
   },
+  "chatgpt:2026-27:GW10:three_daily:fixture-targets:20d1c44a20ebe8c09d74:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1567991551567597780",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 205,
+    "timestamp": "2026-11-05T19:58:35.376665+00:00"
+  },
   "chatgpt:2026-27:GW10:three_daily:squad-surgery:eb92a6719ff2fbdc0665:page1": {
     "delivered": true,
     "discord_delivered": true,
