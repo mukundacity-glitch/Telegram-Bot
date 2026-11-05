@@ -5,6 +5,7 @@ four-position transfer suggestions. Do not reuse pixels or copyrighted
 layouts from reference screenshots.
 """
 from __future__ import annotations
+from .minimal_theme import background as minimal_background, edition_key, action_fill, social_footer
 
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageOps
@@ -16,14 +17,15 @@ from .matchup import (ROOT, CANVAS_SIZE, _font, _fitted_font, _text_width,
                       _center_text, _media, _brighten_portrait,
                       CYAN, GOLD, WHITE, MUTED, _fixture_color)
 
-BG = (1, 15, 37, 244)
-PANEL = (3, 20, 47, 245)
+BG = (255, 255, 255, 255)
+PANEL = (255, 255, 255, 255)
 GREEN = (45, 237, 140)
 RED = (250, 110, 135)
 
 
 def _line(draw: ImageDraw.ImageDraw, value: str, x: int, y: int,
           max_width: int, size: int = 23, color=WHITE, floor: int = 15) -> None:
+    color = WHITE
     value = str(value).replace("\n", " ").strip()
     font = _fitted_font(draw, value, max_width, size, floor)
     if _text_width(draw, value, font) > max_width:
@@ -80,7 +82,7 @@ def _base(post: ExtraPost) -> Image.Image:
     if not bg.is_file():
         raise FileNotFoundError("FPL VORTEX blue stadium background not installed")
     with Image.open(bg) as source:
-        return ImageOps.fit(source.convert("RGB"), CANVAS_SIZE, method=Image.Resampling.LANCZOS)
+        return minimal_background(source, edition_key(post), CANVAS_SIZE)
 
 
 def _header(canvas: Image.Image, post: ExtraPost) -> None:
@@ -353,7 +355,8 @@ def _start_bench(canvas: Image.Image, post: ExtraPost,
         title = "START WATCHLIST" if col == 0 else "BENCH WATCHLIST"
         draw.rounded_rectangle((x0, 151, x1, 725), radius=14,
                                fill=PANEL, outline=(*accent, 243), width=3)
-        _line(draw, title, x0 + 26, 162, 620, 31, accent, 25)
+        draw.rounded_rectangle((x0+12,159,x1-12,201),radius=8,fill=action_fill('START' if col == 0 else 'BENCH'))
+        _line(draw, title, x0 + 26, 162, 620, 33, WHITE, 25)
         for j, row in enumerate(rows[col*5:col*5+5]):
             y0 = 212 + j*101
             draw.rounded_rectangle((x0+12, y0, x1-12, y0+94),
@@ -389,6 +392,8 @@ def render_extra(post: ExtraPost, output: Path, session: requests.Session) -> Pa
     else:
         raise ValueError("Unsupported new graphics template")
     _footer(canvas, post, detail)
+    import os
+    social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_suffix(".tmp.png")
     # Every edition is a true 1920x1080 PNG, without cropping, stretching

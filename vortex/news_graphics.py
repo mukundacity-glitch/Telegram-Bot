@@ -4,6 +4,7 @@ Do not publish a player story unless a sourced portrait and official team crest
 are actually loaded. Never draw synthetic/placeholder faces, crests or stats.
 """
 from __future__ import annotations
+from .minimal_theme import background as minimal_background, edition_key, action_fill, social_footer
 
 from datetime import datetime, timezone
 from pathlib import Path
@@ -16,11 +17,11 @@ from .syndication import NewsPost
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "assets" / "references" / "brand_background.png"
-BLUE = (2, 18, 43)
-CYAN = (49, 231, 255)
-GOLD = (246, 200, 102)
-WHITE = (244, 251, 255)
-MUTED = (180, 215, 231)
+BLUE = (255, 255, 255)
+CYAN = (30, 150, 157)
+GOLD = (176, 139, 42)
+WHITE = (12, 16, 20)
+MUTED = (49, 54, 59)
 SIZE = (1536, 864)
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf"
 BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
@@ -93,15 +94,15 @@ def render_news_card(post: NewsPost, output: Path,
         # Approved 16:9 blue stadium background. Preserve geometry.
         if master.width * 9 != master.height * 16:
             raise ValueError("Approved master is not 16:9")
-        canvas = master.convert("RGB").resize(SIZE, Image.Resampling.LANCZOS)
+        canvas = minimal_background(master, edition_key(post), SIZE)
     painter = ImageDraw.Draw(canvas, "RGBA")
     painter.rounded_rectangle((56, 146, 1480, 734), radius=21,
                              fill=(*BLUE, 242), outline=(*CYAN, 232), width=3)
     painter.rounded_rectangle((80, 164, 533, 700), radius=16,
-                             fill=(6, 31, 63, 255), outline=(*GOLD, 235), width=2)
+                             fill=(255, 255, 255, 255), outline=(*GOLD, 235), width=2)
     painter.rectangle((546, 165, 553, 702), fill=(*CYAN, 220))
     painter.text((589, 171), "FPL VORTEX  •  VERIFIED PLAYER UPDATE",
-                 font=_font(27, True), fill=CYAN)
+                 font=_font(27, True), fill=WHITE)
     painter.text((589, 218), post.title.upper(),
                  font=_fit(painter, post.title.upper(), 770, 42, 23), fill=WHITE)
 
@@ -117,10 +118,10 @@ def render_news_card(post: NewsPost, output: Path,
 
     name = post.player_name.upper()
     painter = ImageDraw.Draw(canvas, "RGBA")
-    painter.rounded_rectangle((97, 600, 510, 674), radius=10, fill=(2, 24, 55, 248))
+    painter.rounded_rectangle((97, 600, 510, 674), radius=10, fill=(255, 255, 255, 255))
     painter.text((107, 610), name, font=_fit(painter, name, 390, 33, 21), fill=WHITE)
     painter.text((109, 652), (post.team_name or "").upper(),
-                 font=_fit(painter, (post.team_name or "").upper(), 390, 22, 16), fill=GOLD)
+                 font=_fit(painter, (post.team_name or "").upper(), 390, 22, 16), fill=WHITE)
 
     # Caption is the only source of story facts; use the exact same caption
     # string in both Telegram and Discord deliveries.
@@ -136,6 +137,8 @@ def render_news_card(post: NewsPost, output: Path,
     painter.text((584, 666), provenance[:79],
                  font=_fit(painter, provenance[:79], 811, 19, 15), fill=MUTED)
 
+    import os
+    social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))
     output.parent.mkdir(parents=True, exist_ok=True)
     temp = output.with_suffix(".tmp.png")
     canvas.resize((1920, 1080), Image.Resampling.LANCZOS).save(temp, "PNG", optimize=True)

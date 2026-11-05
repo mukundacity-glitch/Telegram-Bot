@@ -1,5 +1,6 @@
 """FPL VORTEX two-player matchup layout based on the supplied 1536x864 reference."""
 from __future__ import annotations
+from .minimal_theme import background as minimal_background, edition_key, action_fill, social_footer
 
 import base64
 import binascii
@@ -16,10 +17,10 @@ CANVAS_SIZE = (1536, 864)
 ROOT = Path(__file__).resolve().parents[1]
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
 FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf"
-CYAN = (32, 216, 253)
-GOLD = (255, 205, 84)
-WHITE = (250, 252, 255)
-MUTED = (174, 206, 226)
+CYAN = (30, 150, 157)
+GOLD = (176, 139, 42)
+WHITE = (12, 16, 20)
+MUTED = (49, 54, 59)
 
 
 def _font(size: int, *, bold: bool = True) -> ImageFont.ImageFont:
@@ -47,7 +48,7 @@ def _fitted_font(draw: ImageDraw.ImageDraw, value: str, width: int, size: int, s
 
 
 def _center_text(draw: ImageDraw.ImageDraw, x: int, y: int, value: str, font: ImageFont.ImageFont, color: tuple[int, int, int]) -> None:
-    draw.text((x - _text_width(draw, value, font) // 2, y), value, font=font, fill=color)
+    draw.text((x - _text_width(draw, value, font) // 2, y), value, font=font, fill=WHITE)
 
 
 def _image_from_url(session: requests.Session, url: str) -> Image.Image | None:
@@ -101,15 +102,11 @@ def _media(session: requests.Session, code: int | None, kind: str, cache: dict[t
 
 
 def _angular_panel(draw: ImageDraw.ImageDraw, bounds: tuple[int, int, int, int], accent: tuple[int, int, int]) -> None:
-    left, top, right, bottom = bounds
-    points = [(left + 18, top), (right - 18, top), (right, top + 18), (right, bottom - 15),
-              (right - 15, bottom), (left + 15, bottom), (left, bottom - 15), (left, top + 18)]
-    draw.polygon(points, fill=(2, 17, 39, 243))
-    draw.line(points + [points[0]], fill=(*accent, 245), width=3, joint="curve")
+    draw.rounded_rectangle(bounds, radius=20, fill=(255,255,255,255), outline=(216,212,199,255), width=2)
 
 
 def _draw_stat_box(draw: ImageDraw.ImageDraw, bounds: tuple[int, int, int, int], outline: tuple[int, int, int] | None = None) -> None:
-    draw.rounded_rectangle(bounds, radius=9, fill=(1, 14, 34, 229), outline=(*outline, 255) if outline else (21, 65, 105, 255), width=2)
+    draw.rounded_rectangle(bounds, radius=9, fill=(255, 255, 255, 255), outline=(*outline, 255) if outline else (255, 255, 255, 255), width=2)
 
 
 def _bundled_portrait(player_name: str) -> Image.Image | None:
@@ -154,7 +151,7 @@ def _paste_player(canvas: Image.Image, portrait: Image.Image, *, left_player: bo
     glow = Image.new("RGBA", canvas.size)
     glow_draw = ImageDraw.Draw(glow)
     accent = (10, 102, 212, 92) if left_player else (230, 160, 50, 78)
-    glow_draw.ellipse((left - 38, 197, left + target_width + 35, 614), fill=accent)
+    glow_draw.ellipse((left - 38, 197, left + target_width + 35, 614), fill=(255,255,255,0))
     glow = glow.filter(ImageFilter.GaussianBlur(55))
     canvas.paste(glow, (0, 0), glow)
     canvas.paste(portrait, (left, top), portrait)
@@ -184,18 +181,18 @@ def _fixture_strip(draw: ImageDraw.ImageDraw, canvas: Image.Image, card: Card, x
         if idx >= len(fixtures):
             x0 = x + 21 + idx * 226
             draw.rounded_rectangle((x0, y, x0 + 210, y + 65), radius=8,
-                                   fill=(13, 29, 47, 255), outline=(80, 107, 133, 255), width=2)
+                                   fill=(255, 255, 255, 255), outline=(80, 107, 133, 255), width=2)
             _center_text(draw, x0 + 105, y + 21, "NO FIXTURE", _font(20), MUTED)
             continue
         opponent, venue, difficulty, team_code = fixtures[idx]
         x0 = x + 21 + idx * 226
         base_color = _fixture_color(difficulty)
         draw.rounded_rectangle((x0, y, x0 + 210, y + 65), radius=8,
-                               fill=(*tuple(max(7, c // 5) for c in base_color), 242),
+                               fill=(255, 255, 255, 255),
                                outline=(*base_color, 255), width=3)
         draw.rounded_rectangle((x0 + 165, y + 8, x0 + 204, y + 57), radius=7,
                                fill=(*base_color, 255))
-        draw.text((x0 + 175, y + 13), str(difficulty), font=_font(30), fill=(4, 14, 27))
+        draw.text((x0 + 175, y + 13), str(difficulty), font=_font(30), fill=WHITE)
         code = team_code
         logo = _media(session, code, "crest", cache)
         if logo is None:
@@ -223,7 +220,7 @@ def _draw_player_data(canvas: Image.Image, card: Card, *, left_side: bool, sessi
     _crest(canvas, club, detail_right - 43, 173, 82)
     price_value = str(metrics["price"])
     price_x0 = detail_left + 2 if left_side else detail_left + 47
-    draw.rounded_rectangle((price_x0, 277, price_x0 + 297, 330), radius=10, fill=(3, 22, 47, 224), outline=(*accent, 255), width=2)
+    draw.rounded_rectangle((price_x0, 277, price_x0 + 297, 330), radius=10, fill=(255, 255, 255, 255), outline=(*accent, 255), width=2)
     _center_text(draw, price_x0 + 147, 280, price_value, _font(38), WHITE)
     block_x0, block_x1 = detail_left - 4, detail_right
     for row_top in (339, 418, 499):
@@ -263,21 +260,21 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
 
     background_path = ROOT / "assets" / "references" / "brand_background.png"
     with Image.open(background_path) as original:
-        canvas = ImageOps.fit(original.convert("RGB"), CANVAS_SIZE, method=Image.Resampling.LANCZOS)
+        canvas = minimal_background(original, edition_key(content), CANVAS_SIZE)
     draw = ImageDraw.Draw(canvas, "RGBA")
-    draw.rectangle((312, 3, 1265, 142), fill=(1, 11, 30, 236))
-    draw.rounded_rectangle((520, 86, 1015, 133), radius=11, fill=(0, 13, 33, 246), outline=(*CYAN, 185), width=2)
+    draw.rectangle((312, 3, 1265, 142), fill=(255, 255, 255, 255))
+    draw.rounded_rectangle((520, 86, 1015, 133), radius=11, fill=(255, 255, 255, 255), outline=(*CYAN, 185), width=2)
     title = content.title.upper()
     title_font = _fitted_font(draw, title, 770, 65, 41)
     if title == "THE FPL DECISION ROOM":
         first, second = "THE FPL ", "DECISION ROOM"
         x_start = 766 - _text_width(draw, first + second, title_font) // 2
         draw.text((x_start, 7), first, font=title_font, fill=WHITE)
-        draw.text((x_start + _text_width(draw, first, title_font), 7), second, font=title_font, fill=GOLD)
+        draw.text((x_start + _text_width(draw, first, title_font), 7), second, font=title_font, fill=WHITE)
     else:
         _center_text(draw, 766, 7, title, title_font, WHITE)
     draw.text((552, 91), content.kicker.upper(), font=_fitted_font(draw, content.kicker.upper(), 435, 28, 18), fill=CYAN)
-    draw.rounded_rectangle((1375, 91, 1493, 137), radius=9, fill=(1, 12, 31, 242), outline=(*GOLD, 255), width=3)
+    draw.rounded_rectangle((1375, 91, 1493, 137), radius=9, fill=(255, 255, 255, 255), outline=(*GOLD, 255), width=3)
     _center_text(draw, 1434, 94, f"GW{content.gw}", _font(32), GOLD)
     _angular_panel(draw, (32, 151, 722, 715), CYAN)
     _angular_panel(draw, (814, 151, 1504, 715), GOLD)
@@ -297,16 +294,18 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
     _draw_player_data(canvas, content.cards[1], left_side=False, session=session, cache=cache)
     draw = ImageDraw.Draw(canvas, "RGBA")
     _center_text(draw, 768, 354, "VS", _font(88), GOLD)
-    draw.rounded_rectangle((69, 732, 1467, 797), radius=14, fill=(0, 14, 35, 246), outline=(*CYAN, 210), width=3)
+    draw.rounded_rectangle((69, 732, 1467, 797), radius=14, fill=(255, 255, 255, 255), outline=(*CYAN, 210), width=3)
     verdict = content.verdict.upper()
     verdict_font = _fitted_font(draw, verdict, 1270, 29, 22)
     _center_text(draw, 770, 747, verdict, verdict_font, WHITE)
     # The user's brand strip is left intact; source details are data-backed.
-    draw.rectangle((1162, 802, 1536, 864), fill=(0, 12, 30, 235))
+    draw.rectangle((1162, 802, 1536, 864), fill=(255, 255, 255, 255))
     source = "Source: Official Fantasy Premier League API"
     _center_text(draw, 1346, 805, source, _fitted_font(draw, source, 350, 15, 12), MUTED)
     _center_text(draw, 1346, 831, f"Verified {content.data_at}",
                  _fitted_font(draw, f"Verified {content.data_at}", 346, 15, 11), MUTED)
+    import os
+    social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_suffix(".tmp.png")
     canvas.save(tmp, format="PNG", optimize=True)
