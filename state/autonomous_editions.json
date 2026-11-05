@@ -39,6 +39,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-04:task1:transfer-market-team-news:GW10": {
+    "caption_hashtags": 4,
+    "edition": "transfer-market-team-news",
+    "file": "outbox/2026-11-04-transfer-market-team-news.json",
+    "identity": "chatgpt:2026-27:GW10:task1:transfer-market-team-news:cccfb22aafc3364fdd52",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-11-04:task2:four-midfielders:GW10": {
     "caption_hashtags": 4,
     "edition": "four-midfielders",
