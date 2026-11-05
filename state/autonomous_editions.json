@@ -175,6 +175,16 @@
     "status": "delivered",
     "task": "three_daily"
   },
+  "2026-11-05:three_daily:squad-surgery:GW10": {
+    "caption_hashtags": 4,
+    "edition": "squad-surgery",
+    "file": "outbox/2026-11-05-squad-surgery.json",
+    "identity": "chatgpt:2026-27:GW10:three_daily:squad-surgery:252cac93c5649ed2ac40",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "three_daily"
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",

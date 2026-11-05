@@ -65,9 +65,9 @@
     "status": "held"
   },
   "2026-11-05-fixture-targets.json": {
-    "at": "2026-11-05T19:58:35.376665+00:00",
-    "identity": "chatgpt:2026-27:GW10:three_daily:fixture-targets:20d1c44a20ebe8c09d74",
-    "status": "delivered"
+    "at": "2026-11-05T23:41:35.616952+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-05-form-minutes-targets.json": {
     "at": "2026-11-05T20:42:31.887235+00:00",
@@ -88,6 +88,11 @@
     "at": "2026-11-05T22:19:52.390236+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
+  },
+  "2026-11-05-squad-surgery.json": {
+    "at": "2026-11-05T23:41:35.616952+00:00",
+    "identity": "chatgpt:2026-27:GW10:three_daily:squad-surgery:252cac93c5649ed2ac40",
+    "status": "delivered"
   },
   "2026-11-05-value-board.json": {
     "at": "2026-11-05T22:19:52.390236+00:00",
