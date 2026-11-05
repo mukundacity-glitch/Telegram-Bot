@@ -1,17 +1,4 @@
 {
-  "availability:08daa7b56e3dcfbad324c055": {
-    "caption": "GW10 • FPL DOUBTFUL FLAG — Konsa\nKonsa (ARS): FPL doubtful flag. Official FPL note: Knee injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: HUL (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #ARS",
-    "club_code": 3,
-    "gameweek": 10,
-    "identity": "availability:08daa7b56e3dcfbad324c055",
-    "image": null,
-    "photo_code": 199798,
-    "player_name": "Konsa",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "ARS",
-    "title": "GW10 • FPL DOUBTFUL FLAG — Konsa"
-  },
   "availability:2e60bd32ddc1c01e9ba49d63": {
     "caption": "GW10 • FPL AVAILABLE FLAG — Timber\nTimber (CRY): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #CRY",
     "club_code": 31,
@@ -206,6 +193,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "SUN",
     "title": "GW10 • CONFIRMED PRICE FALL — Tutierov"
+  },
+  "rss:4f3d4325655123ec24be9fb2": {
+    "caption": "GW10 • INJURY WATCH\nReported headline: 'A little setback' - Farke's injury update on Calvert-Lewin - Premier League\nFeed: official.premier_league • 2026-11-05 20:38 UTC\nhttps://news.google.com/rss/articles/CBMiWEFVX3lxTE1yc1lKV0FpYnN6REtoazRtM2tpTDlBdTVtR3ZpVkpfS2dSZFNCaC1nRDFyaGZTZVFSeklyTzlOWDlseW12MExnNkhSRW5sOTdaY0dNSTJfaHk?oc=5\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",
+    "club_code": 2,
+    "gameweek": 10,
+    "identity": "rss:4f3d4325655123ec24be9fb2",
+    "image": null,
+    "photo_code": 177815,
+    "player_name": "Calvert-Lewin",
+    "source": "official.premier_league",
+    "source_url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1yc1lKV0FpYnN6REtoazRtM2tpTDlBdTVtR3ZpVkpfS2dSZFNCaC1nRDFyaGZTZVFSeklyTzlOWDlseW12MExnNkhSRW5sOTdaY0dNSTJfaHk?oc=5",
+    "team_name": "LEE",
+    "title": "GW10 • INJURY WATCH"
   },
   "rss:975b92c24da245b13095aa88": {
     "caption": "GW10 • INJURY WATCH\nReported headline: Kamada earns Palace injury-time Hoffenheim draw and offers Sage respite\nFeed: media.sky_sports • 2026-11-05 20:00 UTC\nhttps://www.skysports.com/football/crystal-palace-vs-tsg-hoffenheim/report/577801\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",
