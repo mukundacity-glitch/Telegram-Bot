@@ -35,11 +35,11 @@
     "status": "a"
   },
   "103": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 25,
     "chance_of_playing_this_round": 0,
-    "news": "Hamstring injury - Unknown return date",
+    "news": "Hamstring injury - 25% chance of playing",
     "now_cost": 48,
-    "status": "i"
+    "status": "d"
   },
   "104": {
     "chance_of_playing_next_round": 50,
@@ -2793,9 +2793,9 @@
     "status": "i"
   },
   "459": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 50,
     "chance_of_playing_this_round": 75,
-    "news": "Muscular injury - 75% chance of playing",
+    "news": "Muscular injury - 50% chance of playing",
     "now_cost": 55,
     "status": "d"
   },

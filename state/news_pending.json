@@ -1,16 +1,16 @@
 {
-  "availability:077e5f01a16634db6b1bbe7e": {
-    "caption": "GW10 • FPL DOUBTFUL FLAG — Calvert-Lewin\nCalvert-Lewin (LEE): FPL doubtful flag. Official FPL note: Foot injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
-    "club_code": 2,
+  "availability:337ed491700ef49abc26a89d": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — L.Miley\nL.Miley (NEW): FPL doubtful flag. Official FPL note: Muscular injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: FUL (A).\nSource: Official Fantasy Premier League, 2026-11-05 19:52 UTC\n#FPL #FPLVortex #Availability #NEW",
+    "club_code": 4,
     "gameweek": 10,
-    "identity": "availability:077e5f01a16634db6b1bbe7e",
+    "identity": "availability:337ed491700ef49abc26a89d",
     "image": null,
-    "photo_code": 177815,
-    "player_name": "Calvert-Lewin",
+    "photo_code": 547719,
+    "player_name": "L.Miley",
     "source": "Official FPL",
     "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "LEE",
-    "title": "GW10 • FPL DOUBTFUL FLAG — Calvert-Lewin"
+    "team_name": "NEW",
+    "title": "GW10 • FPL DOUBTFUL FLAG — L.Miley"
   },
   "availability:36dac23d7ae6fadf90d55d97": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Stach\nStach (LEE): FPL doubtful flag. Official FPL note: Foot injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
@@ -37,6 +37,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "COV",
     "title": "GW10 • FPL DOUBTFUL FLAG — Onyeka"
+  },
+  "availability:46c7ca82e312d8648d795d45": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Dasilva\nDasilva (BRE): FPL doubtful flag. Official FPL note: Hamstring injury - 25% chance of playing. FPL next-round flag: 25% (not a predicted start probability). Next GW: BHA (A).\nSource: Official Fantasy Premier League, 2026-11-05 19:52 UTC\n#FPL #FPLVortex #Availability #BRE",
+    "club_code": 94,
+    "gameweek": 10,
+    "identity": "availability:46c7ca82e312d8648d795d45",
+    "image": null,
+    "photo_code": 183656,
+    "player_name": "Dasilva",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BRE",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Dasilva"
   },
   "availability:878536c1faa6f4ecb52928a1": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Okafor\nOkafor (LEE): FPL doubtful flag. Official FPL note: Thigh injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
