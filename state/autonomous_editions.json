@@ -104,5 +104,15 @@
     "publisher_exit_code": 0,
     "status": "delivered",
     "task": "three_daily"
+  },
+  "2026-11-05:task1:availability-transfer-decisions:GW10": {
+    "caption_hashtags": 4,
+    "edition": "availability-transfer-decisions",
+    "file": "outbox/2026-11-05-availability-transfer-decisions.json",
+    "identity": "chatgpt:2026-27:GW10:task1:availability-transfer-decisions:a88cabb5adc77dbae822",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
   }
 }

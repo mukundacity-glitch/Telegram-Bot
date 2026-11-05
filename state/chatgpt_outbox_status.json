@@ -10,9 +10,9 @@
     "status": "held"
   },
   "2026-11-04-captain-differential.json": {
-    "at": "2026-11-04T21:56:51.078185+00:00",
-    "identity": "chatgpt:2026-27:GW10:task1:captain-differential:871d8de83af6fb3d81e1",
-    "status": "delivered"
+    "at": "2026-11-05T18:07:40.222131+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-04-form-minutes-targets.json": {
     "at": "2026-11-04T23:45:20.797053+00:00",
@@ -25,15 +25,14 @@
     "status": "held"
   },
   "2026-11-04-four-team-targets.json": {
-    "at": "2026-11-04T22:38:36.691982+00:00",
-    "identity": "chatgpt:2026-27:GW10:task2:four-team-targets:4a4de34f29dbb7918dff",
-    "status": "delivered"
+    "at": "2026-11-05T18:07:40.222131+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-04-market-verdict.json": {
-    "at": "2026-11-05T00:56:00.849705+00:00",
-    "caption_once_album": true,
-    "identity": "chatgpt:2026-27:GW10:task2:market-verdict:64ab781a50c24b375224",
-    "status": "delivered"
+    "at": "2026-11-05T18:07:40.222131+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-04-rank-booster.json": {
     "at": "2026-11-04T22:15:31.810491+00:00",
@@ -41,13 +40,18 @@
     "status": "held"
   },
   "2026-11-04-squad-surgery.json": {
-    "at": "2026-11-04T23:45:20.797053+00:00",
-    "identity": "chatgpt:2026-27:GW10:three_daily:squad-surgery:eb92a6719ff2fbdc0665",
-    "status": "delivered"
+    "at": "2026-11-05T18:07:40.222131+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-04-transfer-market-team-news.json": {
-    "at": "2026-11-05T00:24:48.120633+00:00",
-    "identity": "chatgpt:2026-27:GW10:task1:transfer-market-team-news:cccfb22aafc3364fdd52",
+    "at": "2026-11-05T18:07:40.222131+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
+  "2026-11-05-availability-transfer-decisions.json": {
+    "at": "2026-11-05T18:07:40.222131+00:00",
+    "identity": "chatgpt:2026-27:GW10:task1:availability-transfer-decisions:a88cabb5adc77dbae822",
     "status": "delivered"
   },
   "gw10-four-midfielders.json": {
