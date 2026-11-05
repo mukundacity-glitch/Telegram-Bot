@@ -971,6 +971,16 @@
     "telegram_message_id": 188,
     "timestamp": "2026-11-05T00:10:15.505877+00:00"
   },
+  "2026-11-05:comparison": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568000201380204685",
+    "gameweek": 10,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 206,
+    "timestamp": "2026-11-05T20:32:53.938955+00:00"
+  },
   "2026-11-05:elite": {
     "delivered": true,
     "discord_delivered": true,
