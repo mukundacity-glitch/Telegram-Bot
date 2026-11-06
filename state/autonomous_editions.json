@@ -225,6 +225,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-06:task2:four-midfielders:GW11": {
+    "caption_hashtags": 4,
+    "edition": "four-midfielders",
+    "file": "outbox/2026-11-06-four-midfielders.json",
+    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:16013fab140b46115ad5",
+    "pages": 1,
+    "publisher_exit_code": 1,
+    "status": "queued-or-partial",
+    "task": "task2"
+  },
   "2026-11-06:task2:rank-booster:GW10": {
     "caption_hashtags": 4,
     "edition": "rank-booster",
