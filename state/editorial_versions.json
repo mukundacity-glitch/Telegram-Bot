@@ -2177,6 +2177,93 @@
     "timestamp": "2026-11-04T21:45:43.490261+00:00",
     "version": "e0ef3354ab8f61145688d1b811797de321728e47faa497e233830f3f9d9fa5b2"
   },
+  "team_analysis:11:Arsenal": {
+    "confirmed": true,
+    "delivery_key": "2026-11-06:team_analysis:GW11",
+    "evidence": {
+      "gw": 11,
+      "history": [
+        {
+          "ga": 0,
+          "gf": 3,
+          "gw": 1,
+          "kickoff": "2026-08-21T19:00:00Z",
+          "opponent": "COV",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 2,
+          "kickoff": "2026-08-31T19:00:00Z",
+          "opponent": "AVL",
+          "venue": "A"
+        },
+        {
+          "ga": 1,
+          "gf": 2,
+          "gw": 3,
+          "kickoff": "2026-09-06T15:30:00Z",
+          "opponent": "CHE",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 2,
+          "gw": 4,
+          "kickoff": "2026-09-12T19:00:00Z",
+          "opponent": "SUN",
+          "venue": "A"
+        },
+        {
+          "ga": 3,
+          "gf": 0,
+          "gw": 5,
+          "kickoff": "2026-09-19T14:00:00Z",
+          "opponent": "BHA",
+          "venue": "A"
+        },
+        {
+          "ga": 1,
+          "gf": 2,
+          "gw": 6,
+          "kickoff": "2026-10-10T11:30:00Z",
+          "opponent": "LEE",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 7,
+          "kickoff": "2026-10-18T15:30:00Z",
+          "opponent": "NFO",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 2,
+          "gw": 8,
+          "kickoff": "2026-10-24T14:00:00Z",
+          "opponent": "EVE",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 9,
+          "kickoff": "2026-11-01T16:30:00Z",
+          "opponent": "LIV",
+          "venue": "A"
+        }
+      ],
+      "kind": "team_analysis",
+      "players": [],
+      "team": "Arsenal"
+    },
+    "group": "team_analysis:11:Arsenal",
+    "timestamp": "2026-11-06T21:23:33.344529+00:00",
+    "version": "97638bb45d1a0563ae2f118665c8fe2dc2317ce1942b38a65298b431704f5882"
+  },
   "transfer:10:36:465730|3:226597": {
     "confirmed": true,
     "delivery_key": "2026-11-05:transfer",
