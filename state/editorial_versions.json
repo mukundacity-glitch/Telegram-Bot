@@ -1211,6 +1211,124 @@
     "timestamp": "2026-11-02T22:57:26.492193+00:00",
     "version": "7c4aa47f2352129e80e5f9d796282c4275762acace57717bf7fb5803454a24dc"
   },
+  "news:11:8:486672|54:76357|91:494928": {
+    "confirmed": true,
+    "delivery_key": "2026-11-06:news",
+    "evidence": {
+      "gw": 11,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "A",
+              3,
+              56
+            ],
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ],
+            [
+              "NFO",
+              "A",
+              2,
+              17
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 2,
+            "form": "2.0",
+            "goals": 0,
+            "minutes": 350,
+            "price": "£5.3m",
+            "status": "d",
+            "total_points": 11
+          },
+          "player": "Caicedo",
+          "team": 8
+        },
+        {
+          "fixtures": [
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "A",
+              5,
+              43
+            ],
+            [
+              "BOU",
+              "H",
+              3,
+              91
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "0.4",
+            "goals": 0,
+            "minutes": 36,
+            "price": "£4.9m",
+            "status": "i",
+            "total_points": 2
+          },
+          "player": "Cairney",
+          "team": 54
+        },
+        {
+          "fixtures": [
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ],
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ],
+            [
+              "FUL",
+              "A",
+              3,
+              54
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "0.2",
+            "goals": 0,
+            "minutes": 18,
+            "price": "£4.4m",
+            "status": "i",
+            "total_points": 1
+          },
+          "player": "Sanchez",
+          "team": 91
+        }
+      ]
+    },
+    "group": "news:11:8:486672|54:76357|91:494928",
+    "timestamp": "2026-11-06T20:42:20.977193+00:00",
+    "version": "66e76215edc95d3ed02080b4d634c3ecc4820f2fc025665b8cc7b1ab354ec550"
+  },
   "projections:10:general": {
     "confirmed": true,
     "delivery_key": "2026-11-05:projections:GW10",
