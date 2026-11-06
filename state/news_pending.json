@@ -1,4 +1,69 @@
 {
+  "availability:056c0bb88dd21568772150d0": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Caicedo\nCaicedo (CHE): FPL doubtful flag. Official FPL note: Calf injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: SUN (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #CHE",
+    "club_code": 8,
+    "gameweek": 10,
+    "identity": "availability:056c0bb88dd21568772150d0",
+    "image": null,
+    "photo_code": 486672,
+    "player_name": "Caicedo",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CHE",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Caicedo"
+  },
+  "availability:07d8b116398e245a2554ef45": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Martinez\nMartinez (CHE): FPL doubtful flag. Official FPL note: Head injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: SUN (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #CHE",
+    "club_code": 8,
+    "gameweek": 10,
+    "identity": "availability:07d8b116398e245a2554ef45",
+    "image": null,
+    "photo_code": 98980,
+    "player_name": "Martinez",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CHE",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Martinez"
+  },
+  "availability:118e7e2937113de7cb32d09c": {
+    "caption": "GW10 • FPL AVAILABLE FLAG — Konsa\nKonsa (ARS): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: HUL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #ARS",
+    "club_code": 3,
+    "gameweek": 10,
+    "identity": "availability:118e7e2937113de7cb32d09c",
+    "image": null,
+    "photo_code": 199798,
+    "player_name": "Konsa",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "ARS",
+    "title": "GW10 • FPL AVAILABLE FLAG — Konsa"
+  },
+  "availability:23a89970841479a9c799f11e": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Wan-Bissaka\nWan-Bissaka (AVL): FPL doubtful flag. Official FPL note: Hamstring injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: MUN (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #AVL",
+    "club_code": 7,
+    "gameweek": 10,
+    "identity": "availability:23a89970841479a9c799f11e",
+    "image": null,
+    "photo_code": 214590,
+    "player_name": "Wan-Bissaka",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "AVL",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Wan-Bissaka"
+  },
+  "availability:2c55cbe98f0b45570a7b1470": {
+    "caption": "GW10 • FPL INJURY FLAG — Rashford\nRashford (MUN): FPL injury flag. Official FPL note: Hip injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",
+    "club_code": 1,
+    "gameweek": 10,
+    "identity": "availability:2c55cbe98f0b45570a7b1470",
+    "image": null,
+    "photo_code": 176297,
+    "player_name": "Rashford",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MUN",
+    "title": "GW10 • FPL INJURY FLAG — Rashford"
+  },
   "availability:2e60bd32ddc1c01e9ba49d63": {
     "caption": "GW10 • FPL AVAILABLE FLAG — Timber\nTimber (CRY): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #CRY",
     "club_code": 31,
@@ -103,6 +168,19 @@
     "team_name": "NFO",
     "title": "GW10 • FPL INJURY FLAG — Dominguez"
   },
+  "availability:9db77f145494a81810415be8": {
+    "caption": "GW10 • FPL INJURY FLAG — Baleba\nBaleba (MUN): FPL injury flag. Official FPL note: Hamstring injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",
+    "club_code": 1,
+    "gameweek": 10,
+    "identity": "availability:9db77f145494a81810415be8",
+    "image": null,
+    "photo_code": 535301,
+    "player_name": "Baleba",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MUN",
+    "title": "GW10 • FPL INJURY FLAG — Baleba"
+  },
   "availability:a0c241e87c2c88b2e3a9595a": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Gyabi\nGyabi (HUL): FPL doubtful flag. Official FPL note: Thigh injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: ARS (A).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #HUL",
     "club_code": 88,
@@ -129,6 +207,19 @@
     "team_name": "LEE",
     "title": "GW10 • FPL AVAILABLE FLAG — Rodon"
   },
+  "availability:d289a9e13f3bb5073724ba9e": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Dorgu\nDorgu (MUN): FPL doubtful flag. Official FPL note: Hamstring injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",
+    "club_code": 1,
+    "gameweek": 10,
+    "identity": "availability:d289a9e13f3bb5073724ba9e",
+    "image": null,
+    "photo_code": 596777,
+    "player_name": "Dorgu",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MUN",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Dorgu"
+  },
   "availability:dc5ac63fa4df5f6eca3726d0": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Igor Jesus\nIgor Jesus (NFO): FPL doubtful flag. Official FPL note: Calf injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: MCI (H).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #NFO",
     "club_code": 17,
@@ -141,6 +232,32 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NFO",
     "title": "GW10 • FPL DOUBTFUL FLAG — Igor Jesus"
+  },
+  "availability:ddd6976fc4b2bbf7eb2df67b": {
+    "caption": "GW10 • FPL INJURY FLAG — Cairney\nCairney (FUL): FPL injury flag. Official FPL note: Knee injury - Expected back 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: NEW (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #FUL",
+    "club_code": 54,
+    "gameweek": 10,
+    "identity": "availability:ddd6976fc4b2bbf7eb2df67b",
+    "image": null,
+    "photo_code": 76357,
+    "player_name": "Cairney",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "FUL",
+    "title": "GW10 • FPL INJURY FLAG — Cairney"
+  },
+  "availability:e880c1ffb1a1d4bccdcbca2f": {
+    "caption": "GW10 • FPL AVAILABLE FLAG — Tosin\nTosin (TOT): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LEE (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #TOT",
+    "club_code": 6,
+    "gameweek": 10,
+    "identity": "availability:e880c1ffb1a1d4bccdcbca2f",
+    "image": null,
+    "photo_code": 109646,
+    "player_name": "Tosin",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "TOT",
+    "title": "GW10 • FPL AVAILABLE FLAG — Tosin"
   },
   "availability:e9a3ee4cf560065367d3c0d5": {
     "caption": "GW10 • FPL AVAILABLE FLAG — Butland\nButland (HUL): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (A).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #HUL",
@@ -180,6 +297,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "HUL",
     "title": "GW10 • FPL INJURY FLAG — Morita"
+  },
+  "availability:f82617182b0f538740e011bc": {
+    "caption": "GW10 • FPL DOUBTFUL FLAG — Scott\nScott (BOU): FPL doubtful flag. Official FPL note: Thigh injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: IPS (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #BOU",
+    "club_code": 91,
+    "gameweek": 10,
+    "identity": "availability:f82617182b0f538740e011bc",
+    "image": null,
+    "photo_code": 503139,
+    "player_name": "Scott",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BOU",
+    "title": "GW10 • FPL DOUBTFUL FLAG — Scott"
   },
   "price:74dd02c1b20be15c09942a6d": {
     "caption": "GW10 • CONFIRMED PRICE RISE — Hill\nHill (BOU) officially changed from £5.5m to £5.6m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-06 00:57 UTC\n#FPL #FPLVortex #Pricechange #BOU",
@@ -246,6 +376,19 @@
     "team_name": "LEE",
     "title": "GW10 • INJURY WATCH"
   },
+  "rss:6bcf7d8ce60403d5e0a73593": {
+    "caption": "GW10 • INJURY WATCH\nReported headline: Fitness boost for England as Fin Smith given green light to face Australia\nFeed: media.sky_sports • 2026-11-06 15:06 UTC\nhttps://www.skysports.com/rugby-union/news/12040/13608784/fin-smith-fitness-boost-for-england-as-fly-half-given-green-light-to-face-australia-with-henry-pollock-on-bench-for-australia-clash\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",
+    "club_code": 91,
+    "gameweek": 10,
+    "identity": "rss:6bcf7d8ce60403d5e0a73593",
+    "image": null,
+    "photo_code": 54469,
+    "player_name": "Smith",
+    "source": "media.sky_sports",
+    "source_url": "https://www.skysports.com/rugby-union/news/12040/13608784/fin-smith-fitness-boost-for-england-as-fly-half-given-green-light-to-face-australia-with-henry-pollock-on-bench-for-australia-clash",
+    "team_name": "BOU",
+    "title": "GW10 • INJURY WATCH"
+  },
   "rss:975b92c24da245b13095aa88": {
     "caption": "GW10 • INJURY WATCH\nReported headline: Kamada earns Palace injury-time Hoffenheim draw and offers Sage respite\nFeed: media.sky_sports • 2026-11-05 20:00 UTC\nhttps://www.skysports.com/football/crystal-palace-vs-tsg-hoffenheim/report/577801\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",
     "club_code": 31,
@@ -257,6 +400,19 @@
     "source": "media.sky_sports",
     "source_url": "https://www.skysports.com/football/crystal-palace-vs-tsg-hoffenheim/report/577801",
     "team_name": "CRY",
+    "title": "GW10 • INJURY WATCH"
+  },
+  "rss:b9649d682b0b242599aa4389": {
+    "caption": "GW10 • INJURY WATCH\nReported headline: Arteta provides injury update on Konsa - Premier League\nFeed: official.premier_league • 2026-11-06 10:42 UTC\nhttps://news.google.com/rss/articles/CBMiWEFVX3lxTE9HRzBBVDVoYnUtVTlXZzdXelNsdl9vWi1XNWdncFo4TzNPdXdUQ1VFbjhtRFI0cGh3ZTE2a0VwRlpXR3JsX05ObkEwS1lvMkVsTWdyNTVkbUE?oc=5\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",
+    "club_code": 3,
+    "gameweek": 10,
+    "identity": "rss:b9649d682b0b242599aa4389",
+    "image": null,
+    "photo_code": 199798,
+    "player_name": "Konsa",
+    "source": "official.premier_league",
+    "source_url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9HRzBBVDVoYnUtVTlXZzdXelNsdl9vWi1XNWdncFo4TzNPdXdUQ1VFbjhtRFI0cGh3ZTE2a0VwRlpXR3JsX05ObkEwS1lvMkVsTWdyNTVkbUE?oc=5",
+    "team_name": "ARS",
     "title": "GW10 • INJURY WATCH"
   }
 }
