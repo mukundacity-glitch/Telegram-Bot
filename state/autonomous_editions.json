@@ -205,6 +205,16 @@
     "status": "delivered",
     "task": "three_daily"
   },
+  "2026-11-06:task1:availability-transfer-decisions:GW10": {
+    "caption_hashtags": 4,
+    "edition": "availability-transfer-decisions",
+    "file": "outbox/2026-11-06-availability-transfer-decisions.json",
+    "identity": "chatgpt:2026-27:GW10:task1:availability-transfer-decisions:966014209199b587726e",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
