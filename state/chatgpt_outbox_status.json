@@ -75,9 +75,9 @@
     "status": "held"
   },
   "2026-11-05-four-midfielders.json": {
-    "at": "2026-11-05T21:07:43.133718+00:00",
-    "identity": "chatgpt:2026-27:GW10:task2:four-midfielders:f3ff402a12e088aae001",
-    "status": "delivered"
+    "at": "2026-11-06T00:20:36.892301+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-05-four-team-targets.json": {
     "at": "2026-11-05T22:41:09.801829+00:00",
@@ -92,6 +92,11 @@
   "2026-11-05-squad-surgery.json": {
     "at": "2026-11-05T23:41:35.616952+00:00",
     "identity": "chatgpt:2026-27:GW10:three_daily:squad-surgery:252cac93c5649ed2ac40",
+    "status": "delivered"
+  },
+  "2026-11-05-transfer-market-team-news.json": {
+    "at": "2026-11-06T00:20:36.892301+00:00",
+    "identity": "chatgpt:2026-27:GW10:task1:transfer-market-team-news:03aa0d538c4ef3ef9db4",
     "status": "delivered"
   },
   "2026-11-05-value-board.json": {
