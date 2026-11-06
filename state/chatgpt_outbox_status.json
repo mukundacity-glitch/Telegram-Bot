@@ -135,13 +135,13 @@
     "status": "delivered"
   },
   "2026-11-06-rank-booster.json": {
-    "at": "2026-11-06T18:31:09.519029+00:00",
-    "reason": "Actionable deadline has elapsed",
+    "at": "2026-11-06T21:06:42.648753+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
   "2026-11-06-start-bench-board.json": {
-    "at": "2026-11-06T18:31:09.519029+00:00",
-    "reason": "Actionable deadline has elapsed",
+    "at": "2026-11-06T21:06:42.648753+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
   "gw10-four-midfielders.json": {
