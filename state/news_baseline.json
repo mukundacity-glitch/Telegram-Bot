@@ -962,7 +962,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
     "news": "",
-    "now_cost": 60,
+    "now_cost": 59,
     "status": "a"
   },
   "223": {
@@ -3349,7 +3349,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 61,
+    "now_cost": 62,
     "status": "a"
   },
   "530": {
@@ -3895,7 +3895,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 55,
+    "now_cost": 56,
     "status": "a"
   },
   "600": {

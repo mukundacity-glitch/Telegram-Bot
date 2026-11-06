@@ -181,6 +181,45 @@
     "team_name": "HUL",
     "title": "GW10 • FPL INJURY FLAG — Morita"
   },
+  "price:74dd02c1b20be15c09942a6d": {
+    "caption": "GW10 • CONFIRMED PRICE RISE — Hill\nHill (BOU) officially changed from £5.5m to £5.6m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-06 00:57 UTC\n#FPL #FPLVortex #Pricechange #BOU",
+    "club_code": 91,
+    "gameweek": 10,
+    "identity": "price:74dd02c1b20be15c09942a6d",
+    "image": null,
+    "photo_code": 463981,
+    "player_name": "Hill",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BOU",
+    "title": "GW10 • CONFIRMED PRICE RISE — Hill"
+  },
+  "price:c0a384d5f8815b346c2b42b0": {
+    "caption": "GW10 • CONFIRMED PRICE FALL — Strand Larsen\nStrand Larsen (CRY) officially changed from £6.0m to £5.9m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-06 00:57 UTC\n#FPL #FPLVortex #Pricechange #CRY",
+    "club_code": 31,
+    "gameweek": 10,
+    "identity": "price:c0a384d5f8815b346c2b42b0",
+    "image": null,
+    "photo_code": 247412,
+    "player_name": "Strand Larsen",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CRY",
+    "title": "GW10 • CONFIRMED PRICE FALL — Strand Larsen"
+  },
+  "price:d625586e8a92af249c2ffa44": {
+    "caption": "GW10 • CONFIRMED PRICE RISE — Manzambi\nManzambi (AVL) officially changed from £6.1m to £6.2m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-06 00:57 UTC\n#FPL #FPLVortex #Pricechange #AVL",
+    "club_code": 7,
+    "gameweek": 10,
+    "identity": "price:d625586e8a92af249c2ffa44",
+    "image": null,
+    "photo_code": 614071,
+    "player_name": "Manzambi",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "AVL",
+    "title": "GW10 • CONFIRMED PRICE RISE — Manzambi"
+  },
   "price:d8e9623def29ec3001c99505": {
     "caption": "GW10 • CONFIRMED PRICE FALL — Tutierov\nTutierov (SUN) officially changed from £5.0m to £4.9m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-05 00:12 UTC\n#FPL #FPLVortex #Pricechange #SUN",
     "club_code": 56,
