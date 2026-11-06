@@ -501,7 +501,7 @@
   },
   "elite:10:6:469142": {
     "confirmed": true,
-    "delivery_key": "2026-11-05:elite",
+    "delivery_key": "2026-11-06:elite",
     "evidence": {
       "gw": 10,
       "kind": "elite",
@@ -534,7 +534,7 @@
             "form": "7.2",
             "goals": 2,
             "minutes": 810,
-            "ownership": "11.8",
+            "ownership": "13.0",
             "price": "£5.0m",
             "total_points": 53
           },
@@ -544,8 +544,8 @@
       ]
     },
     "group": "elite:10:6:469142",
-    "timestamp": "2026-11-05T18:53:35.089568+00:00",
-    "version": "944ba6830221f055dd77f027d69cc87e6a5e73a899594d8731a4c04d8de917e6"
+    "timestamp": "2026-11-06T18:13:11.751350+00:00",
+    "version": "00ee39f8fa2b4a087e7998b96349d54d8000ef9641f24e01cdcf817458aff36e"
   },
   "evening:10:36:60307|3:204480|8:244851|14:494595": {
     "confirmed": true,
