@@ -1,17 +1,4 @@
 {
-  "availability:056c0bb88dd21568772150d0": {
-    "caption": "GW10 • FPL DOUBTFUL FLAG — Caicedo\nCaicedo (CHE): FPL doubtful flag. Official FPL note: Calf injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: SUN (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #CHE",
-    "club_code": 8,
-    "gameweek": 10,
-    "identity": "availability:056c0bb88dd21568772150d0",
-    "image": null,
-    "photo_code": 486672,
-    "player_name": "Caicedo",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "CHE",
-    "title": "GW10 • FPL DOUBTFUL FLAG — Caicedo"
-  },
   "availability:07d8b116398e245a2554ef45": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Martinez\nMartinez (CHE): FPL doubtful flag. Official FPL note: Head injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: SUN (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #CHE",
     "club_code": 8,
@@ -50,6 +37,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "AVL",
     "title": "GW10 • FPL DOUBTFUL FLAG — Wan-Bissaka"
+  },
+  "availability:2af3b513a7a58c2a22887837": {
+    "caption": "GW10 • FPL INJURY FLAG — Tomiyasu\nTomiyasu (CRY): FPL injury flag. Official FPL note: Calf injury - Expected back 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:54 UTC\n#FPL #FPLVortex #Availability #CRY",
+    "club_code": 31,
+    "gameweek": 10,
+    "identity": "availability:2af3b513a7a58c2a22887837",
+    "image": null,
+    "photo_code": 223723,
+    "player_name": "Tomiyasu",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CRY",
+    "title": "GW10 • FPL INJURY FLAG — Tomiyasu"
   },
   "availability:2c55cbe98f0b45570a7b1470": {
     "caption": "GW10 • FPL INJURY FLAG — Rashford\nRashford (MUN): FPL injury flag. Official FPL note: Hip injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",
@@ -167,6 +167,32 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NFO",
     "title": "GW10 • FPL INJURY FLAG — Dominguez"
+  },
+  "availability:8d941c244ee0f49f5df56c34": {
+    "caption": "GW10 • FPL INJURY FLAG — Bergvall\nBergvall (TOT): FPL injury flag. Official FPL note: Knee injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: LEE (A).\nSource: Official Fantasy Premier League, 2026-11-06 17:54 UTC\n#FPL #FPLVortex #Availability #TOT",
+    "club_code": 6,
+    "gameweek": 10,
+    "identity": "availability:8d941c244ee0f49f5df56c34",
+    "image": null,
+    "photo_code": 570526,
+    "player_name": "Bergvall",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "TOT",
+    "title": "GW10 • FPL INJURY FLAG — Bergvall"
+  },
+  "availability:984bcfafa035b4365735e2ef": {
+    "caption": "GW10 • FPL INJURY FLAG — Sarr\nSarr (CRY): FPL injury flag. Official FPL note: Groin injury - Expected back 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:54 UTC\n#FPL #FPLVortex #Availability #CRY",
+    "club_code": 31,
+    "gameweek": 10,
+    "identity": "availability:984bcfafa035b4365735e2ef",
+    "image": null,
+    "photo_code": 232185,
+    "player_name": "Sarr",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CRY",
+    "title": "GW10 • FPL INJURY FLAG — Sarr"
   },
   "availability:9db77f145494a81810415be8": {
     "caption": "GW10 • FPL INJURY FLAG — Baleba\nBaleba (MUN): FPL injury flag. Official FPL note: Hamstring injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",

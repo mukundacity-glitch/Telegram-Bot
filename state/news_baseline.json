@@ -849,7 +849,7 @@
   "208": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Groin injury - Expected back 8 Nov",
+    "news": "Groin injury - Expected back 21 Nov",
     "now_cost": 62,
     "status": "i"
   },
@@ -3278,7 +3278,7 @@
   "520": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Knee injury - Expected back 31 Oct",
+    "news": "Knee injury - Unknown return date",
     "now_cost": 53,
     "status": "i"
   },
@@ -3712,7 +3712,7 @@
   "577": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Calf injury - Expected back 8 Nov",
+    "news": "Calf injury - Expected back 21 Nov",
     "now_cost": 43,
     "status": "i"
   },
