@@ -357,6 +357,16 @@
     "telegram_message_id": 235,
     "timestamp": "2026-11-06T19:58:55.530441+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:transfer-market-team-news:a13031ee9a9981ce3f47:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568410768255225896",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 253,
+    "timestamp": "2026-11-06T23:44:24.459276+00:00"
+  },
   "chatgpt:2026-27:GW11:task2:four-midfielders:16013fab140b46115ad5:page1": {
     "delivered": true,
     "discord_delivered": true,
