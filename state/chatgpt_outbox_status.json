@@ -124,6 +124,11 @@
     "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:a76b221540a26c52e008",
     "status": "delivered"
   },
+  "2026-11-06-form-minutes-targets.json": {
+    "at": "2026-11-06T19:58:55.530441+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:2b97fb54e77894ae83f8",
+    "status": "delivered"
+  },
   "2026-11-06-rank-booster.json": {
     "at": "2026-11-06T18:31:09.519029+00:00",
     "reason": "Actionable deadline has elapsed",
