@@ -114,6 +114,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-06-captain-differential.json": {
+    "at": "2026-11-06T21:34:53.498672+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:f66009fafd4978263acf",
+    "status": "delivered"
+  },
   "2026-11-06-final-gameweek-news.json": {
     "at": "2026-11-06T18:31:09.519029+00:00",
     "reason": "Actionable deadline has elapsed",
