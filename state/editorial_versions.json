@@ -1924,6 +1924,100 @@
     "timestamp": "2026-11-05T23:30:37.696381+00:00",
     "version": "f850bab1b43c02ba18071fe466404ab3b0aac3ffc94df1fb276ed197c4d6f2be"
   },
+  "start_bench:11:115:START|166:START|109:START|129:START|53:START|473:BENCH|569:BENCH|238:BENCH|337:BENCH|564:BENCH": {
+    "confirmed": true,
+    "delivery_key": "2026-11-06:start_bench:GW11",
+    "evidence": {
+      "gw": 11,
+      "kind": "start_bench",
+      "picks": [
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 6.2,
+          "id": 115,
+          "opponent": "HUL (A)",
+          "price": "£5.4m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 6.6,
+          "id": 166,
+          "opponent": "SUN (H)",
+          "price": "£7.0m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 5.6,
+          "id": 109,
+          "opponent": "HUL (A)",
+          "price": "£4.6m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 5.6,
+          "id": 129,
+          "opponent": "HUL (A)",
+          "price": "£5.4m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 4.8,
+          "id": 53,
+          "opponent": "SUN (H)",
+          "price": "£6.2m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.2,
+          "id": 473,
+          "opponent": "BOU (A)",
+          "price": "£4.2m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 5.0,
+          "form": 1.6,
+          "id": 569,
+          "opponent": "MCI (A)",
+          "price": "£5.9m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.8,
+          "id": 238,
+          "opponent": "BRE (A)",
+          "price": "£6.5m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 1.0,
+          "id": 337,
+          "opponent": "CHE (A)",
+          "price": "£5.2m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 3.0,
+          "form": 0.0,
+          "id": 564,
+          "opponent": "TOT (A)",
+          "price": "£4.4m"
+        }
+      ],
+      "players": []
+    },
+    "group": "start_bench:11:115:START|166:START|109:START|129:START|53:START|473:BENCH|569:BENCH|238:BENCH|337:BENCH|564:BENCH",
+    "timestamp": "2026-11-06T22:57:01.181931+00:00",
+    "version": "a05e753fc0c49cf378df7cd76aacb5286ec30c4b297c7962754b2b02d1d1e8cd"
+  },
   "team_analysis:10:Aston Villa": {
     "confirmed": true,
     "delivery_key": "2026-11-05:team_analysis:GW10",
