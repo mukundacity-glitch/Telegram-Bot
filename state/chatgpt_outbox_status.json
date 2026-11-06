@@ -135,9 +135,9 @@
     "status": "held"
   },
   "2026-11-06-four-midfielders.json": {
-    "at": "2026-11-06T20:37:56.367284+00:00",
-    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:16013fab140b46115ad5",
-    "status": "delivered"
+    "at": "2026-11-06T23:33:02.382795+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-06-four-team-targets.json": {
     "at": "2026-11-06T22:08:16.088412+00:00",
