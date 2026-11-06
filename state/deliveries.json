@@ -1111,6 +1111,16 @@
     "telegram_message_id": 244,
     "timestamp": "2026-11-06T21:23:33.344529+00:00"
   },
+  "2026-11-06:transfer": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568409616260399306",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 251,
+    "timestamp": "2026-11-06T23:39:47.860075+00:00"
+  },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,
     "discord_message_id": "1566986392335294705",
