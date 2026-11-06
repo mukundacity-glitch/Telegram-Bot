@@ -110,8 +110,8 @@
     "status": "held"
   },
   "2026-11-06-availability-transfer-decisions.json": {
-    "at": "2026-11-06T18:31:09.519029+00:00",
-    "reason": "Actionable deadline has elapsed",
+    "at": "2026-11-06T20:37:56.367284+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
   "2026-11-06-final-gameweek-news.json": {
@@ -130,9 +130,9 @@
     "status": "delivered"
   },
   "2026-11-06-four-midfielders.json": {
-    "at": "2026-11-06T20:28:30.841647+00:00",
-    "reason": "RuntimeError",
-    "status": "held"
+    "at": "2026-11-06T20:37:56.367284+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:16013fab140b46115ad5",
+    "status": "delivered"
   },
   "2026-11-06-rank-booster.json": {
     "at": "2026-11-06T18:31:09.519029+00:00",
