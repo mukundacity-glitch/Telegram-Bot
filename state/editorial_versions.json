@@ -2612,5 +2612,17 @@
     "group": "transfer_suggestions:10:general",
     "timestamp": "2026-11-03T02:19:27.422115+00:00",
     "version": "7f9106e39aa93d6169736ca37f8a321686ee3a15ee54c2bb4d9f4db6ca2235df"
+  },
+  "transfer_suggestions:11:general": {
+    "confirmed": true,
+    "delivery_key": "2026-11-06:transfer_suggestions:GW11",
+    "evidence": {
+      "gw": 11,
+      "kind": "transfer_suggestions",
+      "players": []
+    },
+    "group": "transfer_suggestions:11:general",
+    "timestamp": "2026-11-06T23:59:29.118367+00:00",
+    "version": "ed4648f0936aaacda6be93e574a934e63eb23f6dd50f502fe7e661070fc8be50"
   }
 }
