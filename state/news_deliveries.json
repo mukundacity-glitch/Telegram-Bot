@@ -19,6 +19,16 @@
     "telegram_message_id": 204,
     "timestamp": "2026-11-05T19:52:05.435642+00:00"
   },
+  "availability:07d8b116398e245a2554ef45": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568343507217809518",
+    "gameweek": 10,
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "telegram_message_id": 231,
+    "timestamp": "2026-11-06T19:17:00.792667+00:00"
+  },
   "availability:08daa7b56e3dcfbad324c055": {
     "delivered": true,
     "discord_delivered": true,
