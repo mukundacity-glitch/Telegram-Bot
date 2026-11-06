@@ -1022,11 +1022,11 @@
     "status": "u"
   },
   "230": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Unspecified injury - 75% chance of playing",
+    "news": "",
     "now_cost": 55,
-    "status": "d"
+    "status": "a"
   },
   "231": {
     "chance_of_playing_next_round": null,
