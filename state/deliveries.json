@@ -1071,6 +1071,16 @@
     "telegram_message_id": 229,
     "timestamp": "2026-11-06T18:13:11.751350+00:00"
   },
+  "2026-11-06:midfielders:GW11": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568370951551328327",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 242,
+    "timestamp": "2026-11-06T21:06:09.664595+00:00"
+  },
   "2026-11-06:news": {
     "delivered": true,
     "discord_delivered": true,

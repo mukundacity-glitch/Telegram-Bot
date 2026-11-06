@@ -857,6 +857,82 @@
     "timestamp": "2026-11-05T21:36:08.434116+00:00",
     "version": "e74c7825577037ec45e0a4688003c386ee02630094ac3557045e74406dc4158f"
   },
+  "midfielders:11:36:509416|7:614071|91:201658": {
+    "confirmed": true,
+    "delivery_key": "2026-11-06:midfielders:GW11",
+    "evidence": {
+      "gw": 11,
+      "kind": "midfielders",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ]
+          ],
+          "metrics": {
+            "form": "5.6",
+            "minutes": 664,
+            "ownership": "2.0%",
+            "price": "£5.4m",
+            "role": "PRIMARY MIDFIELD PICK",
+            "xa": "0.29",
+            "xg": "1.98"
+          },
+          "player": "Ayari",
+          "team": 36
+        },
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "H",
+              2,
+              56
+            ]
+          ],
+          "metrics": {
+            "form": "4.8",
+            "minutes": 384,
+            "ownership": "8.1%",
+            "price": "£6.2m",
+            "role": "STRONG ALTERNATIVE",
+            "xa": "0.58",
+            "xg": "1.60"
+          },
+          "player": "Manzambi",
+          "team": 7
+        },
+        {
+          "fixtures": [
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ]
+          ],
+          "metrics": {
+            "form": "4.8",
+            "minutes": 750,
+            "ownership": "30.5%",
+            "price": "£6.6m",
+            "role": "THIRD OPTION",
+            "xa": "1.36",
+            "xg": "3.71"
+          },
+          "player": "Tavernier",
+          "team": 91
+        }
+      ]
+    },
+    "group": "midfielders:11:36:509416|7:614071|91:201658",
+    "timestamp": "2026-11-06T21:06:09.664595+00:00",
+    "version": "5a84112c30bc843538cc9cb484405cc334b8a244f1c4b7167d5d13788aa891de"
+  },
   "news:10:1:535301|14:441266|4:232653": {
     "confirmed": true,
     "delivery_key": "2026-11-04:news",
