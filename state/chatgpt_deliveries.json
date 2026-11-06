@@ -79,6 +79,16 @@
     "telegram_message_id": 208,
     "timestamp": "2026-11-05T20:42:31.887235+00:00"
   },
+  "chatgpt:2026-27:GW10:task1:start-bench-board:afb9c07a2169da0ad1b0:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568319224336879716",
+    "gameweek": 10,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 226,
+    "timestamp": "2026-11-06T17:40:37.916485+00:00"
+  },
   "chatgpt:2026-27:GW10:task1:transfer-market-team-news:03aa0d538c4ef3ef9db4:page1": {
     "delivered": true,
     "discord_delivered": true,

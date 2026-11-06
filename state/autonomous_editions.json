@@ -225,6 +225,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-27:GW10:task1:start-bench-board": {
+    "caption_hashtags": 4,
+    "edition": "start-bench-board",
+    "file": "outbox/2026-11-06-start-bench-board.json",
+    "identity": "chatgpt:2026-27:GW10:task1:start-bench-board:afb9c07a2169da0ad1b0",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-27:GW10:task1:value-board": {
     "caption_hashtags": 4,
     "edition": "value-board",
