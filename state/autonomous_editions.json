@@ -235,6 +235,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-27:GW10:task1:final-gameweek-news": {
+    "caption_hashtags": 4,
+    "edition": "final-gameweek-news",
+    "file": "outbox/2026-11-06-final-gameweek-news.json",
+    "identity": "chatgpt:2026-27:GW10:task1:final-gameweek-news:8a551750378591efd765",
+    "pages": 1,
+    "publisher_exit_code": 1,
+    "status": "queued-or-partial",
+    "task": "task1"
+  },
   "2026-27:GW10:task1:start-bench-board": {
     "caption_hashtags": 4,
     "edition": "start-bench-board",
