@@ -110,24 +110,24 @@
     "status": "held"
   },
   "2026-11-06-availability-transfer-decisions.json": {
-    "at": "2026-11-06T17:34:09.768624+00:00",
-    "identity": "chatgpt:2026-27:GW10:task1:availability-transfer-decisions:966014209199b587726e",
-    "status": "delivered"
+    "at": "2026-11-06T18:31:09.519029+00:00",
+    "reason": "Actionable deadline has elapsed",
+    "status": "held"
   },
   "2026-11-06-final-gameweek-news.json": {
-    "at": "2026-11-06T18:23:56.402057+00:00",
-    "reason": "RuntimeError",
+    "at": "2026-11-06T18:31:09.519029+00:00",
+    "reason": "Actionable deadline has elapsed",
     "status": "held"
   },
   "2026-11-06-rank-booster.json": {
-    "at": "2026-11-06T18:04:05.379191+00:00",
-    "identity": "chatgpt:2026-27:GW10:task2:rank-booster:2ab0afe968570f244d39",
-    "status": "delivered"
+    "at": "2026-11-06T18:31:09.519029+00:00",
+    "reason": "Actionable deadline has elapsed",
+    "status": "held"
   },
   "2026-11-06-start-bench-board.json": {
-    "at": "2026-11-06T17:40:37.916485+00:00",
-    "identity": "chatgpt:2026-27:GW10:task1:start-bench-board:afb9c07a2169da0ad1b0",
-    "status": "delivered"
+    "at": "2026-11-06T18:31:09.519029+00:00",
+    "reason": "Actionable deadline has elapsed",
+    "status": "held"
   },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",
