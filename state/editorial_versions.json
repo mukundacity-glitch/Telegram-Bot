@@ -650,7 +650,7 @@
   },
   "comparison:11:3:199798|36:465730": {
     "confirmed": true,
-    "delivery_key": "2026-11-06:comparison",
+    "delivery_key": "2026-11-07:comparison",
     "evidence": {
       "gw": 11,
       "kind": "comparison",
@@ -679,12 +679,12 @@
           "metrics": {
             "assists": 0,
             "bonus": 7,
-            "clean_sheets": 4,
-            "form": "7.4",
+            "clean_sheets": 5,
+            "form": "9.0",
             "goals": 1,
-            "minutes": 641,
+            "minutes": 731,
             "price": "£4.8m",
-            "total_points": 49
+            "total_points": 57
           },
           "player": "Konsa",
           "team": 3
@@ -726,8 +726,8 @@
       ]
     },
     "group": "comparison:11:3:199798|36:465730",
-    "timestamp": "2026-11-06T19:54:49.622422+00:00",
-    "version": "5d88b8d0f902d7f943511a13ef8871db837cf862cf36b190f463b138f2ab5bd6"
+    "timestamp": "2026-11-07T17:59:17.669498+00:00",
+    "version": "b5c4d10dddec4ab93fbd593ff1a6d90c8aac538e0aa430a7d0f94013cf138d1f"
   },
   "elite:10:6:469142": {
     "confirmed": true,
