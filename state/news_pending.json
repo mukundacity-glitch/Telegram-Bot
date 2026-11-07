@@ -1,17 +1,4 @@
 {
-  "availability:35a1807944f9979a1e3e3b80": {
-    "caption": "GW11 • FPL DOUBTFUL FLAG — Scott\nScott (BOU): FPL doubtful flag. Official FPL note: Thigh injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: NFO (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #BOU",
-    "club_code": 91,
-    "gameweek": 11,
-    "identity": "availability:35a1807944f9979a1e3e3b80",
-    "image": null,
-    "photo_code": 503139,
-    "player_name": "Scott",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "BOU",
-    "title": "GW11 • FPL DOUBTFUL FLAG — Scott"
-  },
   "availability:36dac23d7ae6fadf90d55d97": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Stach\nStach (LEE): FPL doubtful flag. Official FPL note: Foot injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
     "club_code": 2,
@@ -245,6 +232,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BRE",
     "title": "GW11 • FPL DOUBTFUL FLAG — Dasilva"
+  },
+  "availability:62b6e8984e19d53036be2845": {
+    "caption": "GW11 • FPL DOUBTFUL FLAG — King\nKing (FUL): FPL doubtful flag. Official FPL note: Groin injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: MCI (A).\nSource: Official Fantasy Premier League, 2026-11-07 20:41 UTC\n#FPL #FPLVortex #Availability #FUL",
+    "club_code": 54,
+    "gameweek": 11,
+    "identity": "availability:62b6e8984e19d53036be2845",
+    "image": null,
+    "photo_code": 577725,
+    "player_name": "King",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "FUL",
+    "title": "GW11 • FPL DOUBTFUL FLAG — King"
   },
   "availability:62e5fa028ca146498a384a71": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Munoz\nMunoz (LIV): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: MUN (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #LIV",
@@ -1246,6 +1246,19 @@
     "source_url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1yc1lKV0FpYnN6REtoazRtM2tpTDlBdTVtR3ZpVkpfS2dSZFNCaC1nRDFyaGZTZVFSeklyTzlOWDlseW12MExnNkhSRW5sOTdaY0dNSTJfaHk?oc=5",
     "team_name": "LEE",
     "title": "GW10 • INJURY WATCH"
+  },
+  "rss:4fc241b30a2ad43cbbd2a53b": {
+    "caption": "GW11 • SUSPENSION WATCH\nReported headline: Tottenham set to complain to Pro Ref after Bogle escapes red card\nFeed: media.bbc_sport • 2026-11-07 16:35 UTC\nhttps://www.bbc.co.uk/sport/football/articles/c39wz9llg255o?at_medium=RSS&at_campaign=rss\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Suspension #GW11",
+    "club_code": 2,
+    "gameweek": 11,
+    "identity": "rss:4fc241b30a2ad43cbbd2a53b",
+    "image": null,
+    "photo_code": 226182,
+    "player_name": "Bogle",
+    "source": "media.bbc_sport",
+    "source_url": "https://www.bbc.co.uk/sport/football/articles/c39wz9llg255o?at_medium=RSS&at_campaign=rss",
+    "team_name": "LEE",
+    "title": "GW11 • SUSPENSION WATCH"
   },
   "rss:6bcf7d8ce60403d5e0a73593": {
     "caption": "GW10 • INJURY WATCH\nReported headline: Fitness boost for England as Fin Smith given green light to face Australia\nFeed: media.sky_sports • 2026-11-06 15:06 UTC\nhttps://www.skysports.com/rugby-union/news/12040/13608784/fin-smith-fitness-boost-for-england-as-fly-half-given-green-light-to-face-australia-with-henry-pollock-on-bench-for-australia-clash\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",
