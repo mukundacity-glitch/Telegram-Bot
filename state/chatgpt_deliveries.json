@@ -387,6 +387,38 @@
     "telegram_message_id": 247,
     "timestamp": "2026-11-06T22:08:16.088412+00:00"
   },
+  "chatgpt:2026-27:GW11:task2:market-verdict:c466aecaae6379277b4f:page1": {
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568416918212444220",
+    "telegram_message_id": 256,
+    "timestamp": "2026-11-07T00:08:50.719377+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:market-verdict:c466aecaae6379277b4f:page2": {
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568416918212444220",
+    "telegram_message_id": 257,
+    "timestamp": "2026-11-07T00:08:50.719377+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:market-verdict:c466aecaae6379277b4f:page3": {
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568416918212444220",
+    "telegram_message_id": 258,
+    "timestamp": "2026-11-07T00:08:50.719377+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:market-verdict:c466aecaae6379277b4f:page4": {
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568416918212444220",
+    "telegram_message_id": 259,
+    "timestamp": "2026-11-07T00:08:50.719377+00:00"
+  },
   "chatgpt:2026-27:GW11:three_daily:fixture-targets:a76b221540a26c52e008:page1": {
     "delivered": true,
     "discord_delivered": true,
