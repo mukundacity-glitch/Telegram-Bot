@@ -337,6 +337,155 @@
     "timestamp": "2026-11-03T03:21:13.369815+00:00",
     "version": "212b94c276be517acad4c09c71a178bf29e67b8c6f6d7d4c246caa128485049d"
   },
+  "captaincy:11:3:199798|11:586309|3:226597|91:444102": {
+    "confirmed": true,
+    "delivery_key": "2026-11-06:captaincy",
+    "evidence": {
+      "gw": 11,
+      "kind": "captaincy",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 4,
+            "form": "7.4",
+            "goals": 1,
+            "minutes": 641,
+            "price": "£4.8m",
+            "total_points": 49
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "COV",
+              "H",
+              2,
+              9
+            ],
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ],
+            [
+              "LIV",
+              "H",
+              4,
+              14
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 8,
+            "clean_sheets": 4,
+            "form": "7.0",
+            "goals": 6,
+            "minutes": 851,
+            "price": "£5.7m",
+            "total_points": 55
+          },
+          "player": "Barry",
+          "team": 11
+        },
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 5,
+            "clean_sheets": 6,
+            "form": "6.6",
+            "goals": 1,
+            "minutes": 810,
+            "price": "£8.1m",
+            "total_points": 58
+          },
+          "player": "Gabriel",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ],
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ],
+            [
+              "FUL",
+              "A",
+              3,
+              54
+            ]
+          ],
+          "metrics": {
+            "assists": 4,
+            "bonus": 7,
+            "clean_sheets": 5,
+            "form": "6.8",
+            "goals": 4,
+            "minutes": 753,
+            "price": "£6.5m",
+            "total_points": 52
+          },
+          "player": "Evanilson",
+          "team": 91
+        }
+      ]
+    },
+    "group": "captaincy:11:3:199798|11:586309|3:226597|91:444102",
+    "timestamp": "2026-11-07T00:41:26.182821+00:00",
+    "version": "53190f8d0105bd06136c117286aea3c32646fb2a65514d096669716bbeba3584"
+  },
   "comparison:10:36:465730|3:226597": {
     "confirmed": true,
     "delivery_key": "2026-11-05:comparison",
