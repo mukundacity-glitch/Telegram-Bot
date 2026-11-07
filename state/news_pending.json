@@ -1,16 +1,16 @@
 {
-  "availability:03857984ea4a5e7becb56004": {
-    "caption": "GW11 • FPL AVAILABLE FLAG — Livramento\nLivramento (NEW): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-07 16:08 UTC\n#FPL #FPLVortex #Availability #NEW",
+  "availability:0635dcade2046c5c591898ff": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — J.Ramsey\nJ.Ramsey (NEW): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-07 17:43 UTC\n#FPL #FPLVortex #Availability #NEW",
     "club_code": 4,
     "gameweek": 11,
-    "identity": "availability:03857984ea4a5e7becb56004",
+    "identity": "availability:0635dcade2046c5c591898ff",
     "image": null,
-    "photo_code": 441191,
-    "player_name": "Livramento",
+    "photo_code": 232653,
+    "player_name": "J.Ramsey",
     "source": "Official FPL",
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NEW",
-    "title": "GW11 • FPL AVAILABLE FLAG — Livramento"
+    "title": "GW11 • FPL AVAILABLE FLAG — J.Ramsey"
   },
   "availability:2c55cbe98f0b45570a7b1470": {
     "caption": "GW10 • FPL INJURY FLAG — Rashford\nRashford (MUN): FPL injury flag. Official FPL note: Hip injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",
@@ -557,6 +557,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NEW",
     "title": "GW11 • FPL AVAILABLE FLAG — Osula"
+  },
+  "availability:ac9cd770a6b67750ffe9b985": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Crooks\nCrooks (HUL): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: BHA (H).\nSource: Official Fantasy Premier League, 2026-11-07 17:43 UTC\n#FPL #FPLVortex #Availability #HUL",
+    "club_code": 88,
+    "gameweek": 11,
+    "identity": "availability:ac9cd770a6b67750ffe9b985",
+    "image": null,
+    "photo_code": 101282,
+    "player_name": "Crooks",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "HUL",
+    "title": "GW11 • FPL AVAILABLE FLAG — Crooks"
   },
   "availability:aeca6e3d8a1a708adedcadf6": {
     "caption": "GW10 • FPL AVAILABLE FLAG — Rodon\nRodon (LEE): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #LEE",
