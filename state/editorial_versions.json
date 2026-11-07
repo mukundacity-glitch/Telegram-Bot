@@ -3178,7 +3178,7 @@
   },
   "transfer:11:3:199798|36:465730": {
     "confirmed": true,
-    "delivery_key": "2026-11-06:transfer",
+    "delivery_key": "2026-11-07:transfer",
     "evidence": {
       "gw": 11,
       "kind": "transfer",
@@ -3207,12 +3207,12 @@
           "metrics": {
             "assists": 0,
             "bonus": 7,
-            "clean_sheets": 4,
-            "form": "7.4",
+            "clean_sheets": 5,
+            "form": "9.0",
             "goals": 1,
-            "minutes": 641,
+            "minutes": 731,
             "price": "£4.8m",
-            "total_points": 49
+            "total_points": 57
           },
           "player": "Konsa",
           "team": 3
@@ -3254,8 +3254,8 @@
       ]
     },
     "group": "transfer:11:3:199798|36:465730",
-    "timestamp": "2026-11-06T23:39:47.860075+00:00",
-    "version": "f2dcfa4d8a4ad9958181229225f20840947989fb3fd59367e55aed2313b424a9"
+    "timestamp": "2026-11-07T22:29:43.829785+00:00",
+    "version": "484688df5f7f5dec2327f5a9a6eaf7ff1e2474be14c77384b8539028f3609eb9"
   },
   "transfer_suggestions:10:general": {
     "confirmed": false,
