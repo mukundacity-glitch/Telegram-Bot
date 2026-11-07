@@ -190,9 +190,9 @@
     "status": "held"
   },
   "2026-11-07-four-midfielders.json": {
-    "at": "2026-11-07T18:50:36.687754+00:00",
-    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:386c03ae28ef75c939fd",
-    "status": "delivered"
+    "at": "2026-11-07T21:57:25.674099+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-07-four-team-targets.json": {
     "at": "2026-11-07T20:54:17.828810+00:00",
@@ -203,6 +203,11 @@
     "at": "2026-11-07T20:31:09.862056+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
+  },
+  "2026-11-07-squad-surgery.json": {
+    "at": "2026-11-07T21:57:25.674099+00:00",
+    "identity": "chatgpt:2026-27:GW11:three_daily:squad-surgery:fd832171384841b1c3a7",
+    "status": "delivered"
   },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",

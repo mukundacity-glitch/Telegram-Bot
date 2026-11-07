@@ -508,5 +508,15 @@
     "source_url": "",
     "telegram_message_id": 250,
     "timestamp": "2026-11-06T23:14:52.655044+00:00"
+  },
+  "chatgpt:2026-27:GW11:three_daily:squad-surgery:fd832171384841b1c3a7:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568746236528562317",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 286,
+    "timestamp": "2026-11-07T21:57:25.674099+00:00"
   }
 }
