@@ -427,6 +427,16 @@
     "telegram_message_id": 247,
     "timestamp": "2026-11-06T22:08:16.088412+00:00"
   },
+  "chatgpt:2026-27:GW11:task2:four-team-targets:6910aa0bcfda2981ef41:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568730347326152704",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 283,
+    "timestamp": "2026-11-07T20:54:17.828810+00:00"
+  },
   "chatgpt:2026-27:GW11:task2:market-verdict:c466aecaae6379277b4f:page1": {
     "caption_once_album": true,
     "delivered": true,

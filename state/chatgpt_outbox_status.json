@@ -180,9 +180,9 @@
     "status": "delivered"
   },
   "2026-11-07-fixture-targets.json": {
-    "at": "2026-11-07T17:45:16.322823+00:00",
-    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:cb7f948d93b601ed1c72",
-    "status": "delivered"
+    "at": "2026-11-07T20:54:17.828810+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-07-form-minutes-targets.json": {
     "at": "2026-11-07T18:05:02.872366+00:00",
@@ -192,6 +192,11 @@
   "2026-11-07-four-midfielders.json": {
     "at": "2026-11-07T18:50:36.687754+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:386c03ae28ef75c939fd",
+    "status": "delivered"
+  },
+  "2026-11-07-four-team-targets.json": {
+    "at": "2026-11-07T20:54:17.828810+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:four-team-targets:6910aa0bcfda2981ef41",
     "status": "delivered"
   },
   "2026-11-07-rank-booster.json": {

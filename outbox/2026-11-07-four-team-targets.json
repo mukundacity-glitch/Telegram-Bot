@@ -1,0 +1,406 @@
+{
+  "task": "task2",
+  "edition": "four-team-targets",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "FOUR FIXTURE TARGETS",
+  "caption": "GW11: four next-GW fixture targets.\nTwo attacking targets and two defensive targets; five-GW context.\nAssess actual minutes, fixtures and latest lineup news.\nMONITOR; confirm the lineup before deadline.\n#FPL #GW11 #FPLVortex #FPLFixtures",
+  "facts": {
+    "players": [],
+    "edition": "four-team-targets",
+    "extra": {
+      "teams": [
+        {
+          "id": 15,
+          "club": {
+            "code": 43,
+            "draw": 0,
+            "form": null,
+            "id": 15,
+            "loss": 0,
+            "name": "Man City",
+            "played": 0,
+            "points": 0,
+            "position": 2,
+            "short_name": "MCI",
+            "strength": null,
+            "team_division": null,
+            "unavailable": false,
+            "win": 0,
+            "link_url": "",
+            "strength_overall_home": 4,
+            "strength_overall_away": 5,
+            "strength_attack_home": 0,
+            "strength_attack_away": 0,
+            "strength_defence_home": 0,
+            "strength_defence_away": 0,
+            "pulse_id": 11
+          },
+          "fixtures": [
+            {
+              "fixture_id": 108,
+              "gw": 11,
+              "opponent_id": 10,
+              "venue": "H",
+              "attacking_fdr": 2.59,
+              "defensive_fdr": 3.65,
+              "projected_goals": 2.09,
+              "clean_sheet_pct": 25.28
+            },
+            {
+              "fixture_id": 111,
+              "gw": 12,
+              "opponent_id": 1,
+              "venue": "A",
+              "attacking_fdr": 4.3,
+              "defensive_fdr": 3.76,
+              "projected_goals": 0.89,
+              "clean_sheet_pct": 23.6
+            },
+            {
+              "fixture_id": 128,
+              "gw": 13,
+              "opponent_id": 13,
+              "venue": "H",
+              "attacking_fdr": 2.42,
+              "defensive_fdr": 3.69,
+              "projected_goals": 2.21,
+              "clean_sheet_pct": 24.75
+            },
+            {
+              "fixture_id": 133,
+              "gw": 14,
+              "opponent_id": 4,
+              "venue": "A",
+              "attacking_fdr": 3.44,
+              "defensive_fdr": 3.81,
+              "projected_goals": 1.49,
+              "clean_sheet_pct": 22.76
+            },
+            {
+              "fixture_id": 149,
+              "gw": 15,
+              "opponent_id": 6,
+              "venue": "H",
+              "attacking_fdr": 2.58,
+              "defensive_fdr": 4.05,
+              "projected_goals": 2.09,
+              "clean_sheet_pct": 18.99
+            }
+          ],
+          "current": [
+            {
+              "fixture_id": 108,
+              "gw": 11,
+              "opponent_id": 10,
+              "venue": "H",
+              "attacking_fdr": 2.59,
+              "defensive_fdr": 3.65,
+              "projected_goals": 2.09,
+              "clean_sheet_pct": 25.28
+            }
+          ]
+        },
+        {
+          "id": 4,
+          "club": {
+            "code": 94,
+            "draw": 0,
+            "form": null,
+            "id": 4,
+            "loss": 0,
+            "name": "Brentford",
+            "played": 0,
+            "points": 0,
+            "position": 6,
+            "short_name": "BRE",
+            "strength": null,
+            "team_division": null,
+            "unavailable": false,
+            "win": 0,
+            "link_url": "",
+            "strength_overall_home": 3,
+            "strength_overall_away": 4,
+            "strength_attack_home": 0,
+            "strength_attack_away": 0,
+            "strength_defence_home": 0,
+            "strength_defence_away": 0,
+            "pulse_id": 130
+          },
+          "fixtures": [
+            {
+              "fixture_id": 103,
+              "gw": 11,
+              "opponent_id": 9,
+              "venue": "H",
+              "attacking_fdr": 2.79,
+              "defensive_fdr": 3.5,
+              "projected_goals": 1.95,
+              "clean_sheet_pct": 27.63
+            },
+            {
+              "fixture_id": 118,
+              "gw": 12,
+              "opponent_id": 16,
+              "venue": "A",
+              "attacking_fdr": 3.55,
+              "defensive_fdr": 4.14,
+              "projected_goals": 1.41,
+              "clean_sheet_pct": 17.56
+            },
+            {
+              "fixture_id": 123,
+              "gw": 13,
+              "opponent_id": 1,
+              "venue": "H",
+              "attacking_fdr": 3.8,
+              "defensive_fdr": 3.43,
+              "projected_goals": 1.24,
+              "clean_sheet_pct": 28.81
+            },
+            {
+              "fixture_id": 133,
+              "gw": 14,
+              "opponent_id": 15,
+              "venue": "H",
+              "attacking_fdr": 3.46,
+              "defensive_fdr": 3.83,
+              "projected_goals": 1.48,
+              "clean_sheet_pct": 22.45
+            },
+            {
+              "fixture_id": 145,
+              "gw": 15,
+              "opponent_id": 10,
+              "venue": "A",
+              "attacking_fdr": 3.89,
+              "defensive_fdr": 3.9,
+              "projected_goals": 1.17,
+              "clean_sheet_pct": 21.43
+            }
+          ],
+          "current": [
+            {
+              "fixture_id": 103,
+              "gw": 11,
+              "opponent_id": 9,
+              "venue": "H",
+              "attacking_fdr": 2.79,
+              "defensive_fdr": 3.5,
+              "projected_goals": 1.95,
+              "clean_sheet_pct": 27.63
+            }
+          ]
+        },
+        {
+          "id": 19,
+          "club": {
+            "code": 6,
+            "draw": 0,
+            "form": null,
+            "id": 19,
+            "loss": 0,
+            "name": "Spurs",
+            "played": 0,
+            "points": 0,
+            "position": 9,
+            "short_name": "TOT",
+            "strength": null,
+            "team_division": null,
+            "unavailable": false,
+            "win": 0,
+            "link_url": "",
+            "strength_overall_home": 3,
+            "strength_overall_away": 3,
+            "strength_attack_home": 0,
+            "strength_attack_away": 0,
+            "strength_defence_home": 0,
+            "strength_defence_away": 0,
+            "pulse_id": 21
+          },
+          "fixtures": [
+            {
+              "fixture_id": 110,
+              "gw": 11,
+              "opponent_id": 12,
+              "venue": "H",
+              "attacking_fdr": 3.11,
+              "defensive_fdr": 2.78,
+              "projected_goals": 1.72,
+              "clean_sheet_pct": 39.03
+            },
+            {
+              "fixture_id": 120,
+              "gw": 12,
+              "opponent_id": 20,
+              "venue": "A",
+              "attacking_fdr": 4.12,
+              "defensive_fdr": 3.16,
+              "projected_goals": 1.02,
+              "clean_sheet_pct": 32.99
+            },
+            {
+              "fixture_id": 130,
+              "gw": 13,
+              "opponent_id": 10,
+              "venue": "H",
+              "attacking_fdr": 3.62,
+              "defensive_fdr": 2.96,
+              "projected_goals": 1.36,
+              "clean_sheet_pct": 36.24
+            },
+            {
+              "fixture_id": 140,
+              "gw": 14,
+              "opponent_id": 1,
+              "venue": "H",
+              "attacking_fdr": 4.26,
+              "defensive_fdr": 3.3,
+              "projected_goals": 0.92,
+              "clean_sheet_pct": 30.89
+            },
+            {
+              "fixture_id": 146,
+              "gw": 15,
+              "opponent_id": 11,
+              "venue": "A",
+              "attacking_fdr": 3.64,
+              "defensive_fdr": 2.96,
+              "projected_goals": 1.35,
+              "clean_sheet_pct": 36.24
+            }
+          ],
+          "current": [
+            {
+              "fixture_id": 110,
+              "gw": 11,
+              "opponent_id": 12,
+              "venue": "H",
+              "attacking_fdr": 3.11,
+              "defensive_fdr": 2.78,
+              "projected_goals": 1.72,
+              "clean_sheet_pct": 39.03
+            }
+          ]
+        },
+        {
+          "id": 1,
+          "club": {
+            "code": 3,
+            "draw": 0,
+            "form": null,
+            "id": 1,
+            "loss": 0,
+            "name": "Arsenal",
+            "played": 0,
+            "points": 0,
+            "position": 1,
+            "short_name": "ARS",
+            "strength": null,
+            "team_division": null,
+            "unavailable": false,
+            "win": 0,
+            "link_url": "",
+            "strength_overall_home": 4,
+            "strength_overall_away": 5,
+            "strength_attack_home": 0,
+            "strength_attack_away": 0,
+            "strength_defence_home": 0,
+            "strength_defence_away": 0,
+            "pulse_id": 1
+          },
+          "fixtures": [
+            {
+              "fixture_id": 109,
+              "gw": 11,
+              "opponent_id": 17,
+              "venue": "A",
+              "attacking_fdr": 3.05,
+              "defensive_fdr": 2.81,
+              "projected_goals": 1.76,
+              "clean_sheet_pct": 38.5
+            },
+            {
+              "fixture_id": 111,
+              "gw": 12,
+              "opponent_id": 15,
+              "venue": "H",
+              "attacking_fdr": 3.51,
+              "defensive_fdr": 2.65,
+              "projected_goals": 1.44,
+              "clean_sheet_pct": 41.05
+            },
+            {
+              "fixture_id": 123,
+              "gw": 13,
+              "opponent_id": 4,
+              "venue": "A",
+              "attacking_fdr": 3.79,
+              "defensive_fdr": 3.42,
+              "projected_goals": 1.24,
+              "clean_sheet_pct": 28.96
+            },
+            {
+              "fixture_id": 140,
+              "gw": 14,
+              "opponent_id": 19,
+              "venue": "A",
+              "attacking_fdr": 3.89,
+              "defensive_fdr": 2.72,
+              "projected_goals": 1.17,
+              "clean_sheet_pct": 39.98
+            },
+            {
+              "fixture_id": 141,
+              "gw": 15,
+              "opponent_id": 3,
+              "venue": "H",
+              "attacking_fdr": 3.02,
+              "defensive_fdr": 2.49,
+              "projected_goals": 1.78,
+              "clean_sheet_pct": 43.65
+            }
+          ],
+          "current": [
+            {
+              "fixture_id": 109,
+              "gw": 11,
+              "opponent_id": 17,
+              "venue": "A",
+              "attacking_fdr": 3.05,
+              "defensive_fdr": 2.81,
+              "projected_goals": 1.76,
+              "clean_sheet_pct": 38.5
+            }
+          ]
+        }
+      ],
+      "categories": [
+        "ATTACKING",
+        "ATTACKING",
+        "DEFENSIVE",
+        "DEFENSIVE"
+      ],
+      "model": "VORTEX-V1-PHASE4-POISSON-CS-FDR",
+      "fpl_core_commit": "2fcc515e94de1fda14984520675caaa6a5011e8a"
+    },
+    "fixtures": []
+  },
+  "generated_at": "2026-11-07T20:54:11.494923+00:00",
+  "publish_at": "2026-11-07T20:54:11.251084+00:00",
+  "data_retrieval_at_et": "2026-11-07T15:54:11.494923-05:00",
+  "graphic_generated_at_et": "2026-11-07T15:54:17.826760-05:00",
+  "deadline": "2026-11-21T11:00:00+00:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://github.com/olbauday/FPL-Core-Insights",
+    "https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py"
+  ],
+  "images": [
+    "outbox/assets/2026-11-07-four-team-targets-GW11.png"
+  ]
+}
