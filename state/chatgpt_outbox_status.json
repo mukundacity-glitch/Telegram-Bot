@@ -170,9 +170,9 @@
     "status": "held"
   },
   "2026-11-07-availability-transfer-decisions.json": {
-    "at": "2026-11-07T16:32:06.969225+00:00",
-    "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:103f6be8327c52d178cf",
-    "status": "delivered"
+    "at": "2026-11-07T19:40:46.471626+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-07-fixture-targets.json": {
     "at": "2026-11-07T17:45:16.322823+00:00",
