@@ -777,6 +777,54 @@
     "timestamp": "2026-11-06T18:13:11.751350+00:00",
     "version": "00ee39f8fa2b4a087e7998b96349d54d8000ef9641f24e01cdcf817458aff36e"
   },
+  "elite:11:11:586309": {
+    "confirmed": true,
+    "delivery_key": "2026-11-07:elite",
+    "evidence": {
+      "gw": 11,
+      "kind": "elite",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "COV",
+              "H",
+              2,
+              9
+            ],
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ],
+            [
+              "LIV",
+              "H",
+              4,
+              14
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 8,
+            "clean_sheets": 4,
+            "form": "7.0",
+            "goals": 6,
+            "minutes": 851,
+            "ownership": "9.4",
+            "price": "£5.7m",
+            "total_points": 55
+          },
+          "player": "Barry",
+          "team": 11
+        }
+      ]
+    },
+    "group": "elite:11:11:586309",
+    "timestamp": "2026-11-07T16:57:21.681872+00:00",
+    "version": "b06b12568cb2867ce1475de5373fc5115111422a283bd1c5e9a963726855cbcc"
+  },
   "evening:10:36:60307|3:204480|8:244851|14:494595": {
     "confirmed": true,
     "delivery_key": "2026-11-03:evening",
