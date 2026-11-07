@@ -179,6 +179,11 @@
     "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:cb7f948d93b601ed1c72",
     "status": "delivered"
   },
+  "2026-11-07-form-minutes-targets.json": {
+    "at": "2026-11-07T18:05:02.872366+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:7449f8604cccb9f63e11",
+    "status": "delivered"
+  },
   "2026-11-07-rank-booster.json": {
     "at": "2026-11-07T16:53:22.702984+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:rank-booster:608dc39528a01e31d9fb",

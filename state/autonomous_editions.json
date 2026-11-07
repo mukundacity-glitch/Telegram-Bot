@@ -315,6 +315,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-07:task1:form-minutes-targets:GW11": {
+    "caption_hashtags": 4,
+    "edition": "form-minutes-targets",
+    "file": "outbox/2026-11-07-form-minutes-targets.json",
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:7449f8604cccb9f63e11",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-11-07:task2:rank-booster:GW11": {
     "caption_hashtags": 4,
     "edition": "rank-booster",
