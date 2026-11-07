@@ -1,17 +1,4 @@
 {
-  "availability:2c55cbe98f0b45570a7b1470": {
-    "caption": "GW10 • FPL INJURY FLAG — Rashford\nRashford (MUN): FPL injury flag. Official FPL note: Hip injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",
-    "club_code": 1,
-    "gameweek": 10,
-    "identity": "availability:2c55cbe98f0b45570a7b1470",
-    "image": null,
-    "photo_code": 176297,
-    "player_name": "Rashford",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "MUN",
-    "title": "GW10 • FPL INJURY FLAG — Rashford"
-  },
   "availability:2e60bd32ddc1c01e9ba49d63": {
     "caption": "GW10 • FPL AVAILABLE FLAG — Timber\nTimber (CRY): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #CRY",
     "club_code": 31,
@@ -258,6 +245,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NEW",
     "title": "GW11 • FPL AVAILABLE FLAG — Fernandez-Pardo"
+  },
+  "availability:5600133a793f6d642ba436d5": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Igor Jesus\nIgor Jesus (NFO): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: BOU (A).\nSource: Official Fantasy Premier League, 2026-11-07 18:37 UTC\n#FPL #FPLVortex #Availability #NFO",
+    "club_code": 17,
+    "gameweek": 11,
+    "identity": "availability:5600133a793f6d642ba436d5",
+    "image": null,
+    "photo_code": 482973,
+    "player_name": "Igor Jesus",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "NFO",
+    "title": "GW11 • FPL AVAILABLE FLAG — Igor Jesus"
   },
   "availability:57ee4692a09318e20ea0fbd8": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Ndoye\nNdoye (NFO): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: BOU (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NFO",
@@ -635,6 +635,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "MUN",
     "title": "GW10 • FPL DOUBTFUL FLAG — Dorgu"
+  },
+  "availability:db0f2826cb08fffc950f92c9": {
+    "caption": "GW11 • FPL DOUBTFUL FLAG — Tel\nTel (TOT): FPL doubtful flag. Official FPL note: Ankle injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: IPS (H).\nSource: Official Fantasy Premier League, 2026-11-07 18:37 UTC\n#FPL #FPLVortex #Availability #TOT",
+    "club_code": 6,
+    "gameweek": 11,
+    "identity": "availability:db0f2826cb08fffc950f92c9",
+    "image": null,
+    "photo_code": 511499,
+    "player_name": "Tel",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "TOT",
+    "title": "GW11 • FPL DOUBTFUL FLAG — Tel"
   },
   "availability:dc5ac63fa4df5f6eca3726d0": {
     "caption": "GW10 • FPL DOUBTFUL FLAG — Igor Jesus\nIgor Jesus (NFO): FPL doubtful flag. Official FPL note: Calf injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: MCI (H).\nSource: Official Fantasy Premier League, 2026-11-05 17:52 UTC\n#FPL #FPLVortex #Availability #NFO",
