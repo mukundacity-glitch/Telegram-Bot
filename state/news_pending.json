@@ -1,17 +1,4 @@
 {
-  "availability:3714821c3e4cd65e7cfac64f": {
-    "caption": "GW11 • FPL AVAILABLE FLAG — Szoboszlai\nSzoboszlai (LIV): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: MUN (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #LIV",
-    "club_code": 14,
-    "gameweek": 11,
-    "identity": "availability:3714821c3e4cd65e7cfac64f",
-    "image": null,
-    "photo_code": 424876,
-    "player_name": "Szoboszlai",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "LIV",
-    "title": "GW11 • FPL AVAILABLE FLAG — Szoboszlai"
-  },
   "availability:3896d05f963a2a55cfd3ed44": {
     "caption": "GW10 • FPL AVAILABLE FLAG — Strand Larsen\nStrand Larsen (CRY): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #CRY",
     "club_code": 31,
@@ -1298,6 +1285,19 @@
     "source_url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE9HRzBBVDVoYnUtVTlXZzdXelNsdl9vWi1XNWdncFo4TzNPdXdUQ1VFbjhtRFI0cGh3ZTE2a0VwRlpXR3JsX05ObkEwS1lvMkVsTWdyNTVkbUE?oc=5",
     "team_name": "ARS",
     "title": "GW10 • INJURY WATCH"
+  },
+  "rss:c028729ee390b2680822e7c5": {
+    "caption": "GW11 • INJURY WATCH\nReported headline: Maresca provides injury update on Gvardiol and Guehi - Premier League\nFeed: official.premier_league • 2026-11-07 22:44 UTC\nhttps://news.google.com/rss/articles/CBMiWEFVX3lxTE1SVXVUeTU4YVAyTmpPSFNOVWl4bGVmTGZWTHF1UEFxWHMtTXpkUnVhcmZTaHN3TmZQVFdYNkhZTTd5blB4Y2ZlenFMUDNhanFoWndVYnc0Zkk?oc=5\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW11",
+    "club_code": 43,
+    "gameweek": 11,
+    "identity": "rss:c028729ee390b2680822e7c5",
+    "image": null,
+    "photo_code": 477424,
+    "player_name": "Gvardiol",
+    "source": "official.premier_league",
+    "source_url": "https://news.google.com/rss/articles/CBMiWEFVX3lxTE1SVXVUeTU4YVAyTmpPSFNOVWl4bGVmTGZWTHF1UEFxWHMtTXpkUnVhcmZTaHN3TmZQVFdYNkhZTTd5blB4Y2ZlenFMUDNhanFoWndVYnc0Zkk?oc=5",
+    "team_name": "MCI",
+    "title": "GW11 • INJURY WATCH"
   },
   "rss:d515569a0f6e766db921fa50": {
     "caption": "GW11 • TRANSFER WATCH\nReported headline: Win a shirt signed by Arsenal defender Gabriel - Premier League\nFeed: official.premier_league • 2026-11-06 16:37 UTC\nhttps://news.google.com/rss/articles/CBMimAFBVV95cUxORWJWZkNtaFZtS2h1ckZPR0wxZlhxV2ZxMTRZRlVSQm5iUThtS1FyVVRDTDBBTWhtZU5xMDhZRWlCdFlzWmc4UnhZRFJoRzhRNFhMcXdXVzNrWm1QM2FMUmVDY0stWld0YlYtOFl3ekhGcFJZbUNaOU4zeDREUG5RV2I3ZXBGQkxDNUtSaWM0Y3VOZ01qQ21XYQ?oc=5\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Transfer #GW11",
