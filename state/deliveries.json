@@ -1161,6 +1161,16 @@
     "telegram_message_id": 266,
     "timestamp": "2026-11-07T16:57:21.681872+00:00"
   },
+  "2026-11-07:news": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568705746043011164",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 275,
+    "timestamp": "2026-11-07T19:16:29.987692+00:00"
+  },
   "2026-11-07:projections:GW11": {
     "delivered": true,
     "discord_delivered": true,

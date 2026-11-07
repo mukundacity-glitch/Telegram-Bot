@@ -1484,6 +1484,124 @@
     "timestamp": "2026-11-02T22:57:26.492193+00:00",
     "version": "7c4aa47f2352129e80e5f9d796282c4275762acace57717bf7fb5803454a24dc"
   },
+  "news:11:6:511499|8:486672|54:76357": {
+    "confirmed": true,
+    "delivery_key": "2026-11-07:news",
+    "evidence": {
+      "gw": 11,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "LEE",
+              "A",
+              3,
+              2
+            ],
+            [
+              "IPS",
+              "H",
+              2,
+              40
+            ],
+            [
+              "SUN",
+              "A",
+              3,
+              56
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 3,
+            "clean_sheets": 3,
+            "form": "3.2",
+            "goals": 1,
+            "minutes": 477,
+            "price": "£5.6m",
+            "status": "d",
+            "total_points": 24
+          },
+          "player": "Tel",
+          "team": 6
+        },
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "A",
+              3,
+              56
+            ],
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ],
+            [
+              "NFO",
+              "A",
+              2,
+              17
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 2,
+            "form": "2.0",
+            "goals": 0,
+            "minutes": 350,
+            "price": "£5.3m",
+            "status": "d",
+            "total_points": 11
+          },
+          "player": "Caicedo",
+          "team": 8
+        },
+        {
+          "fixtures": [
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "A",
+              5,
+              43
+            ],
+            [
+              "BOU",
+              "H",
+              3,
+              91
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "0.4",
+            "goals": 0,
+            "minutes": 36,
+            "price": "£4.9m",
+            "status": "i",
+            "total_points": 2
+          },
+          "player": "Cairney",
+          "team": 54
+        }
+      ]
+    },
+    "group": "news:11:6:511499|8:486672|54:76357",
+    "timestamp": "2026-11-07T19:16:29.987692+00:00",
+    "version": "5a6eb732d855fbaef2a0d19c8943dcd85db78d3f74e6994e32b8a5f407d132b0"
+  },
   "news:11:8:486672|54:76357|91:494928": {
     "confirmed": true,
     "delivery_key": "2026-11-06:news",
