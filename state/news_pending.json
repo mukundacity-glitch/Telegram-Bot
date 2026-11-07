@@ -1,16 +1,29 @@
 {
-  "availability:2af3b513a7a58c2a22887837": {
-    "caption": "GW10 • FPL INJURY FLAG — Tomiyasu\nTomiyasu (CRY): FPL injury flag. Official FPL note: Calf injury - Expected back 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:54 UTC\n#FPL #FPLVortex #Availability #CRY",
-    "club_code": 31,
-    "gameweek": 10,
-    "identity": "availability:2af3b513a7a58c2a22887837",
+  "availability:00f7990e5db4f9513e22d4da": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Gourna-Douath\nGourna-Douath (HUL): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: BHA (H).\nSource: Official Fantasy Premier League, 2026-11-07 16:08 UTC\n#FPL #FPLVortex #Availability #HUL",
+    "club_code": 88,
+    "gameweek": 11,
+    "identity": "availability:00f7990e5db4f9513e22d4da",
     "image": null,
-    "photo_code": 223723,
-    "player_name": "Tomiyasu",
+    "photo_code": 469266,
+    "player_name": "Gourna-Douath",
     "source": "Official FPL",
     "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "CRY",
-    "title": "GW10 • FPL INJURY FLAG — Tomiyasu"
+    "team_name": "HUL",
+    "title": "GW11 • FPL AVAILABLE FLAG — Gourna-Douath"
+  },
+  "availability:03857984ea4a5e7becb56004": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Livramento\nLivramento (NEW): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-07 16:08 UTC\n#FPL #FPLVortex #Availability #NEW",
+    "club_code": 4,
+    "gameweek": 11,
+    "identity": "availability:03857984ea4a5e7becb56004",
+    "image": null,
+    "photo_code": 441191,
+    "player_name": "Livramento",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "NEW",
+    "title": "GW11 • FPL AVAILABLE FLAG — Livramento"
   },
   "availability:2c55cbe98f0b45570a7b1470": {
     "caption": "GW10 • FPL INJURY FLAG — Rashford\nRashford (MUN): FPL injury flag. Official FPL note: Hip injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:14 UTC\n#FPL #FPLVortex #Availability #MUN",
@@ -259,6 +272,19 @@
     "team_name": "AVL",
     "title": "GW11 • FPL DOUBTFUL FLAG — Wan-Bissaka"
   },
+  "availability:4e1b2645f52bb5757176b587": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Fernandez-Pardo\nFernandez-Pardo (NEW): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-07 16:08 UTC\n#FPL #FPLVortex #Availability #NEW",
+    "club_code": 4,
+    "gameweek": 11,
+    "identity": "availability:4e1b2645f52bb5757176b587",
+    "image": null,
+    "photo_code": 613221,
+    "player_name": "Fernandez-Pardo",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "NEW",
+    "title": "GW11 • FPL AVAILABLE FLAG — Fernandez-Pardo"
+  },
   "availability:57ee4692a09318e20ea0fbd8": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Ndoye\nNdoye (NFO): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: BOU (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NFO",
     "club_code": 17,
@@ -297,6 +323,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "LIV",
     "title": "GW11 • FPL AVAILABLE FLAG — Munoz"
+  },
+  "availability:6e3aa4a47c41bc9d50d2cf34": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Calvert-Lewin\nCalvert-Lewin (LEE): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: CHE (A).\nSource: Official Fantasy Premier League, 2026-11-07 16:08 UTC\n#FPL #FPLVortex #Availability #LEE",
+    "club_code": 2,
+    "gameweek": 11,
+    "identity": "availability:6e3aa4a47c41bc9d50d2cf34",
+    "image": null,
+    "photo_code": 177815,
+    "player_name": "Calvert-Lewin",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "LEE",
+    "title": "GW11 • FPL AVAILABLE FLAG — Calvert-Lewin"
   },
   "availability:7191a599ca659edd66ee03bd": {
     "caption": "GW11 • FPL INJURY FLAG — Joelinton\nJoelinton (NEW): FPL injury flag. Official FPL note: Unspecified injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NEW",
@@ -415,6 +454,19 @@
     "team_name": "CRY",
     "title": "GW11 • FPL SUSPENSION FLAG — Mateta"
   },
+  "availability:8ecad7e81521f994db3c3ca6": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Okafor\nOkafor (LEE): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: CHE (A).\nSource: Official Fantasy Premier League, 2026-11-07 16:08 UTC\n#FPL #FPLVortex #Availability #LEE",
+    "club_code": 2,
+    "gameweek": 11,
+    "identity": "availability:8ecad7e81521f994db3c3ca6",
+    "image": null,
+    "photo_code": 435997,
+    "player_name": "Okafor",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "LEE",
+    "title": "GW11 • FPL AVAILABLE FLAG — Okafor"
+  },
   "availability:8f2a55600a4f4804992e9cb7": {
     "caption": "GW11 • FPL DOUBTFUL FLAG — Henderson\nHenderson (CHE): FPL doubtful flag. Official FPL note: Illness - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: LEE (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #CHE",
     "club_code": 8,
@@ -492,6 +544,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "ARS",
     "title": "GW11 • FPL AVAILABLE FLAG — Madueke"
+  },
+  "availability:a56ad9d4784171882781459e": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — L.Miley\nL.Miley (NEW): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-07 16:08 UTC\n#FPL #FPLVortex #Availability #NEW",
+    "club_code": 4,
+    "gameweek": 11,
+    "identity": "availability:a56ad9d4784171882781459e",
+    "image": null,
+    "photo_code": 547719,
+    "player_name": "L.Miley",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "NEW",
+    "title": "GW11 • FPL AVAILABLE FLAG — L.Miley"
   },
   "availability:a9ffb37a46cb9aa1af74da0a": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Osula\nOsula (NEW): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NEW",
@@ -1181,6 +1246,32 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BRE",
     "title": "GW11 • CONFIRMED PRICE FALL — Wilson"
+  },
+  "rss:109eb786a945c44a3cb5228c": {
+    "caption": "GW11 • INJURY WATCH\nReported headline: Okafor’s Leeds winner adds insult to Tel’s injury for Tottenham as Bogle escapes red\nFeed: media.the_guardian • 2026-11-07 14:34 UTC\nhttps://www.theguardian.com/football/2026/nov/07/leeds-tottenham-premier-league-match-report\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW11",
+    "club_code": 2,
+    "gameweek": 11,
+    "identity": "rss:109eb786a945c44a3cb5228c",
+    "image": null,
+    "photo_code": 435997,
+    "player_name": "Okafor",
+    "source": "media.the_guardian",
+    "source_url": "https://www.theguardian.com/football/2026/nov/07/leeds-tottenham-premier-league-match-report",
+    "team_name": "LEE",
+    "title": "GW11 • INJURY WATCH"
+  },
+  "rss:3ddf90ef1e418b7dc5835fb8": {
+    "caption": "GW11 • TRANSFER WATCH\nReported headline: Latest transfer news: De Winter on PL clubs' radar as PSG want Suzuki\nFeed: database.transfermarkt • 2026-11-07 13:39 UTC\nhttps://www.transfermarkt.com/latest-transfer-news-ac-milan-star-on-pl-clubs-radar-as-psg-keen-on-zion-suzuki/view/news/445145\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Transfer #GW11",
+    "club_code": 7,
+    "gameweek": 11,
+    "identity": "rss:3ddf90ef1e418b7dc5835fb8",
+    "image": null,
+    "photo_code": 433969,
+    "player_name": "Suzuki",
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/latest-transfer-news-ac-milan-star-on-pl-clubs-radar-as-psg-keen-on-zion-suzuki/view/news/445145",
+    "team_name": "AVL",
+    "title": "GW11 • TRANSFER WATCH"
   },
   "rss:4f3d4325655123ec24be9fb2": {
     "caption": "GW10 • INJURY WATCH\nReported headline: 'A little setback' - Farke's injury update on Calvert-Lewin - Premier League\nFeed: official.premier_league • 2026-11-05 20:38 UTC\nhttps://news.google.com/rss/articles/CBMiWEFVX3lxTE1yc1lKV0FpYnN6REtoazRtM2tpTDlBdTVtR3ZpVkpfS2dSZFNCaC1nRDFyaGZTZVFSeklyTzlOWDlseW12MExnNkhSRW5sOTdaY0dNSTJfaHk?oc=5\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW10",

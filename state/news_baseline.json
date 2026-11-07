@@ -1841,11 +1841,11 @@
     "status": "d"
   },
   "336": {
-    "chance_of_playing_next_round": 50,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 50,
-    "news": "Thigh injury - 50% chance of playing",
+    "news": "",
     "now_cost": 57,
-    "status": "d"
+    "status": "a"
   },
   "337": {
     "chance_of_playing_next_round": null,
@@ -1918,11 +1918,11 @@
     "status": "a"
   },
   "346": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Foot injury - 75% chance of playing",
+    "news": "",
     "now_cost": 60,
-    "status": "d"
+    "status": "a"
   },
   "347": {
     "chance_of_playing_next_round": null,
@@ -2730,11 +2730,11 @@
     "status": "a"
   },
   "450": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 0,
-    "news": "Knee injury - Unknown return date",
+    "news": "",
     "now_cost": 48,
-    "status": "i"
+    "status": "a"
   },
   "451": {
     "chance_of_playing_next_round": 0,
@@ -2793,11 +2793,11 @@
     "status": "i"
   },
   "459": {
-    "chance_of_playing_next_round": 50,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 50,
-    "news": "Muscular injury - 50% chance of playing",
+    "news": "",
     "now_cost": 55,
-    "status": "d"
+    "status": "a"
   },
   "46": {
     "chance_of_playing_next_round": 100,
@@ -3801,11 +3801,11 @@
     "status": "a"
   },
   "589": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Calf injury - 75% chance of playing",
+    "news": "",
     "now_cost": 49,
-    "status": "d"
+    "status": "a"
   },
   "59": {
     "chance_of_playing_next_round": 0,
@@ -4158,11 +4158,11 @@
     "status": "a"
   },
   "634": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Illness - 75% chance of playing",
+    "news": "",
     "now_cost": 59,
-    "status": "d"
+    "status": "a"
   },
   "635": {
     "chance_of_playing_next_round": 100,
