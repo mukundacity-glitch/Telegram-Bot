@@ -365,6 +365,12 @@
     "status": "delivered",
     "task": "task2"
   },
+  "2026-11-07:task2:market-verdict:GW11": {
+    "edition": "market-verdict",
+    "reason": "Original Day 3 / FPL Core verified forecast unavailable: ReadTimeout",
+    "status": "held",
+    "task": "task2"
+  },
   "2026-11-07:task2:rank-booster:GW11": {
     "caption_hashtags": 4,
     "edition": "rank-booster",
