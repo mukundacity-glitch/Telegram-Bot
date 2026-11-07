@@ -1191,6 +1191,16 @@
     "telegram_message_id": 267,
     "timestamp": "2026-11-07T17:37:43.780718+00:00"
   },
+  "2026-11-07:start_bench:GW11": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568742400770314444",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 284,
+    "timestamp": "2026-11-07T21:42:08.512380+00:00"
+  },
   "2026-11-07:team_analysis:GW11": {
     "delivered": true,
     "discord_delivered": true,
