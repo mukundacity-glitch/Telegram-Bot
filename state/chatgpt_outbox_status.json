@@ -185,9 +185,9 @@
     "status": "held"
   },
   "2026-11-07-form-minutes-targets.json": {
-    "at": "2026-11-07T18:05:02.872366+00:00",
-    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:7449f8604cccb9f63e11",
-    "status": "delivered"
+    "at": "2026-11-07T21:06:00.340320+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-07-four-midfielders.json": {
     "at": "2026-11-07T18:50:36.687754+00:00",
