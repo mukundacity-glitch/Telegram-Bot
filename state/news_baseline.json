@@ -2240,11 +2240,11 @@
     "status": "a"
   },
   "388": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Unspecified injury - 75% chance of playing",
     "now_cost": 60,
-    "status": "a"
+    "status": "d"
   },
   "389": {
     "chance_of_playing_next_round": 100,
@@ -2268,11 +2268,11 @@
     "status": "a"
   },
   "391": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Unspecified injury - 75% chance of playing",
     "now_cost": 57,
-    "status": "a"
+    "status": "d"
   },
   "392": {
     "chance_of_playing_next_round": null,

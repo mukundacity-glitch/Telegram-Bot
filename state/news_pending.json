@@ -1,17 +1,4 @@
 {
-  "availability:36dac23d7ae6fadf90d55d97": {
-    "caption": "GW10 • FPL DOUBTFUL FLAG — Stach\nStach (LEE): FPL doubtful flag. Official FPL note: Foot injury - 50% chance of playing. FPL next-round flag: 50% (not a predicted start probability). Next GW: TOT (H).\nSource: Official Fantasy Premier League, 2026-11-05 18:42 UTC\n#FPL #FPLVortex #Availability #LEE",
-    "club_code": 2,
-    "gameweek": 10,
-    "identity": "availability:36dac23d7ae6fadf90d55d97",
-    "image": null,
-    "photo_code": 466525,
-    "player_name": "Stach",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "LEE",
-    "title": "GW10 • FPL DOUBTFUL FLAG — Stach"
-  },
   "availability:36e4ef578b6db0192c6b4964": {
     "caption": "GW11 • FPL DOUBTFUL FLAG — Caicedo\nCaicedo (CHE): FPL doubtful flag. Official FPL note: Calf injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: LEE (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #CHE",
     "club_code": 8,
@@ -232,6 +219,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BRE",
     "title": "GW11 • FPL DOUBTFUL FLAG — Dasilva"
+  },
+  "availability:5c25b933704a8cb4b49443d3": {
+    "caption": "GW11 • FPL DOUBTFUL FLAG — Gvardiol\nGvardiol (MCI): FPL doubtful flag. Official FPL note: Unspecified injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: FUL (H).\nSource: Official Fantasy Premier League, 2026-11-07 21:44 UTC\n#FPL #FPLVortex #Availability #MCI",
+    "club_code": 43,
+    "gameweek": 11,
+    "identity": "availability:5c25b933704a8cb4b49443d3",
+    "image": null,
+    "photo_code": 477424,
+    "player_name": "Gvardiol",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MCI",
+    "title": "GW11 • FPL DOUBTFUL FLAG — Gvardiol"
   },
   "availability:62b6e8984e19d53036be2845": {
     "caption": "GW11 • FPL DOUBTFUL FLAG — King\nKing (FUL): FPL doubtful flag. Official FPL note: Groin injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: MCI (A).\nSource: Official Fantasy Premier League, 2026-11-07 20:41 UTC\n#FPL #FPLVortex #Availability #FUL",
@@ -492,6 +492,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NEW",
     "title": "GW11 • FPL AVAILABLE FLAG — L.Miley"
+  },
+  "availability:a7d0249d9f6d01ad2a9eb21b": {
+    "caption": "GW11 • FPL DOUBTFUL FLAG — Guéhi\nGuéhi (MCI): FPL doubtful flag. Official FPL note: Unspecified injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: FUL (H).\nSource: Official Fantasy Premier League, 2026-11-07 21:44 UTC\n#FPL #FPLVortex #Availability #MCI",
+    "club_code": 43,
+    "gameweek": 11,
+    "identity": "availability:a7d0249d9f6d01ad2a9eb21b",
+    "image": null,
+    "photo_code": 209036,
+    "player_name": "Guéhi",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MCI",
+    "title": "GW11 • FPL DOUBTFUL FLAG — Guéhi"
   },
   "availability:a9ffb37a46cb9aa1af74da0a": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Osula\nOsula (NEW): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NEW",
