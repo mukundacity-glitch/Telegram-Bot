@@ -387,6 +387,16 @@
     "telegram_message_id": 272,
     "timestamp": "2026-11-07T18:05:02.872366+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:transfer-market-team-news:28e7d4882998bb10fdfe:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1568758817506857011",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 289,
+    "timestamp": "2026-11-07T22:47:25.381665+00:00"
+  },
   "chatgpt:2026-27:GW11:task1:transfer-market-team-news:a13031ee9a9981ce3f47:page1": {
     "delivered": true,
     "discord_delivered": true,
