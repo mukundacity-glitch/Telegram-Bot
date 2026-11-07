@@ -371,6 +371,193 @@
         },
         "recorded_at": "2026-11-05T19:42:43.079850+00:00"
       }
+    },
+    "11": {
+      "2026-11-07": {
+        "fixtures": {
+          "101": {
+            "away": {
+              "cs": 16,
+              "family": "solio",
+              "goals": 1.02,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 7,
+              "team": 56
+            },
+            "home": {
+              "cs": 36,
+              "family": "solio",
+              "goals": 1.82,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 56,
+              "team": 7
+            }
+          },
+          "102": {
+            "away": {
+              "cs": 19,
+              "family": "solio",
+              "goals": 1.16,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 91,
+              "team": 17
+            },
+            "home": {
+              "cs": 31,
+              "family": "solio",
+              "goals": 1.64,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 17,
+              "team": 91
+            }
+          },
+          "103": {
+            "away": {
+              "cs": 17,
+              "family": "solio",
+              "goals": 1.09,
+              "kickoff": "2026-11-23T20:00:00Z",
+              "opponent": 94,
+              "team": 11
+            },
+            "home": {
+              "cs": 34,
+              "family": "solio",
+              "goals": 1.77,
+              "kickoff": "2026-11-23T20:00:00Z",
+              "opponent": 11,
+              "team": 94
+            }
+          },
+          "104": {
+            "away": {
+              "cs": 17,
+              "family": "solio",
+              "goals": 1.09,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 8,
+              "team": 2
+            },
+            "home": {
+              "cs": 34,
+              "family": "solio",
+              "goals": 1.76,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 2,
+              "team": 8
+            }
+          },
+          "105": {
+            "away": {
+              "cs": 22,
+              "family": "solio",
+              "goals": 1.38,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 9,
+              "team": 31
+            },
+            "home": {
+              "cs": 25,
+              "family": "solio",
+              "goals": 1.5,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 31,
+              "team": 9
+            }
+          },
+          "106": {
+            "away": {
+              "cs": 39,
+              "family": "solio",
+              "goals": 2.02,
+              "kickoff": "2026-11-22T14:00:00Z",
+              "opponent": 88,
+              "team": 36
+            },
+            "home": {
+              "cs": 13,
+              "family": "solio",
+              "goals": 0.95,
+              "kickoff": "2026-11-22T14:00:00Z",
+              "opponent": 36,
+              "team": 88
+            }
+          },
+          "107": {
+            "away": {
+              "cs": 15,
+              "family": "solio",
+              "goals": 1.23,
+              "kickoff": "2026-11-22T16:30:00Z",
+              "opponent": 14,
+              "team": 1
+            },
+            "home": {
+              "cs": 29,
+              "family": "solio",
+              "goals": 1.91,
+              "kickoff": "2026-11-22T16:30:00Z",
+              "opponent": 1,
+              "team": 14
+            }
+          },
+          "108": {
+            "away": {
+              "cs": 10,
+              "family": "solio",
+              "goals": 0.98,
+              "kickoff": "2026-11-21T12:30:00Z",
+              "opponent": 43,
+              "team": 54
+            },
+            "home": {
+              "cs": 38,
+              "family": "solio",
+              "goals": 2.3,
+              "kickoff": "2026-11-21T12:30:00Z",
+              "opponent": 54,
+              "team": 43
+            }
+          },
+          "109": {
+            "away": {
+              "cs": 39,
+              "family": "solio",
+              "goals": 1.96,
+              "kickoff": "2026-11-21T17:30:00Z",
+              "opponent": 4,
+              "team": 3
+            },
+            "home": {
+              "cs": 14,
+              "family": "solio",
+              "goals": 0.95,
+              "kickoff": "2026-11-21T17:30:00Z",
+              "opponent": 3,
+              "team": 4
+            }
+          },
+          "110": {
+            "away": {
+              "cs": 12,
+              "family": "solio",
+              "goals": 0.95,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 6,
+              "team": 40
+            },
+            "home": {
+              "cs": 39,
+              "family": "solio",
+              "goals": 2.16,
+              "kickoff": "2026-11-21T15:00:00Z",
+              "opponent": 40,
+              "team": 6
+            }
+          }
+        },
+        "recorded_at": "2026-11-07T17:37:43.780718+00:00"
+      }
     }
   }
 }

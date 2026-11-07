@@ -1686,6 +1686,90 @@
     "timestamp": "2026-11-05T19:42:43.079850+00:00",
     "version": "ed03117e490ec81848c4f0192acce11710b4685106eafb99fb0d89358570e1b0"
   },
+  "projections:11:general": {
+    "confirmed": true,
+    "delivery_key": "2026-11-07:projections:GW11",
+    "evidence": {
+      "fixtures": [
+        {
+          "away_cs": 10,
+          "away_goals": 0.98,
+          "home_cs": 38,
+          "home_goals": 2.3,
+          "id": 108
+        },
+        {
+          "away_cs": 16,
+          "away_goals": 1.02,
+          "home_cs": 36,
+          "home_goals": 1.82,
+          "id": 101
+        },
+        {
+          "away_cs": 19,
+          "away_goals": 1.16,
+          "home_cs": 31,
+          "home_goals": 1.64,
+          "id": 102
+        },
+        {
+          "away_cs": 17,
+          "away_goals": 1.09,
+          "home_cs": 34,
+          "home_goals": 1.76,
+          "id": 104
+        },
+        {
+          "away_cs": 22,
+          "away_goals": 1.38,
+          "home_cs": 25,
+          "home_goals": 1.5,
+          "id": 105
+        },
+        {
+          "away_cs": 12,
+          "away_goals": 0.95,
+          "home_cs": 39,
+          "home_goals": 2.16,
+          "id": 110
+        },
+        {
+          "away_cs": 39,
+          "away_goals": 1.96,
+          "home_cs": 14,
+          "home_goals": 0.95,
+          "id": 109
+        },
+        {
+          "away_cs": 39,
+          "away_goals": 2.02,
+          "home_cs": 13,
+          "home_goals": 0.95,
+          "id": 106
+        },
+        {
+          "away_cs": 15,
+          "away_goals": 1.23,
+          "home_cs": 29,
+          "home_goals": 1.91,
+          "id": 107
+        },
+        {
+          "away_cs": 17,
+          "away_goals": 1.09,
+          "home_cs": 34,
+          "home_goals": 1.77,
+          "id": 103
+        }
+      ],
+      "gw": 11,
+      "kind": "projections",
+      "players": []
+    },
+    "group": "projections:11:general",
+    "timestamp": "2026-11-07T17:37:43.780718+00:00",
+    "version": "9d11edffbd04c445df165fea49c59a1fb86c6cec532592593733285eb79b6fda"
+  },
   "review:10:3:226597|3:199798|7:517052|91:463981": {
     "confirmed": false,
     "delivery_key": "2026-11-02:review",
