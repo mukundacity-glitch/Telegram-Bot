@@ -878,6 +878,87 @@
     "timestamp": "2026-11-07T17:59:17.669498+00:00",
     "version": "b5c4d10dddec4ab93fbd593ff1a6d90c8aac538e0aa430a7d0f94013cf138d1f"
   },
+  "comparison:11:3:199798|36:610799": {
+    "confirmed": true,
+    "delivery_key": "2026-11-08:comparison",
+    "evidence": {
+      "gw": 11,
+      "kind": "comparison",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 5,
+            "form": "9.0",
+            "goals": 1,
+            "minutes": 731,
+            "price": "£4.8m",
+            "total_points": 57
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ],
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 2,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "7.6",
+            "goals": 1,
+            "minutes": 887,
+            "price": "£5.2m",
+            "total_points": 70
+          },
+          "player": "Vuskovic",
+          "team": 36
+        }
+      ]
+    },
+    "group": "comparison:11:3:199798|36:610799",
+    "timestamp": "2026-11-08T18:17:55.396668+00:00",
+    "version": "883c8a9dc0e0f8499df9eb0c8eead9e4512f27f2909ccc8f910c3fb6dc58175a"
+  },
   "elite:10:6:469142": {
     "confirmed": true,
     "delivery_key": "2026-11-06:elite",
