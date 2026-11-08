@@ -2074,6 +2074,124 @@
     "timestamp": "2026-11-06T20:42:20.977193+00:00",
     "version": "66e76215edc95d3ed02080b4d634c3ecc4820f2fc025665b8cc7b1ab354ec550"
   },
+  "news:11:8:577016|56:84450|94:502500": {
+    "confirmed": true,
+    "delivery_key": "2026-11-08:news",
+    "evidence": {
+      "gw": 11,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "A",
+              3,
+              56
+            ],
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ],
+            [
+              "NFO",
+              "A",
+              2,
+              17
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 3,
+            "clean_sheets": 2,
+            "form": "3.8",
+            "goals": 0,
+            "minutes": 581,
+            "price": "£4.5m",
+            "status": "d",
+            "total_points": 24
+          },
+          "player": "Acheampong",
+          "team": 8
+        },
+        {
+          "fixtures": [
+            [
+              "CHE",
+              "H",
+              4,
+              8
+            ],
+            [
+              "AVL",
+              "A",
+              3,
+              7
+            ],
+            [
+              "TOT",
+              "H",
+              3,
+              6
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 5,
+            "clean_sheets": 2,
+            "form": "2.4",
+            "goals": 0,
+            "minutes": 813,
+            "price": "£5.3m",
+            "status": "d",
+            "total_points": 33
+          },
+          "player": "Xhaka",
+          "team": 56
+        },
+        {
+          "fixtures": [
+            [
+              "BHA",
+              "A",
+              4,
+              36
+            ],
+            [
+              "EVE",
+              "H",
+              3,
+              11
+            ],
+            [
+              "MUN",
+              "A",
+              3,
+              1
+            ]
+          ],
+          "metrics": {
+            "assists": 3,
+            "bonus": 3,
+            "clean_sheets": 3,
+            "form": "4.0",
+            "goals": 2,
+            "minutes": 824,
+            "price": "£7.8m",
+            "status": "s",
+            "total_points": 30
+          },
+          "player": "Thiago",
+          "team": 94
+        }
+      ]
+    },
+    "group": "news:11:8:577016|56:84450|94:502500",
+    "timestamp": "2026-11-08T19:21:55.319668+00:00",
+    "version": "35f6c6884bb4e830885a51e2dca95342f497c0e0ce0279996820ca1a71a50590"
+  },
   "projections:10:general": {
     "confirmed": true,
     "delivery_key": "2026-11-05:projections:GW10",
