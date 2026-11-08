@@ -259,6 +259,11 @@
     "identity": "chatgpt:2026-27:GW11:three_daily:squad-surgery:e9780b21397e9a01b228",
     "status": "delivered"
   },
+  "2026-11-08-transfer-market-team-news.json": {
+    "at": "2026-11-08T22:55:33.167129+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:transfer-market-team-news:b3717b88d40c92736bf4",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
