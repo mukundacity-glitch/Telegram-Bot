@@ -486,6 +486,155 @@
     "timestamp": "2026-11-07T00:41:26.182821+00:00",
     "version": "53190f8d0105bd06136c117286aea3c32646fb2a65514d096669716bbeba3584"
   },
+  "captaincy:11:3:199798|3:226597|43:223094|11:586309": {
+    "confirmed": true,
+    "delivery_key": "2026-11-07:captaincy",
+    "evidence": {
+      "gw": 11,
+      "kind": "captaincy",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 5,
+            "form": "9.0",
+            "goals": 1,
+            "minutes": 731,
+            "price": "£4.8m",
+            "total_points": 57
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "8.2",
+            "goals": 1,
+            "minutes": 900,
+            "price": "£8.1m",
+            "total_points": 66
+          },
+          "player": "Gabriel",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "NFO",
+              "A",
+              2,
+              17
+            ],
+            [
+              "FUL",
+              "H",
+              2,
+              54
+            ],
+            [
+              "ARS",
+              "A",
+              5,
+              3
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 14,
+            "clean_sheets": 3,
+            "form": "6.2",
+            "goals": 9,
+            "minutes": 889,
+            "price": "£15.8m",
+            "total_points": 70
+          },
+          "player": "Haaland",
+          "team": 43
+        },
+        {
+          "fixtures": [
+            [
+              "COV",
+              "H",
+              2,
+              9
+            ],
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ],
+            [
+              "LIV",
+              "H",
+              4,
+              14
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 8,
+            "clean_sheets": 4,
+            "form": "7.0",
+            "goals": 6,
+            "minutes": 851,
+            "price": "£5.7m",
+            "total_points": 55
+          },
+          "player": "Barry",
+          "team": 11
+        }
+      ]
+    },
+    "group": "captaincy:11:3:199798|3:226597|43:223094|11:586309",
+    "timestamp": "2026-11-08T00:15:36.094748+00:00",
+    "version": "8ba40f76caaf752c20aa275029e64a3267950394038bb18be7372e875aff5aa9"
+  },
   "comparison:10:36:465730|3:226597": {
     "confirmed": true,
     "delivery_key": "2026-11-05:comparison",
