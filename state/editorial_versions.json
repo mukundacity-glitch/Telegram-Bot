@@ -974,6 +974,54 @@
     "timestamp": "2026-11-07T16:57:21.681872+00:00",
     "version": "b06b12568cb2867ce1475de5373fc5115111422a283bd1c5e9a963726855cbcc"
   },
+  "elite:11:36:610799": {
+    "confirmed": true,
+    "delivery_key": "2026-11-08:elite",
+    "evidence": {
+      "gw": 11,
+      "kind": "elite",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ],
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 2,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "7.6",
+            "goals": 1,
+            "minutes": 887,
+            "ownership": "8.2",
+            "price": "£5.2m",
+            "total_points": 70
+          },
+          "player": "Vuskovic",
+          "team": 36
+        }
+      ]
+    },
+    "group": "elite:11:36:610799",
+    "timestamp": "2026-11-08T17:11:24.986507+00:00",
+    "version": "c826f889a8ef71bd5e87b440966211ed7d3031fa304d4452683c9b83466739c9"
+  },
   "evening:10:36:60307|3:204480|8:244851|14:494595": {
     "confirmed": true,
     "delivery_key": "2026-11-03:evening",
