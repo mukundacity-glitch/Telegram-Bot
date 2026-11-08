@@ -1,17 +1,4 @@
 {
-  "availability:4344817b4d03d6bfd5e838d6": {
-    "caption": "GW11 • FPL SUSPENSION FLAG — Alderete\nAlderete (SUN): FPL suspension flag. Official FPL note: Suspended until 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: AVL (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Suspension #SUN",
-    "club_code": 56,
-    "gameweek": 11,
-    "identity": "availability:4344817b4d03d6bfd5e838d6",
-    "image": null,
-    "photo_code": 201895,
-    "player_name": "Alderete",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "SUN",
-    "title": "GW11 • FPL SUSPENSION FLAG — Alderete"
-  },
   "availability:45a9e1805564041d78036647": {
     "caption": "GW11 • FPL INJURY FLAG — Dominguez\nDominguez (NFO): FPL injury flag. Official FPL note: Muscular injury - Expected back 30 Dec. FPL next-round flag: 0% (not a predicted start probability). Next GW: BOU (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NFO",
     "club_code": 17,
@@ -1558,6 +1545,19 @@
     "source_url": "https://news.google.com/rss/articles/CBMinwFBVV95cUxPWElTOFZJNlNNYzFTSkFnYkIwWnRCVGJwUjVpZXJSYXpZRFFMbGVyc1JsamhRU3JxSTR4bDA2aW52eUlUOTZTaHlDdlBjY3lYU3BhTW5LUXdVSV9CNU82Q3JtRjZfczZUdllsRF9xRXNfX2hkWXlLN3dTQXliajE1djI2NVprNGlneVBxU0dna3RYcXRBOFFSdVdidHhqUGM?oc=5",
     "team_name": "MCI",
     "title": "GW11 • INJURY WATCH"
+  },
+  "rss:cf899f413ade1b49efc590ed": {
+    "caption": "GW11 • TRANSFER WATCH\nReported headline: Latest transfer news: Bayern in Rio Ngumoha talks as Barcelona track Eintracht starlet\nFeed: database.transfermarkt • 2026-11-08 20:48 UTC\nhttps://www.transfermarkt.com/latest-transfer-news-bayern-in-rio-ngumoha-talks-as-barcelona-track-eintracht-starlet/view/news/445145\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Transfer #GW11",
+    "club_code": 14,
+    "gameweek": 11,
+    "identity": "rss:cf899f413ade1b49efc590ed",
+    "image": null,
+    "photo_code": 611922,
+    "player_name": "Ngumoha",
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/latest-transfer-news-bayern-in-rio-ngumoha-talks-as-barcelona-track-eintracht-starlet/view/news/445145",
+    "team_name": "LIV",
+    "title": "GW11 • TRANSFER WATCH"
   },
   "rss:d515569a0f6e766db921fa50": {
     "caption": "GW11 • TRANSFER WATCH\nReported headline: Win a shirt signed by Arsenal defender Gabriel - Premier League\nFeed: official.premier_league • 2026-11-06 16:37 UTC\nhttps://news.google.com/rss/articles/CBMimAFBVV95cUxORWJWZkNtaFZtS2h1ckZPR0wxZlhxV2ZxMTRZRlVSQm5iUThtS1FyVVRDTDBBTWhtZU5xMDhZRWlCdFlzWmc4UnhZRFJoRzhRNFhMcXdXVzNrWm1QM2FMUmVDY0stWld0YlYtOFl3ekhGcFJZbUNaOU4zeDREUG5RV2I3ZXBGQkxDNUtSaWM0Y3VOZ01qQ21XYQ?oc=5\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Transfer #GW11",
