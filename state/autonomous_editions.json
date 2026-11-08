@@ -421,6 +421,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-08:task1:captain-differential:GW11": {
+    "caption_hashtags": 4,
+    "edition": "captain-differential",
+    "file": "outbox/2026-11-08-captain-differential.json",
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:f8317c596744c5da627f",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-11-08:task1:form-minutes-targets:GW11": {
     "caption_hashtags": 4,
     "edition": "form-minutes-targets",
