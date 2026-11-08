@@ -325,6 +325,16 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-07:task1:deadline-watch:GW11": {
+    "caption_hashtags": 4,
+    "edition": "deadline-watch",
+    "file": "outbox/2026-11-07-deadline-watch.json",
+    "identity": "chatgpt:2026-27:GW11:task1:deadline-watch:c5e104edc3ae1cf0d6eb",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-11-07:task1:form-minutes-targets:GW11": {
     "caption_hashtags": 4,
     "edition": "form-minutes-targets",

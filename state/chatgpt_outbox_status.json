@@ -179,6 +179,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-07-deadline-watch.json": {
+    "at": "2026-11-08T00:52:58.650157+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:deadline-watch:c5e104edc3ae1cf0d6eb",
+    "status": "delivered"
+  },
   "2026-11-07-fixture-targets.json": {
     "at": "2026-11-07T20:54:17.828810+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
