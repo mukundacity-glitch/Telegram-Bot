@@ -4451,6 +4451,13 @@
     "now_cost": 40,
     "status": "a"
   },
+  "672": {
+    "chance_of_playing_next_round": null,
+    "chance_of_playing_this_round": null,
+    "news": "",
+    "now_cost": 45,
+    "status": "a"
+  },
   "68": {
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
