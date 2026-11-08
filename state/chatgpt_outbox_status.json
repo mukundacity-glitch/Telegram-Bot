@@ -225,9 +225,9 @@
     "status": "held"
   },
   "2026-11-08-captain-differential.json": {
-    "at": "2026-11-08T20:32:31.853860+00:00",
-    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:f8317c596744c5da627f",
-    "status": "delivered"
+    "at": "2026-11-08T23:47:27.926461+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-08-fixture-targets.json": {
     "at": "2026-11-08T21:12:00.076320+00:00",
@@ -247,6 +247,12 @@
   "2026-11-08-four-team-targets.json": {
     "at": "2026-11-08T21:12:00.076320+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:four-team-targets:6e0566cbc472ae56791f",
+    "status": "delivered"
+  },
+  "2026-11-08-market-verdict.json": {
+    "at": "2026-11-08T23:47:27.926461+00:00",
+    "caption_once_album": true,
+    "identity": "chatgpt:2026-27:GW11:task2:market-verdict:ea42779a29c38e26c873",
     "status": "delivered"
   },
   "2026-11-08-rank-booster.json": {
