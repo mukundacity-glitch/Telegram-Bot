@@ -1715,11 +1715,11 @@
     "status": "u"
   },
   "32": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 0,
-    "news": "Suspended until 21 Nov",
+    "news": "",
     "now_cost": 43,
-    "status": "s"
+    "status": "a"
   },
   "320": {
     "chance_of_playing_next_round": null,
@@ -2485,11 +2485,11 @@
     "status": "a"
   },
   "419": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 0,
-    "news": "Suspended until 22 Nov",
+    "news": "",
     "now_cost": 48,
-    "status": "s"
+    "status": "a"
   },
   "42": {
     "chance_of_playing_next_round": null,

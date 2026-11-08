@@ -1,17 +1,4 @@
 {
-  "availability:148e8b7d7e6ab831c62bc21a": {
-    "caption": "GW11 • FPL DOUBTFUL FLAG — Acheampong\nAcheampong (CHE): FPL doubtful flag. Official FPL note: Unspecified injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: LEE (H).\nSource: Official Fantasy Premier League, 2026-11-08 16:31 UTC\n#FPL #FPLVortex #Availability #CHE",
-    "club_code": 8,
-    "gameweek": 11,
-    "identity": "availability:148e8b7d7e6ab831c62bc21a",
-    "image": null,
-    "photo_code": 577016,
-    "player_name": "Acheampong",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "CHE",
-    "title": "GW11 • FPL DOUBTFUL FLAG — Acheampong"
-  },
   "availability:2e848e789861e10e1688fda7": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Henderson\nHenderson (CHE): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LEE (H).\nSource: Official Fantasy Premier League, 2026-11-08 16:31 UTC\n#FPL #FPLVortex #Availability #CHE",
     "club_code": 8,
@@ -428,6 +415,19 @@
     "team_name": "CHE",
     "title": "GW11 • FPL DOUBTFUL FLAG — Henderson"
   },
+  "availability:958b8694174da1001226a95f": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Martinez\nMartinez (MUN): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LIV (A).\nSource: Official Fantasy Premier League, 2026-11-08 19:34 UTC\n#FPL #FPLVortex #Availability #MUN",
+    "club_code": 1,
+    "gameweek": 11,
+    "identity": "availability:958b8694174da1001226a95f",
+    "image": null,
+    "photo_code": 221820,
+    "player_name": "Martinez",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MUN",
+    "title": "GW11 • FPL AVAILABLE FLAG — Martinez"
+  },
   "availability:984bcfafa035b4365735e2ef": {
     "caption": "GW10 • FPL INJURY FLAG — Sarr\nSarr (CRY): FPL injury flag. Official FPL note: Groin injury - Expected back 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: LIV (H).\nSource: Official Fantasy Premier League, 2026-11-06 17:54 UTC\n#FPL #FPLVortex #Availability #CRY",
     "club_code": 31,
@@ -752,6 +752,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "LEE",
     "title": "GW11 • FPL DOUBTFUL FLAG — Calvert-Lewin"
+  },
+  "availability:e5bcf81d700172c75c981108": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — Cash\nCash (AVL): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: SUN (H).\nSource: Official Fantasy Premier League, 2026-11-08 19:34 UTC\n#FPL #FPLVortex #Availability #AVL",
+    "club_code": 7,
+    "gameweek": 11,
+    "identity": "availability:e5bcf81d700172c75c981108",
+    "image": null,
+    "photo_code": 199796,
+    "player_name": "Cash",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "AVL",
+    "title": "GW11 • FPL AVAILABLE FLAG — Cash"
   },
   "availability:e736869b73bfffbd423d46ed": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Tzolis\nTzolis (ARS): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: NEW (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #ARS",
