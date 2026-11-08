@@ -347,6 +347,16 @@
     "telegram_message_id": 263,
     "timestamp": "2026-11-07T16:32:06.969225+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:111d2ff16525415a5290:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1569029937023680614",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 296,
+    "timestamp": "2026-11-08T16:44:45.339131+00:00"
+  },
   "chatgpt:2026-27:GW11:task1:captain-differential:22cf1f06d475445708c2:page1": {
     "delivered": true,
     "discord_delivered": true,
