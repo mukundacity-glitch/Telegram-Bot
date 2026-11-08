@@ -164,7 +164,7 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Thigh injury - Unknown return date",
-    "now_cost": 95,
+    "now_cost": 94,
     "status": "i"
   },
   "120": {
@@ -521,7 +521,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 70,
+    "now_cost": 71,
     "status": "a"
   },
   "167": {
@@ -794,14 +794,14 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Hamstring injury - Unknown return date",
-    "now_cost": 59,
+    "now_cost": 58,
     "status": "i"
   },
   "201": {
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 53,
+    "now_cost": 52,
     "status": "a"
   },
   "202": {
@@ -1942,7 +1942,7 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Knee injury - Unknown return date",
-    "now_cost": 45,
+    "now_cost": 44,
     "status": "i"
   },
   "35": {
@@ -2474,7 +2474,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 48,
+    "now_cost": 47,
     "status": "a"
   },
   "418": {
@@ -2544,7 +2544,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 117,
+    "now_cost": 116,
     "status": "a"
   },
   "427": {
@@ -2670,7 +2670,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 49,
+    "now_cost": 48,
     "status": "a"
   },
   "443": {
@@ -3776,7 +3776,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 40,
+    "now_cost": 39,
     "status": "a"
   },
   "586": {
@@ -4161,7 +4161,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
     "news": "",
-    "now_cost": 59,
+    "now_cost": 58,
     "status": "a"
   },
   "635": {
@@ -4455,7 +4455,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 66,
+    "now_cost": 67,
     "status": "a"
   },
   "69": {
