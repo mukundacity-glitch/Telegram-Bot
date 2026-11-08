@@ -3399,6 +3399,93 @@
     "timestamp": "2026-11-06T21:23:33.344529+00:00",
     "version": "97638bb45d1a0563ae2f118665c8fe2dc2317ce1942b38a65298b431704f5882"
   },
+  "team_analysis:11:Aston Villa": {
+    "confirmed": true,
+    "delivery_key": "2026-11-08:team_analysis:GW11",
+    "evidence": {
+      "gw": 11,
+      "history": [
+        {
+          "ga": 4,
+          "gf": 0,
+          "gw": 1,
+          "kickoff": "2026-08-23T13:00:00Z",
+          "opponent": "BHA",
+          "venue": "A"
+        },
+        {
+          "ga": 1,
+          "gf": 0,
+          "gw": 2,
+          "kickoff": "2026-08-31T19:00:00Z",
+          "opponent": "ARS",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 0,
+          "gw": 3,
+          "kickoff": "2026-09-05T16:30:00Z",
+          "opponent": "HUL",
+          "venue": "A"
+        },
+        {
+          "ga": 2,
+          "gf": 1,
+          "gw": 4,
+          "kickoff": "2026-09-12T14:00:00Z",
+          "opponent": "NFO",
+          "venue": "H"
+        },
+        {
+          "ga": 2,
+          "gf": 3,
+          "gw": 5,
+          "kickoff": "2026-09-19T11:30:00Z",
+          "opponent": "TOT",
+          "venue": "A"
+        },
+        {
+          "ga": 2,
+          "gf": 2,
+          "gw": 6,
+          "kickoff": "2026-10-10T14:00:00Z",
+          "opponent": "BRE",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 7,
+          "kickoff": "2026-10-17T16:30:00Z",
+          "opponent": "NEW",
+          "venue": "A"
+        },
+        {
+          "ga": 1,
+          "gf": 2,
+          "gw": 8,
+          "kickoff": "2026-10-24T11:30:00Z",
+          "opponent": "MCI",
+          "venue": "H"
+        },
+        {
+          "ga": 1,
+          "gf": 1,
+          "gw": 9,
+          "kickoff": "2026-10-31T20:00:00Z",
+          "opponent": "FUL",
+          "venue": "H"
+        }
+      ],
+      "kind": "team_analysis",
+      "players": [],
+      "team": "Aston Villa"
+    },
+    "group": "team_analysis:11:Aston Villa",
+    "timestamp": "2026-11-08T20:16:21.847643+00:00",
+    "version": "921873076a8a2d01a2d0d18c217be84e1d1f83ab26b3dfa0ffbc41c6d7644fcf"
+  },
   "team_analysis:11:Bournemouth": {
     "confirmed": true,
     "delivery_key": "2026-11-07:team_analysis:GW11",
