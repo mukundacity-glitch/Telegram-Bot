@@ -1,17 +1,4 @@
 {
-  "availability:45a9e1805564041d78036647": {
-    "caption": "GW11 • FPL INJURY FLAG — Dominguez\nDominguez (NFO): FPL injury flag. Official FPL note: Muscular injury - Expected back 30 Dec. FPL next-round flag: 0% (not a predicted start probability). Next GW: BOU (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NFO",
-    "club_code": 17,
-    "gameweek": 11,
-    "identity": "availability:45a9e1805564041d78036647",
-    "image": null,
-    "photo_code": 250199,
-    "player_name": "Dominguez",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "NFO",
-    "title": "GW11 • FPL INJURY FLAG — Dominguez"
-  },
   "availability:4691de17353dfd01bc9bd9f4": {
     "caption": "GW11 • FPL SUSPENSION FLAG — J.Ramsey\nJ.Ramsey (NEW): FPL suspension flag. Official FPL note: Suspended until 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: ARS (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Suspension #NEW",
     "club_code": 4,
@@ -193,6 +180,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BOU",
     "title": "GW11 • FPL AVAILABLE FLAG — Scott"
+  },
+  "availability:68e7b624051be511ac164f9e": {
+    "caption": "GW11 • FPL DOUBTFUL FLAG — Xhaka\nXhaka (SUN): FPL doubtful flag. Official FPL note: Calf injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: AVL (A).\nSource: Official Fantasy Premier League, 2026-11-08 22:41 UTC\n#FPL #FPLVortex #Availability #SUN",
+    "club_code": 56,
+    "gameweek": 11,
+    "identity": "availability:68e7b624051be511ac164f9e",
+    "image": null,
+    "photo_code": 84450,
+    "player_name": "Xhaka",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "SUN",
+    "title": "GW11 • FPL DOUBTFUL FLAG — Xhaka"
   },
   "availability:6b27f434db4492be9a6192a9": {
     "caption": "GW11 • FPL AVAILABLE FLAG — Caicedo\nCaicedo (CHE): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: LEE (H).\nSource: Official Fantasy Premier League, 2026-11-08 16:31 UTC\n#FPL #FPLVortex #Availability #CHE",
