@@ -3910,6 +3910,87 @@
     "timestamp": "2026-11-07T22:29:43.829785+00:00",
     "version": "484688df5f7f5dec2327f5a9a6eaf7ff1e2474be14c77384b8539028f3609eb9"
   },
+  "transfer:11:3:199798|36:610799": {
+    "confirmed": true,
+    "delivery_key": "2026-11-08:transfer",
+    "evidence": {
+      "gw": 11,
+      "kind": "transfer",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 5,
+            "form": "9.0",
+            "goals": 1,
+            "minutes": 731,
+            "price": "£4.8m",
+            "total_points": 57
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ],
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 2,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "7.6",
+            "goals": 1,
+            "minutes": 887,
+            "price": "£5.2m",
+            "total_points": 70
+          },
+          "player": "Vuskovic",
+          "team": 36
+        }
+      ]
+    },
+    "group": "transfer:11:3:199798|36:610799",
+    "timestamp": "2026-11-08T22:40:24.737959+00:00",
+    "version": "3cd7bd74f24cf04871cd11c7f15152e0f8703e0d1d03cac7c9d0aac4bc64fc94"
+  },
   "transfer_suggestions:10:general": {
     "confirmed": false,
     "delivery_key": "2026-11-02:transfer_suggestions:GW10",
