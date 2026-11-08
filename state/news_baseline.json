@@ -21,11 +21,11 @@
     "status": "i"
   },
   "101": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Illness - 75% chance of playing",
+    "news": "",
     "now_cost": 49,
-    "status": "d"
+    "status": "a"
   },
   "102": {
     "chance_of_playing_next_round": 100,
@@ -56,11 +56,11 @@
     "status": "a"
   },
   "106": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Suspended until 5 Dec",
     "now_cost": 78,
-    "status": "a"
+    "status": "s"
   },
   "107": {
     "chance_of_playing_next_round": 0,
@@ -112,11 +112,11 @@
     "status": "a"
   },
   "113": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Hip injury - 75% chance of playing",
+    "news": "",
     "now_cost": 44,
-    "status": "d"
+    "status": "a"
   },
   "114": {
     "chance_of_playing_next_round": null,
@@ -406,11 +406,11 @@
     "status": "u"
   },
   "151": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Unspecified injury - 75% chance of playing",
     "now_cost": 45,
-    "status": "a"
+    "status": "d"
   },
   "152": {
     "chance_of_playing_next_round": 100,
@@ -462,11 +462,11 @@
     "status": "i"
   },
   "159": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Calf injury - 75% chance of playing",
+    "news": "",
     "now_cost": 53,
-    "status": "d"
+    "status": "a"
   },
   "16": {
     "chance_of_playing_next_round": 100,
@@ -1806,11 +1806,11 @@
     "status": "a"
   },
   "331": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Hamstring injury - 75% chance of playing",
     "now_cost": 45,
-    "status": "a"
+    "status": "d"
   },
   "332": {
     "chance_of_playing_next_round": null,
@@ -2457,11 +2457,11 @@
     "status": "a"
   },
   "415": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Hamstring injury - 75% chance of playing",
+    "news": "",
     "now_cost": 57,
-    "status": "d"
+    "status": "a"
   },
   "416": {
     "chance_of_playing_next_round": 100,
@@ -3374,11 +3374,11 @@
     "status": "i"
   },
   "533": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Concussion - 75% chance of playing",
+    "news": "",
     "now_cost": 53,
-    "status": "d"
+    "status": "a"
   },
   "534": {
     "chance_of_playing_next_round": null,
@@ -3388,11 +3388,11 @@
     "status": "a"
   },
   "535": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 0,
-    "news": "Suspended until 21 Nov",
+    "news": "",
     "now_cost": 48,
-    "status": "s"
+    "status": "a"
   },
   "536": {
     "chance_of_playing_next_round": 100,
@@ -3458,11 +3458,11 @@
     "status": "i"
   },
   "544": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Unspecified injury - 75% chance of playing",
     "now_cost": 53,
-    "status": "a"
+    "status": "d"
   },
   "545": {
     "chance_of_playing_next_round": null,
@@ -3591,11 +3591,11 @@
     "status": "a"
   },
   "561": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 0,
-    "news": "Unspecified injury - Unknown return date",
+    "news": "",
     "now_cost": 45,
-    "status": "i"
+    "status": "a"
   },
   "562": {
     "chance_of_playing_next_round": null,
@@ -4459,11 +4459,11 @@
     "status": "a"
   },
   "69": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
-    "news": "Thigh injury - 75% chance of playing",
+    "news": "",
     "now_cost": 59,
-    "status": "d"
+    "status": "a"
   },
   "7": {
     "chance_of_playing_next_round": null,
