@@ -224,6 +224,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:111d2ff16525415a5290",
     "status": "delivered"
   },
+  "2026-11-08-fixture-targets.json": {
+    "at": "2026-11-08T17:56:30.022098+00:00",
+    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:72c306a0cdbf20214e76",
+    "status": "delivered"
+  },
   "2026-11-08-rank-booster.json": {
     "at": "2026-11-08T17:06:37.599318+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:rank-booster:3dc829cfc9cb0f9d3033",
