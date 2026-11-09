@@ -2144,6 +2144,124 @@
     "timestamp": "2026-11-02T22:57:26.492193+00:00",
     "version": "7c4aa47f2352129e80e5f9d796282c4275762acace57717bf7fb5803454a24dc"
   },
+  "news:11:14:97032|8:577016|56:84450": {
+    "confirmed": true,
+    "delivery_key": "2026-11-09:news",
+    "evidence": {
+      "gw": 11,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "MUN",
+              "H",
+              3,
+              1
+            ],
+            [
+              "EVE",
+              "A",
+              3,
+              11
+            ],
+            [
+              "SUN",
+              "H",
+              2,
+              56
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 1,
+            "clean_sheets": 4,
+            "form": "3.6",
+            "goals": 0,
+            "minutes": 900,
+            "price": "£6.4m",
+            "status": "d",
+            "total_points": 43
+          },
+          "player": "Virgil",
+          "team": 14
+        },
+        {
+          "fixtures": [
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ],
+            [
+              "NFO",
+              "A",
+              2,
+              17
+            ],
+            [
+              "CRY",
+              "H",
+              2,
+              31
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 3,
+            "clean_sheets": 2,
+            "form": "4.2",
+            "goals": 0,
+            "minutes": 581,
+            "price": "£4.5m",
+            "status": "d",
+            "total_points": 24
+          },
+          "player": "Acheampong",
+          "team": 8
+        },
+        {
+          "fixtures": [
+            [
+              "AVL",
+              "A",
+              3,
+              7
+            ],
+            [
+              "TOT",
+              "H",
+              3,
+              6
+            ],
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 5,
+            "clean_sheets": 2,
+            "form": "2.5",
+            "goals": 0,
+            "minutes": 813,
+            "price": "£5.3m",
+            "status": "d",
+            "total_points": 33
+          },
+          "player": "Xhaka",
+          "team": 56
+        }
+      ]
+    },
+    "group": "news:11:14:97032|8:577016|56:84450",
+    "timestamp": "2026-11-09T23:42:05.378789+00:00",
+    "version": "261e8a6495f2513a012aea2f4aab8ddc45b4e56fc49b086081c7777f4bcffe03"
+  },
   "news:11:6:511499|8:486672|54:76357": {
     "confirmed": true,
     "delivery_key": "2026-11-07:news",
