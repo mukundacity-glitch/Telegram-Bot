@@ -274,6 +274,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:21e1f82a868b792a75c2",
     "status": "delivered"
   },
+  "2026-11-09-rank-booster.json": {
+    "at": "2026-11-09T21:29:04.763132+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:rank-booster:81ce0224fd0927f4a3f3",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
