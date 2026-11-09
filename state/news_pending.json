@@ -1,17 +1,4 @@
 {
-  "availability:46c7ca82e312d8648d795d45": {
-    "caption": "GW10 • FPL DOUBTFUL FLAG — Dasilva\nDasilva (BRE): FPL doubtful flag. Official FPL note: Hamstring injury - 25% chance of playing. FPL next-round flag: 25% (not a predicted start probability). Next GW: BHA (A).\nSource: Official Fantasy Premier League, 2026-11-05 19:52 UTC\n#FPL #FPLVortex #Availability #BRE",
-    "club_code": 94,
-    "gameweek": 10,
-    "identity": "availability:46c7ca82e312d8648d795d45",
-    "image": null,
-    "photo_code": 183656,
-    "player_name": "Dasilva",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "BRE",
-    "title": "GW10 • FPL DOUBTFUL FLAG — Dasilva"
-  },
   "availability:49ba198f88bffb307c671e29": {
     "caption": "GW10 • FPL INJURY FLAG — Diarra\nDiarra (SUN): FPL injury flag. Official FPL note: Muscular injury - Unknown return date. FPL next-round flag: 0% (not a predicted start probability). Next GW: CHE (H).\nSource: Official Fantasy Premier League, 2026-11-05 20:37 UTC\n#FPL #FPLVortex #Availability #SUN",
     "club_code": 56,
@@ -909,6 +896,19 @@
     "team_name": "MUN",
     "title": "GW11 • FPL AVAILABLE FLAG — Dorgu"
   },
+  "price:0827e63acd9e672005cdc62f": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Zambrano\nZambrano (HUL) officially changed from £4.5m to £4.4m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #HUL",
+    "club_code": 88,
+    "gameweek": 11,
+    "identity": "price:0827e63acd9e672005cdc62f",
+    "image": null,
+    "photo_code": 553783,
+    "player_name": "Zambrano",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "HUL",
+    "title": "GW11 • CONFIRMED PRICE FALL — Zambrano"
+  },
   "price:09271d416f15568da5b9a3df": {
     "caption": "GW11 • CONFIRMED PRICE RISE — Ayari\nAyari (BHA) officially changed from £5.4m to £5.5m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #BHA",
     "club_code": 36,
@@ -921,6 +921,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BHA",
     "title": "GW11 • CONFIRMED PRICE RISE — Ayari"
+  },
+  "price:0f47be0bdb2db2607ee56d57": {
+    "caption": "GW11 • CONFIRMED PRICE RISE — Isak\nIsak (LIV) officially changed from £9.2m to £9.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #LIV",
+    "club_code": 14,
+    "gameweek": 11,
+    "identity": "price:0f47be0bdb2db2607ee56d57",
+    "image": null,
+    "photo_code": 219168,
+    "player_name": "Isak",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "LIV",
+    "title": "GW11 • CONFIRMED PRICE RISE — Isak"
   },
   "price:10095cd050e20bb5b2a30243": {
     "caption": "GW11 • CONFIRMED PRICE RISE — Rice\nRice (ARS) officially changed from £7.4m to £7.5m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #ARS",
@@ -947,6 +960,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "AVL",
     "title": "GW11 • CONFIRMED PRICE RISE — N.Jackson"
+  },
+  "price:16d5be9a1adf829676370c32": {
+    "caption": "GW11 • CONFIRMED PRICE RISE — De Cuyper\nDe Cuyper (BHA) officially changed from £5.4m to £5.5m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #BHA",
+    "club_code": 36,
+    "gameweek": 11,
+    "identity": "price:16d5be9a1adf829676370c32",
+    "image": null,
+    "photo_code": 465730,
+    "player_name": "De Cuyper",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BHA",
+    "title": "GW11 • CONFIRMED PRICE RISE — De Cuyper"
   },
   "price:196887941cf34bb106a4d33b": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Saka\nSaka (ARS) officially changed from £9.5m to £9.4m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-08 00:26 UTC\n#FPL #FPLVortex #Pricechange #ARS",
@@ -1013,6 +1039,19 @@
     "team_name": "LEE",
     "title": "GW11 • CONFIRMED PRICE FALL — Mateo Joseph"
   },
+  "price:2f3cf6afdcea0d862cd3da24": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Mehmeti\nMehmeti (IPS) officially changed from £4.8m to £4.7m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #IPS",
+    "club_code": 40,
+    "gameweek": 11,
+    "identity": "price:2f3cf6afdcea0d862cd3da24",
+    "image": null,
+    "photo_code": 232457,
+    "player_name": "Mehmeti",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "IPS",
+    "title": "GW11 • CONFIRMED PRICE FALL — Mehmeti"
+  },
   "price:4c682223f0fcaaa000eaeae8": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Schade\nSchade (BRE) officially changed from £6.2m to £6.1m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #BRE",
     "club_code": 94,
@@ -1038,6 +1077,58 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "LIV",
     "title": "GW11 • CONFIRMED PRICE RISE — Araujo"
+  },
+  "price:4f6a7339efefa59d27e5b10e": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — João Pedro\nJoão Pedro (CHE) officially changed from £7.7m to £7.6m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #CHE",
+    "club_code": 8,
+    "gameweek": 11,
+    "identity": "price:4f6a7339efefa59d27e5b10e",
+    "image": null,
+    "photo_code": 475168,
+    "player_name": "João Pedro",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CHE",
+    "title": "GW11 • CONFIRMED PRICE FALL — João Pedro"
+  },
+  "price:57d6d8cc67d7981ea8e19e37": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Aït-Nouri\nAït-Nouri (MCI) officially changed from £5.2m to £5.1m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #MCI",
+    "club_code": 43,
+    "gameweek": 11,
+    "identity": "price:57d6d8cc67d7981ea8e19e37",
+    "image": null,
+    "photo_code": 448514,
+    "player_name": "Aït-Nouri",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MCI",
+    "title": "GW11 • CONFIRMED PRICE FALL — Aït-Nouri"
+  },
+  "price:61517f9cf16bf12ec0185b0e": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Tutierov\nTutierov (SUN) officially changed from £4.9m to £4.8m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #SUN",
+    "club_code": 56,
+    "gameweek": 11,
+    "identity": "price:61517f9cf16bf12ec0185b0e",
+    "image": null,
+    "photo_code": 604211,
+    "player_name": "Tutierov",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "SUN",
+    "title": "GW11 • CONFIRMED PRICE FALL — Tutierov"
+  },
+  "price:6cb144d518e77aaee1d9297c": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Brooks\nBrooks (BOU) officially changed from £5.0m to £4.9m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #BOU",
+    "club_code": 91,
+    "gameweek": 11,
+    "identity": "price:6cb144d518e77aaee1d9297c",
+    "image": null,
+    "photo_code": 111317,
+    "player_name": "Brooks",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BOU",
+    "title": "GW11 • CONFIRMED PRICE FALL — Brooks"
   },
   "price:72c12c60dfb9e48636427574": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Dedić\nDedić (NEW) officially changed from £4.5m to £4.4m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #NEW",
@@ -1091,6 +1182,19 @@
     "team_name": "BOU",
     "title": "GW11 • CONFIRMED PRICE RISE — Tavernier"
   },
+  "price:7fb93fb028621a4a25a17645": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Emersonn\nEmersonn (IPS) officially changed from £5.5m to £5.4m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #IPS",
+    "club_code": 40,
+    "gameweek": 11,
+    "identity": "price:7fb93fb028621a4a25a17645",
+    "image": null,
+    "photo_code": 543968,
+    "player_name": "Emersonn",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "IPS",
+    "title": "GW11 • CONFIRMED PRICE FALL — Emersonn"
+  },
   "price:81002acc43ba414e13069e46": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Xhaka\nXhaka (SUN) officially changed from £5.4m to £5.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #SUN",
     "club_code": 56,
@@ -1142,6 +1246,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NEW",
     "title": "GW11 • CONFIRMED PRICE FALL — Fernandez-Pardo"
+  },
+  "price:95a40e68b03f78f39dd98dd4": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Donnarumma\nDonnarumma (MCI) officially changed from £5.5m to £5.4m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #MCI",
+    "club_code": 43,
+    "gameweek": 11,
+    "identity": "price:95a40e68b03f78f39dd98dd4",
+    "image": null,
+    "photo_code": 204936,
+    "player_name": "Donnarumma",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MCI",
+    "title": "GW11 • CONFIRMED PRICE FALL — Donnarumma"
   },
   "price:a293053b0dc7f7ef932351f4": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Kusi-Asare\nKusi-Asare (FUL) officially changed from £4.4m to £4.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #FUL",
@@ -1221,6 +1338,19 @@
     "team_name": "MUN",
     "title": "GW11 • CONFIRMED PRICE FALL — B.Fernandes"
   },
+  "price:b98278bba4fbf002e5db419b": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Berge\nBerge (FUL) officially changed from £4.9m to £4.8m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #FUL",
+    "club_code": 54,
+    "gameweek": 11,
+    "identity": "price:b98278bba4fbf002e5db419b",
+    "image": null,
+    "photo_code": 207189,
+    "player_name": "Berge",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "FUL",
+    "title": "GW11 • CONFIRMED PRICE FALL — Berge"
+  },
   "price:bcc4b5a638f50449e262d046": {
     "caption": "GW11 • CONFIRMED PRICE RISE — Barry\nBarry (EVE) officially changed from £5.6m to £5.7m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #EVE",
     "club_code": 11,
@@ -1272,6 +1402,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "CRY",
     "title": "GW10 • CONFIRMED PRICE FALL — Strand Larsen"
+  },
+  "price:cb59f53edcd048ecff34884a": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Dowell\nDowell (HUL) officially changed from £4.4m to £4.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #HUL",
+    "club_code": 88,
+    "gameweek": 11,
+    "identity": "price:cb59f53edcd048ecff34884a",
+    "image": null,
+    "photo_code": 171270,
+    "player_name": "Dowell",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "HUL",
+    "title": "GW11 • CONFIRMED PRICE FALL — Dowell"
   },
   "price:ce9d6c392b08c6234eea673d": {
     "caption": "GW11 • CONFIRMED PRICE RISE — Groß\nGroß (BHA) officially changed from £6.2m to £6.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #BHA",
@@ -1351,6 +1494,58 @@
     "team_name": "LEE",
     "title": "GW11 • CONFIRMED PRICE FALL — Okafor"
   },
+  "price:ec1684383b52b7f680b9d2d7": {
+    "caption": "GW11 • CONFIRMED PRICE RISE — Van Hecke\nVan Hecke (TOT) officially changed from £5.0m to £5.1m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #TOT",
+    "club_code": 6,
+    "gameweek": 11,
+    "identity": "price:ec1684383b52b7f680b9d2d7",
+    "image": null,
+    "photo_code": 469142,
+    "player_name": "Van Hecke",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "TOT",
+    "title": "GW11 • CONFIRMED PRICE RISE — Van Hecke"
+  },
+  "price:f0aa9cc53ac9b58a31990801": {
+    "caption": "GW11 • CONFIRMED PRICE RISE — Vuskovic\nVuskovic (BHA) officially changed from £5.2m to £5.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #BHA",
+    "club_code": 36,
+    "gameweek": 11,
+    "identity": "price:f0aa9cc53ac9b58a31990801",
+    "image": null,
+    "photo_code": 610799,
+    "player_name": "Vuskovic",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BHA",
+    "title": "GW11 • CONFIRMED PRICE RISE — Vuskovic"
+  },
+  "price:f4233ec91bf36e12992ff75b": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Yalcouyé\nYalcouyé (BHA) officially changed from £4.5m to £4.4m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #BHA",
+    "club_code": 36,
+    "gameweek": 11,
+    "identity": "price:f4233ec91bf36e12992ff75b",
+    "image": null,
+    "photo_code": 611695,
+    "player_name": "Yalcouyé",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BHA",
+    "title": "GW11 • CONFIRMED PRICE FALL — Yalcouyé"
+  },
+  "price:f688ec7e593009f5bdba11f3": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Gvardiol\nGvardiol (MCI) officially changed from £5.7m to £5.6m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #MCI",
+    "club_code": 43,
+    "gameweek": 11,
+    "identity": "price:f688ec7e593009f5bdba11f3",
+    "image": null,
+    "photo_code": 477424,
+    "player_name": "Gvardiol",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MCI",
+    "title": "GW11 • CONFIRMED PRICE FALL — Gvardiol"
+  },
   "price:fa178c7bf553be8c0956fbd8": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Hall\nHall (NEW) officially changed from £5.3m to £5.2m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #NEW",
     "club_code": 4,
@@ -1363,6 +1558,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "NEW",
     "title": "GW11 • CONFIRMED PRICE FALL — Hall"
+  },
+  "price:fb493565895f6179acba6cb1": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — F.Kadıoğlu\nF.Kadıoğlu (BHA) officially changed from £4.4m to £4.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #BHA",
+    "club_code": 36,
+    "gameweek": 11,
+    "identity": "price:fb493565895f6179acba6cb1",
+    "image": null,
+    "photo_code": 231416,
+    "player_name": "F.Kadıoğlu",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "BHA",
+    "title": "GW11 • CONFIRMED PRICE FALL — F.Kadıoğlu"
   },
   "price:ffaa9521aa6bc3c367780ed9": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Wilson\nWilson (BRE) officially changed from £5.4m to £5.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #BRE",
