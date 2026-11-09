@@ -1714,6 +1714,82 @@
     "timestamp": "2026-11-06T21:06:09.664595+00:00",
     "version": "5a84112c30bc843538cc9cb484405cc334b8a244f1c4b7167d5d13788aa891de"
   },
+  "midfielders:11:36:509416|91:201658|36:60307": {
+    "confirmed": true,
+    "delivery_key": "2026-11-09:midfielders:GW11",
+    "evidence": {
+      "gw": 11,
+      "kind": "midfielders",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ]
+          ],
+          "metrics": {
+            "form": "7.0",
+            "minutes": 741,
+            "ownership": "2.3%",
+            "price": "£5.5m",
+            "role": "PRIMARY MIDFIELD PICK",
+            "xa": "0.34",
+            "xg": "2.20"
+          },
+          "player": "Ayari",
+          "team": 36
+        },
+        {
+          "fixtures": [
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ]
+          ],
+          "metrics": {
+            "form": "6.5",
+            "minutes": 840,
+            "ownership": "31.2%",
+            "price": "£6.7m",
+            "role": "STRONG ALTERNATIVE",
+            "xa": "1.45",
+            "xg": "4.21"
+          },
+          "player": "Tavernier",
+          "team": 91
+        },
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ]
+          ],
+          "metrics": {
+            "form": "4.2",
+            "minutes": 880,
+            "ownership": "47.9%",
+            "price": "£6.3m",
+            "role": "THIRD OPTION",
+            "xa": "2.22",
+            "xg": "3.03"
+          },
+          "player": "Groß",
+          "team": 36
+        }
+      ]
+    },
+    "group": "midfielders:11:36:509416|91:201658|36:60307",
+    "timestamp": "2026-11-09T23:51:46.792239+00:00",
+    "version": "6b53422c71fbd0cae829ec4d2c1f98675196851eedd1299c1864f18a0c51f208"
+  },
   "midfielders:11:36:60307|36:509416|36:514254": {
     "confirmed": true,
     "delivery_key": "2026-11-08:midfielders:GW11",
