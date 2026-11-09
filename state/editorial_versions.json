@@ -1108,6 +1108,87 @@
     "timestamp": "2026-11-08T18:17:55.396668+00:00",
     "version": "883c8a9dc0e0f8499df9eb0c8eead9e4512f27f2909ccc8f910c3fb6dc58175a"
   },
+  "comparison:11:3:226597|36:610799": {
+    "confirmed": true,
+    "delivery_key": "2026-11-09:comparison",
+    "evidence": {
+      "gw": 11,
+      "kind": "comparison",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ],
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "9.8",
+            "goals": 1,
+            "minutes": 900,
+            "price": "£8.1m",
+            "total_points": 66
+          },
+          "player": "Gabriel",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ],
+            [
+              "BOU",
+              "A",
+              4,
+              91
+            ]
+          ],
+          "metrics": {
+            "assists": 2,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "7.5",
+            "goals": 1,
+            "minutes": 887,
+            "price": "£5.3m",
+            "total_points": 70
+          },
+          "player": "Vuskovic",
+          "team": 36
+        }
+      ]
+    },
+    "group": "comparison:11:3:226597|36:610799",
+    "timestamp": "2026-11-09T22:56:29.203566+00:00",
+    "version": "d9364ce592d643a3e9582e3792e9955134fd1192f7258cbea58cc3335e3437fd"
+  },
   "elite:10:6:469142": {
     "confirmed": true,
     "delivery_key": "2026-11-06:elite",
