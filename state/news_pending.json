@@ -1,17 +1,4 @@
 {
-  "availability:1e7579e03abd5af6163fea4b": {
-    "caption": "GW11 • FPL DOUBTFUL FLAG — Virgil\nVirgil (LIV): FPL doubtful flag. Official FPL note: Unspecified injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: MUN (H).\nSource: Official Fantasy Premier League, 2026-11-09 20:28 UTC\n#FPL #FPLVortex #Availability #LIV",
-    "club_code": 14,
-    "gameweek": 11,
-    "identity": "availability:1e7579e03abd5af6163fea4b",
-    "image": null,
-    "photo_code": 97032,
-    "player_name": "Virgil",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "LIV",
-    "title": "GW11 • FPL DOUBTFUL FLAG — Virgil"
-  },
   "availability:4d285f9c33afddb6b60982b3": {
     "caption": "GW11 • FPL INJURY FLAG — Cairney\nCairney (FUL): FPL injury flag. Official FPL note: Knee injury - Expected back 21 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: MCI (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #FUL",
     "club_code": 54,
@@ -531,6 +518,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BRE",
     "title": "GW11 • FPL AVAILABLE FLAG — Yarmoliuk"
+  },
+  "availability:bdf94f4c07470ff4bf2dda61": {
+    "caption": "GW11 • FPL AVAILABLE FLAG — King\nKing (FUL): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: MCI (A).\nSource: Official Fantasy Premier League, 2026-11-09 21:25 UTC\n#FPL #FPLVortex #Availability #FUL",
+    "club_code": 54,
+    "gameweek": 11,
+    "identity": "availability:bdf94f4c07470ff4bf2dda61",
+    "image": null,
+    "photo_code": 577725,
+    "player_name": "King",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "FUL",
+    "title": "GW11 • FPL AVAILABLE FLAG — King"
   },
   "availability:c6ebb833fc0777a96a18bfbc": {
     "caption": "GW11 • FPL SUSPENSION FLAG — Martinez\nMartinez (MUN): FPL suspension flag. Official FPL note: Suspended until 22 Nov. FPL next-round flag: 0% (not a predicted start probability). Next GW: LIV (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Suspension #MUN",
