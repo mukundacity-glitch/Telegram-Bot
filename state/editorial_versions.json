@@ -2503,77 +2503,77 @@
   },
   "projections:11:general": {
     "confirmed": true,
-    "delivery_key": "2026-11-08:projections:GW11",
+    "delivery_key": "2026-11-09:projections:GW11",
     "evidence": {
       "fixtures": [
         {
-          "away_cs": 11,
-          "away_goals": 1.0,
-          "home_cs": 37,
-          "home_goals": 2.24,
+          "away_cs": 10,
+          "away_goals": 0.98,
+          "home_cs": 38,
+          "home_goals": 2.3,
           "id": 108
         },
         {
           "away_cs": 17,
-          "away_goals": 1.02,
-          "home_cs": 36,
-          "home_goals": 1.77,
+          "away_goals": 1.04,
+          "home_cs": 35,
+          "home_goals": 1.78,
           "id": 101
         },
         {
           "away_cs": 20,
-          "away_goals": 1.19,
-          "home_cs": 30,
-          "home_goals": 1.62,
+          "away_goals": 1.12,
+          "home_cs": 33,
+          "home_goals": 1.6,
           "id": 102
         },
         {
           "away_cs": 18,
-          "away_goals": 1.11,
+          "away_goals": 1.12,
           "home_cs": 33,
-          "home_goals": 1.72,
+          "home_goals": 1.73,
           "id": 104
         },
         {
-          "away_cs": 22,
+          "away_cs": 21,
           "away_goals": 1.42,
           "home_cs": 24,
-          "home_goals": 1.5,
+          "home_goals": 1.54,
           "id": 105
         },
         {
           "away_cs": 12,
           "away_goals": 0.99,
           "home_cs": 37,
-          "home_goals": 2.11,
+          "home_goals": 2.15,
           "id": 110
         },
         {
-          "away_cs": 39,
-          "away_goals": 1.92,
-          "home_cs": 15,
-          "home_goals": 0.94,
+          "away_cs": 38,
+          "away_goals": 1.97,
+          "home_cs": 14,
+          "home_goals": 0.96,
           "id": 109
         },
         {
           "away_cs": 39,
-          "away_goals": 2.02,
+          "away_goals": 2.05,
           "home_cs": 13,
           "home_goals": 0.94,
           "id": 106
         },
         {
-          "away_cs": 15,
-          "away_goals": 1.17,
-          "home_cs": 31,
-          "home_goals": 1.87,
+          "away_cs": 13,
+          "away_goals": 1.23,
+          "home_cs": 29,
+          "home_goals": 2.04,
           "id": 107
         },
         {
-          "away_cs": 17,
-          "away_goals": 1.08,
-          "home_cs": 34,
-          "home_goals": 1.77,
+          "away_cs": 19,
+          "away_goals": 1.22,
+          "home_cs": 29,
+          "home_goals": 1.68,
           "id": 103
         }
       ],
@@ -2582,8 +2582,8 @@
       "players": []
     },
     "group": "projections:11:general",
-    "timestamp": "2026-11-08T17:47:24.343777+00:00",
-    "version": "213ab3e942bcb91b2cafd6e3b7d4ccbf81550e7b676ec4b38fc3a7dc9c9aab47"
+    "timestamp": "2026-11-09T22:06:54.432012+00:00",
+    "version": "d097b0e50ff209ba975d50b6db2cd1e7ef096fdc9243786c9c06dcb0cefb8405"
   },
   "review:10:3:226597|3:199798|7:517052|91:463981": {
     "confirmed": false,
