@@ -140,7 +140,7 @@ def test_workflow_defaults_to_direct_post_without_test_or_preview_ui():
     workflow = path.read_text(encoding="utf-8")
     assert "  workflow_dispatch:\n    inputs:\n      edition:" in workflow
     assert 'python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"' in workflow
-    assert "python -m vortex.outbox" in workflow
+    assert "python -m vortex.scheduled_dispatch" in workflow
     assert "python -m vortex.bot" not in workflow
     assert "timezone: America/New_York" in workflow
 

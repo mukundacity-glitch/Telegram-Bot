@@ -79,7 +79,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     return file,identity,len(pages)
 
 
-def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None):
+def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3):
     now=now or datetime.now(timezone.utc)
     if manual and not edition:
         raise ValueError('Manual delivery requires one explicitly selected edition')
@@ -106,7 +106,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     else:
         # Time-based catch-up: post anything already due and not yet closed today,
         # whichever cron (or delayed run) happens to be executing.
-        slots=catchup_slots(now,state,snapshot.gameweek(),season_id(snapshot,now))
+        slots=catchup_slots(now,state,snapshot.gameweek(),season_id(snapshot,now),limit=catchup_limit)
     if not slots:return {'status':'no-edition-due' if not audit and not edition and cron not in SPECIAL_CRONS else 'no-gameweek-special-due','posted':0}
     if any(s is None for s in slots):raise ValueError('Unknown executable edition')
     evidence=Evidence(snapshot,now)
@@ -147,7 +147,9 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                     # Target the new verified graphic, never a stale queued edition.
                     result=publish_outbox(datetime.now(timezone.utc),manual=True,target_file=file)
                 else:
-                    result=publish_outbox(datetime.now(timezone.utc))
+                    # Only publish the newly verified, generated edition. Historical
+                    # stale queue entries cannot starve the current scheduled post.
+                    result=publish_outbox(datetime.now(timezone.utc),target_file=file)
                 receipts=read_state(RECEIPTS)
                 complete=all(receipts.get(f'{identity}:page{i+1}',{}).get('delivered') and
                              receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered') for i in range(count))

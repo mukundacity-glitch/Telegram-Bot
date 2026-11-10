@@ -29,10 +29,10 @@ ORIGINAL_CRONS = {
 
 def test_user_requested_window_replaces_older_overnight_triggers():
     workflow = WORKFLOW.read_text()
-    crons = re.findall(r"- cron: '(\d+) (\d+) \* \* \*'", workflow)
-    minutes = [int(h) * 60 + int(m) for m, h in crons]
-    assert "cron: '40 5 * * *'" in workflow and "cron: '35 5 * * *'" in workflow
-    assert min(minutes) >= 5 * 60 + 30 and max(minutes) < 22 * 60
+    crons = re.findall(r"- cron: '([^']+)'", workflow)
+    assert crons == ['43 5-21 * * *', '13 6-21 * * *']
+    assert 'timezone: America/New_York' in workflow
+    assert 'python -m vortex.scheduled_dispatch' in workflow
     assert workflow.count("  publish:\n") == 1
 
 
@@ -51,6 +51,6 @@ def test_5am_and_backup_reuse_exact_task1_6am_receipt_topic():
 
 def test_no_legacy_5am_double_publication():
     workflow = WORKFLOW.read_text()
-    assert 'python -m vortex.outbox' in workflow
+    assert 'python -m vortex.scheduled_dispatch' in workflow
     assert 'python -m vortex.bot' not in workflow
     assert 'python -m vortex.task_publisher' not in workflow

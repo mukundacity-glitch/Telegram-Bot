@@ -54,10 +54,10 @@ def test_scheduled_news_uses_the_unified_dispatcher():
     workflow = WORKFLOW.read_text()
     from vortex.autonomous_schedule import NEWS_CRONS
     assert "5 6 * * *" in NEWS_CRONS
-    assert "cron: '5 6 * * *'" in workflow
-    assert "python -m vortex.autonomous_runner" in workflow
+    assert "cron: '43 5-21 * * *'" in workflow
+    assert "python -m vortex.scheduled_dispatch" in workflow
     assert 'python -m vortex.telegram_news_window' not in workflow
-    assert 'python -m vortex.outbox' in workflow
+    assert 'python -m vortex.scheduled_dispatch' in workflow
 
 
 def test_cold_start_is_baseline_not_false_news(monkeypatch, tmp_path):

@@ -69,7 +69,9 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     workflow=(Path(__file__).resolve().parents[1]/'.github/workflows/telegram-daily.yml').read_text()
     crons=re.findall(r"- cron: '([^']+)'",workflow)
     assert len(crons)==len(set(crons))
-    assert set(SLOT_CRONS)|NEWS_CRONS|SPECIAL_CRONS|CATCHUP_CRONS|OUTBOX_CRONS <= set(crons)
+    assert crons == ['43 5-21 * * *', '13 6-21 * * *']
+    assert 'python -m vortex.scheduled_dispatch' in workflow
+    assert len(SLOTS) == 15
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 

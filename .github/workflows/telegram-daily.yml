@@ -11,232 +11,12 @@ on:
       - '.github/workflows/**'
   pull_request:
     branches: [main]
+  # Compact DST-aware heartbeat; the dispatcher recovers named edition due-times.
+  # Avoids the 113 separately queued cron expressions that were triggering hours late.
   schedule:
-    - cron: '35 5 * * *'
+    - cron: '43 5-21 * * *'
       timezone: America/New_York
-    - cron: '40 5 * * *'
-      timezone: America/New_York
-    - cron: '50 5 * * *'
-      timezone: America/New_York
-    - cron: '5 6 * * *'
-      timezone: America/New_York
-    - cron: '10 6 * * *'
-      timezone: America/New_York
-    - cron: '30 6 * * *'
-      timezone: America/New_York
-    - cron: '35 6 * * *'
-      timezone: America/New_York
-    - cron: '40 6 * * *'
-      timezone: America/New_York
-    - cron: '45 6 * * *'
-      timezone: America/New_York
-    - cron: '50 6 * * *'
-      timezone: America/New_York
-    - cron: '0 7 * * *'
-      timezone: America/New_York
-    - cron: '5 7 * * *'
-      timezone: America/New_York
-    - cron: '10 7 * * *'
-      timezone: America/New_York
-    - cron: '15 7 * * *'
-      timezone: America/New_York
-    - cron: '35 7 * * *'
-      timezone: America/New_York
-    - cron: '40 7 * * *'
-      timezone: America/New_York
-    - cron: '50 7 * * *'
-      timezone: America/New_York
-    - cron: '0 8 * * *'
-      timezone: America/New_York
-    - cron: '5 8 * * *'
-      timezone: America/New_York
-    - cron: '10 8 * * *'
-      timezone: America/New_York
-    - cron: '15 8 * * *'
-      timezone: America/New_York
-    - cron: '35 8 * * *'
-      timezone: America/New_York
-    - cron: '40 8 * * *'
-      timezone: America/New_York
-    - cron: '50 8 * * *'
-      timezone: America/New_York
-    - cron: '0 9 * * *'
-      timezone: America/New_York
-    - cron: '5 9 * * *'
-      timezone: America/New_York
-    - cron: '10 9 * * *'
-      timezone: America/New_York
-    - cron: '15 9 * * *'
-      timezone: America/New_York
-    - cron: '35 9 * * *'
-      timezone: America/New_York
-    - cron: '40 9 * * *'
-      timezone: America/New_York
-    - cron: '50 9 * * *'
-      timezone: America/New_York
-    - cron: '0 10 * * *'
-      timezone: America/New_York
-    - cron: '5 10 * * *'
-      timezone: America/New_York
-    - cron: '10 10 * * *'
-      timezone: America/New_York
-    - cron: '15 10 * * *'
-      timezone: America/New_York
-    - cron: '35 10 * * *'
-      timezone: America/New_York
-    - cron: '40 10 * * *'
-      timezone: America/New_York
-    - cron: '45 10 * * *'
-      timezone: America/New_York
-    - cron: '50 10 * * *'
-      timezone: America/New_York
-    - cron: '0 11 * * *'
-      timezone: America/New_York
-    - cron: '5 11 * * *'
-      timezone: America/New_York
-    - cron: '10 11 * * *'
-      timezone: America/New_York
-    - cron: '15 11 * * *'
-      timezone: America/New_York
-    - cron: '25 11 * * *'
-      timezone: America/New_York
-    - cron: '35 11 * * *'
-      timezone: America/New_York
-    - cron: '40 11 * * *'
-      timezone: America/New_York
-    - cron: '50 11 * * *'
-      timezone: America/New_York
-    - cron: '0 12 * * *'
-      timezone: America/New_York
-    - cron: '5 12 * * *'
-      timezone: America/New_York
-    - cron: '10 12 * * *'
-      timezone: America/New_York
-    - cron: '15 12 * * *'
-      timezone: America/New_York
-    - cron: '35 12 * * *'
-      timezone: America/New_York
-    - cron: '40 12 * * *'
-      timezone: America/New_York
-    - cron: '50 12 * * *'
-      timezone: America/New_York
-    - cron: '0 13 * * *'
-      timezone: America/New_York
-    - cron: '5 13 * * *'
-      timezone: America/New_York
-    - cron: '10 13 * * *'
-      timezone: America/New_York
-    - cron: '15 13 * * *'
-      timezone: America/New_York
-    - cron: '35 13 * * *'
-      timezone: America/New_York
-    - cron: '40 13 * * *'
-      timezone: America/New_York
-    - cron: '50 13 * * *'
-      timezone: America/New_York
-    - cron: '0 14 * * *'
-      timezone: America/New_York
-    - cron: '5 14 * * *'
-      timezone: America/New_York
-    - cron: '10 14 * * *'
-      timezone: America/New_York
-    - cron: '15 14 * * *'
-      timezone: America/New_York
-    - cron: '35 14 * * *'
-      timezone: America/New_York
-    - cron: '40 14 * * *'
-      timezone: America/New_York
-    - cron: '50 14 * * *'
-      timezone: America/New_York
-    - cron: '0 15 * * *'
-      timezone: America/New_York
-    - cron: '5 15 * * *'
-      timezone: America/New_York
-    - cron: '10 15 * * *'
-      timezone: America/New_York
-    - cron: '15 15 * * *'
-      timezone: America/New_York
-    - cron: '35 15 * * *'
-      timezone: America/New_York
-    - cron: '40 15 * * *'
-      timezone: America/New_York
-    - cron: '50 15 * * *'
-      timezone: America/New_York
-    - cron: '0 16 * * *'
-      timezone: America/New_York
-    - cron: '5 16 * * *'
-      timezone: America/New_York
-    - cron: '10 16 * * *'
-      timezone: America/New_York
-    - cron: '15 16 * * *'
-      timezone: America/New_York
-    - cron: '35 16 * * *'
-      timezone: America/New_York
-    - cron: '40 16 * * *'
-      timezone: America/New_York
-    - cron: '50 16 * * *'
-      timezone: America/New_York
-    - cron: '5 17 * * *'
-      timezone: America/New_York
-    - cron: '10 17 * * *'
-      timezone: America/New_York
-    - cron: '30 17 * * *'
-      timezone: America/New_York
-    - cron: '35 17 * * *'
-      timezone: America/New_York
-    - cron: '40 17 * * *'
-      timezone: America/New_York
-    - cron: '45 17 * * *'
-      timezone: America/New_York
-    - cron: '50 17 * * *'
-      timezone: America/New_York
-    - cron: '5 18 * * *'
-      timezone: America/New_York
-    - cron: '10 18 * * *'
-      timezone: America/New_York
-    - cron: '30 18 * * *'
-      timezone: America/New_York
-    - cron: '35 18 * * *'
-      timezone: America/New_York
-    - cron: '40 18 * * *'
-      timezone: America/New_York
-    - cron: '45 18 * * *'
-      timezone: America/New_York
-    - cron: '50 18 * * *'
-      timezone: America/New_York
-    - cron: '5 19 * * *'
-      timezone: America/New_York
-    - cron: '10 19 * * *'
-      timezone: America/New_York
-    - cron: '35 19 * * *'
-      timezone: America/New_York
-    - cron: '40 19 * * *'
-      timezone: America/New_York
-    - cron: '50 19 * * *'
-      timezone: America/New_York
-    - cron: '0 20 * * *'
-      timezone: America/New_York
-    - cron: '5 20 * * *'
-      timezone: America/New_York
-    - cron: '10 20 * * *'
-      timezone: America/New_York
-    - cron: '15 20 * * *'
-      timezone: America/New_York
-    - cron: '35 20 * * *'
-      timezone: America/New_York
-    - cron: '40 20 * * *'
-      timezone: America/New_York
-    - cron: '50 20 * * *'
-      timezone: America/New_York
-    - cron: '5 21 * * *'
-      timezone: America/New_York
-    - cron: '10 21 * * *'
-      timezone: America/New_York
-    - cron: '35 21 * * *'
-      timezone: America/New_York
-    - cron: '40 21 * * *'
-      timezone: America/New_York
-    - cron: '50 21 * * *'
+    - cron: '13 6-21 * * *'
       timezone: America/New_York
   workflow_dispatch:
     inputs:
@@ -304,7 +84,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 5
   publish:
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]'))) }}
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]') || contains(github.event.head_commit.message, '[FPL-AUTO-REPAIR]'))) }}
     permissions:
       contents: write
     concurrency:
@@ -354,14 +134,12 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
           EVENT_NAME: ${{ github.event_name }}
+          FPL_AUTO_REPAIR: ${{ contains(github.event.head_commit.message, '[FPL-AUTO-REPAIR]') }}
         run: |
           if [ "$FPL_MANUAL_PUBLISH" = 'true' ]; then
             python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"
-          elif [ "$EVENT_NAME" = 'schedule' ]; then
-            case "$SCHEDULED_CRON" in
-              '50 '*) python -m vortex.outbox ;;
-              *) python -m vortex.autonomous_runner ;;
-            esac
+          elif [ "$EVENT_NAME" = 'schedule' ] || [ "$FPL_AUTO_REPAIR" = 'true' ]; then
+            python -m vortex.scheduled_dispatch
           else
             python -m vortex.autonomous_runner --edition vortex-captain
           fi

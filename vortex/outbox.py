@@ -80,9 +80,9 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
     journal = read_state(RECEIPTS)
     # ONE edition per serialized job. Failed pages resume independently and
     # never cause a successful destination to receive a repeated copy.
-    files = [Path(target_file)] if manual else sorted(QUEUE.glob('*.json'))
+    files = [Path(target_file)] if target_file is not None else sorted(QUEUE.glob('*.json'))
     for file in files:
-        if manual and (not file.is_file() or file.resolve().parent != QUEUE.resolve()):
+        if target_file is not None and (not file.is_file() or file.resolve().parent != QUEUE.resolve()):
             raise ValueError('Manual target must be an existing file directly in the outbox')
         # Only an eligible, due, unserved edition is a failed publication.
         # Historical stale queue entries must not make new runs fail.
