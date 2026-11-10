@@ -1449,11 +1449,11 @@
     "status": "a"
   },
   "286": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Hamstring injury - 75% chance of playing",
     "now_cost": 53,
-    "status": "a"
+    "status": "d"
   },
   "287": {
     "chance_of_playing_next_round": 0,

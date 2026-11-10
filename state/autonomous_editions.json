@@ -614,6 +614,17 @@
     "status": "delivered",
     "task": "task2"
   },
+  "2026-11-10:three_daily:fixture-targets:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "fixture-targets",
+    "file": "outbox/2026-11-10-fixture-targets.json",
+    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:a6f7507285fe65735435",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "three_daily"
+  },
   "2026-11-10:three_daily:vortex-captain:GW11": {
     "attempts": 1,
     "caption_hashtags": 4,
