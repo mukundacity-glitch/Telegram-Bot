@@ -103,6 +103,13 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         snapshot = collect_snapshot()
         previous_prices = read_state(price_state_path)
         article = generate(publication_slot, snapshot, now, previous_prices)
+        if publication_slot == "prices" and not preview_only and not any(
+            card.team_code is not None for card in article.cards
+        ):
+            if not isinstance(previous_prices.get("prices"), dict):
+                write_state(price_state_path, price_snapshot(snapshot))
+            print("NO CONFIRMED PRICE MOVES; skipping publication")
+            return 0
         projection_history_path = STATE / "projection_history.json"
         projection_history = {}
         if publication_slot == "projections":

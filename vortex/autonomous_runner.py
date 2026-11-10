@@ -15,7 +15,7 @@ from .autonomous_schedule import SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SP
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
-from .publishing_window import allowed
+from .publishing_window import OPEN_MINUTE, allowed
 from .outbox import validate,run as publish_outbox,RECEIPTS
 
 STATE_FILE=STATE/'autonomous_editions.json'
@@ -68,7 +68,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                     if plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
     if audit and not allowed(now):
-        target=now.astimezone(ET).replace(hour=5,minute=20,second=0,microsecond=0)
+        hour, minute = divmod(OPEN_MINUTE, 60)
+        target = now.astimezone(ET).replace(hour=hour, minute=minute, second=0, microsecond=0)
         if target<now:target+=timedelta(days=1)
         record['publish_at']=target.isoformat()
     identity,_,_=validate(record,root=base)

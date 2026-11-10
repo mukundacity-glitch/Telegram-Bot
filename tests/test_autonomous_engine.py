@@ -140,6 +140,7 @@ def test_album_has_one_caption_per_platform_and_partial_retry_never_repeats(tmp_
 
 def test_audit_art_is_never_enqueued_for_publication(world,tmp_path,monkeypatch):
     s,now,e,feed=world
+    now = now.astimezone(runner.ET).replace(hour=2, minute=0)
     monkeypatch.setattr(runner,'ROOT',tmp_path)
     def render(plan,snapshot,now,path,session):
         path.parent.mkdir(parents=True,exist_ok=True)

@@ -124,12 +124,22 @@ def test_existing_cron_still_executes_normal_publish(delivery_environment):
     assert delivery_environment == ["THE FPL DECISION ROOM"]
 
 
+def test_scheduled_prices_skip_a_card_without_confirmed_moves(delivery_environment):
+    baseline = bot.STATE / "prices.json"
+    baseline.write_text(json.dumps({"prices": {"1": 50}}), encoding="utf-8")
+    previous = baseline.read_bytes()
+
+    assert bot.run("auto", "15 12 * * *") == 0
+    assert delivery_environment == []
+    assert baseline.read_bytes() == previous
+
+
 def test_workflow_defaults_to_direct_post_without_test_or_preview_ui():
     """Regression guard on workflow_dispatch and forced scheduled AUTO selection."""
     path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "telegram-daily.yml"
     workflow = path.read_text(encoding="utf-8")
     assert "default: autonomous" in workflow
-    assert "options: [autonomous, audit, news, outbox]" in workflow
+    assert "options: [autonomous, audit, news, outbox, validate]" in workflow
     assert "python -m vortex.outbox" in workflow
     assert "python -m vortex.bot" not in workflow
     assert "timezone: America/New_York" in workflow
