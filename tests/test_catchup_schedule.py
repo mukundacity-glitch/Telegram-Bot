@@ -54,12 +54,13 @@ def _drive(monkeypatch, world, state, cron_now, **trigger):
     writes = {}
     receipts = {'test-identity:page1': {'delivered': True, 'discord_delivered': True}}
     prices = {'as_of_utc': 'x', 'prices': {'1': 50}}
+    published = []
 
     def read(path):
         if path == runner.STATE_FILE:
             return state
         if path == runner.RECEIPTS:
-            return receipts
+            return receipts if published else {}
         return prices if path.name == 'prices.json' else {}
 
     monkeypatch.setattr(runner, 'allowed', lambda when: True)
@@ -67,7 +68,10 @@ def _drive(monkeypatch, world, state, cron_now, **trigger):
     monkeypatch.setattr(runner, 'read_state', read)
     monkeypatch.setattr(runner, 'write_state', lambda path, data: writes.__setitem__(path.name, dict(data)))
     monkeypatch.setattr(runner, 'stage', lambda *a, **k: (runner.ROOT / 'outbox/t.json', 'test-identity', 1))
-    monkeypatch.setattr(runner, 'publish_outbox', lambda when: 0)
+    def publish(when):
+        published.append(when)
+        return 0
+    monkeypatch.setattr(runner, 'publish_outbox', publish)
     return runner.run(now=cron_now, snapshot=s, **(trigger or {'cron': '10 12 * * *'})), writes
 
 
