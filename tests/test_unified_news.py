@@ -264,3 +264,20 @@ def test_failed_head_story_cannot_starve_following_verified_news(monkeypatch, tm
     assert report["sent"] == 1
     assert telegram.calls == discord.calls == 1
     assert list(json.loads(runner.PENDING.read_text())) == ["unrenderable"]
+
+def test_expired_news_queue_never_replays_old_verified_headlines():
+    now = datetime(2026, 11, 10, 18, 0, tzinfo=timezone.utc)
+    pending = {
+        'old': {'gameweek': 11,
+                'caption': 'GW11 change. Source: Official FPL, 2026-11-07 16:00 UTC'},
+        'fresh': {'gameweek': 11,
+                  'caption': 'GW11 change. Source: Official FPL, 2026-11-10 17:30 UTC'},
+        'past-gw': {'gameweek': 10,
+                    'caption': 'GW10 change. Source: Official FPL, 2026-11-10 17:30 UTC'},
+        'partial': {'gameweek': 11,
+                    'caption': 'GW11 change. Source: Official FPL, 2026-11-02 17:30 UTC'}
+    }
+    ledger = {'partial': {'delivered': True}}
+    expired = runner._expire_undelivered_old_news(pending, ledger, now, 11)
+    assert set(expired) == {'old', 'past-gw'}
+    assert set(pending) == {'fresh', 'partial'}

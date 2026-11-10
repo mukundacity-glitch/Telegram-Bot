@@ -8,8 +8,9 @@ from __future__ import annotations
 import argparse
 import json
 import os
+import re
 from dataclasses import asdict
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
 
@@ -25,6 +26,36 @@ BASELINE = BASE / "news_baseline.json"
 SEEN = BASE / "news_seen.json"
 RECEIPTS = BASE / "news_deliveries.json"
 NEWS_OUTPUT = BASE.parent / "output" / "news"
+
+
+def _expire_undelivered_old_news(pending, receipt, now, gameweek, *, max_hours=20):
+    """Clear superseded editorial queue stories before any attempt to post them.
+
+    The stored caption contains the explicit official-data or RSS timestamp.
+    Do not silently discard an uncertain/partial upload: such records require
+    the separate destination-receipt reconciliation procedure.
+    """
+    expired = []
+    for identity, record in list(pending.items()):
+        if not isinstance(record, dict):
+            continue
+        delivery = receipt.get(identity, {})
+        if delivery.get("delivered") or delivery.get("discord_delivered"):
+            continue  # An existing one-platform receipt must not be lost.
+        source_times = re.findall(r"20\d{2}-\d{2}-\d{2} \d{2}:\d{2} UTC",
+                                  str(record.get("caption") or ""))
+        stamped = None
+        if source_times:
+            try:
+                stamped = datetime.strptime(source_times[-1], "%Y-%m-%d %H:%M UTC").replace(tzinfo=timezone.utc)
+            except ValueError:
+                pass
+        wrong_gw = record.get("gameweek") != gameweek
+        too_old = bool(stamped is not None and (now - stamped) > timedelta(hours=max_hours))
+        if wrong_gw or too_old:
+            pending.pop(identity, None)
+            expired.append(identity)
+    return expired
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -84,6 +115,13 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
         seen = {ident: current_time.isoformat() for ident in stories}
         save_journal(SEEN, seen)
         return summary
+
+    # Remove aged news from the durable backlog before attempting any upload.
+    # Retired records remain in the seen ledger, so stale RSS headlines cannot
+    # regenerate or crowd out new verified FPL changes on the next heartbeat.
+    expired = _expire_undelivered_old_news(pending, receipt, current_time, snapshot.gameweek())
+    summary["expired_unposted"] = len(expired)
+    summary["pending"] = len(pending)
 
     # Preserve a bounded source-seen ledger; pending + delivered receipts are durable.
     seen = {k: v for k, v in prior_seen.items() if isinstance(v, str)}
