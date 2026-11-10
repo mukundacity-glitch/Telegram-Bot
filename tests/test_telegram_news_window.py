@@ -50,9 +50,12 @@ def test_news_window_follows_scheduled_local_cron_not_wall_clock():
     assert not news.in_window(None)
 
 
-def test_existing_news_lane_is_manual_only_after_shared_task_migration():
+def test_scheduled_news_uses_the_unified_dispatcher():
     workflow = WORKFLOW.read_text()
-    assert "cron: '5 6 * * *'" in workflow and 'python -m vortex.unified_runner' in workflow
+    from vortex.autonomous_schedule import NEWS_CRONS
+    assert "5 6 * * *" in NEWS_CRONS
+    assert "cron: '5 6 * * *'" in workflow
+    assert "python -m vortex.autonomous_runner" in workflow
     assert 'python -m vortex.telegram_news_window' not in workflow
     assert 'python -m vortex.outbox' in workflow
 
