@@ -4091,6 +4091,93 @@
     "timestamp": "2026-11-07T19:59:09.209072+00:00",
     "version": "20e3823ffc07ebd6cee1ba4c07fc66619562e387ac07266d120603998803ca3b"
   },
+  "team_analysis:11:Brighton": {
+    "confirmed": true,
+    "delivery_key": "2026-11-09:team_analysis:GW11",
+    "evidence": {
+      "gw": 11,
+      "history": [
+        {
+          "ga": 4,
+          "gf": 3,
+          "gw": 2,
+          "kickoff": "2026-08-30T13:00:00Z",
+          "opponent": "CHE",
+          "venue": "A"
+        },
+        {
+          "ga": 1,
+          "gf": 1,
+          "gw": 3,
+          "kickoff": "2026-09-05T14:00:00Z",
+          "opponent": "LEE",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 5,
+          "gw": 4,
+          "kickoff": "2026-09-13T13:00:00Z",
+          "opponent": "COV",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 3,
+          "gw": 5,
+          "kickoff": "2026-09-19T14:00:00Z",
+          "opponent": "ARS",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 2,
+          "gw": 6,
+          "kickoff": "2026-10-10T14:00:00Z",
+          "opponent": "SUN",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 5,
+          "gw": 7,
+          "kickoff": "2026-10-18T13:00:00Z",
+          "opponent": "CRY",
+          "venue": "H"
+        },
+        {
+          "ga": 2,
+          "gf": 0,
+          "gw": 8,
+          "kickoff": "2026-10-25T14:00:00Z",
+          "opponent": "LIV",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 9,
+          "kickoff": "2026-10-31T15:00:00Z",
+          "opponent": "MCI",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 2,
+          "gw": 10,
+          "kickoff": "2026-11-08T14:00:00Z",
+          "opponent": "BRE",
+          "venue": "H"
+        }
+      ],
+      "kind": "team_analysis",
+      "players": [],
+      "team": "Brighton"
+    },
+    "group": "team_analysis:11:Brighton",
+    "timestamp": "2026-11-10T00:00:05.720851+00:00",
+    "version": "eeb5335b3cc2371084c30fc8a9865690c47794cf6014348f9a9359dbd24b4e57"
+  },
   "transfer:10:36:465730|3:226597": {
     "confirmed": true,
     "delivery_key": "2026-11-05:transfer",
