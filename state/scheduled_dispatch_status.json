@@ -1,0 +1,50 @@
+{
+  "at": "2026-11-10T18:15:36.884520+00:00",
+  "daily": {
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "chatgpt_required": false,
+    "confirmed_edition_deliveries": 1,
+    "editions": [
+      {
+        "attempts": 1,
+        "caption_hashtags": 4,
+        "edition": "availability-transfer-decisions",
+        "file": "outbox/2026-11-10-availability-transfer-decisions.json",
+        "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:06179bec18334be21d38",
+        "pages": 1,
+        "publisher_exit_code": 0,
+        "status": "delivered",
+        "task": "task1"
+      }
+    ],
+    "generation_audit_passed": false,
+    "generation_owner": "github-actions",
+    "gw": 11,
+    "production_attempted": true,
+    "safe_to_delete_chatgpt_tasks": false
+  },
+  "eastern_at": "2026-11-10T13:15:36.884520-05:00",
+  "failures": [],
+  "held": [],
+  "legacy": {
+    "exit_code": 0,
+    "sent": 1,
+    "slot": "elite",
+    "status": "delivered"
+  },
+  "new_posts": 3,
+  "news": {
+    "official_changes": 1,
+    "pending": 134,
+    "reported_headlines": 0,
+    "sent": 1,
+    "warmup": 0
+  },
+  "outbox_new": 0,
+  "scheduled_cron": "repair-probe",
+  "special": {
+    "confirmed_edition_deliveries": 0,
+    "status": "no-special-due"
+  },
+  "status": "published"
+}

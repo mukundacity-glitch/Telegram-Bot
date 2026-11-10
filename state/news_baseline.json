@@ -3521,11 +3521,11 @@
     "status": "a"
   },
   "552": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Muscular injury - 75% chance of playing",
     "now_cost": 57,
-    "status": "a"
+    "status": "d"
   },
   "553": {
     "chance_of_playing_next_round": 100,

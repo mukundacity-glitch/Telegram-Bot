@@ -581,6 +581,17 @@
     "status": "delivered",
     "task": "three_daily"
   },
+  "2026-11-10:task1:availability-transfer-decisions:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "availability-transfer-decisions",
+    "file": "outbox/2026-11-10-availability-transfer-decisions.json",
+    "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:06179bec18334be21d38",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-11-10:task2:four-midfielders:GW11": {
     "attempts": 1,
     "caption_hashtags": 4,

@@ -275,39 +275,49 @@
     "status": "held"
   },
   "2026-11-09-captain-differential.json": {
-    "at": "2026-11-10T00:17:55.769384+00:00",
-    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:d52092dd0025a9ceeddd",
-    "status": "delivered"
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-09-fixture-targets.json": {
-    "at": "2026-11-09T22:23:28.463599+00:00",
-    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:0bcb5a3596444250e66a",
-    "status": "delivered"
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-09-form-minutes-targets.json": {
-    "at": "2026-11-09T23:01:07.080011+00:00",
-    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:bc2f42978e3529edde9a",
-    "status": "delivered"
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-09-four-midfielders.json": {
-    "at": "2026-11-09T23:28:11.183492+00:00",
-    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:416ce891368f3c0be5b5",
-    "status": "delivered"
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-09-four-team-targets.json": {
-    "at": "2026-11-10T00:42:26.674904+00:00",
-    "identity": "chatgpt:2026-27:GW11:task2:four-team-targets:606126b83ebe10b44123",
-    "status": "delivered"
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "2026-11-09-rank-booster.json": {
     "at": "2026-11-10T00:52:12.282381+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-10-availability-transfer-decisions.json": {
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
+  "2026-11-10-four-midfielders.json": {
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
   "2026-11-10-vortex-captain.json": {
-    "at": "2026-11-10T09:18:59.849051+00:00",
-    "identity": "chatgpt:2026-27:GW11:three_daily:vortex-captain:1e48eb78c467be954128",
-    "status": "delivered"
+    "at": "2026-11-10T18:15:36.884520+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
   },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",

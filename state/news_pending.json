@@ -1,16 +1,16 @@
 {
-  "availability:5c25b933704a8cb4b49443d3": {
-    "caption": "GW11 • FPL DOUBTFUL FLAG — Gvardiol\nGvardiol (MCI): FPL doubtful flag. Official FPL note: Unspecified injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: FUL (H).\nSource: Official Fantasy Premier League, 2026-11-07 21:44 UTC\n#FPL #FPLVortex #Availability #MCI",
-    "club_code": 43,
+  "availability:116eb19e62857b3b42e4f86a": {
+    "caption": "GW11 • FPL DOUBTFUL FLAG — Brobbey\nBrobbey (SUN): FPL doubtful flag. Official FPL note: Muscular injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: AVL (A).\nSource: Official Fantasy Premier League, 2026-11-10 18:15 UTC\n#FPL #FPLVortex #Availability #SUN",
+    "club_code": 56,
     "gameweek": 11,
-    "identity": "availability:5c25b933704a8cb4b49443d3",
+    "identity": "availability:116eb19e62857b3b42e4f86a",
     "image": null,
-    "photo_code": 477424,
-    "player_name": "Gvardiol",
+    "photo_code": 441264,
+    "player_name": "Brobbey",
     "source": "Official FPL",
     "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "MCI",
-    "title": "GW11 • FPL DOUBTFUL FLAG — Gvardiol"
+    "team_name": "SUN",
+    "title": "GW11 • FPL DOUBTFUL FLAG — Brobbey"
   },
   "availability:62b6e8984e19d53036be2845": {
     "caption": "GW11 • FPL DOUBTFUL FLAG — King\nKing (FUL): FPL doubtful flag. Official FPL note: Groin injury - 75% chance of playing. FPL next-round flag: 75% (not a predicted start probability). Next GW: MCI (A).\nSource: Official Fantasy Premier League, 2026-11-07 20:41 UTC\n#FPL #FPLVortex #Availability #FUL",
