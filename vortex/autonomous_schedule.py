@@ -42,7 +42,7 @@ NEWS_CRONS = {f'5 {hour} * * *' for hour in range(6, 22)}
 SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5, 22)}
 OUTBOX_CRONS = {f'50 {hour} * * *' for hour in range(5, 22)}
 SPECIAL_EDITIONS = ('captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five')
-CLOSED = {'delivered', 'no-new-facts', 'checked'}
+CLOSED = {'delivered', 'already-delivered', 'no-new-facts', 'checked'}
 MAX_ATTEMPTS = 3
 
 

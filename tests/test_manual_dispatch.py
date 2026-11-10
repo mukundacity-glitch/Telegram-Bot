@@ -71,12 +71,12 @@ def test_runner_manual_bypasses_due_filter_and_targets_exact_file(monkeypatch):
     monkeypatch.setattr(runner, 'write_state', lambda *args: None)
     monkeypatch.setattr(runner, 'stage', lambda *args, **kwargs:
                         (runner.ROOT / 'outbox/manual.json', 'unit-id', 1))
+    published = []
     def read_state(path):
         if path == runner.RECEIPTS:
-            return {'unit-id:page1': {'delivered': True, 'discord_delivered': True}}
+            return {'unit-id:page1': {'delivered': True, 'discord_delivered': True}} if published else {}
         return {}
     monkeypatch.setattr(runner, 'read_state', read_state)
-    published = []
     def fake_publish(now, *, manual=False, target_file=None):
         published.append((manual, target_file))
         return 0
@@ -94,3 +94,31 @@ def test_workflow_manual_input_is_not_a_due_only_noop():
                 '.github/workflows/telegram-daily.yml').read_text()
     assert 'python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"' in workflow
     assert "FPL_MANUAL_PUBLISH:" in workflow
+
+def test_prior_day_receipt_is_not_mistaken_for_new_manual_upload(monkeypatch):
+    from test_publication_contract import snap
+    s = snap()
+    monkeypatch.setattr(runner, 'allowed', lambda _: False)
+    monkeypatch.setattr(runner, 'Evidence', lambda *args: object())
+    monkeypatch.setattr(runner, 'write_state', lambda *args: None)
+    monkeypatch.setattr(runner, 'stage', lambda *args, **kwargs:
+                        (runner.ROOT / 'outbox/manual.json', 'unit-id', 1))
+    def already_delivered(path):
+        if path == runner.RECEIPTS:
+            return {'unit-id:page1': {'delivered': True, 'discord_delivered': True}}
+        return {}
+    monkeypatch.setattr(runner, 'read_state', already_delivered)
+    monkeypatch.setattr(runner, 'publish_outbox', lambda *args, **kwargs: 0)
+    result = runner.run(edition='four-midfielders', manual=True,
+                        now=EARLY_ET, snapshot=s)
+    assert result['confirmed_edition_deliveries'] == 0
+    assert result['editions'][0]['status'] == 'already-delivered'
+
+def test_manual_cli_does_not_report_green_when_nothing_new_was_published(monkeypatch):
+    import sys
+    monkeypatch.setattr(sys, 'argv', ['autonomous_runner', '--manual', '--edition', 'four-midfielders'])
+    monkeypatch.setattr(runner, 'run', lambda **kwargs: {
+        'confirmed_edition_deliveries': 0,
+        'editions': [{'status': 'already-delivered', 'edition': 'four-midfielders'}],
+    })
+    assert runner.main() == 1

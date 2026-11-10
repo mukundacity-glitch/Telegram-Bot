@@ -119,7 +119,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         write_state(STATE/'prices.json',price_snapshot(snapshot))
     for slot in slots:
         key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
-        if not audit and state.get(key,{}).get('status')=='delivered':
+        if not audit and state.get(key,{}).get('status') in ('delivered','already-delivered'):
             rows.append({'edition':slot.edition,'status':'already-delivered'});continue
         if slot.task=='press_news':
             if audit:
@@ -137,6 +137,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
             row={'task':slot.task,'edition':slot.edition,'status':'generated','file':str(file.relative_to(ROOT)),
                  'identity':identity,'pages':count,'caption_hashtags':4}
             if not audit:
+                previous_receipts=read_state(RECEIPTS)
+                previously_complete=all(previous_receipts.get(f'{identity}:page{i+1}',{}).get('delivered')
+                    and previous_receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered')
+                    for i in range(count))
                 # Validation must use delivery time: the fresh snapshot was fetched
                 # after the scheduler captured its original start timestamp.
                 if manual:
@@ -147,7 +151,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 receipts=read_state(RECEIPTS)
                 complete=all(receipts.get(f'{identity}:page{i+1}',{}).get('delivered') and
                              receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered') for i in range(count))
-                row['status']='delivered' if complete else 'queued-or-partial'
+                # Never call an old receipt a fresh upload. Identical factual
+                # content may retain the same identity across different days.
+                row['status']=('already-delivered' if previously_complete and complete
+                               else 'delivered' if complete else 'queued-or-partial')
                 row['publisher_exit_code']=result
                 row['attempts']=state.get(key,{}).get('attempts',0)+1
                 state[key]=row;write_state(STATE_FILE,state)
@@ -196,6 +203,9 @@ def main():
                 print(f"::notice::MANUAL DELIVERY CONFIRMED: {edition_name}; Telegram and Discord receipts found")
             else:
                 print(f"::warning::MANUAL POST NOT SENT: {edition_name} ({status}); see edition reason/receipts above")
+    if args.manual and result.get('confirmed_edition_deliveries',0) == 0:
+        print('::error::Manual run completed without a NEW verified Telegram + Discord upload')
+        return 1
     # A generated graphic is not a published post. Surface a failed due edition
     # as a failed Actions run instead of reporting a misleading green success.
     failures = {'held', 'queued-or-partial'}
