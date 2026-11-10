@@ -537,6 +537,16 @@
     "telegram_message_id": 247,
     "timestamp": "2026-11-06T22:08:16.088412+00:00"
   },
+  "chatgpt:2026-27:GW11:task2:four-team-targets:606126b83ebe10b44123:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1569512540180844574",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 352,
+    "timestamp": "2026-11-10T00:42:26.674904+00:00"
+  },
   "chatgpt:2026-27:GW11:task2:four-team-targets:6910aa0bcfda2981ef41:page1": {
     "delivered": true,
     "discord_delivered": true,
