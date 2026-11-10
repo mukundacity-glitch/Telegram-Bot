@@ -1,17 +1,4 @@
 {
-  "availability:57ee4692a09318e20ea0fbd8": {
-    "caption": "GW11 • FPL AVAILABLE FLAG — Ndoye\nNdoye (NFO): FPL available flag. FPL next-round flag: 100% (not a predicted start probability). Next GW: BOU (A).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #NFO",
-    "club_code": 17,
-    "gameweek": 11,
-    "identity": "availability:57ee4692a09318e20ea0fbd8",
-    "image": null,
-    "photo_code": 456512,
-    "player_name": "Ndoye",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "NFO",
-    "title": "GW11 • FPL AVAILABLE FLAG — Ndoye"
-  },
   "availability:59751d43edc3b8796abb138a": {
     "caption": "GW11 • FPL DOUBTFUL FLAG — Dasilva\nDasilva (BRE): FPL doubtful flag. Official FPL note: Hamstring injury - 25% chance of playing. FPL next-round flag: 25% (not a predicted start probability). Next GW: EVE (H).\nSource: Official Fantasy Premier League, 2026-11-06 19:17 UTC\n#FPL #FPLVortex #Availability #BRE",
     "club_code": 94,
@@ -831,6 +818,19 @@
     "team_name": "MUN",
     "title": "GW11 • FPL AVAILABLE FLAG — Dorgu"
   },
+  "price:01b97bb69348e5c52f629cb2": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Doucouré\nDoucouré (CRY) officially changed from £4.8m to £4.7m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-10 00:00 UTC\n#FPL #FPLVortex #Pricechange #CRY",
+    "club_code": 31,
+    "gameweek": 11,
+    "identity": "price:01b97bb69348e5c52f629cb2",
+    "image": null,
+    "photo_code": 438464,
+    "player_name": "Doucouré",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CRY",
+    "title": "GW11 • CONFIRMED PRICE FALL — Doucouré"
+  },
   "price:0827e63acd9e672005cdc62f": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Zambrano\nZambrano (HUL) officially changed from £4.5m to £4.4m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-09 00:45 UTC\n#FPL #FPLVortex #Pricechange #HUL",
     "club_code": 88,
@@ -934,6 +934,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BOU",
     "title": "GW11 • CONFIRMED PRICE RISE — Evanilson"
+  },
+  "price:2240ebf27a85ac0389170f9e": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Wilson\nWilson (LEE) officially changed from £6.2m to £6.1m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-10 00:00 UTC\n#FPL #FPLVortex #Pricechange #LEE",
+    "club_code": 2,
+    "gameweek": 11,
+    "identity": "price:2240ebf27a85ac0389170f9e",
+    "image": null,
+    "photo_code": 153682,
+    "player_name": "Wilson",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "LEE",
+    "title": "GW11 • CONFIRMED PRICE FALL — Wilson"
   },
   "price:230952b6b619e7b5be89a5e2": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Mukiele\nMukiele (SUN) officially changed from £5.4m to £5.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #SUN",
@@ -1195,6 +1208,19 @@
     "team_name": "MCI",
     "title": "GW11 • CONFIRMED PRICE FALL — Donnarumma"
   },
+  "price:9e76ddfcc275ca146878d9ad": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Madjo\nMadjo (AVL) officially changed from £5.4m to £5.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-10 00:00 UTC\n#FPL #FPLVortex #Pricechange #AVL",
+    "club_code": 7,
+    "gameweek": 11,
+    "identity": "price:9e76ddfcc275ca146878d9ad",
+    "image": null,
+    "photo_code": 690838,
+    "player_name": "Madjo",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "AVL",
+    "title": "GW11 • CONFIRMED PRICE FALL — Madjo"
+  },
   "price:a293053b0dc7f7ef932351f4": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Kusi-Asare\nKusi-Asare (FUL) officially changed from £4.4m to £4.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-07 00:04 UTC\n#FPL #FPLVortex #Pricechange #FUL",
     "club_code": 54,
@@ -1377,6 +1403,19 @@
     "team_name": "NEW",
     "title": "GW11 • CONFIRMED PRICE FALL — Pope"
   },
+  "price:d35207e7d54d010fdd90a41c": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Anderson\nAnderson (MCI) officially changed from £6.3m to £6.2m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-10 00:00 UTC\n#FPL #FPLVortex #Pricechange #MCI",
+    "club_code": 43,
+    "gameweek": 11,
+    "identity": "price:d35207e7d54d010fdd90a41c",
+    "image": null,
+    "photo_code": 215379,
+    "player_name": "Anderson",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "MCI",
+    "title": "GW11 • CONFIRMED PRICE FALL — Anderson"
+  },
   "price:d625586e8a92af249c2ffa44": {
     "caption": "GW10 • CONFIRMED PRICE RISE — Manzambi\nManzambi (AVL) officially changed from £6.1m to £6.2m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-06 00:57 UTC\n#FPL #FPLVortex #Pricechange #AVL",
     "club_code": 7,
@@ -1519,6 +1558,19 @@
     "source_url": "https://fantasy.premierleague.com/",
     "team_name": "BRE",
     "title": "GW11 • CONFIRMED PRICE FALL — Wilson"
+  },
+  "price:ffb2665c92674a7f2ef0f452": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Wharton\nWharton (CRY) officially changed from £5.4m to £5.3m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-10 00:00 UTC\n#FPL #FPLVortex #Pricechange #CRY",
+    "club_code": 31,
+    "gameweek": 11,
+    "identity": "price:ffb2665c92674a7f2ef0f452",
+    "image": null,
+    "photo_code": 496221,
+    "player_name": "Wharton",
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "team_name": "CRY",
+    "title": "GW11 • CONFIRMED PRICE FALL — Wharton"
   },
   "price:ffd17b8bf2acc0a293efc2ef": {
     "caption": "GW11 • CONFIRMED PRICE FALL — Herrington\nHerrington (HUL) officially changed from £4.0m to £3.9m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-08 00:26 UTC\n#FPL #FPLVortex #Pricechange #HUL",
