@@ -161,60 +161,67 @@ def _targets(plan,snapshot,output,client):
     return _save(canvas,output)
 
 
+def _market_reason(rows,key,snapshot):
+    """Verified, deterministic one-liner: average run plus easiest and toughest fixture."""
+    rows=[r for r in rows[:5] if isinstance(r.get(key),(int,float))]
+    if len(rows)<2:return ''
+    avg=sum(r[key] for r in rows)/len(rows)
+    easy=min(rows,key=lambda r:r[key]);hard=max(rows,key=lambda r:r[key])
+    def tag(r):return f"GW{r['gw']} {snapshot.teams[r['opponent_id']]['short_name']}({r['venue']})"
+    return f"NEXT 5 AVG FDR {avg:.1f} • EASIEST {tag(easy)} • TOUGHEST {tag(hard)}"
+
+
+def _market_footer():
+    import os
+    telegram,discord=required_footer_handles()
+    youtube=os.getenv('FPL_YOUTUBE_HANDLE','').strip().lstrip('@')
+    x=os.getenv('FPL_X_HANDLE','').strip().lstrip('@')
+    return [('telegram','t.me/'+telegram.lstrip('@')),('youtube',youtube),('discord',discord),('x',x)]
+
+
 def _market(plan,snapshot,output,client):
+    """Purple/gold portrait market boards: one page per position group."""
+    from . import vortex_style as vs
+    from .fpl import upcoming_deadline
+    from .deadline_watch import clock,ET,UK
     pages=[];cache={};by_id={p['id']:p for p in plan.players};labels=dict(zip([p['id'] for p in plan.players],plan.labels))
+    deadline=upcoming_deadline(snapshot)
     for group_index,ids in enumerate(plan.extra['groups']):
-        with Image.open(MASTER) as src: master=background(src,f'{plan.title}|{plan.gw}|{group_index}',(1536,864))
-        canvas=Image.new('RGB',(1080,1920),'#fcfcfa')
-        # Background is cropped, never stretched; original header/footer
-        # logos are pasted with a uniform scale.
-        texture=ImageOps.fit(master.crop((300,180,1230,760)),(1080,1788))
-        canvas.paste(texture,(0,85));canvas.paste(master.crop((0,0,1536,120)).resize((1080,84)),(0,0))
-        canvas.paste(master.crop((0,800,1536,864)).resize((1080,45)),(0,1875))
-        d=ImageDraw.Draw(canvas,'RGBA');d.rectangle((210,0,925,82),fill='#fcfcfa')
-        text(d,'MARKET VERDICTS • '+('GK','DEF','MID','FWD')[group_index],220,18,690,29,WHITE,23,center=True)
-        text(d,f'GW{plan.gw} • VERIFIED TRANSFERS • NEXT FIVE',35,102,1010,30,GOLD,24,center=True)
-        row_height=1660/len(ids)
+        canvas=vs.background()
+        vs.header(canvas,'MARKET VERDICTS • '+('GK','DEF','MID','FWD')[group_index],f'GW{plan.gw} • VERIFIED TRANSFERS • NEXT FIVE')
+        if deadline:vs.deadline_strip(canvas,'DEADLINE • '+clock(deadline,ET)+'  |  '+clock(deadline,UK))
+        top,bottom,gap=374,1768,16
+        single=len(ids)==1
+        card_h=620 if single else min(560,(bottom-top-gap*(len(ids)-1))/len(ids))
+        notes_h=250
+        block=len(ids)*card_h+gap*(len(ids)-1)+(gap+notes_h if single or len(ids)==2 else 0)
+        top+=max(0,(bottom-top-block)/2) if single or len(ids)==2 else 0
         for i,pid in enumerate(ids):
-            p=by_id[pid];top=160+i*row_height;height=row_height-16
-            if len(ids)==1:
-                d=ImageDraw.Draw(canvas,'RGBA');panel(d,(24,top,1056,top+height),GOLD)
-                text(d,snapshot.name(p),55,top+22,970,54,WHITE,40,center=True)
-                photo,badge=_assets(snapshot,p,client,cache)
-                contain(canvas,photo,(285,top+128,510,660),bottom=True,crop_alpha=True)
-                contain(canvas,badge,(850,top+150,115,115));d=ImageDraw.Draw(canvas,'RGBA')
-                rows=[('PRICE',snapshot.price(p)),('OWNERSHIP',str(p['selected_by_percent'])+'%'),
-                      ('EFFECTIVE OWN',_eo_label(plan,p)),('MINUTES',str(p['minutes'])),
-                      ('CLEAN SHEETS',str(p['clean_sheets']) if p.get('clean_sheets') is not None else 'N/A'),
-                      ('SAVES',str(p['saves']) if p.get('saves') is not None else 'N/A'),('VERDICT',labels[pid])]
-                compact_table(d,rows,(90,top+845,990,top+1165))
-                text(d,f"GW IN {p.get('transfers_in_event',0):,} • OUT {p.get('transfers_out_event',0):,}",70,top+1200,940,31,GOLD,25,center=True)
-                rows=plan.extra['model']['teams'][str(p['team'])]['fixtures']
-                for n,r in enumerate(rows[:5]):
-                    opp=snapshot.teams[r['opponent_id']]['short_name'];left=60+n*194
-                    text(d,f"GW{r['gw']} {opp}({r['venue']})",left,top+1290,185,26,WHITE,19,center=True)
-                    text(d,f"FDR {r['defensive_fdr']:.2f}",left,top+1330,185,27,CYAN,21,center=True)
-                paragraph(d,'MONITOR availability and the next five fixtures before changing goalkeeper.',(75,top+1440,930),30,WHITE,3)
-                continue
-            d=ImageDraw.Draw(canvas,'RGBA');panel(d,(24,top,1056,top+height),CYAN)
+            p=by_id[pid];y=top+i*(card_h+gap)
             photo,badge=_assets(snapshot,p,client,cache)
-            contain(canvas,photo,(40,top+56,170,min(height-84,250)),bottom=True,crop_alpha=True)
-            contain(canvas,badge,(960,top+24,66,66));d=ImageDraw.Draw(canvas,'RGBA')
-            text(d,snapshot.name(p),225,top+18,710,38,WHITE,28)
-            text(d,f"{snapshot.price(p)} • OWN {p['selected_by_percent']}% • {labels[pid]}",225,top+72,710,27,GOLD,22)
-            text(d,f"GW IN {int(p.get('transfers_in_event')or 0):,} • OUT {int(p.get('transfers_out_event')or 0):,}",225,top+116,775,24,WHITE,19)
-            text(d,'LAST 3: 70+ MIN EACH • EO '+_eo_label(plan,p),225,top+154,775,21,WHITE,17)
-            rows=(plan.extra['model']['teams'][str(p['team'])]['fixtures'])
             key='defensive_fdr' if p['element_type'] in (1,2) else 'attacking_fdr'
-            for n,r in enumerate(rows[:5]):
-                opp=snapshot.teams[r['opponent_id']]['short_name'];left=225+n*155
-                text(d,f"GW{r['gw']} {opp}({r['venue']})",left,top+205,150,19,WHITE,14,center=True)
-                text(d,f"FDR {r[key]:.2f}",left,top+236,150,22,CYAN,17,center=True)
-        telegram,discord=required_footer_handles();d=ImageDraw.Draw(canvas,'RGBA')
-        d.rectangle((0,1810,1080,1875),fill='#fcfcfa')
-        text(d,'TELEGRAM t.me/'+telegram.lstrip('@')+'  •  DISCORD '+discord,22,1826,1036,26,WHITE,18,center=True)
+            rows=plan.extra['model']['teams'][str(p['team'])]['fixtures']
+            fixtures=[{'gw':r['gw'],'opponent':snapshot.teams[r['opponent_id']]['short_name'],'venue':r['venue'],
+                       'fdr':r.get(key)} for r in rows[:5]]
+            evidence=['LAST 3: 70+ MIN EACH']
+            if p.get('form') not in (None,''):evidence.append(f"FORM {p['form']}")
+            if p.get('total_points') is not None:evidence.append(f"{p['total_points']} PTS")
+            eo=_eo_label(plan,p)
+            if eo!='Unavailable':evidence.append('EO '+eo)
+            vs.player_card(canvas,(26,y,1054,y+card_h),portrait=photo,badge=badge,name=snapshot.name(p),
+                           price=snapshot.price(p),own=f"{p['selected_by_percent']}%",verdict=labels[pid],
+                           gw_flow=f"GW IN {int(p.get('transfers_in_event') or 0):,} • OUT {int(p.get('transfers_out_event') or 0):,}",
+                           evidence=' • '.join(evidence),reason=_market_reason(rows,key,snapshot),fixtures=fixtures)
+        used=top+len(ids)*card_h+gap*(len(ids)-1)
+        if single or len(ids)==2:
+            vs.notes_panel(canvas,(26,used+gap,1054,used+gap+notes_h),'MANAGER CHECKLIST',
+                ['Confirm team news and the starting XI before you move.',
+                 'Use a free transfer; a 4-point hit needs a clear points case.',
+                 'Compare the next five fixtures with your current player.'])
+        vs.legend(canvas,1782)
+        vs.footer(canvas,_market_footer())
         path=output.with_name(output.stem+f'-{group_index+1}.png');path.parent.mkdir(parents=True,exist_ok=True)
-        canvas.save(path,'PNG',optimize=True);pages.append(path)
+        vs.finish(canvas).save(path,'PNG',optimize=True);pages.append(path)
     return pages
 
 

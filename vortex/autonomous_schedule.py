@@ -15,26 +15,35 @@ class Slot:
 
 
 SLOTS = (
-    Slot('task1', 'availability-transfer-decisions', 5),
-    Slot('task2', 'rank-booster', 6),
-    Slot('three_daily', 'fixture-targets', 7),
-    Slot('task1', 'form-minutes-targets', 8),
-    Slot('task2', 'four-midfielders', 9),
-    Slot('press_news', 'verified-press-availability', 10),
-    Slot('task1', 'captain-differential', 11),
-    Slot('task2', 'four-team-targets', 12),
-    Slot('three_daily', 'squad-surgery', 13),
-    Slot('task1', 'transfer-market-team-news', 14),
-    Slot('task2', 'market-verdict', 15),
-    Slot('task1', 'deadline-watch', 16, 29),
-    Slot('price_changes', 'confirmed-price-changes', 17),
-    Slot('press_news', 'verified-press-availability', 18),
-    Slot('three_daily', 'vortex-captain', 19),
+    Slot('task1', 'availability-transfer-decisions', 5, 30),
+    Slot('task2', 'rank-booster', 6, 30),
+    Slot('three_daily', 'fixture-targets', 7, 30),
+    Slot('task1', 'form-minutes-targets', 8, 30),
+    Slot('task2', 'four-midfielders', 9, 30),
+    Slot('press_news', 'verified-press-availability', 10, 30),
+    Slot('task1', 'captain-differential', 11, 30),
+    Slot('task2', 'four-team-targets', 12, 30),
+    Slot('three_daily', 'squad-surgery', 13, 30),
+    Slot('task1', 'transfer-market-team-news', 14, 30),
+    Slot('task2', 'market-verdict', 15, 30),
+    Slot('task1', 'deadline-watch', 16, 30),
+    Slot('price_changes', 'confirmed-price-changes', 17, 30),
+    Slot('press_news', 'verified-press-availability', 19, 0),
+    Slot('three_daily', 'vortex-captain', 21, 0),
 )
-BY_CRON = {f'{s.minute} {s.hour} * * *': s for s in SLOTS}
-NEWS_CRONS = {f'5 {hour} * * *' for hour in range(5, 20)}
-SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5,20)}
+# Editorial slots are TIME-based catch-up slots, not bound to one cron string:
+# a delayed, cancelled or dropped GitHub run can never lose an edition because
+# the next run posts whatever is due and not yet closed for the Eastern day.
+BY_CRON = {}
+WINDOW_OPEN = (5, 30)
+WINDOW_CLOSE = (22, 0)
+CATCHUP_CRONS = {f'{m} {h} * * *' for h in range(5, 22) for m in (10, 40) if (h, m) >= WINDOW_OPEN}
+NEWS_CRONS = {f'5 {hour} * * *' for hour in range(6, 22)}
+SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5, 22)}
+OUTBOX_CRONS = {f'50 {hour} * * *' for hour in range(5, 22)}
 SPECIAL_EDITIONS = ('captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five')
+CLOSED = {'delivered', 'no-new-facts', 'checked'}
+MAX_ATTEMPTS = 3
 
 
 def slot_for(cron):
@@ -51,7 +60,28 @@ def season_id(snapshot, now):
 def publication_key(slot, now, gw, season=None):
     if slot.edition in SPECIAL_EDITIONS:
         return f'{season or str(now.year)}:GW{gw}:task1:{slot.edition}'
-    return f"{now.astimezone(ET).date()}:{slot.task}:{slot.edition}:GW{gw}"
+    key = f"{now.astimezone(ET).date()}:{slot.task}:{slot.edition}:GW{gw}"
+    # An edition that runs twice a day (press availability) needs one record per slot.
+    return key + f':{slot.hour:02d}{slot.minute:02d}' if slot.task == 'press_news' else key
+
+
+def slot_start(slot, now):
+    return now.astimezone(ET).replace(hour=slot.hour, minute=slot.minute, second=0, microsecond=0)
+
+
+def catchup_slots(now, state, gw, season=None, limit=3):
+    """Slots that are already due today and not yet closed, oldest first."""
+    due = []
+    for slot in sorted(SLOTS, key=lambda s: (s.hour, s.minute)):
+        if now < slot_start(slot, now):
+            continue
+        row = state.get(publication_key(slot, now, gw, season), {})
+        if row.get('status') in CLOSED:
+            continue
+        if row.get('status') in ('held', 'queued-or-partial') and row.get('attempts', 1) >= MAX_ATTEMPTS:
+            continue
+        due.append(slot)
+    return due[:limit]
 
 
 def due_specials(snapshot,now,state):

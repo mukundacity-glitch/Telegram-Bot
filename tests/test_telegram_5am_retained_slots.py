@@ -29,8 +29,10 @@ ORIGINAL_CRONS = {
 
 def test_user_requested_window_replaces_older_overnight_triggers():
     workflow = WORKFLOW.read_text()
-    assert "cron: '20 5 * * *'" in workflow and "cron: '5 5 * * *'" in workflow
-    assert "0 21 * * *" not in workflow and "0 22 * * *" not in workflow
+    crons = re.findall(r"- cron: '(\d+) (\d+) \* \* \*'", workflow)
+    minutes = [int(h) * 60 + int(m) for m, h in crons]
+    assert "cron: '40 5 * * *'" in workflow and "cron: '35 5 * * *'" in workflow
+    assert min(minutes) >= 5 * 60 + 30 and max(minutes) < 22 * 60
     assert workflow.count("  publish:\n") == 1
 
 

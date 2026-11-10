@@ -22,7 +22,7 @@ old Python task adapters are retained for historical compatibility only.
 Every hour has one content owner. The existing shared GitHub workflow checks
 at :15 and :45 from 05:15 through 19:45, posting at most one queued edition per
 serialized job to BOTH platforms. Retries reuse independently saved platform
-receipts. No automatic post may leave outside 05:00 inclusive to 20:00 exclusive.
+receipts. No automatic post may leave outside 05:30 inclusive to 22:00 exclusive.
 The old Discord-only injury/price schedules are retired; manual diagnostics remain.
 No new ChatGPT task or GitHub workflow was created. The existing price task is resumed at 17:00 under the user’s all-tasks instruction.
 

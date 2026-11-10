@@ -62,13 +62,14 @@ def world():
 
 def test_original_news_and_additional_editions_never_share_a_clock_slot():
     from vortex.schedule import SLOT_CRONS
-    assert not set(BY_CRON)&NEWS_CRONS
-    assert not set(BY_CRON)&set(SLOT_CRONS)
-    assert not SPECIAL_CRONS&(set(BY_CRON)|NEWS_CRONS|set(SLOT_CRONS))
+    from vortex.autonomous_schedule import CATCHUP_CRONS,OUTBOX_CRONS
+    lanes=[set(SLOT_CRONS),NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,OUTBOX_CRONS]
+    for i,a in enumerate(lanes):
+        for b in lanes[i+1:]:assert not a&b
     workflow=(Path(__file__).resolve().parents[1]/'.github/workflows/telegram-daily.yml').read_text()
     crons=re.findall(r"- cron: '([^']+)'",workflow)
     assert len(crons)==len(set(crons))
-    assert set(SLOT_CRONS)|set(BY_CRON)|NEWS_CRONS|SPECIAL_CRONS <= set(crons)
+    assert set(SLOT_CRONS)|NEWS_CRONS|SPECIAL_CRONS|CATCHUP_CRONS|OUTBOX_CRONS <= set(crons)
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 

@@ -29,10 +29,24 @@ class Plan:
     extra: dict | None = None
 
 
+
+def retrying_session():
+    """HTTP session that retries transient read/connect failures (e.g. ReadTimeout)."""
+    from requests.adapters import HTTPAdapter
+    from urllib3.util.retry import Retry
+    session = requests.Session()
+    adapter = HTTPAdapter(max_retries=Retry(total=3, connect=3, read=3, backoff_factor=1.5,
+                                            status_forcelist=(429, 500, 502, 503, 504),
+                                            allowed_methods=frozenset({'GET'})))
+    session.mount('https://', adapter)
+    session.mount('http://', adapter)
+    return session
+
+
 class Evidence:
     def __init__(self, snapshot, now, session=None):
         self.snapshot, self.now = snapshot, now
-        self.session = session or requests.Session()
+        self.session = session or retrying_session()
         self.history = {}
         self.completed = set(completed_rounds(snapshot, 4))
 

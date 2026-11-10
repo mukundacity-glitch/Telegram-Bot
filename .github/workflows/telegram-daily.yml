@@ -4,21 +4,21 @@ on:
     branches: [main]
     paths: ['outbox/**', '.github/workflows/telegram-daily.yml']
   schedule:
-    - cron: '5 5 * * *'
-      timezone: America/New_York
-    - cron: '20 5 * * *'
-      timezone: America/New_York
     - cron: '35 5 * * *'
+      timezone: America/New_York
+    - cron: '40 5 * * *'
       timezone: America/New_York
     - cron: '50 5 * * *'
       timezone: America/New_York
     - cron: '5 6 * * *'
       timezone: America/New_York
-    - cron: '20 6 * * *'
+    - cron: '10 6 * * *'
       timezone: America/New_York
     - cron: '30 6 * * *'
       timezone: America/New_York
     - cron: '35 6 * * *'
+      timezone: America/New_York
+    - cron: '40 6 * * *'
       timezone: America/New_York
     - cron: '45 6 * * *'
       timezone: America/New_York
@@ -28,11 +28,13 @@ on:
       timezone: America/New_York
     - cron: '5 7 * * *'
       timezone: America/New_York
+    - cron: '10 7 * * *'
+      timezone: America/New_York
     - cron: '15 7 * * *'
       timezone: America/New_York
-    - cron: '20 7 * * *'
-      timezone: America/New_York
     - cron: '35 7 * * *'
+      timezone: America/New_York
+    - cron: '40 7 * * *'
       timezone: America/New_York
     - cron: '50 7 * * *'
       timezone: America/New_York
@@ -40,11 +42,13 @@ on:
       timezone: America/New_York
     - cron: '5 8 * * *'
       timezone: America/New_York
+    - cron: '10 8 * * *'
+      timezone: America/New_York
     - cron: '15 8 * * *'
       timezone: America/New_York
-    - cron: '20 8 * * *'
-      timezone: America/New_York
     - cron: '35 8 * * *'
+      timezone: America/New_York
+    - cron: '40 8 * * *'
       timezone: America/New_York
     - cron: '50 8 * * *'
       timezone: America/New_York
@@ -52,11 +56,13 @@ on:
       timezone: America/New_York
     - cron: '5 9 * * *'
       timezone: America/New_York
+    - cron: '10 9 * * *'
+      timezone: America/New_York
     - cron: '15 9 * * *'
       timezone: America/New_York
-    - cron: '20 9 * * *'
-      timezone: America/New_York
     - cron: '35 9 * * *'
+      timezone: America/New_York
+    - cron: '40 9 * * *'
       timezone: America/New_York
     - cron: '50 9 * * *'
       timezone: America/New_York
@@ -64,11 +70,13 @@ on:
       timezone: America/New_York
     - cron: '5 10 * * *'
       timezone: America/New_York
+    - cron: '10 10 * * *'
+      timezone: America/New_York
     - cron: '15 10 * * *'
       timezone: America/New_York
-    - cron: '20 10 * * *'
-      timezone: America/New_York
     - cron: '35 10 * * *'
+      timezone: America/New_York
+    - cron: '40 10 * * *'
       timezone: America/New_York
     - cron: '45 10 * * *'
       timezone: America/New_York
@@ -78,13 +86,15 @@ on:
       timezone: America/New_York
     - cron: '5 11 * * *'
       timezone: America/New_York
-    - cron: '15 11 * * *'
+    - cron: '10 11 * * *'
       timezone: America/New_York
-    - cron: '20 11 * * *'
+    - cron: '15 11 * * *'
       timezone: America/New_York
     - cron: '25 11 * * *'
       timezone: America/New_York
     - cron: '35 11 * * *'
+      timezone: America/New_York
+    - cron: '40 11 * * *'
       timezone: America/New_York
     - cron: '50 11 * * *'
       timezone: America/New_York
@@ -92,11 +102,13 @@ on:
       timezone: America/New_York
     - cron: '5 12 * * *'
       timezone: America/New_York
+    - cron: '10 12 * * *'
+      timezone: America/New_York
     - cron: '15 12 * * *'
       timezone: America/New_York
-    - cron: '20 12 * * *'
-      timezone: America/New_York
     - cron: '35 12 * * *'
+      timezone: America/New_York
+    - cron: '40 12 * * *'
       timezone: America/New_York
     - cron: '50 12 * * *'
       timezone: America/New_York
@@ -104,11 +116,13 @@ on:
       timezone: America/New_York
     - cron: '5 13 * * *'
       timezone: America/New_York
+    - cron: '10 13 * * *'
+      timezone: America/New_York
     - cron: '15 13 * * *'
       timezone: America/New_York
-    - cron: '20 13 * * *'
-      timezone: America/New_York
     - cron: '35 13 * * *'
+      timezone: America/New_York
+    - cron: '40 13 * * *'
       timezone: America/New_York
     - cron: '50 13 * * *'
       timezone: America/New_York
@@ -116,11 +130,13 @@ on:
       timezone: America/New_York
     - cron: '5 14 * * *'
       timezone: America/New_York
+    - cron: '10 14 * * *'
+      timezone: America/New_York
     - cron: '15 14 * * *'
       timezone: America/New_York
-    - cron: '20 14 * * *'
-      timezone: America/New_York
     - cron: '35 14 * * *'
+      timezone: America/New_York
+    - cron: '40 14 * * *'
       timezone: America/New_York
     - cron: '50 14 * * *'
       timezone: America/New_York
@@ -128,11 +144,13 @@ on:
       timezone: America/New_York
     - cron: '5 15 * * *'
       timezone: America/New_York
+    - cron: '10 15 * * *'
+      timezone: America/New_York
     - cron: '15 15 * * *'
       timezone: America/New_York
-    - cron: '20 15 * * *'
-      timezone: America/New_York
     - cron: '35 15 * * *'
+      timezone: America/New_York
+    - cron: '40 15 * * *'
       timezone: America/New_York
     - cron: '50 15 * * *'
       timezone: America/New_York
@@ -140,21 +158,25 @@ on:
       timezone: America/New_York
     - cron: '5 16 * * *'
       timezone: America/New_York
+    - cron: '10 16 * * *'
+      timezone: America/New_York
     - cron: '15 16 * * *'
       timezone: America/New_York
-    - cron: '29 16 * * *'
-      timezone: America/New_York
     - cron: '35 16 * * *'
+      timezone: America/New_York
+    - cron: '40 16 * * *'
       timezone: America/New_York
     - cron: '50 16 * * *'
       timezone: America/New_York
     - cron: '5 17 * * *'
       timezone: America/New_York
-    - cron: '20 17 * * *'
+    - cron: '10 17 * * *'
       timezone: America/New_York
     - cron: '30 17 * * *'
       timezone: America/New_York
     - cron: '35 17 * * *'
+      timezone: America/New_York
+    - cron: '40 17 * * *'
       timezone: America/New_York
     - cron: '45 17 * * *'
       timezone: America/New_York
@@ -162,11 +184,13 @@ on:
       timezone: America/New_York
     - cron: '5 18 * * *'
       timezone: America/New_York
-    - cron: '20 18 * * *'
+    - cron: '10 18 * * *'
       timezone: America/New_York
     - cron: '30 18 * * *'
       timezone: America/New_York
     - cron: '35 18 * * *'
+      timezone: America/New_York
+    - cron: '40 18 * * *'
       timezone: America/New_York
     - cron: '45 18 * * *'
       timezone: America/New_York
@@ -174,15 +198,37 @@ on:
       timezone: America/New_York
     - cron: '5 19 * * *'
       timezone: America/New_York
-    - cron: '20 19 * * *'
+    - cron: '10 19 * * *'
       timezone: America/New_York
     - cron: '35 19 * * *'
+      timezone: America/New_York
+    - cron: '40 19 * * *'
       timezone: America/New_York
     - cron: '50 19 * * *'
       timezone: America/New_York
     - cron: '0 20 * * *'
       timezone: America/New_York
+    - cron: '5 20 * * *'
+      timezone: America/New_York
+    - cron: '10 20 * * *'
+      timezone: America/New_York
     - cron: '15 20 * * *'
+      timezone: America/New_York
+    - cron: '35 20 * * *'
+      timezone: America/New_York
+    - cron: '40 20 * * *'
+      timezone: America/New_York
+    - cron: '50 20 * * *'
+      timezone: America/New_York
+    - cron: '5 21 * * *'
+      timezone: America/New_York
+    - cron: '10 21 * * *'
+      timezone: America/New_York
+    - cron: '35 21 * * *'
+      timezone: America/New_York
+    - cron: '40 21 * * *'
+      timezone: America/New_York
+    - cron: '50 21 * * *'
       timezone: America/New_York
   workflow_dispatch:
     inputs:
@@ -237,6 +283,8 @@ jobs:
           MAX_NEWS_PER_RUN: '1'
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
+          FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
           FPL_EDITORIAL_MODEL_URL: ${{ vars.FPL_EDITORIAL_MODEL_URL || '' }}
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}

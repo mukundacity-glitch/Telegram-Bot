@@ -22,12 +22,13 @@ def record(tmp_path):
             'images': ['outbox/assets/graphic.png']}
 
 
-def test_window_handles_dst_and_closes_at_8pm():
-    assert not allowed(datetime(2026, 11, 3, 9, 59, tzinfo=timezone.utc))
-    assert allowed(datetime(2026, 11, 3, 10, 0, tzinfo=timezone.utc))
-    assert allowed(datetime(2026, 11, 4, 0, 59, tzinfo=timezone.utc))
-    assert not allowed(datetime(2026, 11, 4, 1, 0, tzinfo=timezone.utc))
-    assert allowed(datetime(2026, 7, 3, 9, 0, tzinfo=timezone.utc))
+def test_window_handles_dst_and_runs_0530_to_2200_eastern():
+    assert not allowed(datetime(2026, 11, 3, 10, 29, tzinfo=timezone.utc))  # 05:29 EST
+    assert allowed(datetime(2026, 11, 3, 10, 30, tzinfo=timezone.utc))      # 05:30 EST
+    assert allowed(datetime(2026, 11, 4, 2, 59, tzinfo=timezone.utc))       # 21:59 EST
+    assert not allowed(datetime(2026, 11, 4, 3, 0, tzinfo=timezone.utc))    # 22:00 EST
+    assert not allowed(datetime(2026, 7, 3, 9, 29, tzinfo=timezone.utc))    # 05:29 EDT
+    assert allowed(datetime(2026, 7, 3, 9, 30, tzinfo=timezone.utc))        # 05:30 EDT
 
 
 def test_stale_and_external_assets_rejected(tmp_path):

@@ -9,7 +9,7 @@ requirements remain in `chatgpt-task-specifications.json`.
 ## Schedule and preservation
 
 All clocks use **America/New_York**, including DST. Public sends are allowed
-from 05:00 inclusive until 20:00 exclusive. GitHub schedules can be delayed;
+from 05:30 inclusive until 22:00 exclusive. GitHub schedules can be delayed;
 the runtime window check also applies to delayed jobs.
 
 | Time ET | Additional edition |
@@ -195,3 +195,30 @@ with portraits, badges, FPL forecast, ownership, price, form, season minutes/poi
 recent returns, position-specific stats and next-GW opponents/FDR. Missing
 optional history uses a dash, never a fabricated zero. All other edition
 schedules and graphics remain unchanged.
+
+## Schedule and catch-up (05:30–22:00 America/New_York)
+
+Posting window: 05:30 inclusive to 22:00 exclusive, Eastern time (DST handled).
+Telegram and Discord receive every edition together; each platform keeps its own receipt.
+
+| ET | Edition | ET | Edition |
+|---|---|---|---|
+| 05:30 | availability-transfer-decisions | 14:30 | transfer-market-team-news |
+| 06:30 | rank-booster | 15:30 | market-verdict |
+| 07:30 | fixture-targets | 16:30 | deadline-watch |
+| 08:30 | form-minutes-targets | 17:30 | confirmed-price-changes |
+| 09:30 | four-midfielders | 19:00 | verified-press-availability |
+| 10:30 | verified-press-availability | 21:00 | vortex-captain |
+| 11:30 | captain-differential | | |
+| 12:30 | four-team-targets | | |
+| 13:30 | squad-surgery | | |
+
+Editions are time-based catch-up slots. A catch-up run starts at :10 and :40 each hour
+(05:40 to 21:40). It posts the oldest edition that is already due and not yet closed for
+the Eastern day, so a late, cancelled or dropped GitHub run loses nothing. An edition is
+closed when delivered to both platforms, when there were no new facts, or when the news
+check ran. A held or partly delivered edition is retried up to three times a day, and
+only the missing platform is sent. The price baseline moves only when the price edition
+closes. News (:05), gameweek specials (:35), outbox retry (:50) and the legacy slots keep
+their own crons. GitHub gives no timing guarantee for scheduled runs; this design does
+not depend on one.

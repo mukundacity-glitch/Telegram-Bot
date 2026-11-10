@@ -21,7 +21,7 @@ class _JsonClient:
     def __init__(self, session):
         self.session = session
 
-    def get(self, url, required=True, timeout=8):
+    def get(self, url, required=True, timeout=20):
         response = self.session.get(url, timeout=timeout,
                                     headers={'Accept': 'application/json'})
         response.raise_for_status()
@@ -72,7 +72,8 @@ def build_live_team_feed(snapshot, now, session=None):
         raise RequiredInput('Official future fixtures are missing identities')
     boot = {'events': snapshot.events, 'teams': list(snapshot.teams.values()),
             'elements': snapshot.players}
-    client = _JsonClient(session or requests.Session())
+    from .autonomous_content import retrying_session
+    client = _JsonClient(session or retrying_session())
     try:
         with TemporaryDirectory(prefix='fpl-vortex-day3-') as directory:
             root = Path(directory)

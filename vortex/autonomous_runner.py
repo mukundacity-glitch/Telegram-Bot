@@ -11,7 +11,7 @@ import json,os
 from PIL import Image
 from .bot import ROOT,STATE,read_state,write_state
 from .fpl import collect_snapshot,price_snapshot,upcoming_deadline
-from .autonomous_schedule import SLOTS,NEWS_CRONS,SPECIAL_CRONS,SPECIAL_EDITIONS,Slot,due_specials,slot_for,publication_key,season_id,ET
+from .autonomous_schedule import SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
@@ -86,7 +86,7 @@ def run(*,cron=None,edition=None,audit=False,now=None,snapshot=None,model=None,r
         from .unified_runner import run as news
         result=news(now=now,max_posts=1)
         return {'lane':'existing-news','result':result}
-    if not audit and not edition and slot_for(cron) is None and cron not in SPECIAL_CRONS:
+    if not audit and not edition and slot_for(cron) is None and cron not in SPECIAL_CRONS and cron not in CATCHUP_CRONS:
         from .schedule import SLOT_CRONS
         if cron in SLOT_CRONS:
             from .bot import run as legacy
@@ -94,16 +94,25 @@ def run(*,cron=None,edition=None,audit=False,now=None,snapshot=None,model=None,r
         return {'status':'no-edition-due','posted':0}
     snapshot=snapshot or collect_snapshot()
     state=read_state(STATE_FILE)
-    slots=(list(SLOTS)+[Slot('task1',name,now.astimezone(ET).hour,35) for name in SPECIAL_EDITIONS]) if audit else (
-        due_specials(snapshot,now,state) if cron in SPECIAL_CRONS else
-        ([s for s in SLOTS if s.edition==edition][:1] or [Slot('task1',edition,now.astimezone(ET).hour,35)] if edition else [slot_for(cron)]))
-    if not slots:return {'status':'no-gameweek-special-due','posted':0}
+    if audit:
+        slots=list(SLOTS)+[Slot('task1',name,now.astimezone(ET).hour,35) for name in SPECIAL_EDITIONS]
+    elif cron in SPECIAL_CRONS and not edition:
+        slots=due_specials(snapshot,now,state)
+    elif edition:
+        slots=[s for s in SLOTS if s.edition==edition][:1] or [Slot('task1',edition,now.astimezone(ET).hour,35)]
+    else:
+        # Time-based catch-up: post anything already due and not yet closed today,
+        # whichever cron (or delayed run) happens to be executing.
+        slots=catchup_slots(now,state,snapshot.gameweek(),season_id(snapshot,now))
+    if not slots:return {'status':'no-edition-due' if not audit and not edition and cron not in SPECIAL_CRONS else 'no-gameweek-special-due','posted':0}
     if any(s is None for s in slots):raise ValueError('Unknown executable edition')
     evidence=Evidence(snapshot,now)
     rows=[]
     previous_prices=read_state(STATE/'prices.json')
-    if not audit:
-        # Keep a durable real snapshot even when no price movement is found.
+    if not audit and not previous_prices:
+        # First ever run only. Afterwards the baseline moves ONLY when the price
+        # edition has been closed, so an overnight change is still detectable
+        # at the price slot instead of being absorbed by an earlier hourly run.
         write_state(STATE/'prices.json',price_snapshot(snapshot))
     for slot in slots:
         key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
@@ -116,7 +125,10 @@ def run(*,cron=None,edition=None,audit=False,now=None,snapshot=None,model=None,r
             else:
                 from .unified_runner import run as news
                 result=news(snapshot=snapshot,now=now,max_posts=1)
-            rows.append({'edition':slot.edition,'status':'news-checked','result':result});continue
+            rows.append({'edition':slot.edition,'status':'news-checked','result':result})
+            if not audit:
+                state[key]={'task':slot.task,'edition':slot.edition,'status':'checked','at':now.isoformat()};write_state(STATE_FILE,state)
+            continue
         try:
             file,identity,count=stage(slot,snapshot,now,evidence,model=model,prices=previous_prices,research=research,audit=audit)
             row={'task':slot.task,'edition':slot.edition,'status':'generated','file':str(file.relative_to(ROOT)),
@@ -130,15 +142,22 @@ def run(*,cron=None,edition=None,audit=False,now=None,snapshot=None,model=None,r
                              receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered') for i in range(count))
                 row['status']='delivered' if complete else 'queued-or-partial'
                 row['publisher_exit_code']=result
+                row['attempts']=state.get(key,{}).get('attempts',0)+1
                 state[key]=row;write_state(STATE_FILE,state)
+                if complete and slot.task=='price_changes':write_state(STATE/'prices.json',price_snapshot(snapshot))
             rows.append(row)
             if not audit and row['status']=='delivered':break
         except NoUpdate as exc:
-            rows.append({'task':slot.task,'edition':slot.edition,'status':'no-new-facts','reason':str(exc)})
+            row={'task':slot.task,'edition':slot.edition,'status':'no-new-facts','reason':str(exc)}
+            rows.append(row)
+            if not audit:
+                state[key]=row;write_state(STATE_FILE,state)
+                if slot.task=='price_changes':write_state(STATE/'prices.json',price_snapshot(snapshot))
         except (RequiredInput,RuntimeError,ValueError,OSError,TypeError,KeyError) as exc:
             # Internal reasons are never printed on public art or captions.
             reason=str(exc) if isinstance(exc,RequiredInput) else type(exc).__name__
-            row={'task':slot.task,'edition':slot.edition,'status':'held','reason':reason}
+            row={'task':slot.task,'edition':slot.edition,'status':'held','reason':reason,
+                 'attempts':state.get(key,{}).get('attempts',0)+1}
             rows.append(row)
             if not audit:state[key]=row;write_state(STATE_FILE,state)
     report={'generation_owner':'github-actions','chatgpt_required':False,'at':now.isoformat(),

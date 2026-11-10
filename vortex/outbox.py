@@ -72,7 +72,7 @@ def validate(record, root=ROOT, now=None):
 def run(now=None, telegram=None, discord=None):
     now = now or datetime.now(timezone.utc)
     if not allowed(now):
-        print('OUTBOX DEFERRED: outside 05:00–20:00 ET')
+        print('OUTBOX DEFERRED: outside 05:30–22:00 ET')
         return 0
     status = read_state(STATUS)
     journal = read_state(RECEIPTS)
