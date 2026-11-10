@@ -135,11 +135,11 @@ def test_scheduled_prices_skip_a_card_without_confirmed_moves(delivery_environme
 
 
 def test_workflow_defaults_to_direct_post_without_test_or_preview_ui():
-    """Regression guard on workflow_dispatch and forced scheduled AUTO selection."""
+    """Manual dispatch selects a real edition; scheduled dispatch stays separate."""
     path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "telegram-daily.yml"
     workflow = path.read_text(encoding="utf-8")
-    assert "  workflow_dispatch:\npermissions:" in workflow
-    assert "python -m vortex.autonomous_runner --due" in workflow
+    assert "  workflow_dispatch:\n    inputs:\n      edition:" in workflow
+    assert 'python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"' in workflow
     assert "python -m vortex.outbox" in workflow
     assert "python -m vortex.bot" not in workflow
     assert "timezone: America/New_York" in workflow

@@ -25,4 +25,5 @@ def test_only_one_shared_publisher_and_no_legacy_scheduled_sender():
     assert 'python -m vortex.bot' not in source
     assert 'python -m vortex.task_publisher' not in source
     assert 'TELEGRAM_BOT_TOKEN' in source and 'DISCORD_WEBHOOK_URL' in source
-    assert "FPL_PUBLISH_WINDOW_ENFORCED: 'true'" in source
+    assert "FPL_PUBLISH_WINDOW_ENFORCED: ${{ !(" in source
+    assert "FPL_MANUAL_PUBLISH:" in source
