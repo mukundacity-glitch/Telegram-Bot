@@ -49,7 +49,7 @@ def test_a_dropped_day_is_recovered_by_a_late_run_in_oldest_first_batches():
     assert slot_start(SLOTS[-1], DAY_LATE).hour == 21
 
 
-def _drive(monkeypatch, world, state, cron_now):
+def _drive(monkeypatch, world, state, cron_now, **trigger):
     s, now, e, feed = world
     writes = {}
     receipts = {'test-identity:page1': {'delivered': True, 'discord_delivered': True}}
@@ -68,7 +68,7 @@ def _drive(monkeypatch, world, state, cron_now):
     monkeypatch.setattr(runner, 'write_state', lambda path, data: writes.__setitem__(path.name, dict(data)))
     monkeypatch.setattr(runner, 'stage', lambda *a, **k: (runner.ROOT / 'outbox/t.json', 'test-identity', 1))
     monkeypatch.setattr(runner, 'publish_outbox', lambda when: 0)
-    return runner.run(cron='10 12 * * *', now=cron_now, snapshot=s), writes
+    return runner.run(now=cron_now, snapshot=s, **(trigger or {'cron': '10 12 * * *'})), writes
 
 
 def test_runner_posts_the_oldest_due_edition_and_keeps_price_baseline(monkeypatch, world):
@@ -83,6 +83,17 @@ def test_runner_posts_the_oldest_due_edition_and_keeps_price_baseline(monkeypatc
 def test_first_catchup_run_at_0540_posts_the_0530_slot(monkeypatch, world):
     first_run = datetime(2026, 11, 9, 10, 40, tzinfo=timezone.utc)  # 05:40 EST
     result, _ = _drive(monkeypatch, world, {}, first_run)
+    assert result['editions'][0]['edition'] == 'availability-transfer-decisions'
+
+
+def test_manual_run_posts_only_an_already_due_edition(monkeypatch, world):
+    before_first_slot = datetime(2026, 11, 9, 10, 29, tzinfo=timezone.utc)
+    early_result, early_writes = _drive(monkeypatch, world, {}, before_first_slot, due=True)
+    assert early_result == {'status': 'no-edition-due', 'posted': 0}
+    assert early_writes == {}
+
+    result, _ = _drive(monkeypatch, world, {}, DAY_NOON, due=True)
+    assert result['confirmed_edition_deliveries'] == 1
     assert result['editions'][0]['edition'] == 'availability-transfer-decisions'
 
 

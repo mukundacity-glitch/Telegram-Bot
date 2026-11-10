@@ -79,7 +79,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     return file,identity,len(pages)
 
 
-def run(*,cron=None,edition=None,audit=False,now=None,snapshot=None,model=None,research=None):
+def run(*,cron=None,edition=None,audit=False,due=False,now=None,snapshot=None,model=None,research=None):
     now=now or datetime.now(timezone.utc)
     if not audit and not allowed(now):
         return {'status':'deferred-outside-window','posted':0,'safe_to_delete_chatgpt_tasks':False}
@@ -87,7 +87,7 @@ def run(*,cron=None,edition=None,audit=False,now=None,snapshot=None,model=None,r
         from .unified_runner import run as news
         result=news(now=now,max_posts=1)
         return {'lane':'existing-news','result':result}
-    if not audit and not edition and slot_for(cron) is None and cron not in SPECIAL_CRONS and cron not in CATCHUP_CRONS:
+    if not audit and not edition and not due and slot_for(cron) is None and cron not in SPECIAL_CRONS and cron not in CATCHUP_CRONS:
         from .schedule import SLOT_CRONS
         if cron in SLOT_CRONS:
             from .bot import run as legacy
@@ -175,8 +175,9 @@ def main():
     parser=argparse.ArgumentParser()
     parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
+    parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
     args=parser.parse_args()
-    result=run(cron=os.getenv('SCHEDULED_CRON'),edition=args.edition,audit=args.audit_all)
+    result=run(cron=os.getenv('SCHEDULED_CRON'),edition=args.edition,audit=args.audit_all,due=args.due)
     print(json.dumps(result,ensure_ascii=False))
     # A generated graphic is not a published post. Surface a failed due edition
     # as a failed Actions run instead of reporting a misleading green success.

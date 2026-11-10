@@ -138,8 +138,8 @@ def test_workflow_defaults_to_direct_post_without_test_or_preview_ui():
     """Regression guard on workflow_dispatch and forced scheduled AUTO selection."""
     path = Path(__file__).resolve().parents[1] / ".github" / "workflows" / "telegram-daily.yml"
     workflow = path.read_text(encoding="utf-8")
-    assert "default: autonomous" in workflow
-    assert "options: [autonomous, audit, news, outbox, validate]" in workflow
+    assert "  workflow_dispatch:\npermissions:" in workflow
+    assert "python -m vortex.autonomous_runner --due" in workflow
     assert "python -m vortex.outbox" in workflow
     assert "python -m vortex.bot" not in workflow
     assert "timezone: America/New_York" in workflow

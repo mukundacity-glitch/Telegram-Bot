@@ -239,23 +239,11 @@ on:
     - cron: '50 21 * * *'
       timezone: America/New_York
   workflow_dispatch:
-    inputs:
-      slot:
-        description: Generate and publish, audit all editions without posting, or retry the queue
-        default: autonomous
-        required: true
-        type: choice
-        options: [autonomous, audit, news, outbox, validate]
-      edition:
-        description: Optional single additional edition for a real manual production run
-        required: false
-        type: string
-        default: vortex-captain
 permissions:
   contents: read
 jobs:
   validate:
-    if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' || inputs.slot == 'validate' }}
+    if: ${{ github.event_name == 'pull_request' || github.event_name == 'push' }}
     permissions:
       contents: read
     runs-on: ubuntu-latest
@@ -291,7 +279,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 5
   publish:
-    if: ${{ github.event_name == 'schedule' || (github.event_name == 'workflow_dispatch' && inputs.slot != 'validate') || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]'))) }}
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]'))) }}
     permissions:
       contents: write
     concurrency:
@@ -337,22 +325,16 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
           EVENT_NAME: ${{ github.event_name }}
-          REQUESTED_MODE: ${{ inputs.slot || 'autonomous' }}
-          REQUESTED_EDITION: ${{ inputs.edition || 'vortex-captain' }}
         run: |
-          if [ "$REQUESTED_MODE" = 'audit' ]; then
-            python -m vortex.autonomous_runner --audit-all
-          elif [ "$REQUESTED_MODE" = 'outbox' ]; then
-            python -m vortex.outbox
-          elif [ "$REQUESTED_MODE" = 'news' ]; then
-            python -m vortex.unified_runner
+          if [ "$EVENT_NAME" = 'workflow_dispatch' ]; then
+            python -m vortex.autonomous_runner --due
           elif [ "$EVENT_NAME" = 'schedule' ]; then
             case "$SCHEDULED_CRON" in
               '50 '*) python -m vortex.outbox ;;
               *) python -m vortex.autonomous_runner ;;
             esac
           else
-            python -m vortex.autonomous_runner --edition "$REQUESTED_EDITION"
+            python -m vortex.autonomous_runner --edition vortex-captain
           fi
       - name: Archive graphic and confirmed receipts
         if: always()
