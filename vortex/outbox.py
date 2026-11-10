@@ -23,7 +23,7 @@ STATUS = STATE / 'chatgpt_outbox_status.json'
 TASKS = {'task1', 'task2', 'three_daily', 'press_news', 'price_changes'}
 
 
-def validate(record, root=ROOT, now=None):
+def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
     now = now or datetime.now(timezone.utc)
     if record.get('task') not in TASKS or not re.fullmatch(r'[a-z0-9-]+', str(record.get('edition', ''))):
         raise ValueError('Unrecognized task or edition')
@@ -34,7 +34,7 @@ def validate(record, root=ROOT, now=None):
     if generated.tzinfo is None or not timedelta(0) <= now-generated <= timedelta(hours=3):
         raise ValueError('Edition is stale or generated timestamp invalid; refresh instead of replaying')
     publish_at = datetime.fromisoformat(record['publish_at'].replace('Z', '+00:00'))
-    if publish_at.tzinfo is None or not allowed(publish_at):
+    if publish_at.tzinfo is None or (not allow_outside_window and not allowed(publish_at)):
         raise ValueError('Requested publication is outside the Eastern posting window')
     deadline = datetime.fromisoformat(record['deadline'].replace('Z', '+00:00'))
     if deadline.tzinfo is None or (record.get('pre_deadline', True) and deadline <= now):
@@ -69,23 +69,29 @@ def validate(record, root=ROOT, now=None):
     return identity, resolved, publish_at
 
 
-def run(now=None, telegram=None, discord=None):
+def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None):
     now = now or datetime.now(timezone.utc)
-    if not allowed(now):
+    if manual and target_file is None:
+        raise ValueError('Manual delivery must target one generated outbox file')
+    if not manual and not allowed(now):
         print('OUTBOX DEFERRED: outside 05:30–22:00 ET')
         return 0
     status = read_state(STATUS)
     journal = read_state(RECEIPTS)
     # ONE edition per serialized job. Failed pages resume independently and
     # never cause a successful destination to receive a repeated copy.
-    for file in sorted(QUEUE.glob('*.json')):
+    files = [Path(target_file)] if manual else sorted(QUEUE.glob('*.json'))
+    for file in files:
+        if manual and (not file.is_file() or file.resolve().parent != QUEUE.resolve()):
+            raise ValueError('Manual target must be an existing file directly in the outbox')
         # Only an eligible, due, unserved edition is a failed publication.
         # Historical stale queue entries must not make new runs fail.
         delivery_due = False
         try:
             record = json.loads(file.read_text())
-            identity, images, due = validate(record, root=ROOT, now=now)
-            if due > now:
+            identity, images, due = validate(record, root=ROOT, now=now,
+                                             allow_outside_window=manual)
+            if due > now and not manual:
                 continue
             keys = [f'{identity}:page{i+1}' for i in range(len(images))]
             if all(journal.get(k, {}).get('delivered') and journal.get(k, {}).get('discord_delivered') for k in keys):

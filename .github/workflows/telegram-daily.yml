@@ -239,6 +239,31 @@ on:
     - cron: '50 21 * * *'
       timezone: America/New_York
   workflow_dispatch:
+    inputs:
+      edition:
+        description: 'Generate and publish one verified graphic to Telegram and Discord now'
+        type: choice
+        required: true
+        default: four-midfielders
+        options:
+          - four-midfielders
+          - form-minutes-targets
+          - rank-booster
+          - fixture-targets
+          - captain-differential
+          - market-verdict
+          - four-team-targets
+          - squad-surgery
+          - transfer-market-team-news
+          - availability-transfer-decisions
+          - vortex-captain
+          - deadline-watch
+          - confirmed-price-changes
+          - value-board
+          - start-bench-board
+          - captaincy-comparison
+          - market-trends-next-five
+          - final-gameweek-news
 permissions:
   contents: read
 jobs:
@@ -279,7 +304,7 @@ jobs:
           if-no-files-found: ignore
           retention-days: 5
   publish:
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]'))) }}
+    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]'))) }}
     permissions:
       contents: write
     concurrency:
@@ -308,7 +333,11 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          FPL_PUBLISH_WINDOW_ENFORCED: 'true'
+          # A deliberate manual dispatch bypasses the scheduled ET window.
+          # Scheduled jobs and ordinary push publishers retain the normal guard.
+          FPL_MANUAL_PUBLISH: ${{ github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]') }}
+          FPL_PUBLISH_WINDOW_ENFORCED: ${{ !(github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]')) }}
+          MANUAL_EDITION: ${{ inputs.edition || 'four-midfielders' }}
           FPL_ENRICHED_VISUALS_ENABLED: 'true'
           DUAL_PUBLISH_ENABLED: 'true'
           FPL_PORTED_TASKS_ENABLED: 'false'
@@ -326,8 +355,8 @@ jobs:
           SCHEDULED_CRON: ${{ github.event.schedule }}
           EVENT_NAME: ${{ github.event_name }}
         run: |
-          if [ "$EVENT_NAME" = 'workflow_dispatch' ]; then
-            python -m vortex.autonomous_runner --due
+          if [ "$FPL_MANUAL_PUBLISH" = 'true' ]; then
+            python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"
           elif [ "$EVENT_NAME" = 'schedule' ]; then
             case "$SCHEDULED_CRON" in
               '50 '*) python -m vortex.outbox ;;

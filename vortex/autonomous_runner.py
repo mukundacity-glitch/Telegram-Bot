@@ -39,7 +39,7 @@ def facts(plan,snapshot,evidence):
                 and any(p['team'] in (f.get('team_h'),f.get('team_a')) for p in plan.players)]}
 
 
-def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False):
+def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
     plan=build(slot,snapshot,now,evidence,model,prices,research)
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
@@ -72,16 +72,18 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         target = now.astimezone(ET).replace(hour=hour, minute=minute, second=0, microsecond=0)
         if target<now:target+=timedelta(days=1)
         record['publish_at']=target.isoformat()
-    identity,_,_=validate(record,root=base)
+    identity,_,_=validate(record,root=base,allow_outside_window=manual)
     file=base/'outbox'/f'{now.astimezone(ET).date()}-{slot.edition}.json'
     file.parent.mkdir(parents=True,exist_ok=True)
     file.write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n')
     return file,identity,len(pages)
 
 
-def run(*,cron=None,edition=None,audit=False,due=False,now=None,snapshot=None,model=None,research=None):
+def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None):
     now=now or datetime.now(timezone.utc)
-    if not audit and not allowed(now):
+    if manual and not edition:
+        raise ValueError('Manual delivery requires one explicitly selected edition')
+    if not audit and not manual and not allowed(now):
         return {'status':'deferred-outside-window','posted':0,'safe_to_delete_chatgpt_tasks':False}
     if cron in NEWS_CRONS and not audit and not edition:
         from .unified_runner import run as news
@@ -131,13 +133,17 @@ def run(*,cron=None,edition=None,audit=False,due=False,now=None,snapshot=None,mo
                 state[key]={'task':slot.task,'edition':slot.edition,'status':'checked','at':now.isoformat()};write_state(STATE_FILE,state)
             continue
         try:
-            file,identity,count=stage(slot,snapshot,now,evidence,model=model,prices=previous_prices,research=research,audit=audit)
+            file,identity,count=stage(slot,snapshot,now,evidence,model=model,prices=previous_prices,research=research,audit=audit,manual=manual)
             row={'task':slot.task,'edition':slot.edition,'status':'generated','file':str(file.relative_to(ROOT)),
                  'identity':identity,'pages':count,'caption_hashtags':4}
             if not audit:
                 # Validation must use delivery time: the fresh snapshot was fetched
                 # after the scheduler captured its original start timestamp.
-                result=publish_outbox(datetime.now(timezone.utc))
+                if manual:
+                    # Target the new verified graphic, never a stale queued edition.
+                    result=publish_outbox(datetime.now(timezone.utc),manual=True,target_file=file)
+                else:
+                    result=publish_outbox(datetime.now(timezone.utc))
                 receipts=read_state(RECEIPTS)
                 complete=all(receipts.get(f'{identity}:page{i+1}',{}).get('delivered') and
                              receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered') for i in range(count))
@@ -176,9 +182,20 @@ def main():
     parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
     parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
+    parser.add_argument('--manual', action='store_true', help='Publish exactly one selected, verified edition immediately')
     args=parser.parse_args()
-    result=run(cron=os.getenv('SCHEDULED_CRON'),edition=args.edition,audit=args.audit_all,due=args.due)
+    if args.manual and not args.edition:
+        parser.error('--manual requires --edition')
+    result=run(cron=os.getenv('SCHEDULED_CRON'),edition=args.edition,audit=args.audit_all,due=args.due,manual=args.manual)
     print(json.dumps(result,ensure_ascii=False))
+    if args.manual:
+        for row in result.get('editions',[]):
+            status=row.get('status','unknown')
+            edition_name=row.get('edition','unknown')
+            if status=='delivered':
+                print(f"::notice::MANUAL DELIVERY CONFIRMED: {edition_name}; Telegram and Discord receipts found")
+            else:
+                print(f"::warning::MANUAL POST NOT SENT: {edition_name} ({status}); see edition reason/receipts above")
     # A generated graphic is not a published post. Surface a failed due edition
     # as a failed Actions run instead of reporting a misleading green success.
     failures = {'held', 'queued-or-partial'}
