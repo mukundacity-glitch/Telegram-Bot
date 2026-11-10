@@ -304,6 +304,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-10-vortex-captain.json": {
+    "at": "2026-11-10T09:18:59.849051+00:00",
+    "identity": "chatgpt:2026-27:GW11:three_daily:vortex-captain:1e48eb78c467be954128",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
