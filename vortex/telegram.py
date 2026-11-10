@@ -90,7 +90,17 @@ class TelegramClient:
         chat = payload.get("result", {})
         if chat.get("username", "").casefold() == "fplvortexdailybot":
             raise TelegramDeliveryError("Telegram preflight: destination-is-bot-itself")
-        print("Telegram preflight: bot identity and target chat verified")
+        kind = str(chat.get("type") or "unknown")
+        if kind not in ("private", "group", "supergroup", "channel"):
+            raise TelegramDeliveryError("Telegram preflight: unknown-destination-type")
+        # Never display numeric chat IDs, bot tokens, or private group titles.
+        print("Telegram preflight: bot verified; configured destination type=" + kind)
+        if kind == "channel":
+            public_name = str(chat.get("username") or "")
+            print("Telegram preflight: public channel handle=" +
+                  ("@" + public_name if public_name else "(no public username)"))
+        elif kind == "private":
+            print("::warning::Telegram target is a PRIVATE CHAT. If the audience is a channel, set TELEGRAM_CHAT_ID to that channel's ID.")
 
     def get_bot_username(self) -> str:
         try:
