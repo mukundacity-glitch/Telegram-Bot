@@ -68,7 +68,7 @@ def _drive(monkeypatch, world, state, cron_now, **trigger):
     monkeypatch.setattr(runner, 'read_state', read)
     monkeypatch.setattr(runner, 'write_state', lambda path, data: writes.__setitem__(path.name, dict(data)))
     monkeypatch.setattr(runner, 'stage', lambda *a, **k: (runner.ROOT / 'outbox/t.json', 'test-identity', 1))
-    def publish(when):
+    def publish(when, **kwargs):
         published.append(when)
         return 0
     monkeypatch.setattr(runner, 'publish_outbox', publish)

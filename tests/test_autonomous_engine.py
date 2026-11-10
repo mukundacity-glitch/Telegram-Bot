@@ -203,7 +203,7 @@ def test_delivery_validates_at_send_time_after_snapshot_fetch(world,tmp_path,mon
         'test-identity:page1':{'delivered':True,'discord_delivered':True}
     } if sent else {}) if path==runner.RECEIPTS else {})
     monkeypatch.setattr(runner,'stage',lambda *args,**kwargs:(runner.ROOT/'outbox/test.json','test-identity',1))
-    def publish(when):
+    def publish(when, **kwargs):
         assert when>=s.fetched_at
         sent.append(when)
         return 0
