@@ -274,6 +274,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-09-captain-differential.json": {
+    "at": "2026-11-10T00:17:55.769384+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:d52092dd0025a9ceeddd",
+    "status": "delivered"
+  },
   "2026-11-09-fixture-targets.json": {
     "at": "2026-11-09T22:23:28.463599+00:00",
     "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:0bcb5a3596444250e66a",
