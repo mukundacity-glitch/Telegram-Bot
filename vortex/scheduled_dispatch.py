@@ -74,6 +74,8 @@ def run(now=None, cron=None):
         print(json.dumps(result, sort_keys=True))
         return result
 
+    print('AUTO HEARTBEAT: now=' + now.astimezone(ET).isoformat() +
+          ' cron=' + str(cron or 'repair-probe'))
     # One official snapshot feeds editorial and news. It is never invented
     # from an outdated outbox graphic or from a previous deadline.
     snapshot = collect_snapshot()
