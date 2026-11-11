@@ -13,7 +13,7 @@
         "team": 2,
         "element_type": 4,
         "now_cost": 71,
-        "selected_by_percent": "30.9",
+        "selected_by_percent": "31.0",
         "status": "a",
         "news": "",
         "minutes": 722,
@@ -1392,10 +1392,10 @@
       }
     ]
   },
-  "generated_at": "2026-11-11T14:35:24.454301+00:00",
-  "publish_at": "2026-11-11T14:35:24.302611+00:00",
-  "data_retrieval_at_et": "2026-11-11T09:35:24.454301-05:00",
-  "graphic_generated_at_et": "2026-11-11T09:35:26.026652-05:00",
+  "generated_at": "2026-11-11T21:21:08.605010+00:00",
+  "publish_at": "2026-11-11T21:21:08.471919+00:00",
+  "data_retrieval_at_et": "2026-11-11T16:21:08.605010-05:00",
+  "graphic_generated_at_et": "2026-11-11T16:21:10.102742-05:00",
   "deadline": "2026-11-21T11:00:00+00:00",
   "pre_deadline": true,
   "qa_passed": true,

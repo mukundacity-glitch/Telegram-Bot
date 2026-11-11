@@ -14,6 +14,11 @@
     "attempts": 1,
     "status": "delivered"
   },
+  "2026-11-11:buy": {
+    "at": "2026-11-11T21:21:08.471919+00:00",
+    "attempts": 1,
+    "status": "held"
+  },
   "2026-11-11:comparison": {
     "at": "2026-11-11T14:35:24.302611+00:00",
     "attempts": 1,

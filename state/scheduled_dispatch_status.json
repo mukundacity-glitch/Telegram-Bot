@@ -1,31 +1,20 @@
 {
-  "at": "2026-11-11T14:35:24.302611+00:00",
+  "at": "2026-11-11T21:21:08.471919+00:00",
   "daily": {
-    "at": "2026-11-11T14:35:24.302611+00:00",
+    "at": "2026-11-11T21:21:08.471919+00:00",
     "chatgpt_required": false,
     "confirmed_edition_deliveries": 1,
     "editions": [
       {
-        "attempts": 1,
+        "attempts": 2,
         "caption_hashtags": 4,
         "edition": "fixture-targets",
         "file": "outbox/2026-11-11-fixture-targets.json",
-        "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:de1751502b55fb5b3d5a",
-        "pages": 1,
-        "publisher_exit_code": 1,
-        "status": "queued-or-partial",
-        "task": "three_daily"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "form-minutes-targets",
-        "file": "outbox/2026-11-11-form-minutes-targets.json",
-        "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:4e31cc734c838639ba67",
+        "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:37378fda56c55b302bc3",
         "pages": 1,
         "publisher_exit_code": 0,
         "status": "delivered",
-        "task": "task1"
+        "task": "three_daily"
       }
     ],
     "generation_audit_passed": false,
@@ -34,30 +23,24 @@
     "production_attempted": true,
     "safe_to_delete_chatgpt_tasks": false
   },
-  "eastern_at": "2026-11-11T09:35:24.302611-05:00",
-  "failures": [
-    "fixture-targets"
+  "eastern_at": "2026-11-11T16:21:08.471919-05:00",
+  "failures": [],
+  "held": [
+    "legacy:buy"
   ],
-  "held": [],
   "legacy": {
-    "exit_code": 0,
+    "exit_code": 1,
     "sent": 0,
-    "slot": "comparison",
-    "status": "checked"
+    "slot": "buy",
+    "status": "held"
   },
-  "new_posts": 2,
+  "new_posts": 1,
   "news": {
-    "expired_unposted": 0,
-    "official_changes": 0,
-    "pending": 3,
-    "reported_headlines": 0,
-    "retired_status_cards": 1,
-    "rotation_due": true,
-    "sent": 1,
-    "warmup": 0
+    "sent": 0,
+    "status": "not-this-tick"
   },
   "outbox_new": 0,
-  "scheduled_cron": "repair-probe",
+  "scheduled_cron": "13 10-23,0-2 * * *",
   "special": {
     "confirmed_edition_deliveries": 0,
     "status": "no-special-due"

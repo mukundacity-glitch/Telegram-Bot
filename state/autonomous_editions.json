@@ -670,14 +670,14 @@
     "task": "task2"
   },
   "2026-11-11:three_daily:fixture-targets:GW11": {
-    "attempts": 1,
+    "attempts": 2,
     "caption_hashtags": 4,
     "edition": "fixture-targets",
     "file": "outbox/2026-11-11-fixture-targets.json",
-    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:de1751502b55fb5b3d5a",
+    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:37378fda56c55b302bc3",
     "pages": 1,
-    "publisher_exit_code": 1,
-    "status": "queued-or-partial",
+    "publisher_exit_code": 0,
+    "status": "delivered",
     "task": "three_daily"
   },
   "2026-27:GW10:task1:captaincy-comparison": {
