@@ -3,10 +3,15 @@
 ## Automatic schedule
 
 The GitHub Actions workflow `.github/workflows/telegram-daily.yml` publishes with no
-human intervention. There are two compact DST-aware scheduled triggers:
+human intervention. There are two UTC heartbeat triggers (GitHub's timezone-aware
+cron recently fired hours late, leaving green runs outside the allowed window):
 
-- `43 5-21 * * *` America/New_York (hourly at :43, 05:43 to 21:43 ET).
-- `13 6-21 * * *` America/New_York (hourly at :13, 06:13 to 21:13 ET).
+- `43 9-23,0-2 * * *` UTC (:43 checks).
+- `13 10-23,0-2 * * *` UTC (:13 checks).
+
+These provide a maximum 30-minute gap between permitted checks, spanning
+05:43–21:43 America/New_York in both EST and EDT. GitHub may still delay
+or drop a run; publication eligibility always uses actual Eastern time.
 
 The publisher enforces 05:30–22:00 America/New_York at **actual execution time**.
 GitHub scheduled runs are best-effort and may arrive late or be dropped. Missing a
