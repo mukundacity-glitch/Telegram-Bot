@@ -16,7 +16,7 @@ on:
   # These UTC hours cover both EST and EDT without shifting original editorial slots.
   schedule:
     - cron: '43 9-23,0-2 * * *'
-    - cron: '13 10-23,0-2 * * *
+    - cron: '13 10-23,0-2 * * *'
   workflow_dispatch:
     inputs:
       edition:
