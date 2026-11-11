@@ -281,3 +281,68 @@ def test_expired_news_queue_never_replays_old_verified_headlines():
     expired = runner._expire_undelivered_old_news(pending, ledger, now, 11)
     assert set(expired) == {'old', 'past-gw'}
     assert set(pending) == {'fresh', 'partial'}
+
+
+def test_read_timeout_fences_telegram_and_keeps_discord_receipt(tmp_path):
+    """No second Telegram upload when the first may already be in the chat."""
+    from vortex.telegram import TelegramDeliveryError
+
+    class UncertainTelegram(FakeTelegram):
+        def send_text(self, text):
+            self.calls += 1
+            exc = TelegramDeliveryError("Telegram sendMessage network or JSON failure (ReadTimeout)")
+            exc.delivery_uncertain = True
+            raise exc
+
+    path = tmp_path / "deliveries.json"
+    bot, discord = UncertainTelegram(), FakeDiscord()
+    post = NewsPost("fixture-timeout", "Fixture Targets", "verified fixtures #FPL", 11)
+    with pytest.raises(RuntimeError, match="Partial delivery"):
+        publish_shared(post, path, bot, discord, now_iso="2026-11-11T14:35:00+00:00")
+    row = load_journal(path)["fixture-timeout"]
+    assert row["telegram_send_pending"] is True
+    assert row["discord_delivered"] is True
+    assert not row.get("delivered")
+    with pytest.raises(RuntimeError, match="manual reconciliation required"):
+        publish_shared(post, path, bot, discord)
+    assert bot.calls == 1 and discord.calls == 1
+
+
+def test_telegram_400_rejection_remains_retryable(tmp_path):
+    from vortex.telegram import TelegramDeliveryError
+
+    class RejectedTelegram(FakeTelegram):
+        reject = True
+        def send_text(self, text):
+            self.calls += 1
+            if self.reject:
+                error = TelegramDeliveryError("Telegram sendMessage: chat-not-found")
+                error.confirmed_rejection = True
+                error.delivery_uncertain = False
+                raise error
+            return 177
+
+    path = tmp_path / "deliveries.json"
+    bot, discord = RejectedTelegram(), FakeDiscord()
+    post = NewsPost("confirmed-reject", "Fixture Targets", "verified #FPL", 11)
+    with pytest.raises(RuntimeError, match="Partial delivery"):
+        publish_shared(post, path, bot, discord)
+    assert not load_journal(path)["confirmed-reject"].get("telegram_send_pending")
+    bot.reject = False
+    row = publish_shared(post, path, bot, discord)
+    assert row["telegram_message_id"] == 177
+    assert bot.calls == 2 and discord.calls == 1
+
+
+def test_previous_ambiguous_fixture_receipt_does_not_resend(tmp_path):
+    path = tmp_path / "deliveries.json"
+    path.write_text(json.dumps({"fixture-pending": {
+        "discord_delivered": True, "discord_message_id": "confirmed",
+        "telegram_send_pending": True,
+        "telegram_uncertain_at": "2026-11-11T14:35:00+00:00"
+    }}))
+    bot, discord = FakeTelegram(), FakeDiscord()
+    with pytest.raises(RuntimeError, match="manual reconciliation required"):
+        publish_shared(NewsPost("fixture-pending", "Target", "fixture #FPL", 11),
+                       path, bot, discord)
+    assert bot.calls == discord.calls == 0

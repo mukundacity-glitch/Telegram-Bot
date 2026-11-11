@@ -53,3 +53,20 @@ If Telegram's message ID exists but the expected channel is blank, check that
 and the bot is a channel administrator with posting permission. A Telegram
 API message ID proves acceptance to the configured chat, not which Telegram
 chat the user is viewing.
+
+## Telegram sendPhoto ReadTimeout recovery (no duplicate posts)
+
+A Telegram **ReadTimeout** is not a confirmed rejection: the destination may
+already display the photo even if GitHub never received its message ID.
+Outbound photo requests now allow up to 120 seconds for the Telegram response.
+If an upload still times out, the per-edition receipt is fenced with
+`telegram_send_pending=true`; the confirmed Discord receipt is preserved and
+future scheduled runs do **not** blindly resend that Telegram edition.
+The workflow reports a held delivery until the exact Telegram message can be
+reconciled by an operator. Do not manually clear this flag just to turn a run
+green; first verify whether Telegram accepted the original photo. A deliberate
+repost must use fresh verified evidence and a new identity.
+
+The `schedule` triggers, 05:30–22:00 ET guard, active graphics, and
+Telegram/Discord destinations are unchanged. Run pull-request tests for a
+zero-publish dry check before merging.
