@@ -447,6 +447,16 @@
     "telegram_message_id": 235,
     "timestamp": "2026-11-06T19:58:55.530441+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:form-minutes-targets:4e31cc734c838639ba67:page1": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570084821743706274",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 368,
+    "timestamp": "2026-11-11T14:36:28.750720+00:00"
+  },
   "chatgpt:2026-27:GW11:task1:form-minutes-targets:7449f8604cccb9f63e11:page1": {
     "delivered": true,
     "discord_delivered": true,
@@ -750,6 +760,14 @@
     "source_url": "",
     "telegram_message_id": 269,
     "timestamp": "2026-11-07T17:45:16.322823+00:00"
+  },
+  "chatgpt:2026-27:GW11:three_daily:fixture-targets:de1751502b55fb5b3d5a:page1": {
+    "discord_delivered": true,
+    "discord_message_id": "1570084799388061726",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "timestamp": "2026-11-11T14:35:26.029637+00:00"
   },
   "chatgpt:2026-27:GW11:three_daily:squad-surgery:8c63f9c5ad1d42bbb21f:page1": {
     "delivered": true,

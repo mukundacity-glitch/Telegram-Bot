@@ -1,20 +1,31 @@
 {
-  "at": "2026-11-11T13:49:30.224475+00:00",
+  "at": "2026-11-11T14:35:24.302611+00:00",
   "daily": {
-    "at": "2026-11-11T13:49:30.224475+00:00",
+    "at": "2026-11-11T14:35:24.302611+00:00",
     "chatgpt_required": false,
     "confirmed_edition_deliveries": 1,
     "editions": [
       {
         "attempts": 1,
         "caption_hashtags": 4,
-        "edition": "rank-booster",
-        "file": "outbox/2026-11-11-rank-booster.json",
-        "identity": "chatgpt:2026-27:GW11:task2:rank-booster:a8e10a665bd7c1806cec",
+        "edition": "fixture-targets",
+        "file": "outbox/2026-11-11-fixture-targets.json",
+        "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:de1751502b55fb5b3d5a",
+        "pages": 1,
+        "publisher_exit_code": 1,
+        "status": "queued-or-partial",
+        "task": "three_daily"
+      },
+      {
+        "attempts": 1,
+        "caption_hashtags": 4,
+        "edition": "form-minutes-targets",
+        "file": "outbox/2026-11-11-form-minutes-targets.json",
+        "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:4e31cc734c838639ba67",
         "pages": 1,
         "publisher_exit_code": 0,
         "status": "delivered",
-        "task": "task2"
+        "task": "task1"
       }
     ],
     "generation_audit_passed": false,
@@ -23,21 +34,25 @@
     "production_attempted": true,
     "safe_to_delete_chatgpt_tasks": false
   },
-  "eastern_at": "2026-11-11T08:49:30.224475-05:00",
-  "failures": [],
+  "eastern_at": "2026-11-11T09:35:24.302611-05:00",
+  "failures": [
+    "fixture-targets"
+  ],
   "held": [],
   "legacy": {
     "exit_code": 0,
-    "sent": 1,
-    "slot": "projections",
-    "status": "delivered"
+    "sent": 0,
+    "slot": "comparison",
+    "status": "checked"
   },
-  "new_posts": 3,
+  "new_posts": 2,
   "news": {
     "expired_unposted": 0,
     "official_changes": 0,
-    "pending": 4,
+    "pending": 3,
     "reported_headlines": 0,
+    "retired_status_cards": 1,
+    "rotation_due": true,
     "sent": 1,
     "warmup": 0
   },

@@ -334,6 +334,16 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-11-fixture-targets.json": {
+    "at": "2026-11-11T14:35:24.302611+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
+  "2026-11-11-form-minutes-targets.json": {
+    "at": "2026-11-11T14:35:24.302611+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
   "2026-11-11-rank-booster.json": {
     "at": "2026-11-11T13:49:30.224475+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",

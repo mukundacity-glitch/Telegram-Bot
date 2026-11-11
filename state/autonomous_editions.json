@@ -647,6 +647,17 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-11:task1:form-minutes-targets:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "form-minutes-targets",
+    "file": "outbox/2026-11-11-form-minutes-targets.json",
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:4e31cc734c838639ba67",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-11-11:task2:rank-booster:GW11": {
     "attempts": 1,
     "caption_hashtags": 4,
@@ -657,6 +668,17 @@
     "publisher_exit_code": 0,
     "status": "delivered",
     "task": "task2"
+  },
+  "2026-11-11:three_daily:fixture-targets:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "fixture-targets",
+    "file": "outbox/2026-11-11-fixture-targets.json",
+    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:de1751502b55fb5b3d5a",
+    "pages": 1,
+    "publisher_exit_code": 1,
+    "status": "queued-or-partial",
+    "task": "three_daily"
   },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,

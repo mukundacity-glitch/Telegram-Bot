@@ -578,5 +578,15 @@
     "source_url": "https://fantasy.premierleague.com/",
     "telegram_message_id": 196,
     "timestamp": "2026-11-05T17:52:59.077257+00:00"
+  },
+  "rotation:2026-11-11:GW11": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570084874671628341",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "telegram_message_id": 369,
+    "timestamp": "2026-11-11T14:35:24.302611+00:00"
   }
 }
