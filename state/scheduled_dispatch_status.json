@@ -1,20 +1,20 @@
 {
-  "at": "2026-11-10T23:41:46.625047+00:00",
+  "at": "2026-11-11T13:31:37.155524+00:00",
   "daily": {
-    "at": "2026-11-10T23:41:46.625047+00:00",
+    "at": "2026-11-11T13:31:37.155524+00:00",
     "chatgpt_required": false,
     "confirmed_edition_deliveries": 1,
     "editions": [
       {
         "attempts": 1,
         "caption_hashtags": 4,
-        "edition": "fixture-targets",
-        "file": "outbox/2026-11-10-fixture-targets.json",
-        "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:a6f7507285fe65735435",
+        "edition": "availability-transfer-decisions",
+        "file": "outbox/2026-11-11-availability-transfer-decisions.json",
+        "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:6ff929f4cc7e49b01fbb",
         "pages": 1,
         "publisher_exit_code": 0,
         "status": "delivered",
-        "task": "three_daily"
+        "task": "task1"
       }
     ],
     "generation_audit_passed": false,
@@ -23,26 +23,26 @@
     "production_attempted": true,
     "safe_to_delete_chatgpt_tasks": false
   },
-  "eastern_at": "2026-11-10T18:41:46.625047-05:00",
+  "eastern_at": "2026-11-11T08:31:37.155524-05:00",
   "failures": [],
   "held": [],
   "legacy": {
     "exit_code": 0,
-    "sent": 0,
-    "slot": "comparison",
-    "status": "checked"
+    "sent": 1,
+    "slot": "elite",
+    "status": "delivered"
   },
-  "new_posts": 2,
+  "new_posts": 3,
   "news": {
-    "expired_unposted": 133,
-    "official_changes": 1,
-    "pending": 1,
+    "expired_unposted": 0,
+    "official_changes": 5,
+    "pending": 5,
     "reported_headlines": 0,
     "sent": 1,
     "warmup": 0
   },
   "outbox_new": 0,
-  "scheduled_cron": "43 5-21 * * *",
+  "scheduled_cron": "repair-probe",
   "special": {
     "confirmed_edition_deliveries": 0,
     "status": "no-special-due"

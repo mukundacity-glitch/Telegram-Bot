@@ -329,6 +329,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-11-availability-transfer-decisions.json": {
+    "at": "2026-11-11T13:31:37.155524+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-04T18:15:35.011861+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",

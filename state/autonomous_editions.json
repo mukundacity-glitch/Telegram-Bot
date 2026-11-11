@@ -636,6 +636,17 @@
     "status": "delivered",
     "task": "three_daily"
   },
+  "2026-11-11:task1:availability-transfer-decisions:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "availability-transfer-decisions",
+    "file": "outbox/2026-11-11-availability-transfer-decisions.json",
+    "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:6ff929f4cc7e49b01fbb",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
