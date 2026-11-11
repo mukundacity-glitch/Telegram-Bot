@@ -52,7 +52,7 @@ def retire_rejected_status_cards(now: datetime | None = None, *,
                 or entry.get("source") != "Official FPL"
                 or entry.get("timestamp") != expected_timestamp
                 or type(entry.get("telegram_message_id")) is not int
-                or not 0 <= now - when < timedelta(hours=47)):
+                or not timedelta(0) <= now - when < timedelta(hours=47)):
             continue
         eligible.append((name, identity, entry["telegram_message_id"]))
     if not eligible:
