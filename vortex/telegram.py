@@ -47,7 +47,10 @@ class TelegramClient:
                         stream = part[1] if isinstance(part, tuple) else part
                         if hasattr(stream, "seek"):
                             stream.seek(0)
-                response = requests.post(f"{self.base_url}/{method}", data=data, files=files, timeout=60)
+                # Split connection and response limits: image uploads may need more
+                # than one minute for Telegram to acknowledge a successful send.
+                response = requests.post(f"{self.base_url}/{method}", data=data,
+                                         files=files, timeout=(15, 120))
                 status = getattr(response, "status_code", 200)
                 if status in (429, 500, 502, 503, 504) and attempt < 2 and (method != 'sendMediaGroup' or status == 429):
                     try:
@@ -72,13 +75,22 @@ class TelegramClient:
                 detail = {}
             error = TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, detail)}")
             error.confirmed_rejection = isinstance(status,int) and 400 <= status < 500
+            # Telegram can accept a request before a 5xx response is observed.
+            # Treat terminal server errors as uncertain, never as proof of no post.
+            error.delivery_uncertain = not error.confirmed_rejection
             raise error from None
         except (requests.RequestException, ValueError) as error:
-            raise TelegramDeliveryError(f"Telegram {method} network or JSON failure ({type(error).__name__})") from None
+            # ReadTimeout / invalid JSON do not prove the photo was rejected.
+            # A rerun must not blindly upload another copy of the same graphic.
+            wrapped = TelegramDeliveryError(
+                f"Telegram {method} network or JSON failure ({type(error).__name__})")
+            wrapped.delivery_uncertain = True
+            raise wrapped from None
         if not isinstance(payload, dict) or not payload.get("ok"):
             status = payload.get("error_code", "unknown") if isinstance(payload, dict) else "unknown"
             error = TelegramDeliveryError(f"Telegram {method}: {rejection_code(status, payload)}")
             error.confirmed_rejection = isinstance(status,int) and 400 <= status < 500
+            error.delivery_uncertain = not error.confirmed_rejection
             raise error
         return payload
 

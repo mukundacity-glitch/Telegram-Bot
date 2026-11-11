@@ -53,3 +53,30 @@ def test_timeout_has_safe_visible_diagnostic_and_is_not_blindly_retried(monkeypa
         TelegramClient('SECRET', 'private-chat')._post('sendPhoto', {})
     assert 'SECRET' not in str(caught.value)
     assert len(calls) == 1
+    assert caught.value.delivery_uncertain is True
+
+
+def test_photo_upload_allows_slow_telegram_confirmation(monkeypatch):
+    def post(*args, **kwargs):
+        assert kwargs["timeout"] == (15, 120)
+        class Response:
+            status_code = 200
+            def raise_for_status(self): pass
+            def json(self): return {"ok": True, "result": {"message_id": 77}}
+        return Response()
+    monkeypatch.setattr(requests, "post", post)
+    result = TelegramClient("SECRET", "chat")._post("sendPhoto", {})
+    assert result["result"]["message_id"] == 77
+
+
+def test_confirmed_400_rejection_is_safe_to_retry(monkeypatch):
+    class Response:
+        status_code = 400
+        def raise_for_status(self):
+            raise requests.HTTPError("hidden token", response=self)
+        def json(self): return {"description": "Bad Request: chat not found"}
+    monkeypatch.setattr(requests, "post", lambda *args, **kw: Response())
+    with pytest.raises(TelegramDeliveryError) as exc:
+        TelegramClient("SECRET", "chat")._post("sendPhoto", {})
+    assert exc.value.confirmed_rejection is True
+    assert exc.value.delivery_uncertain is False

@@ -142,11 +142,11 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
                    discord: DiscordWebhookClient | Any,
                    *, send_telegram: bool = True, send_discord: bool = True,
                    now_iso: str = "") -> dict[str, Any]:
-    """Checkpoint *each* platform before attempting the next.
+    """Checkpoint platform receipts; fence uncertain Telegram uploads.
 
-    An existing Telegram journal entry with delivered=true is respected.
-    A Discord error does not erase the successful Telegram receipt. Retrying
-    the same identity will only send to its unfinished destination.
+    A Telegram read timeout does not prove a missing message. The persisted
+    telegram_send_pending fence prevents a duplicate on later scheduled runs.
+    Confirmed 4xx rejections and ordinary stub failures remain retryable.
     """
     if not post.identity or not post.caption.strip():
         raise ValueError("Missing immutable identity or content")
@@ -159,6 +159,11 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
         already = bool(entry.get("delivered")) if platform == "telegram" else bool(entry.get("discord_delivered"))
         if already:
             continue
+        if platform == "telegram" and entry.get("telegram_send_pending"):
+            # No Telegram Bot API method can query bot-authored chat history by
+            # immutable post identity. Manual receipt reconciliation is needed.
+            errors.append("telegram-acceptance-uncertain; manual reconciliation required")
+            continue
         try:
             if platform == "telegram":
                 if post.image is None:
@@ -169,6 +174,8 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
                     send = getattr(telegram, "send_shared_png", telegram.send_png)
                     message_id = send(post.image, post.caption, post.title, post.gameweek)
                 entry.update({"delivered": True, "telegram_message_id": message_id})
+                entry.pop("telegram_send_pending", None)
+                entry.pop("telegram_uncertain_at", None)
             else:
                 message_id = discord.send(post)
                 entry.update({"discord_delivered": True, "discord_message_id": str(message_id)})
@@ -178,6 +185,13 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
             from .telegram import TelegramDeliveryError
             if isinstance(exc, TelegramDeliveryError):
                 print(str(exc))
+                if platform == "telegram" and getattr(exc, "delivery_uncertain", False):
+                    # Durable fence: preserve the already-accepted Discord
+                    # receipt while preventing a blind Telegram resend.
+                    entry["telegram_send_pending"] = True
+                    entry["telegram_uncertain_at"] = now_iso
+                    journal[post.identity] = entry
+                    save_journal(journal_path, journal)
             errors.append(f"{platform} {type(exc).__name__}")
             continue
         entry.update({"timestamp": now_iso, "gameweek": post.gameweek,
