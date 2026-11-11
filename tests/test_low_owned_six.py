@@ -82,3 +82,42 @@ def test_ep_next_must_match_the_official_upcoming_gameweek(world):
     s=replace(s,events=[dict(event,is_next=event['id']==11) for event in s.events])
     with pytest.raises(RequiredInput,match='ep_next event'):
         build(slot(),s,now,e)
+
+
+def test_neon_six_cards_keep_dark_footer_and_mobile_resolution(world,tmp_path,monkeypatch):
+    """Do not regress to the original low-contrast navy cards/white footer."""
+    from vortex import autonomous_render as renderer
+    s,now,e,_=world
+    plan=build(slot(),s,now,e)
+    monkeypatch.setattr(renderer,'_assets',lambda *args: (
+        Image.new('RGBA',(100,200),'#336acc'),
+        Image.new('RGBA',(40,40),'#e4f2ff')))
+    monkeypatch.setenv('FPL_TELEGRAM_HANDLE','@FPLVortexDailyBot')
+    monkeypatch.setenv('FPL_DISCORD_HANDLE','@fplvortex')
+    path=renderer.render(plan,s,now,tmp_path/'dynamic-neon.png',session=object())[0]
+    with Image.open(path) as image:
+        assert image.size==(1920,1080)
+        # Studio is dark; the old white/paper footer is forbidden.
+        assert max(image.getpixel((10,600))) < 105
+        assert max(image.getpixel((1600,1052))) < 160
+        # Contrast is supplied by bright cyan/violet borders, not dark text.
+        pixels=image.convert('RGB')
+        colors=pixels.getcolors(maxcolors=1920*1080)
+        assert colors is not None
+        neon=sum(count for count,color in colors
+                 if color[2]>140 and (color[0]>110 or color[1]>170))
+        assert neon>2000
+
+
+def test_neon_renderer_uses_live_players_stats_and_gameweek_not_example_values():
+    from pathlib import Path
+    source=(Path(__file__).resolve().parents[1]/'vortex'/'low_owned_six.py').read_text()
+    view=source.split('def render_low_owned(',1)[1]
+    for demo in ('VUSKOVIC','AYARI','HILL','SILVA','MUHAREMOVIC','E.LE FEE',
+                 'GW11','7.50','£5.3m','HUL(A)','NFO(H)'):
+        assert demo not in view
+    assert 'snapshot.name(p)' in view
+    assert 'snapshot.price(p)' in view
+    assert 'detail["fixtures"]' in view or "detail['fixtures']" in view
+    assert "plan.gw" in view
+    assert 'apply_footer(output)' not in view
