@@ -82,6 +82,14 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     current_time = now or datetime.now(timezone.utc)
     if current_time.tzinfo is None:
         raise ValueError("Timestamp must include a timezone")
+    if not dry_run:
+        # Best-effort ONE-TIME deletion of exactly two user-rejected images.
+        # Reads existing receipts, never bulk-deletes or modifies the schedule.
+        from .retire_status_messages import retire_rejected_status_cards
+        try:
+            retire_rejected_status_cards(current_time)
+        except (RuntimeError, ValueError, OSError) as exc:
+            print("::warning::Targeted old-card cleanup deferred: " + type(exc).__name__)
     snapshot = snapshot or collect_snapshot()
     prior = _read(BASELINE)
     prior_seen = _read(SEEN)
