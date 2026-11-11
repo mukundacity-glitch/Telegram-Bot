@@ -88,10 +88,29 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     pending = _read(PENDING)
     receipt = load_journal(RECEIPTS)
 
-    official = collect_fpl_changes(snapshot, prior, current_time)
+    # Retire only STATUS CHANGE cards; price and attributed news remain.
+    official = [post for post in collect_fpl_changes(snapshot, prior, current_time)
+                if not post.identity.startswith("availability:")]
     reported = (rss if rss is not None else
                 collect_reported_headlines(snapshot, current_time))
     stories = {s.identity: s for s in [*official, *reported]}
+    from .rotation_planner import build_rotation_plan
+    try:
+        rotation = build_rotation_plan(snapshot, current_time)
+    except (ValueError, KeyError, TypeError):
+        rotation = None  # Never invent teams or FDR when official data is incomplete.
+
+    # Cancel queued old status-change cards even when a receipt exists;
+    # previously delivered receipt IDs remain untouched for audit/reconciliation.
+    retired = [identity for identity in pending
+               if identity.startswith("availability:")]
+    for identity in retired:
+        pending.pop(identity)
+    for identity in list(pending):
+        if (identity.startswith("rotation:") and
+                (rotation is None or identity != rotation.identity)):
+            pending.pop(identity)  # Old-day art cannot be replayed as fresh data.
+
     cap = max_posts if max_posts is not None else int(os.getenv("MAX_NEWS_PER_RUN", "2"))
     if not 0 <= cap <= 6:
         raise ValueError("MAX_NEWS_PER_RUN must be between 0 and 6")
@@ -105,7 +124,21 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                 and receipt.get(ident, {}).get("discord_delivered")
             ):
                 pending[ident] = asdict(story) | {"image": None}
+    # Existing hourly news heartbeat also generates one fresh planner per ET day.
+    # No scheduled cron, publisher, or other editorial slot is changed.
+    if not initial and rotation is not None:
+        identity = rotation.identity
+        if identity not in pending and not (
+            receipt.get(identity, {}).get("delivered") and
+            receipt.get(identity, {}).get("discord_delivered")
+        ):
+            board = NewsPost(identity, rotation.title, rotation.caption,
+                             rotation.gameweek, source="Official FPL",
+                             source_url="https://fantasy.premierleague.com/")
+            pending = {identity: asdict(board), **pending}
     summary = {"official_changes": len(official), "reported_headlines": len(reported),
+               "retired_status_cards": len(retired),
+               "rotation_due": bool(rotation and rotation.identity in pending),
                "pending": len(pending), "sent": 0, "warmup": int(initial)}
     if dry_run:
         return summary  # Absolutely no state writes, Telegram or Discord calls
@@ -148,7 +181,12 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
             # The news lane never silently falls back to text-only delivery.
             from dataclasses import replace
             image_path = NEWS_OUTPUT / f"{record.identity.replace(':', '_')}.png"
-            if os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
+            if record.identity.startswith("rotation:"):
+                if rotation is None or rotation.identity != record.identity:
+                    raise RuntimeError("Stale rotation board must not publish")
+                from .rotation_planner import render_rotation_plan
+                render_rotation_plan(rotation, image_path)
+            elif os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
                 # Keep original approved blue slide and genuine current player
                 # portrait/crest. Source and technical verification never enter
                 # the image; the same exact caption accompanies both channels.
@@ -156,7 +194,7 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                 from .player_profile import render_player_profile
                 if not record.photo_code or not record.club_code or not record.player_name:
                     raise RuntimeError("Verified player identity and club portrait required")
-                tag = "PRICE CHANGE" if record.identity.startswith("price:") else "STATUS CHANGE"
+                tag = "PRICE CHANGE" if record.identity.startswith("price:") else "FPL NEWS"
                 visual = Content(
                     kind="news_profile", title=tag, kicker="GW NEWS",
                     cards=(Card(record.player_name, record.team_name, tag, (),
