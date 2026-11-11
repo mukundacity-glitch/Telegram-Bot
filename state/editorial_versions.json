@@ -2778,13 +2778,13 @@
   },
   "projections:11:general": {
     "confirmed": true,
-    "delivery_key": "2026-11-10:projections:GW11",
+    "delivery_key": "2026-11-11:projections:GW11",
     "evidence": {
       "fixtures": [
         {
           "away_cs": 10,
-          "away_goals": 0.99,
-          "home_cs": 37,
+          "away_goals": 0.98,
+          "home_cs": 38,
           "home_goals": 2.29,
           "id": 108
         },
@@ -2839,8 +2839,8 @@
         },
         {
           "away_cs": 13,
-          "away_goals": 1.23,
-          "home_cs": 29,
+          "away_goals": 1.22,
+          "home_cs": 30,
           "home_goals": 2.04,
           "id": 107
         },
@@ -2857,8 +2857,8 @@
       "players": []
     },
     "group": "projections:11:general",
-    "timestamp": "2026-11-10T23:15:36.101799+00:00",
-    "version": "56fbaa2eea078dd3396f30eabaa197f831ae619fc3d889bdfe9938d8db1f365b"
+    "timestamp": "2026-11-11T13:49:55.484676+00:00",
+    "version": "b9f5a10899ce64532e061557a4284f565e5322067c37e4e37257dbc2d5de7a36"
   },
   "review:10:3:226597|3:199798|7:517052|91:463981": {
     "confirmed": false,
