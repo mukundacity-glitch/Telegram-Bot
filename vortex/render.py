@@ -14,11 +14,11 @@ from .content import Card, Content
 ROOT = Path(__file__).resolve().parents[1]
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
 FONT_REG = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf"
-WHITE = (12, 16, 20)
-CYAN = (30, 150, 157)
-GOLD = (176, 139, 42)
+WHITE = (239, 247, 255)
+CYAN = (23, 229, 249)
+GOLD = (255, 205, 82)
 GREEN = (45, 255, 125)
-MUTED = (49, 54, 59)
+MUTED = (158, 189, 222)
 
 
 def font(size: int, bold: bool = True) -> ImageFont.FreeTypeFont | ImageFont.ImageFont:
@@ -83,13 +83,13 @@ def _background(content: Content) -> Image.Image:
         bg = minimal_background(original, edition_key(content), (1536, 864))
     if content.kind == "evening" and asset.name == "5.png":
         # Preserve visual identity while keeping text legible on this user-supplied slide.
-        return Image.blend(bg, Image.new("RGB", bg.size, (255, 255, 255)), 0.29)
+        return Image.blend(bg, Image.new("RGB", bg.size, (20, 11, 59)), 0.29)
     return bg
 
 
 def _panel(canvas: Image.Image, box: tuple[int, int, int, int], accent: tuple[int, int, int]) -> None:
     drawer = ImageDraw.Draw(canvas, "RGBA")
-    drawer.rounded_rectangle(box, radius=19, fill=(255, 255, 255, 255), outline=(*accent, 255), width=3)
+    drawer.rounded_rectangle(box, radius=19, fill=(9, 22, 54, 255), outline=(*accent, 255), width=3)
     x0, y0, x1, _ = box
     drawer.rounded_rectangle((x0 + 10, y0 + 11, x1 - 10, y0 + 21), radius=5, fill=(*accent, 200))
 
