@@ -37,4 +37,4 @@ def test_minimal_full_player_graphic_with_fixture_fdr_and_source_free_footer(mon
     with Image.open(path) as result:
         assert result.size == (1920, 1080)
         assert result.getpixel((1000, 400)) != result.getpixel((0, 400))
-        assert result.getpixel((5, 1060)) == (255, 255, 255)
+        assert result.getpixel((5, 1060)) == (7, 14, 38)

@@ -59,13 +59,13 @@ def apply_footer(output: Path, *, verdict: str = "",
             raise ValueError("Source/technical notes must not appear in graphic verdict")
         top = int(master_img.height * .853)
         draw.rounded_rectangle((71, top, w-71, footer_top-7), radius=11,
-                               fill=(255, 255, 255, 255),
+                               fill=(9, 22, 54, 255),
                                outline=(51, 217, 238, 220), width=2)
         label = "FPL VORTEX • DECISION"
-        draw.text((90, top+8), label, font=_font(23), fill=(12, 16, 20))
+        draw.text((90, top+8), label, font=_font(23), fill=(239, 247, 255))
         draw.text((475, top+9), clean,
                   font=_fitted_font(draw, clean, w-568, 26, 18),
-                  fill=(12, 16, 20))
+                  fill=(239, 247, 255))
     tmp = output.with_suffix(".footer.tmp.png")
     image.resize(original_size, Image.Resampling.LANCZOS).save(tmp, format="PNG", optimize=True)
     with Image.open(tmp) as check:

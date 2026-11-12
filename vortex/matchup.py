@@ -17,10 +17,10 @@ CANVAS_SIZE = (1536, 864)
 ROOT = Path(__file__).resolve().parents[1]
 FONT_BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
 FONT_REGULAR = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf"
-CYAN = (30, 150, 157)
-GOLD = (176, 139, 42)
-WHITE = (12, 16, 20)
-MUTED = (49, 54, 59)
+CYAN = (23, 229, 249)
+GOLD = (255, 205, 82)
+WHITE = (239, 247, 255)
+MUTED = (158, 189, 222)
 
 
 def _font(size: int, *, bold: bool = True) -> ImageFont.ImageFont:
@@ -102,11 +102,11 @@ def _media(session: requests.Session, code: int | None, kind: str, cache: dict[t
 
 
 def _angular_panel(draw: ImageDraw.ImageDraw, bounds: tuple[int, int, int, int], accent: tuple[int, int, int]) -> None:
-    draw.rounded_rectangle(bounds, radius=20, fill=(255,255,255,255), outline=(216,212,199,255), width=2)
+    draw.rounded_rectangle(bounds, radius=20, fill=(9, 22, 54, 255), outline=(*accent, 255), width=2)
 
 
 def _draw_stat_box(draw: ImageDraw.ImageDraw, bounds: tuple[int, int, int, int], outline: tuple[int, int, int] | None = None) -> None:
-    draw.rounded_rectangle(bounds, radius=9, fill=(255, 255, 255, 255), outline=(*outline, 255) if outline else (255, 255, 255, 255), width=2)
+    draw.rounded_rectangle(bounds, radius=9, fill=(9, 22, 54, 255), outline=(*outline, 255) if outline else (*CYAN, 255), width=2)
 
 
 def _bundled_portrait(player_name: str) -> Image.Image | None:
@@ -181,14 +181,14 @@ def _fixture_strip(draw: ImageDraw.ImageDraw, canvas: Image.Image, card: Card, x
         if idx >= len(fixtures):
             x0 = x + 21 + idx * 226
             draw.rounded_rectangle((x0, y, x0 + 210, y + 65), radius=8,
-                                   fill=(255, 255, 255, 255), outline=(80, 107, 133, 255), width=2)
+                                   fill=(9, 22, 54, 255), outline=(80, 107, 133, 255), width=2)
             _center_text(draw, x0 + 105, y + 21, "NO FIXTURE", _font(20), MUTED)
             continue
         opponent, venue, difficulty, team_code = fixtures[idx]
         x0 = x + 21 + idx * 226
         base_color = _fixture_color(difficulty)
         draw.rounded_rectangle((x0, y, x0 + 210, y + 65), radius=8,
-                               fill=(255, 255, 255, 255),
+                               fill=(9, 22, 54, 255),
                                outline=(*base_color, 255), width=3)
         draw.rounded_rectangle((x0 + 165, y + 8, x0 + 204, y + 57), radius=7,
                                fill=(*base_color, 255))
@@ -220,7 +220,7 @@ def _draw_player_data(canvas: Image.Image, card: Card, *, left_side: bool, sessi
     _crest(canvas, club, detail_right - 43, 173, 82)
     price_value = str(metrics["price"])
     price_x0 = detail_left + 2 if left_side else detail_left + 47
-    draw.rounded_rectangle((price_x0, 277, price_x0 + 297, 330), radius=10, fill=(255, 255, 255, 255), outline=(*accent, 255), width=2)
+    draw.rounded_rectangle((price_x0, 277, price_x0 + 297, 330), radius=10, fill=(9, 22, 54, 255), outline=(*accent, 255), width=2)
     _center_text(draw, price_x0 + 147, 280, price_value, _font(38), WHITE)
     block_x0, block_x1 = detail_left - 4, detail_right
     for row_top in (339, 418, 499):
@@ -262,8 +262,8 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
     with Image.open(background_path) as original:
         canvas = minimal_background(original, edition_key(content), CANVAS_SIZE)
     draw = ImageDraw.Draw(canvas, "RGBA")
-    draw.rectangle((312, 3, 1265, 142), fill=(255, 255, 255, 255))
-    draw.rounded_rectangle((520, 86, 1015, 133), radius=11, fill=(255, 255, 255, 255), outline=(*CYAN, 185), width=2)
+    draw.rectangle((312, 3, 1265, 142), fill=(9, 22, 54, 255))
+    draw.rounded_rectangle((520, 86, 1015, 133), radius=11, fill=(9, 22, 54, 255), outline=(*CYAN, 185), width=2)
     title = content.title.upper()
     title_font = _fitted_font(draw, title, 770, 65, 41)
     if title == "THE FPL DECISION ROOM":
@@ -274,7 +274,7 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
     else:
         _center_text(draw, 766, 7, title, title_font, WHITE)
     draw.text((552, 91), content.kicker.upper(), font=_fitted_font(draw, content.kicker.upper(), 435, 28, 18), fill=CYAN)
-    draw.rounded_rectangle((1375, 91, 1493, 137), radius=9, fill=(255, 255, 255, 255), outline=(*GOLD, 255), width=3)
+    draw.rounded_rectangle((1375, 91, 1493, 137), radius=9, fill=(9, 22, 54, 255), outline=(*GOLD, 255), width=3)
     _center_text(draw, 1434, 94, f"GW{content.gw}", _font(32), GOLD)
     _angular_panel(draw, (32, 151, 722, 715), CYAN)
     _angular_panel(draw, (814, 151, 1504, 715), GOLD)
@@ -294,12 +294,12 @@ def render_comparison(content: Content, output: Path, session: requests.Session)
     _draw_player_data(canvas, content.cards[1], left_side=False, session=session, cache=cache)
     draw = ImageDraw.Draw(canvas, "RGBA")
     _center_text(draw, 768, 354, "VS", _font(88), GOLD)
-    draw.rounded_rectangle((69, 732, 1467, 797), radius=14, fill=(255, 255, 255, 255), outline=(*CYAN, 210), width=3)
+    draw.rounded_rectangle((69, 732, 1467, 797), radius=14, fill=(9, 22, 54, 255), outline=(*CYAN, 210), width=3)
     verdict = content.verdict.upper()
     verdict_font = _fitted_font(draw, verdict, 1270, 29, 22)
     _center_text(draw, 770, 747, verdict, verdict_font, WHITE)
     # The user's brand strip is left intact; source details are data-backed.
-    draw.rectangle((1162, 802, 1536, 864), fill=(255, 255, 255, 255))
+    draw.rectangle((1162, 802, 1536, 864), fill=(9, 22, 54, 255))
     source = "Source: Official Fantasy Premier League API"
     _center_text(draw, 1346, 805, source, _fitted_font(draw, source, 350, 15, 12), MUTED)
     _center_text(draw, 1346, 831, f"Verified {content.data_at}",

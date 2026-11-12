@@ -14,7 +14,7 @@ from .matchup import (
     _media, _bundled_portrait, _brighten_portrait,
 )
 
-PANEL = (255, 255, 255, 255)
+PANEL = (9, 22, 54, 255)
 ORANGE = (255, 145, 71)
 GREEN = (45, 237, 133)
 MAGENTA = (255, 94, 138)
@@ -27,7 +27,6 @@ def _panel(draw: ImageDraw.ImageDraw, box: tuple[int, int, int, int], accent: tu
 
 def _text(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, max_width: int,
           size: int, color: tuple[int, int, int] = WHITE, minimum: int = 16) -> None:
-    color = WHITE
     value = str(text).replace('\n', ' ').strip()
     draw.text((x, y), value, font=_fitted_font(draw, value, max_width, size, minimum), fill=color)
 
@@ -36,7 +35,6 @@ def _text(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, max_width: int,
 def _safe_line(draw: ImageDraw.ImageDraw, text: str, x: int, y: int, width: int,
                size: int, color: tuple[int, int, int], minimum: int = 13) -> None:
     """Prevent long player risk/replacement copy escaping into adjacent cards."""
-    color = WHITE
     value = str(text).replace('\\n', ' ').strip()
     font = _fitted_font(draw, value, width, size, minimum)
     if _text_width(draw, value, font) > width:
@@ -122,15 +120,15 @@ def _background(content: Content) -> Image.Image:
 
 def _header(canvas: Image.Image, content: Content) -> None:
     draw = ImageDraw.Draw(canvas, 'RGBA')
-    draw.rectangle((314, 0, 1268, 145), fill=(255, 255, 255, 255))
+    draw.rectangle((314, 0, 1268, 145), fill=(9, 22, 54, 255))
     _center_text(draw, 785, 5, content.title.upper(),
                  _fitted_font(draw, content.title.upper(), 864, 62, 37), WHITE)
     draw.rounded_rectangle((460, 88, 1090, 135), radius=11,
-                           fill=(255, 255, 255, 255), outline=(*CYAN, 224), width=2)
+                           fill=(9, 22, 54, 255), outline=(*CYAN, 224), width=2)
     _center_text(draw, 775, 93, content.kicker.upper(),
                  _fitted_font(draw, content.kicker.upper(), 590, 27, 19), CYAN)
     draw.rounded_rectangle((1375, 90, 1493, 137), radius=9,
-                           fill=(255, 255, 255, 255), outline=(*GOLD, 255), width=3)
+                           fill=(9, 22, 54, 255), outline=(*GOLD, 255), width=3)
     _center_text(draw, 1434, 94, f'GW{content.gw}', _font(32), GOLD)
 
 
@@ -138,20 +136,20 @@ def _footer(canvas: Image.Image, content: Content) -> None:
     draw = ImageDraw.Draw(canvas, 'RGBA')
     if content.kind in ('buy', 'sell'):
         draw.rounded_rectangle((69, 755, 1468, 796), radius=10,
-                               fill=(255, 255, 255, 255), outline=(*CYAN, 221), width=2)
+                               fill=(9, 22, 54, 255), outline=(*CYAN, 221), width=2)
         _center_text(draw, 764, 761, content.verdict.upper(),
                      _fitted_font(draw, content.verdict.upper(), 1250, 25, 19), WHITE)
-        draw.rectangle((1162, 802, 1536, 864), fill=(255, 255, 255, 255))
+        draw.rectangle((1162, 802, 1536, 864), fill=(9, 22, 54, 255))
         _center_text(draw, 1347, 806, 'Source: Official Fantasy Premier League API',
                      _font(14, bold=True), MUTED)
         _center_text(draw, 1347, 831, 'Verified ' + content.data_at,
                      _fitted_font(draw, 'Verified ' + content.data_at, 350, 15, 11), MUTED)
         return
     draw.rounded_rectangle((69, 735, 1468, 797), radius=13,
-                           fill=(255, 255, 255, 255), outline=(*CYAN, 221), width=3)
+                           fill=(9, 22, 54, 255), outline=(*CYAN, 221), width=3)
     _center_text(draw, 764, 748, content.verdict.upper(),
                  _fitted_font(draw, content.verdict.upper(), 1300, 29, 19), WHITE)
-    draw.rectangle((1162, 802, 1536, 864), fill=(255, 255, 255, 255))
+    draw.rectangle((1162, 802, 1536, 864), fill=(9, 22, 54, 255))
     _center_text(draw, 1347, 806, 'Source: Official Fantasy Premier League API',
                  _font(14, bold=True), MUTED)
     _center_text(draw, 1347, 831, 'Verified ' + content.data_at,
@@ -176,7 +174,7 @@ def _fixture_tiles(canvas: Image.Image, draw: ImageDraw.ImageDraw, card: Card, x
         xx = x + idx * (tile_width + 8)
         color = _fixture_color(difficulty)
         draw.rounded_rectangle((xx, y, xx + tile_width, y + 58), radius=9,
-                               fill=(255, 255, 255, 255),
+                               fill=(9, 22, 54, 255),
                                outline=(*color, 255), width=2)
         if team_code is None:
             raise RuntimeError(f'Missing opponent club code for {opponent}')
@@ -213,7 +211,7 @@ def _news(canvas: Image.Image, content: Content,
         price = str(card.metrics.get('price', '')) if card.metrics else ''
         _badge(draw, price, 'CURRENT PRICE', (x + 18, 318, x + width - 236 if width > 400 else x + 170, 386), accent)
         draw.rounded_rectangle((x + 18, 518, x + width - 18, 666), radius=11,
-                               fill=(255, 255, 255, 255), outline=(*accent, 200), width=2)
+                               fill=(9, 22, 54, 255), outline=(*accent, 200), width=2)
         status = str(card.metrics.get('status', '')) if card.metrics else 'NO NEW UPDATE'
         _text(draw, f'FPL STATUS: {status.upper()}', x + 35, 530, width - 70, 22, accent)
         detail = card.fields[1] if card.metrics and len(card.fields) > 1 else (card.fields[0] if card.fields else 'No new dated FPL updates.')
@@ -345,7 +343,7 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
 
     # Compact next-GW FDR table; doubles are explicitly two entries, blanks marked.
     draw.rounded_rectangle((41, 641, 1494, 746), radius=12,
-                           fill=(255, 255, 255, 255), outline=(*CYAN, 202), width=2)
+                           fill=(9, 22, 54, 255), outline=(*CYAN, 202), width=2)
     _text(draw, f'GW{content.gw} · EXACT FIXTURES / OFFICIAL FDR', 59, 647, 850, 20, CYAN, 17)
     for index, card in enumerate(content.cards):
         x = 58 + index * (width + gap)
