@@ -296,6 +296,9 @@ def _deadline(plan,snapshot,output,client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind=='availability25':
+        from .availability_render import render_availability
+        return [render_availability(plan,snapshot,now,output,client)]
     if plan.kind=='low_owned_six':
         from .low_owned_six import render_low_owned
         return [render_low_owned(plan,snapshot,output,client,_assets)]
