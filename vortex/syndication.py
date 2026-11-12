@@ -19,6 +19,10 @@ from urllib.parse import urlsplit, urlunsplit
 import requests
 
 
+class DeliveryUncertain(RuntimeError):
+    """An external platform may have accepted a send without a receipt."""
+
+
 class DeliveryRejected(RuntimeError):
     """Confirmed rejection: no message was accepted; retry is safe."""
 
@@ -93,20 +97,21 @@ class DiscordWebhookClient:
                     if attempt < 3:
                         self.sleep(retry_seconds)
                         continue
-                elif 500 <= response.status_code <= 599 and attempt < 3:
-                    self.sleep(min(8, 2 ** attempt))
-                    continue
+                elif 500 <= response.status_code <= 599:
+                    # 5xx is not proof that Discord failed to accept a message.
+                    raise DeliveryUncertain("Discord acceptance unknown after server error")
                 if not 200 <= response.status_code < 300:
-                    raise RuntimeError(f"Discord rejected delivery (HTTP {response.status_code})")
-                receipt = response.json()
+                    raise DeliveryRejected("Discord confirmed delivery rejection")
+                try:
+                    receipt = response.json()
+                except ValueError:
+                    raise DeliveryUncertain("Discord message receipt could not be decoded") from None
                 if not isinstance(receipt, dict) or not receipt.get("id"):
-                    raise RuntimeError("Discord did not return a confirmed message ID")
+                    raise DeliveryUncertain("Discord did not return a confirmed message ID")
                 return str(receipt["id"])
             except requests.RequestException:
-                if attempt < 3:
-                    self.sleep(min(8, 2 ** attempt))
-                    continue
-                raise RuntimeError("Discord delivery network failure") from None
+                # Never resubmit a possibly accepted webhook after a timeout.
+                raise DeliveryUncertain("Discord delivery network outcome unknown") from None
         raise RuntimeError("Discord rate limit persisted after bounded retries")
 
     def send(self, post: NewsPost) -> str:
@@ -242,7 +247,10 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
                     entry["telegram_uncertain_at"] = now_iso
                     journal[post.identity] = entry
                     save_journal(journal_path, journal)
-            if platform == "discord" and isinstance(exc, requests.RequestException):
+            if platform == "discord" and (
+                    isinstance(exc, (requests.RequestException, DeliveryUncertain)) or
+                    (isinstance(discord, DiscordWebhookClient) and
+                     not isinstance(exc, DeliveryRejected))):
                 # Discord 5xx/timeout may still have accepted the original.
                 # Confirmed 4xx rejection is handled by the transport class.
                 entry["discord_send_pending"] = True
