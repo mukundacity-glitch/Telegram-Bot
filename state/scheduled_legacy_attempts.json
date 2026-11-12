@@ -29,6 +29,11 @@
     "attempts": 1,
     "status": "delivered"
   },
+  "2026-11-11:news": {
+    "at": "2026-11-12T02:55:36.213765+00:00",
+    "attempts": 1,
+    "status": "delivered"
+  },
   "2026-11-11:projections": {
     "at": "2026-11-11T13:49:30.224475+00:00",
     "attempts": 1,

@@ -636,12 +636,29 @@
     "status": "delivered",
     "task": "three_daily"
   },
+  "2026-11-11:press_news:verified-press-availability:GW11:1030": {
+    "at": "2026-11-12T02:55:36.213765+00:00",
+    "edition": "verified-press-availability",
+    "status": "checked",
+    "task": "press_news"
+  },
   "2026-11-11:task1:availability-transfer-decisions:GW11": {
     "attempts": 1,
     "caption_hashtags": 4,
     "edition": "availability-transfer-decisions",
     "file": "outbox/2026-11-11-availability-transfer-decisions.json",
     "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:6ff929f4cc7e49b01fbb",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1"
+  },
+  "2026-11-11:task1:captain-differential:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "captain-differential",
+    "file": "outbox/2026-11-11-captain-differential.json",
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:4e1d310338499f406ec4",
     "pages": 1,
     "publisher_exit_code": 0,
     "status": "delivered",

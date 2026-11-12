@@ -2338,6 +2338,124 @@
     "timestamp": "2026-11-09T23:42:05.378789+00:00",
     "version": "261e8a6495f2513a012aea2f4aab8ddc45b4e56fc49b086081c7777f4bcffe03"
   },
+  "news:11:31:247412|1:95658|88:540324": {
+    "confirmed": true,
+    "delivery_key": "2026-11-11:news",
+    "evidence": {
+      "gw": 11,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "COV",
+              "A",
+              2,
+              9
+            ],
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "CHE",
+              "A",
+              4,
+              8
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 2,
+            "clean_sheets": 1,
+            "form": "1.0",
+            "goals": 1,
+            "minutes": 511,
+            "price": "£5.9m",
+            "status": "d",
+            "total_points": 23
+          },
+          "player": "Strand Larsen",
+          "team": 31
+        },
+        {
+          "fixtures": [
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "1.0",
+            "goals": 0,
+            "minutes": 855,
+            "price": "£4.6m",
+            "status": "d",
+            "total_points": 16
+          },
+          "player": "Maguire",
+          "team": 1
+        },
+        {
+          "fixtures": [
+            [
+              "BHA",
+              "H",
+              4,
+              36
+            ],
+            [
+              "CRY",
+              "A",
+              2,
+              31
+            ],
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ]
+          ],
+          "metrics": {
+            "assists": 3,
+            "bonus": 2,
+            "clean_sheets": 3,
+            "form": "2.8",
+            "goals": 3,
+            "minutes": 685,
+            "price": "£5.3m",
+            "status": "d",
+            "total_points": 48
+          },
+          "player": "Belloumi",
+          "team": 88
+        }
+      ]
+    },
+    "group": "news:11:31:247412|1:95658|88:540324",
+    "timestamp": "2026-11-12T02:55:55.880644+00:00",
+    "version": "402cf83e4a4b293b58da8498bf53321b3c9f4b0f38752566007166959224f42b"
+  },
   "news:11:6:511499|8:486672|54:76357": {
     "confirmed": true,
     "delivery_key": "2026-11-07:news",

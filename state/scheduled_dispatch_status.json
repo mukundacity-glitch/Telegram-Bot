@@ -1,20 +1,34 @@
 {
-  "at": "2026-11-12T02:00:24.164370+00:00",
+  "at": "2026-11-12T02:55:36.213765+00:00",
   "daily": {
-    "at": "2026-11-12T02:00:24.164370+00:00",
+    "at": "2026-11-12T02:55:36.213765+00:00",
     "chatgpt_required": false,
     "confirmed_edition_deliveries": 1,
     "editions": [
       {
+        "edition": "verified-press-availability",
+        "result": {
+          "expired_unposted": 0,
+          "official_changes": 0,
+          "pending": 2,
+          "reported_headlines": 0,
+          "retired_status_cards": 0,
+          "rotation_due": false,
+          "sent": 1,
+          "warmup": 0
+        },
+        "status": "news-checked"
+      },
+      {
         "attempts": 1,
         "caption_hashtags": 4,
-        "edition": "four-midfielders",
-        "file": "outbox/2026-11-11-four-midfielders.json",
-        "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:115a3070d656526f84f3",
+        "edition": "captain-differential",
+        "file": "outbox/2026-11-11-captain-differential.json",
+        "identity": "chatgpt:2026-27:GW11:task1:captain-differential:4e1d310338499f406ec4",
         "pages": 1,
         "publisher_exit_code": 0,
         "status": "delivered",
-        "task": "task2"
+        "task": "task1"
       }
     ],
     "generation_audit_passed": false,
@@ -23,30 +37,22 @@
     "production_attempted": true,
     "safe_to_delete_chatgpt_tasks": false
   },
-  "eastern_at": "2026-11-11T21:00:24.164370-05:00",
+  "eastern_at": "2026-11-11T21:55:36.213765-05:00",
   "failures": [],
-  "held": [
-    "legacy:buy"
-  ],
+  "held": [],
   "legacy": {
-    "exit_code": 1,
-    "sent": 0,
-    "slot": "buy",
-    "status": "held"
+    "exit_code": 0,
+    "sent": 1,
+    "slot": "news",
+    "status": "delivered"
   },
   "new_posts": 2,
   "news": {
-    "expired_unposted": 0,
-    "official_changes": 1,
-    "pending": 3,
-    "reported_headlines": 0,
-    "retired_status_cards": 0,
-    "rotation_due": false,
-    "sent": 1,
-    "warmup": 0
+    "sent": 0,
+    "status": "not-this-tick"
   },
   "outbox_new": 0,
-  "scheduled_cron": "43 9-23,0-2 * * *",
+  "scheduled_cron": "13 10-23,0-2 * * *",
   "special": {
     "confirmed_edition_deliveries": 0,
     "status": "no-special-due"
