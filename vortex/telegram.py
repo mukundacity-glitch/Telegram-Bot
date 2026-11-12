@@ -52,7 +52,9 @@ class TelegramClient:
                 response = requests.post(f"{self.base_url}/{method}", data=data,
                                          files=files, timeout=(15, 120))
                 status = getattr(response, "status_code", 200)
-                if status in (429, 500, 502, 503, 504) and attempt < 2 and (method != 'sendMediaGroup' or status == 429):
+                # An HTTP 5xx after a write may mean Telegram accepted the message.
+                # Only rate-limit rejections (429) may be retried for sends.
+                if (status == 429 or (method not in ('sendPhoto', 'sendMessage', 'sendMediaGroup', 'editMessageMedia') and status in (500, 502, 503, 504))) and attempt < 2:
                     try:
                         delay = float(response.json().get("parameters", {}).get("retry_after", 2 ** (attempt + 1)))
                     except (ValueError, TypeError, AttributeError):
