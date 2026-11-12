@@ -346,3 +346,37 @@ def test_previous_ambiguous_fixture_receipt_does_not_resend(tmp_path):
         publish_shared(NewsPost("fixture-pending", "Target", "fixture #FPL", 11),
                        path, bot, discord)
     assert bot.calls == discord.calls == 0
+
+
+def test_real_discord_client_does_not_blindly_retry_unknown_acceptance():
+    import requests
+    from vortex.syndication import DeliveryUncertain
+    class Session:
+        def __init__(self): self.calls = 0
+        def post(self, *args, **kwargs):
+            self.calls += 1
+            raise requests.ReadTimeout("could have posted")
+    session = Session()
+    client = DiscordWebhookClient("https://discord.com/api/webhooks/123/unit-test",
+                                  session=session, sleeper=lambda seconds: None)
+    with pytest.raises(DeliveryUncertain):
+        client.send(NewsPost("one", "Test", "One verified caption", 10))
+    assert session.calls == 1
+
+
+def test_real_discord_client_http_5xx_not_blindly_retried():
+    from vortex.syndication import DeliveryUncertain
+    class Response:
+        status_code = 502
+        headers = {}
+    class Session:
+        def __init__(self): self.calls = 0
+        def post(self, *args, **kwargs):
+            self.calls += 1
+            return Response()
+    session = Session()
+    client = DiscordWebhookClient("https://discord.com/api/webhooks/123/unit-test",
+                                  session=session, sleeper=lambda seconds: None)
+    with pytest.raises(DeliveryUncertain):
+        client.send(NewsPost("one", "Test", "One verified caption", 10))
+    assert session.calls == 1
