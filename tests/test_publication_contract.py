@@ -119,7 +119,7 @@ def test_minimal_footer_and_both_verified_handles(monkeypatch, tmp_path):
     assert footer.apply_footer(output, verdict="HOLD • Strong fixture evidence") == output
     with Image.open(output) as checked:
         assert checked.size == (1920, 1080)
-        assert checked.getpixel((5, 1070)) == (255, 255, 255)
+        assert checked.getpixel((5, 1070)) == (7, 14, 38)
 
 
 def test_semantic_revision_avoids_repeat_cross_day_but_allows_real_change():
