@@ -5,6 +5,8 @@ All model xPts fields are blank unless the complete verified fixture join exists
 """
 from __future__ import annotations
 
+import os
+
 from PIL import ImageDraw
 
 from .comparison_board import text, contain, WHITE, CYAN
@@ -87,5 +89,12 @@ def render_availability(plan, snapshot, now, output, client):
                 d.rounded_rectangle((chip_x, y+115, chip_x+46, y+126),
                                     radius=2, fill=shade)
                 text(d, label, chip_x+1, y+115, 44, 11, "#0A1A37", 9, center=True)
+    # The requested reference footer also carries YouTube/X and the channel
+    # tagline. Keep the verified Telegram/Discord footer rendered by _save.
+    youtube = os.getenv("FPL_YOUTUBE_HANDLE", "FPLVORTEX").strip().lstrip("@")
+    x_handle = os.getenv("FPL_X_HANDLE", "FPLVORTEXM").strip().lstrip("@")
+    brand_line = (f"YOUTUBE @{youtube}    |    X @{x_handle}    |    "
+                  "DATA  |  DECISION  |  POINT  |  RANK CLIMB")
+    text(d, brand_line, 70, 780, 1395, 17, "#FFCF75", 13, center=True)
     # Approved original footer is rendered by _save/apply_footer.
     return _save(canvas, output)
