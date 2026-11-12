@@ -168,6 +168,7 @@ def test_status_cards_retired_then_daily_rotation_posted_once(monkeypatch, tmp_p
 def test_existing_github_schedule_not_edited():
     workflow = (Path(__file__).resolve().parents[1] /
                 ".github/workflows/telegram-daily.yml").read_text()
-    assert "cron: '43 9-23,0-2 * * *'" in workflow
-    assert "cron: '13 10-23,0-2 * * *'" in workflow
+    assert "cron: '43 5-22 * * *'" in workflow
+    assert "cron: '13 6-22 * * *'" in workflow
+    assert workflow.count('timezone: "America/New_York"') == 2
     assert "python -m vortex.scheduled_dispatch" in workflow

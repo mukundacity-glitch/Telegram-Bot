@@ -45,7 +45,8 @@ def test_news_window_follows_scheduled_local_cron_not_wall_clock():
     assert news.in_window("0 6 * * *")
     assert news.in_window("0 21 * * *")
     assert news.in_window("0 22 * * *")
-    assert not news.in_window("0 23 * * *")
+    assert news.in_window("0 23 * * *")
+    assert not news.in_window("0 0 * * *")
     assert not news.in_window("15 21 * * *")
     assert not news.in_window(None)
 
@@ -54,7 +55,8 @@ def test_scheduled_news_uses_the_unified_dispatcher():
     workflow = WORKFLOW.read_text()
     from vortex.autonomous_schedule import NEWS_CRONS
     assert "5 6 * * *" in NEWS_CRONS
-    assert "cron: '43 9-23,0-2 * * *'" in workflow
+    assert "cron: '43 5-22 * * *'" in workflow
+    assert workflow.count('timezone: "America/New_York"') == 2
     assert "python -m vortex.scheduled_dispatch" in workflow
     assert 'python -m vortex.telegram_news_window' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
@@ -117,7 +119,7 @@ def test_no_fake_image_means_no_post_and_retriable_queue(monkeypatch, tmp_path):
 
 def test_manual_and_5am_do_not_publish(monkeypatch, tmp_path):
     setup_files(monkeypatch, tmp_path)
-    for cron in ("", "0 23 * * *", "15 21 * * *"):
+    for cron in ("", "0 0 * * *", "15 21 * * *"):
         assert news.run(cron=cron, now=NOW)["posted"] == 0
     assert not news.BASELINE.exists()
 

@@ -13,7 +13,7 @@ import re
 from PIL import Image
 
 from .bot import ROOT, STATE, read_state, write_state
-from .publishing_window import assert_allowed, allowed
+from .publishing_window import WINDOW_LABEL, assert_allowed, allowed
 from .syndication import NewsPost, DiscordWebhookClient, publish_shared
 from .telegram import TelegramClient
 
@@ -74,7 +74,7 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
     if manual and target_file is None:
         raise ValueError('Manual delivery must target one generated outbox file')
     if not manual and not allowed(now):
-        print('OUTBOX DEFERRED: outside 05:30–22:00 ET')
+        print('OUTBOX DEFERRED: outside ' + WINDOW_LABEL)
         return 0
     status = read_state(STATUS)
     journal = read_state(RECEIPTS)

@@ -3,17 +3,30 @@
 ## Automatic schedule
 
 The GitHub Actions workflow `.github/workflows/telegram-daily.yml` publishes with no
-human intervention. There are two UTC heartbeat triggers (GitHub's timezone-aware
-cron recently fired hours late, leaving green runs outside the allowed window):
+human intervention. The heartbeat is scheduled **in Eastern time**, not in a
+hand-converted UTC offset:
 
-- `43 9-23,0-2 * * *` UTC (:43 checks).
-- `13 10-23,0-2 * * *` UTC (:13 checks).
+```yaml
+schedule:
+  - cron: '43 5-22 * * *'
+    timezone: "America/New_York"
+  - cron: '13 6-22 * * *'
+    timezone: "America/New_York"
+```
 
-These provide a maximum 30-minute gap between permitted checks, spanning
-05:43–21:43 America/New_York in both EST and EDT. GitHub may still delay
-or drop a run; publication eligibility always uses actual Eastern time.
+`timezone` is an IANA zone, so GitHub's scheduler applies EST/EDT through the tz
+database. The cron fields are therefore plain Eastern wall-clock hours: 18 `:43`
+ticks (05:43–22:43) plus 17 `:13` ticks (06:13–22:13) = 35 ticks/day with a
+30-minute maximum gap. No tick fires below the 05:30 opening or after 23:00.
 
-The publisher enforces 05:30–22:00 America/New_York at **actual execution time**.
+A previous revision declared the heartbeat list in UTC
+(`43 9-23,0-2 * * *` / `13 10-23,0-2 * * *`). Because a fixed UTC pair cannot
+track DST, that schedule drifted by an hour at each transition and left the
+first and last parts of the Eastern day uncovered.
+
+The publisher enforces 05:30–23:00 America/New_York at **actual execution time**
+via `zoneinfo` in `vortex/publishing_window.py`, so a late or delayed run can
+never post outside the approved day.
 GitHub scheduled runs are best-effort and may arrive late or be dropped. Missing a
 specific cron occurrence is recovered at the next run using the current local time,
 eligible edition slots, confirmed FPL evidence, and existing delivery receipts.
@@ -67,6 +80,6 @@ reconciled by an operator. Do not manually clear this flag just to turn a run
 green; first verify whether Telegram accepted the original photo. A deliberate
 repost must use fresh verified evidence and a new identity.
 
-The `schedule` triggers, 05:30–22:00 ET guard, active graphics, and
+The `schedule` triggers, 05:30–23:00 ET guard, active graphics, and
 Telegram/Discord destinations are unchanged. Run pull-request tests for a
 zero-publish dry check before merging.
