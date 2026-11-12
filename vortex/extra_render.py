@@ -17,15 +17,14 @@ from .matchup import (ROOT, CANVAS_SIZE, _font, _fitted_font, _text_width,
                       _center_text, _media, _brighten_portrait,
                       CYAN, GOLD, WHITE, MUTED, _fixture_color)
 
-BG = (255, 255, 255, 255)
-PANEL = (255, 255, 255, 255)
+BG = (9, 22, 54, 255)
+PANEL = (10, 24, 58, 255)
 GREEN = (45, 237, 140)
 RED = (250, 110, 135)
 
 
 def _line(draw: ImageDraw.ImageDraw, value: str, x: int, y: int,
           max_width: int, size: int = 23, color=WHITE, floor: int = 15) -> None:
-    color = WHITE
     value = str(value).replace("\n", " ").strip()
     font = _fitted_font(draw, value, max_width, size, floor)
     if _text_width(draw, value, font) > max_width:
