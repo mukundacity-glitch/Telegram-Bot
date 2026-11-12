@@ -43,5 +43,10 @@
     "at": "2026-11-12T21:26:28.636124+00:00",
     "attempts": 1,
     "status": "delivered"
+  },
+  "2026-11-12:projections": {
+    "at": "2026-11-12T21:36:51.001744+00:00",
+    "attempts": 1,
+    "status": "delivered"
   }
 }

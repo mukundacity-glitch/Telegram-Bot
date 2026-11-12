@@ -2896,19 +2896,19 @@
   },
   "projections:11:general": {
     "confirmed": true,
-    "delivery_key": "2026-11-11:projections:GW11",
+    "delivery_key": "2026-11-12:projections:GW11",
     "evidence": {
       "fixtures": [
         {
           "away_cs": 10,
           "away_goals": 0.98,
-          "home_cs": 38,
-          "home_goals": 2.29,
+          "home_cs": 37,
+          "home_goals": 2.28,
           "id": 108
         },
         {
           "away_cs": 17,
-          "away_goals": 1.05,
+          "away_goals": 1.04,
           "home_cs": 35,
           "home_goals": 1.79,
           "id": 101
@@ -2922,16 +2922,16 @@
         },
         {
           "away_cs": 18,
-          "away_goals": 1.12,
-          "home_cs": 33,
+          "away_goals": 1.13,
+          "home_cs": 32,
           "home_goals": 1.72,
           "id": 104
         },
         {
-          "away_cs": 21,
-          "away_goals": 1.42,
-          "home_cs": 24,
-          "home_goals": 1.55,
+          "away_cs": 22,
+          "away_goals": 1.39,
+          "home_cs": 25,
+          "home_goals": 1.5,
           "id": 105
         },
         {
@@ -2943,13 +2943,13 @@
         },
         {
           "away_cs": 38,
-          "away_goals": 1.95,
+          "away_goals": 1.94,
           "home_cs": 14,
           "home_goals": 0.96,
           "id": 109
         },
         {
-          "away_cs": 39,
+          "away_cs": 40,
           "away_goals": 2.07,
           "home_cs": 13,
           "home_goals": 0.93,
@@ -2957,9 +2957,9 @@
         },
         {
           "away_cs": 13,
-          "away_goals": 1.22,
-          "home_cs": 30,
-          "home_goals": 2.04,
+          "away_goals": 1.25,
+          "home_cs": 29,
+          "home_goals": 2.02,
           "id": 107
         },
         {
@@ -2975,8 +2975,8 @@
       "players": []
     },
     "group": "projections:11:general",
-    "timestamp": "2026-11-11T13:49:55.484676+00:00",
-    "version": "b9f5a10899ce64532e061557a4284f565e5322067c37e4e37257dbc2d5de7a36"
+    "timestamp": "2026-11-12T21:37:04.497836+00:00",
+    "version": "e0742eb1461763d1b798510cdcb11f9bbb4ad9f087c74946c3285decc2f9b4f8"
   },
   "review:10:3:226597|3:199798|7:517052|91:463981": {
     "confirmed": false,

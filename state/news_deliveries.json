@@ -619,5 +619,16 @@
     "source_url": "https://fantasy.premierleague.com/",
     "telegram_message_id": 381,
     "timestamp": "2026-11-12T21:26:28.636124+00:00"
+  },
+  "rss:20e5c9dd6be27a94b3fa6e11": {
+    "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570553036517146805",
+    "gameweek": 11,
+    "source": "media.the_guardian",
+    "source_url": "https://www.theguardian.com/football/2026/nov/12/the-problems-awaiting-manchester-united-next-manager",
+    "telegram_message_id": 392,
+    "timestamp": "2026-11-12T21:36:51.001744+00:00"
   }
 }

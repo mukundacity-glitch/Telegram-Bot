@@ -1,133 +1,20 @@
 {
-  "at": "2026-11-12T21:26:28.636124+00:00",
+  "at": "2026-11-12T21:36:51.001744+00:00",
   "daily": {
-    "at": "2026-11-12T21:26:28.636124+00:00",
+    "at": "2026-11-12T21:36:51.001744+00:00",
     "chatgpt_required": false,
-    "confirmed_edition_deliveries": 10,
+    "confirmed_edition_deliveries": 1,
     "editions": [
       {
         "attempts": 1,
         "caption_hashtags": 4,
-        "edition": "availability-transfer-decisions",
-        "file": "outbox/2026-11-12-availability-transfer-decisions.json",
-        "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:829ba4231308834c90e7",
+        "edition": "deadline-watch",
+        "file": "outbox/2026-11-12-deadline-watch.json",
+        "identity": "chatgpt:2026-27:GW11:task1:deadline-watch:c1f22e22cd65de524f69",
         "pages": 1,
         "publisher_exit_code": 0,
         "status": "delivered",
         "task": "task1"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "rank-booster",
-        "file": "outbox/2026-11-12-rank-booster.json",
-        "identity": "chatgpt:2026-27:GW11:task2:rank-booster:79b4a7b5bc1b0b3403db",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task2"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "fixture-targets",
-        "file": "outbox/2026-11-12-fixture-targets.json",
-        "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:0860c0cae3da03c954b5",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "three_daily"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "form-minutes-targets",
-        "file": "outbox/2026-11-12-form-minutes-targets.json",
-        "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:2576c1db7337a2de4600",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task1"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "four-midfielders",
-        "file": "outbox/2026-11-12-four-midfielders.json",
-        "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:b5fc5a97f1a1a851c99d",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task2"
-      },
-      {
-        "edition": "verified-press-availability",
-        "result": {
-          "expired_unposted": 2,
-          "official_changes": 0,
-          "pending": 2,
-          "reported_headlines": 2,
-          "retired_status_cards": 0,
-          "rotation_due": true,
-          "sent": 1,
-          "warmup": 0
-        },
-        "status": "news-checked"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "captain-differential",
-        "file": "outbox/2026-11-12-captain-differential.json",
-        "identity": "chatgpt:2026-27:GW11:task1:captain-differential:dfe25f88e5e1d03c2001",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task1"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "four-team-targets",
-        "file": "outbox/2026-11-12-four-team-targets.json",
-        "identity": "chatgpt:2026-27:GW11:task2:four-team-targets:46bf8d533bdb779c4b00",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task2"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "squad-surgery",
-        "file": "outbox/2026-11-12-squad-surgery.json",
-        "identity": "chatgpt:2026-27:GW11:three_daily:squad-surgery:c84aed70aba7596ee2b4",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "three_daily"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "transfer-market-team-news",
-        "file": "outbox/2026-11-12-transfer-market-team-news.json",
-        "identity": "chatgpt:2026-27:GW11:task1:transfer-market-team-news:204425e1afce5ad4ec48",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task1"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "market-verdict",
-        "file": "outbox/2026-11-12-market-verdict.json",
-        "identity": "chatgpt:2026-27:GW11:task2:market-verdict:05bd8b7d4e97a4980f3c",
-        "pages": 4,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task2"
       }
     ],
     "generation_audit_passed": false,
@@ -136,22 +23,28 @@
     "production_attempted": true,
     "safe_to_delete_chatgpt_tasks": false
   },
-  "eastern_at": "2026-11-12T16:26:28.636124-05:00",
+  "eastern_at": "2026-11-12T16:36:51.001744-05:00",
   "failures": [],
   "held": [],
   "legacy": {
     "exit_code": 0,
     "sent": 1,
-    "slot": "elite",
+    "slot": "projections",
     "status": "delivered"
   },
-  "new_posts": 11,
+  "new_posts": 3,
   "news": {
-    "sent": 0,
-    "status": "not-this-tick"
+    "expired_unposted": 0,
+    "official_changes": 0,
+    "pending": 1,
+    "reported_headlines": 1,
+    "retired_status_cards": 0,
+    "rotation_due": false,
+    "sent": 1,
+    "warmup": 0
   },
   "outbox_new": 0,
-  "scheduled_cron": "13 6-22 * * *",
+  "scheduled_cron": "43 5-22 * * *",
   "special": {
     "confirmed_edition_deliveries": 0,
     "status": "no-special-due"

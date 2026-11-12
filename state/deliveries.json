@@ -1462,6 +1462,17 @@
     "telegram_message_id": 390,
     "timestamp": "2026-11-12T21:27:52.539344+00:00"
   },
+  "2026-11-12:projections:GW11": {
+    "caption_sha256": "a14c10b5590c8614452e71b4ec724308d98fe6b41166323b0584b702bf41d524",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570553059216720008",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 393,
+    "timestamp": "2026-11-12T21:37:04.497836+00:00"
+  },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,
     "discord_message_id": "1566986392335294705",

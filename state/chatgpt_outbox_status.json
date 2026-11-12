@@ -369,6 +369,11 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-12-deadline-watch.json": {
+    "at": "2026-11-12T21:36:51.001744+00:00",
+    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "status": "held"
+  },
   "2026-11-12-fixture-targets.json": {
     "at": "2026-11-12T21:26:28.636124+00:00",
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
