@@ -346,3 +346,77 @@ def test_previous_ambiguous_fixture_receipt_does_not_resend(tmp_path):
         publish_shared(NewsPost("fixture-pending", "Target", "fixture #FPL", 11),
                        path, bot, discord)
     assert bot.calls == discord.calls == 0
+
+
+def test_real_discord_client_does_not_blindly_retry_unknown_acceptance():
+    import requests
+    from vortex.syndication import DeliveryUncertain
+    class Session:
+        def __init__(self): self.calls = 0
+        def post(self, *args, **kwargs):
+            self.calls += 1
+            raise requests.ReadTimeout("could have posted")
+    session = Session()
+    client = DiscordWebhookClient("https://discord.com/api/webhooks/123/unit-test",
+                                  session=session, sleeper=lambda seconds: None)
+    with pytest.raises(DeliveryUncertain):
+        client.send(NewsPost("one", "Test", "One verified caption", 10))
+    assert session.calls == 1
+
+
+def test_real_discord_client_http_5xx_not_blindly_retried():
+    from vortex.syndication import DeliveryUncertain
+    class Response:
+        status_code = 502
+        headers = {}
+    class Session:
+        def __init__(self): self.calls = 0
+        def post(self, *args, **kwargs):
+            self.calls += 1
+            return Response()
+    session = Session()
+    client = DiscordWebhookClient("https://discord.com/api/webhooks/123/unit-test",
+                                  session=session, sleeper=lambda seconds: None)
+    with pytest.raises(DeliveryUncertain):
+        client.send(NewsPost("one", "Test", "One verified caption", 10))
+    assert session.calls == 1
+
+
+def test_telegram_write_5xx_is_not_retried(monkeypatch):
+    import requests
+    from vortex import telegram as tg
+    from vortex.telegram import TelegramClient, TelegramDeliveryError
+    monkeypatch.setattr("vortex.publishing_window.assert_allowed", lambda: None)
+    calls = []
+    class Response:
+        status_code = 502
+        def raise_for_status(self):
+            raise requests.HTTPError("server error", response=self)
+        def json(self): return {}
+    def fake_post(*args, **kwargs):
+        calls.append(args[0])
+        return Response()
+    monkeypatch.setattr(tg.requests, "post", fake_post)
+    client = TelegramClient(token="INERT-UNIT-TEST", chat_id="INERT-UNIT-TEST")
+    with pytest.raises(TelegramDeliveryError) as error:
+        client.send_text("One verified story")
+    assert error.value.delivery_uncertain is True
+    assert len(calls) == 1
+
+
+def test_live_discord_intent_written_before_any_webhook_call(tmp_path):
+    from vortex.syndication import DiscordWebhookClient
+    ledger = tmp_path / "receipts.json"
+    class Telegram:
+        def send_text(self, caption): return 7
+    class Discord(DiscordWebhookClient):
+        def __init__(self): pass
+        def send(self, post):
+            checkpoint = json.loads(ledger.read_text())[post.identity]
+            assert checkpoint["delivered"] is True
+            assert checkpoint["discord_send_pending"] is True
+            return "discord-7"
+    post = NewsPost("checkpoint", "Headline", "One verified caption", 10)
+    result = publish_shared(post, ledger, Telegram(), Discord())
+    assert result["discord_delivered"] and result["delivered"]
+    assert not json.loads(ledger.read_text())["checkpoint"].get("discord_send_pending")

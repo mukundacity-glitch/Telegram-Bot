@@ -8,12 +8,19 @@ from __future__ import annotations
 import json
 import os
 import time
+import fcntl
+import hashlib
+from contextlib import contextmanager
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit, urlunsplit
 
 import requests
+
+
+class DeliveryUncertain(RuntimeError):
+    """An external platform may have accepted a send without a receipt."""
 
 
 class DeliveryRejected(RuntimeError):
@@ -90,20 +97,21 @@ class DiscordWebhookClient:
                     if attempt < 3:
                         self.sleep(retry_seconds)
                         continue
-                elif 500 <= response.status_code <= 599 and attempt < 3:
-                    self.sleep(min(8, 2 ** attempt))
-                    continue
+                elif 500 <= response.status_code <= 599:
+                    # 5xx is not proof that Discord failed to accept a message.
+                    raise DeliveryUncertain("Discord acceptance unknown after server error")
                 if not 200 <= response.status_code < 300:
-                    raise RuntimeError(f"Discord rejected delivery (HTTP {response.status_code})")
-                receipt = response.json()
+                    raise DeliveryRejected("Discord confirmed delivery rejection")
+                try:
+                    receipt = response.json()
+                except ValueError:
+                    raise DeliveryUncertain("Discord message receipt could not be decoded") from None
                 if not isinstance(receipt, dict) or not receipt.get("id"):
-                    raise RuntimeError("Discord did not return a confirmed message ID")
+                    raise DeliveryUncertain("Discord did not return a confirmed message ID")
                 return str(receipt["id"])
             except requests.RequestException:
-                if attempt < 3:
-                    self.sleep(min(8, 2 ** attempt))
-                    continue
-                raise RuntimeError("Discord delivery network failure") from None
+                # Never resubmit a possibly accepted webhook after a timeout.
+                raise DeliveryUncertain("Discord delivery network outcome unknown") from None
         raise RuntimeError("Discord rate limit persisted after bounded retries")
 
     def send(self, post: NewsPost) -> str:
@@ -138,10 +146,37 @@ class DiscordWebhookClient:
             raise RuntimeError('Discord album network/JSON failure; receipt not confirmed') from None
 
 
+@contextmanager
+def _receipt_lock(path: Path):
+    """Lock journal readers/writers on the same runner, without changing jobs."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    lock_path = path.with_name(path.name + ".delivery.lock")
+    with lock_path.open("a+b") as gate:
+        fcntl.flock(gate.fileno(), fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            fcntl.flock(gate.fileno(), fcntl.LOCK_UN)
+
+
+def _caption_digest(caption: str) -> str:
+    return hashlib.sha256(" ".join(caption.split()).casefold().encode("utf-8")).hexdigest()
+
+
 def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
                    discord: DiscordWebhookClient | Any,
                    *, send_telegram: bool = True, send_discord: bool = True,
                    now_iso: str = "") -> dict[str, Any]:
+    with _receipt_lock(journal_path):
+        return _publish_shared_locked(post, journal_path, telegram, discord,
+                                      send_telegram=send_telegram,
+                                      send_discord=send_discord, now_iso=now_iso)
+
+
+def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
+                           discord: DiscordWebhookClient | Any,
+                           *, send_telegram: bool = True, send_discord: bool = True,
+                           now_iso: str = "") -> dict[str, Any]:
     """Checkpoint platform receipts; fence uncertain Telegram uploads.
 
     A Telegram read timeout does not prove a missing message. The persisted
@@ -152,6 +187,25 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
         raise ValueError("Missing immutable identity or content")
     journal = load_journal(journal_path)
     entry = dict(journal.get(post.identity, {}))
+    digest = _caption_digest(post.caption)
+    # A semantic version change or another runner route cannot make an exact
+    # same-caption delivery new. Copy only CONFIRMED per-platform receipts.
+    for prior_id, prior in journal.items():
+        if prior_id == post.identity or not isinstance(prior, dict):
+            continue
+        if prior.get("caption_sha256") != digest:
+            continue
+        if prior.get("delivered"):
+            entry["delivered"] = True
+            entry["telegram_message_id"] = prior.get("telegram_message_id")
+        if prior.get("discord_delivered"):
+            entry["discord_delivered"] = True
+            entry["discord_message_id"] = prior.get("discord_message_id")
+        if prior.get("telegram_send_pending"):
+            entry["telegram_send_pending"] = True
+        if prior.get("discord_send_pending"):
+            entry["discord_send_pending"] = True
+    entry["caption_sha256"] = digest
     errors: list[str] = []
     for platform, enabled in (("telegram", send_telegram), ("discord", send_discord)):
         if not enabled:
@@ -159,11 +213,21 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
         already = bool(entry.get("delivered")) if platform == "telegram" else bool(entry.get("discord_delivered"))
         if already:
             continue
-        if platform == "telegram" and entry.get("telegram_send_pending"):
+        if (platform == "telegram" and entry.get("telegram_send_pending")) or (
+                platform == "discord" and entry.get("discord_send_pending")):
             # No Telegram Bot API method can query bot-authored chat history by
             # immutable post identity. Manual receipt reconciliation is needed.
-            errors.append("telegram-acceptance-uncertain; manual reconciliation required")
+            errors.append(platform + "-acceptance-uncertain; manual reconciliation required")
             continue
+        from .telegram import TelegramClient
+        # Live transports checkpoint intent BEFORE the remote API call. Stubs
+        # remain test-only and do not acquire a false production receipt.
+        live_transport = (isinstance(telegram, TelegramClient) if platform == "telegram"
+                          else isinstance(discord, DiscordWebhookClient))
+        if live_transport:
+            entry[platform + "_send_pending"] = True
+            journal[post.identity] = entry
+            save_journal(journal_path, journal)
         try:
             if platform == "telegram":
                 if post.image is None:
@@ -179,19 +243,35 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
             else:
                 message_id = discord.send(post)
                 entry.update({"discord_delivered": True, "discord_message_id": str(message_id)})
+                entry.pop("discord_send_pending", None)
         except (RuntimeError, ValueError, OSError, requests.RequestException) as exc:
             # A failed destination must not block the other destination. Do not
             # include external exception messages (which can include secrets).
             from .telegram import TelegramDeliveryError
+            if (platform == "telegram" and
+                    isinstance(exc, TelegramDeliveryError) and
+                    getattr(exc, "confirmed_rejection", False)) or (
+                    platform == "discord" and isinstance(exc, DeliveryRejected)):
+                entry.pop(platform + "_send_pending", None)
+                journal[post.identity] = entry
+                save_journal(journal_path, journal)
             if isinstance(exc, TelegramDeliveryError):
                 print(str(exc))
                 if platform == "telegram" and getattr(exc, "delivery_uncertain", False):
-                    # Durable fence: preserve the already-accepted Discord
-                    # receipt while preventing a blind Telegram resend.
+                    # Durable fence: preserve accepted Discord receipt and avoid replay.
                     entry["telegram_send_pending"] = True
                     entry["telegram_uncertain_at"] = now_iso
                     journal[post.identity] = entry
                     save_journal(journal_path, journal)
+            if platform == "discord" and (
+                    isinstance(exc, (requests.RequestException, DeliveryUncertain)) or
+                    (isinstance(discord, DiscordWebhookClient) and
+                     not isinstance(exc, DeliveryRejected))):
+                # Discord 5xx/timeout may still have accepted the original.
+                # Confirmed 4xx rejection is handled by the transport class.
+                entry["discord_send_pending"] = True
+                journal[post.identity] = entry
+                save_journal(journal_path, journal)
             errors.append(f"{platform} {type(exc).__name__}")
             continue
         entry.update({"timestamp": now_iso, "gameweek": post.gameweek,
@@ -200,13 +280,31 @@ def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
         save_journal(journal_path, journal)
     if errors:
         raise RuntimeError("Partial delivery; retained successful receipts: " + ", ".join(errors))
+    # Also record a skipped duplicate identity without sending a second copy.
+    if journal.get(post.identity) != entry:
+        journal[post.identity] = entry
+        save_journal(journal_path, journal)
     return entry
 
 
 def publish_album(identity,images,caption,journal_path,telegram,discord,now_iso=''):
+    with _receipt_lock(journal_path):
+        return _publish_album_locked(identity,images,caption,journal_path,telegram,discord,now_iso)
+
+
+def _publish_album_locked(identity,images,caption,journal_path,telegram,discord,now_iso):
     journal=load_journal(journal_path);errors=[]
+    digest=_caption_digest(caption)
     keys=[f'{identity}:page{i+1}' for i in range(len(images))]
     rows=[dict(journal.get(key,{})) for key in keys]
+    if not any(k in journal for k in keys):
+        for key, old in journal.items():
+            if key in keys or not isinstance(old,dict):
+                continue
+            if old.get("album_caption_sha256")==digest and (
+                    old.get("delivered") or old.get("discord_delivered") or
+                    old.get("telegram_album_pending") or old.get("discord_album_pending")):
+                raise RuntimeError("Equivalent album already published/pending; refusing duplicate")
     for platform in ('telegram','discord'):
         flag='delivered' if platform=='telegram' else 'discord_delivered'
         if all(row.get(flag) for row in rows):continue
@@ -219,7 +317,7 @@ def publish_album(identity,images,caption,journal_path,telegram,discord,now_iso=
         # Persist before the external call: even process termination must not
         # silently replay an album whose receipt may have been lost.
         for key,row in zip(keys,rows):
-            row[pending]=True;journal[key]=row
+            row[pending]=True;row['album_caption_sha256']=digest;journal[key]=row
         save_journal(journal_path,journal)
         try:
             ids=telegram.send_album(images,caption) if platform=='telegram' else [discord.send_album(images,caption)]*len(images)
@@ -228,7 +326,8 @@ def publish_album(identity,images,caption,journal_path,telegram,discord,now_iso=
                 row[flag]=True
                 row.pop(pending,None)
                 row['telegram_message_id' if platform=='telegram' else 'discord_message_id']=message_id
-                row['timestamp']=now_iso;row['caption_once_album']=True;journal[key]=row
+                row['timestamp']=now_iso;row['caption_once_album']=True
+                row['album_caption_sha256']=digest;journal[key]=row
             save_journal(journal_path,journal)
         except (RuntimeError,ValueError,OSError,requests.RequestException) as exc:
             if isinstance(exc,DeliveryRejected) or getattr(exc,'confirmed_rejection',False):

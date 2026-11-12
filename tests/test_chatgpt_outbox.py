@@ -114,3 +114,65 @@ def test_repeated_historical_hold_does_not_churn_status_file(tmp_path, monkeypat
     first = (tmp_path/'status.json').read_bytes()
     assert outbox.run(NOW+timedelta(minutes=15)) == 0
     assert (tmp_path/'status.json').read_bytes() == first
+
+
+def test_same_caption_new_identity_reuses_confirmed_platform_receipts(tmp_path):
+    from vortex.syndication import NewsPost, publish_shared
+    calls = []
+    class Telegram:
+        def send_text(self, caption):
+            calls.append(("telegram", caption))
+            return 17
+    class Discord:
+        def send(self, post):
+            calls.append(("discord", post.caption))
+            return "discord-17"
+    journal = tmp_path / "receipts.json"
+    first = NewsPost(identity="first", title="Test", caption="One verified caption", gameweek=10)
+    second = NewsPost(identity="different-id", title="Test", caption=" One   verified  caption ", gameweek=10)
+    assert publish_shared(first, journal, Telegram(), Discord())["delivered"] is True
+    result = publish_shared(second, journal, Telegram(), Discord())
+    assert result["discord_delivered"] and result["delivered"]
+    assert len(calls) == 2
+
+
+def test_matching_album_under_other_identity_cannot_republish(tmp_path):
+    from vortex.syndication import publish_album
+    calls = []
+    class Telegram:
+        def send_album(self, images, caption):
+            calls.append("telegram")
+            return [101, 102]
+    class Discord:
+        def send_album(self, images, caption):
+            calls.append("discord")
+            return "discord-album-101"
+    ledger = tmp_path / "receipts.json"
+    images = [tmp_path / "one.png", tmp_path / "two.png"]
+    publish_album("identity-one", images, "Same verified album", ledger, Telegram(), Discord())
+    with pytest.raises(RuntimeError, match="Equivalent album"):
+        publish_album("identity-two", images, "Same verified album", ledger, Telegram(), Discord())
+    assert calls == ["telegram", "discord"]
+
+
+def test_discord_transport_timeout_does_not_replay_under_new_identity(tmp_path):
+    import requests
+    from vortex.syndication import NewsPost, publish_shared
+    calls = []
+    class Telegram:
+        def send_text(self, caption):
+            calls.append("telegram")
+            return 90
+    class Discord:
+        def send(self, post):
+            calls.append("discord")
+            raise requests.ReadTimeout("acceptance unknown")
+    ledger = tmp_path / "receipts.json"
+    one = NewsPost(identity="id1", title="Test", caption="One exact verified caption", gameweek=10)
+    two = NewsPost(identity="id2", title="Test", caption="One exact verified caption", gameweek=10)
+    with pytest.raises(RuntimeError, match="Partial delivery"):
+        publish_shared(one, ledger, Telegram(), Discord())
+    assert json.loads(ledger.read_text())["id1"]["discord_send_pending"] is True
+    with pytest.raises(RuntimeError, match="Partial delivery"):
+        publish_shared(two, ledger, Telegram(), Discord())
+    assert calls == ["telegram", "discord"]

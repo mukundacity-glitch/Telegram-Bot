@@ -26,21 +26,23 @@ def test_http_failure_preserves_diagnostic_without_secret(monkeypatch):
     assert str(caught.value) == 'Telegram sendPhoto: chat-not-found'
 
 
-def test_transient_gateway_retries_rewind_photo_and_require_receipt(monkeypatch, tmp_path):
+def test_transient_gateway_holds_possible_acceptance_without_second_upload(monkeypatch, tmp_path):
     attempts = []
     class Response:
-        def __init__(self, status): self.status_code = status
-        def json(self): return {'ok': True, 'result': {'message_id': 42}}
-        def raise_for_status(self): assert self.status_code == 200
+        status_code = 502
+        def json(self): return {}
+        def raise_for_status(self):
+            raise requests.HTTPError('remote gateway error', response=self)
     def post(url, data, files, timeout):
         attempts.append(files['photo'][1].read())
-        return Response(502 if len(attempts) == 1 else 200)
+        return Response()
     monkeypatch.setattr(requests, 'post', post)
-    monkeypatch.setattr('vortex.telegram.time.sleep', lambda n: None)
     image = tmp_path / 'graphic.png'
     image.write_bytes(b'x' * 600)
-    assert TelegramClient('SECRET', 'private-chat').send_shared_png(image, 'caption', 'title', 10) == 42
-    assert attempts == [b'x' * 600, b'x' * 600]
+    with pytest.raises(TelegramDeliveryError) as error:
+        TelegramClient('SECRET', 'private-chat').send_shared_png(image, 'caption', 'title', 10)
+    assert error.value.delivery_uncertain is True
+    assert attempts == [b'x' * 600]
 
 
 def test_timeout_has_safe_visible_diagnostic_and_is_not_blindly_retried(monkeypatch):
