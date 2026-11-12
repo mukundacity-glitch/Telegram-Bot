@@ -94,3 +94,32 @@ def test_05_30_schedule_is_identical():
     from vortex.autonomous_schedule import SLOTS
     slot = next(s for s in SLOTS if s.edition == "availability-transfer-decisions")
     assert (slot.task, slot.hour, slot.minute) == ("task1", 5, 30)
+
+
+def test_branded_single_page_renders_offline_without_posts(tmp_path, monkeypatch):
+    """Real approved master and actual 16:9 renderer, no external requests."""
+    from types import SimpleNamespace
+    from PIL import Image
+    from vortex import availability_board as a
+    from vortex import availability_render as visual
+
+    monkeypatch.setattr(a, "fetch_verified_xpts", lambda *args, **kwargs: {})
+    monkeypatch.setenv("FPL_TELEGRAM_HANDLE", "@FPLVortexDailyBot")
+    monkeypatch.setenv("FPL_DISCORD_HANDLE", "@fplvortex")
+    monkeypatch.setattr(visual, "_assets", lambda *args, **kwargs: (
+        Image.new("RGBA", (80, 90), "#627FC0"),
+        Image.new("RGBA", (40, 40), "#40DCD8")))
+    snap, now, evidence = _world()
+    rows, tiers, meta = select(snap, now, evidence)
+    plan = SimpleNamespace(
+        title="AVAILABILITY & TRANSFER DECISIONS", gw=11,
+        extra={"tiers": tiers, "rows": {str(r["player"]["id"]): r for r in rows},
+               "method": meta})
+    path = tmp_path / "0530-preview-not-for-publishing.png"
+    result = visual.render_availability(plan, snap, now, path, None)
+    assert result == path
+    with Image.open(result) as picture:
+        picture.verify()
+    with Image.open(result) as picture:
+        assert picture.size == (1920, 1080)
+        assert picture.getpixel((800, 550)) != (255, 255, 255)
