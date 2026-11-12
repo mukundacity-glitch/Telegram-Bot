@@ -9,7 +9,7 @@ requirements remain in `chatgpt-task-specifications.json`.
 ## Schedule and preservation
 
 All clocks use **America/New_York**, including DST. Public sends are allowed
-from 05:30 inclusive until 22:00 exclusive. GitHub schedules can be delayed;
+from 05:30 inclusive until 23:00 exclusive. GitHub schedules can be delayed;
 the runtime window check also applies to delayed jobs.
 
 | Time ET | Additional edition |
@@ -196,9 +196,12 @@ recent returns, position-specific stats and next-GW opponents/FDR. Missing
 optional history uses a dash, never a fabricated zero. All other edition
 schedules and graphics remain unchanged.
 
-## Schedule and catch-up (05:30–22:00 America/New_York)
+## Schedule and catch-up (05:30–23:00 America/New_York)
 
-Posting window: 05:30 inclusive to 22:00 exclusive, Eastern time (DST handled).
+Posting window: 05:30 inclusive to 23:00 exclusive, Eastern time. The window is
+resolved with `zoneinfo` (`America/New_York`) at execution time, so EST/EDT is
+handled by the tz database. The workflow `schedule` blocks also carry
+`timezone: "America/New_York"`.
 Telegram and Discord receive every edition together; each platform keeps its own receipt.
 
 | ET | Edition | ET | Edition |

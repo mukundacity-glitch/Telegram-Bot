@@ -14,7 +14,7 @@ from .autonomous_schedule import ET, due_specials
 from .bot import STATE, read_state, write_state, run as run_legacy
 from .fpl import collect_snapshot
 from .outbox import RECEIPTS, run as run_outbox
-from .publishing_window import allowed
+from .publishing_window import WINDOW_LABEL, allowed
 from .schedule import SLOT_HOURS, SLOT_CRONS
 from .unified_runner import run as run_news
 
@@ -70,7 +70,7 @@ def run(now=None, cron=None):
     now = now or datetime.now(timezone.utc)
     if not allowed(now):
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),
-                  'new_posts': 0, 'window': '05:30–22:00 America/New_York'}
+                  'new_posts': 0, 'window': WINDOW_LABEL}
         print(json.dumps(result, sort_keys=True))
         return result
 

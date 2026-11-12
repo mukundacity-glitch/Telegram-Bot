@@ -86,6 +86,7 @@ def test_expired_status_cards_not_deleted(tmp_path):
 def test_schedule_and_other_lanes_still_present():
     workflow = (Path(__file__).resolve().parents[1] /
                 ".github/workflows/telegram-daily.yml").read_text()
-    assert "cron: '43 9-23,0-2 * * *'" in workflow
-    assert "cron: '13 10-23,0-2 * * *'" in workflow
+    assert "cron: '43 5-22 * * *'" in workflow
+    assert "cron: '13 6-22 * * *'" in workflow
+    assert workflow.count('timezone: "America/New_York"') == 2
     assert "python -m vortex.scheduled_dispatch" in workflow

@@ -35,12 +35,15 @@ SLOTS = (
 # a delayed, cancelled or dropped GitHub run can never lose an edition because
 # the next run posts whatever is due and not yet closed for the Eastern day.
 BY_CRON = {}
+# Approved publishing day: 05:30 inclusive to 23:00 exclusive, Eastern time.
 WINDOW_OPEN = (5, 30)
-WINDOW_CLOSE = (22, 0)
-CATCHUP_CRONS = {f'{m} {h} * * *' for h in range(5, 22) for m in (10, 40) if (h, m) >= WINDOW_OPEN}
-NEWS_CRONS = {f'5 {hour} * * *' for hour in range(6, 22)}
-SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5, 22)}
-OUTBOX_CRONS = {f'50 {hour} * * *' for hour in range(5, 22)}
+WINDOW_CLOSE = (23, 0)
+# Heartbeat minutes are stated in America/New_York because the workflow schedule
+# carries ``timezone: America/New_York``. Never derive them from UTC hours.
+CATCHUP_CRONS = {f'{m} {h} * * *' for h in range(5, 23) for m in (10, 40) if (h, m) >= WINDOW_OPEN}
+NEWS_CRONS = {f'5 {hour} * * *' for hour in range(6, 23)}
+SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5, 23)}
+OUTBOX_CRONS = {f'50 {hour} * * *' for hour in range(5, 23)}
 SPECIAL_EDITIONS = ('captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five')
 CLOSED = {'delivered', 'already-delivered', 'no-new-facts', 'checked'}
 MAX_ATTEMPTS = 3

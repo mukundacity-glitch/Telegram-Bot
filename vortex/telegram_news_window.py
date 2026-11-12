@@ -1,4 +1,4 @@
-"""Telegram-only official FPL news and actionable decisions, 05:00–22:00 ET.
+"""Telegram-only official FPL news and actionable decisions, 05:00–23:00 ET.
 
 Retains all pre-existing Telegram graphics/times. Builds a genuine original-blue
 1920x1080 image only for an actual changed official FPL status or price.
@@ -36,7 +36,7 @@ def in_window(cron: str | None) -> bool:
     if (cron or "").strip() == "15 5 * * *":
         return True  # existing 05:15 backup; never an extra news edition
     match = re.fullmatch(r"0 (\d{1,2}) \* \* \*", (cron or "").strip())
-    return bool(match and 5 <= int(match.group(1)) <= 22)
+    return bool(match and 5 <= int(match.group(1)) <= 23)
 
 
 def _player(snapshot, entry):

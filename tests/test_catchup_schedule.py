@@ -1,4 +1,4 @@
-"""05:30–22:00 ET time-based catch-up: a late, cancelled or dropped run loses nothing."""
+"""05:30–23:00 ET time-based catch-up: a late, cancelled or dropped run loses nothing."""
 from datetime import datetime, timezone
 import pytest
 
@@ -14,14 +14,14 @@ DAY_LATE = datetime(2026, 11, 10, 2, 10, tzinfo=timezone.utc)   # 21:10 EST
 def test_every_slot_is_inside_the_window_and_unique():
     times = [(s.hour, s.minute) for s in SLOTS]
     assert times == sorted(times)
-    assert times[0] == (5, 30) and times[-1] < (22, 0)
+    assert times[0] == (5, 30) and times[-1] < (23, 0)
     keys = {publication_key(s, DAY_NOON, 10, '2026-27') for s in SLOTS}
     assert len(keys) == len(SLOTS)  # two press slots still get separate records
 
 
 def test_catchup_crons_cover_the_window_without_leaving_it():
     assert '40 5 * * *' in CATCHUP_CRONS and '10 5 * * *' not in CATCHUP_CRONS
-    assert '40 21 * * *' in CATCHUP_CRONS and '10 22 * * *' not in CATCHUP_CRONS
+    assert '40 22 * * *' in CATCHUP_CRONS and '10 23 * * *' not in CATCHUP_CRONS
 
 
 def test_nothing_due_before_first_slot_and_oldest_first_after():
@@ -101,7 +101,64 @@ def test_manual_run_posts_only_an_already_due_edition(monkeypatch, world):
     assert result['editions'][0]['edition'] == 'availability-transfer-decisions'
 
 
-def test_runs_outside_0530_2200_are_deferred_with_the_real_window():
+def test_runs_outside_0530_2300_are_deferred_with_the_real_window():
     for when in (datetime(2026, 11, 9, 10, 29, tzinfo=timezone.utc),   # 05:29 EST
-                 datetime(2026, 11, 10, 3, 0, tzinfo=timezone.utc)):   # 22:00 EST
+                 datetime(2026, 11, 10, 4, 0, tzinfo=timezone.utc)):   # 23:00 EST
         assert runner.run(cron='10 12 * * *', now=when)['status'] == 'deferred-outside-window'
+
+
+def test_a_dropped_heartbeat_day_is_not_capped_to_two_posts(monkeypatch, world):
+    """A late run must publish the whole due backlog, not just two editions.
+
+    The per-run cap used to leave older approved slots unposted whenever GitHub
+    delayed or dropped the earlier heartbeats, which is why affected days ended
+    with only 3-5 posts. Each slot is already limited to once per Eastern day by
+    its own receipt, so no cross-run cap may refuse a due slot.
+    """
+    s, now, e, feed = world
+    late = datetime(2026, 11, 9, 22, 10, tzinfo=timezone.utc)   # 17:10 EST
+    due = catchup_slots(late, {}, 10, '2026-27', limit=20)
+    assert len(due) > 2, 'fixture must expose more than two due slots'
+
+    writes = {}
+    receipts = {}
+    staged = []
+
+    def read(path):
+        if path == runner.STATE_FILE:
+            return {}
+        if path == runner.RECEIPTS:
+            return receipts
+        return {'as_of_utc': 'x', 'prices': {'1': 50}} if path.name == 'prices.json' else {}
+
+    def stage(slot, *a, **k):
+        staged.append(slot.edition)
+        return runner.ROOT / 'outbox' / f'{slot.edition}.json', f'identity-{slot.edition}', 1
+
+    def publish(when, **kwargs):
+        edition = staged.pop(0)
+        # Both-platform confirmation, keyed exactly as the runner expects.
+        receipts[f'identity-{edition}:page1'] = {'delivered': True,
+                                                 'discord_delivered': True}
+        return 0
+
+    monkeypatch.setattr(runner, 'allowed', lambda when: True)
+    monkeypatch.setattr(runner, 'Evidence', lambda snapshot, when: e)
+    monkeypatch.setattr(runner, 'read_state', read)
+    monkeypatch.setattr(runner, 'write_state',
+                        lambda path, data: writes.__setitem__(path.name, dict(data)))
+    monkeypatch.setattr(runner, 'stage', stage)
+    monkeypatch.setattr(runner, 'publish_outbox', publish)
+    # press_news slots are verified from the news lane, not the outbox renderer.
+    import vortex.unified_runner as unified
+    monkeypatch.setattr(unified, 'run', lambda **kw: {'sent': 0, 'status': 'checked'})
+
+    # scheduled_dispatch passes catchup_limit=20 for the production heartbeat.
+    result = runner.run(now=late, snapshot=s, due=True, catchup_limit=20)
+    delivered = [r for r in result['editions'] if r.get('status') == 'delivered']
+    # Every due slot is attempted (not just the first two) and every rendered
+    # edition reaches both platforms in this single catch-up run.
+    renderable = [s for s in due if s.task != 'press_news']
+    assert len(result['editions']) == len(due)
+    assert len(renderable) > 2
+    assert len(delivered) == len(renderable)

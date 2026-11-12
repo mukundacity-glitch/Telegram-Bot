@@ -20,7 +20,12 @@ from .outbox import validate,run as publish_outbox,RECEIPTS
 
 STATE_FILE=STATE/'autonomous_editions.json'
 AUDIT=ROOT/'output/autonomous-audit.json'
-MAX_PER_RUN=2
+# Every editorial slot is already published at most once per Eastern day, so a
+# per-run cap can only ever REFUSE a slot that is genuinely due. When GitHub
+# delayed or dropped several heartbeats the cap silently starved the older
+# approved slots, which is why catch-up days produced 3-5 posts instead of the
+# whole due backlog. The daily slot receipts remain the real volume control.
+MAX_PER_RUN=None
 
 
 def canonical(value):
@@ -166,7 +171,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
             rows.append(row)
             if not audit and row['status']=='delivered':
                 sent_now+=1
-                if sent_now>=MAX_PER_RUN:break
+                if MAX_PER_RUN is not None and sent_now>=MAX_PER_RUN:break
         except NoUpdate as exc:
             row={'task':slot.task,'edition':slot.edition,'status':'no-new-facts','reason':str(exc)}
             rows.append(row)
