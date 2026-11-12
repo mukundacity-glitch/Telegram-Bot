@@ -1,28 +1,28 @@
 {
-  "price:c13e846bfc79fe89c2342159": {
-    "caption": "GW11 • CONFIRMED PRICE RISE — Verbruggen\nVerbruggen (BHA) officially changed from £4.6m to £4.7m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-11 13:31 UTC\n#FPL #FPLVortex #Pricechange #BHA",
-    "club_code": 36,
+  "rss:20e5c9dd6be27a94b3fa6e11": {
+    "caption": "GW11 • INJURY WATCH\nReported headline: Fitness, Fernandes and a back four: how next head coach can reignite Manchester United | Will Unwin\nFeed: media.the_guardian • 2026-11-12 17:00 UTC\nhttps://www.theguardian.com/football/2026/nov/12/the-problems-awaiting-manchester-united-next-manager\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Injury #GW11",
+    "club_code": 6,
     "gameweek": 11,
-    "identity": "price:c13e846bfc79fe89c2342159",
+    "identity": "rss:20e5c9dd6be27a94b3fa6e11",
     "image": null,
-    "photo_code": 489639,
-    "player_name": "Verbruggen",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "BHA",
-    "title": "GW11 • CONFIRMED PRICE RISE — Verbruggen"
+    "photo_code": 551226,
+    "player_name": "Fernandes",
+    "source": "media.the_guardian",
+    "source_url": "https://www.theguardian.com/football/2026/nov/12/the-problems-awaiting-manchester-united-next-manager",
+    "team_name": "TOT",
+    "title": "GW11 • INJURY WATCH"
   },
-  "price:f5fc2ff875c903d7ad80083a": {
-    "caption": "GW11 • CONFIRMED PRICE FALL — Amass\nAmass (MUN) officially changed from £4.0m to £3.9m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-11 13:31 UTC\n#FPL #FPLVortex #Pricechange #MUN",
-    "club_code": 1,
+  "rss:e13f801f17e8eb7cfa52a714": {
+    "caption": "GW11 • TRANSFER WATCH\nReported headline: Five Kevin De Bruyne January transfer options with Galatasaray keen\nFeed: database.transfermarkt • 2026-11-12 13:36 UTC\nhttps://www.transfermarkt.com/five-kevin-de-bruyne-january-transfer-destinations-as-psv-and-galatasaray-eye-move/view/news/490495\nReport only; details not independently confirmed.\n#FPL #FPLVortex #Transfer #GW11",
+    "club_code": 54,
     "gameweek": 11,
-    "identity": "price:f5fc2ff875c903d7ad80083a",
+    "identity": "rss:e13f801f17e8eb7cfa52a714",
     "image": null,
-    "photo_code": 577974,
-    "player_name": "Amass",
-    "source": "Official FPL",
-    "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "MUN",
-    "title": "GW11 • CONFIRMED PRICE FALL — Amass"
+    "photo_code": 560552,
+    "player_name": "Kevin",
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/five-kevin-de-bruyne-january-transfer-destinations-as-psv-and-galatasaray-eye-move/view/news/490495",
+    "team_name": "FUL",
+    "title": "GW11 • TRANSFER WATCH"
   }
 }

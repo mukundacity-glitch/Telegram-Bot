@@ -608,5 +608,16 @@
     "source_url": "https://fantasy.premierleague.com/",
     "telegram_message_id": 369,
     "timestamp": "2026-11-11T14:35:24.302611+00:00"
+  },
+  "rotation:2026-11-12:GW11": {
+    "caption_sha256": "b934afcbac300b621c0e90bf65e40b2ff43d97b826d1885dc43ea0afc870eff8",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550497084047510",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "telegram_message_id": 381,
+    "timestamp": "2026-11-12T21:26:28.636124+00:00"
   }
 }
