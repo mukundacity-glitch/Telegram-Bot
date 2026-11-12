@@ -20,6 +20,7 @@ from .outbox import validate,run as publish_outbox,RECEIPTS
 
 STATE_FILE=STATE/'autonomous_editions.json'
 AUDIT=ROOT/'output/autonomous-audit.json'
+MAX_PER_RUN=2
 
 
 def canonical(value):
@@ -117,6 +118,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         # edition has been closed, so an overnight change is still detectable
         # at the price slot instead of being absorbed by an earlier hourly run.
         write_state(STATE/'prices.json',price_snapshot(snapshot))
+    sent_now=0
     for slot in slots:
         key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
         if not audit and state.get(key,{}).get('status') in ('delivered','already-delivered'):
@@ -162,7 +164,9 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 state[key]=row;write_state(STATE_FILE,state)
                 if complete and slot.task=='price_changes':write_state(STATE/'prices.json',price_snapshot(snapshot))
             rows.append(row)
-            if not audit and row['status']=='delivered':break
+            if not audit and row['status']=='delivered':
+                sent_now+=1
+                if sent_now>=MAX_PER_RUN:break
         except NoUpdate as exc:
             row={'task':slot.task,'edition':slot.edition,'status':'no-new-facts','reason':str(exc)}
             rows.append(row)
