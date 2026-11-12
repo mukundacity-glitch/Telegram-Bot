@@ -17,11 +17,11 @@ from .syndication import NewsPost
 
 ROOT = Path(__file__).resolve().parents[1]
 MASTER = ROOT / "assets" / "references" / "brand_background.png"
-BLUE = (255, 255, 255)
-CYAN = (30, 150, 157)
-GOLD = (176, 139, 42)
-WHITE = (12, 16, 20)
-MUTED = (49, 54, 59)
+BLUE = (9, 22, 54)
+CYAN = (23, 229, 249)
+GOLD = (255, 205, 82)
+WHITE = (239, 247, 255)
+MUTED = (158, 189, 222)
 SIZE = (1536, 864)
 FONT = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed.ttf"
 BOLD = "/usr/share/fonts/truetype/dejavu/DejaVuSansCondensed-Bold.ttf"
@@ -99,7 +99,7 @@ def render_news_card(post: NewsPost, output: Path,
     painter.rounded_rectangle((56, 146, 1480, 734), radius=21,
                              fill=(*BLUE, 242), outline=(*CYAN, 232), width=3)
     painter.rounded_rectangle((80, 164, 533, 700), radius=16,
-                             fill=(255, 255, 255, 255), outline=(*GOLD, 235), width=2)
+                             fill=(10, 25, 58, 255), outline=(*GOLD, 235), width=2)
     painter.rectangle((546, 165, 553, 702), fill=(*CYAN, 220))
     painter.text((589, 171), "FPL VORTEX  •  VERIFIED PLAYER UPDATE",
                  font=_font(27, True), fill=WHITE)
@@ -118,7 +118,7 @@ def render_news_card(post: NewsPost, output: Path,
 
     name = post.player_name.upper()
     painter = ImageDraw.Draw(canvas, "RGBA")
-    painter.rounded_rectangle((97, 600, 510, 674), radius=10, fill=(255, 255, 255, 255))
+    painter.rounded_rectangle((97, 600, 510, 674), radius=10, fill=(10, 25, 58, 255))
     painter.text((107, 610), name, font=_fit(painter, name, 390, 33, 21), fill=WHITE)
     painter.text((109, 652), (post.team_name or "").upper(),
                  font=_fit(painter, (post.team_name or "").upper(), 390, 22, 16), fill=WHITE)
