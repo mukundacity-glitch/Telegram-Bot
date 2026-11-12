@@ -219,6 +219,15 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
             # immutable post identity. Manual receipt reconciliation is needed.
             errors.append(platform + "-acceptance-uncertain; manual reconciliation required")
             continue
+        from .telegram import TelegramClient
+        # Live transports checkpoint intent BEFORE the remote API call. Stubs
+        # remain test-only and do not acquire a false production receipt.
+        live_transport = (isinstance(telegram, TelegramClient) if platform == "telegram"
+                          else isinstance(discord, DiscordWebhookClient))
+        if live_transport:
+            entry[platform + "_send_pending"] = True
+            journal[post.identity] = entry
+            save_journal(journal_path, journal)
         try:
             if platform == "telegram":
                 if post.image is None:
@@ -239,6 +248,13 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
             # A failed destination must not block the other destination. Do not
             # include external exception messages (which can include secrets).
             from .telegram import TelegramDeliveryError
+            if (platform == "telegram" and
+                    isinstance(exc, TelegramDeliveryError) and
+                    getattr(exc, "confirmed_rejection", False)) or (
+                    platform == "discord" and isinstance(exc, DeliveryRejected)):
+                entry.pop(platform + "_send_pending", None)
+                journal[post.identity] = entry
+                save_journal(journal_path, journal)
             if isinstance(exc, TelegramDeliveryError):
                 print(str(exc))
                 if platform == "telegram" and getattr(exc, "delivery_uncertain", False):
