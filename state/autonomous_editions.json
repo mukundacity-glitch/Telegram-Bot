@@ -658,6 +658,17 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-11:task2:four-midfielders:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "four-midfielders",
+    "file": "outbox/2026-11-11-four-midfielders.json",
+    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:115a3070d656526f84f3",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2"
+  },
   "2026-11-11:task2:rank-booster:GW11": {
     "attempts": 1,
     "caption_hashtags": 4,

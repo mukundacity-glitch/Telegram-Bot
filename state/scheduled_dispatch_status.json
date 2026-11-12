@@ -1,20 +1,20 @@
 {
-  "at": "2026-11-11T21:21:08.471919+00:00",
+  "at": "2026-11-12T02:00:24.164370+00:00",
   "daily": {
-    "at": "2026-11-11T21:21:08.471919+00:00",
+    "at": "2026-11-12T02:00:24.164370+00:00",
     "chatgpt_required": false,
     "confirmed_edition_deliveries": 1,
     "editions": [
       {
-        "attempts": 2,
+        "attempts": 1,
         "caption_hashtags": 4,
-        "edition": "fixture-targets",
-        "file": "outbox/2026-11-11-fixture-targets.json",
-        "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:37378fda56c55b302bc3",
+        "edition": "four-midfielders",
+        "file": "outbox/2026-11-11-four-midfielders.json",
+        "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:115a3070d656526f84f3",
         "pages": 1,
         "publisher_exit_code": 0,
         "status": "delivered",
-        "task": "three_daily"
+        "task": "task2"
       }
     ],
     "generation_audit_passed": false,
@@ -23,7 +23,7 @@
     "production_attempted": true,
     "safe_to_delete_chatgpt_tasks": false
   },
-  "eastern_at": "2026-11-11T16:21:08.471919-05:00",
+  "eastern_at": "2026-11-11T21:00:24.164370-05:00",
   "failures": [],
   "held": [
     "legacy:buy"
@@ -34,13 +34,19 @@
     "slot": "buy",
     "status": "held"
   },
-  "new_posts": 1,
+  "new_posts": 2,
   "news": {
-    "sent": 0,
-    "status": "not-this-tick"
+    "expired_unposted": 0,
+    "official_changes": 1,
+    "pending": 3,
+    "reported_headlines": 0,
+    "retired_status_cards": 0,
+    "rotation_due": false,
+    "sent": 1,
+    "warmup": 0
   },
   "outbox_new": 0,
-  "scheduled_cron": "13 10-23,0-2 * * *",
+  "scheduled_cron": "43 9-23,0-2 * * *",
   "special": {
     "confirmed_edition_deliveries": 0,
     "status": "no-special-due"

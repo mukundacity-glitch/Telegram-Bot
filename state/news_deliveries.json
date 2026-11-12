@@ -579,6 +579,16 @@
     "telegram_message_id": 196,
     "timestamp": "2026-11-05T17:52:59.077257+00:00"
   },
+  "price:bc1081f19911df8af495faec": {
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570256998157521030",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "telegram_message_id": 372,
+    "timestamp": "2026-11-12T02:00:24.164370+00:00"
+  },
   "rotation:2026-11-11:GW11": {
     "delivered": true,
     "discord_delivered": true,

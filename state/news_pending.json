@@ -1,16 +1,16 @@
 {
-  "price:bc1081f19911df8af495faec": {
-    "caption": "GW11 • CONFIRMED PRICE RISE — Dewsbury-Hall\nDewsbury-Hall (EVE) officially changed from £6.6m to £6.7m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-11 13:31 UTC\n#FPL #FPLVortex #Pricechange #EVE",
-    "club_code": 11,
+  "price:43b0d20adbb8994a7babefea": {
+    "caption": "GW11 • CONFIRMED PRICE FALL — Steur\nSteur (NEW) officially changed from £4.8m to £4.7m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-12 02:00 UTC\n#FPL #FPLVortex #Pricechange #NEW",
+    "club_code": 4,
     "gameweek": 11,
-    "identity": "price:bc1081f19911df8af495faec",
+    "identity": "price:43b0d20adbb8994a7babefea",
     "image": null,
-    "photo_code": 215413,
-    "player_name": "Dewsbury-Hall",
+    "photo_code": 636852,
+    "player_name": "Steur",
     "source": "Official FPL",
     "source_url": "https://fantasy.premierleague.com/",
-    "team_name": "EVE",
-    "title": "GW11 • CONFIRMED PRICE RISE — Dewsbury-Hall"
+    "team_name": "NEW",
+    "title": "GW11 • CONFIRMED PRICE FALL — Steur"
   },
   "price:c13e846bfc79fe89c2342159": {
     "caption": "GW11 • CONFIRMED PRICE RISE — Verbruggen\nVerbruggen (BHA) officially changed from £4.6m to £4.7m in the FPL snapshots.\nSource: Official FPL snapshots; confirmed at 2026-11-11 13:31 UTC\n#FPL #FPLVortex #Pricechange #BHA",
