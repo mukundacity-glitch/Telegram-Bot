@@ -49,11 +49,11 @@ def test_premium_templates_render_with_verified_media(slot: str, tmp_path: Path,
     monkeypatch.setattr('vortex.premium._media', mock_media)
     result = render(content, tmp_path / f'{slot}.png', session=object())
     assert result.is_file()
-    # Flat paper backgrounds compress far smaller than the retired stadium art.
+    # The navy/purple reference backdrop stays dark across every slot.
     with Image.open(result) as image:
         assert image.size == (1536, 864)
         assert image.mode == 'RGB'
-        assert min(image.getpixel((0, 400))) > 235
+        assert max(image.getpixel((0, 400))) < 100
 
 
 @pytest.mark.parametrize('slot', SLOTS)
