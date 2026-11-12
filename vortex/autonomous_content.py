@@ -110,6 +110,28 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'availability-transfer-decisions':
+        from .availability_board import select, TIERS, ACTIONS
+        selected, tiers, meta = select(snapshot, now, e, session=e.session)
+        players = [r['player'] for r in selected]
+        labels = [ACTIONS[TIERS.index(tier)] for tier in TIERS for _ in tiers[tier]]
+        present = sum(1 for r in selected if r['xpts5'] is not None)
+        copy = (
+            f"GW{gw} | FPL VORTEX AVAILABILITY & TRANSFER DECISIONS\n"
+            f"{len(players)} uniquely selected players across five tiers; live FPL prices "
+            "and five successive Gameweeks.\n"
+            f"Verified fixture-model xPts5 available for {present}/{len(players)} selections. "
+            "A dash indicates missing verified model coverage, never a zero. "
+            "The fallback ranking uses official FPL projections, recent minutes and "
+            "fixture difficulty; it is NOT five-GW xPts. "
+            "BUY/PRIORITY labels are general watchlist assessments, not personal transfer advice.\n"
+            "#FPL #FPLVortex #FPLTips #FPLTransfers"
+        )
+        return Plan(slot.task, name, 'AVAILABILITY & TRANSFER DECISIONS', copy,
+                    gw, players, labels, kind='availability25',
+                    extra={'tiers': tiers,
+                           'rows': {str(r['player']['id']): r for r in selected},
+                           'method': meta})
     if name == 'rank-booster':
         from .low_owned_six import build_low_owned
         return build_low_owned(slot,snapshot,now,e)
