@@ -153,6 +153,23 @@ jobs:
           else
             python -m vortex.scheduled_dispatch
           fi
+      - name: Summarize this publishing run
+        if: always()
+        run: |
+          python - <<'PY' >> "$GITHUB_STEP_SUMMARY"
+          import json
+          from pathlib import Path
+
+          report = Path("state/scheduled_dispatch_status.json")
+          if report.is_file():
+              result = json.loads(report.read_text())
+              print("### Latest due-queue report")
+              print()
+              for field in ("eastern_at", "posts_due", "posts_generated", "new_posts",
+                            "posts_retry_pending", "posts_failed", "next_due"):
+                  if field in result:
+                      print(f"- **{field.replace('_', ' ').title()}** {result[field]}")
+          PY
       - name: Archive graphic and confirmed receipts
         if: always()
         uses: actions/upload-artifact@v4
