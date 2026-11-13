@@ -58,5 +58,46 @@
     "at": "2026-11-12T21:36:51.001744+00:00",
     "attempts": 1,
     "status": "delivered"
+  },
+  "2026-11-13:buy": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:comparison": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "status": "checked"
+  },
+  "2026-11-13:daily_stats": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:elite": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:midfielders": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:news": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:team_analysis": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
   }
 }

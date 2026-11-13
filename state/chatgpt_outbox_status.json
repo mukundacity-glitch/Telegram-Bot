@@ -429,9 +429,34 @@
     "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   },
+  "2026-11-13-captain-differential.json": {
+    "at": "2026-11-13T16:51:18.477476+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:10940f0283e2c851ca58",
+    "status": "delivered"
+  },
+  "2026-11-13-fixture-targets.json": {
+    "at": "2026-11-13T16:50:51.090781+00:00",
+    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:9d2b3bade41beca68331",
+    "status": "delivered"
+  },
+  "2026-11-13-form-minutes-targets.json": {
+    "at": "2026-11-13T16:50:52.625693+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:d6cb4bf2e86fa43a58a4",
+    "status": "delivered"
+  },
+  "2026-11-13-player-radar-comparison.json": {
+    "at": "2026-11-13T16:51:06.215685+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:77e6203f8b9c73b0f1eb",
+    "status": "delivered"
+  },
+  "2026-11-13-rank-booster.json": {
+    "at": "2026-11-13T16:50:35.111613+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:rank-booster:76f195baa4f6841e13a0",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
-    "at": "2026-11-04T18:15:35.011861+00:00",
-    "reason": "Edition is stale or generated timestamp invalid; refresh instead of replaying",
+    "at": "2026-11-13T16:50:31.597225+00:00",
+    "reason": "ValueError: Edition is stale or generated timestamp invalid; refresh instead of replaying",
     "status": "held"
   }
 }

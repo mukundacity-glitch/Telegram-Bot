@@ -1,45 +1,37 @@
 {
-  "at": "2026-11-13T10:51:45.827286+00:00",
-  "daily": {
-    "at": "2026-11-13T10:51:45.827286+00:00",
-    "chatgpt_required": false,
-    "confirmed_edition_deliveries": 1,
-    "editions": [
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "availability-transfer-decisions",
-        "file": "outbox/2026-11-13-availability-transfer-decisions.json",
-        "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:76e60efcd4da0acd49ba",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "task1"
-      }
-    ],
-    "generation_audit_passed": false,
-    "generation_owner": "github-actions",
-    "gw": 11,
-    "production_attempted": true,
-    "safe_to_delete_chatgpt_tasks": false
+  "at": "2026-11-13T16:50:31.368252+00:00",
+  "eastern_at": "2026-11-13T11:50:31.368252-05:00",
+  "new_posts": 8,
+  "next_due": {
+    "post": "prices",
+    "trigger": "2026-11-13T12:00:00-05:00"
   },
-  "eastern_at": "2026-11-13T05:51:45.827286-05:00",
-  "failures": [],
-  "held": [],
-  "legacy": {
-    "sent": 0,
-    "status": "none-due"
-  },
-  "new_posts": 1,
-  "news": {
-    "sent": 0,
-    "status": "not-this-tick"
-  },
-  "outbox_new": 0,
-  "scheduled_cron": "13 6-22 * * *",
-  "special": {
-    "confirmed_edition_deliveries": 0,
-    "status": "no-special-due"
-  },
-  "status": "published"
+  "pending_triggers": [
+    {
+      "post": "captaincy-comparison",
+      "trigger": "2026-11-20T00:30:00+00:00"
+    },
+    {
+      "post": "value-board",
+      "trigger": "2026-11-20T09:30:00+00:00"
+    },
+    {
+      "post": "start-bench-board",
+      "trigger": "2026-11-21T04:30:00+00:00"
+    },
+    {
+      "post": "final-gameweek-news",
+      "trigger": "2026-11-21T07:30:00+00:00"
+    }
+  ],
+  "posts_due": 15,
+  "posts_failed": 0,
+  "posts_generated": 13,
+  "posts_pending_trigger": 4,
+  "posts_retried": 0,
+  "posts_retry_pending": 0,
+  "scheduled_cron": null,
+  "source_error": null,
+  "status": "published",
+  "telegram_messages_sent": 8
 }

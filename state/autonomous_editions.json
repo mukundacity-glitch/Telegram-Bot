@@ -874,6 +874,102 @@
     "status": "delivered",
     "task": "task1"
   },
+  "2026-11-13:task1:captain-differential:GW11": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "captain-differential",
+    "file": "outbox/2026-11-13-captain-differential.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:10940f0283e2c851ca58",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "already-delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      382
+    ]
+  },
+  "2026-11-13:task1:form-minutes-targets:GW11": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "form-minutes-targets",
+    "file": "outbox/2026-11-13-form-minutes-targets.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:d6cb4bf2e86fa43a58a4",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "already-delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      379
+    ]
+  },
+  "2026-11-13:task1:player-radar-comparison:GW11": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "player-radar-comparison",
+    "file": "outbox/2026-11-13-player-radar-comparison.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:77e6203f8b9c73b0f1eb",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      401
+    ]
+  },
+  "2026-11-13:task2:four-midfielders:GW11": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "four-midfielders",
+    "file": "outbox/2026-11-13-four-midfielders.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:b5fc5a97f1a1a851c99d",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "already-delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      380
+    ]
+  },
+  "2026-11-13:task2:rank-booster:GW11": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "rank-booster",
+    "file": "outbox/2026-11-13-rank-booster.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:rank-booster:76f195baa4f6841e13a0",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      396
+    ]
+  },
+  "2026-11-13:three_daily:fixture-targets:GW11": {
+    "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "fixture-targets",
+    "file": "outbox/2026-11-13-fixture-targets.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:9d2b3bade41beca68331",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "already-delivered",
+    "task": "three_daily",
+    "telegram_message_ids": [
+      378
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",

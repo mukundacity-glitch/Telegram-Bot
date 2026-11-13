@@ -188,6 +188,183 @@
     "timestamp": "2026-11-02T22:39:17.734416+00:00",
     "version": "f24f417745af2f278fe86eca0719931416e4eb668054536d07ce4d9ce0ff3772"
   },
+  "buy:11:7:517052|91:444102|6:469142|36:610799": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:buy:GW11",
+    "evidence": {
+      "gw": 11,
+      "kind": "buy",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "H",
+              2,
+              56
+            ]
+          ],
+          "metrics": {
+            "assists_season": "1",
+            "bonus_season": "12",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "2",
+            "dc_actions_season": "27",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "BUY",
+            "fixture": "SUN (H) FDR 2",
+            "form": "8.8",
+            "goals_conceded_season": "8",
+            "goals_season": "6",
+            "minutes": "722",
+            "minutes_last_three_completed_gws": "256",
+            "next_gw": "11",
+            "ownership": "31.2%",
+            "points_last_three_completed_gws": "33",
+            "position": "FWD",
+            "price": "£7.1m",
+            "reason": "Good GW fixture (FDR 2.0); FPL form 8.8 with 722 season mins.",
+            "recent_stat": "L3: 4 G · 1 A",
+            "saves_season": "0",
+            "season_stat": "SZN: 3.5 xG · 0.9 xA",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "315,533",
+            "xa_season": "0.90",
+            "xg_season": "3.46",
+            "xgc_season": "10.63"
+          },
+          "player": "N.Jackson",
+          "team": 7
+        },
+        {
+          "fixtures": [
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ]
+          ],
+          "metrics": {
+            "assists_season": "4",
+            "bonus_season": "10",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "5",
+            "dc_actions_season": "65",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "BUY",
+            "fixture": "NFO (H) FDR 3",
+            "form": "9.0",
+            "goals_conceded_season": "11",
+            "goals_season": "5",
+            "minutes": "837",
+            "minutes_last_three_completed_gws": "245",
+            "next_gw": "11",
+            "ownership": "23.8%",
+            "points_last_three_completed_gws": "24",
+            "position": "FWD",
+            "price": "£6.5m",
+            "reason": "Good GW fixture (FDR 3.0); FPL form 9.0 with 837 season mins.",
+            "recent_stat": "L3: 3 G · 0 A",
+            "saves_season": "0",
+            "season_stat": "SZN: 4.5 xG · 1.1 xA",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "217,135",
+            "xa_season": "1.05",
+            "xg_season": "4.45",
+            "xgc_season": "10.28"
+          },
+          "player": "Evanilson",
+          "team": 91
+        },
+        {
+          "fixtures": [
+            [
+              "IPS",
+              "H",
+              2,
+              40
+            ]
+          ],
+          "metrics": {
+            "assists_season": "0",
+            "bonus_season": "6",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "4",
+            "dc_actions_season": "85",
+            "dc_points_last_three_completed_gws": "2",
+            "decision": "BUY",
+            "fixture": "IPS (H) FDR 2",
+            "form": "7.5",
+            "goals_conceded_season": "11",
+            "goals_season": "2",
+            "minutes": "900",
+            "minutes_last_three_completed_gws": "270",
+            "next_gw": "11",
+            "ownership": "14.7%",
+            "points_last_three_completed_gws": "26",
+            "position": "DEF",
+            "price": "£5.1m",
+            "reason": "Good GW fixture (FDR 2.0); FPL form 7.5 with 900 season mins.",
+            "recent_stat": "L3: 2 DC pts · 26 FPL pts",
+            "saves_season": "0",
+            "season_stat": "SZN: 85 DC acts · 4 CS",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "180,351",
+            "xa_season": "0.72",
+            "xg_season": "1.70",
+            "xgc_season": "11.92"
+          },
+          "player": "Van Hecke",
+          "team": 6
+        },
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ]
+          ],
+          "metrics": {
+            "assists_season": "2",
+            "bonus_season": "5",
+            "caveat": "Verify starting XI; one-GW transfers can cost points.",
+            "clean_sheets_season": "7",
+            "dc_actions_season": "91",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "BUY",
+            "fixture": "HUL (A) FDR 2",
+            "form": "7.5",
+            "goals_conceded_season": "7",
+            "goals_season": "1",
+            "minutes": "887",
+            "minutes_last_three_completed_gws": "270",
+            "next_gw": "11",
+            "ownership": "9.4%",
+            "points_last_three_completed_gws": "19",
+            "position": "DEF",
+            "price": "£5.3m",
+            "reason": "Good GW fixture (FDR 2.0); FPL form 7.5 with 887 season mins.",
+            "recent_stat": "L3: 0 DC pts · 19 FPL pts",
+            "saves_season": "0",
+            "season_stat": "SZN: 91 DC acts · 7 CS",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "158,260",
+            "xa_season": "0.22",
+            "xg_season": "1.25",
+            "xgc_season": "13.37"
+          },
+          "player": "Vuskovic",
+          "team": 36
+        }
+      ]
+    },
+    "group": "buy:11:7:517052|91:444102|6:469142|36:610799",
+    "timestamp": "2026-11-13T16:50:31.368252+00:00",
+    "version": "bb424a1371e559e18b8d81c1e256a9703dc7e45488ada0a15a61a8da29f441c3"
+  },
   "captaincy:10:3:199798|91:444102|7:517052|43:223094": {
     "confirmed": false,
     "delivery_key": "2026-11-02:captaincy",
@@ -1716,7 +1893,7 @@
   },
   "midfielders:11:36:509416|91:201658|36:60307": {
     "confirmed": true,
-    "delivery_key": "2026-11-09:midfielders:GW11",
+    "delivery_key": "2026-11-13:midfielders:GW11",
     "evidence": {
       "gw": 11,
       "kind": "midfielders",
@@ -1733,7 +1910,7 @@
           "metrics": {
             "form": "7.0",
             "minutes": 741,
-            "ownership": "2.3%",
+            "ownership": "2.4%",
             "price": "£5.5m",
             "role": "PRIMARY MIDFIELD PICK",
             "xa": "0.34",
@@ -1754,7 +1931,7 @@
           "metrics": {
             "form": "6.5",
             "minutes": 840,
-            "ownership": "31.2%",
+            "ownership": "31.4%",
             "price": "£6.7m",
             "role": "STRONG ALTERNATIVE",
             "xa": "1.45",
@@ -1775,7 +1952,7 @@
           "metrics": {
             "form": "4.2",
             "minutes": 880,
-            "ownership": "47.9%",
+            "ownership": "48.1%",
             "price": "£6.3m",
             "role": "THIRD OPTION",
             "xa": "2.22",
@@ -1787,8 +1964,8 @@
       ]
     },
     "group": "midfielders:11:36:509416|91:201658|36:60307",
-    "timestamp": "2026-11-09T23:51:46.792239+00:00",
-    "version": "6b53422c71fbd0cae829ec4d2c1f98675196851eedd1299c1864f18a0c51f208"
+    "timestamp": "2026-11-13T16:50:31.368252+00:00",
+    "version": "63c2891a280055d584f846465685f62b5b004f6be6ca2c82165e3fdbdb512edc"
   },
   "midfielders:11:36:60307|36:509416|36:514254": {
     "confirmed": true,
@@ -2573,6 +2750,124 @@
     "group": "news:11:6:511499|8:486672|54:76357",
     "timestamp": "2026-11-07T19:16:29.987692+00:00",
     "version": "5a6eb732d855fbaef2a0d19c8943dcd85db78d3f74e6994e32b8a5f407d132b0"
+  },
+  "news:11:7:614071|31:247412|1:95658": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:news",
+    "evidence": {
+      "gw": 11,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "H",
+              2,
+              56
+            ],
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ],
+            [
+              "EVE",
+              "H",
+              3,
+              11
+            ]
+          ],
+          "metrics": {
+            "assists": 3,
+            "bonus": 7,
+            "clean_sheets": 2,
+            "form": "5.2",
+            "goals": 2,
+            "minutes": 461,
+            "price": "£6.2m",
+            "status": "d",
+            "total_points": 40
+          },
+          "player": "Manzambi",
+          "team": 7
+        },
+        {
+          "fixtures": [
+            [
+              "COV",
+              "A",
+              2,
+              9
+            ],
+            [
+              "HUL",
+              "H",
+              2,
+              88
+            ],
+            [
+              "CHE",
+              "A",
+              4,
+              8
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 2,
+            "clean_sheets": 1,
+            "form": "1.0",
+            "goals": 1,
+            "minutes": 511,
+            "price": "£5.9m",
+            "status": "d",
+            "total_points": 23
+          },
+          "player": "Strand Larsen",
+          "team": 31
+        },
+        {
+          "fixtures": [
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "1.0",
+            "goals": 0,
+            "minutes": 855,
+            "price": "£4.6m",
+            "status": "d",
+            "total_points": 16
+          },
+          "player": "Maguire",
+          "team": 1
+        }
+      ]
+    },
+    "group": "news:11:7:614071|31:247412|1:95658",
+    "timestamp": "2026-11-13T16:50:31.368252+00:00",
+    "version": "0b1b73304c4ff3f5003d85e790c325aa3833625fa9f678a9083b5ee91b87fd95"
   },
   "news:11:8:486672|54:76357|91:494928": {
     "confirmed": true,
@@ -4295,6 +4590,93 @@
     "group": "team_analysis:11:Brighton",
     "timestamp": "2026-11-10T00:00:05.720851+00:00",
     "version": "eeb5335b3cc2371084c30fc8a9865690c47794cf6014348f9a9359dbd24b4e57"
+  },
+  "team_analysis:11:Spurs": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:team_analysis:GW11",
+    "evidence": {
+      "gw": 11,
+      "history": [
+        {
+          "ga": 2,
+          "gf": 0,
+          "gw": 2,
+          "kickoff": "2026-08-29T16:30:00Z",
+          "opponent": "NEW",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 0,
+          "gw": 3,
+          "kickoff": "2026-09-05T14:00:00Z",
+          "opponent": "NFO",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 0,
+          "gw": 4,
+          "kickoff": "2026-09-12T16:30:00Z",
+          "opponent": "EVE",
+          "venue": "H"
+        },
+        {
+          "ga": 3,
+          "gf": 2,
+          "gw": 5,
+          "kickoff": "2026-09-19T11:30:00Z",
+          "opponent": "AVL",
+          "venue": "H"
+        },
+        {
+          "ga": 1,
+          "gf": 1,
+          "gw": 6,
+          "kickoff": "2026-10-10T16:30:00Z",
+          "opponent": "MUN",
+          "venue": "A"
+        },
+        {
+          "ga": 1,
+          "gf": 3,
+          "gw": 7,
+          "kickoff": "2026-10-19T19:00:00Z",
+          "opponent": "COV",
+          "venue": "H"
+        },
+        {
+          "ga": 0,
+          "gf": 2,
+          "gw": 8,
+          "kickoff": "2026-10-24T16:30:00Z",
+          "opponent": "CHE",
+          "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 2,
+          "gw": 9,
+          "kickoff": "2026-10-31T17:30:00Z",
+          "opponent": "CRY",
+          "venue": "H"
+        },
+        {
+          "ga": 1,
+          "gf": 0,
+          "gw": 10,
+          "kickoff": "2026-11-07T12:30:00Z",
+          "opponent": "LEE",
+          "venue": "A"
+        }
+      ],
+      "kind": "team_analysis",
+      "players": [],
+      "team": "Spurs"
+    },
+    "group": "team_analysis:11:Spurs",
+    "timestamp": "2026-11-13T16:50:31.368252+00:00",
+    "version": "9e942b68b3fc57bbdccbe4811dc819417da717d3bc223736d1728a3adf4ed56a"
   },
   "transfer:10:36:465730|3:226597": {
     "confirmed": true,
