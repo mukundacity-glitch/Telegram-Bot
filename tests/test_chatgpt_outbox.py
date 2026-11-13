@@ -176,3 +176,35 @@ def test_discord_transport_timeout_does_not_replay_under_new_identity(tmp_path):
     with pytest.raises(RuntimeError, match="Partial delivery"):
         publish_shared(two, ledger, Telegram(), Discord())
     assert calls == ["telegram", "discord"]
+
+
+def test_due_outbox_drains_in_time_order_after_a_failed_item(tmp_path, monkeypatch):
+    first = record(tmp_path)
+    second = {**first, 'publish_at': (NOW - timedelta(minutes=10)).isoformat(),
+              'facts': {'player_ids': [13]}, 'caption': first['caption'].replace('Fact', 'Earlier fact')}
+    queue = tmp_path / 'outbox'
+    (queue / 'a.json').write_text(json.dumps(first))
+    (queue / 'z.json').write_text(json.dumps(second))
+    for name, path in {
+        'ROOT': tmp_path, 'QUEUE': queue, 'RECEIPTS': tmp_path / 'receipts.json',
+        'STATUS': tmp_path / 'status.json',
+    }.items():
+        monkeypatch.setattr(outbox, name, path)
+    attempted = []
+
+    class Telegram:
+        def send_png(self, image, caption, title, gw):
+            attempted.append(caption.splitlines()[0])
+            if caption.startswith('Earlier'):
+                raise RuntimeError('Telegram rejected the earlier item')
+            return 171
+
+    class Discord:
+        def send(self, post):
+            return 'discord-456'
+
+    assert outbox.run(NOW, Telegram(), Discord()) == 1
+    assert attempted == ['Earlier fact', 'Fact']
+    status = json.loads(outbox.STATUS.read_text())
+    assert status['z.json']['attempts'] == 1
+    assert status['a.json']['status'] == 'delivered'

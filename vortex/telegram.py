@@ -49,8 +49,16 @@ class TelegramClient:
                             stream.seek(0)
                 # Split connection and response limits: image uploads may need more
                 # than one minute for Telegram to acknowledge a successful send.
-                response = requests.post(f"{self.base_url}/{method}", data=data,
-                                         files=files, timeout=(15, 120))
+                try:
+                    response = requests.post(f"{self.base_url}/{method}", data=data,
+                                             files=files, timeout=(15, 120))
+                except requests.ConnectTimeout:
+                    if attempt < 2:
+                        time.sleep(1)
+                        continue
+                    error = TelegramDeliveryError(f"Telegram {method}: connection timed out")
+                    error.confirmed_rejection = True  # No connection was established.
+                    raise error from None
                 status = getattr(response, "status_code", 200)
                 # An HTTP 5xx after a write may mean Telegram accepted the message.
                 # Only rate-limit rejections (429) may be retried for sends.

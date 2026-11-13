@@ -52,7 +52,7 @@ def test_a_dropped_day_is_recovered_by_a_late_run_in_oldest_first_batches():
 def _drive(monkeypatch, world, state, cron_now, **trigger):
     s, now, e, feed = world
     writes = {}
-    receipts = {'test-identity:page1': {'delivered': True, 'discord_delivered': True}}
+    receipts = {'test-identity:page1': {'delivered': True, 'discord_delivered': True, 'telegram_message_id': 101}}
     prices = {'as_of_utc': 'x', 'prices': {'1': 50}}
     published = []
 
@@ -139,7 +139,7 @@ def test_a_dropped_heartbeat_day_is_not_capped_to_two_posts(monkeypatch, world):
         edition = staged.pop(0)
         # Both-platform confirmation, keyed exactly as the runner expects.
         receipts[f'identity-{edition}:page1'] = {'delivered': True,
-                                                 'discord_delivered': True}
+                                                 'discord_delivered': True, 'telegram_message_id': len(receipts) + 101}
         return 0
 
     monkeypatch.setattr(runner, 'allowed', lambda when: True)

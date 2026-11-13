@@ -101,8 +101,9 @@ jobs:
     concurrency:
       group: fpl-vortex-telegram-single-workflow
       cancel-in-progress: false
+      queue: max
     runs-on: ubuntu-latest
-    timeout-minutes: 14
+    timeout-minutes: 55
     steps:
       - name: Checkout isolated newest receipts and queued art
         uses: actions/checkout@v4
@@ -119,7 +120,8 @@ jobs:
       - name: Verify publishing and duplicate contracts
         if: ${{ github.event_name != 'schedule' }}
         run: python -m pytest -q
-      - name: Generate and deliver from GitHub; preserve separate original news lane
+      - name: Generate and deliver the due content queue
+        timeout-minutes: 45
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -144,15 +146,11 @@ jobs:
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
-          EVENT_NAME: ${{ github.event_name }}
-          FPL_AUTO_REPAIR: ${{ contains(github.event.head_commit.message, '[FPL-AUTO-REPAIR]') }}
         run: |
           if [ "$FPL_MANUAL_PUBLISH" = 'true' ]; then
             python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"
-          elif [ "$EVENT_NAME" = 'schedule' ] || [ "$FPL_AUTO_REPAIR" = 'true' ]; then
-            python -m vortex.scheduled_dispatch
           else
-            python -m vortex.autonomous_runner --edition vortex-captain
+            python -m vortex.scheduled_dispatch
           fi
       - name: Archive graphic and confirmed receipts
         if: always()
@@ -165,6 +163,11 @@ jobs:
             state/chatgpt_outbox_status.json
             state/missing_portraits.json
             state/autonomous_editions.json
+            state/scheduled_dispatch_status.json
+            state/publishing_audit.json
+            state/scheduled_legacy_attempts.json
+            state/deliveries.json
+            state/news_deliveries.json
             output/autonomous-audit.json
             output/news/*.png
             output/*.png

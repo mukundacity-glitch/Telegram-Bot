@@ -76,7 +76,7 @@ class DiscordWebhookClient:
         self.sleep = sleeper
 
     def _send(self, payload: dict[str, Any], file: Path | None) -> str:
-        for attempt in range(4):
+        for attempt in range(3):
             try:
                 args: dict[str, Any] = {
                     "params": {"wait": "true"}, "timeout": 35,
@@ -94,7 +94,7 @@ class DiscordWebhookClient:
                         retry_seconds = min(10.0, max(0.5, float(delay)))
                     except ValueError:
                         retry_seconds = 2.0
-                    if attempt < 3:
+                    if attempt < 2:
                         self.sleep(retry_seconds)
                         continue
                 elif 500 <= response.status_code <= 599:
@@ -305,7 +305,7 @@ def _publish_album_locked(identity,images,caption,journal_path,telegram,discord,
                     old.get("delivered") or old.get("discord_delivered") or
                     old.get("telegram_album_pending") or old.get("discord_album_pending")):
                 raise RuntimeError("Equivalent album already published/pending; refusing duplicate")
-    for platform in ('telegram','discord'):
+    for platform in ('telegram', 'discord') if discord is not None else ('telegram',):
         flag='delivered' if platform=='telegram' else 'discord_delivered'
         if all(row.get(flag) for row in rows):continue
         if any(row.get(flag) for row in rows):

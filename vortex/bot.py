@@ -42,8 +42,8 @@ def write_state(path: Path, data: dict[str, Any]) -> None:
     temp.replace(path)
 
 
-def run(requested: str, scheduled_cron: str | None = None) -> int:
-    now = datetime.now(timezone.utc)
+def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now=None, audit=None) -> int:
+    now = now or datetime.now(timezone.utc)
     # The GitHub "Run workflow" button is NOT how to turn on cron.
     # A manual AUTO selection must never send a test message or
     # accidentally post a duplicate at the wrong time.
@@ -100,7 +100,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         return 0
 
     try:
-        snapshot = collect_snapshot()
+        snapshot = snapshot or collect_snapshot()
         previous_prices = read_state(price_state_path)
         article = generate(publication_slot, snapshot, now, previous_prices)
         if publication_slot == "prices" and not preview_only and not any(
@@ -176,20 +176,39 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
         file_slot = article.kind if publication_slot == "elite" else slot
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{file_slot}.png"
+        if audit is not None:
+            from .queue_retry import verified_caption
+            caption = verified_caption(article.title, article.caption)
+        else:
+            caption = article.caption
         if os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
-            from .publish_checks import render_checked
-            render_checked(article, snapshot, path)
+            from .publish_checks import render_checked, validate_article
+            if audit is not None:
+                validate_article(article, snapshot)
+            try:
+                render_checked(article, snapshot, path)
+            except (RuntimeError, OSError) as exc:
+                # Only a validated caption with a concrete fact and takeaway
+                # can stand alone if the image asset or renderer fails.
+                if audit is None or publication_slot == "projections":
+                    raise
+                from .queue_retry import failure_reason
+                audit["image_error"] = failure_reason(exc)
+                print(f"{publication_slot} image fallback: {audit['image_error']}")
+                path = None
         else:
             render(article, path)
+        if audit is not None:
+            audit["generated"] = True
         if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions", "midfielders", "start_bench"):
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
                 raise RuntimeError("GW deadline elapsed during recommendation generation")
-        if dual_publish or (daily_board and not preview_only):
+        if dual_publish or ((daily_board or audit is not None) and not preview_only):
             # One canonical image/caption, two independent durable receipts.
             # An existing Telegram delivery is never resent solely because
             # Discord failed or was enabled later.
-            post = NewsPost(identity=key, title=article.title, caption=article.caption,
+            post = NewsPost(identity=key, title=article.title, caption=caption,
                             gameweek=article.gw, image=path, source="Official FPL")
             try:
                 receipts = publish_shared(post, delivery_state_path, client,
@@ -231,12 +250,15 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         if publication_slot == "projections" and not preview_only:
             from .projection_trends import record
             write_state(projection_history_path, record(article, projection_history, now))
-        print(f"DELIVERED {key} with message {message_id} and {article.gw=} ({path.name})")
+        print(f"DELIVERED {key} with message {message_id} and {article.gw=} ({path.name if path else 'text'})")
         return 0
     except Exception as error:
         safe_type = type(error).__name__
         safe_message = str(error).replace(os.environ.get("TELEGRAM_BOT_TOKEN", ""), "[REDACTED]") if os.environ.get("TELEGRAM_BOT_TOKEN") else str(error)
-        print(f"Delivery failed: {safe_type}: {safe_message[:300]}", file=sys.stderr)
+        if audit is not None:
+            from .queue_retry import failure_reason
+            audit["error"] = failure_reason(error)
+        print(f"Delivery failed: {audit['error'] if audit is not None else f'{safe_type}: {safe_message[:300]}'}", file=sys.stderr)
         # GitHub Actions records failed runs; do not spam the audience with retry alerts.
         return 1
 

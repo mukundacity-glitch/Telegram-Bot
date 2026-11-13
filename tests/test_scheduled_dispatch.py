@@ -91,38 +91,56 @@ def test_due_legacy_deduplicates_existing_two_platform_receipts():
     due = dispatcher.due_legacy(OPEN, ledger, {})
     assert due is not None and due[1] != 'elite'
 
-def test_schedule_dispatch_reports_telegram_and_discord_delivery(monkeypatch, tmp_path):
-    monkeypatch.setattr(dispatcher, 'STATE', tmp_path)
-    monkeypatch.setattr(dispatcher, 'REPORT', tmp_path / 'status.json')
-    monkeypatch.setattr(dispatcher, 'collect_snapshot', lambda: object())
-    monkeypatch.setattr(dispatcher, 'due_specials', lambda *a,**k: [])
-    monkeypatch.setattr(dispatcher, 'run_editions', lambda **kw: {
-        'editions': [{'edition':'form-minutes-targets','status':'delivered'}],
-        'confirmed_edition_deliveries': 1})
-    monkeypatch.setattr(dispatcher, 'run_news', lambda **kw: {'sent':0})
-    monkeypatch.setattr(dispatcher, 'original_legacy_once',
-                        lambda now: {'status':'none-due','sent':0})
-    monkeypatch.setattr(dispatcher, 'run_outbox', lambda now: 0)
-    monkeypatch.setattr(dispatcher, 'read_state', lambda path: {})
-    monkeypatch.setattr(dispatcher, 'write_state',lambda path,data: path.write_text(json.dumps(data)))
-    report = dispatcher.run(now=OPEN, cron='43 5-21 * * *')
-    assert report['new_posts'] == 1
-    assert report['status'] == 'published'
-    assert json.loads((tmp_path / 'status.json').read_text())['new_posts'] == 1
+def test_dispatch_orders_all_due_lanes_and_continues_after_failure(monkeypatch, tmp_path):
+    from datetime import timedelta
+    from types import SimpleNamespace
+    from vortex.autonomous_schedule import Slot
 
-def test_schedule_reports_hold_not_successful_post(monkeypatch, tmp_path):
-    monkeypatch.setattr(dispatcher, 'STATE', tmp_path)
-    monkeypatch.setattr(dispatcher, 'REPORT', tmp_path / 'status.json')
-    monkeypatch.setattr(dispatcher, 'collect_snapshot', lambda: object())
-    monkeypatch.setattr(dispatcher, 'due_specials', lambda *a,**k: [])
-    monkeypatch.setattr(dispatcher, 'run_editions', lambda **kw: {
-        'editions':[{'edition':'news','status':'held'}],
-        'confirmed_edition_deliveries':0})
-    monkeypatch.setattr(dispatcher, 'run_news', lambda **kw: {'sent':0})
-    monkeypatch.setattr(dispatcher, 'original_legacy_once',
-                        lambda now: {'status':'none-due','sent':0})
-    monkeypatch.setattr(dispatcher, 'run_outbox', lambda now: 0)
-    monkeypatch.setattr(dispatcher, 'read_state', lambda path: {})
-    monkeypatch.setattr(dispatcher, 'write_state',lambda path,data: path.write_text(json.dumps(data)))
-    report=dispatcher.run(now=OPEN)
-    assert report['status']=='held' and report['new_posts']==0
+    state = {}
+    calls = []
+    legacy_slot = OPEN - timedelta(hours=2)
+    outbox_slot = OPEN - timedelta(hours=1)
+    paths = {'REPORT': 'report', 'AUDIT': 'audit', 'LEGACY': 'checks',
+             'LEGACY_RECEIPTS': 'legacy', 'STATE_FILE': 'editorial',
+             'NEWS_PENDING': 'news-pending', 'NEWS_RECEIPTS': 'news',
+             'OUTBOX_STATUS': 'outbox-status', 'RECEIPTS': 'receipts'}
+    for name, filename in paths.items():
+        monkeypatch.setattr(dispatcher, name, tmp_path / filename)
+    monkeypatch.setattr(dispatcher, 'read_state', lambda path: state.get(path.name, {}).copy())
+    monkeypatch.setattr(dispatcher, 'write_state', lambda path, data: state.update({path.name: data.copy()}))
+    monkeypatch.setattr(dispatcher, 'collect_snapshot',
+                        lambda: SimpleNamespace(gameweek=lambda: 11, events=[]))
+    monkeypatch.setattr(dispatcher, 'Evidence', lambda *args: object())
+    monkeypatch.setattr(dispatcher, 'catchup_slots', lambda *a, **k: [Slot('task1', 'edition', 12, 30)])
+    monkeypatch.setattr(dispatcher, 'special_triggers',
+                        lambda *a: [(Slot('task1', 'special', 0), OPEN + timedelta(hours=1))])
+    monkeypatch.setattr(dispatcher, 'legacy_jobs',
+                        lambda *a: [(legacy_slot, 'legacy-id', 'legacy', 'test')])
+    monkeypatch.setattr(dispatcher, 'queued_files',
+                        lambda *a: [(outbox_slot, tmp_path / 'later.json')])
+
+    def legacy(*args, **kwargs):
+        calls.append('legacy')
+        kwargs['audit']['error'] = 'Required data missing'
+        return 1
+
+    def outbox(*args, **kwargs):
+        calls.append('outbox')
+        state['receipts'] = {'new': {'delivered': True, 'telegram_message_id': 123}}
+        return 0
+
+    def edition(**kwargs):
+        calls.append('editorial')
+        assert kwargs['selected_slots'][0].edition == 'edition'
+        return {'editions': [{'status': 'generated', 'generated': True}]}
+
+    monkeypatch.setattr(dispatcher, 'run_legacy', legacy)
+    monkeypatch.setattr(dispatcher, 'run_outbox', outbox)
+    monkeypatch.setattr(dispatcher, 'run_editions', edition)
+    report = dispatcher.run(now=OPEN, cron='13 6-22 * * *')
+    assert calls == ['legacy', 'outbox', 'editorial']
+    assert report['new_posts'] == report['posts_generated'] == report['posts_retry_pending'] == 1
+    assert report['posts_due'] == 3
+    assert report['pending_triggers'][0]['post'] == 'special'
+    assert state['audit']['later.json']['telegram_message_ids'] == [123]
+    assert state['audit']['legacy-id']['error'] == 'Required data missing'

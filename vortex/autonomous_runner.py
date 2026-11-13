@@ -16,18 +16,11 @@ from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
 from .publishing_window import OPEN_MINUTE, allowed
-from .outbox import validate,run as publish_outbox,RECEIPTS
+from .outbox import validate,run as publish_outbox,RECEIPTS,STATUS
+from .queue_retry import failure_reason, retry_source, verified_caption
 
 STATE_FILE=STATE/'autonomous_editions.json'
 AUDIT=ROOT/'output/autonomous-audit.json'
-# Every editorial slot is already published at most once per Eastern day, so a
-# per-run cap can only ever REFUSE a slot that is genuinely due. When GitHub
-# delayed or dropped several heartbeats the cap silently starved the older
-# approved slots, which is why catch-up days produced 3-5 posts instead of the
-# whole due backlog. The daily slot receipts remain the real volume control.
-MAX_PER_RUN=None
-
-
 def canonical(value):
     if isinstance(value,dict):
         return {k:canonical(v) for k,v in value.items() if k not in {
@@ -49,7 +42,7 @@ def facts(plan,snapshot,evidence):
 
 
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
-    plan=build(slot,snapshot,now,evidence,model,prices,research)
+    plan=retry_source(lambda: build(slot,snapshot,now,evidence,model,prices,research), required=True)
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
     pages=render(plan,snapshot,now,output,evidence.session)
@@ -76,6 +69,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
+    if not manual and not audit:
+        record['caption'] = verified_caption(plan.title, plan.caption)
     if plan.kind == 'odds_board':
         record['sources'].append('https://the-odds-api.com/')
     if audit and not allowed(now):
@@ -90,7 +85,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     return file,identity,len(pages)
 
 
-def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3):
+def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3, selected_slots=None, evidence=None):
     now=now or datetime.now(timezone.utc)
     if manual and not edition:
         raise ValueError('Manual delivery requires one explicitly selected edition')
@@ -100,7 +95,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         from .unified_runner import run as news
         result=news(now=now,max_posts=1)
         return {'lane':'existing-news','result':result}
-    if not audit and not edition and not due and slot_for(cron) is None and cron not in SPECIAL_CRONS and cron not in CATCHUP_CRONS:
+    if selected_slots is None and not audit and not edition and not due and slot_for(cron) is None and cron not in SPECIAL_CRONS and cron not in CATCHUP_CRONS:
         from .schedule import SLOT_CRONS
         if cron in SLOT_CRONS:
             from .bot import run as legacy
@@ -108,7 +103,9 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         return {'status':'no-edition-due','posted':0}
     snapshot=snapshot or collect_snapshot()
     state=read_state(STATE_FILE)
-    if audit:
+    if selected_slots is not None:
+        slots=selected_slots
+    elif audit:
         slots=list(SLOTS)+[Slot('task1',name,now.astimezone(ET).hour,35) for name in SPECIAL_EDITIONS]
     elif cron in SPECIAL_CRONS and not edition:
         slots=due_specials(snapshot,now,state)
@@ -120,7 +117,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         slots=catchup_slots(now,state,snapshot.gameweek(),season_id(snapshot,now),limit=catchup_limit)
     if not slots:return {'status':'no-edition-due' if not audit and not edition and cron not in SPECIAL_CRONS else 'no-gameweek-special-due','posted':0}
     if any(s is None for s in slots):raise ValueError('Unknown executable edition')
-    evidence=Evidence(snapshot,now)
+    evidence=evidence or Evidence(snapshot,now)
     rows=[]
     previous_prices=read_state(STATE/'prices.json')
     if not audit and not previous_prices:
@@ -128,7 +125,6 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         # edition has been closed, so an overnight change is still detectable
         # at the price slot instead of being absorbed by an earlier hourly run.
         write_state(STATE/'prices.json',price_snapshot(snapshot))
-    sent_now=0
     for slot in slots:
         key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
         if not audit and state.get(key,{}).get('status') in ('delivered','already-delivered'):
@@ -139,20 +135,44 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 result=news(dry_run=True,snapshot=snapshot,now=now,max_posts=1)
             else:
                 from .unified_runner import run as news
-                result=news(snapshot=snapshot,now=now,max_posts=1)
+                result=news(snapshot=snapshot,now=now,drain=selected_slots is not None,max_posts=1)
             rows.append({'edition':slot.edition,'status':'news-checked','result':result})
             if not audit:
                 state[key]={'task':slot.task,'edition':slot.edition,'status':'checked','at':now.isoformat()};write_state(STATE_FILE,state)
             continue
         try:
-            file,identity,count=stage(slot,snapshot,now,evidence,model=model,prices=previous_prices,research=research,audit=audit,manual=manual)
+            prior = state.get(key, {})
+            before = read_state(RECEIPTS) if not audit else {}
+            prior_identity = prior.get('identity', '')
+            if not audit and prior_identity and prior.get('file'):
+                previous = [before.get(f'{prior_identity}:page{i+1}', {})
+                            for i in range(prior.get('pages', 0))]
+                if any(receipt.get('telegram_send_pending') or receipt.get('telegram_album_pending')
+                       for receipt in previous):
+                    raise RuntimeError('Telegram acceptance uncertain; reconcile the original upload')
+                if selected_slots is not None and previous and all(receipt.get('delivered') for receipt in previous):
+                    state[key] = {**prior, 'status': 'delivered'}
+                    write_state(STATE_FILE, state)
+                    rows.append({'edition': slot.edition, 'status': 'already-delivered'})
+                    continue
+                if any(receipt.get('delivered') or receipt.get('discord_delivered')
+                       or receipt.get('discord_send_pending') or receipt.get('discord_album_pending')
+                       for receipt in previous):
+                    file, identity, count = ROOT / prior['file'], prior_identity, prior['pages']
+                else:
+                    file,identity,count=stage(slot,snapshot,now,evidence,model=model,prices=previous_prices,
+                                              research=research,audit=audit,manual=manual)
+            else:
+                file,identity,count=stage(slot,snapshot,now,evidence,model=model,prices=previous_prices,
+                                          research=research,audit=audit,manual=manual)
             row={'task':slot.task,'edition':slot.edition,'status':'generated','file':str(file.relative_to(ROOT)),
-                 'identity':identity,'pages':count,'caption_hashtags':4}
+                 'identity':identity,'pages':count,'caption_hashtags':4,'generated':True}
             if not audit:
-                previous_receipts=read_state(RECEIPTS)
-                previously_complete=all(previous_receipts.get(f'{identity}:page{i+1}',{}).get('delivered')
-                    and previous_receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered')
-                    for i in range(count))
+                known_ids = {item.get('telegram_message_id') for item in before.values()}
+                row['attempts'] = prior.get('attempts', 0) + 1
+                row['at'] = now.isoformat()
+                state[key] = row
+                write_state(STATE_FILE, state)
                 # Validation must use delivery time: the fresh snapshot was fetched
                 # after the scheduler captured its original start timestamp.
                 if manual:
@@ -161,22 +181,24 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 else:
                     # Only publish the newly verified, generated edition. Historical
                     # stale queue entries cannot starve the current scheduled post.
-                    result=publish_outbox(datetime.now(timezone.utc),target_file=file)
+                    result=publish_outbox(datetime.now(timezone.utc),target_file=file,
+                                          telegram_primary=selected_slots is not None)
                 receipts=read_state(RECEIPTS)
-                complete=all(receipts.get(f'{identity}:page{i+1}',{}).get('delivered') and
-                             receipts.get(f'{identity}:page{i+1}',{}).get('discord_delivered') for i in range(count))
-                # Never call an old receipt a fresh upload. Identical factual
-                # content may retain the same identity across different days.
-                row['status']=('already-delivered' if previously_complete and complete
-                               else 'delivered' if complete else 'queued-or-partial')
-                row['publisher_exit_code']=result
-                row['attempts']=state.get(key,{}).get('attempts',0)+1
+                sent = [receipts.get(f'{identity}:page{i+1}', {}) for i in range(count)]
+                complete = all(item.get('delivered') and
+                               (selected_slots is not None or item.get('discord_delivered')) for item in sent)
+                new = any(item.get('telegram_message_id') is not None
+                          and item['telegram_message_id'] not in known_ids for item in sent)
+                row['status'] = ('delivered' if new else 'already-delivered') if complete else 'queued-or-partial'
+                row['publisher_exit_code'] = result
+                if not complete:
+                    row['reason'] = read_state(STATUS).get(file.name, {}).get(
+                        'reason', 'Telegram delivery incomplete or publishing window closed')
+                row['telegram_message_ids'] = [item['telegram_message_id'] for item in sent
+                                               if item.get('telegram_message_id') is not None]
                 state[key]=row;write_state(STATE_FILE,state)
                 if complete and slot.task=='price_changes':write_state(STATE/'prices.json',price_snapshot(snapshot))
             rows.append(row)
-            if not audit and row['status']=='delivered':
-                sent_now+=1
-                if MAX_PER_RUN is not None and sent_now>=MAX_PER_RUN:break
         except NoUpdate as exc:
             row={'task':slot.task,'edition':slot.edition,'status':'no-new-facts','reason':str(exc)}
             rows.append(row)
@@ -185,9 +207,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 if slot.task=='price_changes':write_state(STATE/'prices.json',price_snapshot(snapshot))
         except (RequiredInput,RuntimeError,ValueError,OSError,TypeError,KeyError) as exc:
             # Internal reasons are never printed on public art or captions.
-            reason=str(exc) if isinstance(exc,RequiredInput) else type(exc).__name__
-            row={'task':slot.task,'edition':slot.edition,'status':'held','reason':reason,
-                 'attempts':state.get(key,{}).get('attempts',0)+1}
+            reason=failure_reason(exc)
+            print(f'{slot.edition}: {reason}')
+            row={**prior, 'task':slot.task,'edition':slot.edition,'status':'held','reason':reason,
+                 'attempts':prior.get('attempts',0)+1, 'at':now.isoformat()}
             rows.append(row)
             if not audit:state[key]=row;write_state(STATE_FILE,state)
     report={'generation_owner':'github-actions','chatgpt_required':False,'at':now.isoformat(),

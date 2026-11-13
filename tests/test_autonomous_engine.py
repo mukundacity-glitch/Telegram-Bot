@@ -248,7 +248,7 @@ def test_delivery_validates_at_send_time_after_snapshot_fetch(world,tmp_path,mon
     # Fake a newly acknowledged delivery, not a receipt that existed before
     # the publisher was called. Reusing an old receipt is not a fresh post.
     monkeypatch.setattr(runner,'read_state',lambda path: ({
-        'test-identity:page1':{'delivered':True,'discord_delivered':True}
+        'test-identity:page1':{'delivered':True,'discord_delivered':True,'telegram_message_id':101}
     } if sent else {}) if path==runner.RECEIPTS else {})
     monkeypatch.setattr(runner,'stage',lambda *args,**kwargs:(runner.ROOT/'outbox/test.json','test-identity',1))
     def publish(when, **kwargs):

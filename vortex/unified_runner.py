@@ -9,7 +9,7 @@ import argparse
 import json
 import os
 import re
-from dataclasses import asdict
+from dataclasses import asdict, replace
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -19,6 +19,7 @@ from .news_sources import collect_fpl_changes, collect_reported_headlines, fpl_b
 from .news_graphics import render_news_card
 from .syndication import DiscordWebhookClient, NewsPost, load_journal, publish_shared, save_journal
 from .telegram import TelegramClient
+from .queue_retry import ATTEMPTS, failure_reason, verified_caption
 
 BASE = Path(__file__).resolve().parents[1] / "state"
 PENDING = BASE / "news_pending.json"
@@ -78,7 +79,7 @@ def _create_clients() -> tuple[TelegramClient, DiscordWebhookClient]:
 
 def run(dry_run: bool = False, *, snapshot=None, rss=None,
         telegram=None, discord=None, now: datetime | None = None,
-        max_posts: int | None = None) -> dict[str, int]:
+        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None) -> dict[str, int]:
     current_time = now or datetime.now(timezone.utc)
     if current_time.tzinfo is None:
         raise ValueError("Timestamp must include a timezone")
@@ -97,9 +98,9 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     receipt = load_journal(RECEIPTS)
 
     # Retire only STATUS CHANGE cards; price and attributed news remain.
-    official = [post for post in collect_fpl_changes(snapshot, prior, current_time)
+    official = [] if pending_only else [post for post in collect_fpl_changes(snapshot, prior, current_time)
                 if not post.identity.startswith("availability:")]
-    reported = (rss if rss is not None else
+    reported = ([] if pending_only else rss if rss is not None else
                 collect_reported_headlines(snapshot, current_time))
     stories = {s.identity: s for s in [*official, *reported]}
     from .rotation_planner import build_rotation_plan
@@ -131,10 +132,10 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                 receipt.get(ident, {}).get("delivered")
                 and receipt.get(ident, {}).get("discord_delivered")
             ):
-                pending[ident] = asdict(story) | {"image": None}
+                pending[ident] = asdict(story) | {"image": None, "queued_at": current_time.isoformat()}
     # Existing hourly news heartbeat also generates one fresh planner per ET day.
     # No scheduled cron, publisher, or other editorial slot is changed.
-    if not initial and rotation is not None:
+    if not initial and rotation is not None and not pending_only:
         identity = rotation.identity
         if identity not in pending and not (
             receipt.get(identity, {}).get("delivered") and
@@ -170,53 +171,82 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     if len(seen) > 5000:
         seen = dict(sorted(seen.items(), key=lambda pair: pair[1])[-3500:])
     save_journal(SEEN, seen)
-    save_journal(BASELINE, fpl_baseline(snapshot))
+    if not pending_only:
+        save_journal(BASELINE, fpl_baseline(snapshot))
     save_journal(PENDING, pending)
 
-    if not pending or cap == 0:
+    eligible = [(key, row) for key, row in pending.items() if row.get("attempts", 0) < ATTEMPTS]
+    if drain:
+        eligible.sort(key=lambda item: item[1].get("queued_at", ""))
+    if not eligible or (cap == 0 and not drain):
         return summary
-    if telegram is None or discord is None:
+    if drain:
+        telegram = telegram or TelegramClient()
+        if discord is None:
+            try:
+                discord = DiscordWebhookClient()
+            except ValueError:
+                print("Discord credential unavailable; continuing Telegram delivery")
+    elif telegram is None or discord is None:
         telegram, discord = _create_clients()
     failures: list[str] = []
-    for identity, data in list(pending.items())[:cap]:
-        # Persisted media attachments are not supported by the news queue.
-        record = NewsPost(**{k: data[k] for k in (
-            "identity", "title", "caption", "gameweek", "image", "source", "source_url"
-        )} | {k: data.get(k) for k in ("player_name", "team_name", "photo_code", "club_code")
-             if k in data})
+    for identity, data in (eligible if drain else eligible[:cap]):
+        generated = False
         try:
-            # One immutable story ID and ONE image are supplied to both.
-            # The news lane never silently falls back to text-only delivery.
-            from dataclasses import replace
-            image_path = NEWS_OUTPUT / f"{record.identity.replace(':', '_')}.png"
-            if record.identity.startswith("rotation:"):
-                if rotation is None or rotation.identity != record.identity:
-                    raise RuntimeError("Stale rotation board must not publish")
-                from .rotation_planner import render_rotation_plan
-                render_rotation_plan(rotation, image_path)
-            elif os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
-                # Keep original approved blue slide and genuine current player
-                # portrait/crest. Source and technical verification never enter
-                # the image; the same exact caption accompanies both channels.
-                from .content import Card, Content
-                from .player_profile import render_player_profile
-                if not record.photo_code or not record.club_code or not record.player_name:
-                    raise RuntimeError("Verified player identity and club portrait required")
-                tag = "PRICE CHANGE" if record.identity.startswith("price:") else "FPL NEWS"
-                visual = Content(
-                    kind="news_profile", title=tag, kicker="GW NEWS",
-                    cards=(Card(record.player_name, record.team_name, tag, (),
-                                record.photo_code, record.club_code),),
-                    verdict="MONITOR", caption=record.caption,
-                    data_at="", gw=record.gameweek, footer="")
-                render_player_profile(visual, snapshot, image_path)
-            else:
-                render_news_card(record, image_path)
-            record = replace(record, image=image_path)
+            # Persisted media attachments are rebuilt from verified inputs.
+            record = NewsPost(**{k: data[k] for k in (
+                "identity", "title", "caption", "gameweek", "image", "source", "source_url"
+            )} | {k: data[k] for k in ("player_name", "team_name", "photo_code", "club_code")
+                  if k in data})
+            if drain:
+                record = replace(record, caption=verified_caption(record.title, record.caption))
+            try:
+                image_path = NEWS_OUTPUT / f"{record.identity.replace(':', '_')}.png"
+                if record.identity.startswith("rotation:"):
+                    if rotation is None or rotation.identity != record.identity:
+                        raise RuntimeError("Stale rotation board must not publish")
+                    from .rotation_planner import render_rotation_plan
+                    render_rotation_plan(rotation, image_path)
+                elif os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
+                    # Keep original approved blue slide and genuine current player
+                    # portrait/crest. Source and technical verification never enter
+                    # the image; the same exact caption accompanies both channels.
+                    from .content import Card, Content
+                    from .player_profile import render_player_profile
+                    if not record.photo_code or not record.club_code or not record.player_name:
+                        raise RuntimeError("Verified player identity and club portrait required")
+                    tag = "PRICE CHANGE" if record.identity.startswith("price:") else "FPL NEWS"
+                    visual = Content(
+                        kind="news_profile", title=tag, kicker="GW NEWS",
+                        cards=(Card(record.player_name, record.team_name, tag, (),
+                                    record.photo_code, record.club_code),),
+                        verdict="MONITOR", caption=record.caption,
+                        data_at="", gw=record.gameweek, footer="")
+                    render_player_profile(visual, snapshot, image_path)
+                else:
+                    render_news_card(record, image_path)
+                record = replace(record, image=image_path)
+                generated = True
+            except (RuntimeError, OSError) as exc:
+                if not drain or not record.identity.startswith(("price:", "rss:")) or not record.source:
+                    raise
+                print(f"{identity} image fallback: {failure_reason(exc)}")
+                generated = True
             result = publish_shared(record, RECEIPTS, telegram, discord,
-                                    now_iso=current_time.isoformat())
-        except (RuntimeError, ValueError, FileNotFoundError) as exc:
-            failures.append(f"{identity}: {type(exc).__name__}")
+                                    send_discord=discord is not None, now_iso=current_time.isoformat())
+        except (RuntimeError, ValueError, OSError, KeyError, TypeError) as exc:
+            reason = failure_reason(exc)
+            failures.append(f"{identity}: {reason}")
+            data.update(attempts=data.get("attempts", 0) + 1, error=reason,
+                        attempted_at=current_time.isoformat())
+            if audit_rows is not None:
+                saved = load_journal(RECEIPTS).get(identity, {})
+                audit_rows.append({"post_id": identity, "type": "news",
+                                   "trigger": data.get("queued_at", current_time.isoformat()),
+                                   "status": "FAILED" if data["attempts"] >= ATTEMPTS else "RETRY",
+                                   "generated": generated, "attempts": data["attempts"], "error": reason,
+                                   "telegram_message_id": saved.get("telegram_message_id"),
+                                   "timestamp": current_time.isoformat()})
             # A permanently unrenderable first item must not starve every
             # newer verified news story when MAX_NEWS_PER_RUN is one.
             # Move it to the back of the durable queue; the next scheduled
@@ -225,7 +255,14 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
             pending[identity] = data
             save_journal(PENDING, pending)
             continue
-        if result.get("delivered") and result.get("discord_delivered"):
+        if audit_rows is not None:
+            audit_rows.append({"post_id": identity, "type": "news",
+                               "trigger": data.get("queued_at", current_time.isoformat()),
+                               "status": "POSTED" if result.get("delivered") else "RETRY",
+                               "generated": generated, "attempts": data.get("attempts", 0) + 1,
+                               "telegram_message_id": result.get("telegram_message_id"),
+                               "timestamp": current_time.isoformat()})
+        if result.get("delivered") and (result.get("discord_delivered") or drain):
             pending.pop(identity, None)
             save_journal(PENDING, pending)
             summary["sent"] += 1

@@ -332,8 +332,8 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
         _text(draw, 'OWN ' + str(m.get('ownership', 'N/A')) + '  •  FORM ' + str(m.get('form', 'N/A')),
               x + 16, 451, width - 30, 19, CYAN, 15)
         draw.line((x + 14, 479, x + width - 14, 479), fill=(*accent, 125), width=2)
-        _text(draw, str(m.get('season_stat', 'N/A')), x + 17, 486, width - 32, 21, WHITE, 14)
-        _text(draw, str(m.get('recent_stat', 'N/A')), x + 17, 515, width - 32, 19, WHITE, 14)
+        _text(draw, str(m.get('season_stat', '')), x + 17, 486, width - 32, 21, WHITE, 14)
+        _text(draw, str(m.get('recent_stat', '')), x + 17, 515, width - 32, 19, WHITE, 14)
         _wrapped(draw, str(m.get('reason', '')), x + 17, 544, width - 34, 2, 18, GOLD)
         risk_text = str(m.get('caveat', '')).split('. ')[0]
         _safe_line(draw, 'RISK: ' + risk_text, x + 16, 588, width - 32, 15, MUTED, 13)

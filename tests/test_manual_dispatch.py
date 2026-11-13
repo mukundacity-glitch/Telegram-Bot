@@ -74,7 +74,7 @@ def test_runner_manual_bypasses_due_filter_and_targets_exact_file(monkeypatch):
     published = []
     def read_state(path):
         if path == runner.RECEIPTS:
-            return {'unit-id:page1': {'delivered': True, 'discord_delivered': True}} if published else {}
+            return {'unit-id:page1': {'delivered': True, 'discord_delivered': True, 'telegram_message_id': 101}} if published else {}
         return {}
     monkeypatch.setattr(runner, 'read_state', read_state)
     def fake_publish(now, *, manual=False, target_file=None):
@@ -105,7 +105,7 @@ def test_prior_day_receipt_is_not_mistaken_for_new_manual_upload(monkeypatch):
                         (runner.ROOT / 'outbox/manual.json', 'unit-id', 1))
     def already_delivered(path):
         if path == runner.RECEIPTS:
-            return {'unit-id:page1': {'delivered': True, 'discord_delivered': True}}
+            return {'unit-id:page1': {'delivered': True, 'discord_delivered': True, 'telegram_message_id': 101}}
         return {}
     monkeypatch.setattr(runner, 'read_state', already_delivered)
     monkeypatch.setattr(runner, 'publish_outbox', lambda *args, **kwargs: 0)

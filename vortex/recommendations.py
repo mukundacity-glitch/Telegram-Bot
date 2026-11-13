@@ -226,9 +226,10 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
             "replacement": replacement,
             "next_gw": str(gw),
         }
+        metrics = {key: value for key, value in metrics.items() if "N/A" not in str(value)}
         cards.append(Card(
             snapshot.name(player), f"{snapshot.team(player)} · {pos}", metrics["decision"],
-            (season_text, last_three_text, opponent, why, caution),
+            tuple(line for line in (season_text, last_three_text, opponent, why, caution) if "N/A" not in line),
             snapshot.photo_code(player), snapshot.team_code(player), metrics,
             tuple((opp, venue, fdr if fdr is not None else 0, code)
                   for opp, venue, fdr, code in fixtures),

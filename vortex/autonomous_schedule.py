@@ -1,6 +1,6 @@
 """Additional editorial slots; original news/legacy slots remain separate."""
 from dataclasses import dataclass
-from datetime import datetime
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 ET = ZoneInfo('America/New_York')
@@ -72,39 +72,53 @@ def slot_start(slot, now):
     return now.astimezone(ET).replace(hour=slot.hour, minute=slot.minute, second=0, microsecond=0)
 
 
+def retryable(row):
+    return row.get('status') not in CLOSED and row.get('attempts', 0) < MAX_ATTEMPTS
+
+
 def catchup_slots(now, state, gw, season=None, limit=3):
-    """Slots that are already due today and not yet closed, oldest first."""
-    due = []
-    for slot in sorted(SLOTS, key=lambda s: (s.hour, s.minute)):
-        if now < slot_start(slot, now):
-            continue
-        row = state.get(publication_key(slot, now, gw, season), {})
-        if row.get('status') in CLOSED:
-            continue
-        if row.get('status') in ('held', 'queued-or-partial') and row.get('attempts', 1) >= MAX_ATTEMPTS:
-            continue
-        due.append(slot)
-    return due[:limit]
+    """Slots already due today with remaining attempts, oldest first."""
+    return [
+        slot for slot in sorted(SLOTS, key=lambda s: (s.hour, s.minute))
+        if now >= slot_start(slot, now)
+        and retryable(state.get(publication_key(slot, now, gw, season), {}))
+    ][:limit]
 
 
-def due_specials(snapshot,now,state):
-    from datetime import timedelta
-    gw=snapshot.gameweek()
-    future=[f for f in snapshot.fixtures if f.get('event')==gw and f.get('kickoff_time')]
-    if not future:return []
-    first=min(datetime.fromisoformat(f['kickoff_time'].replace('Z','+00:00')) for f in future)
-    deadline=next(datetime.fromisoformat(e['deadline_time'].replace('Z','+00:00')) for e in snapshot.events if e.get('id')==gw)
-    if now>=deadline:return []
-    due=[]
-    for name,hours in (('captaincy-comparison',36),('value-board',27),('start-bench-board',8),('final-gameweek-news',5)):
-        slot=Slot('task1',name,now.astimezone(ET).hour,35)
-        if first-timedelta(hours=hours)<=now and state.get(publication_key(slot,now,gw,season_id(snapshot,now)),{}).get('status')!='delivered':due.append(slot)
-    previous=[f for f in snapshot.fixtures if f.get('event')==gw-1]
-    event=next((e for e in snapshot.events if e.get('id')==gw-1),{})
-    if previous and event.get('finished') and all(f.get('finished') for f in previous):
-        last=max(datetime.fromisoformat(f['kickoff_time'].replace('Z','+00:00')) for f in previous if f.get('kickoff_time'))
-        # FPL has no actual full-time timestamp. Requiring <=24h from kickoff
-        # is conservative: confirmed completion is necessarily within 24h.
-        slot=Slot('task1','market-trends-next-five',now.astimezone(ET).hour,35)
-        if timedelta(0)<=now-last<=timedelta(hours=24) and state.get(publication_key(slot,now,gw,season_id(snapshot,now)),{}).get('status')!='delivered':due.append(slot)
-    return due
+SPECIAL_LEAD_HOURS = {
+    'captaincy-comparison': 36, 'value-board': 27,
+    'start-bench-board': 8, 'final-gameweek-news': 5,
+}
+
+
+def special_triggers(snapshot, now):
+    """Return each special and its trigger, or None while awaiting an event."""
+    gw = snapshot.gameweek()
+    future = [f for f in snapshot.fixtures if f.get('event') == gw and f.get('kickoff_time')]
+    if not gw or not future:
+        return []
+    first = min(datetime.fromisoformat(f['kickoff_time'].replace('Z', '+00:00')) for f in future)
+    from .fpl import upcoming_deadline
+    deadline = upcoming_deadline(snapshot)
+    if deadline is None or now >= deadline:
+        return []
+    triggers = {name: first - timedelta(hours=hours) for name, hours in SPECIAL_LEAD_HOURS.items()}
+    previous = [f for f in snapshot.fixtures if f.get('event') == gw - 1]
+    event = next((e for e in snapshot.events if e.get('id') == gw - 1), {})
+    last = max((datetime.fromisoformat(f['kickoff_time'].replace('Z', '+00:00'))
+                for f in previous if f.get('kickoff_time')), default=None)
+    if last is None or now <= last + timedelta(hours=24):
+        triggers['market-trends-next-five'] = (
+            last if last and event.get('finished') and all(f.get('finished') for f in previous) else None
+        )
+    return [
+        (Slot('task1', name, now.astimezone(ET).hour, 35), trigger)
+        for name, trigger in triggers.items()
+    ]
+
+
+def due_specials(snapshot, now, state):
+    gw, season = snapshot.gameweek(), season_id(snapshot, now)
+    return [slot for slot, trigger in special_triggers(snapshot, now)
+            if trigger is not None and trigger <= now
+            and retryable(state.get(publication_key(slot, now, gw, season), {}))]
