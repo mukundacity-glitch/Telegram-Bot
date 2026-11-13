@@ -94,6 +94,11 @@
     "generated": true,
     "status": "checked"
   },
+  "2026-11-13:prices": {
+    "at": "2026-11-13T17:06:23.491817+00:00",
+    "attempts": 1,
+    "status": "checked"
+  },
   "2026-11-13:team_analysis": {
     "at": "2026-11-13T16:50:31.368252+00:00",
     "attempts": 1,
