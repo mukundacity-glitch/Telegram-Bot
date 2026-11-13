@@ -81,30 +81,6 @@ def _six(plan,snapshot,now,output,client):
     return _save(canvas,output)
 
 
-def _teams(plan,snapshot,output,client):
-    canvas=_base(plan.title,plan.gw);cache={}
-    for i,row in enumerate(plan.extra['teams']):
-        x=32+i*374;d=ImageDraw.Draw(canvas,'RGBA');panel(d,(x,120,x+358,790),CYAN if i<2 else GOLD)
-        text(d,plan.extra['categories'][i]+' TARGET',x+10,132,338,22,GOLD,18,center=True)
-        club=row['club'];badge=_media(client,club['code'],'crest',cache)
-        if badge is None:raise RuntimeError('Verified team crest unavailable')
-        contain(canvas,badge,(x+132,175,92,92));d=ImageDraw.Draw(canvas,'RGBA')
-        text(d,club['name'],x+12,280,334,26,WHITE,20,center=True)
-        current=row['current'];goals=sum(r['projected_goals'] for r in current)
-        cs=sum(r['clean_sheet_pct'] for r in current)/len(current)
-        rows=[('PROJECTED GOALS',f'{goals:.2f}'),('CLEAN SHEET',f'{cs:.1f}%'),
-              ('ATTACK FDR',f"{sum(r['attacking_fdr'] for r in current)/len(current):.2f}"),
-              ('DEFENCE FDR',f"{sum(r['defensive_fdr'] for r in current)/len(current):.2f}")]
-        compact_table(d,rows,(x+12,328,x+346,480))
-        text(d,'NEXT FIVE • CUSTOM FDR',x+12,500,334,20,CYAN,16,center=True)
-        for n,r in enumerate(row['fixtures'][:7]):
-            opponent=snapshot.teams[r['opponent_id']]['short_name']
-            value=r['attacking_fdr' if i<2 else 'defensive_fdr']
-            text(d,f"GW{r['gw']} {opponent} ({r['venue']}) • {value:.2f}",x+18,535+n*28,322,20,WHITE,15)
-        paragraph(d,'TARGET ATTACKERS' if i<2 else 'MONITOR DEFENDERS / GK',(x+15,750,328),19,GOLD,1)
-    return _save(canvas,output)
-
-
 def _surgery(plan,snapshot,output,client):
     canvas=_base(plan.title,plan.gw);cache={}
     for i,p in enumerate(plan.players):
@@ -307,7 +283,9 @@ def render(plan,snapshot,now,output,session=None):
         return [render_low_owned(plan,snapshot,output,client,_assets)]
     if plan.kind=='deadline':return [_deadline(plan,snapshot,output,client)]
     if plan.kind=='six':return [_six(plan,snapshot,now,output,client)]
-    if plan.kind=='teams':return [_teams(plan,snapshot,output,client)]
+    if plan.kind == 'odds_board':
+        from .odds_board_render import render_odds_board
+        return render_odds_board(plan, output, client)
     if plan.kind=='surgery':return [_surgery(plan,snapshot,output,client)]
     if plan.kind=='targets':return [_targets(plan,snapshot,output,client)]
     if plan.kind=='market':return _market(plan,snapshot,output,client)

@@ -76,6 +76,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
+    if plan.kind == 'odds_board':
+        record['sources'].append('https://the-odds-api.com/')
     if audit and not allowed(now):
         hour, minute = divmod(OPEN_MINUTE, 60)
         target = now.astimezone(ET).replace(hour=hour, minute=minute, second=0, microsecond=0)

@@ -11,3 +11,5 @@ This is a graphics-only update: selection, model calculations, captions, schedul
 The daily 6:30 AM Fixture Guide follows reference 62626.png. The original blue stadium master frames two columns of three clubs, with cyan borders, gold headings, official crests and available player portraits. Fixture chips show opponent, venue and official difficulty. The Gameweek range, rankings and caption are rebuilt from the official FPL snapshot.
 
 The morning Player Radar uses the original stadium master, cyan and gold player accents, and two panels for the radar and raw totals. The fixture strip displays each player's official FPL difficulty over the next five gameweeks, including blanks and doubles.
+
+The 12:30 PM projected goals and clean sheets edition uses the original FPL VORTEX masthead and social footer on a portrait canvas. Its three tables independently order projected goals, clean-sheet probability and official FPL fixture difficulty. Uncovered markets use a dash, and double-gameweek fixtures have individual rows.

@@ -83,6 +83,11 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))
     if name=='verified-press-availability':return
     if name=='confirmed-price-changes':return
+    if name == 'four-team-targets':
+        assert (slot.hour, slot.minute) == (12, 30)
+        monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {
+            101: dict(home_goals=1.9, away_goals=.8, home_cs=45, away_cs=15)
+        })
     if name=='player-radar-comparison':
         s.events.extend({'id': n, 'finished': True} for n in (5, 6))
         monkeypatch.setattr('vortex.radar_comparison.get_history', lambda pid, session: [
@@ -100,6 +105,24 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
     assert plan.edition==name and plan.gw==10
     assert len([w for w in plan.caption.split() if w.startswith('#')])==4
     assert len(plan.caption)<=1024
+    if name == 'four-team-targets':
+        from vortex.autonomous_render import render
+        from vortex.odds_board import build_odds_board
+        assert plan.kind == 'odds_board'
+        assert len(plan.extra['rows']) == 4
+        assert plan.extra['covered'] == 1
+        assert [row['goals'] for row in plan.extra['rows']] == [1.9, .8, None, None]
+        assert [row['clean_sheet'] for row in plan.extra['rows']] == [45, 15, None, None]
+        monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')
+        monkeypatch.setenv('FPL_DISCORD_HANDLE', '@fplvortex')
+        monkeypatch.setattr('vortex.odds_board_render._media', lambda *args: None)
+        output, = render(plan, s, now, tmp_path / 'odds.png')
+        with Image.open(output) as image:
+            assert image.size == (1080, 1920)
+            image.verify()
+        monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {})
+        with pytest.raises(RequiredInput, match='No fresh verified bookmaker'):
+            build_odds_board(slot, s, e)
     if name == 'player-radar-comparison':
         from vortex.autonomous_render import render
         monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')

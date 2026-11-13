@@ -230,19 +230,8 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         moves={p['id']:f'£{old/10:.1f}m → £{new/10:.1f}m' for p,old,new in changes}
         return Plan(slot.task,name,title,caption(snapshot,title,players),gw,players,labels,extra={'price_moves':moves})
     elif name == 'four-team-targets':
-        feed = verified_feed(snapshot,now,e.session,payload=model)
-        teams=[]
-        for tid, club in snapshot.teams.items():
-            rows=_team_rows(feed,snapshot,tid)
-            current=[r for r in rows if r['gw']==gw]
-            if current: teams.append({'id':tid,'club':club,'fixtures':rows,'current':current})
-        attacks=sorted(teams,key=lambda t:sum(r['attacking_fdr'] for r in t['current'])/len(t['current']))[:2]
-        defences=sorted([t for t in teams if t not in attacks],key=lambda t:sum(r['defensive_fdr'] for r in t['current'])/len(t['current']))[:2]
-        if len(attacks+defences)!=4: raise RequiredInput('Four verified independent team forecast targets not available')
-        return Plan(slot.task,name,'FOUR FIXTURE TARGETS',_report(gw,'four next-GW fixture targets',
-                    'Two attacking targets and two defensive targets; five-GW context.', 'MONITOR','FPLFixtures'),
-                    gw,[],[],kind='teams',extra={'teams':attacks+defences,'categories':['ATTACKING']*2+['DEFENSIVE']*2,'model':feed['model_version'],
-                             'fpl_core_commit':feed.get('fpl_core_source_commit')})
+        from .odds_board import build_odds_board
+        return build_odds_board(slot, snapshot, e)
     elif name == 'market-verdict':
         feed=verified_feed(snapshot,now,e.session,payload=model)
         safe=e.qualified(30)
