@@ -130,7 +130,7 @@ jobs:
           # A deliberate manual dispatch bypasses the scheduled ET window.
           # Scheduled jobs and ordinary push publishers retain the normal guard.
           FPL_MANUAL_PUBLISH: ${{ (github.event_name == 'workflow_dispatch' && inputs.edition != 'due-queue') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]') }}
-          FPL_PUBLISH_WINDOW_ENFORCED: ${{ !(github.event_name == 'workflow_dispatch' || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]')) }}
+          FPL_PUBLISH_WINDOW_ENFORCED: ${{ !((github.event_name == 'workflow_dispatch' && inputs.edition != 'due-queue') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]')) }}
           MANUAL_EDITION: ${{ inputs.edition || 'vortex-captain' }}
           FPL_ENRICHED_VISUALS_ENABLED: 'true'
           DUAL_PUBLISH_ENABLED: 'true'
