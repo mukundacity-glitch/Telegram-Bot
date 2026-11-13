@@ -86,13 +86,14 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             # player/club imagery, and semantic cross-day duplicate checks.
             # Missing Discord credentials must NOT disable Telegram QA.
     publication_slot = "comparison" if slot == "preview" else slot.removeprefix("preview-") if preview_only else slot
+    daily_board = publication_slot in ("elite", "daily_stats")
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"
     delivery_state = read_state(delivery_state_path)
     editorial_path = STATE / "editorial_versions.json"
     editorial = read_state(editorial_path)
     key = f"{now.astimezone(ZoneInfo('America/New_York')).date()}:{slot}"
-    if (scheduled_cron or publication_slot == "elite") and not preview_only and slot != "projections" and delivery_state.get(key, {}).get("delivered") and (
+    if (scheduled_cron or daily_board) and not preview_only and slot != "projections" and delivery_state.get(key, {}).get("delivered") and (
         not dual_publish or delivery_state.get(key, {}).get("discord_delivered")
     ):
         print(f"ALREADY DELIVERED {key}; skipping duplicate")
@@ -157,9 +158,9 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                     print(f"ALREADY DELIVERED {key}; one valid daily board already sent")
                     return 0
                 key += f":corrected:{semantic_fingerprint(article)[:12]}"
-        # The daily fixture guide uses the Eastern date and original slot receipt as the
+        # Daily boards use the Eastern date and original slot receipt as the
         # publication identity, including on days when the feed is unchanged.
-        if not preview_only and publication_slot != "elite" and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
+        if not preview_only and not daily_board and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
             group, article, key, version, evidence, already_posted = check_revision(
                 editorial, article, delivery_state, key, dual_publish)
             if already_posted:
@@ -184,7 +185,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
                 raise RuntimeError("GW deadline elapsed during recommendation generation")
-        if dual_publish or (publication_slot == "elite" and not preview_only):
+        if dual_publish or (daily_board and not preview_only):
             # One canonical image/caption, two independent durable receipts.
             # An existing Telegram delivery is never resent solely because
             # Discord failed or was enabled later.
@@ -210,7 +211,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             print(f"SHARED DELIVERY {key}: Telegram={bool(receipts.get('delivered'))}, "
                   f"Discord={bool(receipts.get('discord_delivered'))}")
         else:
-            send = client.send_shared_png if publication_slot == "elite" else client.send_png
+            send = client.send_shared_png if daily_board else client.send_png
             message_id = send(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
             if preview_only:
                 print(f"PREVIEW DELIVERED with Telegram message {message_id}; normal daily delivery state unchanged")
@@ -242,7 +243,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="FPL Vortex Telegram content delivery")
-    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening", "buy", "sell", "preview-buy", "preview-sell", "projections", "team_analysis", "transfer_suggestions", "preview-projections", "preview-team_analysis", "preview-transfer_suggestions", "midfielders", "preview-midfielders", "start_bench", "preview-start_bench"])
+    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening", "buy", "sell", "preview-buy", "preview-sell", "projections", "team_analysis", "transfer_suggestions", "preview-projections", "daily_stats", "preview-daily_stats", "preview-team_analysis", "preview-transfer_suggestions", "midfielders", "preview-midfielders", "start_bench", "preview-start_bench"])
     args = parser.parse_args()
     return run(args.slot, os.environ.get("SCHEDULED_CRON"))
 

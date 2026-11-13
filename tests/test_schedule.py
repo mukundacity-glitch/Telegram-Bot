@@ -38,10 +38,12 @@ def test_dst_zone_is_eastern():
 
 def test_three_extra_slots_use_eastern_and_have_no_conflicts():
     from vortex.schedule import SLOT_HOURS
-    assert SLOT_HOURS["projections"] == (7, 0)
+    assert SLOT_HOURS["daily_stats"] == (7, 0)
     assert SLOT_HOURS["team_analysis"] == (11, 0)
     assert SLOT_HOURS["transfer_suggestions"] == (15, 0)
-    assert SLOT_CRONS["15 7 * * *"] == "projections"
+    assert SLOT_CRONS["15 7 * * *"] == "daily_stats"
+    assert SLOT_CRONS["0 7 * * *"] == "daily_stats"
+    assert "projections" not in SLOT_CRONS.values()
     assert SLOT_CRONS["15 11 * * *"] == "team_analysis"
     assert SLOT_CRONS["15 15 * * *"] == "transfer_suggestions"
     assert SLOT_HOURS["start_bench"] == (13, 0)

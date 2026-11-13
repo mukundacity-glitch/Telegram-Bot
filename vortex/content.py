@@ -96,6 +96,9 @@ def _caption(lines: list[str], gw: int) -> str:
 
 
 def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: dict[str, Any]) -> Content:
+    if kind == "daily_stats":
+        from .daily_stats import build
+        return build(snapshot, now)
     if kind == "elite":
         from .fixture_guide import build
         return build(snapshot)

@@ -85,7 +85,7 @@ def test_new_buy_slot_never_sends_after_deadline(delivery_environment, monkeypat
     assert delivery_environment == []
 
 
-def test_new_projection_slot_deduplicates_across_backup_check(delivery_environment, monkeypatch):
+def test_manual_projection_route_preserves_gameweek_deduplication(delivery_environment, monkeypatch):
     from datetime import timedelta
     now = datetime.now(timezone.utc)
     today = now.astimezone(ZoneInfo("America/New_York")).date()
@@ -94,8 +94,8 @@ def test_new_projection_slot_deduplicates_across_backup_check(delivery_environme
     ledger[f"{today}:projections:GW7"] = {"delivered": True}
     state_path.write_text(json.dumps(ledger), encoding="utf-8")
     monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: now + timedelta(days=1))
-    assert bot.run("auto", "0 7 * * *") == 0
-    assert bot.run("auto", "15 7 * * *") == 0
+    assert bot.run("projections", "0 7 * * *") == 0
+    assert bot.run("projections", "15 7 * * *") == 0
     assert delivery_environment == []
 
 
