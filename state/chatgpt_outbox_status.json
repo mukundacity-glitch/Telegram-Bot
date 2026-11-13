@@ -434,6 +434,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:captain-differential:10940f0283e2c851ca58",
     "status": "delivered"
   },
+  "2026-11-13-deadline-watch.json": {
+    "at": "2026-11-13T23:54:16.290892+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:deadline-watch:3b572662570c02b8ad78",
+    "status": "delivered"
+  },
   "2026-11-13-fixture-targets.json": {
     "at": "2026-11-13T16:50:51.090781+00:00",
     "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:9d2b3bade41beca68331",
@@ -444,6 +449,12 @@
     "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:d6cb4bf2e86fa43a58a4",
     "status": "delivered"
   },
+  "2026-11-13-market-verdict.json": {
+    "at": "2026-11-13T23:54:05.063664+00:00",
+    "caption_once_album": true,
+    "identity": "chatgpt:2026-27:GW11:task2:market-verdict:2c8617a155e0e8babc21",
+    "status": "delivered"
+  },
   "2026-11-13-player-radar-comparison.json": {
     "at": "2026-11-13T16:51:06.215685+00:00",
     "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:77e6203f8b9c73b0f1eb",
@@ -452,6 +463,16 @@
   "2026-11-13-rank-booster.json": {
     "at": "2026-11-13T16:50:35.111613+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:rank-booster:76f195baa4f6841e13a0",
+    "status": "delivered"
+  },
+  "2026-11-13-squad-surgery.json": {
+    "at": "2026-11-13T23:53:26.144655+00:00",
+    "identity": "chatgpt:2026-27:GW11:three_daily:squad-surgery:db9bd52a68870967db39",
+    "status": "delivered"
+  },
+  "2026-11-13-transfer-market-team-news.json": {
+    "at": "2026-11-13T23:53:33.582382+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:transfer-market-team-news:9b3df4c32a2a5c1b716d",
     "status": "delivered"
   },
   "gw10-four-midfielders.json": {

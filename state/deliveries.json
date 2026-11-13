@@ -1485,6 +1485,17 @@
     "telegram_message_id": 399,
     "timestamp": "2026-11-13T16:50:31.368252+00:00"
   },
+  "2026-11-13:captaincy": {
+    "caption_sha256": "b68e8a5feedb11283774de376085c65a21c35073a7df7d9e6ddd25f6cf1ef180",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949949145882815",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 412,
+    "timestamp": "2026-11-13T23:53:21.171386+00:00"
+  },
   "2026-11-13:daily_stats": {
     "caption_sha256": "c500d9e85ea6ffe17e7bdcd84ccd6f736f844c9a06ee68a55a0a69d9ba45a651",
     "delivered": true,
@@ -1529,6 +1540,28 @@
     "telegram_message_id": 400,
     "timestamp": "2026-11-13T16:50:31.368252+00:00"
   },
+  "2026-11-13:review": {
+    "caption_sha256": "19a3b70f18dc2229c6a91bed8b7b7fda2873acd971eb2346ac35ddf98404a666",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949979315507425",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 414,
+    "timestamp": "2026-11-13T23:53:21.171386+00:00"
+  },
+  "2026-11-13:sell:GW11": {
+    "caption_sha256": "f42a7c0cdc7eebd6e433fcd583bae94a8ed3220ea4fdddd57bc04f83d4e218e8",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949994511343626",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 415,
+    "timestamp": "2026-11-13T23:53:21.171386+00:00"
+  },
   "2026-11-13:start_bench:GW11": {
     "caption_sha256": "510a584f4f2cd449f99eec7e2b15b8076f36a5e2442458a83a8c9a8a67893bda",
     "delivered": true,
@@ -1550,6 +1583,28 @@
     "source_url": "",
     "telegram_message_id": 403,
     "timestamp": "2026-11-13T16:50:31.368252+00:00"
+  },
+  "2026-11-13:transfer": {
+    "caption_sha256": "f667860be909c432972831105d2c8ec0ead14257256d362a651719576406e165",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949768463523911",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 406,
+    "timestamp": "2026-11-13T23:53:21.171386+00:00"
+  },
+  "2026-11-13:transfer_suggestions:GW11": {
+    "caption_sha256": "5fa12a043cad149ceacf3223a2e5c8b5deb1ae1c188433df32dd7e1197d4edd4",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949791561814026",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 407,
+    "timestamp": "2026-11-13T23:53:21.171386+00:00"
   },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,

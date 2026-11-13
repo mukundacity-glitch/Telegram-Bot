@@ -65,6 +65,12 @@
     "generated": true,
     "status": "checked"
   },
+  "2026-11-13:captaincy": {
+    "at": "2026-11-13T23:53:21.171386+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
   "2026-11-13:comparison": {
     "at": "2026-11-13T16:50:31.368252+00:00",
     "attempts": 1,
@@ -99,6 +105,18 @@
     "attempts": 1,
     "status": "checked"
   },
+  "2026-11-13:review": {
+    "at": "2026-11-13T23:53:21.171386+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:sell": {
+    "at": "2026-11-13T23:53:21.171386+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
   "2026-11-13:start_bench": {
     "at": "2026-11-13T18:04:17.423485+00:00",
     "attempts": 1,
@@ -107,6 +125,18 @@
   },
   "2026-11-13:team_analysis": {
     "at": "2026-11-13T16:50:31.368252+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:transfer": {
+    "at": "2026-11-13T23:53:21.171386+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-13:transfer_suggestions": {
+    "at": "2026-11-13T23:53:21.171386+00:00",
     "attempts": 1,
     "generated": true,
     "status": "checked"

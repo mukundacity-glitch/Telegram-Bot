@@ -961,6 +961,155 @@
     "timestamp": "2026-11-09T00:36:56.052330+00:00",
     "version": "5c2e749cec6064498b75a8ba73701190b882849bc8b5ed79834232049528226b"
   },
+  "captaincy:11:3:226597|3:199798|7:517052|91:444102": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:captaincy",
+    "evidence": {
+      "gw": 11,
+      "kind": "captaincy",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ],
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "9.8",
+            "goals": 1,
+            "minutes": 900,
+            "price": "£8.1m",
+            "total_points": 66
+          },
+          "player": "Gabriel",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ],
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 7,
+            "clean_sheets": 5,
+            "form": "10.2",
+            "goals": 1,
+            "minutes": 731,
+            "price": "£4.8m",
+            "total_points": 57
+          },
+          "player": "Konsa",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "H",
+              2,
+              56
+            ],
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ],
+            [
+              "EVE",
+              "H",
+              3,
+              11
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 12,
+            "clean_sheets": 2,
+            "form": "8.8",
+            "goals": 6,
+            "minutes": 722,
+            "price": "£7.1m",
+            "total_points": 54
+          },
+          "player": "N.Jackson",
+          "team": 7
+        },
+        {
+          "fixtures": [
+            [
+              "NFO",
+              "H",
+              3,
+              17
+            ],
+            [
+              "FUL",
+              "A",
+              3,
+              54
+            ],
+            [
+              "BHA",
+              "H",
+              4,
+              36
+            ]
+          ],
+          "metrics": {
+            "assists": 4,
+            "bonus": 10,
+            "clean_sheets": 5,
+            "form": "9.0",
+            "goals": 5,
+            "minutes": 837,
+            "price": "£6.5m",
+            "total_points": 61
+          },
+          "player": "Evanilson",
+          "team": 91
+        }
+      ]
+    },
+    "group": "captaincy:11:3:226597|3:199798|7:517052|91:444102",
+    "timestamp": "2026-11-13T23:53:21.171386+00:00",
+    "version": "e1deb7cf076409c2cd9565db9879b4146da37baae833231d435ed4baa1436107"
+  },
   "comparison:10:36:465730|3:226597": {
     "confirmed": true,
     "delivery_key": "2026-11-05:comparison",
@@ -3426,6 +3575,342 @@
     "timestamp": "2026-11-03T03:43:01.699901+00:00",
     "version": "b195b6b01ebf62bfb99303edd9d2f51e647fd0d5bacbe29c764eb09a34b81517"
   },
+  "review:11:7:653481|11:586309|14:494595|17:463034": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:review",
+    "evidence": {
+      "gw": 11,
+      "kind": "review",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "SUN",
+              "H",
+              2,
+              56
+            ],
+            [
+              "IPS",
+              "A",
+              2,
+              40
+            ],
+            [
+              "EVE",
+              "H",
+              3,
+              11
+            ]
+          ],
+          "metrics": {
+            "assists": 2,
+            "bonus": 3,
+            "clean_sheets": 0,
+            "form": "4.8",
+            "goals": 2,
+            "gw_points": 16,
+            "minutes": 329,
+            "price": "£4.9m",
+            "total_points": 28
+          },
+          "player": "Alysson",
+          "team": 7
+        },
+        {
+          "fixtures": [
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ],
+            [
+              "LIV",
+              "H",
+              4,
+              14
+            ],
+            [
+              "AVL",
+              "A",
+              3,
+              7
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 8,
+            "clean_sheets": 4,
+            "form": "7.2",
+            "goals": 6,
+            "gw_points": 16,
+            "minutes": 851,
+            "price": "£5.7m",
+            "total_points": 55
+          },
+          "player": "Barry",
+          "team": 11
+        },
+        {
+          "fixtures": [
+            [
+              "MUN",
+              "H",
+              3,
+              1
+            ],
+            [
+              "EVE",
+              "A",
+              3,
+              11
+            ],
+            [
+              "SUN",
+              "H",
+              2,
+              56
+            ]
+          ],
+          "metrics": {
+            "assists": 5,
+            "bonus": 3,
+            "clean_sheets": 4,
+            "form": "6.5",
+            "goals": 1,
+            "gw_points": 13,
+            "minutes": 791,
+            "price": "£7.2m",
+            "total_points": 46
+          },
+          "player": "Wirtz",
+          "team": 14
+        },
+        {
+          "fixtures": [
+            [
+              "BOU",
+              "A",
+              4,
+              91
+            ],
+            [
+              "CHE",
+              "H",
+              4,
+              8
+            ],
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 3,
+            "clean_sheets": 1,
+            "form": "4.8",
+            "goals": 3,
+            "gw_points": 13,
+            "minutes": 678,
+            "price": "£5.3m",
+            "total_points": 30
+          },
+          "player": "Delap",
+          "team": 17
+        }
+      ]
+    },
+    "group": "review:11:7:653481|11:586309|14:494595|17:463034",
+    "timestamp": "2026-11-13T23:53:21.171386+00:00",
+    "version": "99a6de5ce0d59ac2e3b9b9f530a7284c4b73c80bfcaface72f28077a273597d4"
+  },
+  "sell:11:8:475168|94:502500|4:216646|11:17761": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:sell:GW11",
+    "evidence": {
+      "gw": 11,
+      "kind": "sell",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "LEE",
+              "H",
+              3,
+              2
+            ]
+          ],
+          "metrics": {
+            "assists_season": "3",
+            "bonus_season": "9",
+            "caveat": "FPL status I: Thigh injury - Unknown return date",
+            "clean_sheets_season": "1",
+            "dc_actions_season": "17",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "SELL",
+            "fixture": "LEE (H) FDR 3",
+            "form": "0.5",
+            "goals_conceded_season": "10",
+            "goals_season": "5",
+            "minutes": "521",
+            "minutes_last_three_completed_gws": "0",
+            "next_gw": "11",
+            "ownership": "31.6%",
+            "points_last_three_completed_gws": "0",
+            "position": "FWD",
+            "price": "£7.6m",
+            "reason": "Official FPL availability indicates material non-appearance risk.",
+            "recent_stat": "L3: 0 G · 0 A",
+            "replacement": "N.Jackson (£7.1m)",
+            "saves_season": "0",
+            "season_stat": "SZN: 3.0 xG · 0.3 xA",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "325,004",
+            "xa_season": "0.31",
+            "xg_season": "3.05",
+            "xgc_season": "7.92"
+          },
+          "player": "João Pedro",
+          "team": 8
+        },
+        {
+          "fixtures": [
+            [
+              "EVE",
+              "H",
+              3,
+              11
+            ]
+          ],
+          "metrics": {
+            "assists_season": "3",
+            "bonus_season": "3",
+            "caveat": "FPL status S: Suspended until 5 Dec",
+            "clean_sheets_season": "3",
+            "dc_actions_season": "49",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "SELL",
+            "fixture": "EVE (H) FDR 3",
+            "form": "4.0",
+            "goals_conceded_season": "11",
+            "goals_season": "2",
+            "minutes": "824",
+            "minutes_last_three_completed_gws": "202",
+            "next_gw": "11",
+            "ownership": "8.1%",
+            "points_last_three_completed_gws": "12",
+            "position": "FWD",
+            "price": "£7.8m",
+            "reason": "Official FPL availability indicates material non-appearance risk.",
+            "recent_stat": "L3: 1 G · 1 A",
+            "replacement": "N.Jackson (£7.1m)",
+            "saves_season": "0",
+            "season_stat": "SZN: 4.1 xG · 1.3 xA",
+            "set_pieces_current_order": "PEN #1",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "106,005",
+            "xa_season": "1.26",
+            "xg_season": "4.12",
+            "xgc_season": "12.87"
+          },
+          "player": "Thiago",
+          "team": 94
+        },
+        {
+          "fixtures": [
+            [
+              "ARS",
+              "H",
+              4,
+              3
+            ]
+          ],
+          "metrics": {
+            "assists_season": "1",
+            "bonus_season": "2",
+            "caveat": "HOLD if a free transfer has higher value elsewhere.",
+            "clean_sheets_season": "2",
+            "dc_actions_season": "44",
+            "dc_points_last_three_completed_gws": "0",
+            "decision": "SELL",
+            "fixture": "ARS (H) FDR 4",
+            "form": "1.2",
+            "goals_conceded_season": "11",
+            "goals_season": "1",
+            "minutes": "707",
+            "minutes_last_three_completed_gws": "99",
+            "next_gw": "11",
+            "ownership": "8.3%",
+            "points_last_three_completed_gws": "4",
+            "position": "FWD",
+            "price": "£5.9m",
+            "reason": "Hard GW fixture (FDR 4.0) and weak FPL form (1.2).",
+            "recent_stat": "L3: 0 G · 0 A",
+            "replacement": "N.Jackson (£7.1m)",
+            "saves_season": "0",
+            "season_stat": "SZN: 3.4 xG · 0.2 xA",
+            "set_pieces_current_order": "PEN #1",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "62,988",
+            "xa_season": "0.19",
+            "xg_season": "3.41",
+            "xgc_season": "11.31"
+          },
+          "player": "Wissa",
+          "team": 4
+        },
+        {
+          "fixtures": [
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ]
+          ],
+          "metrics": {
+            "assists_season": "1",
+            "bonus_season": "7",
+            "caveat": "HOLD if a free transfer has higher value elsewhere.",
+            "clean_sheets_season": "4",
+            "dc_actions_season": "98",
+            "dc_points_last_three_completed_gws": "2",
+            "decision": "SELL",
+            "fixture": "BRE (A) FDR 4",
+            "form": "2.5",
+            "goals_conceded_season": "10",
+            "goals_season": "1",
+            "minutes": "900",
+            "minutes_last_three_completed_gws": "270",
+            "next_gw": "11",
+            "ownership": "19.3%",
+            "points_last_three_completed_gws": "10",
+            "position": "DEF",
+            "price": "£6.2m",
+            "reason": "Hard GW fixture (FDR 4.0) and weak FPL form (2.5).",
+            "recent_stat": "L3: 2 DC pts · 10 FPL pts",
+            "replacement": "Van Hecke (£5.1m)",
+            "saves_season": "0",
+            "season_stat": "SZN: 98 DC acts · 4 CS",
+            "transfer_period": "OFFICIAL EVENT-TO-DATE",
+            "transfers": "49,907",
+            "xa_season": "0.11",
+            "xg_season": "0.18",
+            "xgc_season": "14.20"
+          },
+          "player": "Tarkowski",
+          "team": 11
+        }
+      ]
+    },
+    "group": "sell:11:8:475168|94:502500|4:216646|11:17761",
+    "timestamp": "2026-11-13T23:53:21.171386+00:00",
+    "version": "18e2c403792262612dbc74146c2b5fe50993f19ce74416b95c639ea138a3b1df"
+  },
   "start_bench:10:31:START|79:START|13:START|68:START|1:START|501:BENCH|290:BENCH|516:BENCH|198:BENCH|552:BENCH": {
     "confirmed": true,
     "delivery_key": "2026-11-04:start_bench:GW10",
@@ -5096,6 +5581,87 @@
     "timestamp": "2026-11-08T22:40:24.737959+00:00",
     "version": "3cd7bd74f24cf04871cd11c7f15152e0f8703e0d1d03cac7c9d0aac4bc64fc94"
   },
+  "transfer:11:3:226597|36:610799": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:transfer",
+    "evidence": {
+      "gw": 11,
+      "kind": "transfer",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ],
+            [
+              "MCI",
+              "H",
+              4,
+              43
+            ],
+            [
+              "BRE",
+              "A",
+              4,
+              94
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "9.8",
+            "goals": 1,
+            "minutes": 900,
+            "price": "£8.1m",
+            "total_points": 66
+          },
+          "player": "Gabriel",
+          "team": 3
+        },
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ],
+            [
+              "BOU",
+              "A",
+              4,
+              91
+            ]
+          ],
+          "metrics": {
+            "assists": 2,
+            "bonus": 5,
+            "clean_sheets": 7,
+            "form": "7.5",
+            "goals": 1,
+            "minutes": 887,
+            "price": "£5.3m",
+            "total_points": 70
+          },
+          "player": "Vuskovic",
+          "team": 36
+        }
+      ]
+    },
+    "group": "transfer:11:3:226597|36:610799",
+    "timestamp": "2026-11-13T23:53:21.171386+00:00",
+    "version": "9b84a50f6c18ebf941089e13e495afe9b439ab0e2b74e52f66b084e7e3418c2e"
+  },
   "transfer_suggestions:10:general": {
     "confirmed": false,
     "delivery_key": "2026-11-02:transfer_suggestions:GW10",
@@ -5110,14 +5676,14 @@
   },
   "transfer_suggestions:11:general": {
     "confirmed": true,
-    "delivery_key": "2026-11-08:transfer_suggestions:GW11",
+    "delivery_key": "2026-11-13:transfer_suggestions:GW11",
     "evidence": {
       "gw": 11,
       "kind": "transfer_suggestions",
       "players": []
     },
     "group": "transfer_suggestions:11:general",
-    "timestamp": "2026-11-08T23:29:24.385548+00:00",
-    "version": "e6e084b18d528dac7e44faaddde6aae4dd13877989178fa7f25460ff70d1dccc"
+    "timestamp": "2026-11-13T23:53:21.171386+00:00",
+    "version": "d3af1d6347b44aabf123e3b70e50ace5d5b04ec1f569f292d51cf4e72d155b6a"
   }
 }

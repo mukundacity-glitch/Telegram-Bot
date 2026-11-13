@@ -484,6 +484,17 @@
     "telegram_message_id": 314,
     "timestamp": "2026-11-08T20:32:31.853860+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:deadline-watch:3b572662570c02b8ad78:page1": {
+    "caption_sha256": "10ebd108aceff627e704ade94369be04d4eb8e8c5076f25b3db25fa8e1833479",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949962550747278",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 413,
+    "timestamp": "2026-11-13T23:54:16.290892+00:00"
+  },
   "chatgpt:2026-27:GW11:task1:deadline-watch:c1f22e22cd65de524f69:page1": {
     "caption_sha256": "116098bfed2d0b885919c91abb557f8d7095b425d24ff969549fe2ad051e835b",
     "delivered": true,
@@ -604,6 +615,13 @@
     "source_url": "",
     "telegram_message_id": 289,
     "timestamp": "2026-11-07T22:47:25.381665+00:00"
+  },
+  "chatgpt:2026-27:GW11:task1:transfer-market-team-news:9b3df4c32a2a5c1b716d:page1": {
+    "caption_sha256": "dd3dcfa352897ba30cfdd1d51fe1f8b23fff127a1cd8b7293aa3a765cf56a9df",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550589337768027",
+    "telegram_message_id": 385
   },
   "chatgpt:2026-27:GW11:task1:transfer-market-team-news:a13031ee9a9981ce3f47:page1": {
     "delivered": true,
@@ -772,6 +790,42 @@
     "discord_message_id": "1570550724851671100",
     "telegram_message_id": 389,
     "timestamp": "2026-11-12T21:27:49.572663+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:market-verdict:2c8617a155e0e8babc21:page1": {
+    "album_caption_sha256": "cc2ff955d9aedcbb1eb65cabab00183b8c7a25dfef884a1ebfcc0a63244a0a49",
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949934054641707",
+    "telegram_message_id": 408,
+    "timestamp": "2026-11-13T23:54:05.063664+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:market-verdict:2c8617a155e0e8babc21:page2": {
+    "album_caption_sha256": "cc2ff955d9aedcbb1eb65cabab00183b8c7a25dfef884a1ebfcc0a63244a0a49",
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949934054641707",
+    "telegram_message_id": 409,
+    "timestamp": "2026-11-13T23:54:05.063664+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:market-verdict:2c8617a155e0e8babc21:page3": {
+    "album_caption_sha256": "cc2ff955d9aedcbb1eb65cabab00183b8c7a25dfef884a1ebfcc0a63244a0a49",
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949934054641707",
+    "telegram_message_id": 410,
+    "timestamp": "2026-11-13T23:54:05.063664+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:market-verdict:2c8617a155e0e8babc21:page4": {
+    "album_caption_sha256": "cc2ff955d9aedcbb1eb65cabab00183b8c7a25dfef884a1ebfcc0a63244a0a49",
+    "caption_once_album": true,
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949934054641707",
+    "telegram_message_id": 411,
+    "timestamp": "2026-11-13T23:54:05.063664+00:00"
   },
   "chatgpt:2026-27:GW11:task2:market-verdict:c466aecaae6379277b4f:page1": {
     "caption_once_album": true,
@@ -1017,6 +1071,17 @@
     "source_url": "",
     "telegram_message_id": 384,
     "timestamp": "2026-11-12T21:27:11.799862+00:00"
+  },
+  "chatgpt:2026-27:GW11:three_daily:squad-surgery:db9bd52a68870967db39:page1": {
+    "caption_sha256": "3f14bf62c2c29ba870c5c602a8f73892edf5947d40976675e30a64e2932a8ab3",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949754530172965",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_message_id": 405,
+    "timestamp": "2026-11-13T23:53:26.144655+00:00"
   },
   "chatgpt:2026-27:GW11:three_daily:squad-surgery:e9780b21397e9a01b228:page1": {
     "delivered": true,
