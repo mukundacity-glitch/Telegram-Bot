@@ -714,6 +714,23 @@
     "status": "checked",
     "task": "press_news"
   },
+  "2026-11-12:press_news:verified-press-availability:GW11:1900": {
+    "at": "2026-11-13T02:08:47.862390+00:00",
+    "edition": "verified-press-availability",
+    "status": "checked",
+    "task": "press_news"
+  },
+  "2026-11-12:price_changes:confirmed-price-changes:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "confirmed-price-changes",
+    "file": "outbox/2026-11-12-confirmed-price-changes.json",
+    "identity": "chatgpt:2026-27:GW11:price_changes:confirmed-price-changes:adc57900a58b3c8fcdda",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "price_changes"
+  },
   "2026-11-12:task1:availability-transfer-decisions:GW11": {
     "attempts": 1,
     "caption_hashtags": 4,
@@ -830,6 +847,17 @@
     "edition": "squad-surgery",
     "file": "outbox/2026-11-12-squad-surgery.json",
     "identity": "chatgpt:2026-27:GW11:three_daily:squad-surgery:c84aed70aba7596ee2b4",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "three_daily"
+  },
+  "2026-11-12:three_daily:vortex-captain:GW11": {
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "vortex-captain",
+    "file": "outbox/2026-11-12-vortex-captain.json",
+    "identity": "chatgpt:2026-27:GW11:three_daily:vortex-captain:f1bf5e92397834e21579",
     "pages": 1,
     "publisher_exit_code": 0,
     "status": "delivered",

@@ -630,5 +630,16 @@
     "source_url": "https://www.theguardian.com/football/2026/nov/12/the-problems-awaiting-manchester-united-next-manager",
     "telegram_message_id": 392,
     "timestamp": "2026-11-12T21:36:51.001744+00:00"
+  },
+  "rss:e13f801f17e8eb7cfa52a714": {
+    "caption_sha256": "840f17ad4cfe2f93944e63423953647aeaefd814e2ec14b0df341c2befc4bfa3",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570621476166438963",
+    "gameweek": 11,
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/five-kevin-de-bruyne-january-transfer-destinations-as-psv-and-galatasaray-eye-move/view/news/490495",
+    "telegram_message_id": 395,
+    "timestamp": "2026-11-13T02:08:47.862390+00:00"
   }
 }
