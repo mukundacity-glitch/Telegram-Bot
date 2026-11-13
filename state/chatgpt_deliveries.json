@@ -398,6 +398,13 @@
     "telegram_message_id": 361,
     "timestamp": "2026-11-11T13:31:38.758049+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:76e60efcd4da0acd49ba:page1": {
+    "caption_sha256": "c0ceb763262cb8d2aac13d24c306ab3d2a8f7d8da2908bbd762c2090a10e997d",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550402322014338",
+    "telegram_message_id": 376
+  },
   "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:829ba4231308834c90e7:page1": {
     "caption_sha256": "c0ceb763262cb8d2aac13d24c306ab3d2a8f7d8da2908bbd762c2090a10e997d",
     "delivered": true,
