@@ -1529,6 +1529,17 @@
     "telegram_message_id": 400,
     "timestamp": "2026-11-13T16:50:31.368252+00:00"
   },
+  "2026-11-13:start_bench:GW11": {
+    "caption_sha256": "510a584f4f2cd449f99eec7e2b15b8076f36a5e2442458a83a8c9a8a67893bda",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570861919802228746",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 404,
+    "timestamp": "2026-11-13T18:04:17.423485+00:00"
+  },
   "2026-11-13:team_analysis:GW11": {
     "caption_sha256": "8527949e4c4633e55f90a0c65ec416ff94da98f22cf4f0d891daac358c8d4296",
     "delivered": true,

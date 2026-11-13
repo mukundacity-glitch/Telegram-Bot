@@ -3896,6 +3896,100 @@
     "timestamp": "2026-11-08T21:54:56.967956+00:00",
     "version": "dc6816d15fd85b90db9fba4c7042b6606f44e68dd95cbf2e2fb1bc2bad6ec357"
   },
+  "start_bench:11:31:START|166:START|129:START|109:START|68:START|419:BENCH|289:BENCH|634:BENCH|238:BENCH|564:BENCH": {
+    "confirmed": true,
+    "delivery_key": "2026-11-13:start_bench:GW11",
+    "evidence": {
+      "gw": 11,
+      "kind": "start_bench",
+      "picks": [
+        {
+          "advice": "START",
+          "fdr": 3.0,
+          "form": 10.2,
+          "id": 31,
+          "opponent": "NEW (A)",
+          "price": "£4.8m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 8.8,
+          "id": 166,
+          "opponent": "SUN (H)",
+          "price": "£7.1m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 7.0,
+          "id": 129,
+          "opponent": "HUL (A)",
+          "price": "£5.5m"
+        },
+        {
+          "advice": "START",
+          "fdr": 2.0,
+          "form": 6.2,
+          "id": 109,
+          "opponent": "HUL (A)",
+          "price": "£4.7m"
+        },
+        {
+          "advice": "START",
+          "fdr": 3.0,
+          "form": 6.5,
+          "id": 68,
+          "opponent": "NFO (H)",
+          "price": "£6.7m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.0,
+          "id": 419,
+          "opponent": "LIV (A)",
+          "price": "£4.8m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.5,
+          "id": 289,
+          "opponent": "BHA (H)",
+          "price": "£4.4m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.5,
+          "id": 634,
+          "opponent": "ARS (H)",
+          "price": "£5.8m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 4.0,
+          "form": 0.5,
+          "id": 238,
+          "opponent": "BRE (A)",
+          "price": "£6.5m"
+        },
+        {
+          "advice": "BENCH",
+          "fdr": 3.0,
+          "form": 0.0,
+          "id": 564,
+          "opponent": "TOT (A)",
+          "price": "£4.4m"
+        }
+      ],
+      "players": []
+    },
+    "group": "start_bench:11:31:START|166:START|129:START|109:START|68:START|419:BENCH|289:BENCH|634:BENCH|238:BENCH|564:BENCH",
+    "timestamp": "2026-11-13T18:04:17.423485+00:00",
+    "version": "c21b2b59be9f2f92491e6ef150b4e62a9e4634c48a8adf184690dc0cda128725"
+  },
   "start_bench:11:31:START|411:START|109:START|129:START|53:START|473:BENCH|289:BENCH|570:BENCH|634:BENCH|564:BENCH": {
     "confirmed": true,
     "delivery_key": "2026-11-07:start_bench:GW11",

@@ -938,6 +938,14 @@
       380
     ]
   },
+  "2026-11-13:task2:four-team-targets:GW11": {
+    "at": "2026-11-13T18:04:17.423485+00:00",
+    "attempts": 1,
+    "edition": "four-team-targets",
+    "reason": "RequiredInput: No fresh verified bookmaker goal or clean-sheet projections",
+    "status": "held",
+    "task": "task2"
+  },
   "2026-11-13:task2:rank-booster:GW11": {
     "at": "2026-11-13T16:50:31.368252+00:00",
     "attempts": 1,
