@@ -110,6 +110,9 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         assert (slot.hour, slot.minute) == (10, 30)
         assert plan.players[0]['element_type'] == plan.players[1]['element_type']
         assert plan.extra['values'][0]['Points'] == 25
+        assert plan.caption.splitlines()[1] == 'Last 5 GWs: 5–5 goals, 3.00–3.00 xG.'
+        assert 'Next 5 GW avg FDR' in plan.caption
+        assert len(plan.caption) <= 240
         assert [r['gw'] for r in plan.extra['fixtures'][0]] == list(range(10, 15))
         output, = render(plan, s, now, tmp_path / 'radar.png')
         with Image.open(output) as image:

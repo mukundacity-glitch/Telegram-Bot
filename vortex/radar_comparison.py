@@ -1,5 +1,6 @@
 """Daily transfer comparison from official FPL player and fixture records."""
 from math import isfinite
+from statistics import mean
 
 from .autonomous_schedule import ET
 from .editorial_inputs import RequiredInput
@@ -56,11 +57,19 @@ def build_radar(slot, snapshot, now, evidence):
                     and abs(peer["now_cost"] - player["now_cost"]) <= 35):
                 shared = [label for label, _ in METRICS if label in values and label in other_values]
                 left, right = snapshot.name(peer), snapshot.name(player)
+                left_fdr, right_fdr = (
+                    [row["fdr"] for row in run if not row["blank"]]
+                    for run in (other_fixtures, fixtures)
+                )
+                fixture_line = (
+                    f"Next 5 GW avg FDR {mean(left_fdr):.1f} vs {mean(right_fdr):.1f}. "
+                    if left_fdr and right_fdr else ""
+                )
                 caption = (
-                    f"📊 GW{gw} Player Radar | {date:%d %b}\n"
-                    f"{left} vs {right} over the last five completed gameweeks.\n"
-                    f"FPL points: {other_values['Points']:.0f} vs {values['Points']:.0f}.\n"
-                    "Compare the next five fixtures before making your transfer.\n"
+                    f"📊 {left} vs {right} | {date:%d %b}\n"
+                    f"Last 5 GWs: {other_values['Goals']:.0f}–{values['Goals']:.0f} goals, "
+                    f"{other_values['xG']:.2f}–{values['xG']:.2f} xG.\n"
+                    f"{fixture_line}Who would you pick?\n"
                     f"#FPL #GW{gw} #FPLVORTEX #FPLCommunity"
                 )
                 return Plan(slot.task, slot.edition, "FPL VORTEX PLAYER RADAR", caption,
