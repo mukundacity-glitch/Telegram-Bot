@@ -78,11 +78,17 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
 
 
 @pytest.mark.parametrize('name',sorted({s.edition for s in SLOTS}|set(SPECIAL_EDITIONS)-{'verified-press-availability','confirmed-price-changes'}))
-def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name):
+def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name,monkeypatch,tmp_path):
     s,now,e,feed=world
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))
     if name=='verified-press-availability':return
     if name=='confirmed-price-changes':return
+    if name=='player-radar-comparison':
+        s.events.extend({'id': n, 'finished': True} for n in (5, 6))
+        monkeypatch.setattr('vortex.radar_comparison.get_history', lambda pid, session: [
+            dict(round=n, minutes=90, total_points=5, goals_scored=1, assists=0,
+                 expected_goals=.6, expected_assists=.2, bonus=1) for n in range(5, 10)
+        ])
     if name=='availability-transfer-decisions':
         s.players[0].update(status='d',news='Test official availability flag',news_added=now.isoformat())
         # Existing source selector is covered separately with production schemas.
@@ -94,6 +100,21 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
     assert plan.edition==name and plan.gw==10
     assert len([w for w in plan.caption.split() if w.startswith('#')])==4
     assert len(plan.caption)<=1024
+    if name == 'player-radar-comparison':
+        from vortex.autonomous_render import render
+        monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')
+        monkeypatch.setenv('FPL_DISCORD_HANDLE', '@fplvortex')
+        asset = Image.new('RGBA', (120, 120), '#5a9ac9')
+        monkeypatch.setattr('vortex.radar_render._portrait', lambda *args: asset)
+        monkeypatch.setattr('vortex.radar_render._media', lambda *args: asset)
+        assert (slot.hour, slot.minute) == (10, 30)
+        assert plan.players[0]['element_type'] == plan.players[1]['element_type']
+        assert plan.extra['values'][0]['Points'] == 25
+        assert [r['gw'] for r in plan.extra['fixtures'][0]] == list(range(10, 15))
+        output, = render(plan, s, now, tmp_path / 'radar.png')
+        with Image.open(output) as image:
+            assert image.size == (1920, 1080)
+            image.verify()
     if name=='vortex-captain':assert plan.labels[1]=='VORTEX CAPTAIN'
     if name=='four-midfielders':assert len(plan.players)==4 and plan.kind=='players'
     if name=='rank-booster':assert len(plan.players)==6

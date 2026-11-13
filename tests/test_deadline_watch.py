@@ -19,7 +19,7 @@ def slot():
 def test_deadline_watch_is_a_time_based_slot_and_press_slots_do_not_overlap():
     assert (slot().hour,slot().minute)==(16,30)
     assert not BY_CRON  # editions are catch-up slots, not bound to one cron string
-    assert [(s.hour,s.minute) for s in SLOTS if s.task=='press_news']==[(10,30),(19,0)]
+    assert [(s.hour,s.minute) for s in SLOTS if s.task=='press_news']==[(19,0)]
 
 
 def test_deadline_watch_uses_snapshot_and_changes_with_data(world):

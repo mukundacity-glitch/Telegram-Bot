@@ -20,7 +20,7 @@ SLOTS = (
     Slot('three_daily', 'fixture-targets', 7, 30),
     Slot('task1', 'form-minutes-targets', 8, 30),
     Slot('task2', 'four-midfielders', 9, 30),
-    Slot('press_news', 'verified-press-availability', 10, 30),
+    Slot('task1', 'player-radar-comparison', 10, 30),
     Slot('task1', 'captain-differential', 11, 30),
     Slot('task2', 'four-team-targets', 12, 30),
     Slot('three_daily', 'squad-surgery', 13, 30),

@@ -39,6 +39,9 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
+    if plan.kind == 'player_radar':
+        return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
+                'edition': plan.edition, 'extra': canonical(plan.extra)}
     return {'players':[{k:p.get(k) for k in keys}|{'recent':evidence.recent(p)} for p in plan.players],
             'edition':plan.edition,'extra':canonical(plan.extra or {}),'fixtures':[
                 f for f in snapshot.fixtures if f.get('event') in range(plan.gw,plan.gw+5)

@@ -296,6 +296,9 @@ def _deadline(plan,snapshot,output,client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind == 'player_radar':
+        from .radar_render import render_radar
+        return [render_radar(plan, snapshot, output, client)]
     if plan.kind=='availability25':
         from .availability_render import render_availability
         return [render_availability(plan,snapshot,now,output,client)]

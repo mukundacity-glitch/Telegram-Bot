@@ -110,6 +110,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'player-radar-comparison':
+        from .radar_comparison import build_radar
+        return build_radar(slot, snapshot, now, e)
     if name == 'availability-transfer-decisions':
         from .availability_board import select, TIERS, ACTIONS
         selected, tiers, meta = select(snapshot, now, e, session=e.session)

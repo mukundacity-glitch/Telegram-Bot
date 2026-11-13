@@ -9,3 +9,5 @@ The shared comparison_board.py, minimal_theme.py and minimal_brand.png copies ar
 This is a graphics-only update: selection, model calculations, captions, schedules, publication destinations, credentials and receipt/deduplication behavior are unchanged. No extra post is triggered by the release.
 
 The daily 6:30 AM Fixture Guide follows reference 62626.png. The original blue stadium master frames two columns of three clubs, with cyan borders, gold headings, official crests and available player portraits. Fixture chips show opponent, venue and official difficulty. The Gameweek range, rankings and caption are rebuilt from the official FPL snapshot.
+
+The morning Player Radar uses the original stadium master, cyan and gold player accents, and two panels for the radar and raw totals. The fixture strip displays each player's official FPL difficulty over the next five gameweeks, including blanks and doubles.

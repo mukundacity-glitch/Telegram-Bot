@@ -16,7 +16,7 @@ def test_every_slot_is_inside_the_window_and_unique():
     assert times == sorted(times)
     assert times[0] == (5, 30) and times[-1] < (23, 0)
     keys = {publication_key(s, DAY_NOON, 10, '2026-27') for s in SLOTS}
-    assert len(keys) == len(SLOTS)  # two press slots still get separate records
+    assert len(keys) == len(SLOTS)
 
 
 def test_catchup_crons_cover_the_window_without_leaving_it():
