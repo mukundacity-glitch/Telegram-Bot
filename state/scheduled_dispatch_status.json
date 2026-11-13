@@ -1,78 +1,30 @@
 {
-  "at": "2026-11-13T02:08:47.862390+00:00",
+  "at": "2026-11-13T02:35:13.262820+00:00",
   "daily": {
-    "at": "2026-11-13T02:08:47.862390+00:00",
-    "chatgpt_required": false,
-    "confirmed_edition_deliveries": 2,
-    "editions": [
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "confirmed-price-changes",
-        "file": "outbox/2026-11-12-confirmed-price-changes.json",
-        "identity": "chatgpt:2026-27:GW11:price_changes:confirmed-price-changes:adc57900a58b3c8fcdda",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "price_changes"
-      },
-      {
-        "edition": "verified-press-availability",
-        "result": {
-          "expired_unposted": 0,
-          "official_changes": 0,
-          "pending": 0,
-          "reported_headlines": 0,
-          "retired_status_cards": 0,
-          "rotation_due": false,
-          "sent": 1,
-          "warmup": 0
-        },
-        "status": "news-checked"
-      },
-      {
-        "attempts": 1,
-        "caption_hashtags": 4,
-        "edition": "vortex-captain",
-        "file": "outbox/2026-11-12-vortex-captain.json",
-        "identity": "chatgpt:2026-27:GW11:three_daily:vortex-captain:f1bf5e92397834e21579",
-        "pages": 1,
-        "publisher_exit_code": 0,
-        "status": "delivered",
-        "task": "three_daily"
-      }
-    ],
-    "generation_audit_passed": false,
-    "generation_owner": "github-actions",
-    "gw": 11,
-    "production_attempted": true,
-    "safe_to_delete_chatgpt_tasks": false
+    "posted": 0,
+    "status": "no-edition-due"
   },
-  "eastern_at": "2026-11-12T21:08:47.862390-05:00",
+  "eastern_at": "2026-11-12T21:35:13.262820-05:00",
   "failures": [],
-  "held": [],
+  "held": [
+    "legacy:buy"
+  ],
   "legacy": {
-    "exit_code": 0,
+    "exit_code": 1,
     "sent": 0,
-    "slot": "comparison",
-    "status": "checked"
+    "slot": "buy",
+    "status": "held"
   },
-  "new_posts": 2,
+  "new_posts": 0,
   "news": {
-    "expired_unposted": 0,
-    "official_changes": 0,
-    "pending": 0,
-    "reported_headlines": 0,
-    "retired_status_cards": 0,
-    "rotation_due": false,
     "sent": 0,
-    "warmup": 0
+    "status": "not-this-tick"
   },
   "outbox_new": 0,
-  "scheduled_cron": "43 5-22 * * *",
+  "scheduled_cron": "13 6-22 * * *",
   "special": {
     "confirmed_edition_deliveries": 0,
     "status": "no-special-due"
   },
-  "status": "published"
+  "status": "held"
 }
