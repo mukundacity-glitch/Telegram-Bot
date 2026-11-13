@@ -97,8 +97,8 @@ def _caption(lines: list[str], gw: int) -> str:
 
 def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: dict[str, Any]) -> Content:
     if kind == "elite":
-        from .daily_stats import build
-        return build(snapshot, now)
+        from .fixture_guide import build
+        return build(snapshot)
     if kind in ("projections", "team_analysis", "transfer_suggestions", "start_bench"):
         from .extra_posts import generate_extra
         return generate_extra(kind, snapshot, now)

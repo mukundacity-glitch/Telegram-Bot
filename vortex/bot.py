@@ -157,7 +157,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                     print(f"ALREADY DELIVERED {key}; one valid daily board already sent")
                     return 0
                 key += f":corrected:{semantic_fingerprint(article)[:12]}"
-        # Daily stats use the Eastern date and original slot receipt as the
+        # The daily fixture guide uses the Eastern date and original slot receipt as the
         # publication identity, including on days when the feed is unchanged.
         if not preview_only and publication_slot != "elite" and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
             group, article, key, version, evidence, already_posted = check_revision(

@@ -30,7 +30,7 @@ One **existing** GitHub Actions workflow, thirteen Eastern-time publication slot
 
 | ET | Content | Frequency |
 |---|---|---|
-| 6:30 AM | 10 Surprising FPL Stats (official FPL feed) | Daily |
+| 6:30 AM | Six-gameweek FPL Fixture Guide (official FPL feed) | Daily |
 | **7:00 AM** | **NEW — All 20 teams projected goals & clean-sheet board** | Daily |
 | 8:00 AM | Player comparison | Daily |
 | 9:00 AM | Four next-GW buy candidates (firm or conditional) | Daily |

@@ -11,59 +11,61 @@ from vortex.publish_checks import render_checked, validate_article
 
 
 @pytest.fixture
-def stats_snapshot():
-    snapshot = fake_snapshot()
-    for i, p in enumerate(snapshot.players, 1):
-        p.update(code=1000+i, expected_goals="1.25", bonus=i % 10,
-                 selected_by_percent=str(i % 70), defensive_contribution=i,
-                 transfers_in_event=10000-i*100, transfers_out_event=12000-i*150)
-        if i % 10 == 0:
-            p.update(element_type=1, saves=i, clean_sheets=i // 10)
-    return snapshot
+def fixture_snapshot():
+    sample = fake_snapshot()
+    events = [dict(id=6, finished=True), *[
+        dict(id=gw, finished=False, deadline_time=f"2026-10-{gw+10:02d}T10:00:00Z")
+        for gw in range(7, 13)
+    ]]
+    fixtures = [
+        dict(id=gw*20+i, event=gw, team_h=i, team_a=i+10,
+             team_h_difficulty=1+i%3, team_a_difficulty=4+i%2)
+        for gw in range(7, 13) for i in range(1, 11)
+    ]
+    for player in sample.players:
+        player["code"] = 1000 + player["id"]
+    return replace(sample, events=events, fixtures=fixtures)
 
 
-def test_stats_use_current_fields_rotate_and_keep_caption_in_sync(stats_snapshot):
-    snapshot = stats_snapshot
-    snapshot.players[6]["expected_goals"] = "13.77"
-    snapshot.players[6]["goals_scored"] = 4
-    now = snapshot.fetched_at
-    article = generate("elite", snapshot, now, {})
-    tomorrow = generate("elite", snapshot, now + timedelta(days=1), {})
-    assert article.kind == "daily_stats" and len(article.cards) == 10
-    assert article.cards[0].headline == "Player 7"
-    assert article.cards[0].fields == ("13.77", "4 goals")
-    assert article.cards[2].fields[0] == "9.77 short"
-    assert article.cards[:5] == tomorrow.cards[:5]
-    assert article.cards[5:] != tomorrow.cards[5:]
-    assert "Player 7 (13.77)" in article.caption
+def test_guide_ranks_fixture_runs_and_keeps_double_and_blank(fixture_snapshot):
+    snapshot = fixture_snapshot
+    snapshot.fixtures[:] = [row for row in snapshot.fixtures if row["id"] != 143]
+    snapshot.fixtures.append(dict(id=999, event=8, team_h=3, team_a=20,
+                                  team_h_difficulty=1, team_a_difficulty=5))
+    article = generate("elite", snapshot, snapshot.fetched_at, {})
+    assert article.kind == "fixture_guide" and article.kicker == "GW7–12"
+    assert len(article.cards) == 6
+    assert {card.label for card in article.cards[:3]} == {"TARGET"}
+    assert {card.label for card in article.cards[3:]} == {"CAUTION"}
+    target = next(card for card in article.cards if card.headline == "Team 3")
+    assert any(opp == "7 BLANK" for opp, *_ in target.fixtures)
+    assert sum(opp.startswith("8 ") for opp, *_ in target.fixtures) == 2
     assert article.caption.endswith("#FPL #FPLCommunity #GW7 #FPLVORTEX #FantasyPremierLeague")
-    assert "ELITE FPL EDGE" not in article.title
 
 
-def test_checked_stats_png_and_unverified_content(stats_snapshot, tmp_path, monkeypatch):
+def test_checked_guide_renders_and_rejects_unverified_edits(fixture_snapshot, tmp_path, monkeypatch):
     monkeypatch.setenv("FPL_ENRICHED_VISUALS_ENABLED", "true")
     monkeypatch.setenv("FPL_TELEGRAM_HANDLE", "@FPLVortexDailyBot")
     monkeypatch.setenv("FPL_DISCORD_HANDLE", "@fplvortex")
-    monkeypatch.setattr("vortex.daily_stats_render._media", lambda *a: None)
-    monkeypatch.setattr("vortex.daily_stats_render._player_image", lambda *a: None)
-    article = generate("elite", stats_snapshot, stats_snapshot.fetched_at, {})
+    monkeypatch.setattr("vortex.fixture_guide_render._media", lambda *a: None)
+    monkeypatch.setattr("vortex.fixture_guide_render._player_image", lambda *a: None)
+    article = generate("elite", fixture_snapshot, fixture_snapshot.fetched_at, {})
     with pytest.raises(RuntimeError, match="does not match"):
-        validate_article(replace(article, cards=article.cards[:-1]), stats_snapshot)
-    path = render_checked(article, stats_snapshot, tmp_path / "stats.png")
+        validate_article(replace(article, cards=article.cards[:-1]), fixture_snapshot)
+    path = render_checked(article, fixture_snapshot, tmp_path / "fixture-guide.png")
     with Image.open(path) as image:
         assert image.size == (1920, 1080)
         assert image.mode == "RGB"
-        assert max(image.getpixel((100, 470))) < 120
 
 
-def test_existing_cron_uses_daily_stats_and_reuses_receipt(stats_snapshot, tmp_path, monkeypatch):
+def test_existing_daily_slot_delivers_guide_once(fixture_snapshot, tmp_path, monkeypatch):
     monkeypatch.setattr(bot, "STATE", tmp_path)
     monkeypatch.setattr(bot, "OUTPUT", tmp_path)
-    monkeypatch.setattr(bot, "collect_snapshot", lambda: stats_snapshot)
+    monkeypatch.setattr(bot, "collect_snapshot", lambda: fixture_snapshot)
     monkeypatch.setenv("FPL_SEMANTIC_DEDUP_ENABLED", "true")
     monkeypatch.setenv("DUAL_PUBLISH_ENABLED", "false")
-    monkeypatch.setattr("vortex.daily_stats_render._media", lambda *a: None)
-    monkeypatch.setattr("vortex.daily_stats_render._player_image", lambda *a: None)
+    monkeypatch.setattr("vortex.fixture_guide_render._media", lambda *a: None)
+    monkeypatch.setattr("vortex.fixture_guide_render._player_image", lambda *a: None)
     posts = []
 
     class Telegram:
@@ -78,9 +80,9 @@ def test_existing_cron_uses_daily_stats_and_reuses_receipt(stats_snapshot, tmp_p
     assert bot.run("auto", "45 6 * * *") == 0
     assert len(posts) == 1
     image, caption, title, gw = posts[0]
-    assert image.name == "FPLVortex_GW7_daily_stats.png" and image.exists()
+    assert image.name == "FPLVortex_GW7_fixture_guide.png" and image.exists()
     assert caption.endswith("#FantasyPremierLeague")
-    assert title == "10 SURPRISING FPL STATS" and gw == 7
+    assert title == "FPL GAMEWEEK 7 FIXTURE GUIDE" and gw == 7
 
 
 def test_delete_only_confirmed_old_elite_message(tmp_path):

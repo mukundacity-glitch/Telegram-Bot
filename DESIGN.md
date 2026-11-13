@@ -8,4 +8,4 @@ The shared comparison_board.py, minimal_theme.py and minimal_brand.png copies ar
 
 This is a graphics-only update: selection, model calculations, captions, schedules, publication destinations, credentials and receipt/deduplication behavior are unchanged. No extra post is triggered by the release.
 
-The daily 6:30 AM stats edition uses the original navy stadium master and a two-by-five grid inspired by the approved 62623.png reference. Cyan number tabs identify each stat. Use one primary metric, an official club crest where available, and one concise supporting line per card. The date, Gameweek, facts and caption come from the current FPL snapshot and edition date.
+The daily 6:30 AM Fixture Guide follows reference 62626.png. The original blue stadium master frames two columns of three clubs, with cyan borders, gold headings, official crests and available player portraits. Fixture chips show opponent, venue and official difficulty. The Gameweek range, rankings and caption are rebuilt from the official FPL snapshot.
