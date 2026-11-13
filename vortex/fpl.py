@@ -127,13 +127,6 @@ def choose_comparison(snapshot: FplSnapshot) -> list[dict[str, Any]]:
     raise ValueError("No two active same-position players from different clubs within £3.0m")
 
 
-def choose_elite(snapshot: FplSnapshot) -> dict[str, Any]:
-    choices = [p for p in current_players(snapshot, 180) if float(p.get("selected_by_percent") or 100) <= 15]
-    if not choices:
-        raise ValueError("No under-owned players qualify")
-    return max(choices, key=score)
-
-
 def choose_creators(snapshot: FplSnapshot) -> list[dict[str, Any]]:
     choices = [p for p in current_players(snapshot, 90) if int(p.get("element_type") or 0) in (3, 4)]
     choices.sort(key=lambda p: (int(p.get("assists") or 0), float(p.get("expected_assists") or 0)), reverse=True)

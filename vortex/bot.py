@@ -17,7 +17,6 @@ from .schedule import resolve_slot
 from .telegram import TelegramClient
 from .syndication import DiscordWebhookClient, NewsPost, publish_shared
 from .editorial_dedup import check_revision, revision_record
-from .publication_rules import publication_group
 
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "state"
@@ -93,7 +92,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
     editorial_path = STATE / "editorial_versions.json"
     editorial = read_state(editorial_path)
     key = f"{now.astimezone(ZoneInfo('America/New_York')).date()}:{slot}"
-    if scheduled_cron and not preview_only and slot != "projections" and delivery_state.get(key, {}).get("delivered") and (
+    if (scheduled_cron or publication_slot == "elite") and not preview_only and slot != "projections" and delivery_state.get(key, {}).get("delivered") and (
         not dual_publish or delivery_state.get(key, {}).get("discord_delivered")
     ):
         print(f"ALREADY DELIVERED {key}; skipping duplicate")
@@ -158,7 +157,9 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                     print(f"ALREADY DELIVERED {key}; one valid daily board already sent")
                     return 0
                 key += f":corrected:{semantic_fingerprint(article)[:12]}"
-        if not preview_only and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
+        # Daily stats use the Eastern date and original slot receipt as the
+        # publication identity, including on days when the feed is unchanged.
+        if not preview_only and publication_slot != "elite" and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
             group, article, key, version, evidence, already_posted = check_revision(
                 editorial, article, delivery_state, key, dual_publish)
             if already_posted:
@@ -172,7 +173,8 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
         else:
             group = None
 
-        path = OUTPUT / f"FPLVortex_GW{article.gw}_{slot}.png"
+        file_slot = article.kind if publication_slot == "elite" else slot
+        path = OUTPUT / f"FPLVortex_GW{article.gw}_{file_slot}.png"
         if os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
             from .publish_checks import render_checked
             render_checked(article, snapshot, path)
@@ -182,7 +184,7 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
                 raise RuntimeError("GW deadline elapsed during recommendation generation")
-        if dual_publish:
+        if dual_publish or (publication_slot == "elite" and not preview_only):
             # One canonical image/caption, two independent durable receipts.
             # An existing Telegram delivery is never resent solely because
             # Discord failed or was enabled later.
@@ -190,8 +192,12 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
                             gameweek=article.gw, image=path, source="Official FPL")
             try:
                 receipts = publish_shared(post, delivery_state_path, client,
-                                          DiscordWebhookClient(), now_iso=now.isoformat())
+                                          DiscordWebhookClient() if dual_publish else None,
+                                          send_discord=dual_publish, now_iso=now.isoformat())
             finally:
+                if publication_slot == "elite" and read_state(delivery_state_path).get(key, {}).get("delivered"):
+                    from .retire_elite_message import retire_replaced_elite
+                    retire_replaced_elite(client, delivery_state_path, datetime.now(timezone.utc))
                 # publish_shared checkpoints each platform even on a partial
                 # error. Persist editorial recovery mapping for the next run.
                 if group is not None:
@@ -204,7 +210,8 @@ def run(requested: str, scheduled_cron: str | None = None) -> int:
             print(f"SHARED DELIVERY {key}: Telegram={bool(receipts.get('delivered'))}, "
                   f"Discord={bool(receipts.get('discord_delivered'))}")
         else:
-            message_id = client.send_png(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
+            send = client.send_shared_png if publication_slot == "elite" else client.send_png
+            message_id = send(path, article.caption, article.title + (" — PREVIEW" if preview_only else ""), article.gw)
             if preview_only:
                 print(f"PREVIEW DELIVERED with Telegram message {message_id}; normal daily delivery state unchanged")
                 return 0

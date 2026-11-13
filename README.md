@@ -30,7 +30,7 @@ One **existing** GitHub Actions workflow, thirteen Eastern-time publication slot
 
 | ET | Content | Frequency |
 |---|---|---|
-| 6:30 AM | Elite under-owned scout pick | Daily |
+| 6:30 AM | 10 Surprising FPL Stats (official FPL feed) | Daily |
 | **7:00 AM** | **NEW — All 20 teams projected goals & clean-sheet board** | Daily |
 | 8:00 AM | Player comparison | Daily |
 | 9:00 AM | Four next-GW buy candidates (firm or conditional) | Daily |
@@ -130,7 +130,7 @@ The mock design preview contains illustrative sample values and is **not** proof
 
 ## All eight premium layouts and manual preview
 
-Additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, `captaincy`, `review`, `elite`, and `evening`, with `transfer` sharing the two-player comparison layout. All feature the same typography, high-contrast cyan/gold section headers, portrait-led player cards, visible club badges, official FPL metrics, result-focused verdict strips, and safe no-update states. The module tests include full rendering and required-image validation for every slot.
+Additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, `captaincy`, `review`, and `evening`, with `transfer` sharing the two-player comparison layout. All feature the same typography, high-contrast cyan/gold section headers, portrait-led player cards, visible club badges, official FPL metrics, result-focused verdict strips, and safe no-update states. The module tests include full rendering and required-image validation for every slot.
 
 To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-news`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review`, `preview-elite`, or `preview-evening`.
 

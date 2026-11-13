@@ -13,7 +13,7 @@ from vortex.render import render
 
 from test_content import fake_snapshot
 
-SLOTS = ('news', 'transfer', 'prices', 'captaincy', 'review', 'elite', 'evening')
+SLOTS = ('news', 'transfer', 'prices', 'captaincy', 'review', 'evening')
 
 
 def sample_content(slot: str, monkeypatch: pytest.MonkeyPatch):

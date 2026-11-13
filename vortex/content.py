@@ -10,7 +10,6 @@ from .fpl import (
     choose_captains,
     choose_comparison,
     choose_creators,
-    choose_elite,
     choose_news,
     confirmed_price_changes,
     latest_completed_gw,
@@ -97,6 +96,9 @@ def _caption(lines: list[str], gw: int) -> str:
 
 
 def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: dict[str, Any]) -> Content:
+    if kind == "elite":
+        from .daily_stats import build
+        return build(snapshot, now)
     if kind in ("projections", "team_analysis", "transfer_suggestions", "start_bench"):
         from .extra_posts import generate_extra
         return generate_extra(kind, snapshot, now)
@@ -113,15 +115,7 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
     timestamp = snapshot.fetched_at.astimezone(ZoneInfo("America/New_York")).strftime("%d %b %Y • %I:%M %p ET")
     source = "Source: Official Fantasy Premier League API"
     cards: list[Card]
-    if kind == "elite":
-        p = choose_elite(snapshot)
-        original_card = _card(snapshot, p, "ELITE DIFFERENTIAL", [f"Owned by {p.get('selected_by_percent', 'N/A')}%", " | ".join(f"{opp} FDR{fdr}" for opp, fdr in snapshot.fixtures_for(p, 3))])
-        cards = [replace(original_card, metrics={**original_card.metrics,
-                       "ownership": str(p.get("selected_by_percent") or "N/A")})]
-        title, kicker = "ELITE FPL EDGE", "6:30 AM • UNDER-OWNED SCOUT PICK"
-        verdict = "DATA-LED DIFFERENTIAL • RECHECK LINEUP"
-        lines = [f"FPL GW{gw}: an under-owned player to watch.", f"{snapshot.name(p)} ({snapshot.team(p)}) at {snapshot.price(p)}.", f"{p.get('form', '0')} form; {p.get('selected_by_percent', 'N/A')}% owned.", "Assess fixtures and team news before buying.", "Who is your differential pick?"]
-    elif kind == "comparison":
+    if kind == "comparison":
         first, second = choose_comparison(snapshot)
         cards = [_card(snapshot, p, "PLAYER COMPARISON", ["NEXT: " + " • ".join(f"{opp} ({fdr})" for opp, fdr in snapshot.fixtures_for(p, 3))]) for p in (first, second)]
         title, kicker = "THE FPL DECISION ROOM", "8:00 AM • PLAYER VS PLAYER"

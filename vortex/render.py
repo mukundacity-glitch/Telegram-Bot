@@ -134,6 +134,9 @@ def render(content: Content, output: Path, session: requests.Session | None = No
     if not content.cards:
         raise ValueError("Cannot render without sourced content")
     client = session or requests.Session()
+    if content.kind == "daily_stats":
+        from .daily_stats_render import render_daily_stats
+        return render_daily_stats(content, output, client)
     if content.kind in {"comparison", "transfer"}:
         from .matchup import render_comparison
         return render_comparison(content, output, client)

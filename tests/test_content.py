@@ -50,7 +50,7 @@ def test_price_baseline_and_changes():
 
 def test_seven_unconditional_content_slots():
     s = fake_snapshot()
-    for slot in ["elite", "comparison", "news", "prices", "transfer", "captaincy", "evening"]:
+    for slot in ["comparison", "news", "prices", "transfer", "captaincy", "evening"]:
         content = generate(slot, s, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
         assert len(content.caption.splitlines()) == 5
         assert len(content.caption) <= 280

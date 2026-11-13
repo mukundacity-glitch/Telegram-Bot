@@ -35,6 +35,15 @@ def validate_article(article: Any, snapshot: Any) -> None:
         raise RuntimeError("Official FPL gameweek / dated snapshot not established")
     if article.gw != snapshot.gameweek() and article.kind != "review":
         raise RuntimeError("Graphic is for the wrong future Gameweek")
+    if article.kind == "daily_stats":
+        from .daily_stats import build
+        from datetime import datetime
+        # Recompute the entire edition from its official inputs before sending.
+        published_day = datetime.strptime(article.kicker.split(" • ", 1)[1], "%d %b %Y")
+        from .schedule import TIMEZONE
+        if article != build(snapshot, published_day.replace(tzinfo=TIMEZONE)):
+            raise RuntimeError("Daily stats board does not match the official FPL snapshot")
+        return
     if hasattr(article, "cards"):
         player_cards = [card for card in article.cards if card.team_code is not None]
         if not player_cards:
@@ -108,7 +117,9 @@ def render_checked(article: Any, snapshot: Any, output: Path,
     if not enriched_mode():
         return render(article, output, session=session)
     validate_article(article, snapshot)
-    if hasattr(article, "cards") and len(article.cards) == 1:
+    if article.kind == "daily_stats":
+        result = render(article, output, session=session)
+    elif hasattr(article, "cards") and len(article.cards) == 1:
         from .player_profile import render_player_profile
         result = render_player_profile(article, snapshot, output, session=session)
     elif hasattr(article, "cards") and 2 <= len(article.cards) <= 4:
