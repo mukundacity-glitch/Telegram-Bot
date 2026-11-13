@@ -184,15 +184,15 @@
     "type": "four-midfielders"
   },
   "2026-11-13:task2:four-team-targets:GW11": {
-    "attempts": 1,
-    "completed_at": "2026-11-13T18:04:20.235604+00:00",
+    "attempts": 2,
+    "completed_at": "2026-11-13T18:29:52.823386+00:00",
     "confirmed_telegram_message_ids": [],
     "error": "RequiredInput: No fresh verified bookmaker goal or clean-sheet projections",
     "generated": false,
     "post_id": "2026-11-13:task2:four-team-targets:GW11",
     "status": "RETRY",
     "telegram_message_ids": [],
-    "timestamp": "2026-11-13T18:04:17.423485+00:00",
+    "timestamp": "2026-11-13T18:29:49.316247+00:00",
     "trigger": "2026-11-13T12:30:00-05:00",
     "type": "four-team-targets"
   },
@@ -620,16 +620,48 @@
     "trigger": "2026-11-13T18:04:17.423485+00:00",
     "type": "2026-11-13T18:04:17.423485+00:00:news"
   },
+  "2026-11-13T18:29:49.316247+00:00": {
+    "posts": [
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-13T18:29:49.485829+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "gw10-four-midfielders.json",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-13T18:29:49.316247+00:00",
+        "trigger": "2026-11-03T16:09:40.289362+00:00",
+        "type": "gw10-four-midfielders.json"
+      },
+      {
+        "attempts": 2,
+        "completed_at": "2026-11-13T18:29:52.823386+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "RequiredInput: No fresh verified bookmaker goal or clean-sheet projections",
+        "generated": false,
+        "post_id": "2026-11-13:task2:four-team-targets:GW11",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-13T18:29:49.316247+00:00",
+        "trigger": "2026-11-13T12:30:00-05:00",
+        "type": "four-team-targets"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-13T18:29:49.316247+00:00"
+  },
   "gw10-four-midfielders.json": {
     "attempts": 0,
-    "completed_at": "2026-11-13T18:04:17.718981+00:00",
+    "completed_at": "2026-11-13T18:29:49.485829+00:00",
     "confirmed_telegram_message_ids": [],
     "error": null,
     "generated": false,
     "post_id": "gw10-four-midfielders.json",
     "status": "CHECKED",
     "telegram_message_ids": [],
-    "timestamp": "2026-11-13T18:04:17.423485+00:00",
+    "timestamp": "2026-11-13T18:29:49.316247+00:00",
     "trigger": "2026-11-03T16:09:40.289362+00:00",
     "type": "gw10-four-midfielders.json"
   },
