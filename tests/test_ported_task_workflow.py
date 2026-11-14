@@ -20,8 +20,8 @@ def test_all_four_complete_task_specs_copied_and_primary_hours_do_not_overlap():
 def test_only_one_shared_publisher_and_no_legacy_scheduled_sender():
     source = WORKFLOW.read_text()
     assert source.count('  publish:\n') == 1
-    assert "cron: '43 5-22 * * *'" in source and "cron: '13 6-22 * * *'" in source
-    assert source.count('timezone: "America/New_York"') == 2
+    assert "cron: '43 * * * *'" in source and "cron: '13 * * * *'" in source
+    assert 'timezone:' not in source
     assert 'python -m vortex.scheduled_dispatch' in source
     assert 'python -m vortex.bot' not in source
     assert 'python -m vortex.task_publisher' not in source

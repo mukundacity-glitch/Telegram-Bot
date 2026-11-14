@@ -8,43 +8,34 @@ from vortex import scheduled_dispatch as dispatcher
 OPEN = datetime(2026, 11, 10, 18, 0, tzinfo=timezone.utc)   # 13:00 EST
 CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
 
-def test_heartbeat_is_scheduled_in_america_new_york_not_a_fixed_utc_offset():
+def test_heartbeat_covers_all_utc_hours_with_eastern_runtime_guard():
     workflow = (Path(__file__).resolve().parents[1] /
                 '.github/workflows/telegram-daily.yml').read_text()
     assert workflow.count('- cron:') == 2
-    # An IANA zone lets the tz database apply EST/EDT; a hand-converted UTC
-    # pair drifts an hour at every DST change.
-    assert workflow.count('timezone: "America/New_York"') == 2
-    assert "cron: '43 5-22 * * *'" in workflow
-    assert "cron: '13 6-22 * * *'" in workflow
+    assert 'timezone:' not in workflow
+    assert "cron: '43 * * * *'" in workflow
+    assert "cron: '13 * * * *'" in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
     assert 'python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"' in workflow
 
 
 def _eastern_ticks(local_day):
-    """Eastern-time heartbeats that GitHub would fire on ``local_day``.
+    """Expand the actual UTC workflow clocks across the Eastern day."""
+    import re
+    from datetime import timedelta
 
-    The schedule carries its own timezone, so the cron fields are already
-    local wall-clock hours; DST needs no conversion here.
-    """
-    from zoneinfo import ZoneInfo
-    eastern = ZoneInfo("America/New_York")
-    ticks = []
-    for hour in range(5, 23):
-        ticks.append(datetime(local_day.year, local_day.month, local_day.day,
-                              hour, 43, tzinfo=eastern))
-    for hour in range(6, 23):
-        ticks.append(datetime(local_day.year, local_day.month, local_day.day,
-                              hour, 13, tzinfo=eastern))
-    return sorted(ticks)
+    workflow = (Path(__file__).resolve().parents[1] /
+                '.github/workflows/telegram-daily.yml').read_text()
+    minutes = [int(value) for value in re.findall(r"- cron: '(\d+) \* \* \* \*'", workflow)]
+    first = datetime.combine(local_day, datetime.min.time(), dispatcher.ET).astimezone(timezone.utc)
+    ticks = ((first + timedelta(hours=hour, minutes=minute)).astimezone(dispatcher.ET)
+             for hour in range(25) for minute in minutes)
+    return sorted(tick for tick in ticks if tick.date() == local_day)
 
 
 def test_heartbeat_covers_every_eastern_editorial_day_including_dst_days():
     """Both DST regimes must reach 05:30-23:00 with no long blackout."""
     from datetime import date, timedelta
-    from zoneinfo import ZoneInfo
-
-    eastern = ZoneInfo("America/New_York")
     # 2026-03-08 spring forward, 2026-11-01 fall back, plus plain summer/winter days.
     for local_day in (date(2026, 3, 8), date(2026, 11, 1),
                       date(2026, 7, 15), date(2026, 11, 11)):
@@ -52,8 +43,7 @@ def test_heartbeat_covers_every_eastern_editorial_day_including_dst_days():
                  if (5, 30) <= (t.hour, t.minute) < (23, 0)]
         assert (ticks[0].hour, ticks[0].minute) == (5, 43)
         assert (ticks[-1].hour, ticks[-1].minute) == (22, 43)
-        # :43 covers 5-22, :13 covers 6-22 -> 18 + 17 = 35 ticks inside the
-        # window, and every gap is 30 minutes so no slot can be missed.
+        # The Eastern guard admits exactly 35 checks at half-hour intervals.
         assert len(ticks) == 35
         assert all((right - left) == timedelta(minutes=30)
                    for left, right in zip(ticks, ticks[1:]))
@@ -137,7 +127,7 @@ def test_dispatch_orders_all_due_lanes_and_continues_after_failure(monkeypatch, 
     monkeypatch.setattr(dispatcher, 'run_legacy', legacy)
     monkeypatch.setattr(dispatcher, 'run_outbox', outbox)
     monkeypatch.setattr(dispatcher, 'run_editions', edition)
-    report = dispatcher.run(now=OPEN, cron='13 6-22 * * *')
+    report = dispatcher.run(now=OPEN, cron='13 * * * *')
     assert calls == ['legacy', 'outbox', 'editorial']
     assert report['new_posts'] == report['posts_generated'] == report['posts_retry_pending'] == 1
     assert report['posts_due'] == 3

@@ -55,8 +55,8 @@ def test_scheduled_news_uses_the_unified_dispatcher():
     workflow = WORKFLOW.read_text()
     from vortex.autonomous_schedule import NEWS_CRONS
     assert "5 6 * * *" in NEWS_CRONS
-    assert "cron: '43 5-22 * * *'" in workflow
-    assert workflow.count('timezone: "America/New_York"') == 2
+    assert "cron: '43 * * * *'" in workflow
+    assert 'timezone:' not in workflow
     assert "python -m vortex.scheduled_dispatch" in workflow
     assert 'python -m vortex.telegram_news_window' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow

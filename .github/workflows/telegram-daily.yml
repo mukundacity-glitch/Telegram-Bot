@@ -11,18 +11,11 @@ on:
       - '.github/workflows/**'
   pull_request:
     branches: [main]
-  # Eastern heartbeat, scheduled in America/New_York itself.
-  # ``timezone`` is an IANA zone, so the tz database applies EST/EDT. Never
-  # hand-convert to UTC: a fixed UTC pair drifts by an hour at each DST change.
-  # 35 ticks/day, every 30 minutes from 05:43 to 22:43 ET, so no editorial
-  # slot is ever more than half an hour late and none is scheduled below the
-  # 05:30 opening or after the 23:00 close. The Python dispatcher independently
-  # re-checks the 05:30-23:00 America/New_York window at execution time.
+  # Trigger at :13 and :43 across all UTC hours. Runtime eligibility uses
+  # America/New_York, including DST, even if the scheduler ignores timezone.
   schedule:
-    - cron: '43 5-22 * * *'
-      timezone: "America/New_York"
-    - cron: '13 6-22 * * *'
-      timezone: "America/New_York"
+    - cron: '43 * * * *'
+    - cron: '13 * * * *'
   workflow_dispatch:
     inputs:
       edition:
