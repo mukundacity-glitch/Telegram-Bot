@@ -72,7 +72,7 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     assert crons == ['43 * * * *', '13 * * * *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
-    assert len(SLOTS) == 12
+    assert len(SLOTS) == 10
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 
@@ -84,7 +84,8 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
     if name=='verified-press-availability':return
     if name=='confirmed-price-changes':return
     if name == 'four-team-targets':
-        assert (slot.hour, slot.minute) == (12, 30)
+        monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {})
+        assert (slot.hour, slot.minute) == (14, 30)
         monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {
             101: dict(home_goals=1.9, away_goals=.8, home_cs=45, away_cs=15)
         })
@@ -120,8 +121,18 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         with Image.open(output) as image:
             assert image.size == (1080, 1920)
             image.verify()
+        fallback = dict(home_goals=2.2, away_goals=1.0, home_cs=37, away_cs=11)
+        monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {
+            101: fallback, 103: fallback,
+        })
+        mixed = build_odds_board(slot, s, e)
+        assert [row['goals'] for row in mixed.extra['rows']] == [1.9, .8, 2.2, 1.0]
+        assert [row['source'] for row in mixed.extra['rows']] == ['market', 'market', 'solio', 'solio']
+        assert '1 market · 1 Solio Analytics model' in mixed.caption
+        render(mixed, s, now, tmp_path / 'odds-mixed.png')
+        monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {})
         monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {})
-        with pytest.raises(RequiredInput, match='No fresh verified bookmaker'):
+        with pytest.raises(RequiredInput, match='No fresh verified projections'):
             build_odds_board(slot, s, e)
     if name == 'player-radar-comparison':
         from vortex.autonomous_render import render

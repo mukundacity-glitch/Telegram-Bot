@@ -39,7 +39,7 @@ def render_odds_board(plan, output, session):
         text(draw, f"GAMEWEEK {plan.gw}", 32, 93, 1016, 32, GOLD, center=True)
         text(draw, "PROJECTED GOALS & CLEAN SHEETS", 32, 143, 1016, 48, WHITE, center=True)
         coverage = ("LAYOUT PREVIEW  •  SAMPLE NUMBERS" if plan.extra.get("preview")
-                    else f"VERIFIED BOOKMAKER MARKETS  •  {plan.extra['covered']}/{plan.extra['fixture_count']} MATCHES")
+                    else f"{plan.extra['edition_date']} ET  •  MARKET {plan.extra['market_count']}  •  SOLIO MODEL {plan.extra['solio_count']}  •  {plan.extra['covered']}/{plan.extra['fixture_count']} MATCHES")
         text(draw, coverage, 32, 211, 1016, 24, CYAN, center=True)
         for index, (label, key) in enumerate(columns):
             x = 28 + 346 * index
@@ -74,8 +74,10 @@ def render_odds_board(plan, output, session):
                     else:
                         text(draw, row["opponent"], x+270, y+18, 49, 18, WHITE, center=True)
                 text(draw, value, x+134, y+13, 189 if key == "fdr" else 132, 25, WHITE, center=True)
+                if key != "fdr" and row.get("source") == "solio":
+                    text(draw, "S", x+139, y+20, 22, 15, GOLD)
         draw.line((34, 1693, 1046, 1693), fill=CYAN, width=2)
-        text(draw, "FDR: OFFICIAL FPL 1–5   •   —: MARKET DATA UNAVAILABLE", 36, 1715, 1008, 22, WHITE, center=True)
+        text(draw, "FDR: OFFICIAL FPL 1–5  •  S: SOLIO ANALYTICS MODEL  •  —: NO VERIFIED FIGURE", 36, 1715, 1008, 22, WHITE, center=True)
         text(draw, f"ONE ROW PER CLUB FIXTURE   •   PAGE {page+1}/{total_pages}",
              36, 1751, 1008, 19, GOLD, center=True)
         social_footer(canvas, *required_footer_handles())

@@ -7,8 +7,8 @@ from vortex.schedule import SLOT_CRONS, captaincy_due, resolve_slot
 
 
 def test_all_thirteen_slots_have_distinct_times_and_backup_checks():
-    assert len(SLOT_CRONS) == 30
-    assert len(set(SLOT_CRONS.values())) == 15
+    assert len(SLOT_CRONS) == 28
+    assert len(set(SLOT_CRONS.values())) == 14
     assert resolve_slot("auto", "15 8 * * *", datetime.now(timezone.utc)) == "comparison"
 
 
@@ -46,8 +46,8 @@ def test_three_extra_slots_use_eastern_and_have_no_conflicts():
     assert "projections" not in SLOT_CRONS.values()
     assert SLOT_CRONS["15 11 * * *"] == "team_analysis"
     assert SLOT_CRONS["15 15 * * *"] == "transfer_suggestions"
-    assert SLOT_HOURS["start_bench"] == (13, 0)
-    assert SLOT_CRONS["15 13 * * *"] == "start_bench"
+    assert "start_bench" not in SLOT_HOURS
+    assert "start_bench" not in SLOT_CRONS.values()
     assert SLOT_HOURS["midfielders"] == (10, 45)
     assert SLOT_CRONS["25 11 * * *"] == "midfielders"
     assert len(set(SLOT_HOURS.values())) == len(SLOT_HOURS)

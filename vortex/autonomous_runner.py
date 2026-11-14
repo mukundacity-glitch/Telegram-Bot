@@ -74,7 +74,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     if plan.kind == 'chance_creators':
         record['sources'].append(plan.extra['source'])
     if plan.kind == 'odds_board':
-        record['sources'].append('https://the-odds-api.com/')
+        record['sources'].extend(plan.extra['sources'])
     if audit and not allowed(now):
         hour, minute = divmod(OPEN_MINUTE, 60)
         target = now.astimezone(ET).replace(hour=hour, minute=minute, second=0, microsecond=0)

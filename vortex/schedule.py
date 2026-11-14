@@ -14,7 +14,6 @@ SLOT_CRONS: dict[str, str] = {
     "45 10 * * *": "midfielders",
     "0 11 * * *": "team_analysis",
     "0 12 * * *": "prices",
-    "0 13 * * *": "start_bench",
     "0 14 * * *": "transfer",
     "0 15 * * *": "transfer_suggestions",
     "0 16 * * *": "captaincy",
@@ -30,7 +29,6 @@ SLOT_CRONS: dict[str, str] = {
     "15 11 * * *": "team_analysis",
     "25 11 * * *": "midfielders",
     "15 12 * * *": "prices",
-    "15 13 * * *": "start_bench",
     "15 14 * * *": "transfer",
     "15 15 * * *": "transfer_suggestions",
     "15 16 * * *": "captaincy",
@@ -47,7 +45,6 @@ SLOT_HOURS: dict[str, tuple[int, int]] = {
     "midfielders": (10, 45),
     "team_analysis": (11, 0),
     "prices": (12, 0),
-    "start_bench": (13, 0),
     "transfer": (14, 0),
     "transfer_suggestions": (15, 0),
     "captaincy": (16, 0),
@@ -59,7 +56,7 @@ SLOT_HOURS: dict[str, tuple[int, int]] = {
 
 def resolve_slot(requested: str, scheduled_cron: str | None, current: datetime) -> str:
     if requested != "auto":
-        permitted = set(SLOT_HOURS) | {"test", "discover", "preview", "projections", "preview-projections"} | {f"preview-{slot}" for slot in SLOT_HOURS}
+        permitted = set(SLOT_HOURS) | {"start_bench", "preview-start_bench", "test", "discover", "preview", "projections", "preview-projections"} | {f"preview-{slot}" for slot in SLOT_HOURS}
         if requested not in permitted:
             raise ValueError(f"Unknown requested slot: {requested}")
         return requested

@@ -28,7 +28,7 @@ def test_nothing_due_before_first_slot_and_oldest_first_after():
     early = datetime(2026, 11, 9, 10, 29, tzinfo=timezone.utc)  # 05:29 EST
     assert catchup_slots(early, {}, 10, '2026-27') == []
     due = catchup_slots(DAY_NOON, {}, 10, '2026-27', limit=99)
-    assert [s.hour for s in due] == [8, 9, 10, 11, 12][:len(due)]
+    assert [s.hour for s in due] == [8, 9, 10, 11][:len(due)]
     assert due[0].edition == 'form-minutes-targets'
 
 
