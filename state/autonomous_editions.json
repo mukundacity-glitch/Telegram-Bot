@@ -863,6 +863,12 @@
     "status": "delivered",
     "task": "three_daily"
   },
+  "2026-11-13:press_news:verified-press-availability:GW11:1900": {
+    "at": "2026-11-14T00:19:01.240918+00:00",
+    "edition": "verified-press-availability",
+    "status": "checked",
+    "task": "press_news"
+  },
   "2026-11-13:price_changes:confirmed-price-changes:GW11": {
     "edition": "confirmed-price-changes",
     "reason": "No confirmed price movement versus the persisted official baseline",
