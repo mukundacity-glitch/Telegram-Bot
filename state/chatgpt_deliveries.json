@@ -450,6 +450,13 @@
     "telegram_message_id": 374,
     "timestamp": "2026-11-12T02:55:53.932100+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:captain-differential:9b08b01d8aca3245767d:page1": {
+    "caption_sha256": "95866794bf99c141027930f54471788bdc245d84162f58cb2422107c1d979b04",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550511390949661",
+    "telegram_message_id": 382
+  },
   "chatgpt:2026-27:GW11:task1:captain-differential:d52092dd0025a9ceeddd:page1": {
     "delivered": true,
     "discord_delivered": true,
@@ -598,6 +605,19 @@
     "discord_message_id": "1570550447981203649",
     "telegram_message_id": 379
   },
+  "chatgpt:2026-27:GW11:task1:player-radar-comparison:282c2ec362525d87af8b:page1": {
+    "caption_sha256": "f7f1a466088ca287574cbd124e299ce1c88ecfa95ac029754c6c887958f94c22",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571245465733832916",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-14T19:28:31.157632+00:00",
+    "telegram_message_id": 422,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-14T19:28:29.896426+00:00"
+  },
   "chatgpt:2026-27:GW11:task1:player-radar-comparison:77e6203f8b9c73b0f1eb:page1": {
     "caption_sha256": "b29630d6dabc9c34a53afc91b3642e5c87b7975e0da2a57695c16d09451fefec",
     "delivered": true,
@@ -717,6 +737,13 @@
     "source_url": "",
     "telegram_message_id": 380,
     "timestamp": "2026-11-12T21:26:47.985030+00:00"
+  },
+  "chatgpt:2026-27:GW11:task2:four-midfielders:c5ea2eb3f4082209f809:page1": {
+    "caption_sha256": "b60b084a209d6e74dd31815af2eac16989b87dce5c5668e93fcb4c17bc85149d",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550467745022006",
+    "telegram_message_id": 380
   },
   "chatgpt:2026-27:GW11:task2:four-team-targets:187fbae470335ba30167:page1": {
     "delivered": true,

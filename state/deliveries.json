@@ -1639,6 +1639,52 @@
     "telegram_message_id": 418,
     "timestamp": "2026-11-14T14:20:44.621996+00:00"
   },
+  "2026-11-14:midfielders:GW11": {
+    "caption_sha256": "b0a19adaaba714310fc672547ee5b93d90e54542392a52ae876d551c067293a3",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570843490181586994",
+    "telegram_message_id": 402
+  },
+  "2026-11-14:news": {
+    "caption_sha256": "988e31a6ddfd142b1e13913224dd61550eaf4b12abbaafa2c0fd16c7cd13fd1f",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571245452685222019",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-14T19:28:27.880577+00:00",
+    "telegram_message_id": 421,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-14T19:28:21.503797+00:00"
+  },
+  "2026-11-14:prices": {
+    "caption_sha256": "525c13ee21c2e0d9901d1789788803f2b734e0640afede0383148a84d87d447b",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571245505420460032",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-14T19:28:40.561935+00:00",
+    "telegram_message_id": 424,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-14T19:28:21.503797+00:00"
+  },
+  "2026-11-14:team_analysis:GW11": {
+    "caption_sha256": "f356d4e899adc6d83a29164b19fef8234ff70feda77ad280c18950c3ac7671c6",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571245484507668630",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-14T19:28:35.558992+00:00",
+    "telegram_message_id": 423,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-14T19:28:21.503797+00:00"
+  },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,
     "discord_message_id": "1566986392335294705",

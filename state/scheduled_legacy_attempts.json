@@ -163,5 +163,34 @@
     "attempts": 1,
     "generated": true,
     "status": "checked"
+  },
+  "2026-11-14:midfielders": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-14:news": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-14:prices": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-14:team_analysis": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
+  },
+  "2026-11-14:transfer": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "status": "checked"
   }
 }

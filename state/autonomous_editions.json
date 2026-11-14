@@ -1073,6 +1073,22 @@
       376
     ]
   },
+  "2026-11-14:task1:captain-differential:GW11": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "captain-differential",
+    "file": "outbox/2026-11-14-captain-differential.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:9b08b01d8aca3245767d",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "already-delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      382
+    ]
+  },
   "2026-11-14:task1:form-minutes-targets:GW11": {
     "at": "2026-11-14T14:20:44.621996+00:00",
     "attempts": 1,
@@ -1087,6 +1103,38 @@
     "task": "task1",
     "telegram_message_ids": [
       379
+    ]
+  },
+  "2026-11-14:task1:player-radar-comparison:GW11": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "player-radar-comparison",
+    "file": "outbox/2026-11-14-player-radar-comparison.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:282c2ec362525d87af8b",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      422
+    ]
+  },
+  "2026-11-14:task2:four-midfielders:GW11": {
+    "at": "2026-11-14T19:28:21.503797+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "four-midfielders",
+    "file": "outbox/2026-11-14-four-midfielders.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:c5ea2eb3f4082209f809",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "already-delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      380
     ]
   },
   "2026-11-14:task2:rank-booster:GW11": {

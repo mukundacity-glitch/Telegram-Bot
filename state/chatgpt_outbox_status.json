@@ -480,6 +480,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:9413ff69776998531f95",
     "status": "delivered"
   },
+  "2026-11-14-captain-differential.json": {
+    "at": "2026-11-14T19:28:37.954338+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:captain-differential:9b08b01d8aca3245767d",
+    "status": "delivered"
+  },
   "2026-11-14-fixture-targets.json": {
     "at": "2026-11-14T14:21:06.546431+00:00",
     "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:21b2e5926b14d034fc17",
@@ -488,6 +493,16 @@
   "2026-11-14-form-minutes-targets.json": {
     "at": "2026-11-14T14:21:08.097782+00:00",
     "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:74bf0056bcaf0c0a1e58",
+    "status": "delivered"
+  },
+  "2026-11-14-four-midfielders.json": {
+    "at": "2026-11-14T19:28:24.162393+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:c5ea2eb3f4082209f809",
+    "status": "delivered"
+  },
+  "2026-11-14-player-radar-comparison.json": {
+    "at": "2026-11-14T19:28:29.896426+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:282c2ec362525d87af8b",
     "status": "delivered"
   },
   "2026-11-14-rank-booster.json": {

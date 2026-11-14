@@ -1,0 +1,207 @@
+{
+  "task": "task1",
+  "edition": "player-radar-comparison",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "FPL VORTEX PLAYER RADAR",
+  "caption": "FPL VORTEX PLAYER RADAR\n📊 Van Hecke vs Vuskovic | 14 Nov\nLast 5 GWs: 1–0 goals, 1.01–0.79 xG.\nNext 5 GW avg FDR 2.6 vs 2.8. Who would you pick?\n\n#FPL #GW11 #FPLVORTEX #FPLCommunity",
+  "facts": {
+    "players": [
+      {
+        "id": 112,
+        "code": 469142,
+        "team": 19,
+        "element_type": 2,
+        "now_cost": 51,
+        "selected_by_percent": "14.8",
+        "status": "a",
+        "news": "",
+        "minutes": 900,
+        "total_points": 57,
+        "form": "7.5",
+        "expected_goals": "1.70",
+        "expected_assists": "0.72"
+      },
+      {
+        "id": 504,
+        "code": 610799,
+        "team": 5,
+        "element_type": 2,
+        "now_cost": 53,
+        "selected_by_percent": "9.4",
+        "status": "a",
+        "news": "",
+        "minutes": 887,
+        "total_points": 70,
+        "form": "7.5",
+        "expected_goals": "1.25",
+        "expected_assists": "0.22"
+      }
+    ],
+    "edition": "player-radar-comparison",
+    "extra": {
+      "rounds": [
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "metrics": [
+        "Points",
+        "Minutes",
+        "Goals",
+        "Assists",
+        "xG",
+        "xA",
+        "Bonus",
+        "Def. contributions"
+      ],
+      "values": [
+        {
+          "Points": 33.0,
+          "Minutes": 450.0,
+          "Goals": 1.0,
+          "Assists": 0.0,
+          "xG": 1.01,
+          "xA": 0.3,
+          "Bonus": 4.0,
+          "Def. contributions": 42.0
+        },
+        {
+          "Points": 38.0,
+          "Minutes": 450.0,
+          "Goals": 0.0,
+          "Assists": 2.0,
+          "xG": 0.79,
+          "xA": 0.15,
+          "Bonus": 3.0,
+          "Def. contributions": 48.0
+        }
+      ],
+      "fixtures": [
+        [
+          {
+            "gw": 11,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 110,
+            "double": false
+          },
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "SUN",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 120,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 130,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "ARS",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 140,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 146,
+            "double": false
+          }
+        ],
+        [
+          {
+            "gw": 11,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 106,
+            "double": false
+          },
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "NEW",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 112,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BOU",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 139,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "EVE",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 142,
+            "double": false
+          }
+        ]
+      ]
+    }
+  },
+  "generated_at": "2026-11-14T19:28:21.777824+00:00",
+  "publish_at": "2026-11-14T19:28:21.503797+00:00",
+  "data_retrieval_at_et": "2026-11-14T14:28:21.777824-05:00",
+  "graphic_generated_at_et": "2026-11-14T14:28:29.893670-05:00",
+  "deadline": "2026-11-21T11:00:00+00:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://fantasy.premierleague.com/api/element-summary/112/",
+    "https://fantasy.premierleague.com/api/element-summary/504/"
+  ],
+  "images": [
+    "outbox/assets/2026-11-14-player-radar-comparison-GW11.png"
+  ]
+}

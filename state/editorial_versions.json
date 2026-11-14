@@ -2042,7 +2042,7 @@
   },
   "midfielders:11:36:509416|91:201658|36:60307": {
     "confirmed": true,
-    "delivery_key": "2026-11-13:midfielders:GW11",
+    "delivery_key": "2026-11-14:midfielders:GW11",
     "evidence": {
       "gw": 11,
       "kind": "midfielders",
@@ -2080,7 +2080,7 @@
           "metrics": {
             "form": "6.5",
             "minutes": 840,
-            "ownership": "31.4%",
+            "ownership": "31.5%",
             "price": "£6.7m",
             "role": "STRONG ALTERNATIVE",
             "xa": "1.45",
@@ -2113,8 +2113,8 @@
       ]
     },
     "group": "midfielders:11:36:509416|91:201658|36:60307",
-    "timestamp": "2026-11-13T16:50:31.368252+00:00",
-    "version": "63c2891a280055d584f846465685f62b5b004f6be6ca2c82165e3fdbdb512edc"
+    "timestamp": "2026-11-14T19:28:21.503797+00:00",
+    "version": "7f9a036f98a5a1433e10f56e49470247ddacab259941add192dea050479e7125"
   },
   "midfielders:11:36:60307|36:509416|36:514254": {
     "confirmed": true,
@@ -2782,6 +2782,124 @@
     "timestamp": "2026-11-12T02:55:55.880644+00:00",
     "version": "402cf83e4a4b293b58da8498bf53321b3c9f4b0f38752566007166959224f42b"
   },
+  "news:11:36:592984|36:512123|1:596777": {
+    "confirmed": true,
+    "delivery_key": "2026-11-14:news",
+    "evidence": {
+      "gw": 11,
+      "kind": "news",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ],
+            [
+              "BOU",
+              "A",
+              4,
+              91
+            ]
+          ],
+          "metrics": {
+            "assists": 1,
+            "bonus": 0,
+            "clean_sheets": 4,
+            "form": "1.2",
+            "goals": 1,
+            "minutes": 450,
+            "price": "£5.5m",
+            "status": "d",
+            "total_points": 20
+          },
+          "player": "Andrés",
+          "team": 36
+        },
+        {
+          "fixtures": [
+            [
+              "HUL",
+              "A",
+              2,
+              88
+            ],
+            [
+              "NEW",
+              "H",
+              3,
+              4
+            ],
+            [
+              "BOU",
+              "A",
+              4,
+              91
+            ]
+          ],
+          "metrics": {
+            "assists": 0,
+            "bonus": 0,
+            "clean_sheets": 0,
+            "form": "0.5",
+            "goals": 1,
+            "minutes": 37,
+            "price": "£4.5m",
+            "status": "d",
+            "total_points": 9
+          },
+          "player": "Hadjam",
+          "team": 36
+        },
+        {
+          "fixtures": [
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ],
+            [
+              "BRE",
+              "H",
+              3,
+              94
+            ],
+            [
+              "NEW",
+              "A",
+              3,
+              4
+            ]
+          ],
+          "metrics": {
+            "assists": 2,
+            "bonus": 2,
+            "clean_sheets": 0,
+            "form": "2.8",
+            "goals": 1,
+            "minutes": 195,
+            "price": "£5.7m",
+            "status": "d",
+            "total_points": 21
+          },
+          "player": "Dorgu",
+          "team": 1
+        }
+      ]
+    },
+    "group": "news:11:36:592984|36:512123|1:596777",
+    "timestamp": "2026-11-14T19:28:21.503797+00:00",
+    "version": "f299533281cf3c2c763dab5c8cb4fc4400138765ab65b604749e2cb2d71fb80a"
+  },
   "news:11:6:511499|8:486672|54:76357": {
     "confirmed": true,
     "delivery_key": "2026-11-07:news",
@@ -3253,6 +3371,56 @@
     "group": "news:11:8:577016|56:84450|94:502500",
     "timestamp": "2026-11-08T19:21:55.319668+00:00",
     "version": "35f6c6884bb4e830885a51e2dca95342f497c0e0ce0279996820ca1a71a50590"
+  },
+  "prices:11:56:498016": {
+    "confirmed": true,
+    "delivery_key": "2026-11-14:prices",
+    "evidence": {
+      "gw": 11,
+      "kind": "prices",
+      "players": [
+        {
+          "fixtures": [
+            [
+              "AVL",
+              "A",
+              3,
+              7
+            ],
+            [
+              "TOT",
+              "H",
+              3,
+              6
+            ],
+            [
+              "LIV",
+              "A",
+              4,
+              14
+            ]
+          ],
+          "metrics": {
+            "after": "£4.8m",
+            "assists": 0,
+            "before": "£4.9m",
+            "bonus": 4,
+            "change": "-£0.1m",
+            "clean_sheets": 3,
+            "form": "5.2",
+            "goals": 0,
+            "minutes": 900,
+            "price": "£4.8m",
+            "total_points": 33
+          },
+          "player": "Roefs",
+          "team": 56
+        }
+      ]
+    },
+    "group": "prices:11:56:498016",
+    "timestamp": "2026-11-14T19:28:21.503797+00:00",
+    "version": "5caa7e93dd2a92e6be9a2c71f356332fea7e2248da3a2aa59b5a5efb94733fe4"
   },
   "projections:10:general": {
     "confirmed": true,
@@ -4824,18 +4992,10 @@
   },
   "team_analysis:11:Arsenal": {
     "confirmed": true,
-    "delivery_key": "2026-11-06:team_analysis:GW11",
+    "delivery_key": "2026-11-14:team_analysis:GW11",
     "evidence": {
       "gw": 11,
       "history": [
-        {
-          "ga": 0,
-          "gf": 3,
-          "gw": 1,
-          "kickoff": "2026-08-21T19:00:00Z",
-          "opponent": "COV",
-          "venue": "H"
-        },
         {
           "ga": 0,
           "gf": 1,
@@ -4899,6 +5059,14 @@
           "kickoff": "2026-11-01T16:30:00Z",
           "opponent": "LIV",
           "venue": "A"
+        },
+        {
+          "ga": 0,
+          "gf": 1,
+          "gw": 10,
+          "kickoff": "2026-11-07T15:00:00Z",
+          "opponent": "HUL",
+          "venue": "H"
         }
       ],
       "kind": "team_analysis",
@@ -4906,8 +5074,8 @@
       "team": "Arsenal"
     },
     "group": "team_analysis:11:Arsenal",
-    "timestamp": "2026-11-06T21:23:33.344529+00:00",
-    "version": "97638bb45d1a0563ae2f118665c8fe2dc2317ce1942b38a65298b431704f5882"
+    "timestamp": "2026-11-14T19:28:21.503797+00:00",
+    "version": "1778a8098ebaa276e673f20f7b83a53d79eeac1c125c859fa7f2d57a84149cfe"
   },
   "team_analysis:11:Aston Villa": {
     "confirmed": true,

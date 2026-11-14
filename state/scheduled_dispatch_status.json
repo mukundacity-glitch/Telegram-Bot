@@ -1,12 +1,16 @@
 {
-  "at": "2026-11-14T14:20:44.621996+00:00",
-  "eastern_at": "2026-11-14T09:20:44.621996-05:00",
-  "new_posts": 3,
+  "at": "2026-11-14T19:28:21.503797+00:00",
+  "eastern_at": "2026-11-14T14:28:21.503797-05:00",
+  "new_posts": 4,
   "next_due": {
-    "post": "four-midfielders",
-    "trigger": "2026-11-14T09:30:00-05:00"
+    "post": "four-team-targets",
+    "trigger": "2026-11-14T14:30:00-05:00"
   },
   "pending_triggers": [
+    {
+      "post": "chance-creators",
+      "trigger": "2026-11-20T00:30:00+00:00"
+    },
     {
       "post": "captaincy-comparison",
       "trigger": "2026-11-20T00:30:00+00:00"
@@ -26,12 +30,12 @@
   ],
   "posts_due": 10,
   "posts_failed": 0,
-  "posts_generated": 8,
-  "posts_pending_trigger": 4,
+  "posts_generated": 7,
+  "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": null,
+  "scheduled_cron": "43 * * * *",
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 3
+  "telegram_messages_sent": 4
 }
