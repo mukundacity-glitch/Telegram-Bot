@@ -2457,11 +2457,11 @@
     "status": "a"
   },
   "415": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 75,
-    "news": "",
+    "news": "Hamstring injury - 75% chance of playing",
     "now_cost": 57,
-    "status": "a"
+    "status": "d"
   },
   "416": {
     "chance_of_playing_next_round": 100,

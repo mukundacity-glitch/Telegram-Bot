@@ -190,7 +190,7 @@
   },
   "buy:11:7:517052|91:444102|6:469142|36:610799": {
     "confirmed": true,
-    "delivery_key": "2026-11-13:buy:GW11",
+    "delivery_key": "2026-11-14:buy:GW11",
     "evidence": {
       "gw": 11,
       "kind": "buy",
@@ -219,7 +219,7 @@
             "minutes": "722",
             "minutes_last_three_completed_gws": "256",
             "next_gw": "11",
-            "ownership": "31.2%",
+            "ownership": "31.3%",
             "points_last_three_completed_gws": "33",
             "position": "FWD",
             "price": "£7.1m",
@@ -228,7 +228,7 @@
             "saves_season": "0",
             "season_stat": "SZN: 3.5 xG · 0.9 xA",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "315,533",
+            "transfers": "327,707",
             "xa_season": "0.90",
             "xg_season": "3.46",
             "xgc_season": "10.63"
@@ -260,7 +260,7 @@
             "minutes": "837",
             "minutes_last_three_completed_gws": "245",
             "next_gw": "11",
-            "ownership": "23.8%",
+            "ownership": "23.9%",
             "points_last_three_completed_gws": "24",
             "position": "FWD",
             "price": "£6.5m",
@@ -269,7 +269,7 @@
             "saves_season": "0",
             "season_stat": "SZN: 4.5 xG · 1.1 xA",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "217,135",
+            "transfers": "225,533",
             "xa_season": "1.05",
             "xg_season": "4.45",
             "xgc_season": "10.28"
@@ -301,7 +301,7 @@
             "minutes": "900",
             "minutes_last_three_completed_gws": "270",
             "next_gw": "11",
-            "ownership": "14.7%",
+            "ownership": "14.8%",
             "points_last_three_completed_gws": "26",
             "position": "DEF",
             "price": "£5.1m",
@@ -310,7 +310,7 @@
             "saves_season": "0",
             "season_stat": "SZN: 85 DC acts · 4 CS",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "180,351",
+            "transfers": "186,435",
             "xa_season": "0.72",
             "xg_season": "1.70",
             "xgc_season": "11.92"
@@ -351,7 +351,7 @@
             "saves_season": "0",
             "season_stat": "SZN: 91 DC acts · 7 CS",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "158,260",
+            "transfers": "164,483",
             "xa_season": "0.22",
             "xg_season": "1.25",
             "xgc_season": "13.37"
@@ -362,8 +362,8 @@
       ]
     },
     "group": "buy:11:7:517052|91:444102|6:469142|36:610799",
-    "timestamp": "2026-11-13T16:50:31.368252+00:00",
-    "version": "bb424a1371e559e18b8d81c1e256a9703dc7e45488ada0a15a61a8da29f441c3"
+    "timestamp": "2026-11-14T14:20:44.621996+00:00",
+    "version": "a961cbcdd0ecb911db5e63edcbdf0a3045d2a6803f5f909dda20af1433846c9e"
   },
   "captaincy:10:3:199798|91:444102|7:517052|43:223094": {
     "confirmed": false,

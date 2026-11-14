@@ -638,6 +638,13 @@
     "discord_message_id": "1570550497084047510",
     "telegram_message_id": 381
   },
+  "rotation:2026-11-14:GW11": {
+    "caption_sha256": "b934afcbac300b621c0e90bf65e40b2ff43d97b826d1885dc43ea0afc870eff8",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550497084047510",
+    "telegram_message_id": 381
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,

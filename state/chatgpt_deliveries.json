@@ -416,6 +416,13 @@
     "telegram_message_id": 376,
     "timestamp": "2026-11-12T21:26:33.178500+00:00"
   },
+  "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:9413ff69776998531f95:page1": {
+    "caption_sha256": "c0ceb763262cb8d2aac13d24c306ab3d2a8f7d8da2908bbd762c2090a10e997d",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550402322014338",
+    "telegram_message_id": 376
+  },
   "chatgpt:2026-27:GW11:task1:captain-differential:10940f0283e2c851ca58:page1": {
     "caption_sha256": "95866794bf99c141027930f54471788bdc245d84162f58cb2422107c1d979b04",
     "delivered": true,
@@ -556,6 +563,13 @@
     "source_url": "",
     "telegram_message_id": 272,
     "timestamp": "2026-11-07T18:05:02.872366+00:00"
+  },
+  "chatgpt:2026-27:GW11:task1:form-minutes-targets:74bf0056bcaf0c0a1e58:page1": {
+    "caption_sha256": "719e594e3d5d87c2676dccde3217bde862514b20d2904aca528e93177fb2cfc8",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550447981203649",
+    "telegram_message_id": 379
   },
   "chatgpt:2026-27:GW11:task1:form-minutes-targets:bc2f42978e3529edde9a:page1": {
     "delivered": true,
@@ -963,6 +977,13 @@
     "telegram_message_id": 364,
     "timestamp": "2026-11-11T13:49:34.802007+00:00"
   },
+  "chatgpt:2026-27:GW11:task2:rank-booster:fd41720fa812e3d861d1:page1": {
+    "caption_sha256": "31f26990e669e42501227dd067d8357fc6fc27cdb63bb0b415ef8846481ee3dc",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570843343443726478",
+    "telegram_message_id": 396
+  },
   "chatgpt:2026-27:GW11:three_daily:fixture-targets:0860c0cae3da03c954b5:page1": {
     "caption_sha256": "56bba54d85899fd281813ff078133c08939a6a477b1b78f428f6ee3d91210c14",
     "delivered": true,
@@ -983,6 +1004,13 @@
     "source_url": "",
     "telegram_message_id": 338,
     "timestamp": "2026-11-09T22:23:28.463599+00:00"
+  },
+  "chatgpt:2026-27:GW11:three_daily:fixture-targets:21b2e5926b14d034fc17:page1": {
+    "caption_sha256": "56bba54d85899fd281813ff078133c08939a6a477b1b78f428f6ee3d91210c14",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550434509357247",
+    "telegram_message_id": 378
   },
   "chatgpt:2026-27:GW11:three_daily:fixture-targets:37378fda56c55b302bc3:page1": {
     "delivered": true,

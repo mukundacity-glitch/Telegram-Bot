@@ -475,6 +475,26 @@
     "identity": "chatgpt:2026-27:GW11:task1:transfer-market-team-news:9b3df4c32a2a5c1b716d",
     "status": "delivered"
   },
+  "2026-11-14-availability-transfer-decisions.json": {
+    "at": "2026-11-14T14:20:52.053223+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:availability-transfer-decisions:9413ff69776998531f95",
+    "status": "delivered"
+  },
+  "2026-11-14-fixture-targets.json": {
+    "at": "2026-11-14T14:21:06.546431+00:00",
+    "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:21b2e5926b14d034fc17",
+    "status": "delivered"
+  },
+  "2026-11-14-form-minutes-targets.json": {
+    "at": "2026-11-14T14:21:08.097782+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:74bf0056bcaf0c0a1e58",
+    "status": "delivered"
+  },
+  "2026-11-14-rank-booster.json": {
+    "at": "2026-11-14T14:20:54.889378+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:rank-booster:fd41720fa812e3d861d1",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-13T16:50:31.597225+00:00",
     "reason": "ValueError: Edition is stale or generated timestamp invalid; refresh instead of replaying",

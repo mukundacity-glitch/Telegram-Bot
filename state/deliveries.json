@@ -1606,6 +1606,39 @@
     "telegram_message_id": 407,
     "timestamp": "2026-11-13T23:53:21.171386+00:00"
   },
+  "2026-11-14:buy:GW11": {
+    "caption_sha256": "2640f5eff5724e246d88fabb852f0261e9f308aa4f33ff04d5d4f39fb839e2a0",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571168125779447901",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 420,
+    "timestamp": "2026-11-14T14:20:44.621996+00:00"
+  },
+  "2026-11-14:daily_stats": {
+    "caption_sha256": "56d95b99cf762b8955a53e26dfb746acb729c165acf4d9bbd77fa7039221a744",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571168094007853249",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 419,
+    "timestamp": "2026-11-14T14:20:44.621996+00:00"
+  },
+  "2026-11-14:elite": {
+    "caption_sha256": "8fcd036951c64db4fc841b4ecbe24e634b9d254ffe8d685181b7660cc8758900",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571168073074086039",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_message_id": 418,
+    "timestamp": "2026-11-14T14:20:44.621996+00:00"
+  },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,
     "discord_message_id": "1566986392335294705",

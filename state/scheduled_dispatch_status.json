@@ -1,10 +1,10 @@
 {
-  "at": "2026-11-14T00:19:01.240918+00:00",
-  "eastern_at": "2026-11-13T19:19:01.240918-05:00",
-  "new_posts": 1,
+  "at": "2026-11-14T14:20:44.621996+00:00",
+  "eastern_at": "2026-11-14T09:20:44.621996-05:00",
+  "new_posts": 3,
   "next_due": {
-    "post": "evening",
-    "trigger": "2026-11-13T20:00:00-05:00"
+    "post": "four-midfielders",
+    "trigger": "2026-11-14T09:30:00-05:00"
   },
   "pending_triggers": [
     {
@@ -24,14 +24,14 @@
       "trigger": "2026-11-21T07:30:00+00:00"
     }
   ],
-  "posts_due": 2,
+  "posts_due": 10,
   "posts_failed": 0,
-  "posts_generated": 0,
+  "posts_generated": 8,
   "posts_pending_trigger": 4,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "13 6-22 * * *",
+  "scheduled_cron": null,
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 1
+  "telegram_messages_sent": 3
 }
