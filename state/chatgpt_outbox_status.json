@@ -511,8 +511,8 @@
     "status": "delivered"
   },
   "2026-11-14-market-verdict.json": {
-    "at": "2026-11-14T23:23:36.867671+00:00",
-    "attempts": 1,
+    "at": "2026-11-14T23:53:07.639003+00:00",
+    "attempts": 2,
     "identity": "chatgpt:2026-27:GW11:task2:market-verdict:ee547029f437a6e17e6c",
     "reason": "RuntimeError: Equivalent album already published/pending; refusing duplicate",
     "status": "held"

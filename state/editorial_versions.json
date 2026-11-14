@@ -3898,7 +3898,7 @@
   },
   "sell:11:8:475168|94:502500|4:216646|11:17761": {
     "confirmed": true,
-    "delivery_key": "2026-11-13:sell:GW11",
+    "delivery_key": "2026-11-14:sell:GW11",
     "evidence": {
       "gw": 11,
       "kind": "sell",
@@ -3927,7 +3927,7 @@
             "minutes": "521",
             "minutes_last_three_completed_gws": "0",
             "next_gw": "11",
-            "ownership": "31.6%",
+            "ownership": "31.5%",
             "points_last_three_completed_gws": "0",
             "position": "FWD",
             "price": "£7.6m",
@@ -3937,7 +3937,7 @@
             "saves_season": "0",
             "season_stat": "SZN: 3.0 xG · 0.3 xA",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "325,004",
+            "transfers": "334,686",
             "xa_season": "0.31",
             "xg_season": "3.05",
             "xgc_season": "7.92"
@@ -3969,7 +3969,7 @@
             "minutes": "824",
             "minutes_last_three_completed_gws": "202",
             "next_gw": "11",
-            "ownership": "8.1%",
+            "ownership": "8.0%",
             "points_last_three_completed_gws": "12",
             "position": "FWD",
             "price": "£7.8m",
@@ -3980,7 +3980,7 @@
             "season_stat": "SZN: 4.1 xG · 1.3 xA",
             "set_pieces_current_order": "PEN #1",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "106,005",
+            "transfers": "109,884",
             "xa_season": "1.26",
             "xg_season": "4.12",
             "xgc_season": "12.87"
@@ -4023,7 +4023,7 @@
             "season_stat": "SZN: 3.4 xG · 0.2 xA",
             "set_pieces_current_order": "PEN #1",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "62,988",
+            "transfers": "64,783",
             "xa_season": "0.19",
             "xg_season": "3.41",
             "xgc_season": "11.31"
@@ -4065,7 +4065,7 @@
             "saves_season": "0",
             "season_stat": "SZN: 98 DC acts · 4 CS",
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "transfers": "49,907",
+            "transfers": "51,580",
             "xa_season": "0.11",
             "xg_season": "0.18",
             "xgc_season": "14.20"
@@ -4076,8 +4076,8 @@
       ]
     },
     "group": "sell:11:8:475168|94:502500|4:216646|11:17761",
-    "timestamp": "2026-11-13T23:53:21.171386+00:00",
-    "version": "18e2c403792262612dbc74146c2b5fe50993f19ce74416b95c639ea138a3b1df"
+    "timestamp": "2026-11-14T23:52:43.608445+00:00",
+    "version": "4e6b50ab32c1fb342127b4729b31bfa8e35f1f32e63d9d3db184ee0564ffe0b7"
   },
   "start_bench:10:31:START|79:START|13:START|68:START|1:START|501:BENCH|290:BENCH|516:BENCH|198:BENCH|552:BENCH": {
     "confirmed": true,

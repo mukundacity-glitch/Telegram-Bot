@@ -1215,6 +1215,23 @@
     "trigger": "2026-11-14T17:30:00-05:00",
     "type": "review"
   },
+  "2026-11-14:sell": {
+    "attempts": 1,
+    "completed_at": "2026-11-14T23:53:12.765594+00:00",
+    "confirmed_telegram_message_ids": [
+      427
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-14:sell",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      427
+    ],
+    "timestamp": "2026-11-14T23:52:43.608445+00:00",
+    "trigger": "2026-11-14T18:30:00-05:00",
+    "type": "sell"
+  },
   "2026-11-14:task1:availability-transfer-decisions:GW11": {
     "attempts": 1,
     "completed_at": "2026-11-14T14:20:52.060986+00:00",
@@ -1319,15 +1336,15 @@
     "type": "four-team-targets"
   },
   "2026-11-14:task2:market-verdict:GW11": {
-    "attempts": 1,
-    "completed_at": "2026-11-14T23:23:36.876433+00:00",
+    "attempts": 2,
+    "completed_at": "2026-11-14T23:53:07.644861+00:00",
     "confirmed_telegram_message_ids": [],
     "error": "RuntimeError: Equivalent album already published/pending; refusing duplicate",
     "generated": true,
     "post_id": "2026-11-14:task2:market-verdict:GW11",
     "status": "RETRY",
     "telegram_message_ids": [],
-    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "timestamp": "2026-11-14T23:52:43.608445+00:00",
     "trigger": "2026-11-14T15:30:00-05:00",
     "type": "market-verdict"
   },
@@ -1929,16 +1946,65 @@
     "trigger": "2026-11-14T23:23:01.782496+00:00",
     "type": "2026-11-14T23:23:01.782496+00:00:news"
   },
+  "2026-11-14T23:52:43.608445+00:00": {
+    "posts": [
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-14T23:52:43.817359+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "gw10-four-midfielders.json",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:52:43.608445+00:00",
+        "trigger": "2026-11-03T16:09:40.289362+00:00",
+        "type": "gw10-four-midfielders.json"
+      },
+      {
+        "attempts": 2,
+        "completed_at": "2026-11-14T23:53:07.644861+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "RuntimeError: Equivalent album already published/pending; refusing duplicate",
+        "generated": true,
+        "post_id": "2026-11-14:task2:market-verdict:GW11",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:52:43.608445+00:00",
+        "trigger": "2026-11-14T15:30:00-05:00",
+        "type": "market-verdict"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-14T23:53:12.765594+00:00",
+        "confirmed_telegram_message_ids": [
+          427
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-14:sell",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          427
+        ],
+        "timestamp": "2026-11-14T23:52:43.608445+00:00",
+        "trigger": "2026-11-14T18:30:00-05:00",
+        "type": "sell"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-14T23:52:43.608445+00:00"
+  },
   "gw10-four-midfielders.json": {
     "attempts": 0,
-    "completed_at": "2026-11-14T23:23:02.007163+00:00",
+    "completed_at": "2026-11-14T23:52:43.817359+00:00",
     "confirmed_telegram_message_ids": [],
     "error": null,
     "generated": false,
     "post_id": "gw10-four-midfielders.json",
     "status": "CHECKED",
     "telegram_message_ids": [],
-    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "timestamp": "2026-11-14T23:52:43.608445+00:00",
     "trigger": "2026-11-03T16:09:40.289362+00:00",
     "type": "gw10-four-midfielders.json"
   },
