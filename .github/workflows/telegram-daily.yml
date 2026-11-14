@@ -25,6 +25,7 @@ on:
         default: due-queue
         options:
           - due-queue
+          - reconcile-telegram
           - four-midfielders
           - form-minutes-targets
           - rank-booster
@@ -43,6 +44,10 @@ on:
           - captaincy-comparison
           - market-trends-next-five
           - final-gameweek-news
+      reconciliation:
+        description: 'Verified Telegram history evidence as JSON. See docs/automatic-publishing.md'
+        type: string
+        required: false
 permissions:
   contents: read
 jobs:
@@ -122,8 +127,9 @@ jobs:
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
           # A deliberate manual dispatch bypasses the scheduled ET window.
           # Scheduled jobs and ordinary push publishers retain the normal guard.
-          FPL_MANUAL_PUBLISH: ${{ (github.event_name == 'workflow_dispatch' && inputs.edition != 'due-queue') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]') }}
-          FPL_PUBLISH_WINDOW_ENFORCED: ${{ !((github.event_name == 'workflow_dispatch' && inputs.edition != 'due-queue') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]')) }}
+          FPL_MANUAL_PUBLISH: ${{ (github.event_name == 'workflow_dispatch' && inputs.edition != 'due-queue' && inputs.edition != 'reconcile-telegram') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]') }}
+          FPL_PUBLISH_WINDOW_ENFORCED: ${{ !((github.event_name == 'workflow_dispatch' && inputs.edition != 'due-queue' && inputs.edition != 'reconcile-telegram') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]')) }}
+          TELEGRAM_RECONCILIATION: ${{ inputs.reconciliation }}
           MANUAL_EDITION: ${{ inputs.edition || 'vortex-captain' }}
           FPL_ENRICHED_VISUALS_ENABLED: 'true'
           DUAL_PUBLISH_ENABLED: 'true'
@@ -141,7 +147,9 @@ jobs:
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
           SCHEDULED_CRON: ${{ github.event.schedule }}
         run: |
-          if [ "$FPL_MANUAL_PUBLISH" = 'true' ]; then
+          if [ "$GITHUB_EVENT_NAME" = 'workflow_dispatch' ] && [ "$MANUAL_EDITION" = 'reconcile-telegram' ]; then
+            python -m vortex.reconcile_telegram
+          elif [ "$FPL_MANUAL_PUBLISH" = 'true' ]; then
             python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"
           else
             python -m vortex.scheduled_dispatch
@@ -163,27 +171,6 @@ jobs:
                   if field in result:
                       print(f"- **{field.replace('_', ' ').title()}** {result[field]}")
           PY
-      - name: Archive graphic and confirmed receipts
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: fpl-vortex-${{ github.run_id }}
-          path: |
-            outbox/assets/*.png
-            state/chatgpt_deliveries.json
-            state/chatgpt_outbox_status.json
-            state/missing_portraits.json
-            state/autonomous_editions.json
-            state/scheduled_dispatch_status.json
-            state/publishing_audit.json
-            state/scheduled_legacy_attempts.json
-            state/deliveries.json
-            state/news_deliveries.json
-            output/autonomous-audit.json
-            output/news/*.png
-            output/*.png
-          if-no-files-found: ignore
-          retention-days: 30
       - name: Preserve both-platform delivery receipts before any retry
         if: always()
         run: |
@@ -205,3 +192,24 @@ jobs:
             fi
           done
           exit 1
+      - name: Archive graphic and confirmed receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: fpl-vortex-${{ github.run_id }}
+          path: |
+            outbox/assets/*.png
+            state/chatgpt_deliveries.json
+            state/chatgpt_outbox_status.json
+            state/missing_portraits.json
+            state/autonomous_editions.json
+            state/scheduled_dispatch_status.json
+            state/publishing_audit.json
+            state/scheduled_legacy_attempts.json
+            state/deliveries.json
+            state/news_deliveries.json
+            output/autonomous-audit.json
+            output/news/*.png
+            output/*.png
+          if-no-files-found: ignore
+          retention-days: 30

@@ -12,6 +12,7 @@ import fcntl
 import hashlib
 from contextlib import contextmanager
 from dataclasses import dataclass
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import urlsplit, urlunsplit
@@ -163,6 +164,17 @@ def _caption_digest(caption: str) -> str:
     return hashlib.sha256(" ".join(caption.split()).casefold().encode("utf-8")).hexdigest()
 
 
+def record_telegram_receipt(entry, message_id, *, delivered_at=None, verification_source="telegram-bot-api"):
+    if type(message_id) is not int or message_id <= 0:
+        raise DeliveryUncertain("Telegram response did not confirm a positive message ID")
+    entry.update(delivered=True, telegram_message_id=message_id,
+                 telegram_delivered_at=delivered_at or datetime.now(timezone.utc).isoformat(),
+                 telegram_verification_source=verification_source)
+    for field in ("telegram_send_pending", "telegram_album_pending",
+                  "telegram_uncertain_at", "telegram_verification_required"):
+        entry.pop(field, None)
+
+
 def publish_shared(post: NewsPost, journal_path: Path, telegram: Any,
                    discord: DiscordWebhookClient | Any,
                    *, send_telegram: bool = True, send_discord: bool = True,
@@ -198,6 +210,9 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
         if prior.get("delivered"):
             entry["delivered"] = True
             entry["telegram_message_id"] = prior.get("telegram_message_id")
+            for field in ("telegram_delivered_at", "telegram_verification_source"):
+                if field in prior:
+                    entry[field] = prior[field]
         if prior.get("discord_delivered"):
             entry["discord_delivered"] = True
             entry["discord_message_id"] = prior.get("discord_message_id")
@@ -226,6 +241,9 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
                           else isinstance(discord, DiscordWebhookClient))
         if live_transport:
             entry[platform + "_send_pending"] = True
+            if platform == "telegram":
+                entry["telegram_uncertain_at"] = now_iso or datetime.now(timezone.utc).isoformat()
+                entry["telegram_verification_required"] = True
             journal[post.identity] = entry
             save_journal(journal_path, journal)
         try:
@@ -237,9 +255,7 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
                     # but new unified delivery uses exact copy-ready captions.
                     send = getattr(telegram, "send_shared_png", telegram.send_png)
                     message_id = send(post.image, post.caption, post.title, post.gameweek)
-                entry.update({"delivered": True, "telegram_message_id": message_id})
-                entry.pop("telegram_send_pending", None)
-                entry.pop("telegram_uncertain_at", None)
+                record_telegram_receipt(entry, message_id)
             else:
                 message_id = discord.send(post)
                 entry.update({"discord_delivered": True, "discord_message_id": str(message_id)})
@@ -253,16 +269,20 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
                     getattr(exc, "confirmed_rejection", False)) or (
                     platform == "discord" and isinstance(exc, DeliveryRejected)):
                 entry.pop(platform + "_send_pending", None)
+                if platform == "telegram":
+                    entry.pop("telegram_uncertain_at", None)
+                    entry.pop("telegram_verification_required", None)
                 journal[post.identity] = entry
                 save_journal(journal_path, journal)
             if isinstance(exc, TelegramDeliveryError):
                 print(str(exc))
-                if platform == "telegram" and getattr(exc, "delivery_uncertain", False):
-                    # Durable fence: preserve accepted Discord receipt and avoid replay.
-                    entry["telegram_send_pending"] = True
-                    entry["telegram_uncertain_at"] = now_iso
-                    journal[post.identity] = entry
-                    save_journal(journal_path, journal)
+            if platform == "telegram" and (isinstance(exc, DeliveryUncertain)
+                    or getattr(exc, "delivery_uncertain", False)):
+                entry["telegram_send_pending"] = True
+                entry["telegram_verification_required"] = True
+                entry["telegram_uncertain_at"] = now_iso or datetime.now(timezone.utc).isoformat()
+                journal[post.identity] = entry
+                save_journal(journal_path, journal)
             if platform == "discord" and (
                     isinstance(exc, (requests.RequestException, DeliveryUncertain)) or
                     (isinstance(discord, DiscordWebhookClient) and
@@ -318,14 +338,22 @@ def _publish_album_locked(identity,images,caption,journal_path,telegram,discord,
         # silently replay an album whose receipt may have been lost.
         for key,row in zip(keys,rows):
             row[pending]=True;row['album_caption_sha256']=digest;journal[key]=row
+            if platform == "telegram":
+                row["telegram_verification_required"] = True
+                row["telegram_uncertain_at"] = now_iso or datetime.now(timezone.utc).isoformat()
         save_journal(journal_path,journal)
         try:
             ids=telegram.send_album(images,caption) if platform=='telegram' else [discord.send_album(images,caption)]*len(images)
             if len(ids)!=len(images):raise RuntimeError('Album receipt count mismatch')
+            if platform == 'telegram' and any(type(value) is not int or value <= 0 for value in ids):
+                raise DeliveryUncertain('Telegram album receipt has an invalid message ID')
             for key,row,message_id in zip(keys,rows,ids):
-                row[flag]=True
-                row.pop(pending,None)
-                row['telegram_message_id' if platform=='telegram' else 'discord_message_id']=message_id
+                if platform == 'telegram':
+                    record_telegram_receipt(row, message_id)
+                else:
+                    row[flag]=True
+                    row.pop(pending,None)
+                    row['discord_message_id']=message_id
                 row['timestamp']=now_iso;row['caption_once_album']=True
                 row['album_caption_sha256']=digest;journal[key]=row
             save_journal(journal_path,journal)
@@ -333,6 +361,9 @@ def _publish_album_locked(identity,images,caption,journal_path,telegram,discord,
             if isinstance(exc,DeliveryRejected) or getattr(exc,'confirmed_rejection',False):
                 for key,row in zip(keys,rows):
                     row.pop(pending,None);journal[key]=row
+                    if platform == "telegram":
+                        row.pop("telegram_uncertain_at", None)
+                        row.pop("telegram_verification_required", None)
                 save_journal(journal_path,journal)
             errors.append(platform+' '+type(exc).__name__)
     if errors:raise RuntimeError('Partial delivery; retained album receipts: '+', '.join(errors))

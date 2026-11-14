@@ -104,8 +104,7 @@ class TelegramClient:
             raise error
         return payload
 
-    def verify_destination(self) -> None:
-        """Read-only identity/destination checks, with no IDs in logs."""
+    def _destination(self) -> dict[str, Any]:
         if self.get_bot_username().casefold() != "fplvortexdailybot":
             raise TelegramDeliveryError("Telegram preflight: wrong-bot-token")
         payload = self._post("getChat", {"chat_id": self.chat_id})
@@ -115,6 +114,15 @@ class TelegramClient:
         kind = str(chat.get("type") or "unknown")
         if kind not in ("private", "group", "supergroup", "channel"):
             raise TelegramDeliveryError("Telegram preflight: unknown-destination-type")
+        return chat
+
+    def destination_type(self) -> str:
+        return self._destination()["type"]
+
+    def verify_destination(self) -> None:
+        """Read-only identity/destination checks, with no IDs in logs."""
+        chat = self._destination()
+        kind = chat["type"]
         # Never display numeric chat IDs, bot tokens, or private group titles.
         print("Telegram preflight: bot verified; configured destination type=" + kind)
         if kind == "channel":

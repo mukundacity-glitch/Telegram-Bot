@@ -83,3 +83,29 @@ repost must use fresh verified evidence and a new identity.
 The `schedule` triggers, 05:30–23:00 ET guard, active graphics, and
 Telegram/Discord destinations are unchanged. Run pull-request tests for a
 zero-publish dry check before merging.
+
+## Reconcile an uncertain Telegram outbox photo
+
+A bot's update feed cannot search older outgoing messages. Open the actual
+Telegram chat in a signed-in client and check the time around
+`telegram_uncertain_at`. Match the exact caption and graphic from the
+outbox record at the original commit. A later edition with the same filename
+or topic is insufficient evidence.
+
+From **Actions → FPL VORTEX Telegram Daily → Run workflow**, select
+`reconcile-telegram`. Enter the exact page key from
+`state/chatgpt_deliveries.json` in the `post_id` JSON field, the history check
+time including its offset in `history_checked_at`, and one outcome:
+
+- `"outcome": "found"` with the Telegram `message_id` as a number and the
+  original `delivered_at` including its offset. This only writes the receipt.
+- `"outcome": "absent"` with the original full commit SHA in `revision`
+  and the original outbox JSON basename in `outbox_file`. Use only after
+  checking the complete relevant history in the channel and confirming it
+  is the configured Telegram destination. The workflow validates the original
+  edition and graphic before sending it once. Discord is not sent again.
+
+If access to history is missing or the result is inconclusive, keep the record
+pending. If the reconciliation send itself fails, check history again before
+taking any action. The workflow records the one-time attempt before contacting
+Telegram and leaves the receipt unresolved until it has a valid message ID.
