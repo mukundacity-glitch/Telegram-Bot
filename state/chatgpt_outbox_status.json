@@ -500,6 +500,11 @@
     "identity": "chatgpt:2026-27:GW11:task2:four-midfielders:c5ea2eb3f4082209f809",
     "status": "delivered"
   },
+  "2026-11-14-four-team-targets.json": {
+    "at": "2026-11-14T19:54:36.488741+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:four-team-targets:77febf17a0ac1075d770",
+    "status": "delivered"
+  },
   "2026-11-14-player-radar-comparison.json": {
     "at": "2026-11-14T19:28:29.896426+00:00",
     "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:282c2ec362525d87af8b",

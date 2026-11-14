@@ -1,0 +1,281 @@
+{
+  "task": "task2",
+  "edition": "four-team-targets",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "GW11 PROJECTED GOALS & CLEAN SHEETS",
+  "caption": "📊 GW11 Projected Goals & Clean Sheets\n⚽ MCI 2.35 projected goals · 🧤 BHA 40% clean sheet\n2026-11-14 ET • 0 market · 10 Solio Analytics model · 0 unavailable.\n\n#FPL #GW11 #FPLVORTEX #FPLFixtures",
+  "facts": {
+    "players": [],
+    "edition": "four-team-targets",
+    "extra": {
+      "rows": [
+        {
+          "fixture": 108,
+          "team": "MCI",
+          "team_code": 43,
+          "opponent": "FUL",
+          "opponent_code": 54,
+          "venue": "H",
+          "fdr": 2,
+          "goals": 2.35,
+          "clean_sheet": 39,
+          "source": "solio"
+        },
+        {
+          "fixture": 108,
+          "team": "FUL",
+          "team_code": 54,
+          "opponent": "MCI",
+          "opponent_code": 43,
+          "venue": "A",
+          "fdr": 5,
+          "goals": 0.95,
+          "clean_sheet": 10,
+          "source": "solio"
+        },
+        {
+          "fixture": 101,
+          "team": "AVL",
+          "team_code": 7,
+          "opponent": "SUN",
+          "opponent_code": 56,
+          "venue": "H",
+          "fdr": 2,
+          "goals": 1.77,
+          "clean_sheet": 35,
+          "source": "solio"
+        },
+        {
+          "fixture": 101,
+          "team": "SUN",
+          "team_code": 56,
+          "opponent": "AVL",
+          "opponent_code": 7,
+          "venue": "A",
+          "fdr": 3,
+          "goals": 1.04,
+          "clean_sheet": 17,
+          "source": "solio"
+        },
+        {
+          "fixture": 102,
+          "team": "BOU",
+          "team_code": 91,
+          "opponent": "NFO",
+          "opponent_code": 17,
+          "venue": "H",
+          "fdr": 3,
+          "goals": 1.61,
+          "clean_sheet": 33,
+          "source": "solio"
+        },
+        {
+          "fixture": 102,
+          "team": "NFO",
+          "team_code": 17,
+          "opponent": "BOU",
+          "opponent_code": 91,
+          "venue": "A",
+          "fdr": 4,
+          "goals": 1.12,
+          "clean_sheet": 20,
+          "source": "solio"
+        },
+        {
+          "fixture": 104,
+          "team": "CHE",
+          "team_code": 8,
+          "opponent": "LEE",
+          "opponent_code": 2,
+          "venue": "H",
+          "fdr": 3,
+          "goals": 1.72,
+          "clean_sheet": 33,
+          "source": "solio"
+        },
+        {
+          "fixture": 104,
+          "team": "LEE",
+          "team_code": 2,
+          "opponent": "CHE",
+          "opponent_code": 8,
+          "venue": "A",
+          "fdr": 4,
+          "goals": 1.12,
+          "clean_sheet": 18,
+          "source": "solio"
+        },
+        {
+          "fixture": 105,
+          "team": "COV",
+          "team_code": 9,
+          "opponent": "CRY",
+          "opponent_code": 31,
+          "venue": "H",
+          "fdr": 2,
+          "goals": 1.52,
+          "clean_sheet": 25,
+          "source": "solio"
+        },
+        {
+          "fixture": 105,
+          "team": "CRY",
+          "team_code": 31,
+          "opponent": "COV",
+          "opponent_code": 9,
+          "venue": "A",
+          "fdr": 2,
+          "goals": 1.39,
+          "clean_sheet": 22,
+          "source": "solio"
+        },
+        {
+          "fixture": 110,
+          "team": "TOT",
+          "team_code": 6,
+          "opponent": "IPS",
+          "opponent_code": 40,
+          "venue": "H",
+          "fdr": 2,
+          "goals": 2.13,
+          "clean_sheet": 37,
+          "source": "solio"
+        },
+        {
+          "fixture": 110,
+          "team": "IPS",
+          "team_code": 40,
+          "opponent": "TOT",
+          "opponent_code": 6,
+          "venue": "A",
+          "fdr": 3,
+          "goals": 1.01,
+          "clean_sheet": 12,
+          "source": "solio"
+        },
+        {
+          "fixture": 109,
+          "team": "NEW",
+          "team_code": 4,
+          "opponent": "ARS",
+          "opponent_code": 3,
+          "venue": "H",
+          "fdr": 4,
+          "goals": 0.95,
+          "clean_sheet": 14,
+          "source": "solio"
+        },
+        {
+          "fixture": 109,
+          "team": "ARS",
+          "team_code": 3,
+          "opponent": "NEW",
+          "opponent_code": 4,
+          "venue": "A",
+          "fdr": 3,
+          "goals": 1.97,
+          "clean_sheet": 39,
+          "source": "solio"
+        },
+        {
+          "fixture": 106,
+          "team": "HUL",
+          "team_code": 88,
+          "opponent": "BHA",
+          "opponent_code": 36,
+          "venue": "H",
+          "fdr": 4,
+          "goals": 0.93,
+          "clean_sheet": 13,
+          "source": "solio"
+        },
+        {
+          "fixture": 106,
+          "team": "BHA",
+          "team_code": 36,
+          "opponent": "HUL",
+          "opponent_code": 88,
+          "venue": "A",
+          "fdr": 2,
+          "goals": 2.07,
+          "clean_sheet": 40,
+          "source": "solio"
+        },
+        {
+          "fixture": 107,
+          "team": "LIV",
+          "team_code": 14,
+          "opponent": "MUN",
+          "opponent_code": 1,
+          "venue": "H",
+          "fdr": 3,
+          "goals": 2.0,
+          "clean_sheet": 29,
+          "source": "solio"
+        },
+        {
+          "fixture": 107,
+          "team": "MUN",
+          "team_code": 1,
+          "opponent": "LIV",
+          "opponent_code": 14,
+          "venue": "A",
+          "fdr": 4,
+          "goals": 1.25,
+          "clean_sheet": 14,
+          "source": "solio"
+        },
+        {
+          "fixture": 103,
+          "team": "BRE",
+          "team_code": 94,
+          "opponent": "EVE",
+          "opponent_code": 11,
+          "venue": "H",
+          "fdr": 3,
+          "goals": 1.62,
+          "clean_sheet": 30,
+          "source": "solio"
+        },
+        {
+          "fixture": 103,
+          "team": "EVE",
+          "team_code": 11,
+          "opponent": "BRE",
+          "opponent_code": 94,
+          "venue": "A",
+          "fdr": 4,
+          "goals": 1.21,
+          "clean_sheet": 20,
+          "source": "solio"
+        }
+      ],
+      "covered": 10,
+      "fixture_count": 10,
+      "market_count": 0,
+      "solio_count": 10,
+      "edition_date": "2026-11-14",
+      "sources": [
+        "https://fpl.solioanalytics.com/api/data/latest"
+      ]
+    },
+    "fixtures": []
+  },
+  "generated_at": "2026-11-14T19:54:34.450665+00:00",
+  "publish_at": "2026-11-14T19:54:34.228657+00:00",
+  "data_retrieval_at_et": "2026-11-14T14:54:34.450665-05:00",
+  "graphic_generated_at_et": "2026-11-14T14:54:36.486319-05:00",
+  "deadline": "2026-11-21T11:00:00+00:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://fpl.solioanalytics.com/api/data/latest"
+  ],
+  "images": [
+    "outbox/assets/2026-11-14-four-team-targets-GW11.png"
+  ]
+}
