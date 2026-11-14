@@ -12,6 +12,7 @@ import re
 
 from PIL import Image
 
+from .autonomous_schedule import RETIRED_EDITIONS
 from .bot import ROOT, STATE, read_state, write_state
 from .publishing_window import WINDOW_LABEL, assert_allowed, allowed
 from .syndication import NewsPost, DiscordWebhookClient, publish_shared
@@ -75,6 +76,8 @@ def queued_files(now):
     for file in sorted(QUEUE.glob('*.json')):
         try:
             row = json.loads(file.read_text())
+            if row.get('edition') in RETIRED_EDITIONS:
+                continue
             due = datetime.fromisoformat(row['publish_at'].replace('Z', '+00:00'))
             if due.tzinfo and due <= now:
                 yield due, file
@@ -102,6 +105,8 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
         previous = status.get(file.name, {})
         try:
             record = json.loads(file.read_text())
+            if record.get('edition') in RETIRED_EDITIONS:
+                continue
             identity, images, due = validate(record, root=ROOT, now=now,
                                              allow_outside_window=manual)
             if not manual and (due > now or (

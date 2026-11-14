@@ -90,10 +90,9 @@ def test_double_gw_requires_both_verified_fixtures_and_blank_is_not_zero():
     assert _fixture_forecast(rows, 11) == (None, None)
 
 
-def test_05_30_schedule_is_identical():
+def test_05_30_availability_edition_is_retired():
     from vortex.autonomous_schedule import SLOTS
-    slot = next(s for s in SLOTS if s.edition == "availability-transfer-decisions")
-    assert (slot.task, slot.hour, slot.minute) == ("task1", 5, 30)
+    assert all(s.edition != "availability-transfer-decisions" for s in SLOTS)
 
 
 def test_branded_single_page_renders_offline_without_posts(tmp_path, monkeypatch):

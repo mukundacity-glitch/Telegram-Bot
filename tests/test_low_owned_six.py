@@ -3,12 +3,12 @@ import pytest
 from PIL import Image
 
 from test_autonomous_engine import world
-from vortex.autonomous_schedule import SLOTS
+from vortex.autonomous_schedule import Slot
 from vortex.autonomous_content import build
 from vortex.editorial_inputs import RequiredInput
 
 
-def slot():return next(s for s in SLOTS if s.edition=='rank-booster')
+def slot():return Slot('task2', 'rank-booster', 6, 30)
 
 
 def test_exactly_six_strictly_under_ten_sorted_by_official_forecast(world):

@@ -11,7 +11,7 @@ import json,os
 from PIL import Image
 from .bot import ROOT,STATE,read_state,write_state
 from .fpl import collect_snapshot,price_snapshot,upcoming_deadline
-from .autonomous_schedule import SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
+from .autonomous_schedule import RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
@@ -32,7 +32,7 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
-    if plan.kind == 'player_radar':
+    if plan.kind in ('player_radar', 'chance_creators'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
     return {'players':[{k:p.get(k) for k in keys}|{'recent':evidence.recent(p)} for p in plan.players],
@@ -71,6 +71,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
             'images':[str(p.relative_to(base)) for p in pages]}
     if not manual and not audit:
         record['caption'] = verified_caption(plan.title, plan.caption)
+    if plan.kind == 'chance_creators':
+        record['sources'].append(plan.extra['source'])
     if plan.kind == 'odds_board':
         record['sources'].append('https://the-odds-api.com/')
     if audit and not allowed(now):
@@ -87,6 +89,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
 
 def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3, selected_slots=None, evidence=None):
     now=now or datetime.now(timezone.utc)
+    if edition in RETIRED_EDITIONS:
+        raise ValueError('This edition has been retired')
     if manual and not edition:
         raise ValueError('Manual delivery requires one explicitly selected edition')
     if not audit and not manual and not allowed(now):

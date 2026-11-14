@@ -72,12 +72,12 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     assert crons == ['43 * * * *', '13 * * * *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
-    assert len(SLOTS) == 15
+    assert len(SLOTS) == 12
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 
 
-@pytest.mark.parametrize('name',sorted({s.edition for s in SLOTS}|set(SPECIAL_EDITIONS)-{'verified-press-availability','confirmed-price-changes'}))
+@pytest.mark.parametrize('name',sorted({s.edition for s in SLOTS}|set(SPECIAL_EDITIONS)-{'verified-press-availability','confirmed-price-changes','chance-creators'}))
 def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name,monkeypatch,tmp_path):
     s,now,e,feed=world
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))

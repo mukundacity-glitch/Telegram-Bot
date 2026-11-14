@@ -14,10 +14,11 @@ class Slot:
     minute: int = 20
 
 
+RETIRED_EDITIONS = {
+    "availability-transfer-decisions", "rank-booster", "fixture-targets",
+}
+
 SLOTS = (
-    Slot('task1', 'availability-transfer-decisions', 5, 30),
-    Slot('task2', 'rank-booster', 6, 30),
-    Slot('three_daily', 'fixture-targets', 7, 30),
     Slot('task1', 'form-minutes-targets', 8, 30),
     Slot('task2', 'four-midfielders', 9, 30),
     Slot('task1', 'player-radar-comparison', 10, 30),
@@ -44,7 +45,7 @@ CATCHUP_CRONS = {f'{m} {h} * * *' for h in range(5, 23) for m in (10, 40) if (h,
 NEWS_CRONS = {f'5 {hour} * * *' for hour in range(6, 23)}
 SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5, 23)}
 OUTBOX_CRONS = {f'50 {hour} * * *' for hour in range(5, 23)}
-SPECIAL_EDITIONS = ('captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five')
+SPECIAL_EDITIONS = ('chance-creators','captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five')
 CLOSED = {'delivered', 'already-delivered', 'no-new-facts', 'checked'}
 MAX_ATTEMPTS = 3
 
@@ -86,7 +87,7 @@ def catchup_slots(now, state, gw, season=None, limit=3):
 
 
 SPECIAL_LEAD_HOURS = {
-    'captaincy-comparison': 36, 'value-board': 27,
+    'chance-creators': 36, 'captaincy-comparison': 36, 'value-board': 27,
     'start-bench-board': 8, 'final-gameweek-news': 5,
 }
 

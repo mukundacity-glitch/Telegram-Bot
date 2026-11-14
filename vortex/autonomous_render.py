@@ -22,12 +22,12 @@ def _eo_label(plan, player):
         return "Unavailable"
 
 
-def _base(title,gw):
+def _base(title,gw,subtitle=None):
     verify_exact_master()
     with Image.open(MASTER) as source: canvas=background(source,f'{title}|{gw}|{datetime.now(ZoneInfo("America/New_York")).date()}',(1536,864))
     d=ImageDraw.Draw(canvas,'RGBA')
     text(d,title,300,7,1055,34,WHITE,20,center=True)
-    text(d,f'GW{gw} • VERIFIED MINUTES • FIXTURES • DECISIONS',340,55,1030,19,CYAN,16,center=True)
+    text(d,subtitle or f'GW{gw} • VERIFIED MINUTES • FIXTURES • DECISIONS',340,55,1030,19,CYAN,16,center=True)
     return canvas
 
 
@@ -272,6 +272,11 @@ def _deadline(plan,snapshot,output,client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind == 'chance_creators':
+        from .chance_creators import draw_chart
+        canvas = _base(plan.title, plan.gw, f"GW{plan.gw} • OPEN PLAY & SET PIECES • PER 90")
+        draw_chart(canvas, plan)
+        return [_save(canvas, output)]
     if plan.kind == 'player_radar':
         from .radar_render import render_radar
         return [render_radar(plan, snapshot, output, client)]

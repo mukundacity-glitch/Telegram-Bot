@@ -110,6 +110,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'chance-creators':
+        from .chance_creators import build_chance_creators
+        return build_chance_creators(slot, snapshot, now, e.session)
     if name == 'player-radar-comparison':
         from .radar_comparison import build_radar
         return build_radar(slot, snapshot, now, e)

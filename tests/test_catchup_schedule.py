@@ -14,7 +14,7 @@ DAY_LATE = datetime(2026, 11, 10, 2, 10, tzinfo=timezone.utc)   # 21:10 EST
 def test_every_slot_is_inside_the_window_and_unique():
     times = [(s.hour, s.minute) for s in SLOTS]
     assert times == sorted(times)
-    assert times[0] == (5, 30) and times[-1] < (23, 0)
+    assert times[0] == (8, 30) and times[-1] < (23, 0)
     keys = {publication_key(s, DAY_NOON, 10, '2026-27') for s in SLOTS}
     assert len(keys) == len(SLOTS)
 
@@ -28,8 +28,8 @@ def test_nothing_due_before_first_slot_and_oldest_first_after():
     early = datetime(2026, 11, 9, 10, 29, tzinfo=timezone.utc)  # 05:29 EST
     assert catchup_slots(early, {}, 10, '2026-27') == []
     due = catchup_slots(DAY_NOON, {}, 10, '2026-27', limit=99)
-    assert [s.hour for s in due] == [5, 6, 7, 8, 9, 10, 11, 12][:len(due)]
-    assert due[0].edition == 'availability-transfer-decisions'
+    assert [s.hour for s in due] == [8, 9, 10, 11, 12][:len(due)]
+    assert due[0].edition == 'form-minutes-targets'
 
 
 def test_closed_and_exhausted_slots_are_skipped_but_held_ones_retry():
@@ -79,15 +79,15 @@ def test_runner_posts_the_oldest_due_edition_and_keeps_price_baseline(monkeypatc
     state = {}
     result, writes = _drive(monkeypatch, world, state, DAY_NOON)
     assert result['confirmed_edition_deliveries'] == 1
-    assert result['editions'][0]['edition'] == 'availability-transfer-decisions'
+    assert result['editions'][0]['edition'] == 'form-minutes-targets'
     assert 'prices.json' not in writes  # non-price runs no longer overwrite the baseline
     assert any(v.get('status') == 'delivered' for v in writes['autonomous_editions.json'].values())
 
 
-def test_first_catchup_run_at_0540_posts_the_0530_slot(monkeypatch, world):
-    first_run = datetime(2026, 11, 9, 10, 40, tzinfo=timezone.utc)  # 05:40 EST
+def test_first_catchup_run_posts_the_0830_slot(monkeypatch, world):
+    first_run = datetime(2026, 11, 9, 13, 40, tzinfo=timezone.utc)  # 08:40 EST
     result, _ = _drive(monkeypatch, world, {}, first_run)
-    assert result['editions'][0]['edition'] == 'availability-transfer-decisions'
+    assert result['editions'][0]['edition'] == 'form-minutes-targets'
 
 
 def test_manual_run_posts_only_an_already_due_edition(monkeypatch, world):
@@ -98,7 +98,7 @@ def test_manual_run_posts_only_an_already_due_edition(monkeypatch, world):
 
     result, _ = _drive(monkeypatch, world, {}, DAY_NOON, due=True)
     assert result['confirmed_edition_deliveries'] == 1
-    assert result['editions'][0]['edition'] == 'availability-transfer-decisions'
+    assert result['editions'][0]['edition'] == 'form-minutes-targets'
 
 
 def test_runs_outside_0530_2300_are_deferred_with_the_real_window():
