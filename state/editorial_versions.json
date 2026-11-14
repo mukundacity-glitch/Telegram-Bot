@@ -5844,14 +5844,14 @@
   },
   "transfer_suggestions:11:general": {
     "confirmed": true,
-    "delivery_key": "2026-11-13:transfer_suggestions:GW11",
+    "delivery_key": "2026-11-14:transfer_suggestions:GW11",
     "evidence": {
       "gw": 11,
       "kind": "transfer_suggestions",
       "players": []
     },
     "group": "transfer_suggestions:11:general",
-    "timestamp": "2026-11-13T23:53:21.171386+00:00",
-    "version": "d3af1d6347b44aabf123e3b70e50ace5d5b04ec1f569f292d51cf4e72d155b6a"
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "version": "bdb6b0bd505d8aead3913001d2f6debd3881d12ee564a07fe6f26a35dd3bdf22"
   }
 }

@@ -1057,6 +1057,12 @@
       405
     ]
   },
+  "2026-11-14:price_changes:confirmed-price-changes:GW11": {
+    "edition": "confirmed-price-changes",
+    "reason": "No confirmed price movement versus the persisted official baseline",
+    "status": "no-new-facts",
+    "task": "price_changes"
+  },
   "2026-11-14:task1:availability-transfer-decisions:GW11": {
     "at": "2026-11-14T14:20:44.621996+00:00",
     "attempts": 1,
@@ -1087,6 +1093,22 @@
     "task": "task1",
     "telegram_message_ids": [
       382
+    ]
+  },
+  "2026-11-14:task1:deadline-watch:GW11": {
+    "at": "2026-11-14T23:23:01.782496+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "deadline-watch",
+    "file": "outbox/2026-11-14-deadline-watch.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:deadline-watch:c02b416a1402a534c6a1",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      426
     ]
   },
   "2026-11-14:task1:form-minutes-targets:GW11": {
@@ -1152,6 +1174,21 @@
     "telegram_message_ids": [
       425
     ]
+  },
+  "2026-11-14:task2:market-verdict:GW11": {
+    "at": "2026-11-14T23:23:01.782496+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "market-verdict",
+    "file": "outbox/2026-11-14-market-verdict.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:market-verdict:ee547029f437a6e17e6c",
+    "pages": 4,
+    "publisher_exit_code": 1,
+    "reason": "RuntimeError: Equivalent album already published/pending; refusing duplicate",
+    "status": "queued-or-partial",
+    "task": "task2",
+    "telegram_message_ids": []
   },
   "2026-11-14:task2:rank-booster:GW11": {
     "at": "2026-11-14T14:20:44.621996+00:00",

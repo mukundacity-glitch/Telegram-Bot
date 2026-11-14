@@ -1685,6 +1685,13 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-14T19:28:21.503797+00:00"
   },
+  "2026-11-14:transfer_suggestions:GW11": {
+    "caption_sha256": "5fa12a043cad149ceacf3223a2e5c8b5deb1ae1c188433df32dd7e1197d4edd4",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570949791561814026",
+    "telegram_message_id": 407
+  },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,
     "discord_message_id": "1566986392335294705",

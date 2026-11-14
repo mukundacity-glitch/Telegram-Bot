@@ -1080,6 +1080,19 @@
     "trigger": "2026-11-14T09:00:00-05:00",
     "type": "buy"
   },
+  "2026-11-14:captaincy": {
+    "attempts": 1,
+    "completed_at": "2026-11-14T23:23:36.894295+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-14:captaincy",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "trigger": "2026-11-14T16:00:00-05:00",
+    "type": "captaincy"
+  },
   "2026-11-14:comparison": {
     "attempts": 1,
     "completed_at": "2026-11-14T14:21:06.557417+00:00",
@@ -1159,6 +1172,19 @@
     "trigger": "2026-11-14T10:00:00-05:00",
     "type": "news"
   },
+  "2026-11-14:price_changes:confirmed-price-changes:GW11": {
+    "attempts": 0,
+    "completed_at": "2026-11-14T23:23:41.184264+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-14:price_changes:confirmed-price-changes:GW11",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "trigger": "2026-11-14T17:30:00-05:00",
+    "type": "confirmed-price-changes"
+  },
   "2026-11-14:prices": {
     "attempts": 1,
     "completed_at": "2026-11-14T19:28:41.170413+00:00",
@@ -1175,6 +1201,19 @@
     "timestamp": "2026-11-14T19:28:21.503797+00:00",
     "trigger": "2026-11-14T12:00:00-05:00",
     "type": "prices"
+  },
+  "2026-11-14:review": {
+    "attempts": 1,
+    "completed_at": "2026-11-14T23:23:41.279529+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-14:review",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "trigger": "2026-11-14T17:30:00-05:00",
+    "type": "review"
   },
   "2026-11-14:task1:availability-transfer-decisions:GW11": {
     "attempts": 1,
@@ -1201,6 +1240,23 @@
     "timestamp": "2026-11-14T19:28:21.503797+00:00",
     "trigger": "2026-11-14T11:30:00-05:00",
     "type": "captain-differential"
+  },
+  "2026-11-14:task1:deadline-watch:GW11": {
+    "attempts": 1,
+    "completed_at": "2026-11-14T23:23:41.176737+00:00",
+    "confirmed_telegram_message_ids": [
+      426
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-14:task1:deadline-watch:GW11",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      426
+    ],
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "trigger": "2026-11-14T16:30:00-05:00",
+    "type": "deadline-watch"
   },
   "2026-11-14:task1:form-minutes-targets:GW11": {
     "attempts": 1,
@@ -1262,6 +1318,19 @@
     "trigger": "2026-11-14T14:30:00-05:00",
     "type": "four-team-targets"
   },
+  "2026-11-14:task2:market-verdict:GW11": {
+    "attempts": 1,
+    "completed_at": "2026-11-14T23:23:36.876433+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": "RuntimeError: Equivalent album already published/pending; refusing duplicate",
+    "generated": true,
+    "post_id": "2026-11-14:task2:market-verdict:GW11",
+    "status": "RETRY",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "trigger": "2026-11-14T15:30:00-05:00",
+    "type": "market-verdict"
+  },
   "2026-11-14:task2:rank-booster:GW11": {
     "attempts": 1,
     "completed_at": "2026-11-14T14:20:54.895328+00:00",
@@ -1317,6 +1386,21 @@
     "timestamp": "2026-11-14T19:28:21.503797+00:00",
     "trigger": "2026-11-14T14:00:00-05:00",
     "type": "transfer"
+  },
+  "2026-11-14:transfer_suggestions": {
+    "attempts": 1,
+    "completed_at": "2026-11-14T23:23:03.791298+00:00",
+    "confirmed_telegram_message_ids": [
+      407
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-14:transfer_suggestions",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "trigger": "2026-11-14T15:00:00-05:00",
+    "type": "transfer_suggestions"
   },
   "2026-11-14T00:19:01.240918+00:00": {
     "posts": [
@@ -1716,16 +1800,145 @@
     "status": "RUN",
     "timestamp": "2026-11-14T19:54:34.228657+00:00"
   },
+  "2026-11-14T23:23:01.782496+00:00": {
+    "posts": [
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-14T23:23:02.007163+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "gw10-four-midfielders.json",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-03T16:09:40.289362+00:00",
+        "type": "gw10-four-midfielders.json"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-14T23:23:03.791298+00:00",
+        "confirmed_telegram_message_ids": [
+          407
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-14:transfer_suggestions",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-14T15:00:00-05:00",
+        "type": "transfer_suggestions"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-14T23:23:36.876433+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "RuntimeError: Equivalent album already published/pending; refusing duplicate",
+        "generated": true,
+        "post_id": "2026-11-14:task2:market-verdict:GW11",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-14T15:30:00-05:00",
+        "type": "market-verdict"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-14T23:23:36.894295+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-14:captaincy",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-14T16:00:00-05:00",
+        "type": "captaincy"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-14T23:23:41.176737+00:00",
+        "confirmed_telegram_message_ids": [
+          426
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-14:task1:deadline-watch:GW11",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          426
+        ],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-14T16:30:00-05:00",
+        "type": "deadline-watch"
+      },
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-14T23:23:41.184264+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-14:price_changes:confirmed-price-changes:GW11",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-14T17:30:00-05:00",
+        "type": "confirmed-price-changes"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-14T23:23:41.279529+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-14:review",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-14T17:30:00-05:00",
+        "type": "review"
+      },
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-14T23:23:45.007184+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-14T23:23:01.782496+00:00:news",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-14T23:23:01.782496+00:00",
+        "trigger": "2026-11-14T23:23:01.782496+00:00",
+        "type": "2026-11-14T23:23:01.782496+00:00:news"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-14T23:23:01.782496+00:00"
+  },
+  "2026-11-14T23:23:01.782496+00:00:news": {
+    "attempts": 0,
+    "completed_at": "2026-11-14T23:23:45.007184+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-14T23:23:01.782496+00:00:news",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
+    "trigger": "2026-11-14T23:23:01.782496+00:00",
+    "type": "2026-11-14T23:23:01.782496+00:00:news"
+  },
   "gw10-four-midfielders.json": {
     "attempts": 0,
-    "completed_at": "2026-11-14T19:54:34.479663+00:00",
+    "completed_at": "2026-11-14T23:23:02.007163+00:00",
     "confirmed_telegram_message_ids": [],
     "error": null,
     "generated": false,
     "post_id": "gw10-four-midfielders.json",
     "status": "CHECKED",
     "telegram_message_ids": [],
-    "timestamp": "2026-11-14T19:54:34.228657+00:00",
+    "timestamp": "2026-11-14T23:23:01.782496+00:00",
     "trigger": "2026-11-03T16:09:40.289362+00:00",
     "type": "gw10-four-midfielders.json"
   },

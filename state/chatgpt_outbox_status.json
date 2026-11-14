@@ -485,6 +485,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:captain-differential:9b08b01d8aca3245767d",
     "status": "delivered"
   },
+  "2026-11-14-deadline-watch.json": {
+    "at": "2026-11-14T23:23:38.492839+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:deadline-watch:c02b416a1402a534c6a1",
+    "status": "delivered"
+  },
   "2026-11-14-fixture-targets.json": {
     "at": "2026-11-14T14:21:06.546431+00:00",
     "identity": "chatgpt:2026-27:GW11:three_daily:fixture-targets:21b2e5926b14d034fc17",
@@ -504,6 +509,13 @@
     "at": "2026-11-14T19:54:36.488741+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:four-team-targets:77febf17a0ac1075d770",
     "status": "delivered"
+  },
+  "2026-11-14-market-verdict.json": {
+    "at": "2026-11-14T23:23:36.867671+00:00",
+    "attempts": 1,
+    "identity": "chatgpt:2026-27:GW11:task2:market-verdict:ee547029f437a6e17e6c",
+    "reason": "RuntimeError: Equivalent album already published/pending; refusing duplicate",
+    "status": "held"
   },
   "2026-11-14-player-radar-comparison.json": {
     "at": "2026-11-14T19:28:29.896426+00:00",
