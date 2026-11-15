@@ -15,6 +15,18 @@ DEFENCE = ('Tackles + interceptions', ('tackles', 'interceptions'))
 GOALS = ('Goals', ('goals',))
 AERIALS = ('Aerial duels won', ('aerial_duels_won',))
 
+FPL_CLUB_NAMES = {
+    'Brighton': 'Brighton & Hove Albion',
+    'Leeds': 'Leeds United',
+    'Man City': 'Manchester City',
+    'Man Utd': 'Manchester United',
+    'Newcastle': 'Newcastle United',
+    "Nott'm Forest": 'Nottingham Forest',
+    'Spurs': 'Tottenham Hotspur',
+    'West Ham': 'West Ham United',
+    'Wolves': 'Wolverhampton Wanderers',
+}
+
 TOPICS = (
     ('Dribblers Who Reach the Box', DRIBBLES, BOX, (), 350, 'Who takes defenders on and gets into the box?'),
     ('Dribbling vs Final-Third Passing', DRIBBLES, PASSING, (), 350, 'Who beats a man and moves the ball into dangerous areas?'),
@@ -93,7 +105,7 @@ def goalkeeper_fixtures(snapshot, gw):
                 fdr = fixture.get(f'team_{side}_difficulty')
                 if not name or type(fdr) is not int or fdr not in range(1, 6):
                     raise RequiredInput('Official opponent name or fixture difficulty missing')
-                opponents.append((name, 'H' if home else 'A', fdr))
+                opponents.append((FPL_CLUB_NAMES.get(name, name), 'H' if home else 'A', fdr))
             cells.append(opponents)
         if not any(cells):
             continue

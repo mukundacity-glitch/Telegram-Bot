@@ -53,7 +53,8 @@ def test_one_branded_graphic_per_day(day, world, tmp_path, monkeypatch):
         sample = next(f for f in fixtures if f['id'] == 101)
         fixtures.append({**sample, 'id': 107, 'team_a': 3})
         keepers = [{**p, 'starts': 10} for p in snapshot.players if p['element_type'] == 1]
-        snapshot = replace(snapshot, events=events, fixtures=fixtures, players=keepers)
+        teams = {**snapshot.teams, 2: {**snapshot.teams[2], 'name': "Nott'm Forest"}}
+        snapshot = replace(snapshot, teams=teams, events=events, fixtures=fixtures, players=keepers)
     now = SUNDAY + timedelta(days=day)
     plan = scouting_rotation.build_scouting(SCOUTING, snapshot, now, evidence.session)
     assert plan.extra['day'] == day + 1
@@ -65,7 +66,7 @@ def test_one_branded_graphic_per_day(day, world, tmp_path, monkeypatch):
         assert all(r['photo'] for r in plan.extra['rows'])
         first_week = [r['cells'][0] for r in plan.extra['rows']]
         assert any(not fixtures for fixtures in first_week)
-        assert [('Team 2', 'H', 2), ('Team 3', 'H', 2)] in first_week
+        assert [('Nottingham Forest', 'H', 2), ('Team 3', 'H', 2)] in first_week
     else:
         assert plan.extra['x_name'] == scouting_rotation.TOPICS[day][1][0]
         assert plan.extra['y_name'] == scouting_rotation.TOPICS[day][2][0]
