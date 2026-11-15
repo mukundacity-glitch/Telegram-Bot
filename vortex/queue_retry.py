@@ -54,3 +54,12 @@ def verified_caption(title, caption):
     if len(result) > 1024:
         raise RequiredInput("Caption exceeds Telegram's 1024-character limit")
     return result
+
+
+def dated_caption(caption, day):
+    """Give each scheduled edition a visible date while preserving line count."""
+    headline, _, body = caption.partition('\n')
+    result = f'{headline} · {day:%d %b %Y}\n{body}'
+    if len(result) > 1024:
+        raise RequiredInput('Dated caption exceeds Telegram’s 1024-character limit')
+    return result

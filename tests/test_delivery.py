@@ -183,3 +183,15 @@ def test_shared_delivery_backfills_only_discord_for_previously_delivered_slot(
     assert journal[key]["delivered"] is True
     assert bot.run("comparison") == 0
     assert len(posts) == 1
+
+
+def test_dated_scheduled_caption_keeps_format_and_has_distinct_receipt_digest():
+    from datetime import date
+    from vortex.queue_retry import dated_caption
+    from vortex.syndication import _caption_digest
+
+    caption = 'Same facts today\nFixture context\n\n#FPL #GW11 #FPLVORTEX'
+    monday = dated_caption(caption, date(2026, 11, 16))
+    tuesday = dated_caption(caption, date(2026, 11, 17))
+    assert monday.splitlines()[1:] == caption.splitlines()[1:]
+    assert _caption_digest(monday) != _caption_digest(tuesday)

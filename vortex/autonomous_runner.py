@@ -11,14 +11,14 @@ import json,os
 from PIL import Image
 from .bot import ROOT,STATE,read_state,write_state
 from .fpl import collect_snapshot,price_snapshot,upcoming_deadline
-from .autonomous_schedule import VULNERABILITY, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
+from .autonomous_schedule import VULNERABILITY, WILDCARD, SERIES, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
 from .publishing_window import OPEN_MINUTE, allowed
 from .outbox import validate,run as publish_outbox,RECEIPTS,STATUS
 from .telegram_spacing import DeliveryDeferred
-from .queue_retry import failure_reason, retry_source, verified_caption
+from .queue_retry import dated_caption, failure_reason, retry_source, verified_caption
 
 STATE_FILE=STATE/'autonomous_editions.json'
 AUDIT=ROOT/'output/autonomous-audit.json'
@@ -44,10 +44,12 @@ def facts(plan,snapshot,evidence):
 
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
     plan=retry_source(lambda: build(slot,snapshot,now,evidence,model,prices,research), required=True)
+    recurring = not manual and not audit and slot in SLOTS and slot != SERIES
+    day = now.astimezone(ET).date()
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
     pages=render(plan,snapshot,now,output,evidence.session)
-    if (slot.on_date or slot == VULNERABILITY or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation')) and len(pages) != 1:
+    if (slot in (WILDCARD, VULNERABILITY) or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation')) and len(pages) != 1:
         raise RuntimeError(f'{plan.edition} requires exactly one graphic')
     for path in pages:
         with Image.open(path) as image:
@@ -56,8 +58,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     weekly = slot.edition == 'weekly-analysis'
     deadline = ((now.astimezone(ET) + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
                 if weekly else upcoming_deadline(snapshot))
-    if (slot.on_date or slot == VULNERABILITY) and deadline is not None:
-        day = slot.on_date or now.astimezone(ET).date()
+    if (slot in (WILDCARD, VULNERABILITY)) and deadline is not None:
         close = datetime.combine(day, datetime.min.time(), tzinfo=ET)
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
     if deadline is None or deadline <= datetime.now(timezone.utc):
@@ -78,18 +79,20 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.kind != 'wildcard' and plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
+    if recurring:
+        record['facts']['publication_date'] = day.isoformat()
     if not manual and not audit:
         safe_caption = verified_caption(plan.title, plan.caption)
-        if slot.on_date or slot == VULNERABILITY or plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation'):
+        if slot in (WILDCARD, VULNERABILITY) or plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation'):
             safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
             if len(safe_caption.splitlines()) != 5:
                 raise RequiredInput('Watch editions require a five-line caption')
-        record['caption'] = safe_caption
+        record['caption'] = dated_caption(safe_caption, day) if recurring and slot != VULNERABILITY else safe_caption
     if plan.kind == 'chance_creators':
         record['sources'].append(plan.extra['source'])
     if slot.edition == 'weekly-analysis':
         record['sources'].extend(plan.extra['sources'])
-    if slot.on_date or slot == VULNERABILITY or plan.kind == 'odds_board' or slot.edition in ('afternoon-rotation', 'scouting-rotation'):
+    if slot in (WILDCARD, VULNERABILITY) or plan.kind == 'odds_board' or slot.edition in ('afternoon-rotation', 'scouting-rotation'):
         record['sources'].extend(plan.extra.get('sources', []))
     if audit and not allowed(now):
         hour, minute = divmod(OPEN_MINUTE, 60)
@@ -105,7 +108,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
 
 def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3, selected_slots=None, evidence=None):
     now=now or datetime.now(timezone.utc)
-    if edition == VULNERABILITY.edition or any(s.on_date and s.edition == edition for s in SLOTS):
+    if edition in (WILDCARD.edition, VULNERABILITY.edition):
         raise ValueError('This post is available through the due queue only')
     if edition in RETIRED_EDITIONS:
         raise ValueError('This edition has been retired')
@@ -130,7 +133,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     if selected_slots is not None:
         slots=selected_slots
     elif audit:
-        slots=[s for s in SLOTS if s.on_date is None]+[Slot('task1',name,now.astimezone(ET).hour,35) for name in SPECIAL_EDITIONS]
+        slots=[s for s in SLOTS if s != WILDCARD]+[Slot('task1',name,now.astimezone(ET).hour,35) for name in SPECIAL_EDITIONS]
     elif cron in SPECIAL_CRONS and not edition:
         slots=due_specials(snapshot,now,state)
     elif edition:
@@ -180,7 +183,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                     write_state(STATE_FILE, state)
                     rows.append({'edition': slot.edition, 'status': 'already-delivered'})
                     continue
-                if slot.on_date or slot == VULNERABILITY or any(receipt.get('delivered') or receipt.get('discord_delivered')
+                if slot in (WILDCARD, VULNERABILITY) or any(receipt.get('delivered') or receipt.get('discord_delivered')
                        or receipt.get('discord_send_pending') or receipt.get('discord_album_pending')
                        for receipt in previous):
                     file, identity, count = ROOT / prior['file'], prior_identity, prior['pages']
@@ -256,7 +259,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if not s.on_date and s != VULNERABILITY and s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation')}|set(SPECIAL_EDITIONS)))
+    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s not in (VULNERABILITY, WILDCARD) and s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation')}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
     parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
     parser.add_argument('--manual', action='store_true', help='Publish exactly one selected, verified edition immediately')

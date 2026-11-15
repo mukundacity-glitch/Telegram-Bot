@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from .autonomous_content import Evidence
 from .autonomous_runner import run as run_editions, STATE_FILE
 from .autonomous_schedule import (
-    ET, SLOTS, VULNERABILITY, VULNERABILITY_CRONS, catchup_slots, eligible_on, publication_key, retryable, season_id, slot_start,
+    ET, SLOTS, catchup_slots, eligible_on, publication_key, retryable, season_id, slot_start,
     special_triggers, SERIES, SERIES_STATE, weekly_analysis_slot,
 )
 from .bot import STATE, read_state, write_state, run as run_legacy
@@ -71,10 +71,6 @@ def telegram_ids(path):
 def run(now=None, cron=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
-    if cron in VULNERABILITY_CRONS:
-        utc_slot = slot_start(VULNERABILITY, now).astimezone(timezone.utc)
-        if cron != f'{utc_slot.minute} {utc_slot.hour} * * *':
-            return {'status': 'alternate-offset-check', 'new_posts': 0}
     if not allowed(now):
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),
                   'new_posts': 0, 'window': WINDOW_LABEL}
@@ -241,7 +237,7 @@ def run(now=None, cron=None):
 
     upcoming = [{'post': slot.edition, 'trigger': slot_start(slot, now).isoformat()}
                 for slot in SLOTS if slot_start(slot, now) > now
-                and (slot.on_date or eligible_on(slot, now))]
+                and eligible_on(slot, now)]
     for name, (hour, minute) in SLOT_HOURS.items():
         trigger = local.replace(hour=hour, minute=minute, second=0, microsecond=0)
         if trigger > now:
@@ -251,7 +247,7 @@ def run(now=None, cron=None):
         tomorrow = local + timedelta(days=1)
         upcoming = [{'post': slot.edition, 'trigger': slot_start(slot, tomorrow).isoformat()}
                     for slot in SLOTS if slot_start(slot, tomorrow) > now
-                    and (slot.on_date or eligible_on(slot, tomorrow))]
+                    and eligible_on(slot, tomorrow)]
     audit[run_key] = {'status': 'RUN', 'timestamp': run_key, 'posts': rows}
     write_state(AUDIT, audit)
     counts = Counter(row['status'] for row in rows)

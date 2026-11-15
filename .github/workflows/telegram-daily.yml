@@ -18,9 +18,8 @@ on:
     - cron: '13 * * * *'
     - cron: '28 * * * *'
     - cron: '58 * * * *'
-    # 15:30 Eastern; the dispatcher selects the matching DST offset.
-    - cron: '30 19 * * *'
-    - cron: '30 20 * * *'
+    # Start fixed-time editions on the hour or half-hour across either Eastern offset.
+    - cron: '0,30 0-3,9-23 * * *'
   workflow_dispatch:
     inputs:
       edition:

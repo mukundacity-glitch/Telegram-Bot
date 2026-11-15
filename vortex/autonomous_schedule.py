@@ -1,6 +1,6 @@
 """Additional editorial slots; original news/legacy slots remain separate."""
 from dataclasses import dataclass
-from datetime import date, datetime, timedelta
+from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 ET = ZoneInfo('America/New_York')
@@ -14,7 +14,7 @@ class Slot:
     minute: int = 20
     series_gw: int | None = None
     series_day: int | None = None
-    on_date: date | None = None
+    weekday: int | None = None
 
 
 RETIRED_EDITIONS = {
@@ -29,8 +29,8 @@ SERIES_STATE = '_weekly_analysis'
 AFTERNOON = Slot('task2', 'afternoon-rotation', 13, 30)
 SCOUTING = Slot('task2', 'scouting-rotation', 14, 30)
 VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30)
-VULNERABILITY_CRONS = {'30 19 * * *', '30 20 * * *'}
-WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, on_date=date(2026, 11, 17))
+CLOCK_CRON = '0,30 0-3,9-23 * * *'
+WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, weekday=1)
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
@@ -77,9 +77,7 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
-    if slot.on_date:
-        return f'{slot.on_date}:{slot.task}:{slot.edition}'
-    if slot in (AFTERNOON, SCOUTING, VULNERABILITY):
+    if slot in (AFTERNOON, SCOUTING, VULNERABILITY, WILDCARD):
         return f'{now.astimezone(ET).date()}:{slot.task}:{slot.edition}'
     if slot.series_day is not None:
         return f'{season}:GW{slot.series_gw}:{slot.task}:{slot.edition}:day{slot.series_day}'
@@ -91,15 +89,15 @@ def publication_key(slot, now, gw, season=None):
 
 
 def slot_start(slot, now):
-    day = slot.on_date or now.astimezone(ET).date()
+    day = now.astimezone(ET).date()
     return datetime(day.year, day.month, day.day, slot.hour, slot.minute, tzinfo=ET)
 
 
 def eligible_on(slot, now):
-    day = now.astimezone(ET).date()
-    if slot == VULNERABILITY and day == WILDCARD.on_date:
+    weekday = now.astimezone(ET).weekday()
+    if slot == VULNERABILITY and weekday == WILDCARD.weekday:
         return False
-    return slot.on_date is None or slot.on_date == day
+    return slot.weekday is None or slot.weekday == weekday
 
 
 def retryable(row):

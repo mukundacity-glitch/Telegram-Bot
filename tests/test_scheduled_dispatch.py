@@ -4,7 +4,7 @@ from pathlib import Path
 import json
 import pytest
 from vortex import scheduled_dispatch as dispatcher
-from vortex.autonomous_schedule import VULNERABILITY_CRONS
+from vortex.autonomous_schedule import CLOCK_CRON
 
 OPEN = datetime(2026, 11, 10, 18, 0, tzinfo=timezone.utc)   # 13:00 EST
 CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
@@ -12,12 +12,8 @@ CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
 def test_heartbeat_covers_all_utc_hours_with_eastern_runtime_guard():
     workflow = (Path(__file__).resolve().parents[1] /
                 '.github/workflows/telegram-daily.yml').read_text()
-    assert workflow.count('- cron:') == 6
-    for cron in VULNERABILITY_CRONS:
-        assert f"cron: '{cron}'" in workflow
-    assert dispatcher.run(OPEN, '30 19 * * *')['status'] == 'alternate-offset-check'
-    summer = datetime(2027, 7, 21, 20, 30, tzinfo=timezone.utc)
-    assert dispatcher.run(summer, '30 20 * * *')['status'] == 'alternate-offset-check'
+    assert workflow.count('- cron:') == 5
+    assert f"cron: '{CLOCK_CRON}'" in workflow
     assert 'timezone:' not in workflow
     assert "cron: '43 * * * *'" in workflow
     assert "cron: '13 * * * *'" in workflow
@@ -172,3 +168,17 @@ def test_cooldown_persists_between_publishers_and_skips_data_fetch(monkeypatch, 
     assert report["posts_failed"] == report["posts_retry_pending"] == 0
     assert datetime.fromisoformat(report["next_telegram_at"]) >= now + timedelta(minutes=45)
     assert telegram_spacing.blocked_until(datetime.fromisoformat(report["next_telegram_at"])) is None
+
+
+def test_exact_check_is_configured_for_all_fixed_slots_across_dst():
+    from datetime import date
+    from vortex.autonomous_schedule import SLOTS
+    from vortex.schedule import SLOT_HOURS
+
+    hours = {0, 1, 2, 3, *range(9, 24)}
+    configured = set(SLOT_HOURS.values()) | {(s.hour, s.minute) for s in SLOTS}
+    for day in (date(2026, 11, 17), date(2027, 7, 20)):
+        for hour, minute in configured:
+            trigger = datetime(day.year, day.month, day.day, hour, minute,
+                               tzinfo=dispatcher.ET).astimezone(timezone.utc)
+            assert trigger.hour in hours and trigger.minute in (0, 30)

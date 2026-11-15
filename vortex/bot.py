@@ -88,6 +88,7 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
             # Missing Discord credentials must NOT disable Telegram QA.
     publication_slot = "comparison" if slot == "preview" else slot.removeprefix("preview-") if preview_only else slot
     daily_board = publication_slot in ("elite", "daily_stats")
+    dated_run = audit is not None and bool(scheduled_cron) and not preview_only
     delivery_state_path = STATE / "deliveries.json"
     price_state_path = STATE / "prices.json"
     delivery_state = read_state(delivery_state_path)
@@ -161,7 +162,7 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
                 key += f":corrected:{semantic_fingerprint(article)[:12]}"
         # Daily boards use the Eastern date and original slot receipt as the
         # publication identity, including on days when the feed is unchanged.
-        if not preview_only and not daily_board and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
+        if not (preview_only or daily_board or dated_run) and os.getenv("FPL_SEMANTIC_DEDUP_ENABLED", "false").lower() == "true":
             group, article, key, version, evidence, already_posted = check_revision(
                 editorial, article, delivery_state, key, dual_publish)
             if already_posted:
@@ -178,8 +179,10 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
         file_slot = article.kind if publication_slot == "elite" else slot
         path = OUTPUT / f"FPLVortex_GW{article.gw}_{file_slot}.png"
         if audit is not None:
-            from .queue_retry import verified_caption
+            from .queue_retry import dated_caption, verified_caption
             caption = verified_caption(article.title, article.caption)
+            if dated_run:
+                caption = dated_caption(caption, now.astimezone(ZoneInfo("America/New_York")).date())
         else:
             caption = article.caption
         if os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
