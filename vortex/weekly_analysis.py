@@ -250,14 +250,25 @@ def build_weekly_analysis(slot, snapshot, now, session):
     leader = max(rows, key=lambda row: row['value']) if day == 2 else rows[0]
     if day == 5:
         result = f"{leader['name']} ranks first for the next {len(extra['weeks'])} GWs with {leader['value']:.2f} average FDR."
-    elif day == 7:
-        result = f"{leader['name']} leads the combined ranks at {leader['x']:.0f}th for ball winning and {leader['y']:.0f}th for box involvement."
     else:
         value = f"{leader['value']:.2f}" if day == 6 else f"{leader['value']:.0f}"
         result = f"{leader['name']} leads this board with {value} {unit}."
     gw = snapshot.gameweek() or through
-    copy = '\n'.join((f'{title} • Weekly Analysis {day}/7', result,
-                      note + '.', 'Use the data to shortlist targets, then verify minutes and fixtures before making a transfer.',
-                      f'#FPL #GW{gw} #PremierLeague #FPLVORTEX'))
+    if day == 7:
+        ball_winner = max(rows, key=lambda row: row['x'])
+        box_threat = max(rows, key=lambda row: row['y'])
+        comparison = (f"Ball wins: {ball_winner['name']}. Box touches: {box_threat['name']}."
+                      if ball_winner is not box_threat else 'The same midfielder leads both metrics per 90.')
+        copy = '\n'.join((
+            f"Who wins it back AND gets into the box? 👀 | {title.title()}",
+            f"{leader['name']} tops the combined midfield ranking.",
+            comparison,
+            f"One free transfer. Who's your GW{gw} pick?",
+            f"#FPL #GW{gw} #PremierLeague #FPLVORTEX",
+        ))
+    else:
+        copy = '\n'.join((f'{title} • Weekly Analysis {day}/7', result,
+                          note + '.', 'Use the data to shortlist targets, then verify minutes and fixtures before making a transfer.',
+                          f'#FPL #GW{gw} #PremierLeague #FPLVORTEX'))
     return Plan(slot.task, slot.edition, title, copy, gw, [], [], 'weekly_analysis',
                 {**extra, 'rows': rows, 'unit': unit, 'note': note, 'sources': sources})
