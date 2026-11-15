@@ -10,6 +10,7 @@ import requests
 
 from .chatgpt_task_editions import _make_cards, _report
 from .content import Content
+from .autonomous_schedule import ET
 from .fpl import score, choose_news, confirmed_price_changes
 from .publication_rules import five_gw_fixtures, player_metrics
 from .recommendations import get_history, completed_rounds
@@ -285,7 +286,26 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
                                    'eo_disclosure':'EO N/A without verified GW-specific manager captaincy sample.'})
             if len(players)!=4: raise RequiredInput('Four verified fixture targets unavailable')
         elif name == 'form-minutes-targets':
-            players=pool[:3];labels=['MONITOR','HOLD','START'];title='FORM • MINUTES • UNDERLYING STATS'
+            players = [p for p in pool if p['element_type'] == 3][:4]
+            if not players:
+                raise RequiredInput('No available midfielders passed the existing form and minutes filter')
+            lead = players[0]
+            minutes = [int(row['minutes']) for row in e.recent(lead)]
+            fixture = ' / '.join(f'{opponent} ({venue})'
+                                 for opponent, venue, _, _ in snapshot.fixtures_for_gameweek(lead))
+            title = 'MIDFIELDER WATCH'
+            date = now.astimezone(ET).date().isoformat()
+            copy = (
+                f'GW{gw} • {title} | {date}\n'
+                f"FPL midfield transfer shortlist: {', '.join(snapshot.name(p) for p in players)}.\n"
+                f"Top-ranked {snapshot.name(lead)} ({snapshot.price(lead)}) • "
+                f"last three: {' / '.join(map(str, minutes))} min • next {fixture}.\n"
+                f"MONITOR • Compare the next five fixtures with your current midfielder before spending a transfer.\n"
+                f'#FPL #GW{gw} #FPLTransfers #FPLVORTEX'
+            )
+            return Plan(slot.task, name, title, copy, gw, players, ['MONITOR'] * len(players),
+                        'midfield_watch', {'edition_date': date,
+                            'recent': {str(p['id']): e.recent(p) for p in players}})
         else:
             raise ValueError('Edition has no executable generator: '+name)
     if not players: raise RequiredInput('No verified players selected')

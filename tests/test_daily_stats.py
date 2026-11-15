@@ -74,8 +74,8 @@ def test_existing_cron_uses_daily_stats_and_reuses_receipt(stats_snapshot, tmp_p
         send_png = send_shared_png
 
     monkeypatch.setattr(bot, "TelegramClient", Telegram)
-    assert bot.run("auto", "0 7 * * *") == 0
-    assert bot.run("auto", "15 7 * * *") == 0
+    assert bot.run("auto", "30 7 * * *") == 0
+    assert bot.run("auto", "45 7 * * *") == 0
     assert len(posts) == 1
     image, caption, title, gw = posts[0]
     assert image.name == "FPLVortex_GW7_daily_stats.png" and image.exists()

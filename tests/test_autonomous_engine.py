@@ -134,6 +134,19 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {})
         with pytest.raises(RequiredInput, match='No fresh verified projections'):
             build_odds_board(slot, s, e)
+    if name == 'form-minutes-targets':
+        from vortex.autonomous_render import render
+        assert (slot.hour, slot.minute) == (8, 30)
+        assert plan.players == [p for p in sorted(e.qualified(24), key=e.rank, reverse=True)
+                                if p['element_type'] == 3][:4]
+        assert len(plan.caption.splitlines()) == 5
+        assert plan.caption.splitlines()[-1].split() == ['#FPL', '#GW10', '#FPLTransfers', '#FPLVORTEX']
+        asset = Image.new('RGBA', (100, 140), '#5a9ac9')
+        monkeypatch.setattr('vortex.autonomous_render._assets', lambda *args: (asset, asset))
+        output, = render(plan, s, now, tmp_path / 'midfielder-watch.png')
+        with Image.open(output) as image:
+            assert image.size == (1080, 1920)
+            image.verify()
     if name == 'player-radar-comparison':
         from vortex.autonomous_render import render
         monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')

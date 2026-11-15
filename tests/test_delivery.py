@@ -41,8 +41,9 @@ def delivery_environment(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> lis
     return deliveries
 
 
-def test_scheduled_comparison_deduplicates(delivery_environment: list[str]) -> None:
-    assert bot.run('auto', '0 8 * * *') == 0
+def test_retired_comparison_cannot_publish_through_old_schedule(delivery_environment: list[str]) -> None:
+    with pytest.raises(ValueError, match='Unrecognized workflow schedule'):
+        bot.run('auto', '0 8 * * *')
     assert delivery_environment == []
 
 
@@ -164,12 +165,12 @@ def test_shared_delivery_backfills_only_discord_for_previously_delivered_slot(
     monkeypatch.setenv("TELEGRAM_CHAT_ID", "INERT-UNIT-TEST")
     monkeypatch.setenv("DISCORD_WEBHOOK_URL", "https://discord.com/api/webhooks/0/inert-test")
     monkeypatch.setattr(bot, "DiscordWebhookClient", FakeDiscord)
-    assert bot.run("auto", "0 8 * * *") == 0
+    assert bot.run("comparison") == 0
     assert delivery_environment == []
     assert posts == [("THE FPL DECISION ROOM", "six\nline\ncaption\nfor\nunit\ntest", 7)]
     journal = bot.read_state(bot.STATE / "deliveries.json")
     key = f"{datetime.now(timezone.utc).astimezone(ZoneInfo('America/New_York')).date()}:comparison"
     assert journal[key]["discord_delivered"] is True
     assert journal[key]["delivered"] is True
-    assert bot.run("auto", "15 8 * * *") == 0
+    assert bot.run("comparison") == 0
     assert len(posts) == 1

@@ -222,7 +222,7 @@ def fixture_tile(canvas: Image.Image, x: float, y: float, w: float, h: float, gw
     label = f"GW{gw}"
     face = font(22)
     d.text((_s(x + (w - d.textlength(label, font=face) / SS) / 2), _s(y + 3)), label, font=face, fill=WHITE)
-    text = f"{opponent}({venue})"
+    text = f"{opponent}({venue})" if venue else opponent
     face = fit(d, text, w - 10, 28, 16)
     tw = d.textlength(text, font=face) / SS
     d.text((_s(x + (w - tw) / 2), _s(y + head + 4)), text, font=face, fill=INK)
@@ -243,7 +243,8 @@ def _paste_contained(canvas: Image.Image, source: Image.Image, box, bottom: bool
 
 
 def player_card(canvas: Image.Image, box, *, portrait, badge, name: str, price: str, own: str, verdict: str,
-                gw_flow: str, evidence: str, reason: str, fixtures: list[dict]) -> None:
+                gw_flow: str, evidence: str, reason: str, fixtures: list[dict],
+                min_fixture_height: float = 0) -> None:
     x0, y0, x1, y1 = box
     h = y1 - y0
     k = min(1.6, max(0.8, h / 337))
@@ -285,7 +286,7 @@ def player_card(canvas: Image.Image, box, *, portrait, badge, name: str, price: 
     if reason:
         face = fit(d, reason, x1 - tx - 24, 22 * k, 14)
         d.text((_s(tx), _s(row3 + 60 * k)), reason, font=face, fill=(110, 40, 170))
-    tile_h = min(150, 98 * k)
+    tile_h = min(150, max(98 * k, min_fixture_height))
     count = max(1, len(fixtures[:5]))
     gap = 9
     tile_w = (x1 - tx - 20 - gap * (count - 1)) / count

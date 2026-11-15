@@ -270,6 +270,57 @@ def _deadline(plan,snapshot,output,client):
     return _save(canvas,output)
 
 
+def _midfield_watch(plan, snapshot, output, client):
+    from . import vortex_style as vs
+
+    canvas = vs.background()
+    brand_dir = vs.LION.parent
+    ImageDraw.Draw(canvas).rounded_rectangle((vs._s(106), vs._s(8), vs._s(974), vs._s(220)),
+                                             radius=vs._s(28), fill='#000000',
+                                             outline='#725328', width=vs._s(2))
+    with Image.open(brand_dir / 'midfield-watch-logo.png') as logo:
+        vs._paste_contained(canvas, logo, (12, 10, 1056, 206))
+    vs.ribbon(canvas, (38, 240, 1042, 334), plan.title, light=True, size=62)
+    vs.ribbon(canvas, (76, 347, 1004, 408), f'GW{plan.gw} • FORM, MINUTES & NEXT FIVE',
+              light=False, size=32)
+    cache = {}
+    count = len(plan.players)
+    card_height = min(465, (1320 - (count - 1) * 16) / count)
+    for index, (player, label) in enumerate(zip(plan.players, plan.labels)):
+        top = 426 + index * (card_height + 16)
+        photo, crest = _assets(snapshot, player, client, cache)
+        future = five_gw_fixtures(snapshot, player)
+        fixtures = []
+        for gw in sorted({row['gw'] for row in future}):
+            matches = [row for row in future if row['gw'] == gw]
+            if len(matches) > 1:
+                fixtures.append({'gw': gw, 'opponent': '/'.join(r['opponent'] for r in matches),
+                                 'venue': '/'.join(r['venue'] for r in matches), 'fdr': None})
+            else:
+                fixtures.append(matches[0])
+        recent = plan.extra['recent'][str(player['id'])]
+        minutes = ' / '.join(str(row['minutes']) for row in recent)
+        xgi = sum(float(row['expected_goal_involvements']) for row in recent
+                  if row.get('expected_goal_involvements') not in (None, ''))
+        has_xgi = all(row.get('expected_goal_involvements') not in (None, '') for row in recent)
+        evidence = f'LAST 3 MIN • {minutes}' + (f'  |  xGI {xgi:.2f}' if has_xgi else '')
+        vs.player_card(canvas, (26, top, 1054, top + card_height), portrait=photo, badge=crest,
+                       name=snapshot.name(player), price=snapshot.price(player),
+                       own=f"{player['selected_by_percent']}%", verdict=label,
+                       gw_flow=f"GW IN {player['transfers_in_event']:,} • OUT {player['transfers_out_event']:,}",
+                       evidence=evidence, reason='', fixtures=fixtures, min_fixture_height=108)
+    if count < 4:
+        top = 426 + count * (card_height + 16)
+        if top + 160 < 1746:
+            vs.notes_panel(canvas, (26, top, 1054, top + 135), 'TRANSFER CHECK',
+                           ['Compare minutes and upcoming fixtures with your current midfielder.'])
+    with Image.open(brand_dir / 'midfield-watch-footer.png') as footer:
+        vs._paste_contained(canvas, footer, (12, 1775, 1056, 116))
+    output.parent.mkdir(parents=True, exist_ok=True)
+    vs.finish(canvas).save(output, 'PNG', optimize=True)
+    return output
+
+
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
     if plan.kind == 'chance_creators':
@@ -277,6 +328,8 @@ def render(plan,snapshot,now,output,session=None):
         canvas = _base(plan.title, plan.gw, f"GW{plan.gw} • OPEN PLAY & SET PIECES • PER 90")
         draw_chart(canvas, plan)
         return [_save(canvas, output)]
+    if plan.kind == 'midfield_watch':
+        return [_midfield_watch(plan, snapshot, output, client)]
     if plan.kind == 'player_radar':
         from .radar_render import render_radar
         return [render_radar(plan, snapshot, output, client)]

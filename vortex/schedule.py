@@ -7,8 +7,7 @@ from zoneinfo import ZoneInfo
 TIMEZONE = ZoneInfo("America/New_York")
 SLOT_CRONS: dict[str, str] = {
     "30 6 * * *": "elite",
-    "0 7 * * *": "daily_stats",
-    "0 8 * * *": "comparison",
+    "30 7 * * *": "daily_stats",
     "0 9 * * *": "buy",
     "0 10 * * *": "news",
     "45 10 * * *": "midfielders",
@@ -22,8 +21,7 @@ SLOT_CRONS: dict[str, str] = {
     "0 20 * * *": "evening",
     # Backup schedule checks 15 minutes later; previously delivered slots are skipped.
     "45 6 * * *": "elite",
-    "15 7 * * *": "daily_stats",
-    "15 8 * * *": "comparison",
+    "45 7 * * *": "daily_stats",
     "15 9 * * *": "buy",
     "15 10 * * *": "news",
     "15 11 * * *": "team_analysis",
@@ -38,8 +36,7 @@ SLOT_CRONS: dict[str, str] = {
 }
 SLOT_HOURS: dict[str, tuple[int, int]] = {
     "elite": (6, 30),
-    "daily_stats": (7, 0),
-    "comparison": (8, 0),
+    "daily_stats": (7, 30),
     "buy": (9, 0),
     "news": (10, 0),
     "midfielders": (10, 45),
@@ -56,7 +53,7 @@ SLOT_HOURS: dict[str, tuple[int, int]] = {
 
 def resolve_slot(requested: str, scheduled_cron: str | None, current: datetime) -> str:
     if requested != "auto":
-        permitted = set(SLOT_HOURS) | {"start_bench", "preview-start_bench", "test", "discover", "preview", "projections", "preview-projections"} | {f"preview-{slot}" for slot in SLOT_HOURS}
+        permitted = set(SLOT_HOURS) | {"comparison", "preview-comparison", "start_bench", "preview-start_bench", "test", "discover", "preview", "projections", "preview-projections"} | {f"preview-{slot}" for slot in SLOT_HOURS}
         if requested not in permitted:
             raise ValueError(f"Unknown requested slot: {requested}")
         return requested

@@ -71,7 +71,12 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                     if plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
     if not manual and not audit:
-        record['caption'] = verified_caption(plan.title, plan.caption)
+        safe_caption = verified_caption(plan.title, plan.caption)
+        if plan.kind == 'midfield_watch':
+            safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
+            if len(safe_caption.splitlines()) != 5:
+                raise RequiredInput('Midfielder Watch requires a five-line caption')
+        record['caption'] = safe_caption
     if plan.kind == 'chance_creators':
         record['sources'].append(plan.extra['source'])
     if plan.kind == 'odds_board':

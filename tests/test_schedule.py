@@ -7,9 +7,9 @@ from vortex.schedule import SLOT_CRONS, captaincy_due, resolve_slot
 
 
 def test_all_thirteen_slots_have_distinct_times_and_backup_checks():
-    assert len(SLOT_CRONS) == 28
-    assert len(set(SLOT_CRONS.values())) == 14
-    assert resolve_slot("auto", "15 8 * * *", datetime.now(timezone.utc)) == "comparison"
+    assert len(SLOT_CRONS) == 26
+    assert len(set(SLOT_CRONS.values())) == 13
+    assert "comparison" not in SLOT_CRONS.values()
 
 
 def test_scheduled_cron_wins_over_delayed_execution_time():
@@ -38,11 +38,11 @@ def test_dst_zone_is_eastern():
 
 def test_three_extra_slots_use_eastern_and_have_no_conflicts():
     from vortex.schedule import SLOT_HOURS
-    assert SLOT_HOURS["daily_stats"] == (7, 0)
+    assert SLOT_HOURS["daily_stats"] == (7, 30)
     assert SLOT_HOURS["team_analysis"] == (11, 0)
     assert SLOT_HOURS["transfer_suggestions"] == (15, 0)
-    assert SLOT_CRONS["15 7 * * *"] == "daily_stats"
-    assert SLOT_CRONS["0 7 * * *"] == "daily_stats"
+    assert SLOT_CRONS["45 7 * * *"] == "daily_stats"
+    assert SLOT_CRONS["30 7 * * *"] == "daily_stats"
     assert "projections" not in SLOT_CRONS.values()
     assert SLOT_CRONS["15 11 * * *"] == "team_analysis"
     assert SLOT_CRONS["15 15 * * *"] == "transfer_suggestions"
