@@ -2063,6 +2063,23 @@
     "trigger": "2026-11-15T08:30:00-05:00",
     "type": "form-minutes-targets"
   },
+  "2026-11-15:task2:defender-watch:GW11": {
+    "attempts": 1,
+    "completed_at": "2026-11-15T20:09:28.877055+00:00",
+    "confirmed_telegram_message_ids": [
+      433
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-15:task2:defender-watch:GW11",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      433
+    ],
+    "timestamp": "2026-11-15T20:09:18.871056+00:00",
+    "trigger": "2026-11-15T09:30:00-05:00",
+    "type": "defender-watch"
+  },
   "2026-11-15T03:03:54.608611+00:00": {
     "posts": [
       {
@@ -2201,6 +2218,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-15T17:58:32.344642+00:00"
+  },
+  "2026-11-15T20:09:18.871056+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-15T20:09:28.877055+00:00",
+        "confirmed_telegram_message_ids": [
+          433
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-15:task2:defender-watch:GW11",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          433
+        ],
+        "timestamp": "2026-11-15T20:09:18.871056+00:00",
+        "trigger": "2026-11-15T09:30:00-05:00",
+        "type": "defender-watch"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-15T20:09:18.871056+00:00"
   },
   "gw10-four-midfielders.json": {
     "attempts": 0,
