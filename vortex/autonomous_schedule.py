@@ -1,6 +1,6 @@
 """Additional editorial slots; original news/legacy slots remain separate."""
 from dataclasses import dataclass
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from zoneinfo import ZoneInfo
 
 ET = ZoneInfo('America/New_York')
@@ -14,9 +14,11 @@ class Slot:
     minute: int = 20
     series_gw: int | None = None
     series_day: int | None = None
+    on_date: date | None = None
 
 
 RETIRED_EDITIONS = {
+    "market-verdict", "transfer_suggestions", "transfer-suggestions",
     "four-team-targets", "transfer-desk", "transfer",
     "availability-transfer-decisions", "rank-booster", "fixture-targets",
     "start_bench", "squad-surgery", "transfer-market-team-news", "four-midfielders", "captain-differential",
@@ -26,6 +28,8 @@ SERIES = Slot('task2', 'weekly-analysis', 12, 30)
 SERIES_STATE = '_weekly_analysis'
 AFTERNOON = Slot('task2', 'afternoon-rotation', 13, 30)
 SCOUTING = Slot('task2', 'scouting-rotation', 14, 30)
+WILDCARD_CRON = '30 20 17 11 *'
+WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, on_date=date(2026, 11, 17))
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
@@ -35,7 +39,7 @@ SLOTS = (
     SERIES,
     AFTERNOON,
     SCOUTING,
-    Slot('task2', 'market-verdict', 15, 30),
+    WILDCARD,
     Slot('task1', 'deadline-watch', 16, 30),
     Slot('price_changes', 'confirmed-price-changes', 17, 30),
     Slot('press_news', 'verified-press-availability', 19, 0),
@@ -71,6 +75,8 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.on_date:
+        return f'{slot.on_date}:{slot.task}:{slot.edition}'
     if slot in (AFTERNOON, SCOUTING):
         return f'{now.astimezone(ET).date()}:{slot.task}:{slot.edition}'
     if slot.series_day is not None:
@@ -83,7 +89,12 @@ def publication_key(slot, now, gw, season=None):
 
 
 def slot_start(slot, now):
-    return now.astimezone(ET).replace(hour=slot.hour, minute=slot.minute, second=0, microsecond=0)
+    day = slot.on_date or now.astimezone(ET).date()
+    return datetime(day.year, day.month, day.day, slot.hour, slot.minute, tzinfo=ET)
+
+
+def eligible_on(slot, now):
+    return slot.on_date is None or slot.on_date == now.astimezone(ET).date()
 
 
 def retryable(row):
@@ -94,7 +105,7 @@ def catchup_slots(now, state, gw, season=None, limit=3):
     """Slots already due today with remaining attempts, oldest first."""
     return [
         slot for slot in sorted(SLOTS, key=lambda s: (s.hour, s.minute))
-        if slot != SERIES and now >= slot_start(slot, now)
+        if slot != SERIES and eligible_on(slot, now) and now >= slot_start(slot, now)
         and retryable(state.get(publication_key(slot, now, gw, season), {}))
     ][:limit]
 

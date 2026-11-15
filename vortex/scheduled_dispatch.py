@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from .autonomous_content import Evidence
 from .autonomous_runner import run as run_editions, STATE_FILE
 from .autonomous_schedule import (
-    ET, SLOTS, catchup_slots, publication_key, retryable, season_id, slot_start,
+    ET, SLOTS, WILDCARD, WILDCARD_CRON, catchup_slots, eligible_on, publication_key, retryable, season_id, slot_start,
     special_triggers, SERIES, SERIES_STATE, weekly_analysis_slot,
 )
 from .bot import STATE, read_state, write_state, run as run_legacy
@@ -71,6 +71,8 @@ def telegram_ids(path):
 def run(now=None, cron=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
+    if cron == WILDCARD_CRON and not eligible_on(WILDCARD, now):
+        return {'status': 'one-off-window-closed', 'new_posts': 0}
     if not allowed(now):
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),
                   'new_posts': 0, 'window': WINDOW_LABEL}
@@ -114,7 +116,7 @@ def run(now=None, cron=None):
         source_error = failure_reason(exc)
     if snapshot is None:
         for slot in SLOTS:
-            if slot == SERIES:
+            if slot == SERIES or not eligible_on(slot, now):
                 continue
             trigger = slot_start(slot, now)
             if trigger <= now:
@@ -245,7 +247,7 @@ def run(now=None, cron=None):
     if not upcoming:
         tomorrow = local + timedelta(days=1)
         upcoming = [{'post': slot.edition, 'trigger': slot_start(slot, tomorrow).isoformat()}
-                    for slot in SLOTS]
+                    for slot in SLOTS if slot_start(slot, tomorrow) > now]
     audit[run_key] = {'status': 'RUN', 'timestamp': run_key, 'posts': rows}
     write_state(AUDIT, audit)
     counts = Counter(row['status'] for row in rows)

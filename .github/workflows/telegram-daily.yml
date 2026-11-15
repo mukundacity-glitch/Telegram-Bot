@@ -18,6 +18,8 @@ on:
     - cron: '13 * * * *'
     - cron: '28 * * * *'
     - cron: '58 * * * *'
+    # 15:30 ET on November 17. The dispatcher also enforces the one-off year.
+    - cron: '30 20 17 11 *'
   workflow_dispatch:
     inputs:
       edition:
@@ -31,7 +33,6 @@ on:
           - defender-watch
           - form-minutes-targets
           - goalkeeper-striker-watch
-          - market-verdict
           - vortex-captain
           - deadline-watch
           - confirmed-price-changes

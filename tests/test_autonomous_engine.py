@@ -72,7 +72,7 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     workflow=(Path(__file__).resolve().parents[1]/'.github/workflows/telegram-daily.yml').read_text()
     crons=re.findall(r"- cron: '([^']+)'",workflow)
     assert len(crons)==len(set(crons))
-    assert crons == ['43 * * * *', '13 * * * *', '28 * * * *', '58 * * * *']
+    assert crons == ['43 * * * *', '13 * * * *', '28 * * * *', '58 * * * *', '30 20 17 11 *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
     assert len(SLOTS) == 12
@@ -80,7 +80,7 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     assert 'deleteMessage' not in workflow
 
 
-@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation'}))
+@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation','wildcard-draft'}))
 def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name,monkeypatch,tmp_path):
     s,now,e,feed=world
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))
@@ -154,7 +154,6 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
     if name=='vortex-captain':assert plan.labels[1]=='VORTEX CAPTAIN'
     if name=='four-midfielders':assert len(plan.players)==4 and plan.kind=='players'
     if name=='rank-booster':assert len(plan.players)==6
-    if name=='market-verdict':assert len(plan.extra['groups'])==4
     if name=='market-trends-next-five':assert len(plan.players)==15
 
 

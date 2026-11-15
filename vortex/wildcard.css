@@ -1,0 +1,50 @@
+* { box-sizing: border-box; }
+body { width:1920px; height:1080px; overflow:hidden; margin:0; color:#f2f7ff;
+  background:radial-gradient(ellipse at 15% 80%,#173923 0,transparent 42%),linear-gradient(122deg,#101731,#10264a 55%,#171530);
+  font: 22px "DejaVu Sans",sans-serif; }
+header { height:128px; display:grid; grid-template-columns:300px 1fr 220px; gap:26px; align-items:center;
+  padding:14px 36px; border-bottom:2px solid #235276; }
+header img { width:270px; height:98px; object-fit:contain; border-radius:12px; }
+header p { margin:0 0 6px; font-size:16px; font-weight:700; letter-spacing:3px; color:#7be5ca; }
+h1 { font-size:52px; line-height:1.08; margin:0; }
+header aside { border:1px solid #749867; background:#19322e; border-radius:14px; padding:12px 18px; display:grid; }
+aside strong { color:#c5f085; font-size:34px; }
+aside small { font-size:14px; font-weight:700; color:#c4dcd6; }
+main { display:grid; grid-template-columns:960px 1fr; gap:24px; padding:12px 30px 0; }
+section { border:1px solid #34516c; background:#14223a; border-radius:20px; padding:12px 16px; height:858px; }
+h2 { font-size:23px; line-height:34px; margin:0 0 7px; display:flex; justify-content:space-between; align-items:center; }
+h2 span { font-size:15px; letter-spacing:1px; color:#8edbd4; }
+.pitch { height:610px; display:grid; grid-template-rows:repeat(4,1fr); position:relative; overflow:hidden;
+  border:2px solid #65aa6f; border-radius:14px; padding:24px 40px;
+  background:repeating-linear-gradient(180deg,#246038 0,#246038 12.5%,#2e7040 12.5%,#2e7040 25%); }
+.field { position:absolute; inset:21px 37px; border:2px solid #b1d9a899; pointer-events:none;
+  background:linear-gradient(to bottom,transparent calc(50% - 1px),#b1d9a899 calc(50% - 1px),#b1d9a899 calc(50% + 1px),transparent calc(50% + 1px)); }
+.field:before { content:""; position:absolute; left:50%; top:50%; width:143px; height:143px; transform:translate(-50%,-50%); border:2px solid #b1d9a899; border-radius:100%; }
+.field:after { content:""; position:absolute; left:28%; right:28%; top:0; height:100px; border:2px solid #b1d9a899; border-top:0; }
+.line { display:flex; justify-content:center; align-items:center; gap:14px; position:relative; }
+.player { position:relative; width:143px; height:130px; display:flex; flex-direction:column; align-items:center;
+  overflow:hidden; border:1px solid #80c693; border-radius:12px; background:linear-gradient(180deg,#143e2aab,#10243d 68%); }
+.player img { width:84px; height:78px; object-fit:contain; object-position:bottom; }
+.player strong { display:block; font-size:15px; line-height:19px; text-align:center; max-width:137px; padding:0 3px; }
+.player small { color:#b8ded9; font-size:13px; margin-top:auto; margin-bottom:6px; }
+.player em { position:absolute; left:5px; top:5px; border-radius:5px; background:#cef288; color:#102130;
+  font-size:12px; font-style:normal; font-weight:700; padding:3px 5px; }
+.pitch+h2 { margin-top:8px; }
+.bench { display:flex; justify-content:center; gap:25px; }
+.bench .player { background:#152b48; border-color:#4f7794; height:130px; }
+.fixtures { padding-left:15px; padding-right:15px; }
+.row { display:grid; gap:5px; align-items:stretch; min-height:45px; margin:3px 0; }
+.row.labels { min-height:30px; text-align:center; font-size:16px; font-weight:700; color:#bde8e2; }
+.row.labels span { display:grid; place-items:center; }
+.name { font-weight:700; font-size:15px; padding:4px 8px; background:#1a304e; border-radius:5px; align-content:center; }
+.matches { display:flex; gap:3px; min-width:0; }
+.fdr,.blank { width:100%; display:flex; justify-content:space-around; align-items:center; padding:2px; gap:2px;
+  border-radius:6px; line-height:1.05; font-size:13px; text-align:center; font-weight:700; }
+.fdr b { font-size:18px; }
+.fdr-1 { background:#167052; }.fdr-2 { background:#215c4f; }.fdr-3 { background:#344e72; }
+.fdr-4 { background:#793f30; }.fdr-5 { background:#722d49; }.blank { background:#1a2c40;color:#b4c4d5; }
+.legend { margin:10px 0 0; color:#bdcddb; font-size:15px; text-align:center; }
+.legend b { color:#c8ef8c; }
+footer { height:69px; display:grid; grid-template-columns:1fr 1.7fr 1fr; padding:8px 35px; align-items:center;
+  text-align:center; font-size:16px; font-weight:700; color:#dbe8f9; }
+footer small { display:block; color:#8bb6d2; margin-top:3px; font-weight:400; }

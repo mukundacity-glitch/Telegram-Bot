@@ -340,6 +340,9 @@ def render(plan,snapshot,now,output,session=None):
     if plan.edition == 'weekly-analysis':
         from .weekly_analysis_render import render_weekly_analysis
         return [render_weekly_analysis(plan, output, client)]
+    if plan.kind == 'wildcard':
+        from .wildcard_render import render_wildcard
+        return [render_wildcard(plan, snapshot, output, client)]
     if plan.kind == 'scouting_rotation':
         from .scouting_render import render_scouting
         return [render_scouting(plan, output, client)]

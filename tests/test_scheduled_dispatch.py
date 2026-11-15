@@ -11,7 +11,9 @@ CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
 def test_heartbeat_covers_all_utc_hours_with_eastern_runtime_guard():
     workflow = (Path(__file__).resolve().parents[1] /
                 '.github/workflows/telegram-daily.yml').read_text()
-    assert workflow.count('- cron:') == 4
+    assert workflow.count('- cron:') == 5
+    assert f"cron: '{dispatcher.WILDCARD_CRON}'" in workflow
+    assert dispatcher.run(OPEN, dispatcher.WILDCARD_CRON)['status'] == 'one-off-window-closed'
     assert 'timezone:' not in workflow
     assert "cron: '43 * * * *'" in workflow
     assert "cron: '13 * * * *'" in workflow

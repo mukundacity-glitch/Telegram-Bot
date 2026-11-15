@@ -146,6 +146,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     if name == 'chance-creators':
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)
+    if name == 'wildcard-draft':
+        from .wildcard import build_wildcard
+        return build_wildcard(slot, snapshot, now, e)
     if name == 'scouting-rotation':
         from .scouting_rotation import build_scouting
         return build_scouting(slot, snapshot, now, e.session)
