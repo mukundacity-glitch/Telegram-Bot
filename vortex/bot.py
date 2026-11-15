@@ -15,6 +15,7 @@ from .fpl import collect_snapshot, price_snapshot, upcoming_deadline
 from .render import render
 from .schedule import resolve_slot
 from .telegram import TelegramClient
+from .telegram_spacing import DeliveryDeferred
 from .syndication import DiscordWebhookClient, NewsPost, publish_shared
 from .editorial_dedup import check_revision, revision_record
 
@@ -252,6 +253,8 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
             write_state(projection_history_path, record(article, projection_history, now))
         print(f"DELIVERED {key} with message {message_id} and {article.gw=} ({path.name if path else 'text'})")
         return 0
+    except DeliveryDeferred:
+        raise
     except Exception as error:
         safe_type = type(error).__name__
         safe_message = str(error).replace(os.environ.get("TELEGRAM_BOT_TOKEN", ""), "[REDACTED]") if os.environ.get("TELEGRAM_BOT_TOKEN") else str(error)

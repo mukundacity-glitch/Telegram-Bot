@@ -31,6 +31,8 @@ def reconcile(post_id, *, observed_at, message_id=None, delivered_at=None, resen
         ):
             raise ValueError("History check timestamp must cover the uncertain send and include its timezone")
         if resend is not None:
+            from .telegram_spacing import require_ready
+            require_ready()
             if entry.get("telegram_reconciliation_resend_at"):
                 raise ValueError("Reconciliation resend already attempted. Check Telegram history again")
             entry.update(telegram_history_checked_at=observed_at,

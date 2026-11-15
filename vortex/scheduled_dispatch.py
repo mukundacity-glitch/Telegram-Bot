@@ -17,6 +17,7 @@ from .outbox import RECEIPTS, STATUS as OUTBOX_STATUS, queued_files, run as run_
 from .publishing_window import WINDOW_LABEL, allowed
 from .queue_retry import ATTEMPTS, failure_reason, retry_source
 from .schedule import SLOT_HOURS, SLOT_CRONS
+from .telegram_spacing import DeliveryDeferred, blocked_until, enabled as spacing_enabled
 from .unified_runner import PENDING as NEWS_PENDING, RECEIPTS as NEWS_RECEIPTS, run as run_news
 
 REPORT = STATE / 'scheduled_dispatch_status.json'
@@ -76,6 +77,19 @@ def run(now=None, cron=None):
         print(json.dumps(result, sort_keys=True))
         return result
 
+    previous_report = read_state(REPORT) if spacing_enabled() else {}
+    if until := blocked_until(now):
+        result = {**previous_report, 'status': 'deferred-telegram-spacing',
+                  'at': now.isoformat(), 'eastern_at': now.astimezone(ET).isoformat(),
+                  'scheduled_cron': cron, 'next_telegram_at': until.isoformat(),
+                  'new_posts': 0, 'telegram_messages_sent': 0}
+        for field in ('posts_due', 'posts_generated', 'posts_retried', 'posts_failed', 'posts_retry_pending'):
+            result[field] = 0
+        result['source_error'] = None
+        write_state(REPORT, result)
+        print('SCHEDULED PUBLISH REPORT ' + json.dumps(result, ensure_ascii=False))
+        return result
+
     editorial = read_state(STATE_FILE)
     checks = read_state(LEGACY)
     legacy = read_state(LEGACY_RECEIPTS)
@@ -91,6 +105,7 @@ def run(now=None, cron=None):
     jobs = [(trigger, 'legacy', key, (name, scheduled))
             for trigger, key, name, scheduled in legacy_jobs(now, legacy, checks)]
     pending = []
+    last_news_scan = previous_report.get("last_news_scan")
     source_error = None
     try:
         snapshot = retry_source(collect_snapshot)
@@ -116,6 +131,8 @@ def run(now=None, cron=None):
                 else:
                     jobs.append((trigger, 'editorial', key, slot))
         check_news = cron is None or cron.startswith(f'{FIRST_RUN_NEWS_MINUTE} ')
+        if spacing_enabled():
+            check_news = not last_news_scan or now - datetime.fromisoformat(last_news_scan) >= timedelta(hours=1)
         if check_news or news_pending:
             retry_times = [datetime.fromisoformat(item['queued_at']) for item in news_pending.values()
                            if item.get('queued_at') and item.get('attempts', 0) < ATTEMPTS]
@@ -129,7 +146,12 @@ def run(now=None, cron=None):
         if f'outbox/{file.name}' not in owned_files:
             jobs.append((trigger, 'outbox', file.name, file))
     rows = []
+    deferred = None
     for trigger, lane, key, payload in sorted(jobs, key=lambda item: (item[0], item[1], item[2])):
+        if until := blocked_until(now if injected_time else datetime.now(timezone.utc)):
+            deferred = {'post': payload.edition if lane == 'editorial' else
+                        payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()}
+            break
         post = payload.edition if lane == 'editorial' else payload[0] if lane == 'legacy' else key
         row = {'post_id': key, 'type': post, 'trigger': trigger.isoformat(),
                'timestamp': run_key, 'status': 'PENDING', 'attempts': 0}
@@ -154,12 +176,23 @@ def run(now=None, cron=None):
             elif lane == 'news':
                 run_news(now=now, snapshot=snapshot, drain=True, pending_only=not payload,
                          audit_rows=news_rows)
+                if payload:
+                    last_news_scan = run_key
             else:
                 if run_outbox(now if injected_time else datetime.now(timezone.utc),
                               target_file=payload, telegram_primary=True):
                     entry = read_state(OUTBOX_STATUS).get(payload.name, {})
                     error = entry.get('reason') or 'Outbox delivery incomplete'
                     attempts = entry.get('attempts', 0)
+        except DeliveryDeferred as exc:
+            deferred = {'post': post, 'trigger': exc.until.isoformat()}
+            row['status'] = 'DEFERRED'
+            audit[key] = row
+            for item in news_rows:
+                audit[item['post_id']] = item
+            write_state(AUDIT, audit)
+            rows.extend(news_rows)
+            break
         except (RuntimeError, ValueError, OSError, KeyError, TypeError) as exc:
             error = failure_reason(exc)
             if lane == 'legacy' and snapshot is not None:
@@ -215,8 +248,10 @@ def run(now=None, cron=None):
         'posts_due': len(rows), 'posts_generated': sum(row['generated'] for row in rows),
         'new_posts': posted, 'telegram_messages_sent': messages, 'posts_retried': sum(row['attempts'] > 1 for row in rows),
         'posts_failed': counts['FAILED'], 'posts_retry_pending': counts['RETRY'],
-        'posts_pending_trigger': len(pending), 'pending_triggers': pending, 'next_due': min(upcoming, key=lambda item: datetime.fromisoformat(item['trigger'])),
+        'posts_pending_trigger': len(pending), 'pending_triggers': pending, 'next_due': deferred or min(upcoming, key=lambda item: datetime.fromisoformat(item['trigger'])),
         'source_error': source_error,
+        'last_news_scan': last_news_scan,
+        'next_telegram_at': deferred['trigger'] if deferred else None,
     }
     write_state(REPORT, result)
     print('SCHEDULED PUBLISH REPORT ' + json.dumps(result, ensure_ascii=False))

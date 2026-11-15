@@ -190,7 +190,10 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     elif telegram is None or discord is None:
         telegram, discord = _create_clients()
     failures: list[str] = []
+    from .telegram_spacing import blocked_until
     for identity, data in (eligible if drain else eligible[:cap]):
+        if blocked_until(datetime.now(timezone.utc)):
+            break
         generated = False
         try:
             # Persisted media attachments are rebuilt from verified inputs.

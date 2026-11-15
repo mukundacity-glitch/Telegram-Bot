@@ -11,11 +11,13 @@ on:
       - '.github/workflows/**'
   pull_request:
     branches: [main]
-  # Trigger at :13 and :43 across all UTC hours. Runtime eligibility uses
-  # America/New_York, including DST, even if the scheduler ignores timezone.
+  # Poll every 15 minutes. The Eastern window and durable Telegram cooldown
+  # decide when a publishing job can send.
   schedule:
     - cron: '43 * * * *'
     - cron: '13 * * * *'
+    - cron: '28 * * * *'
+    - cron: '58 * * * *'
   workflow_dispatch:
     inputs:
       edition:
@@ -140,6 +142,7 @@ jobs:
           FPL_XPTS_SNAPSHOT_URL: ${{ vars.FPL_XPTS_SNAPSHOT_URL || '' }}
           THE_ODDS_API_KEY: ${{ secrets.THE_ODDS_API_KEY }}
           ODDS_API_KEY: ${{ secrets.ODDS_API_KEY }}
+          FPL_TELEGRAM_SPACING: 'true'
           SCHEDULED_CRON: ${{ github.event.schedule }}
         run: |
           if [ "$GITHUB_EVENT_NAME" = 'workflow_dispatch' ] && [ "$MANUAL_EDITION" = 'reconcile-telegram' ]; then
@@ -162,7 +165,7 @@ jobs:
               print("### Latest due-queue report")
               print()
               for field in ("eastern_at", "posts_due", "posts_generated", "new_posts",
-                            "posts_retry_pending", "posts_failed", "next_due"):
+                            "posts_retry_pending", "posts_failed", "next_due", "next_telegram_at"):
                   if field in result:
                       print(f"- **{field.replace('_', ' ').title()}** {result[field]}")
           PY
@@ -201,6 +204,7 @@ jobs:
             state/scheduled_dispatch_status.json
             state/publishing_audit.json
             state/scheduled_legacy_attempts.json
+            state/telegram_spacing.json
             state/deliveries.json
             state/news_deliveries.json
             output/autonomous-audit.json

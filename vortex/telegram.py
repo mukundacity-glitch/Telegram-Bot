@@ -37,6 +37,23 @@ class TelegramClient:
         self.base_url = f"https://api.telegram.org/bot{self.token}"
 
     def _post(self, method: str, data: dict[str, Any], files: dict[str, Any] | None = None) -> dict[str, Any]:
+        if method in {"sendMessage", "sendPhoto", "sendMediaGroup"}:
+            from datetime import datetime, timezone
+            from .publishing_window import assert_allowed
+            from .telegram_spacing import IN_FLIGHT, checkpoint, enabled, require_ready
+
+            if enabled():
+                assert_allowed()
+                now = datetime.now(timezone.utc)
+                require_ready(now)
+                checkpoint(now, IN_FLIGHT)
+                try:
+                    return self._request(method, data, files)
+                finally:
+                    checkpoint(datetime.now(timezone.utc))
+        return self._request(method, data, files)
+
+    def _request(self, method: str, data: dict[str, Any], files: dict[str, Any] | None = None) -> dict[str, Any]:
         if method in ('sendPhoto', 'sendMessage', 'sendMediaGroup', 'editMessageMedia'):
             from .publishing_window import assert_allowed
             assert_allowed()

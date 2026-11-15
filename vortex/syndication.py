@@ -239,6 +239,9 @@ def _publish_shared_locked(post: NewsPost, journal_path: Path, telegram: Any,
         # remain test-only and do not acquire a false production receipt.
         live_transport = (isinstance(telegram, TelegramClient) if platform == "telegram"
                           else isinstance(discord, DiscordWebhookClient))
+        if live_transport and platform == "telegram":
+            from .telegram_spacing import require_ready
+            require_ready()
         if live_transport:
             entry[platform + "_send_pending"] = True
             if platform == "telegram":
@@ -334,6 +337,9 @@ def _publish_album_locked(identity,images,caption,journal_path,telegram,discord,
         if any(row.get(pending) for row in rows):
             errors.append(platform+' acceptance uncertain; reconcile before retry')
             continue
+        if platform == "telegram":
+            from .telegram_spacing import require_ready
+            require_ready()
         # Persist before the external call: even process termination must not
         # silently replay an album whose receipt may have been lost.
         for key,row in zip(keys,rows):

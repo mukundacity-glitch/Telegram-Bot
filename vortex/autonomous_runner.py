@@ -17,6 +17,7 @@ from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
 from .publishing_window import OPEN_MINUTE, allowed
 from .outbox import validate,run as publish_outbox,RECEIPTS,STATUS
+from .telegram_spacing import DeliveryDeferred
 from .queue_retry import failure_reason, retry_source, verified_caption
 
 STATE_FILE=STATE/'autonomous_editions.json'
@@ -144,6 +145,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
             if not audit:
                 state[key]={'task':slot.task,'edition':slot.edition,'status':'checked','at':now.isoformat()};write_state(STATE_FILE,state)
             continue
+        row = None
         try:
             prior = state.get(key, {})
             before = read_state(RECEIPTS) if not audit else {}
@@ -203,6 +205,12 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 state[key]=row;write_state(STATE_FILE,state)
                 if complete and slot.task=='price_changes':write_state(STATE/'prices.json',price_snapshot(snapshot))
             rows.append(row)
+        except DeliveryDeferred:
+            if not audit and row is not None:
+                row['attempts'] = prior.get('attempts', 0)
+                state[key] = row
+                write_state(STATE_FILE, state)
+            raise
         except NoUpdate as exc:
             row={'task':slot.task,'edition':slot.edition,'status':'no-new-facts','reason':str(exc)}
             rows.append(row)
@@ -236,7 +244,11 @@ def main():
     args=parser.parse_args()
     if args.manual and not args.edition:
         parser.error('--manual requires --edition')
-    result=run(cron=os.getenv('SCHEDULED_CRON'),edition=args.edition,audit=args.audit_all,due=args.due,manual=args.manual)
+    try:
+        result=run(cron=os.getenv('SCHEDULED_CRON'),edition=args.edition,audit=args.audit_all,due=args.due,manual=args.manual)
+    except DeliveryDeferred as exc:
+        print(f"::notice::{exc}. The edition remains eligible for the next publishing check.")
+        return 0
     print(json.dumps(result,ensure_ascii=False))
     if args.manual:
         for row in result.get('editions',[]):

@@ -11,7 +11,7 @@ CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
 def test_heartbeat_covers_all_utc_hours_with_eastern_runtime_guard():
     workflow = (Path(__file__).resolve().parents[1] /
                 '.github/workflows/telegram-daily.yml').read_text()
-    assert workflow.count('- cron:') == 2
+    assert workflow.count('- cron:') == 4
     assert 'timezone:' not in workflow
     assert "cron: '43 * * * *'" in workflow
     assert "cron: '13 * * * *'" in workflow
@@ -42,10 +42,10 @@ def test_heartbeat_covers_every_eastern_editorial_day_including_dst_days():
         ticks = [t for t in _eastern_ticks(local_day)
                  if (5, 30) <= (t.hour, t.minute) < (23, 0)]
         assert (ticks[0].hour, ticks[0].minute) == (5, 43)
-        assert (ticks[-1].hour, ticks[-1].minute) == (22, 43)
-        # The Eastern guard admits exactly 35 checks at half-hour intervals.
-        assert len(ticks) == 35
-        assert all((right - left) == timedelta(minutes=30)
+        assert (ticks[-1].hour, ticks[-1].minute) == (22, 58)
+        # The Eastern guard admits exactly 70 polls at quarter-hour intervals.
+        assert len(ticks) == 70
+        assert all((right - left) == timedelta(minutes=15)
                    for left, right in zip(ticks, ticks[1:]))
         # Each tick is inside the publishing window the dispatcher enforces.
         assert all(dispatcher.allowed(tick) for tick in ticks)
@@ -134,3 +134,35 @@ def test_dispatch_orders_all_due_lanes_and_continues_after_failure(monkeypatch, 
     assert report['pending_triggers'][0]['post'] == 'special'
     assert state['audit']['later.json']['telegram_message_ids'] == [123]
     assert state['audit']['legacy-id']['error'] == 'Required data missing'
+
+
+def test_cooldown_persists_between_publishers_and_skips_data_fetch(monkeypatch, tmp_path):
+    from datetime import timedelta
+    from vortex import telegram_spacing, telegram
+
+    monkeypatch.setenv("FPL_TELEGRAM_SPACING", "true")
+    monkeypatch.setattr(telegram_spacing, "STATE", tmp_path)
+    monkeypatch.setattr(telegram_spacing, "COOLDOWN", tmp_path / "spacing.json")
+    monkeypatch.setattr(dispatcher, "REPORT", tmp_path / "report.json")
+    now = datetime.now(timezone.utc)
+    monkeypatch.setattr(dispatcher, "allowed", lambda now: True)
+    monkeypatch.setattr(dispatcher, "collect_snapshot", lambda: pytest.fail("Cooldown must skip network reads"))
+    send_calls = []
+
+    def send(method, data, files):
+        send_calls.append(method)
+        return {"ok": True, "result": {"message_id": 101}}
+
+    first = telegram.TelegramClient("test", "test")
+    monkeypatch.setattr(first, "_request", send)
+    assert first.send_text("One") == 101
+    second = telegram.TelegramClient("test", "test")
+    monkeypatch.setattr(second, "_request", send)
+    with pytest.raises(telegram_spacing.DeliveryDeferred):
+        second.send_text("Two")
+    assert send_calls == ["sendMessage"]
+    report = dispatcher.run(now=now + timedelta(minutes=15))
+    assert report["status"] == "deferred-telegram-spacing"
+    assert report["posts_failed"] == report["posts_retry_pending"] == 0
+    assert datetime.fromisoformat(report["next_telegram_at"]) >= now + timedelta(minutes=45)
+    assert telegram_spacing.blocked_until(datetime.fromisoformat(report["next_telegram_at"])) is None
