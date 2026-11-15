@@ -84,12 +84,16 @@ def render_low_owned(plan,snapshot,output,session,assets):
     W,H=1536,864
     CYAN=(20,232,249);PURPLE=(177,66,254);WHITE=(247,250,255)
     SOFT=(181,204,229);DARK=(5,15,42);GREEN=(90,240,110)
-    canvas=Image.new('RGBA',(W,H),(3,11,33,255))
+    emerald = getattr(plan, 'edition', None) == 'afternoon-rotation'
+    if emerald:
+        CYAN, PURPLE, WHITE = (226, 191, 119), (192, 154, 87), (251, 244, 222)
+        SOFT, DARK, GREEN = (209, 193, 154), (4, 24, 19), (110, 229, 167)
+    canvas=Image.new('RGBA',(W,H),(*DARK,255) if emerald else (3,11,33,255))
     # Reusable studio lighting makes the image as rich as the neon reference.
     glow=Image.new('RGBA',(W,H))
     gd=ImageDraw.Draw(glow)
-    gd.polygon([(0,0),(370,0),(0,280)],fill=(0,112,240,58))
-    gd.polygon([(W,0),(1140,0),(W,290)],fill=(166,30,255,60))
+    gd.polygon([(0,0),(370,0),(0,280)],fill=(27,116,71,78) if emerald else (0,112,240,58))
+    gd.polygon([(W,0),(1140,0),(W,290)],fill=(200,156,71,52) if emerald else (166,30,255,60))
     gd.polygon([(0,H),(300,H),(0,710)],fill=(97,27,255,40))
     canvas.alpha_composite(glow.filter(ImageFilter.GaussianBlur(17)))
 
@@ -112,6 +116,9 @@ def render_low_owned(plan,snapshot,output,session,assets):
         draw.text((round(x),round(y)),value,font=face,fill=shade)
 
     def box(x0,y0,x1,y1,outline=CYAN,fill=DARK,rad=12,blur=6,thick=2):
+        if emerald:
+            fill = DARK
+            blur = min(blur, 3)
         halo=Image.new('RGBA',(W,H))
         ImageDraw.Draw(halo).rounded_rectangle((x0,y0,x1,y1),radius=rad,
                            outline=(*outline,255),width=max(3,thick))
@@ -148,7 +155,7 @@ def render_low_owned(plan,snapshot,output,session,assets):
             raise RequiredInput('Differential board now contains an ineligible player')
         d=box(x,y,x+w,y+310,CYAN if idx%2==0 else PURPLE,(6,19,48),16,7)
         d.rounded_rectangle((x+12,y+9,x+195,y+38),radius=13,
-              fill=(18,8,53,255),outline=(*PURPLE,250),width=2)
+              fill=(*DARK,255) if emerald else (18,8,53,255),outline=(*PURPLE,250),width=2)
         writing(d,f'{idx+1:02d}  {positions[p["element_type"]]} / {snapshot.team(p)}',
                 x+20,y+11,171,19,WHITE,13)
         writing(d,snapshot.name(p).upper(),x+17,y+39,w-92,29,WHITE,17)
@@ -161,10 +168,10 @@ def render_low_owned(plan,snapshot,output,session,assets):
         writing(d,f'{fpl:.2f}',x+161,y+101,136,37,CYAN,25,'center')
         d=box(x+313,y+78,x+w-12,y+149,CYAN,(6,23,51),9,5,1)
         writing(d,snapshot.price(p),x+318,y+82,w-338,30,WHITE,20,'center')
-        writing(d,f'{own:.1f}% OWNED',x+319,y+119,w-341,17,(255,155,242),12,'center')
+        writing(d,f'{own:.1f}% OWNED',x+319,y+119,w-341,17,(226,191,119) if emerald else (255,155,242),12,'center')
         d=ImageDraw.Draw(canvas,'RGBA')
         d.rounded_rectangle((x+153,y+159,x+w-12,y+262),radius=8,
-              fill=(4,18,44,255),outline=(*CYAN,195),width=1)
+              fill=(8,38,27,255) if emerald else (4,18,44,255),outline=(*CYAN,195),width=1)
         d.line((x+312,y+166,x+312,y+258),fill=(*CYAN,125),width=1)
         if p['element_type']==1:
             roles=[('SAVES',stats.get('SAVES','—')),('CLEAN SHEETS',stats.get('CS','—'))]

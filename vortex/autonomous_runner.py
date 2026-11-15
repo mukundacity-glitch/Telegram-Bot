@@ -47,8 +47,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
     pages=render(plan,snapshot,now,output,evidence.session)
-    if plan.edition=='four-midfielders' and len(pages)!=1:
-        raise RuntimeError('Four midfielders must fit ONE approved comparison graphic')
+    if plan.edition in ('four-midfielders', 'afternoon-rotation') and len(pages) != 1:
+        raise RuntimeError(f'{plan.edition} requires exactly one graphic')
     for path in pages:
         with Image.open(path) as image:
             if image.size not in ((1920,1080),(1080,1920)):raise RuntimeError('Generated PNG dimensions failed QA')
@@ -75,7 +75,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
             'images':[str(p.relative_to(base)) for p in pages]}
     if not manual and not audit:
         safe_caption = verified_caption(plan.title, plan.caption)
-        if plan.kind == 'position_watch' or slot.edition == 'weekly-analysis':
+        if plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation'):
             safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
             if len(safe_caption.splitlines()) != 5:
                 raise RequiredInput('Watch editions require a five-line caption')
@@ -84,8 +84,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         record['sources'].append(plan.extra['source'])
     if slot.edition == 'weekly-analysis':
         record['sources'].extend(plan.extra['sources'])
-    if plan.kind == 'odds_board':
-        record['sources'].extend(plan.extra['sources'])
+    if plan.kind == 'odds_board' or slot.edition == 'afternoon-rotation':
+        record['sources'].extend(plan.extra.get('sources', []))
     if audit and not allowed(now):
         hour, minute = divmod(OPEN_MINUTE, 60)
         target = now.astimezone(ET).replace(hour=hour, minute=minute, second=0, microsecond=0)
@@ -102,6 +102,8 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     now=now or datetime.now(timezone.utc)
     if edition in RETIRED_EDITIONS:
         raise ValueError('This edition has been retired')
+    if manual and edition == 'afternoon-rotation':
+        raise ValueError('Afternoon rotation is available through the due queue only')
     if manual and not edition:
         raise ValueError('Manual delivery requires one explicitly selected edition')
     if not audit and not manual and not allowed(now):
@@ -247,7 +249,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s.edition != 'weekly-analysis'}|set(SPECIAL_EDITIONS)))
+    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s.edition not in ('weekly-analysis', 'afternoon-rotation')}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
     parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
     parser.add_argument('--manual', action='store_true', help='Publish exactly one selected, verified edition immediately')

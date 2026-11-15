@@ -15,7 +15,7 @@ def complete(projection):
                ))
 
 
-def build_odds_board(slot, snapshot, evidence):
+def build_odds_board(slot, snapshot, evidence, *, market_outlook=False):
     from .autonomous_content import Plan
 
     gw = snapshot.gameweek()
@@ -27,7 +27,7 @@ def build_odds_board(slot, snapshot, evidence):
         raise RequiredInput("No verified upcoming FPL fixtures for the odds board")
     odds = verified_match_odds(snapshot, fixtures, session=evidence.session)
     missing = [fixture for fixture in fixtures if not complete(odds.get(fixture["id"], {}))]
-    solio = solio_match_projections(snapshot, fixtures, session=evidence.session) if missing else {}
+    solio = solio_match_projections(snapshot, fixtures, session=evidence.session) if missing and not market_outlook else {}
     rows = []
     for fixture in fixtures:
         fixture_id = fixture["id"]
@@ -45,12 +45,17 @@ def build_odds_board(slot, snapshot, evidence):
             fdr = fixture.get(f"{keys[side]}_difficulty")
             if fdr not in (1, 2, 3, 4, 5):
                 raise RequiredInput("Official fixture difficulty is missing")
+            win = odds.get(fixture_id, {}).get(f"{side}_win_market_pct")
             rows.append({
                 "fixture": fixture_id, "team": team["short_name"], "team_code": team["code"],
                 "opponent": opponent["short_name"], "opponent_code": opponent["code"], "venue": venue,
                 "fdr": fdr, "goals": projection[f"{side}_goals"] if source else None,
                 "clean_sheet": projection[f"{side}_cs"] if source else None, "source": source,
             })
+            if market_outlook:
+                rows[-1]["win"] = win if type(win) in (int, float) and 0 <= win <= 100 else None
+    if market_outlook and not any(row["win"] is not None for row in rows):
+        raise RequiredInput("No verified bookmaker win probabilities for the market outlook")
     market_count = sum(row["source"] == "market" for row in rows) // 2
     solio_count = sum(row["source"] == "solio" for row in rows) // 2
     covered = market_count + solio_count
@@ -66,9 +71,10 @@ def build_odds_board(slot, snapshot, evidence):
         f"{date} ET • {market_count} market · {solio_count} Solio Analytics model · {len(fixtures)-covered} unavailable.\n"
         f"#FPL #GW{gw} #FPLVORTEX #FPLFixtures"
     )
-    return Plan(slot.task, slot.edition, f"GW{gw} PROJECTED GOALS & CLEAN SHEETS",
+    title = "MARKET OUTLOOK • GOALS, CLEAN SHEETS & WINS" if market_outlook else f"GW{gw} PROJECTED GOALS & CLEAN SHEETS"
+    return Plan(slot.task, slot.edition, title,
                 caption, gw, [], [], kind="odds_board",
-                extra={"rows": rows, "covered": covered, "fixture_count": len(fixtures),
+                extra={"rows": rows, **({"market_outlook": True} if market_outlook else {}), "covered": covered, "fixture_count": len(fixtures),
                        "market_count": market_count, "solio_count": solio_count, "edition_date": date,
                        "sources": (["https://the-odds-api.com/"] if market_count else [])
                                   + ([SOLIO_URL] if solio_count else [])})

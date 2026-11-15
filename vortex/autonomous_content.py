@@ -139,13 +139,16 @@ def _goalkeeper_striker_watch(slot, snapshot, now, evidence):
                                    'recent': {str(p['id']): evidence.recent(p) for p in players}})
 
 
-def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=None):
+def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=None, *, value_quotas=(3, 3, 3, 3)):
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
     if name == 'chance-creators':
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)
+    if name == 'afternoon-rotation':
+        from .afternoon_rotation import build_rotation
+        return build_rotation(slot, snapshot, now, e, model)
     if name == 'weekly-analysis':
         from .weekly_analysis import build_weekly_analysis
         return build_weekly_analysis(slot, snapshot, now, e.session)
@@ -204,7 +207,7 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         feed=verified_feed(snapshot,now,e.session,payload=model)
         from math import isfinite
         players=[];values={}
-        for pos in (1,2,3,4):
+        for pos, quota in enumerate(value_quotas, start=1):
             options=[]
             for p in snapshot.players:
                 if p.get('element_type')!=pos or p.get('status')!='a':continue
@@ -237,8 +240,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
                                      'points_source':source,'fdr_source':feed['model_version']}
                 options.append(p)
             options.sort(key=lambda p:values[str(p['id'])]['xpts'],reverse=True)
-            if len(options)<3:raise RequiredInput('Value board lacks three verified official/model forecasts in every position')
-            players+=options[:3]
+            if len(options) < quota:
+                raise RequiredInput(f'Value board needs {quota} verified forecasts for position {pos}')
+            players += options[:quota]
         title='NEXT GW • FPL PROJECTION + VORTEX FDR' if not (feed.get('players')or{}) else 'NEXT GW • FORECAST VALUE BOARD'
         return Plan(slot.task,name,title,caption(snapshot,'next-GW forecast value',players),gw,players,['MONITOR']*len(players),
                     kind='value',extra={'values':values,'model':feed['model_version'],
