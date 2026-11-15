@@ -103,6 +103,8 @@ def test_manual_projection_route_preserves_gameweek_deduplication(delivery_envir
 
 
 def test_new_team_and_transfer_slots_abort_after_deadline(delivery_environment, monkeypatch):
+    from vortex.schedule import SLOT_CRONS
+    monkeypatch.setitem(SLOT_CRONS, "0 11 * * *", "team_analysis")
     from datetime import timedelta
     now = datetime.now(timezone.utc)
     monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: now - timedelta(minutes=1))
@@ -127,7 +129,9 @@ def test_existing_cron_still_executes_normal_publish(delivery_environment):
     assert delivery_environment == ["THE FPL DECISION ROOM"]
 
 
-def test_scheduled_prices_skip_a_card_without_confirmed_moves(delivery_environment):
+def test_scheduled_prices_skip_a_card_without_confirmed_moves(delivery_environment, monkeypatch):
+    from vortex.schedule import SLOT_CRONS
+    monkeypatch.setitem(SLOT_CRONS, "15 12 * * *", "prices")
     baseline = bot.STATE / "prices.json"
     baseline.write_text(json.dumps({"prices": {"1": 50}}), encoding="utf-8")
     previous = baseline.read_bytes()

@@ -146,6 +146,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     if name == 'chance-creators':
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)
+    if name == 'weekly-analysis':
+        from .weekly_analysis import build_weekly_analysis
+        return build_weekly_analysis(slot, snapshot, now, e.session)
     if name == 'goalkeeper-striker-watch':
         return _goalkeeper_striker_watch(slot, snapshot, now, e)
     if name == 'player-radar-comparison':

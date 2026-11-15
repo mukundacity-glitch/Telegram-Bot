@@ -7,9 +7,9 @@ from vortex.schedule import SLOT_CRONS, captaincy_due, resolve_slot
 
 
 def test_all_thirteen_slots_have_distinct_times_and_backup_checks():
-    assert len(SLOT_CRONS) == 24
-    assert len(set(SLOT_CRONS.values())) == 12
-    assert {"comparison", "buy"}.isdisjoint(SLOT_CRONS.values())
+    assert len(SLOT_CRONS) == 16
+    assert len(set(SLOT_CRONS.values())) == 8
+    assert {"comparison", "buy", "news", "midfielders", "team_analysis", "prices"}.isdisjoint(SLOT_CRONS.values())
 
 
 def test_scheduled_cron_wins_over_delayed_execution_time():
@@ -39,16 +39,12 @@ def test_dst_zone_is_eastern():
 def test_three_extra_slots_use_eastern_and_have_no_conflicts():
     from vortex.schedule import SLOT_HOURS
     assert SLOT_HOURS["daily_stats"] == (7, 30)
-    assert SLOT_HOURS["team_analysis"] == (11, 0)
     assert SLOT_HOURS["transfer_suggestions"] == (15, 0)
     assert SLOT_CRONS["45 7 * * *"] == "daily_stats"
     assert SLOT_CRONS["30 7 * * *"] == "daily_stats"
     assert "projections" not in SLOT_CRONS.values()
-    assert SLOT_CRONS["15 11 * * *"] == "team_analysis"
     assert SLOT_CRONS["15 15 * * *"] == "transfer_suggestions"
     assert "start_bench" not in SLOT_HOURS
     assert "start_bench" not in SLOT_CRONS.values()
-    assert SLOT_HOURS["midfielders"] == (10, 45)
-    assert SLOT_CRONS["25 11 * * *"] == "midfielders"
     assert len(set(SLOT_HOURS.values())) == len(SLOT_HOURS)
     assert all((6, 0) <= when <= (20, 0) for when in SLOT_HOURS.values())

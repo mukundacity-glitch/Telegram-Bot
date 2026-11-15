@@ -53,15 +53,18 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         with Image.open(path) as image:
             if image.size not in ((1920,1080),(1080,1920)):raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()
-    deadline=upcoming_deadline(snapshot)
-    if deadline is None or deadline<=datetime.now(timezone.utc):raise RuntimeError('Verified next deadline elapsed during rendering')
+    weekly = slot.edition == 'weekly-analysis'
+    deadline = ((now.astimezone(ET) + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+                if weekly else upcoming_deadline(snapshot))
+    if deadline is None or deadline <= datetime.now(timezone.utc):
+        raise RuntimeError('Verified next deadline elapsed during rendering')
     season=season_id(snapshot,now)
     record={'task':slot.task,'edition':slot.edition,'season':season,'gameweek':plan.gw,
             'title':plan.title,'caption':plan.caption,'facts':facts(plan,snapshot,evidence),
             'generated_at':snapshot.fetched_at.isoformat(),'publish_at':now.isoformat(),
             'data_retrieval_at_et':snapshot.fetched_at.astimezone(ET).isoformat(),
             'graphic_generated_at_et':datetime.now(timezone.utc).astimezone(ET).isoformat(),
-            'deadline':deadline.isoformat(),'pre_deadline':True,'qa_passed':True,
+            'deadline':deadline.isoformat(),'pre_deadline':not weekly,'qa_passed':True,
             'generation_owner':'github-actions','sources':[
                 'https://fantasy.premierleague.com/api/bootstrap-static/',
                 'https://fantasy.premierleague.com/api/fixtures/']+[
@@ -72,13 +75,15 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
             'images':[str(p.relative_to(base)) for p in pages]}
     if not manual and not audit:
         safe_caption = verified_caption(plan.title, plan.caption)
-        if plan.kind == 'position_watch':
+        if plan.kind == 'position_watch' or slot.edition == 'weekly-analysis':
             safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
             if len(safe_caption.splitlines()) != 5:
                 raise RequiredInput('Watch editions require a five-line caption')
         record['caption'] = safe_caption
     if plan.kind == 'chance_creators':
         record['sources'].append(plan.extra['source'])
+    if slot.edition == 'weekly-analysis':
+        record['sources'].extend(plan.extra['sources'])
     if plan.kind == 'odds_board':
         record['sources'].extend(plan.extra['sources'])
     if audit and not allowed(now):
@@ -242,7 +247,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS}|set(SPECIAL_EDITIONS)))
+    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s.edition != 'weekly-analysis'}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
     parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
     parser.add_argument('--manual', action='store_true', help='Publish exactly one selected, verified edition immediately')

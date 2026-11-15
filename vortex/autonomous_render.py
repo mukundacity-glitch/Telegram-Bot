@@ -337,6 +337,9 @@ def render(plan,snapshot,now,output,session=None):
         canvas = _base(plan.title, plan.gw, f"GW{plan.gw} • OPEN PLAY & SET PIECES • PER 90")
         draw_chart(canvas, plan)
         return [_save(canvas, output)]
+    if plan.edition == 'weekly-analysis':
+        from .weekly_analysis_render import render_weekly_analysis
+        return [render_weekly_analysis(plan, output, client)]
     if plan.kind == 'position_watch':
         groups = plan.extra.get('pages')
         if not groups:

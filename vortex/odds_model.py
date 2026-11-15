@@ -107,13 +107,13 @@ def _poisson_pmf(rate: float) -> list[float]:
     return probabilities
 
 
-def predicted_probabilities(home_rate: float, away_rate: float) -> tuple[float, float, float, float]:
+def predicted_probabilities(home_rate: float, away_rate: float, *, goal_offset: int = 0) -> tuple[float, float, float, float]:
     hp, ap = _poisson_pmf(home_rate), _poisson_pmf(away_rate)
     home = draw = away = 0.0
     for goals_h, p_h in enumerate(hp):
         for goals_a, p_a in enumerate(ap):
             both = p_h * p_a
-            if goals_h > goals_a:
+            if goals_h + goal_offset > goals_a:
                 home += both
             elif goals_h < goals_a:
                 away += both

@@ -9,7 +9,7 @@ from .autonomous_content import Evidence
 from .autonomous_runner import run as run_editions, STATE_FILE
 from .autonomous_schedule import (
     ET, SLOTS, catchup_slots, publication_key, retryable, season_id, slot_start,
-    special_triggers,
+    special_triggers, SERIES, SERIES_STATE, weekly_analysis_slot,
 )
 from .bot import STATE, read_state, write_state, run as run_legacy
 from .fpl import collect_snapshot
@@ -114,6 +114,8 @@ def run(now=None, cron=None):
         source_error = failure_reason(exc)
     if snapshot is None:
         for slot in SLOTS:
+            if slot == SERIES:
+                continue
             trigger = slot_start(slot, now)
             if trigger <= now:
                 jobs.append((trigger, 'editorial', f'{local.date()}:{slot.edition}:snapshot', slot))
@@ -123,6 +125,14 @@ def run(now=None, cron=None):
         for slot in catchup_slots(now, editorial, gw, season, limit=None):
             jobs.append((slot_start(slot, now), 'editorial',
                          publication_key(slot, now, gw, season), slot))
+        old_series = editorial.get(SERIES_STATE)
+        series = weekly_analysis_slot(snapshot, now, editorial)
+        if series is not None:
+            if old_series != editorial.get(SERIES_STATE):
+                write_state(STATE_FILE, editorial)
+            key = publication_key(series, now, gw, season)
+            if retryable(editorial.get(key, {})):
+                jobs.append((slot_start(series, now), 'editorial', key, series))
         for slot, trigger in special_triggers(snapshot, now):
             key = publication_key(slot, now, gw, season)
             if retryable(editorial.get(key, {})):

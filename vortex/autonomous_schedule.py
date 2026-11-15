@@ -12,6 +12,8 @@ class Slot:
     edition: str
     hour: int
     minute: int = 20
+    series_gw: int | None = None
+    series_day: int | None = None
 
 
 RETIRED_EDITIONS = {
@@ -19,11 +21,15 @@ RETIRED_EDITIONS = {
     "start_bench", "squad-surgery", "transfer-market-team-news", "four-midfielders", "captain-differential",
 }
 
+SERIES = Slot('task2', 'weekly-analysis', 12, 30)
+SERIES_STATE = '_weekly_analysis'
+
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
     Slot('task2', 'defender-watch', 9, 30),
     Slot('task2', 'goalkeeper-striker-watch', 10, 30),
     Slot('task1', 'player-radar-comparison', 11, 30),
+    SERIES,
     Slot('task2', 'four-team-targets', 14, 30),
     Slot('task2', 'market-verdict', 15, 30),
     Slot('task1', 'deadline-watch', 16, 30),
@@ -61,6 +67,8 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.series_day is not None:
+        return f'{season}:GW{slot.series_gw}:{slot.task}:{slot.edition}:day{slot.series_day}'
     if slot.edition in SPECIAL_EDITIONS:
         return f'{season or str(now.year)}:GW{gw}:task1:{slot.edition}'
     key = f"{now.astimezone(ET).date()}:{slot.task}:{slot.edition}:GW{gw}"
@@ -80,7 +88,7 @@ def catchup_slots(now, state, gw, season=None, limit=3):
     """Slots already due today with remaining attempts, oldest first."""
     return [
         slot for slot in sorted(SLOTS, key=lambda s: (s.hour, s.minute))
-        if now >= slot_start(slot, now)
+        if slot != SERIES and now >= slot_start(slot, now)
         and retryable(state.get(publication_key(slot, now, gw, season), {}))
     ][:limit]
 
@@ -122,3 +130,24 @@ def due_specials(snapshot, now, state):
     return [slot for slot, trigger in special_triggers(snapshot, now)
             if trigger is not None and trigger <= now
             and retryable(state.get(publication_key(slot, now, gw, season), {}))]
+
+
+def weekly_analysis_slot(snapshot, now, state):
+    """Start one seven-day series per completed GW, pinned for all seven days."""
+    from dataclasses import replace
+    from .fpl import latest_completed_gw
+
+    latest = latest_completed_gw(snapshot)
+    if latest is None or now < slot_start(SERIES, now):
+        return None
+    season = season_id(snapshot, now)
+    today = now.astimezone(ET).date()
+    tracker = state.get(SERIES_STATE, {})
+    if tracker.get('season') == season:
+        elapsed = (today - datetime.fromisoformat(tracker['start']).date()).days
+        if 0 <= elapsed < 7:
+            return replace(SERIES, series_gw=tracker['gw'], series_day=elapsed+1)
+        if latest <= tracker['gw']:
+            return None
+    state[SERIES_STATE] = {'season': season, 'gw': latest, 'start': today.isoformat()}
+    return replace(SERIES, series_gw=latest, series_day=1)
