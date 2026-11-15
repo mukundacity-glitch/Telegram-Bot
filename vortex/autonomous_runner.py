@@ -11,7 +11,7 @@ import json,os
 from PIL import Image
 from .bot import ROOT,STATE,read_state,write_state
 from .fpl import collect_snapshot,price_snapshot,upcoming_deadline
-from .autonomous_schedule import WILDCARD, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
+from .autonomous_schedule import WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
@@ -33,7 +33,7 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
-    if plan.kind in ('player_radar', 'chance_creators', 'wildcard'):
+    if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
     return {'players':[{k:p.get(k) for k in keys}|{'recent':evidence.recent(p)} for p in plan.players],
@@ -47,7 +47,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
     pages=render(plan,snapshot,now,output,evidence.session)
-    if plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation', WILDCARD.edition) and len(pages) != 1:
+    if (slot.on_date or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation')) and len(pages) != 1:
         raise RuntimeError(f'{plan.edition} requires exactly one graphic')
     for path in pages:
         with Image.open(path) as image:
@@ -72,14 +72,14 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                 'https://fantasy.premierleague.com/api/bootstrap-static/',
                 'https://fantasy.premierleague.com/api/fixtures/']+[
                 f"https://fantasy.premierleague.com/api/element-summary/{p['id']}/" for p in plan.players
-                if plan.kind != 'wildcard']+(
+                if plan.kind not in ('wildcard', 'positional_vulnerability')]+(
                     ['https://github.com/olbauday/FPL-Core-Insights',
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.kind != 'wildcard' and plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
     if not manual and not audit:
         safe_caption = verified_caption(plan.title, plan.caption)
-        if plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation', WILDCARD.edition):
+        if slot.on_date or plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation'):
             safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
             if len(safe_caption.splitlines()) != 5:
                 raise RequiredInput('Watch editions require a five-line caption')
@@ -88,7 +88,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         record['sources'].append(plan.extra['source'])
     if slot.edition == 'weekly-analysis':
         record['sources'].extend(plan.extra['sources'])
-    if plan.kind == 'odds_board' or slot.edition in ('afternoon-rotation', 'scouting-rotation', WILDCARD.edition):
+    if slot.on_date or plan.kind == 'odds_board' or slot.edition in ('afternoon-rotation', 'scouting-rotation'):
         record['sources'].extend(plan.extra.get('sources', []))
     if audit and not allowed(now):
         hour, minute = divmod(OPEN_MINUTE, 60)
@@ -104,8 +104,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
 
 def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3, selected_slots=None, evidence=None):
     now=now or datetime.now(timezone.utc)
-    if edition == WILDCARD.edition:
-        raise ValueError('The one-off Wildcard is available through the due queue only')
+    if any(s.on_date and s.edition == edition for s in SLOTS):
+        raise ValueError('One-off posts are available through the due queue only')
     if edition in RETIRED_EDITIONS:
         raise ValueError('This edition has been retired')
     if manual and edition in ('afternoon-rotation', 'scouting-rotation'):
@@ -255,7 +255,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation', WILDCARD.edition)}|set(SPECIAL_EDITIONS)))
+    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if not s.on_date and s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation')}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
     parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
     parser.add_argument('--manual', action='store_true', help='Publish exactly one selected, verified edition immediately')

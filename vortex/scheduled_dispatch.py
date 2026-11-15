@@ -8,7 +8,7 @@ from datetime import datetime, timedelta, timezone
 from .autonomous_content import Evidence
 from .autonomous_runner import run as run_editions, STATE_FILE
 from .autonomous_schedule import (
-    ET, SLOTS, WILDCARD, WILDCARD_CRON, catchup_slots, eligible_on, publication_key, retryable, season_id, slot_start,
+    ET, SLOTS, ONE_OFF_CRONS, catchup_slots, eligible_on, publication_key, retryable, season_id, slot_start,
     special_triggers, SERIES, SERIES_STATE, weekly_analysis_slot,
 )
 from .bot import STATE, read_state, write_state, run as run_legacy
@@ -71,7 +71,8 @@ def telegram_ids(path):
 def run(now=None, cron=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
-    if cron == WILDCARD_CRON and not eligible_on(WILDCARD, now):
+    dated_slot = ONE_OFF_CRONS.get(cron)
+    if dated_slot is not None and not eligible_on(dated_slot, now):
         return {'status': 'one-off-window-closed', 'new_posts': 0}
     if not allowed(now):
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),

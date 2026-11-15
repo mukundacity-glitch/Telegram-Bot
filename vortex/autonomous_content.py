@@ -146,6 +146,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     if name == 'chance-creators':
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)
+    if name == 'positional-vulnerability':
+        from .positional_vulnerability import build_vulnerability
+        return build_vulnerability(slot, snapshot, now, e.session)
     if name == 'wildcard-draft':
         from .wildcard import build_wildcard
         return build_wildcard(slot, snapshot, now, e)

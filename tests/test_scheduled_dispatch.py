@@ -4,6 +4,7 @@ from pathlib import Path
 import json
 import pytest
 from vortex import scheduled_dispatch as dispatcher
+from vortex.autonomous_schedule import ONE_OFF_CRONS
 
 OPEN = datetime(2026, 11, 10, 18, 0, tzinfo=timezone.utc)   # 13:00 EST
 CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
@@ -11,9 +12,10 @@ CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
 def test_heartbeat_covers_all_utc_hours_with_eastern_runtime_guard():
     workflow = (Path(__file__).resolve().parents[1] /
                 '.github/workflows/telegram-daily.yml').read_text()
-    assert workflow.count('- cron:') == 5
-    assert f"cron: '{dispatcher.WILDCARD_CRON}'" in workflow
-    assert dispatcher.run(OPEN, dispatcher.WILDCARD_CRON)['status'] == 'one-off-window-closed'
+    assert workflow.count('- cron:') == 6
+    for cron in ONE_OFF_CRONS:
+        assert f"cron: '{cron}'" in workflow
+        assert dispatcher.run(OPEN, cron)['status'] == 'one-off-window-closed'
     assert 'timezone:' not in workflow
     assert "cron: '43 * * * *'" in workflow
     assert "cron: '13 * * * *'" in workflow

@@ -72,15 +72,15 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     workflow=(Path(__file__).resolve().parents[1]/'.github/workflows/telegram-daily.yml').read_text()
     crons=re.findall(r"- cron: '([^']+)'",workflow)
     assert len(crons)==len(set(crons))
-    assert crons == ['43 * * * *', '13 * * * *', '28 * * * *', '58 * * * *', '30 20 17 11 *']
+    assert crons == ['43 * * * *', '13 * * * *', '28 * * * *', '58 * * * *', '30 20 16 11 *', '30 20 17 11 *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
-    assert len(SLOTS) == 12
+    assert len(SLOTS) == 13
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 
 
-@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation','wildcard-draft'}))
+@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation','wildcard-draft','positional-vulnerability'}))
 def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name,monkeypatch,tmp_path):
     s,now,e,feed=world
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))

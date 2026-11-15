@@ -28,8 +28,12 @@ SERIES = Slot('task2', 'weekly-analysis', 12, 30)
 SERIES_STATE = '_weekly_analysis'
 AFTERNOON = Slot('task2', 'afternoon-rotation', 13, 30)
 SCOUTING = Slot('task2', 'scouting-rotation', 14, 30)
+VULNERABILITY_CRON = '30 20 16 11 *'
+VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30, on_date=date(2026, 11, 16))
 WILDCARD_CRON = '30 20 17 11 *'
 WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, on_date=date(2026, 11, 17))
+
+ONE_OFF_CRONS = {VULNERABILITY_CRON: VULNERABILITY, WILDCARD_CRON: WILDCARD}
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
@@ -39,6 +43,7 @@ SLOTS = (
     SERIES,
     AFTERNOON,
     SCOUTING,
+    VULNERABILITY,
     WILDCARD,
     Slot('task1', 'deadline-watch', 16, 30),
     Slot('price_changes', 'confirmed-price-changes', 17, 30),
