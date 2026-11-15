@@ -645,6 +645,13 @@
     "discord_message_id": "1570550497084047510",
     "telegram_message_id": 381
   },
+  "rotation:2026-11-15:GW11": {
+    "caption_sha256": "b934afcbac300b621c0e90bf65e40b2ff43d97b826d1885dc43ea0afc870eff8",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550497084047510",
+    "telegram_message_id": 381
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,
@@ -655,6 +662,19 @@
     "source_url": "https://www.theguardian.com/football/2026/nov/12/the-problems-awaiting-manchester-united-next-manager",
     "telegram_message_id": 392,
     "timestamp": "2026-11-12T21:36:51.001744+00:00"
+  },
+  "rss:41bb18415301e13678678f7f": {
+    "caption_sha256": "be3bde436d953f7bafe85e357d42971a9be40f48653c2e41c2c3f5e81a241a69",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571487106436440264",
+    "gameweek": 11,
+    "source": "media.sky_sports",
+    "source_url": "https://www.skysports.com/football/news/12040/13612415/x-paper-talk",
+    "telegram_delivered_at": "2026-11-15T11:28:42.644598+00:00",
+    "telegram_message_id": 429,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-15T11:28:32.480431+00:00"
   },
   "rss:e13f801f17e8eb7cfa52a714": {
     "caption_sha256": "840f17ad4cfe2f93944e63423953647aeaefd814e2ec14b0df341c2befc4bfa3",

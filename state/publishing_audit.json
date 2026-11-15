@@ -2035,6 +2035,53 @@
     "status": "RUN",
     "timestamp": "2026-11-15T03:03:54.608611+00:00"
   },
+  "2026-11-15T11:28:32.480431+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "generated": true,
+        "post_id": "rotation:2026-11-15:GW11",
+        "status": "CHECKED",
+        "telegram_message_id": 381,
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-15T11:28:32.480431+00:00",
+        "trigger": "2026-11-15T11:28:32.480431+00:00",
+        "type": "news"
+      },
+      {
+        "attempts": 1,
+        "generated": true,
+        "post_id": "rss:41bb18415301e13678678f7f",
+        "status": "POSTED",
+        "telegram_message_id": 429,
+        "telegram_message_ids": [
+          429
+        ],
+        "timestamp": "2026-11-15T11:28:32.480431+00:00",
+        "trigger": "2026-11-15T11:28:32.480431+00:00",
+        "type": "news"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-15T11:28:32.480431+00:00"
+  },
+  "2026-11-15T11:28:32.480431+00:00:news": {
+    "attempts": 0,
+    "completed_at": "2026-11-15T11:28:43.623515+00:00",
+    "confirmed_telegram_message_ids": [
+      429
+    ],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-15T11:28:32.480431+00:00:news",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      429
+    ],
+    "timestamp": "2026-11-15T11:28:32.480431+00:00",
+    "trigger": "2026-11-15T11:28:32.480431+00:00",
+    "type": "2026-11-15T11:28:32.480431+00:00:news"
+  },
   "gw10-four-midfielders.json": {
     "attempts": 0,
     "completed_at": "2026-11-14T23:52:43.817359+00:00",
@@ -2068,6 +2115,30 @@
     "telegram_message_ids": [],
     "timestamp": "2026-11-14T14:20:44.621996+00:00",
     "trigger": "2026-11-14T14:20:44.621996+00:00",
+    "type": "news"
+  },
+  "rotation:2026-11-15:GW11": {
+    "attempts": 1,
+    "generated": true,
+    "post_id": "rotation:2026-11-15:GW11",
+    "status": "CHECKED",
+    "telegram_message_id": 381,
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-15T11:28:32.480431+00:00",
+    "trigger": "2026-11-15T11:28:32.480431+00:00",
+    "type": "news"
+  },
+  "rss:41bb18415301e13678678f7f": {
+    "attempts": 1,
+    "generated": true,
+    "post_id": "rss:41bb18415301e13678678f7f",
+    "status": "POSTED",
+    "telegram_message_id": 429,
+    "telegram_message_ids": [
+      429
+    ],
+    "timestamp": "2026-11-15T11:28:32.480431+00:00",
+    "trigger": "2026-11-15T11:28:32.480431+00:00",
     "type": "news"
   }
 }

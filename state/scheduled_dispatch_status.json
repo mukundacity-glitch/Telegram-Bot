@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-15T03:03:54.608611+00:00",
-  "eastern_at": "2026-11-14T22:03:54.608611-05:00",
-  "last_news_scan": null,
+  "at": "2026-11-15T11:28:32.480431+00:00",
+  "eastern_at": "2026-11-15T06:28:32.480431-05:00",
+  "last_news_scan": "2026-11-15T11:28:32.480431+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "goalkeeper-striker-watch",
-    "trigger": "2026-11-15T03:49:05.700699+00:00"
+    "post": "elite",
+    "trigger": "2026-11-15T06:30:00-05:00"
   },
-  "next_telegram_at": "2026-11-15T03:49:05.700699+00:00",
+  "next_telegram_at": null,
   "pending_triggers": [
     {
       "post": "chance-creators",
@@ -30,9 +30,9 @@
       "trigger": "2026-11-21T07:30:00+00:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 2,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 2,
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,

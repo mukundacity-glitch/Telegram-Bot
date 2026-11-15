@@ -101,7 +101,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 40,
+    "now_cost": 39,
     "status": "a"
   },
   "112": {
@@ -1641,7 +1641,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 48,
+    "now_cost": 49,
     "status": "a"
   },
   "310": {
@@ -1715,11 +1715,11 @@
     "status": "u"
   },
   "32": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 0,
-    "news": "",
+    "news": "Concussion - 75% chance of playing",
     "now_cost": 43,
-    "status": "a"
+    "status": "d"
   },
   "320": {
     "chance_of_playing_next_round": null,
@@ -2005,7 +2005,7 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Hamstring injury - Unknown return date",
-    "now_cost": 52,
+    "now_cost": 51,
     "status": "i"
   },
   "358": {
