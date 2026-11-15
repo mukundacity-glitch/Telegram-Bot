@@ -18,9 +18,10 @@ on:
     - cron: '13 * * * *'
     - cron: '28 * * * *'
     - cron: '58 * * * *'
-    # 15:30 ET on November 16 and 17. The dispatcher enforces each one-off date.
+    # 15:30 ET on November 16, 17 and 22. The dispatcher enforces each one-off date.
     - cron: '30 20 16 11 *'
     - cron: '30 20 17 11 *'
+    - cron: '30 20 22 11 *'
   workflow_dispatch:
     inputs:
       edition:

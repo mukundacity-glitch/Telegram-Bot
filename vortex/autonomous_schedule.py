@@ -33,7 +33,14 @@ VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30, on_date=date(2
 WILDCARD_CRON = '30 20 17 11 *'
 WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, on_date=date(2026, 11, 17))
 
-ONE_OFF_CRONS = {VULNERABILITY_CRON: VULNERABILITY, WILDCARD_CRON: WILDCARD}
+SUNDAY_VULNERABILITY_CRON = '30 20 22 11 *'
+SUNDAY_VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30, on_date=date(2026, 11, 22))
+
+ONE_OFF_CRONS = {
+    VULNERABILITY_CRON: VULNERABILITY,
+    WILDCARD_CRON: WILDCARD,
+    SUNDAY_VULNERABILITY_CRON: SUNDAY_VULNERABILITY,
+}
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
@@ -45,6 +52,7 @@ SLOTS = (
     SCOUTING,
     VULNERABILITY,
     WILDCARD,
+    SUNDAY_VULNERABILITY,
     Slot('task1', 'deadline-watch', 16, 30),
     Slot('price_changes', 'confirmed-price-changes', 17, 30),
     Slot('press_news', 'verified-press-availability', 19, 0),
