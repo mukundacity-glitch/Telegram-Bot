@@ -30,7 +30,7 @@ on:
           - reconcile-telegram
           - defender-watch
           - form-minutes-targets
-          - captain-differential
+          - goalkeeper-striker-watch
           - market-verdict
           - four-team-targets
           - vortex-captain

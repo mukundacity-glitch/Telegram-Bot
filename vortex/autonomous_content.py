@@ -108,6 +108,37 @@ def _team_rows(feed, snapshot, team_id):
     return rows
 
 
+def _goalkeeper_striker_watch(slot, snapshot, now, evidence):
+    groups = (
+        ('goalkeeper', 1, 2),
+        ('striker', 4, 3),
+    )
+    players = []
+    pages = []
+    for position, position_id, required in groups:
+        candidates = sorted(evidence.qualified(24, position=position_id),
+                            key=evidence.rank, reverse=True)
+        selected = candidates[:required]
+        if len(selected) != required:
+            raise RequiredInput(f'Need {required} available {position}s who pass the form and minutes filter')
+        players.extend(selected)
+        pages.append({'position': position, 'ids': [player['id'] for player in selected]})
+
+    gw = snapshot.gameweek()
+    date = now.astimezone(ET).date().isoformat()
+    title = 'GOALKEEPER & STRIKER WATCH'
+    copy = (
+        f'GW{gw} • {title} | {date}\n'
+        f"FPL goalkeeper shortlist: {', '.join(snapshot.name(p) for p in players[:2])}.\n"
+        f"FPL striker shortlist: {', '.join(snapshot.name(p) for p in players[2:])}.\n"
+        "MONITOR • Compare recent minutes and the next five fixtures with your own squad before transferring.\n"
+        f'#FPL #GW{gw} #FPLTransfers #FPLVORTEX'
+    )
+    return Plan(slot.task, slot.edition, title, copy, gw, players, ['MONITOR'] * len(players),
+                'position_watch', {'edition_date': date, 'pages': pages,
+                                   'recent': {str(p['id']): evidence.recent(p) for p in players}})
+
+
 def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=None):
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
@@ -115,6 +146,8 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     if name == 'chance-creators':
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)
+    if name == 'goalkeeper-striker-watch':
+        return _goalkeeper_striker_watch(slot, snapshot, now, e)
     if name == 'player-radar-comparison':
         from .radar_comparison import build_radar
         return build_radar(slot, snapshot, now, e)

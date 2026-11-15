@@ -137,6 +137,20 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {})
         with pytest.raises(RequiredInput, match='No fresh verified projections'):
             build_odds_board(slot, s, e)
+    if name == 'goalkeeper-striker-watch':
+        from vortex.autonomous_render import render
+        assert (slot.hour, slot.minute) == (10, 30)
+        assert [p['element_type'] for p in plan.players] == [1, 1, 4, 4, 4]
+        assert [p['position'] for p in plan.extra['pages']] == ['goalkeeper', 'striker']
+        assert len(plan.caption.splitlines()) == 5
+        asset = Image.new('RGBA', (100, 140), '#5a9ac9')
+        monkeypatch.setattr('vortex.autonomous_render._assets', lambda *args: (asset, asset))
+        pages = render(plan, s, now, tmp_path / 'watch.png')
+        assert [page.stem for page in pages] == ['watch-goalkeeper', 'watch-striker']
+        for page in pages:
+            with Image.open(page) as image:
+                assert image.size == (1080, 1920)
+                image.verify()
     if name in ('form-minutes-targets', 'defender-watch'):
         from vortex.autonomous_render import render
         defenders = name == 'defender-watch'
@@ -160,7 +174,7 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         asset = Image.new('RGBA', (120, 120), '#5a9ac9')
         monkeypatch.setattr('vortex.radar_render._portrait', lambda *args: asset)
         monkeypatch.setattr('vortex.radar_render._media', lambda *args: asset)
-        assert (slot.hour, slot.minute) == (10, 30)
+        assert (slot.hour, slot.minute) == (11, 30)
         assert plan.players[0]['element_type'] == plan.players[1]['element_type']
         assert plan.extra['values'][0]['Points'] == 25
         assert plan.caption.splitlines()[1] == 'Last 5 GWs: 5–5 goals, 3.00–3.00 xG.'

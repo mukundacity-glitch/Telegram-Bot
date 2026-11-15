@@ -1,4 +1,5 @@
 """Deterministic branded art from verified plans. No LLM/image prompt needed."""
+from dataclasses import replace
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
@@ -301,12 +302,14 @@ def _position_watch(plan, snapshot, output, client):
         recent = plan.extra['recent'][str(player['id'])]
         minutes = ' / '.join(str(row['minutes']) for row in recent)
         evidence = f'LAST 3 MIN • {minutes}'
-        if plan.extra['position'] == 'defender':
+        if plan.extra['position'] in ('defender', 'goalkeeper'):
             if all(row.get('clean_sheets') is not None for row in recent):
                 evidence += f"  |  CS {sum(int(row['clean_sheets']) for row in recent)}"
             if all(row.get('expected_goals_conceded') not in (None, '') for row in recent):
                 conceded = sum(float(row['expected_goals_conceded']) for row in recent)
                 evidence += f'  |  xGC {conceded:.2f}'
+            if plan.extra['position'] == 'goalkeeper' and all(row.get('saves') is not None for row in recent):
+                evidence += f"  |  SAVES {sum(int(row['saves']) for row in recent)}"
         elif all(row.get('expected_goal_involvements') not in (None, '') for row in recent):
             xgi = sum(float(row['expected_goal_involvements']) for row in recent)
             evidence += f'  |  xGI {xgi:.2f}'
@@ -335,7 +338,20 @@ def render(plan,snapshot,now,output,session=None):
         draw_chart(canvas, plan)
         return [_save(canvas, output)]
     if plan.kind == 'position_watch':
-        return [_position_watch(plan, snapshot, output, client)]
+        groups = plan.extra.get('pages')
+        if not groups:
+            return [_position_watch(plan, snapshot, output, client)]
+        by_id = {player['id']: (player, label)
+                 for player, label in zip(plan.players, plan.labels)}
+        pages = []
+        for group in groups:
+            position = group['position']
+            players, labels = zip(*(by_id[pid] for pid in group['ids']))
+            page = replace(plan, title=f'{position.upper()} WATCH', players=list(players),
+                           labels=list(labels), extra={**plan.extra, 'position': position})
+            pages.append(_position_watch(page, snapshot,
+                                         output.with_stem(f'{output.stem}-{position}'), client))
+        return pages
     if plan.kind == 'player_radar':
         from .radar_render import render_radar
         return [render_radar(plan, snapshot, output, client)]

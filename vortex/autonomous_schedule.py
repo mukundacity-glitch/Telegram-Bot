@@ -16,14 +16,14 @@ class Slot:
 
 RETIRED_EDITIONS = {
     "availability-transfer-decisions", "rank-booster", "fixture-targets",
-    "start_bench", "squad-surgery", "transfer-market-team-news", "four-midfielders",
+    "start_bench", "squad-surgery", "transfer-market-team-news", "four-midfielders", "captain-differential",
 }
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
     Slot('task2', 'defender-watch', 9, 30),
-    Slot('task1', 'player-radar-comparison', 10, 30),
-    Slot('task1', 'captain-differential', 11, 30),
+    Slot('task2', 'goalkeeper-striker-watch', 10, 30),
+    Slot('task1', 'player-radar-comparison', 11, 30),
     Slot('task2', 'four-team-targets', 14, 30),
     Slot('task2', 'market-verdict', 15, 30),
     Slot('task1', 'deadline-watch', 16, 30),
