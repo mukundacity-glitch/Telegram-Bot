@@ -8,7 +8,6 @@ TIMEZONE = ZoneInfo("America/New_York")
 SLOT_CRONS: dict[str, str] = {
     "30 6 * * *": "elite",
     "30 7 * * *": "daily_stats",
-    "0 14 * * *": "transfer",
     "0 15 * * *": "transfer_suggestions",
     "0 16 * * *": "captaincy",
     "30 17 * * *": "review",
@@ -17,7 +16,6 @@ SLOT_CRONS: dict[str, str] = {
     # Backup schedule checks 15 minutes later; previously delivered slots are skipped.
     "45 6 * * *": "elite",
     "45 7 * * *": "daily_stats",
-    "15 14 * * *": "transfer",
     "15 15 * * *": "transfer_suggestions",
     "15 16 * * *": "captaincy",
     "45 17 * * *": "review",
@@ -27,7 +25,6 @@ SLOT_CRONS: dict[str, str] = {
 SLOT_HOURS: dict[str, tuple[int, int]] = {
     "elite": (6, 30),
     "daily_stats": (7, 30),
-    "transfer": (14, 0),
     "transfer_suggestions": (15, 0),
     "captaincy": (16, 0),
     "review": (17, 30),

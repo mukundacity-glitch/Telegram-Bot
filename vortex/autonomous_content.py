@@ -146,6 +146,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     if name == 'chance-creators':
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)
+    if name == 'scouting-rotation':
+        from .scouting_rotation import build_scouting
+        return build_scouting(slot, snapshot, now, e.session)
     if name == 'afternoon-rotation':
         from .afternoon_rotation import build_rotation
         return build_rotation(slot, snapshot, now, e, model)
@@ -274,9 +277,6 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         title='CONFIRMED FPL PRICE CHANGES'
         moves={p['id']:f'£{old/10:.1f}m → £{new/10:.1f}m' for p,old,new in changes}
         return Plan(slot.task,name,title,caption(snapshot,title,players),gw,players,labels,extra={'price_moves':moves})
-    elif name == 'four-team-targets':
-        from .odds_board import build_odds_board
-        return build_odds_board(slot, snapshot, e)
     elif name == 'market-verdict':
         feed=verified_feed(snapshot,now,e.session,payload=model)
         safe=e.qualified(30)

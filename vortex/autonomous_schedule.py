@@ -17,6 +17,7 @@ class Slot:
 
 
 RETIRED_EDITIONS = {
+    "four-team-targets", "transfer-desk", "transfer",
     "availability-transfer-decisions", "rank-booster", "fixture-targets",
     "start_bench", "squad-surgery", "transfer-market-team-news", "four-midfielders", "captain-differential",
 }
@@ -24,6 +25,7 @@ RETIRED_EDITIONS = {
 SERIES = Slot('task2', 'weekly-analysis', 12, 30)
 SERIES_STATE = '_weekly_analysis'
 AFTERNOON = Slot('task2', 'afternoon-rotation', 13, 30)
+SCOUTING = Slot('task2', 'scouting-rotation', 14, 30)
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
@@ -32,7 +34,7 @@ SLOTS = (
     Slot('task1', 'player-radar-comparison', 11, 30),
     SERIES,
     AFTERNOON,
-    Slot('task2', 'four-team-targets', 14, 30),
+    SCOUTING,
     Slot('task2', 'market-verdict', 15, 30),
     Slot('task1', 'deadline-watch', 16, 30),
     Slot('price_changes', 'confirmed-price-changes', 17, 30),
@@ -69,7 +71,7 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
-    if slot == AFTERNOON:
+    if slot in (AFTERNOON, SCOUTING):
         return f'{now.astimezone(ET).date()}:{slot.task}:{slot.edition}'
     if slot.series_day is not None:
         return f'{season}:GW{slot.series_gw}:{slot.task}:{slot.edition}:day{slot.series_day}'

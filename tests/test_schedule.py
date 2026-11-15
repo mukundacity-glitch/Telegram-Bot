@@ -7,9 +7,9 @@ from vortex.schedule import SLOT_CRONS, captaincy_due, resolve_slot
 
 
 def test_all_thirteen_slots_have_distinct_times_and_backup_checks():
-    assert len(SLOT_CRONS) == 16
-    assert len(set(SLOT_CRONS.values())) == 8
-    assert {"comparison", "buy", "news", "midfielders", "team_analysis", "prices"}.isdisjoint(SLOT_CRONS.values())
+    assert len(SLOT_CRONS) == 14
+    assert len(set(SLOT_CRONS.values())) == 7
+    assert {"transfer", "comparison", "buy", "news", "midfielders", "team_analysis", "prices"}.isdisjoint(SLOT_CRONS.values())
 
 
 def test_scheduled_cron_wins_over_delayed_execution_time():

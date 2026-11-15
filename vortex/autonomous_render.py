@@ -340,6 +340,9 @@ def render(plan,snapshot,now,output,session=None):
     if plan.edition == 'weekly-analysis':
         from .weekly_analysis_render import render_weekly_analysis
         return [render_weekly_analysis(plan, output, client)]
+    if plan.kind == 'scouting_rotation':
+        from .scouting_render import render_scouting
+        return [render_scouting(plan, output, client)]
     if plan.kind in ('rotation_value', 'rotation_transfers'):
         from .afternoon_rotation_render import render_players
         return [render_players(plan, snapshot, output, client)]

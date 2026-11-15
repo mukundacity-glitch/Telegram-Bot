@@ -80,18 +80,12 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     assert 'deleteMessage' not in workflow
 
 
-@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation'}))
+@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation'}))
 def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name,monkeypatch,tmp_path):
     s,now,e,feed=world
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))
     if name=='verified-press-availability':return
     if name=='confirmed-price-changes':return
-    if name == 'four-team-targets':
-        monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {})
-        assert (slot.hour, slot.minute) == (14, 30)
-        monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {
-            101: dict(home_goals=1.9, away_goals=.8, home_cs=45, away_cs=15)
-        })
     if name=='player-radar-comparison':
         s.events.extend({'id': n, 'finished': True} for n in (5, 6))
         monkeypatch.setattr('vortex.radar_comparison.get_history', lambda pid, session: [
@@ -109,34 +103,6 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
     assert plan.edition==name and plan.gw==10
     assert len([w for w in plan.caption.split() if w.startswith('#')])==4
     assert len(plan.caption)<=1024
-    if name == 'four-team-targets':
-        from vortex.autonomous_render import render
-        from vortex.odds_board import build_odds_board
-        assert plan.kind == 'odds_board'
-        assert len(plan.extra['rows']) == 4
-        assert plan.extra['covered'] == 1
-        assert [row['goals'] for row in plan.extra['rows']] == [1.9, .8, None, None]
-        assert [row['clean_sheet'] for row in plan.extra['rows']] == [45, 15, None, None]
-        monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')
-        monkeypatch.setenv('FPL_DISCORD_HANDLE', '@fplvortex')
-        monkeypatch.setattr('vortex.odds_board_render._media', lambda *args: None)
-        output, = render(plan, s, now, tmp_path / 'odds.png')
-        with Image.open(output) as image:
-            assert image.size == (1080, 1920)
-            image.verify()
-        fallback = dict(home_goals=2.2, away_goals=1.0, home_cs=37, away_cs=11)
-        monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {
-            101: fallback, 103: fallback,
-        })
-        mixed = build_odds_board(slot, s, e)
-        assert [row['goals'] for row in mixed.extra['rows']] == [1.9, .8, 2.2, 1.0]
-        assert [row['source'] for row in mixed.extra['rows']] == ['market', 'market', 'solio', 'solio']
-        assert '1 market · 1 Solio Analytics model' in mixed.caption
-        render(mixed, s, now, tmp_path / 'odds-mixed.png')
-        monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {})
-        monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {})
-        with pytest.raises(RequiredInput, match='No fresh verified projections'):
-            build_odds_board(slot, s, e)
     if name == 'goalkeeper-striker-watch':
         from vortex.autonomous_render import render
         assert (slot.hour, slot.minute) == (10, 30)
@@ -318,3 +284,40 @@ def test_no_new_facts_is_not_a_false_delivery_failure(monkeypatch):
     monkeypatch.setattr(runner, 'run', lambda **kwargs: {
         'exit_code': 0, 'editions': [{'status': 'no-new-facts'}]})
     assert runner.main() == 0
+
+
+def test_market_graphic_can_represent_partial_and_mixed_sources(world, monkeypatch, tmp_path):
+    from vortex.autonomous_render import render
+    from vortex.odds_board import build_odds_board
+    s, now, e, _ = world
+    slot = Slot("task2", "afternoon-rotation", 13, 30)
+    monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *a, **kw: {})
+    monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *a, **kw: {
+        101: dict(home_goals=1.9, away_goals=.8, home_cs=45, away_cs=15)
+    })
+    plan = build_odds_board(slot, s, e)
+    assert plan.kind == 'odds_board'
+    assert len(plan.extra['rows']) == 4
+    assert plan.extra['covered'] == 1
+    assert [row['goals'] for row in plan.extra['rows']] == [1.9, .8, None, None]
+    assert [row['clean_sheet'] for row in plan.extra['rows']] == [45, 15, None, None]
+    monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')
+    monkeypatch.setenv('FPL_DISCORD_HANDLE', '@fplvortex')
+    monkeypatch.setattr('vortex.odds_board_render._media', lambda *args: None)
+    output, = render(plan, s, now, tmp_path / 'odds.png')
+    with Image.open(output) as image:
+        assert image.size == (1080, 1920)
+        image.verify()
+    fallback = dict(home_goals=2.2, away_goals=1.0, home_cs=37, away_cs=11)
+    monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {
+        101: fallback, 103: fallback,
+    })
+    mixed = build_odds_board(slot, s, e)
+    assert [row['goals'] for row in mixed.extra['rows']] == [1.9, .8, 2.2, 1.0]
+    assert [row['source'] for row in mixed.extra['rows']] == ['market', 'market', 'solio', 'solio']
+    assert '1 market · 1 Solio Analytics model' in mixed.caption
+    render(mixed, s, now, tmp_path / 'odds-mixed.png')
+    monkeypatch.setattr('vortex.odds_board.solio_match_projections', lambda *args, **kw: {})
+    monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {})
+    with pytest.raises(RequiredInput, match='No fresh verified projections'):
+        build_odds_board(slot, s, e)
