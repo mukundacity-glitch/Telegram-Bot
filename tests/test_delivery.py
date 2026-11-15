@@ -109,6 +109,9 @@ def test_new_team_and_transfer_slots_abort_after_deadline(delivery_environment, 
     now = datetime.now(timezone.utc)
     monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: now - timedelta(minutes=1))
     assert bot.run("auto", "0 11 * * *") == 1
+    with pytest.raises(ValueError, match="Unrecognized workflow schedule"):
+        bot.run("auto", "0 15 * * *")
+    monkeypatch.setitem(SLOT_CRONS, "0 15 * * *", "transfer_suggestions")
     assert bot.run("auto", "0 15 * * *") == 1
     assert delivery_environment == []
 
