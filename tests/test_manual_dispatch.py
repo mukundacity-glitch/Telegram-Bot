@@ -12,7 +12,7 @@ def _prepare(tmp_path, monkeypatch):
     assets.mkdir(parents=True)
     Image.new('RGB', (1920, 1080), '#03182a').save(assets / 'post.png')
     data = {
-        'task': 'task2', 'edition': 'four-midfielders',
+        'task': 'task2', 'edition': 'defender-watch',
         'season': '2026-27', 'gameweek': 10,
         'generated_at': EARLY_ET.isoformat(),
         'publish_at': EARLY_ET.isoformat(),
@@ -20,7 +20,7 @@ def _prepare(tmp_path, monkeypatch):
         'qa_passed': True,
         'sources': ['https://fantasy.premierleague.com/api/bootstrap-static/'],
         'facts': {'player_ids': [1, 2, 3, 4]},
-        'title': 'VERIFIED FOUR MIDFIELDERS',
+        'title': 'DEFENDER WATCH',
         'caption': 'Verified FPL players\n#FPL #FPLVortex #GW10 #FPLTips',
         'images': ['outbox/assets/post.png']
     }
@@ -81,11 +81,11 @@ def test_runner_manual_bypasses_due_filter_and_targets_exact_file(monkeypatch):
         published.append((manual, target_file))
         return 0
     monkeypatch.setattr(runner, 'publish_outbox', fake_publish)
-    result = runner.run(edition='four-midfielders', manual=True,
+    result = runner.run(edition='defender-watch', manual=True,
                         now=EARLY_ET, snapshot=s)
     assert result['confirmed_edition_deliveries'] == 1
     assert published == [(True, runner.ROOT / 'outbox/manual.json')]
-    assert runner.run(edition='four-midfielders', manual=False, now=EARLY_ET,
+    assert runner.run(edition='defender-watch', manual=False, now=EARLY_ET,
                       snapshot=s)['status'] == 'deferred-outside-window'
 
 def test_workflow_manual_input_is_not_a_due_only_noop():
@@ -109,16 +109,16 @@ def test_prior_day_receipt_is_not_mistaken_for_new_manual_upload(monkeypatch):
         return {}
     monkeypatch.setattr(runner, 'read_state', already_delivered)
     monkeypatch.setattr(runner, 'publish_outbox', lambda *args, **kwargs: 0)
-    result = runner.run(edition='four-midfielders', manual=True,
+    result = runner.run(edition='defender-watch', manual=True,
                         now=EARLY_ET, snapshot=s)
     assert result['confirmed_edition_deliveries'] == 0
     assert result['editions'][0]['status'] == 'already-delivered'
 
 def test_manual_cli_does_not_report_green_when_nothing_new_was_published(monkeypatch):
     import sys
-    monkeypatch.setattr(sys, 'argv', ['autonomous_runner', '--manual', '--edition', 'four-midfielders'])
+    monkeypatch.setattr(sys, 'argv', ['autonomous_runner', '--manual', '--edition', 'defender-watch'])
     monkeypatch.setattr(runner, 'run', lambda **kwargs: {
         'confirmed_edition_deliveries': 0,
-        'editions': [{'status': 'already-delivered', 'edition': 'four-midfielders'}],
+        'editions': [{'status': 'already-delivered', 'edition': 'defender-watch'}],
     })
     assert runner.main() == 1

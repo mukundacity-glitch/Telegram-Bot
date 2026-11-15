@@ -137,10 +137,10 @@ def test_preview_render_size_with_verified_media(kind, monkeypatch, tmp_path: Pa
 
 
 def test_new_schedule_is_non_conflicting_and_has_backup():
-    assert SLOT_HOURS["buy"] == (9, 0)
+    assert "buy" not in SLOT_HOURS
     assert SLOT_HOURS["sell"] == (18, 30)
     assert len(set(SLOT_HOURS.values())) == len(SLOT_HOURS)
-    assert SLOT_CRONS["15 9 * * *"] == "buy"
+    assert "buy" not in SLOT_CRONS.values()
     assert SLOT_CRONS["45 18 * * *"] == "sell"
 
 

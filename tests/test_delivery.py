@@ -67,7 +67,9 @@ def test_daily_captaincy_publishes_without_deadline_tomorrow(
     assert delivery_environment == ['THE FPL DECISION ROOM']
 
 
-def test_new_buy_slot_deduplicates_by_gw(delivery_environment, monkeypatch):
+def test_legacy_buy_deduplicates_when_given_a_schedule(delivery_environment, monkeypatch):
+    from vortex.schedule import SLOT_CRONS
+    monkeypatch.setitem(SLOT_CRONS, "0 9 * * *", "buy")
     from datetime import timedelta
     today = datetime.now(timezone.utc).astimezone(ZoneInfo("America/New_York")).date()
     store = bot.STATE / "deliveries.json"
@@ -82,7 +84,7 @@ def test_new_buy_slot_deduplicates_by_gw(delivery_environment, monkeypatch):
 def test_new_buy_slot_never_sends_after_deadline(delivery_environment, monkeypatch):
     from datetime import timedelta
     monkeypatch.setattr(bot, "upcoming_deadline", lambda snap: datetime.now(timezone.utc) - timedelta(minutes=1))
-    assert bot.run("auto", "0 9 * * *") == 1
+    assert bot.run("buy") == 1
     assert delivery_environment == []
 
 

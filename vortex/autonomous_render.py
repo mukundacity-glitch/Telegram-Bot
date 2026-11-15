@@ -270,7 +270,7 @@ def _deadline(plan,snapshot,output,client):
     return _save(canvas,output)
 
 
-def _midfield_watch(plan, snapshot, output, client):
+def _position_watch(plan, snapshot, output, client):
     from . import vortex_style as vs
 
     canvas = vs.background()
@@ -300,10 +300,16 @@ def _midfield_watch(plan, snapshot, output, client):
                 fixtures.append(matches[0])
         recent = plan.extra['recent'][str(player['id'])]
         minutes = ' / '.join(str(row['minutes']) for row in recent)
-        xgi = sum(float(row['expected_goal_involvements']) for row in recent
-                  if row.get('expected_goal_involvements') not in (None, ''))
-        has_xgi = all(row.get('expected_goal_involvements') not in (None, '') for row in recent)
-        evidence = f'LAST 3 MIN • {minutes}' + (f'  |  xGI {xgi:.2f}' if has_xgi else '')
+        evidence = f'LAST 3 MIN • {minutes}'
+        if plan.extra['position'] == 'defender':
+            if all(row.get('clean_sheets') is not None for row in recent):
+                evidence += f"  |  CS {sum(int(row['clean_sheets']) for row in recent)}"
+            if all(row.get('expected_goals_conceded') not in (None, '') for row in recent):
+                conceded = sum(float(row['expected_goals_conceded']) for row in recent)
+                evidence += f'  |  xGC {conceded:.2f}'
+        elif all(row.get('expected_goal_involvements') not in (None, '') for row in recent):
+            xgi = sum(float(row['expected_goal_involvements']) for row in recent)
+            evidence += f'  |  xGI {xgi:.2f}'
         vs.player_card(canvas, (26, top, 1054, top + card_height), portrait=photo, badge=crest,
                        name=snapshot.name(player), price=snapshot.price(player),
                        own=f"{player['selected_by_percent']}%", verdict=label,
@@ -313,7 +319,7 @@ def _midfield_watch(plan, snapshot, output, client):
         top = 426 + count * (card_height + 16)
         if top + 160 < 1746:
             vs.notes_panel(canvas, (26, top, 1054, top + 135), 'TRANSFER CHECK',
-                           ['Compare minutes and upcoming fixtures with your current midfielder.'])
+                           [f"Compare minutes and fixtures with your current {plan.extra['position']}."])
     with Image.open(brand_dir / 'midfield-watch-footer.png') as footer:
         vs._paste_contained(canvas, footer, (12, 1775, 1056, 116))
     output.parent.mkdir(parents=True, exist_ok=True)
@@ -328,8 +334,8 @@ def render(plan,snapshot,now,output,session=None):
         canvas = _base(plan.title, plan.gw, f"GW{plan.gw} • OPEN PLAY & SET PIECES • PER 90")
         draw_chart(canvas, plan)
         return [_save(canvas, output)]
-    if plan.kind == 'midfield_watch':
-        return [_midfield_watch(plan, snapshot, output, client)]
+    if plan.kind == 'position_watch':
+        return [_position_watch(plan, snapshot, output, client)]
     if plan.kind == 'player_radar':
         from .radar_render import render_radar
         return [render_radar(plan, snapshot, output, client)]

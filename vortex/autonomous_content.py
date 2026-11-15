@@ -58,8 +58,9 @@ class Evidence:
                                  if r.get('round') in self.completed][-3:]
         return self.history[pid]
 
-    def qualified(self, limit=16):
+    def qualified(self, limit=16, *, position=None):
         pool = [p for p in self.snapshot.players if p.get('status') == 'a'
+                and (position is None or p.get('element_type') == position)
                 and int(p.get('minutes') or 0) >= 450
                 and self.snapshot.fixtures_for_gameweek(p)]
         result = []
@@ -257,7 +258,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         return Plan(slot.task,name,'SQUAD SURGERY • TRANSFER STRATEGY',caption(snapshot,'squad decisions',players),gw,
                     players,labels,kind='surgery',extra={'research':question})
     else:
-        pool=sorted(e.qualified(24),key=e.rank,reverse=True)
+        defenders = name == 'defender-watch'
+        qualified = e.qualified(24, position=2) if defenders else e.qualified(24)
+        pool = sorted(qualified, key=e.rank, reverse=True)
         if name in ('vortex-captain','captain-differential','captaincy-comparison'):
             attack=[p for p in pool if p['element_type'] in (3,4)]
             if not attack: raise RequiredInput('No available reliable-minute captain candidate')
@@ -285,26 +288,27 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
                             extra={'eo':eo,'recent':{str(p['id']):e.recent(p) for p in players},
                                    'eo_disclosure':'EO N/A without verified GW-specific manager captaincy sample.'})
             if len(players)!=4: raise RequiredInput('Four verified fixture targets unavailable')
-        elif name == 'form-minutes-targets':
-            players = [p for p in pool if p['element_type'] == 3][:4]
+        elif name in ('form-minutes-targets', 'defender-watch'):
+            position = 'defender' if defenders else 'midfielder'
+            players = (pool if defenders else [p for p in pool if p['element_type'] == 3])[:4]
             if not players:
-                raise RequiredInput('No available midfielders passed the existing form and minutes filter')
+                raise RequiredInput(f'No available {position}s passed the form and minutes filter')
             lead = players[0]
             minutes = [int(row['minutes']) for row in e.recent(lead)]
             fixture = ' / '.join(f'{opponent} ({venue})'
                                  for opponent, venue, _, _ in snapshot.fixtures_for_gameweek(lead))
-            title = 'MIDFIELDER WATCH'
+            title = f'{position.upper()} WATCH'
             date = now.astimezone(ET).date().isoformat()
             copy = (
                 f'GW{gw} • {title} | {date}\n'
-                f"FPL midfield transfer shortlist: {', '.join(snapshot.name(p) for p in players)}.\n"
+                f"FPL {'defender' if defenders else 'midfield'} transfer shortlist: {', '.join(snapshot.name(p) for p in players)}.\n"
                 f"Top-ranked {snapshot.name(lead)} ({snapshot.price(lead)}) • "
                 f"last three: {' / '.join(map(str, minutes))} min • next {fixture}.\n"
-                f"MONITOR • Compare the next five fixtures with your current midfielder before spending a transfer.\n"
+                f"MONITOR • Compare the next five fixtures with your current {position} before spending a transfer.\n"
                 f'#FPL #GW{gw} #FPLTransfers #FPLVORTEX'
             )
             return Plan(slot.task, name, title, copy, gw, players, ['MONITOR'] * len(players),
-                        'midfield_watch', {'edition_date': date,
+                        'position_watch', {'edition_date': date, 'position': position,
                             'recent': {str(p['id']): e.recent(p) for p in players}})
         else:
             raise ValueError('Edition has no executable generator: '+name)

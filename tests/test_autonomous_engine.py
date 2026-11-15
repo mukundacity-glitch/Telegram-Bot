@@ -39,7 +39,10 @@ def world():
         session=object()
         history={}
         def recent(self,p):return [{'round':n,'fixture':n*10+p['id'],'minutes':90,'total_points':p['id']%8+2,'expected_goal_involvements':'.5'} for n in (7,8,9)]
-        def qualified(self,limit=16):return sorted(people,key=lambda p:p['id'],reverse=True)[:limit] if limit<30 else people
+        def qualified(self, limit=16, *, position=None):
+            if position is not None:
+                return [p for p in people if p['element_type'] == position][:limit]
+            return sorted(people, key=lambda p: p['id'], reverse=True)[:limit] if limit < 30 else people
         def rank(self,p):return p['id']
     e=Evidence()
     feed={'gw':10,'generated_at':now.isoformat(),'model_version':'synthetic-unit-test-only',
@@ -134,16 +137,19 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         monkeypatch.setattr('vortex.odds_board.verified_match_odds', lambda *args, **kw: {})
         with pytest.raises(RequiredInput, match='No fresh verified projections'):
             build_odds_board(slot, s, e)
-    if name == 'form-minutes-targets':
+    if name in ('form-minutes-targets', 'defender-watch'):
         from vortex.autonomous_render import render
-        assert (slot.hour, slot.minute) == (8, 30)
-        assert plan.players == [p for p in sorted(e.qualified(24), key=e.rank, reverse=True)
-                                if p['element_type'] == 3][:4]
+        defenders = name == 'defender-watch'
+        assert (slot.hour, slot.minute) == (9 if defenders else 8, 30)
+        assert plan.title == ('DEFENDER WATCH' if defenders else 'MIDFIELDER WATCH')
+        pool = e.qualified(24, position=2) if defenders else e.qualified(24)
+        assert plan.players == [p for p in sorted(pool, key=e.rank, reverse=True)
+                                if p['element_type'] == (2 if defenders else 3)][:4]
         assert len(plan.caption.splitlines()) == 5
         assert plan.caption.splitlines()[-1].split() == ['#FPL', '#GW10', '#FPLTransfers', '#FPLVORTEX']
         asset = Image.new('RGBA', (100, 140), '#5a9ac9')
         monkeypatch.setattr('vortex.autonomous_render._assets', lambda *args: (asset, asset))
-        output, = render(plan, s, now, tmp_path / 'midfielder-watch.png')
+        output, = render(plan, s, now, tmp_path / f'{name}.png')
         with Image.open(output) as image:
             assert image.size == (1080, 1920)
             image.verify()

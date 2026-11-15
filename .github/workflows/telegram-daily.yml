@@ -28,7 +28,7 @@ on:
         options:
           - due-queue
           - reconcile-telegram
-          - four-midfielders
+          - defender-watch
           - form-minutes-targets
           - captain-differential
           - market-verdict
