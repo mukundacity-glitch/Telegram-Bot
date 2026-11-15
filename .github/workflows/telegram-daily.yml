@@ -18,10 +18,9 @@ on:
     - cron: '13 * * * *'
     - cron: '28 * * * *'
     - cron: '58 * * * *'
-    # 15:30 ET on November 16, 17 and 22. The dispatcher enforces each one-off date.
-    - cron: '30 20 16 11 *'
-    - cron: '30 20 17 11 *'
-    - cron: '30 20 22 11 *'
+    # 15:30 Eastern; the dispatcher selects the matching DST offset.
+    - cron: '30 19 * * *'
+    - cron: '30 20 * * *'
   workflow_dispatch:
     inputs:
       edition:

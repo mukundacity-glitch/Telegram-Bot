@@ -28,19 +28,9 @@ SERIES = Slot('task2', 'weekly-analysis', 12, 30)
 SERIES_STATE = '_weekly_analysis'
 AFTERNOON = Slot('task2', 'afternoon-rotation', 13, 30)
 SCOUTING = Slot('task2', 'scouting-rotation', 14, 30)
-VULNERABILITY_CRON = '30 20 16 11 *'
-VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30, on_date=date(2026, 11, 16))
-WILDCARD_CRON = '30 20 17 11 *'
+VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30)
+VULNERABILITY_CRONS = {'30 19 * * *', '30 20 * * *'}
 WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, on_date=date(2026, 11, 17))
-
-SUNDAY_VULNERABILITY_CRON = '30 20 22 11 *'
-SUNDAY_VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30, on_date=date(2026, 11, 22))
-
-ONE_OFF_CRONS = {
-    VULNERABILITY_CRON: VULNERABILITY,
-    WILDCARD_CRON: WILDCARD,
-    SUNDAY_VULNERABILITY_CRON: SUNDAY_VULNERABILITY,
-}
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
@@ -52,7 +42,6 @@ SLOTS = (
     SCOUTING,
     VULNERABILITY,
     WILDCARD,
-    SUNDAY_VULNERABILITY,
     Slot('task1', 'deadline-watch', 16, 30),
     Slot('price_changes', 'confirmed-price-changes', 17, 30),
     Slot('press_news', 'verified-press-availability', 19, 0),
@@ -90,7 +79,7 @@ def season_id(snapshot, now):
 def publication_key(slot, now, gw, season=None):
     if slot.on_date:
         return f'{slot.on_date}:{slot.task}:{slot.edition}'
-    if slot in (AFTERNOON, SCOUTING):
+    if slot in (AFTERNOON, SCOUTING, VULNERABILITY):
         return f'{now.astimezone(ET).date()}:{slot.task}:{slot.edition}'
     if slot.series_day is not None:
         return f'{season}:GW{slot.series_gw}:{slot.task}:{slot.edition}:day{slot.series_day}'
@@ -107,7 +96,10 @@ def slot_start(slot, now):
 
 
 def eligible_on(slot, now):
-    return slot.on_date is None or slot.on_date == now.astimezone(ET).date()
+    day = now.astimezone(ET).date()
+    if slot == VULNERABILITY and day == WILDCARD.on_date:
+        return False
+    return slot.on_date is None or slot.on_date == day
 
 
 def retryable(row):
