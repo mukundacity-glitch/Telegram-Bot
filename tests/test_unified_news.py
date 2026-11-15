@@ -144,6 +144,25 @@ def test_news_queue_dispatched_to_both_without_repeating(monkeypatch, tmp_path):
     assert t.calls == d.calls == 1
 
 
+
+def test_retired_price_cards_do_not_publish_from_feed_or_retry_queue(monkeypatch, tmp_path):
+    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
+        monkeypatch.setattr(runner, name, tmp_path / (name.lower() + ".json"))
+    monkeypatch.setattr("vortex.rotation_planner.build_rotation_plan", lambda *args: None)
+    story = NewsPost("price:retired", "Price Change", "Confirmed price", 10)
+    monkeypatch.setattr(runner, "collect_fpl_changes", lambda *args: [story])
+    runner.BASELINE.write_text("{}")
+    runner.SEEN.write_text("{}")
+    runner.PENDING.write_text(json.dumps({story.identity: {"attempts": 1}}))
+    telegram, discord = FakeTelegram(), FakeDiscord()
+    for pending_only in (True, False):
+        result = runner.run(snapshot=sample_snapshot(), rss=[], telegram=telegram,
+                            discord=discord, pending_only=pending_only)
+        assert result["sent"] == result["pending"] == 0
+    assert json.loads(runner.PENDING.read_text()) == {}
+    assert telegram.calls == discord.calls == 0
+
+
 def test_feed_xml_rejects_unsafe_entities():
     xml = b'<!DOCTYPE rss [<!ENTITY x SYSTEM "file:///etc/passwd">]><rss><channel/></rss>'
     assert _feed_items(xml) == []

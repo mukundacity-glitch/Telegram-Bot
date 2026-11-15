@@ -97,9 +97,9 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     pending = _read(PENDING)
     receipt = load_journal(RECEIPTS)
 
-    # Retire only STATUS CHANGE cards; price and attributed news remain.
+    # Retire individual status and price cards while keeping attributed news.
     official = [] if pending_only else [post for post in collect_fpl_changes(snapshot, prior, current_time)
-                if not post.identity.startswith("availability:")]
+                if not post.identity.startswith(("availability:", "price:"))]
     reported = ([] if pending_only else rss if rss is not None else
                 collect_reported_headlines(snapshot, current_time))
     stories = {s.identity: s for s in [*official, *reported]}
@@ -109,10 +109,10 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     except (ValueError, KeyError, TypeError):
         rotation = None  # Never invent teams or FDR when official data is incomplete.
 
-    # Cancel queued old status-change cards even when a receipt exists;
+    # Cancel queued retired cards even when a receipt exists;
     # previously delivered receipt IDs remain untouched for audit/reconciliation.
     retired = [identity for identity in pending
-               if identity.startswith("availability:")]
+               if identity.startswith(("availability:", "price:"))]
     for identity in retired:
         pending.pop(identity)
     for identity in list(pending):
@@ -215,7 +215,7 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                     from .player_profile import render_player_profile
                     if not record.photo_code or not record.club_code or not record.player_name:
                         raise RuntimeError("Verified player identity and club portrait required")
-                    tag = "PRICE CHANGE" if record.identity.startswith("price:") else "FPL NEWS"
+                    tag = "FPL NEWS"
                     visual = Content(
                         kind="news_profile", title=tag, kicker="GW NEWS",
                         cards=(Card(record.player_name, record.team_name, tag, (),
@@ -228,7 +228,7 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                 record = replace(record, image=image_path)
                 generated = True
             except (RuntimeError, OSError) as exc:
-                if not drain or not record.identity.startswith(("price:", "rss:")) or not record.source:
+                if not drain or not record.identity.startswith("rss:") or not record.source:
                     raise
                 print(f"{identity} image fallback: {failure_reason(exc)}")
                 generated = True
