@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-15T21:07:56.051353+00:00",
-  "eastern_at": "2026-11-15T16:07:56.051353-05:00",
+  "at": "2026-11-15T23:10:11.825177+00:00",
+  "eastern_at": "2026-11-15T18:10:11.825177-05:00",
   "last_news_scan": "2026-11-15T11:28:32.480431+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "player-radar-comparison",
-    "trigger": "2026-11-15T21:53:11.112430+00:00"
+    "post": "weekly-analysis",
+    "trigger": "2026-11-15T23:55:21.432725+00:00"
   },
-  "next_telegram_at": "2026-11-15T21:53:11.112430+00:00",
+  "next_telegram_at": "2026-11-15T23:55:21.432725+00:00",
   "pending_triggers": [
     {
       "post": "chance-creators",
@@ -36,8 +36,8 @@
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "28 * * * *",
+  "scheduled_cron": "43 * * * *",
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 2
+  "telegram_messages_sent": 1
 }
