@@ -1705,6 +1705,19 @@
     "discord_message_id": "1570949791561814026",
     "telegram_message_id": 407
   },
+  "2026-11-15:daily_stats": {
+    "caption_sha256": "511ec83f24bd2c4a66eaa0e48c81568887c8a185f3bd82de6d1daf50b5547ddb",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1571551482749259938",
+    "gameweek": 11,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-15T15:44:30.986941+00:00",
+    "telegram_message_id": 431,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-15T15:44:26.458392+00:00"
+  },
   "2026-11-15:elite": {
     "caption_sha256": "9a42c9d959c376996154194c580cfa54e49658b8f418a015e3aec35445db430d",
     "delivered": true,

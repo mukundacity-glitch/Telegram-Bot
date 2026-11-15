@@ -2012,6 +2012,23 @@
     "status": "RUN",
     "timestamp": "2026-11-14T23:52:43.608445+00:00"
   },
+  "2026-11-15:daily_stats": {
+    "attempts": 1,
+    "completed_at": "2026-11-15T15:44:31.921602+00:00",
+    "confirmed_telegram_message_ids": [
+      431
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-15:daily_stats",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      431
+    ],
+    "timestamp": "2026-11-15T15:44:26.458392+00:00",
+    "trigger": "2026-11-15T07:30:00-05:00",
+    "type": "daily_stats"
+  },
   "2026-11-15:elite": {
     "attempts": 1,
     "completed_at": "2026-11-15T14:43:18.053878+00:00",
@@ -2121,6 +2138,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-15T14:43:13.092304+00:00"
+  },
+  "2026-11-15T15:44:26.458392+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-15T15:44:31.921602+00:00",
+        "confirmed_telegram_message_ids": [
+          431
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-15:daily_stats",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          431
+        ],
+        "timestamp": "2026-11-15T15:44:26.458392+00:00",
+        "trigger": "2026-11-15T07:30:00-05:00",
+        "type": "daily_stats"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-15T15:44:26.458392+00:00"
   },
   "gw10-four-midfielders.json": {
     "attempts": 0,
