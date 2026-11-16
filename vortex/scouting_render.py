@@ -51,15 +51,29 @@ def draw_scatter(canvas, details, session):
     text(draw, f"{details['y_name'].upper()}  ·  {unit} ↑", left, 125, right-left, 20, GOLD)
     text(draw, f"{details['x_name'].upper()}  ·  {unit} →", left, 724, right-left, 20, CYAN, center=True)
     featured_ids = {id(row): index for index, row in enumerate(featured, 1)}
+    labels = []
     for row in sorted(rows, key=lambda row: id(row) in featured_ids):
         x = left + (right - left) * row['x'] / x_max
         y = bottom - (bottom - top) * row['y'] / y_max
         index = featured_ids.get(id(row))
-        radius = 11 if index else 3
-        draw.ellipse((x-radius, y-radius, x+radius, y+radius), fill=GOLD if index else '#7aafd5')
+        draw.ellipse((x-3, y-3, x+3, y+3), fill='#7aafd5')
         if index:
-            text(draw, index, x-10, y-8, 20, 14, '#122644', minimum=11, center=True)
-    text(draw, 'PLAYERS TO WATCH', 963, 125, 535, 24, CYAN)
+            labels.append((index, x, y))
+    anchors = []
+    for index, x, y in sorted(labels):
+        # Preserve the true plotted coordinates, moving only overlapping labels.
+        candidates = [(x+dx, y+dy) for step in (0, 26, 52, 78)
+                      for dx, dy in ((step, 0), (-step, 0), (0, step), (0, -step),
+                                     (step, step), (-step, step), (step, -step), (-step, -step))]
+        px, py = next(((a, b) for a, b in candidates
+                      if left+10 <= a <= right-10 and top+10 <= b <= bottom-10
+                      and all((a-u)**2 + (b-v)**2 >= 25**2 for u, v in anchors)),
+                      (max(left+10, min(right-10, x)), max(top+10, min(bottom-10, y))))
+        anchors.append((px, py))
+        draw.line((x, y, px, py), fill=GOLD, width=1)
+        draw.ellipse((px-10, py-10, px+10, py+10), fill=GOLD)
+        text(draw, index, px-10, py-8, 20, 14, '#122644', minimum=11, center=True)
+    text(draw, 'SCOUTING SHORTLIST', 963, 125, 535, 24, CYAN)
     for index, row in enumerate(featured, 1):
         y = 167 + (index - 1) * 105
         draw.rounded_rectangle((955, y, 1500, y+94), 14, fill=PANEL, outline=GRID)
@@ -67,11 +81,13 @@ def draw_scatter(canvas, details, session):
         photo = photos.get(row['photo'])
         if photo is not None:
             contain(canvas, photo, (1003, y+6, 75, 82), bottom=True, crop_alpha=True)
-        text(draw, row['name'], 1090, y+9, 396, 27, WHITE)
-        text(draw, row['club'], 1090, y+42, 396, 16, MUTED)
-        gx, gy = (row['x'], row['y']) if percentile else row['rates']
-        phrase = f'X {gx:.0f}  •  Y {gy:.0f}' if percentile else f'X {gx:.2f}  •  Y {gy:.2f}'
-        text(draw, phrase, 1090, y+65, 396, 18, GOLD)
+        text(draw, row['name'], 1090, y+4, 396, 24, WHITE)
+        text(draw, row['club'], 1090, y+33, 396, 15, MUTED)
+        for axis_index, (axis, color) in enumerate((('x', CYAN), ('y', GOLD))):
+            value = f"{row[axis]:.0f} pctile" if percentile else f"{row[axis]:.2f} /90"
+            metric_y = y + 52 + axis_index * 19
+            text(draw, details[f'{axis}_name'], 1090, metric_y, 285, 15, color, minimum=12)
+            text(draw, value, 1375, metric_y, 110, 16, WHITE, minimum=12, center=True)
 
 
 def draw_fixtures(canvas, details, session):
@@ -117,6 +133,8 @@ def render_scouting(plan, output, session):
         draw_fixtures(canvas, data, session)
     else:
         draw_scatter(canvas, data, session)
+    if note := data.get('metric_note'):
+        text(ImageDraw.Draw(canvas, 'RGBA'), note.upper(), 958, 724, 540, 15, GOLD, minimum=12)
     retrieved = datetime.fromisoformat(data['fetched_at']).strftime('%b %d %H:%M %z')
     generated = datetime.now(ET).strftime('%b %d %H:%M %z')
     origin = 'OFFICIAL FPL' if is_fixtures else 'FPL CORE MATCH STATS'

@@ -44,10 +44,11 @@ def number(row, field):
     return float(row[field] or 0)
 
 
-def player_totals(snapshot, through, session, year, fields, *, previous=False):
+def player_totals(snapshot, through, session, year, fields, *, previous=False, optional_fields=()):
     players = {p['code']: p for p in snapshot.players if p.get('code') and p.get('team') in snapshot.teams}
     totals = {}
     sources = []
+    incomplete_optional = set()
     seasons = [(year, rounds_for(snapshot, through))]
     if previous:
         seasons.append((year-1, range(1, 39)))
@@ -66,6 +67,11 @@ def player_totals(snapshot, through, session, year, fields, *, previous=False):
                 # season is checked as a whole below.
                 if start == year or not matches:
                     raise RequiredInput('FPL Core player data does not cover the completed fixtures')
+            for field in optional_fields:
+                covered = {row['match_id'] for row in batch
+                           if row.get(field) and number(row, 'minutes_played') > 0}
+                if covered != matches:
+                    incomplete_optional.add(field)
             for row in batch:
                 if not row.get('player_id') or number(row, 'minutes_played') <= 0:
                     continue
@@ -76,6 +82,8 @@ def player_totals(snapshot, through, session, year, fields, *, previous=False):
                 record['minutes'] += number(row, 'minutes_played')
                 record['appearances'] += 1
                 for field in fields:
+                    if field in optional_fields and not row.get(field):
+                        continue
                     value = number(row, field)
                     if not isfinite(value) or value < 0:
                         raise RequiredInput(f'Invalid FPL Core metric: {field}')
@@ -83,7 +91,8 @@ def player_totals(snapshot, through, session, year, fields, *, previous=False):
         if start != year and len({row['match_id'] for batch in batches for row in batch
                                   if number(row, 'minutes_played') > 0}) != 380:
             raise RequiredInput('Previous Premier League season player archive is incomplete')
-    return [(players[code], dict(values)) for code, values in totals.items()], sources
+    return [(players[code], {key: value for key, value in values.items() if key not in incomplete_optional})
+            for code, values in totals.items()], sources
 
 
 def common_row(snapshot, player, values, value, detail):

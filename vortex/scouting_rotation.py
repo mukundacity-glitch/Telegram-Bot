@@ -11,7 +11,8 @@ BOX = ('Opposition-box touches', ('touches_opposition_box',))
 PASSING = ('Final-third passes', ('final_third_passes',))
 CHANCES = ('Chances created', ('chances_created',))
 XA = ('Expected assists (xA)', ('xa',))
-DEFENCE = ('Tackles + interceptions', ('tackles', 'interceptions'))
+DEFENCE = ('Tackles won + interceptions', ('tackles_won', 'interceptions'))
+SHOTS = ('Shots', ('total_shots',))
 GOALS = ('Goals', ('goals',))
 AERIALS = ('Aerial duels won', ('aerial_duels_won',))
 
@@ -37,20 +38,28 @@ TOPICS = (
 )
 
 
-def profile_rows(snapshot, through, year, session, x_metric, y_metric, positions, minimum, percentiles):
-    fields = x_metric[1] + y_metric[1]
-    players, sources = player_totals(snapshot, through, session, year, fields)
+# Some archived seasons omit dribbles for every player. These replacement
+# editions use real metrics and change their titles, axes and captions together.
+DRIBBLE_FALLBACKS = (
+    ('Final-Third Passing vs Box Touches', PASSING, BOX, 'Who links the final third with the penalty area?'),
+    ('Shots vs Final-Third Passing', SHOTS, PASSING, 'Who combines shot volume with final-third involvement?'),
+    ('Box Touches vs Expected Assists', BOX, XA, 'Who gets into the box and creates chances for teammates?'),
+    ('Shots vs Chances Created', SHOTS, CHANCES, 'Who brings both shot volume and chance creation?'),
+)
+
+
+def profile_rows(players, snapshot, x_metric, y_metric, positions, minimum, percentiles):
     rows = []
     for player, stats in players:
         minutes = stats['minutes']
         if minutes < minimum or player.get('element_type') not in (positions or (2, 3, 4)):
             continue
-        gx = sum(stats[field] for field in x_metric[1]) * 90 / minutes
-        gy = sum(stats[field] for field in y_metric[1]) * 90 / minutes
+        gx = sum(stats.get(field, 0) for field in x_metric[1]) * 90 / minutes
+        gy = sum(stats.get(field, 0) for field in y_metric[1]) * 90 / minutes
         rows.append({'name': snapshot.name(player), 'club': snapshot.teams[player['team']]['name'],
                      'photo': snapshot.photo_code(player), 'rates': (gx, gy), 'x': gx, 'y': gy})
-    if len(rows) < 2:
-        raise RequiredInput('Scouting chart needs at least two qualifying players with verified match stats')
+    if len(rows) < 2 or any(len({round(r[axis], 6) for r in rows}) < 2 for axis in ('x', 'y')):
+        return [], []
     if percentiles:
         for axis in ('x', 'y'):
             total = 0
@@ -69,7 +78,7 @@ def profile_rows(snapshot, through, year, session, x_metric, y_metric, positions
     if y_leader is not x_leader:
         featured.append(y_leader)
     featured.extend(r for r in ranked if r is not x_leader and r is not y_leader)
-    return rows, featured[:5], sources
+    return rows, featured[:5]
 
 
 def goalkeeper_fixtures(snapshot, gw):
@@ -147,8 +156,19 @@ def build_scouting(slot, snapshot, now, session):
             raise RequiredInput('No completed Premier League gameweek for the scouting chart')
         year = int(season_id(snapshot, now).split('-')[0])
         percentiles = day == 5
-        rows, featured, sources = profile_rows(snapshot, through, year, session, x_metric, y_metric,
-                                              positions, minimum, percentiles)
+        fallback = DRIBBLE_FALLBACKS[day] if day < len(DRIBBLE_FALLBACKS) else None
+        fields = x_metric[1] + y_metric[1]
+        if fallback:
+            fields = tuple(dict.fromkeys(fields + fallback[1][1] + fallback[2][1]))
+        players, sources = player_totals(snapshot, through, session, year, fields,
+                                         optional_fields=DRIBBLES[1] if fallback else ())
+        rows, featured = profile_rows(players, snapshot, x_metric, y_metric, positions, minimum, percentiles)
+        used_fallback = not rows and fallback is not None
+        if used_fallback:
+            title, x_metric, y_metric, hook = fallback
+            rows, featured = profile_rows(players, snapshot, x_metric, y_metric, positions, minimum, percentiles)
+        if not rows:
+            raise RequiredInput('Scouting chart axes lack verified variation across qualifying players')
         x_name, y_name = x_metric[0], y_metric[0]
         x_leader, y_leader = (max(rows, key=lambda r: (r['x'], r['y'])),
                               max(rows, key=lambda r: (r['y'], r['x'])))
@@ -158,6 +178,7 @@ def build_scouting(slot, snapshot, now, session):
                  f'Premier League through GW{through} • Per 90 • {minimum}+ minutes.',
                  f'One free transfer. Who makes your GW{gw} shortlist?', tags)
         extra.update(layout='scatter', rows=rows, featured=featured, through=through, minimum=minimum,
-                     x_name=x_name, y_name=y_name, percentiles=percentiles, sources=sources)
+                     x_name=x_name, y_name=y_name, percentiles=percentiles, sources=sources,
+                     metric_note='Dribble counts unavailable in the match archive' if used_fallback else '')
     return Plan(slot.task, slot.edition, title, '\n'.join(lines), gw, [], [],
                 kind='scouting_rotation', extra=extra)

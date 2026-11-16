@@ -32,7 +32,7 @@ def test_one_branded_graphic_per_day(day, world, tmp_path, monkeypatch):
     monkeypatch.setenv('FPL_DISCORD_HANDLE', '@fplvortex')
     monkeypatch.setattr(scouting_render, '_media', lambda *a: Image.new('RGBA', (80, 90), '#647caa'))
 
-    def stats(snap, through, year, session, fields):
+    def stats(snap, through, year, session, fields, **kwargs):
         assert through == 9
         return ([(p, {'minutes': 500, **{field: (p['id'] + i) % 17 for i, field in enumerate(fields)}})
                  for p in snap.players], ['https://example.invalid/fixture-data.csv'])
@@ -75,3 +75,40 @@ def test_one_branded_graphic_per_day(day, world, tmp_path, monkeypatch):
     with Image.open(image_path) as image:
         assert image.size == (1920, 1080)
         image.verify()
+
+
+
+def test_missing_dribbles_replaces_all_four_editions_without_inventing_zeros(world, monkeypatch, tmp_path):
+    snapshot, _, evidence, _ = world
+
+    def stats(snap, through, year, session, fields, **kwargs):
+        assert kwargs['optional_fields'] == ('successful_dribbles',)
+        return ([(p, {'minutes': 500, **{field: (p['id'] + i) % 17 for i, field in enumerate(fields)
+                                          if field != 'successful_dribbles'}})
+                 for p in snap.players], ['https://example.invalid/fixture-data.csv'])
+
+    monkeypatch.setattr(scouting_rotation, 'player_totals', stats)
+    for day, (title, x, y, _) in enumerate(scouting_rotation.DRIBBLE_FALLBACKS):
+        plan = scouting_rotation.build_scouting(SCOUTING, snapshot, SUNDAY+timedelta(days=day), evidence.session)
+        assert plan.title == title
+        assert (plan.extra['x_name'], plan.extra['y_name']) == (x[0], y[0])
+        assert len({r['x'] for r in plan.extra['rows']}) > 1
+        assert 'Dribble counts unavailable' in plan.extra['metric_note']
+    monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')
+    monkeypatch.setenv('FPL_DISCORD_HANDLE', '@fplvortex')
+    monkeypatch.setattr(scouting_render, '_media', lambda *a: Image.new('RGBA', (80, 90), '#647caa'))
+    sunday = scouting_rotation.build_scouting(SCOUTING, snapshot, SUNDAY, evidence.session)
+    image_path = tmp_path / 'sunday-fallback.png'
+    assert render(sunday, snapshot, SUNDAY, image_path, evidence.session) == [image_path]
+    with Image.open(image_path) as image:
+        assert image.size == (1920, 1080)
+        image.verify()
+
+
+
+def test_flat_metrics_are_ineligible(world):
+    snapshot, _, _, _ = world
+    players = [(p, {'minutes': 500, 'successful_dribbles': 0, 'touches_opposition_box': p['id']})
+               for p in snapshot.players]
+    assert scouting_rotation.profile_rows(players, snapshot, scouting_rotation.DRIBBLES,
+                                           scouting_rotation.BOX, (), 350, False) == ([], [])
