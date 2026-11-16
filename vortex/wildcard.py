@@ -60,16 +60,20 @@ def candidate_pool(snapshot, weeks, verified):
     return result
 
 
-def solve(candidates, values):
+def solve(candidates, values, *, time_limit=35, first_week_weight=1.2,
+          bench_weight=.08, roster_priority=None):
     """Binary roster, XI and captain variables with budget and formation bounds."""
     points = np.asarray(values, dtype=float).T
     weeks, n = points.shape
     size = n * (1 + 2 * weeks)
     weights = np.ones(weeks)
-    weights[0] = 1.2
+    weights[0] = first_week_weight
     week_value = points * weights[:, None]
-    objective = np.concatenate((.08 * week_value.sum(axis=0),
-                                week_value.ravel(), week_value.ravel()))
+    roster_value = bench_weight * week_value.sum(axis=0)
+    if roster_priority is not None:
+        roster_value = np.asarray(roster_priority, dtype=float)
+        week_value = np.zeros_like(points)
+    objective = np.concatenate((roster_value, week_value.ravel(), week_value.ravel()))
     ids, rows, data, lower, upper = [], [], [], [], []
 
     def constraint(cols, lo, hi, coeff=None):
@@ -99,7 +103,7 @@ def solve(candidates, values):
     matrix = coo_matrix((np.asarray(data, dtype=float), (rows, ids)), shape=(len(lower), size)).tocsc()
     result = milp(-objective, integrality=np.ones(size), bounds=Bounds(0, 1),
                   constraints=LinearConstraint(matrix, lower, upper),
-                  options={'time_limit': 35, 'mip_rel_gap': .003})
+                  options={'time_limit': time_limit, 'mip_rel_gap': .003})
     if result.x is None or result.status not in (0, 1):
         raise RequiredInput('No verified legal £100m Wildcard found')
     selected = list(np.flatnonzero(result.x[:n] > .5))

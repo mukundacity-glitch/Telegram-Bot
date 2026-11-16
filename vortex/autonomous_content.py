@@ -149,6 +149,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     if name == 'positional-vulnerability':
         from .positional_vulnerability import build_vulnerability
         return build_vulnerability(slot, snapshot, now, e.session)
+    if name == 'chip-strategy':
+        from .chip_strategy import build_chip_strategy
+        return build_chip_strategy(slot, snapshot, now, e.session)
     if name == 'wildcard-draft':
         from .wildcard import build_wildcard
         return build_wildcard(slot, snapshot, now, e)

@@ -11,7 +11,7 @@ import json,os
 from PIL import Image
 from .bot import ROOT,STATE,read_state,write_state
 from .fpl import collect_snapshot,price_snapshot,upcoming_deadline
-from .autonomous_schedule import VULNERABILITY, SHOT_QUALITY, WILDCARD, SERIES, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
+from .autonomous_schedule import CHIP_STRATEGY, VULNERABILITY, SHOT_QUALITY, WILDCARD, SERIES, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
@@ -33,7 +33,7 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
-    if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability'):
+    if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'chip_strategy'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
     return {'players':[{k:p.get(k) for k in keys}|{'recent':evidence.recent(p)} for p in plan.players],
@@ -49,7 +49,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
     pages=render(plan,snapshot,now,output,evidence.session)
-    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY) or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation')) and len(pages) != 1:
+    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation')) and len(pages) != 1:
         raise RuntimeError(f'{plan.edition} requires exactly one graphic')
     for path in pages:
         with Image.open(path) as image:
@@ -58,7 +58,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     weekly = slot.edition == 'weekly-analysis'
     deadline = ((now.astimezone(ET) + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
                 if weekly else upcoming_deadline(snapshot))
-    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY)) and deadline is not None:
+    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY)) and deadline is not None:
         close = datetime.combine(day, datetime.min.time(), tzinfo=ET)
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
     if deadline is None or deadline <= datetime.now(timezone.utc):
@@ -74,7 +74,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                 'https://fantasy.premierleague.com/api/bootstrap-static/',
                 'https://fantasy.premierleague.com/api/fixtures/']+[
                 f"https://fantasy.premierleague.com/api/element-summary/{p['id']}/" for p in plan.players
-                if plan.kind not in ('wildcard', 'positional_vulnerability')]+(
+                if plan.kind not in ('wildcard', 'positional_vulnerability', 'chip_strategy')]+(
                     ['https://github.com/olbauday/FPL-Core-Insights',
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.kind != 'wildcard' and plan.extra and plan.extra.get('model') else []),
@@ -83,7 +83,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         record['facts']['publication_date'] = day.isoformat()
     if not manual and not audit:
         safe_caption = verified_caption(plan.title, plan.caption)
-        if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY) or plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation'):
+        if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation'):
             safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
             if len(safe_caption.splitlines()) != 5:
                 raise RequiredInput('Watch editions require a five-line caption')
@@ -92,7 +92,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         record['sources'].append(plan.extra['source'])
     if slot.edition == 'weekly-analysis':
         record['sources'].extend(plan.extra['sources'])
-    if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY) or plan.kind == 'odds_board' or slot.edition in ('afternoon-rotation', 'scouting-rotation'):
+    if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or plan.kind == 'odds_board' or slot.edition in ('afternoon-rotation', 'scouting-rotation'):
         record['sources'].extend(plan.extra.get('sources', []))
     if audit and not allowed(now):
         hour, minute = divmod(OPEN_MINUTE, 60)
@@ -108,7 +108,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
 
 def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3, selected_slots=None, evidence=None):
     now=now or datetime.now(timezone.utc)
-    if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition):
+    if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition):
         raise ValueError('This post is available through the due queue only')
     if edition in RETIRED_EDITIONS:
         raise ValueError('This edition has been retired')
@@ -183,7 +183,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                     write_state(STATE_FILE, state)
                     rows.append({'edition': slot.edition, 'status': 'already-delivered'})
                     continue
-                if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY) or any(receipt.get('delivered') or receipt.get('discord_delivered')
+                if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or any(receipt.get('delivered') or receipt.get('discord_delivered')
                        or receipt.get('discord_send_pending') or receipt.get('discord_album_pending')
                        for receipt in previous):
                     file, identity, count = ROOT / prior['file'], prior_identity, prior['pages']
@@ -259,7 +259,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s not in (VULNERABILITY, WILDCARD, SHOT_QUALITY) and s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation')}|set(SPECIAL_EDITIONS)))
+    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s not in (VULNERABILITY, WILDCARD, SHOT_QUALITY, CHIP_STRATEGY) and s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation')}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
     parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
     parser.add_argument('--manual', action='store_true', help='Publish exactly one selected, verified edition immediately')
