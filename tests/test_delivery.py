@@ -60,11 +60,12 @@ def test_manual_preview_never_modifies_daily_state(delivery_environment: list[st
     assert delivery_environment == ['THE FPL DECISION ROOM — PREVIEW']
     assert path.read_bytes() == before
 
-def test_daily_captaincy_publishes_without_deadline_tomorrow(
+def test_retired_daily_captaincy_has_no_active_cron(
     delivery_environment: list[str],
 ) -> None:
-    assert bot.run('captaincy', '0 16 * * *') == 0
-    assert delivery_environment == ['THE FPL DECISION ROOM']
+    with pytest.raises(ValueError, match='Unrecognized workflow schedule'):
+        bot.run('auto', '0 16 * * *')
+    assert delivery_environment == []
 
 
 def test_legacy_buy_deduplicates_when_given_a_schedule(delivery_environment, monkeypatch):

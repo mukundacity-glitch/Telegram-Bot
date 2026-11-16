@@ -44,7 +44,7 @@ def number(row, field):
     return float(row[field] or 0)
 
 
-def player_totals(snapshot, through, session, year, fields, *, previous=False, optional_fields=()):
+def player_totals(snapshot, through, session, year, fields, *, previous=False, optional_fields=(), require_shot_xg=False):
     players = {p['code']: p for p in snapshot.players if p.get('code') and p.get('team') in snapshot.teams}
     totals = {}
     sources = []
@@ -81,6 +81,8 @@ def player_totals(snapshot, through, session, year, fields, *, previous=False, o
                 record = totals.setdefault(code, defaultdict(float))
                 record['minutes'] += number(row, 'minutes_played')
                 record['appearances'] += 1
+                if require_shot_xg and number(row, 'total_shots') > 0 and not row.get('xg'):
+                    record['incomplete_shot_xg'] = True
                 for field in fields:
                     if field in optional_fields and not row.get(field):
                         continue

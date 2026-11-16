@@ -80,7 +80,7 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
     assert 'deleteMessage' not in workflow
 
 
-@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation','wildcard-draft','positional-vulnerability'}))
+@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation','assists-vs-shot-quality','wildcard-draft','positional-vulnerability'}))
 def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name,monkeypatch,tmp_path):
     s,now,e,feed=world
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))

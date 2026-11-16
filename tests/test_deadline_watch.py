@@ -6,18 +6,18 @@ import pytest
 from PIL import Image
 
 from test_autonomous_engine import world
-from vortex.autonomous_schedule import SLOTS, BY_CRON, Slot
+from vortex.autonomous_schedule import SLOTS, BY_CRON, RETIRED_EDITIONS, Slot
 from vortex.autonomous_content import build
 from vortex.deadline_watch import clock, ET, UK
 from vortex.editorial_inputs import RequiredInput
 
 
 def slot():
-    return next(s for s in SLOTS if s.edition=='deadline-watch')
+    return Slot('task1', 'deadline-watch', 16, 30)
 
 
-def test_deadline_watch_is_a_time_based_slot_and_press_slots_do_not_overlap():
-    assert (slot().hour,slot().minute)==(16,30)
+def test_deadline_watch_is_retired_and_press_stays_at_seven():
+    assert slot() not in SLOTS and slot().edition in RETIRED_EDITIONS
     assert not BY_CRON  # editions are catch-up slots, not bound to one cron string
     assert [(s.hour,s.minute) for s in SLOTS if s.task=='press_news']==[(19,0)]
 

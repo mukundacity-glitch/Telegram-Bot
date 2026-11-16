@@ -39,6 +39,7 @@ def draw_scatter(canvas, details, session):
     x_max = 100 if percentile else axis_limit(max(r['x'] for r in rows))
     y_max = 100 if percentile else axis_limit(max(r['y'] for r in rows))
     unit = 'PERCENTILE' if percentile else 'PER 90'
+    x_unit, y_unit = details.get('units', (unit, unit))
     draw.rounded_rectangle((left, top, right, bottom), 11, fill=PANEL, outline=GRID, width=2)
     for tick in range(6):
         fraction = tick / 5
@@ -48,8 +49,8 @@ def draw_scatter(canvas, details, session):
         draw.line((left, y, right, y), fill=GRID)
         text(draw, f'{x_max * fraction:.3g}', x - 35, bottom + 9, 70, 17, MUTED, center=True)
         text(draw, f'{y_max * fraction:.3g}', 42, y - 10, 51, 17, MUTED, center=True)
-    text(draw, f"{details['y_name'].upper()}  ·  {unit} ↑", left, 125, right-left, 20, GOLD)
-    text(draw, f"{details['x_name'].upper()}  ·  {unit} →", left, 724, right-left, 20, CYAN, center=True)
+    text(draw, f"{details['y_name'].upper()}  ·  {y_unit} ↑", left, 125, right-left, 20, GOLD)
+    text(draw, f"{details['x_name'].upper()}  ·  {x_unit} →", left, 724, right-left, 20, CYAN, center=True)
     featured_ids = {id(row): index for index, row in enumerate(featured, 1)}
     labels = []
     for row in sorted(rows, key=lambda row: id(row) in featured_ids):
@@ -84,7 +85,13 @@ def draw_scatter(canvas, details, session):
         text(draw, row['name'], 1090, y+4, 396, 24, WHITE)
         text(draw, row['club'], 1090, y+33, 396, 15, MUTED)
         for axis_index, (axis, color) in enumerate((('x', CYAN), ('y', GOLD))):
-            value = f"{row[axis]:.0f} pctile" if percentile else f"{row[axis]:.2f} /90"
+            metric_unit = (x_unit, y_unit)[axis_index]
+            if percentile:
+                value = f"{row[axis]:.0f} pctile"
+            elif metric_unit == 'PER SHOT':
+                value = f"{row[axis]:.3f} /shot"
+            else:
+                value = f"{row[axis]:.2f} /90"
             metric_y = y + 52 + axis_index * 19
             text(draw, details[f'{axis}_name'], 1090, metric_y, 285, 15, color, minimum=12)
             text(draw, value, 1375, metric_y, 110, 16, WHITE, minimum=12, center=True)
@@ -127,7 +134,7 @@ def render_scouting(plan, output, session):
     is_fixtures = data['layout'] == 'fixtures'
     scope = (f'GW{plan.gw}  |  GOALKEEPER FIXTURES' if is_fixtures else
              f"THROUGH GW{data['through']}  |  {data['minimum']}+ MINUTES")
-    subtitle = f'{SCOUTING.display_name.upper()}  |  {scope}'
+    subtitle = data.get('subtitle') or f'{SCOUTING.display_name.upper()}  |  {scope}'
     canvas = _base(plan.title.upper(), plan.gw, subtitle)
     if is_fixtures:
         draw_fixtures(canvas, data, session)

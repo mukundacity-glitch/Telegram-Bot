@@ -19,6 +19,7 @@ class Slot:
 
 
 RETIRED_EDITIONS = {
+    "captaincy", "captaincy-showdown", "deadline-watch",
     "market-verdict", "transfer_suggestions", "transfer-suggestions",
     "four-team-targets", "transfer-desk", "transfer",
     "availability-transfer-decisions", "rank-booster", "fixture-targets",
@@ -32,6 +33,8 @@ SCOUTING = Slot('task2', 'scouting-rotation', 14, 30, display_name='FPL Player P
 VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30)
 CLOCK_CRON = '0,30 0-3,9-23 * * *'
 WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, weekday=1)
+SHOT_QUALITY = Slot('task2', 'assists-vs-shot-quality', 16, 30, weekday=6,
+                    display_name='Assists per 90 vs xG per Shot')
 
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
@@ -43,7 +46,7 @@ SLOTS = (
     SCOUTING,
     VULNERABILITY,
     WILDCARD,
-    Slot('task1', 'deadline-watch', 16, 30),
+    SHOT_QUALITY,
     Slot('price_changes', 'confirmed-price-changes', 17, 30),
     Slot('press_news', 'verified-press-availability', 19, 0),
     Slot('three_daily', 'vortex-captain', 21, 0),
@@ -78,7 +81,7 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
-    if slot in (AFTERNOON, SCOUTING, VULNERABILITY, WILDCARD):
+    if slot.weekday is not None or slot in (AFTERNOON, SCOUTING, VULNERABILITY):
         return f'{now.astimezone(ET).date()}:{slot.task}:{slot.edition}'
     if slot.series_day is not None:
         return f'{season}:GW{slot.series_gw}:{slot.task}:{slot.edition}:day{slot.series_day}'
