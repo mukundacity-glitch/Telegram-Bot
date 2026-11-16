@@ -33,6 +33,8 @@ SCOUTING = Slot('task2', 'scouting-rotation', 14, 30, display_name='FPL Player P
 VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30)
 CLOCK_CRON = '0,30 0-3,9-23 * * *'
 WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, weekday=1)
+CHIP_STRATEGY = Slot('task2', 'chip-strategy', 16, 30, weekday=1,
+                     display_name='FPL Chip Strategy')
 SHOT_QUALITY = Slot('task2', 'assists-vs-shot-quality', 16, 30, weekday=6,
                     display_name='Assists per 90 vs xG per Shot')
 
@@ -47,6 +49,7 @@ SLOTS = (
     VULNERABILITY,
     WILDCARD,
     SHOT_QUALITY,
+    CHIP_STRATEGY,
     Slot('price_changes', 'confirmed-price-changes', 17, 30),
     Slot('press_news', 'verified-press-availability', 19, 0),
     Slot('three_daily', 'vortex-captain', 21, 0),

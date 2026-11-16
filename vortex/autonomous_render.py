@@ -343,6 +343,9 @@ def render(plan,snapshot,now,output,session=None):
     if plan.kind == 'positional_vulnerability':
         from .vulnerability_render import render_vulnerability
         return [render_vulnerability(plan, output, client)]
+    if plan.kind == 'chip_strategy':
+        from .chip_strategy_render import render_chip_strategy
+        return [render_chip_strategy(plan, snapshot, output, client)]
     if plan.kind == 'wildcard':
         from .wildcard_render import render_wildcard
         return [render_wildcard(plan, snapshot, output, client)]
