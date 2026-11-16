@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-16T18:42:41.398297+00:00",
-  "eastern_at": "2026-11-16T13:42:41.398297-05:00",
+  "at": "2026-11-16T19:17:13.636445+00:00",
+  "eastern_at": "2026-11-16T14:17:13.636445-05:00",
   "last_news_scan": "2026-11-15T11:28:32.480431+00:00",
-  "new_posts": 0,
+  "new_posts": 1,
   "next_due": {
-    "post": "defender-watch",
-    "trigger": "2026-11-16T19:12:52.771467+00:00"
+    "post": "goalkeeper-striker-watch",
+    "trigger": "2026-11-16T20:02:26.818397+00:00"
   },
-  "next_telegram_at": "2026-11-16T19:12:52.771467+00:00",
+  "next_telegram_at": "2026-11-16T20:02:26.818397+00:00",
   "pending_triggers": [
     {
       "post": "chance-creators",
@@ -30,14 +30,14 @@
       "trigger": "2026-11-21T07:30:00+00:00"
     }
   ],
-  "posts_due": 0,
+  "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 0,
+  "posts_generated": 1,
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "28 * * * *",
+  "scheduled_cron": "0,30 0-3,9-23 * * *",
   "source_error": null,
-  "status": "deferred-telegram-spacing",
-  "telegram_messages_sent": 0
+  "status": "published",
+  "telegram_messages_sent": 1
 }
