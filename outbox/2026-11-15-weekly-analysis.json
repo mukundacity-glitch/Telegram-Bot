@@ -1,0 +1,1319 @@
+{
+  "task": "task2",
+  "edition": "weekly-analysis",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "EXPECTED VS ACTUAL POINTS",
+  "caption": "EXPECTED VS ACTUAL POINTS • Through GW10 | 2026-11-15\nArsenal: 27 actual vs 19.6 expected league points.\nNott'm Forest: 9 actual vs 16.4 expected league points.\nUse the gap to spot clubs worth a closer look. Check player minutes and fixtures before transferring.\n#FPL #GW11 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "weekly-analysis",
+    "extra": {
+      "teams": [
+        {
+          "name": "Arsenal",
+          "short": "ARS",
+          "code": 3,
+          "expected": 19.56,
+          "actual": 27,
+          "played": 10
+        },
+        {
+          "name": "Aston Villa",
+          "short": "AVL",
+          "code": 7,
+          "expected": 11.58,
+          "actual": 13,
+          "played": 10
+        },
+        {
+          "name": "Bournemouth",
+          "short": "BOU",
+          "code": 91,
+          "expected": 17.23,
+          "actual": 15,
+          "played": 10
+        },
+        {
+          "name": "Brentford",
+          "short": "BRE",
+          "code": 94,
+          "expected": 12.64,
+          "actual": 14,
+          "played": 10
+        },
+        {
+          "name": "Brighton",
+          "short": "BHA",
+          "code": 36,
+          "expected": 17.09,
+          "actual": 22,
+          "played": 10
+        },
+        {
+          "name": "Chelsea",
+          "short": "CHE",
+          "code": 8,
+          "expected": 13.06,
+          "actual": 16,
+          "played": 10
+        },
+        {
+          "name": "Coventry City",
+          "short": "COV",
+          "code": 9,
+          "expected": 10.09,
+          "actual": 9,
+          "played": 10
+        },
+        {
+          "name": "Crystal Palace",
+          "short": "CRY",
+          "code": 31,
+          "expected": 9.89,
+          "actual": 7,
+          "played": 10
+        },
+        {
+          "name": "Everton",
+          "short": "EVE",
+          "code": 11,
+          "expected": 13.26,
+          "actual": 16,
+          "played": 10
+        },
+        {
+          "name": "Fulham",
+          "short": "FUL",
+          "code": 54,
+          "expected": 14.01,
+          "actual": 10,
+          "played": 10
+        },
+        {
+          "name": "Hull City",
+          "short": "HUL",
+          "code": 88,
+          "expected": 10.16,
+          "actual": 11,
+          "played": 10
+        },
+        {
+          "name": "Ipswich Town",
+          "short": "IPS",
+          "code": 40,
+          "expected": 11.22,
+          "actual": 11,
+          "played": 10
+        },
+        {
+          "name": "Leeds",
+          "short": "LEE",
+          "code": 2,
+          "expected": 14.1,
+          "actual": 14,
+          "played": 10
+        },
+        {
+          "name": "Liverpool",
+          "short": "LIV",
+          "code": 14,
+          "expected": 15.14,
+          "actual": 18,
+          "played": 10
+        },
+        {
+          "name": "Man City",
+          "short": "MCI",
+          "code": 43,
+          "expected": 19.0,
+          "actual": 21,
+          "played": 10
+        },
+        {
+          "name": "Man Utd",
+          "short": "MUN",
+          "code": 1,
+          "expected": 12.97,
+          "actual": 8,
+          "played": 10
+        },
+        {
+          "name": "Newcastle",
+          "short": "NEW",
+          "code": 4,
+          "expected": 10.74,
+          "actual": 12,
+          "played": 10
+        },
+        {
+          "name": "Nott'm Forest",
+          "short": "NFO",
+          "code": 17,
+          "expected": 16.44,
+          "actual": 9,
+          "played": 10
+        },
+        {
+          "name": "Spurs",
+          "short": "TOT",
+          "code": 6,
+          "expected": 14.29,
+          "actual": 12,
+          "played": 10
+        },
+        {
+          "name": "Sunderland",
+          "short": "SUN",
+          "code": 56,
+          "expected": 14.34,
+          "actual": 8,
+          "played": 10
+        }
+      ],
+      "matches": [
+        {
+          "id": 1,
+          "xg": [
+            1.88,
+            0.2
+          ],
+          "score": [
+            3,
+            0
+          ]
+        },
+        {
+          "id": 4,
+          "xg": [
+            1.01,
+            1.83
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 3,
+          "xg": [
+            1.12,
+            1.96
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 5,
+          "xg": [
+            1.8,
+            0.66
+          ],
+          "score": [
+            2,
+            1
+          ]
+        },
+        {
+          "id": 6,
+          "xg": [
+            0.66,
+            0.47
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 2,
+          "xg": [
+            3.87,
+            0.57
+          ],
+          "score": [
+            3,
+            0
+          ]
+        },
+        {
+          "id": 7,
+          "xg": [
+            3.77,
+            0.29
+          ],
+          "score": [
+            4,
+            0
+          ]
+        },
+        {
+          "id": 8,
+          "xg": [
+            2.25,
+            0.65
+          ],
+          "score": [
+            2,
+            1
+          ]
+        },
+        {
+          "id": 9,
+          "xg": [
+            1.58,
+            2.98
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 10,
+          "xg": [
+            1.33,
+            2.24
+          ],
+          "score": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 11,
+          "xg": [
+            0.66,
+            2.21
+          ],
+          "score": [
+            1,
+            4
+          ]
+        },
+        {
+          "id": 14,
+          "xg": [
+            1.75,
+            2.3
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 12,
+          "xg": [
+            2.16,
+            1.84
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 13,
+          "xg": [
+            1.29,
+            0.72
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 15,
+          "xg": [
+            1.12,
+            0.72
+          ],
+          "score": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 16,
+          "xg": [
+            2.93,
+            1.41
+          ],
+          "score": [
+            4,
+            3
+          ]
+        },
+        {
+          "id": 17,
+          "xg": [
+            1.46,
+            1.67
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 19,
+          "xg": [
+            2.02,
+            0.95
+          ],
+          "score": [
+            1,
+            0
+          ]
+        },
+        {
+          "id": 18,
+          "xg": [
+            4.77,
+            2.06
+          ],
+          "score": [
+            5,
+            2
+          ]
+        },
+        {
+          "id": 20,
+          "xg": [
+            0.33,
+            1.04
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 21,
+          "xg": [
+            0.75,
+            0.69
+          ],
+          "score": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 27,
+          "xg": [
+            0.71,
+            1.37
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 22,
+          "xg": [
+            1.21,
+            1.71
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 23,
+          "xg": [
+            2.19,
+            2.49
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 24,
+          "xg": [
+            3.14,
+            1.97
+          ],
+          "score": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 26,
+          "xg": [
+            2.12,
+            1.37
+          ],
+          "score": [
+            1,
+            0
+          ]
+        },
+        {
+          "id": 28,
+          "xg": [
+            0.92,
+            1.06
+          ],
+          "score": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": 25,
+          "xg": [
+            0.57,
+            1.93
+          ],
+          "score": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": 30,
+          "xg": [
+            1.01,
+            0.69
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 29,
+          "xg": [
+            2.05,
+            0.39
+          ],
+          "score": [
+            2,
+            1
+          ]
+        },
+        {
+          "id": 31,
+          "xg": [
+            0.82,
+            2.28
+          ],
+          "score": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 32,
+          "xg": [
+            1.75,
+            0.5
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 33,
+          "xg": [
+            0.91,
+            1.38
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 34,
+          "xg": [
+            0.62,
+            1.68
+          ],
+          "score": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 35,
+          "xg": [
+            1.28,
+            0.7
+          ],
+          "score": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": 37,
+          "xg": [
+            0.69,
+            1.11
+          ],
+          "score": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": 36,
+          "xg": [
+            1.8,
+            1.88
+          ],
+          "score": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 38,
+          "xg": [
+            1.33,
+            2.81
+          ],
+          "score": [
+            0,
+            5
+          ]
+        },
+        {
+          "id": 39,
+          "xg": [
+            1.0,
+            1.1
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 40,
+          "xg": [
+            2.08,
+            0.88
+          ],
+          "score": [
+            4,
+            1
+          ]
+        },
+        {
+          "id": 41,
+          "xg": [
+            2.65,
+            0.83
+          ],
+          "score": [
+            3,
+            0
+          ]
+        },
+        {
+          "id": 48,
+          "xg": [
+            1.56,
+            1.16
+          ],
+          "score": [
+            2,
+            3
+          ]
+        },
+        {
+          "id": 42,
+          "xg": [
+            1.31,
+            1.63
+          ],
+          "score": [
+            3,
+            0
+          ]
+        },
+        {
+          "id": 43,
+          "xg": [
+            2.24,
+            1.44
+          ],
+          "score": [
+            1,
+            0
+          ]
+        },
+        {
+          "id": 46,
+          "xg": [
+            1.44,
+            1.59
+          ],
+          "score": [
+            2,
+            1
+          ]
+        },
+        {
+          "id": 47,
+          "xg": [
+            1.1,
+            0.67
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 49,
+          "xg": [
+            0.79,
+            1.65
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 44,
+          "xg": [
+            1.31,
+            1.06
+          ],
+          "score": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": 45,
+          "xg": [
+            2.82,
+            3.57
+          ],
+          "score": [
+            5,
+            3
+          ]
+        },
+        {
+          "id": 50,
+          "xg": [
+            1.62,
+            1.6
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 51,
+          "xg": [
+            2.58,
+            0.68
+          ],
+          "score": [
+            2,
+            1
+          ]
+        },
+        {
+          "id": 52,
+          "xg": [
+            2.28,
+            1.06
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 53,
+          "xg": [
+            1.1,
+            1.38
+          ],
+          "score": [
+            5,
+            1
+          ]
+        },
+        {
+          "id": 57,
+          "xg": [
+            1.15,
+            1.81
+          ],
+          "score": [
+            2,
+            1
+          ]
+        },
+        {
+          "id": 60,
+          "xg": [
+            0.72,
+            1.41
+          ],
+          "score": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 59,
+          "xg": [
+            0.8,
+            1.62
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 55,
+          "xg": [
+            2.41,
+            3.34
+          ],
+          "score": [
+            3,
+            1
+          ]
+        },
+        {
+          "id": 56,
+          "xg": [
+            1.33,
+            1.71
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 58,
+          "xg": [
+            0.86,
+            1.3
+          ],
+          "score": [
+            0,
+            3
+          ]
+        },
+        {
+          "id": 54,
+          "xg": [
+            1.43,
+            1.84
+          ],
+          "score": [
+            4,
+            1
+          ]
+        },
+        {
+          "id": 64,
+          "xg": [
+            0.43,
+            1.47
+          ],
+          "score": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 62,
+          "xg": [
+            0.88,
+            1.64
+          ],
+          "score": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 65,
+          "xg": [
+            1.44,
+            0.16
+          ],
+          "score": [
+            1,
+            0
+          ]
+        },
+        {
+          "id": 67,
+          "xg": [
+            3.53,
+            1.66
+          ],
+          "score": [
+            3,
+            2
+          ]
+        },
+        {
+          "id": 68,
+          "xg": [
+            0.99,
+            1.57
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 61,
+          "xg": [
+            4.23,
+            0.07
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 63,
+          "xg": [
+            2.0,
+            0.77
+          ],
+          "score": [
+            5,
+            0
+          ]
+        },
+        {
+          "id": 66,
+          "xg": [
+            1.44,
+            0.91
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 69,
+          "xg": [
+            0.75,
+            1.07
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 70,
+          "xg": [
+            0.86,
+            0.77
+          ],
+          "score": [
+            3,
+            1
+          ]
+        },
+        {
+          "id": 77,
+          "xg": [
+            0.46,
+            2.29
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 72,
+          "xg": [
+            0.61,
+            1.56
+          ],
+          "score": [
+            2,
+            1
+          ]
+        },
+        {
+          "id": 71,
+          "xg": [
+            1.77,
+            0.48
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 74,
+          "xg": [
+            0.51,
+            0.55
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 73,
+          "xg": [
+            0.47,
+            0.74
+          ],
+          "score": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 75,
+          "xg": [
+            1.59,
+            0.95
+          ],
+          "score": [
+            0,
+            2
+          ]
+        },
+        {
+          "id": 76,
+          "xg": [
+            1.84,
+            1.81
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 78,
+          "xg": [
+            0.87,
+            1.35
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 79,
+          "xg": [
+            1.17,
+            2.15
+          ],
+          "score": [
+            0,
+            3
+          ]
+        },
+        {
+          "id": 80,
+          "xg": [
+            0.83,
+            0.76
+          ],
+          "score": [
+            0,
+            0
+          ]
+        },
+        {
+          "id": 84,
+          "xg": [
+            3.01,
+            1.24
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 82,
+          "xg": [
+            1.29,
+            0.71
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 83,
+          "xg": [
+            0.46,
+            0.85
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 85,
+          "xg": [
+            0.69,
+            1.82
+          ],
+          "score": [
+            3,
+            1
+          ]
+        },
+        {
+          "id": 86,
+          "xg": [
+            0.78,
+            1.06
+          ],
+          "score": [
+            2,
+            2
+          ]
+        },
+        {
+          "id": 88,
+          "xg": [
+            1.92,
+            1.0
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 90,
+          "xg": [
+            3.47,
+            0.14
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 81,
+          "xg": [
+            1.83,
+            2.24
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 87,
+          "xg": [
+            1.15,
+            0.96
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 89,
+          "xg": [
+            1.47,
+            2.15
+          ],
+          "score": [
+            0,
+            1
+          ]
+        },
+        {
+          "id": 94,
+          "xg": [
+            1.43,
+            1.21
+          ],
+          "score": [
+            3,
+            1
+          ]
+        },
+        {
+          "id": 97,
+          "xg": [
+            1.96,
+            0.72
+          ],
+          "score": [
+            1,
+            0
+          ]
+        },
+        {
+          "id": 91,
+          "xg": [
+            1.08,
+            0.34
+          ],
+          "score": [
+            1,
+            0
+          ]
+        },
+        {
+          "id": 95,
+          "xg": [
+            0.7,
+            1.14
+          ],
+          "score": [
+            1,
+            1
+          ]
+        },
+        {
+          "id": 99,
+          "xg": [
+            1.06,
+            1.76
+          ],
+          "score": [
+            3,
+            1
+          ]
+        },
+        {
+          "id": 92,
+          "xg": [
+            2.11,
+            0.59
+          ],
+          "score": [
+            2,
+            0
+          ]
+        },
+        {
+          "id": 93,
+          "xg": [
+            2.6,
+            2.65
+          ],
+          "score": [
+            1,
+            3
+          ]
+        },
+        {
+          "id": 96,
+          "xg": [
+            1.26,
+            2.23
+          ],
+          "score": [
+            1,
+            2
+          ]
+        },
+        {
+          "id": 100,
+          "xg": [
+            2.38,
+            0.66
+          ],
+          "score": [
+            1,
+            0
+          ]
+        },
+        {
+          "id": 98,
+          "xg": [
+            3.55,
+            2.88
+          ],
+          "score": [
+            4,
+            4
+          ]
+        }
+      ],
+      "through": 10,
+      "edition_date": "2026-11-15",
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/matches.csv"
+      ],
+      "day": 1
+    },
+    "fixtures": []
+  },
+  "generated_at": "2026-11-16T00:10:47.609935+00:00",
+  "publish_at": "2026-11-16T00:10:47.345995+00:00",
+  "data_retrieval_at_et": "2026-11-15T19:10:47.609935-05:00",
+  "graphic_generated_at_et": "2026-11-15T19:10:48.981860-05:00",
+  "deadline": "2026-11-16T00:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/matches.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-15-weekly-analysis-GW11.png"
+  ]
+}

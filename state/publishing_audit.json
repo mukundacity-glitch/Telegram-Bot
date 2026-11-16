@@ -2326,6 +2326,46 @@
     "status": "RUN",
     "timestamp": "2026-11-15T23:10:11.825177+00:00"
   },
+  "2026-11-16T00:10:47.345995+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-16T00:10:53.617078+00:00",
+        "confirmed_telegram_message_ids": [
+          437
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-27:GW10:task2:weekly-analysis:day1",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          437
+        ],
+        "timestamp": "2026-11-16T00:10:47.345995+00:00",
+        "trigger": "2026-11-15T12:30:00-05:00",
+        "type": "weekly-analysis"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-16T00:10:47.345995+00:00"
+  },
+  "2026-27:GW10:task2:weekly-analysis:day1": {
+    "attempts": 1,
+    "completed_at": "2026-11-16T00:10:53.617078+00:00",
+    "confirmed_telegram_message_ids": [
+      437
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-27:GW10:task2:weekly-analysis:day1",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      437
+    ],
+    "timestamp": "2026-11-16T00:10:47.345995+00:00",
+    "trigger": "2026-11-15T12:30:00-05:00",
+    "type": "weekly-analysis"
+  },
   "gw10-four-midfielders.json": {
     "attempts": 0,
     "completed_at": "2026-11-14T23:52:43.817359+00:00",
