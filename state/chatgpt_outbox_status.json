@@ -558,6 +558,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:f14ea6fbb010ae1f87a8",
     "status": "delivered"
   },
+  "2026-11-15-scouting-rotation.json": {
+    "at": "2026-11-16T03:05:43.131347+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:scouting-rotation:5802ea9cd35291cbebc6",
+    "status": "delivered"
+  },
   "2026-11-15-weekly-analysis.json": {
     "at": "2026-11-16T00:10:48.984514+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:a09a0c089d54482d5da1",
