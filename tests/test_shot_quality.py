@@ -27,7 +27,7 @@ def test_sunday_chart_takes_the_retired_slot():
 
 def test_shot_quality_uses_exact_denominators_and_renders(world, tmp_path, monkeypatch):
     snapshot, _, evidence, _ = world
-    players = [p for p in snapshot.players if p['element_type'] == 4][:9]
+    players = [p for p in snapshot.players if p['element_type'] in (3, 4)][:12]
     stats = [(p, {'minutes': 450, 'total_shots': 10 + i, 'xg': (i + 1) / 2, 'assists': i})
              for i, p in enumerate(players)]
     stats[-1][1]['incomplete_shot_xg'] = True
@@ -43,7 +43,10 @@ def test_shot_quality_uses_exact_denominators_and_renders(world, tmp_path, monke
     monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@FPLVortexDailyBot')
     monkeypatch.setenv('FPL_DISCORD_HANDLE', '@fplvortex')
     plan = build(SHOT_QUALITY, snapshot, SUNDAY, evidence)
-    assert len(plan.extra['rows']) == 6
+    assert len(plan.extra['rows']) == 9
+    assert len(plan.extra['featured']) == 8
+    assert '9 PLAYERS PLOTTED' in plan.extra['subtitle']
+    assert plan.extra['benchmarks'] == (0.8, 22.5 / 126)
     row = plan.extra['rows'][2]
     assert row['x'] == 2 * 90 / 450
     assert row['y'] == 1.5 / 12

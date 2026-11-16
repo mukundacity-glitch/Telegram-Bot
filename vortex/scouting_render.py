@@ -14,6 +14,7 @@ from .matchup import _media
 PANEL = '#122644'
 GRID = '#345370'
 MUTED = '#b1c7db'
+POSITION_COLORS = {'DEF': '#5cc8fa', 'MID': '#e6aaff', 'FWD': '#a4ee83'}
 FDR_COLORS = ('#14604f', '#205449', '#344c70', '#77452e', '#762947')
 
 
@@ -41,6 +42,11 @@ def draw_scatter(canvas, details, session):
     unit = 'PERCENTILE' if percentile else 'PER 90'
     x_unit, y_unit = details.get('units', (unit, unit))
     draw.rounded_rectangle((left, top, right, bottom), 11, fill=PANEL, outline=GRID, width=2)
+    benchmarks = details.get('benchmarks')
+    if benchmarks:
+        bx = left + (right - left) * benchmarks[0] / x_max
+        by = bottom - (bottom - top) * benchmarks[1] / y_max
+        draw.rectangle((bx, top+1, right-1, by), fill='#1a3d3c')
     for tick in range(6):
         fraction = tick / 5
         x = left + (right - left) * fraction
@@ -49,6 +55,17 @@ def draw_scatter(canvas, details, session):
         draw.line((left, y, right, y), fill=GRID)
         text(draw, f'{x_max * fraction:.3g}', x - 35, bottom + 9, 70, 17, MUTED, center=True)
         text(draw, f'{y_max * fraction:.3g}', 42, y - 10, 51, 17, MUTED, center=True)
+    if benchmarks:
+        for y in range(top, bottom, 16):
+            draw.line((bx, y, bx, min(y+8, bottom)), fill='#97b2b9', width=2)
+        for x in range(left, right, 16):
+            draw.line((x, by, min(x+8, right), by), fill='#97b2b9', width=2)
+        for i, (position, color) in enumerate(POSITION_COLORS.items()):
+            x = left + 80*i
+            draw.ellipse((x, 756, x+9, 765), fill=color)
+            text(draw, position, x+15, 750, 59, 15, WHITE)
+        text(draw, f"DASHED LINES  ·  SAMPLE AVERAGES {benchmarks[0]:.2f} /90  |  {benchmarks[1]:.3f} xG/SHOT",
+             left+250, 750, right-left-250, 14, MUTED, minimum=12)
     text(draw, f"{details['y_name'].upper()}  ·  {y_unit} ↑", left, 125, right-left, 20, GOLD)
     text(draw, f"{details['x_name'].upper()}  ·  {x_unit} →", left, 724, right-left, 20, CYAN, center=True)
     featured_ids = {id(row): index for index, row in enumerate(featured, 1)}
@@ -57,7 +74,8 @@ def draw_scatter(canvas, details, session):
         x = left + (right - left) * row['x'] / x_max
         y = bottom - (bottom - top) * row['y'] / y_max
         index = featured_ids.get(id(row))
-        draw.ellipse((x-3, y-3, x+3, y+3), fill='#7aafd5')
+        color = POSITION_COLORS.get(row.get('position'), '#7aafd5')
+        draw.ellipse((x-3, y-3, x+3, y+3), fill=color)
         if index:
             labels.append((index, x, y))
     anchors = []
@@ -74,6 +92,9 @@ def draw_scatter(canvas, details, session):
         draw.line((x, y, px, py), fill=GOLD, width=1)
         draw.ellipse((px-10, py-10, px+10, py+10), fill=GOLD)
         text(draw, index, px-10, py-8, 20, 14, '#122644', minimum=11, center=True)
+    if benchmarks:
+        draw_shot_quality_shortlist(canvas, draw, featured, photos)
+        return
     text(draw, 'SCOUTING SHORTLIST', 963, 125, 535, 24, CYAN)
     for index, row in enumerate(featured, 1):
         y = 167 + (index - 1) * 105
@@ -95,6 +116,26 @@ def draw_scatter(canvas, details, session):
             metric_y = y + 52 + axis_index * 19
             text(draw, details[f'{axis}_name'], 1090, metric_y, 285, 15, color, minimum=12)
             text(draw, value, 1375, metric_y, 110, 16, WHITE, minimum=12, center=True)
+
+
+
+def draw_shot_quality_shortlist(canvas, draw, featured, photos):
+    text(draw, 'EIGHT PLAYERS TO WATCH' if len(featured) == 8 else 'PLAYERS TO WATCH',
+         963, 111, 535, 23, CYAN)
+    text(draw, 'ASSISTS /90', 1260, 146, 100, 15, CYAN, center=True)
+    text(draw, 'xG / SHOT', 1375, 146, 110, 15, GOLD, center=True)
+    for index, row in enumerate(featured, 1):
+        y = 170 + (index - 1) * 66
+        draw.rounded_rectangle((955, y, 1500, y+62), 11, fill=PANEL, outline=GRID)
+        text(draw, index, 962, y+18, 30, 20, GOLD, center=True)
+        photo = photos.get(row['photo'])
+        if photo is not None:
+            contain(canvas, photo, (997, y+4, 46, 55), bottom=True, crop_alpha=True)
+        text(draw, row['name'], 1050, y+5, 207, 21, WHITE, minimum=16)
+        text(draw, f"{row['club']} · {row['position']} · {row['shots']} shots",
+             1050, y+34, 207, 14, MUTED, minimum=11)
+        text(draw, f"{row['x']:.2f}", 1260, y+18, 100, 22, WHITE, center=True)
+        text(draw, f"{row['y']:.3f}", 1375, y+18, 110, 22, WHITE, center=True)
 
 
 def draw_fixtures(canvas, details, session):
