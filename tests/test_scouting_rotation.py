@@ -11,6 +11,7 @@ from vortex.autonomous_render import render
 from vortex.autonomous_schedule import RETIRED_EDITIONS, SCOUTING, catchup_slots, publication_key
 from vortex.queue_retry import verified_caption
 from vortex.schedule import SLOT_CRONS, SLOT_HOURS
+from vortex.scheduled_dispatch import upcoming_editorial
 
 SUNDAY = datetime(2026, 11, 15, 14, 30, tzinfo=ZoneInfo('America/New_York'))
 
@@ -18,6 +19,9 @@ SUNDAY = datetime(2026, 11, 15, 14, 30, tzinfo=ZoneInfo('America/New_York'))
 def test_old_slots_retire_and_new_slot_deduplicates_by_eastern_date():
     assert 'transfer' not in SLOT_HOURS and 'transfer' not in SLOT_CRONS.values()
     assert 'four-team-targets' in RETIRED_EDITIONS
+    public_slot = upcoming_editorial(SCOUTING, SUNDAY)
+    assert public_slot['display_name'] == 'FPL Player Performance Comparisons'
+    assert public_slot['post'] == 'scouting-rotation'
     assert SCOUTING not in catchup_slots(SUNDAY - timedelta(seconds=1), {}, 11, limit=None)
     assert SCOUTING in catchup_slots(SUNDAY, {}, 11, limit=None)
     key = publication_key(SCOUTING, SUNDAY, 11)

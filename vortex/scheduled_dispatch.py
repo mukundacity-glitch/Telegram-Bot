@@ -68,6 +68,14 @@ def telegram_ids(path):
             if row.get('delivered') and row.get('telegram_message_id') is not None}
 
 
+
+def upcoming_editorial(slot, trigger):
+    result = {'post': slot.edition, 'trigger': trigger.isoformat()}
+    if slot.display_name:
+        result['display_name'] = slot.display_name
+    return result
+
+
 def run(now=None, cron=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
@@ -159,12 +167,14 @@ def run(now=None, cron=None):
     deferred = None
     for trigger, lane, key, payload in sorted(jobs, key=lambda item: (item[0], item[1], item[2])):
         if until := blocked_until(now if injected_time else datetime.now(timezone.utc)):
-            deferred = {'post': payload.edition if lane == 'editorial' else
-                        payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()}
+            deferred = (upcoming_editorial(payload, until) if lane == 'editorial' else
+                        {'post': payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()})
             break
         post = payload.edition if lane == 'editorial' else payload[0] if lane == 'legacy' else key
         row = {'post_id': key, 'type': post, 'trigger': trigger.isoformat(),
                'timestamp': run_key, 'status': 'PENDING', 'attempts': 0}
+        if lane == 'editorial' and payload.display_name:
+            row['display_name'] = payload.display_name
         audit[key] = row
         write_state(AUDIT, audit)
         error, generated, attempts = None, False, 0
@@ -235,7 +245,7 @@ def run(now=None, cron=None):
         rows.extend(news_rows or [row])
         print(json.dumps(row, ensure_ascii=False))
 
-    upcoming = [{'post': slot.edition, 'trigger': slot_start(slot, now).isoformat()}
+    upcoming = [upcoming_editorial(slot, slot_start(slot, now))
                 for slot in SLOTS if slot_start(slot, now) > now
                 and eligible_on(slot, now)]
     for name, (hour, minute) in SLOT_HOURS.items():
@@ -245,7 +255,7 @@ def run(now=None, cron=None):
     upcoming.extend(item for item in pending if item['trigger'])
     if not upcoming:
         tomorrow = local + timedelta(days=1)
-        upcoming = [{'post': slot.edition, 'trigger': slot_start(slot, tomorrow).isoformat()}
+        upcoming = [upcoming_editorial(slot, slot_start(slot, tomorrow))
                     for slot in SLOTS if slot_start(slot, tomorrow) > now
                     and eligible_on(slot, tomorrow)]
     audit[run_key] = {'status': 'RUN', 'timestamp': run_key, 'posts': rows}

@@ -15,6 +15,7 @@ class Slot:
     series_gw: int | None = None
     series_day: int | None = None
     weekday: int | None = None
+    display_name: str = ""
 
 
 RETIRED_EDITIONS = {
@@ -27,7 +28,7 @@ RETIRED_EDITIONS = {
 SERIES = Slot('task2', 'weekly-analysis', 12, 30)
 SERIES_STATE = '_weekly_analysis'
 AFTERNOON = Slot('task2', 'afternoon-rotation', 13, 30)
-SCOUTING = Slot('task2', 'scouting-rotation', 14, 30)
+SCOUTING = Slot('task2', 'scouting-rotation', 14, 30, display_name='FPL Player Performance Comparisons')
 VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30)
 CLOCK_CRON = '0,30 0-3,9-23 * * *'
 WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, weekday=1)

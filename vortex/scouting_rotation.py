@@ -29,7 +29,7 @@ FPL_CLUB_NAMES = {
 }
 
 TOPICS = (
-    ('Dribblers Who Reach the Box', DRIBBLES, BOX, (), 350, 'Who takes defenders on and gets into the box?'),
+    ('Completed Dribbles vs Opposition-Box Touches', DRIBBLES, BOX, (), 350, 'Who takes defenders on and gets into the box?'),
     ('Dribbling vs Final-Third Passing', DRIBBLES, PASSING, (), 350, 'Who beats a man and moves the ball into dangerous areas?'),
     ('Dribbling vs Expected Assists', DRIBBLES, XA, (), 350, 'Which dribblers are setting up the best chances?'),
     ('Dribbling vs Chance Creation', DRIBBLES, CHANCES, (), 350, 'Who turns one-on-ones into chances for teammates?'),
@@ -41,7 +41,7 @@ TOPICS = (
 # Some archived seasons omit dribbles for every player. These replacement
 # editions use real metrics and change their titles, axes and captions together.
 DRIBBLE_FALLBACKS = (
-    ('Final-Third Passing vs Box Touches', PASSING, BOX, 'Who links the final third with the penalty area?'),
+    ('Final-Third Passes vs Opposition-Box Touches', PASSING, BOX, 'Who links the final third with the penalty area?'),
     ('Shots vs Final-Third Passing', SHOTS, PASSING, 'Who combines shot volume with final-third involvement?'),
     ('Box Touches vs Expected Assists', BOX, XA, 'Who gets into the box and creates chances for teammates?'),
     ('Shots vs Chances Created', SHOTS, CHANCES, 'Who brings both shot volume and chance creation?'),

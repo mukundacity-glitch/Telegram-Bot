@@ -6,7 +6,7 @@ from math import ceil, log10
 from PIL import ImageDraw
 
 from .autonomous_render import _base, _save
-from .autonomous_schedule import ET
+from .autonomous_schedule import ET, SCOUTING
 from .comparison_board import CYAN, GOLD, WHITE, contain, paragraph, text
 from .editorial_inputs import RequiredInput
 from .matchup import _media
@@ -125,9 +125,9 @@ def draw_fixtures(canvas, details, session):
 def render_scouting(plan, output, session):
     data = plan.extra
     is_fixtures = data['layout'] == 'fixtures'
-    subtitle = (f"GW{plan.gw}  |  GOALKEEPER SCOUTING  |  FIXTURE DIFFICULTY"
-                if is_fixtures else
-                f"PREMIER LEAGUE  |  THROUGH GW{data['through']}  |  {data['minimum']}+ MINUTES")
+    scope = (f'GW{plan.gw}  |  GOALKEEPER FIXTURES' if is_fixtures else
+             f"THROUGH GW{data['through']}  |  {data['minimum']}+ MINUTES")
+    subtitle = f'{SCOUTING.display_name.upper()}  |  {scope}'
     canvas = _base(plan.title.upper(), plan.gw, subtitle)
     if is_fixtures:
         draw_fixtures(canvas, data, session)
