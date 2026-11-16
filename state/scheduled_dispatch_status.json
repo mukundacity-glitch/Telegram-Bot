@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-16T12:02:11.430117+00:00",
-  "eastern_at": "2026-11-16T07:02:11.430117-05:00",
+  "at": "2026-11-16T17:31:49.770764+00:00",
+  "eastern_at": "2026-11-16T12:31:49.770764-05:00",
   "last_news_scan": "2026-11-15T11:28:32.480431+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-16T12:47:15.338042+00:00"
+    "post": "form-minutes-targets",
+    "trigger": "2026-11-16T18:16:54.657839+00:00"
   },
-  "next_telegram_at": "2026-11-16T12:47:15.338042+00:00",
+  "next_telegram_at": "2026-11-16T18:16:54.657839+00:00",
   "pending_triggers": [
     {
       "post": "chance-creators",
@@ -36,7 +36,7 @@
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "43 * * * *",
+  "scheduled_cron": "58 * * * *",
   "source_error": null,
   "status": "published",
   "telegram_messages_sent": 1
