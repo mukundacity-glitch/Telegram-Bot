@@ -2080,6 +2080,23 @@
     "trigger": "2026-11-15T11:30:00-05:00",
     "type": "player-radar-comparison"
   },
+  "2026-11-15:task2:afternoon-rotation": {
+    "attempts": 1,
+    "completed_at": "2026-11-16T00:59:31.239469+00:00",
+    "confirmed_telegram_message_ids": [
+      438
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-15:task2:afternoon-rotation",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      438
+    ],
+    "timestamp": "2026-11-16T00:59:25.411924+00:00",
+    "trigger": "2026-11-15T13:30:00-05:00",
+    "type": "afternoon-rotation"
+  },
   "2026-11-15:task2:defender-watch:GW11": {
     "attempts": 1,
     "completed_at": "2026-11-15T20:09:28.877055+00:00",
@@ -2348,6 +2365,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-16T00:10:47.345995+00:00"
+  },
+  "2026-11-16T00:59:25.411924+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-16T00:59:31.239469+00:00",
+        "confirmed_telegram_message_ids": [
+          438
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-15:task2:afternoon-rotation",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          438
+        ],
+        "timestamp": "2026-11-16T00:59:25.411924+00:00",
+        "trigger": "2026-11-15T13:30:00-05:00",
+        "type": "afternoon-rotation"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-16T00:59:25.411924+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
