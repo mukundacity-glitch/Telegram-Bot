@@ -148,6 +148,20 @@ jobs:
             python -m vortex.reconcile_telegram
           elif [ "$FPL_MANUAL_PUBLISH" = 'true' ]; then
             python -m vortex.autonomous_runner --manual --edition "$MANUAL_EDITION"
+          elif [ "$GITHUB_EVENT_NAME" = 'schedule' ]; then
+            result=0
+            for pass in 1 2 3; do
+              started=$(date +%s)
+              timeout --kill-after=30s 35m python -m vortex.scheduled_dispatch || result=$?
+              bash .github/scripts/persist-publishing-receipts.sh
+              if [ "$pass" -eq 3 ]; then break; fi
+              wait_seconds=$(python -m vortex.scheduled_dispatch --followup-wait "$started")
+              if (( wait_seconds == 0 || SECONDS + wait_seconds > 100 * 60 )); then break; fi
+              echo "Next publishing check in ${wait_seconds}s"
+              sleep "$wait_seconds"
+              git pull --ff-only origin main
+            done
+            exit "$result"
           else
             python -m vortex.scheduled_dispatch
           fi
