@@ -182,3 +182,44 @@ def build_scouting(slot, snapshot, now, session):
                      metric_note='Dribble counts unavailable in the match archive' if used_fallback else '')
     return Plan(slot.task, slot.edition, title, '\n'.join(lines), gw, [], [],
                 kind='scouting_rotation', extra=extra)
+
+
+def build_passing_creators(slot, snapshot, now, session):
+    """Compare completed passes with passes leading directly to a shot."""
+    from .autonomous_content import Plan
+
+    gw = snapshot.gameweek()
+    through = latest_completed_gw(snapshot)
+    if not gw or through is None:
+        raise RequiredInput('No verified gameweek for the passing and creation chart')
+
+    year = int(season_id(snapshot, now).split('-')[0])
+    passing = ('Completed passes', ('accurate_passes',))
+    fields = passing[1] + CHANCES[1]
+    players, sources = player_totals(snapshot, through, session, year, fields,
+                                     optional_fields=fields)
+    verified = [(player, stats) for player, stats in players
+                if all(field in stats for field in fields)]
+    minimum = 450
+    rows, featured = profile_rows(verified, snapshot, passing, CHANCES, (), minimum, False)
+    if not rows:
+        raise RequiredInput('Complete passes and chances-created data are required')
+
+    x_leader = max(rows, key=lambda row: (row['x'], row['y']))
+    y_leader = max(rows, key=lambda row: (row['y'], row['x']))
+    title = slot.display_name
+    caption = '\n'.join((
+        f'🎯 {title}',
+        f"{x_leader['name']} leads passing ({x_leader['x']:.1f}/90). {y_leader['name']} leads creation ({y_leader['y']:.2f}/90).",
+        f'Premier League through GW{through} · Outfield players with {minimum}+ minutes.',
+        'Who makes your FPL shortlist?',
+        f'#FPL #GW{gw} #PremierLeague #FPLVORTEX',
+    ))
+    return Plan(slot.task, slot.edition, title, caption, gw, [], [], kind='scouting_rotation',
+                extra={'layout': 'scatter', 'rows': rows, 'featured': featured,
+                       'through': through, 'minimum': minimum, 'percentiles': False,
+                       'x_name': passing[0], 'y_name': CHANCES[0], 'sources': sources,
+                       'subtitle': f'PREMIER LEAGUE THROUGH GW{through}  |  {minimum}+ MINUTES',
+                       'chart_hint': 'EACH DOT IS ONE PLAYER  •  NUMBERED DOTS MATCH THE SHORTLIST',
+                       'metric_note': 'A CHANCE CREATED IS A PASS THAT LEADS TO A SHOT',
+                       'fetched_at': snapshot.fetched_at.astimezone(ET).isoformat()})
