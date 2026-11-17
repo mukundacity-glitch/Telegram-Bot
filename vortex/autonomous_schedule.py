@@ -38,6 +38,12 @@ CHIP_STRATEGY = Slot('task2', 'chip-strategy', 16, 30, weekday=1,
 SHOT_QUALITY = Slot('task2', 'assists-vs-shot-quality', 16, 30, weekday=6,
                     display_name='Assists per 90 vs xG per Shot')
 
+BONUS_MAGNETS = Slot('task2', 'bonus-magnets', 16, 15, weekday=5,
+                     display_name='FPL Bonus Magnets')
+TOP_100K_OWNERSHIP = Slot('task2', 'top-100k-ownership', 22, 30, weekday=5,
+                          display_name='Top 100k Ownership')
+SATURDAY_BOARDS = (BONUS_MAGNETS, TOP_100K_OWNERSHIP)
+
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
     Slot('task2', 'defender-watch', 9, 30),
@@ -48,11 +54,13 @@ SLOTS = (
     SCOUTING,
     VULNERABILITY,
     WILDCARD,
+    BONUS_MAGNETS,
     SHOT_QUALITY,
     CHIP_STRATEGY,
     Slot('press_news', 'verified-press-availability', 19, 15),
     Slot('three_daily', 'vortex-captain', 21, 0),
     Slot('price_changes', 'confirmed-price-changes', 21, 45),
+    TOP_100K_OWNERSHIP,
 )
 # Editorial slots are TIME-based catch-up slots, not bound to one cron string:
 # a delayed, cancelled or dropped GitHub run can never lose an edition because

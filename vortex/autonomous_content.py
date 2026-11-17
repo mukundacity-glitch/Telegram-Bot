@@ -143,6 +143,12 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'bonus-magnets':
+        from .saturday_boards import build_bonus
+        return build_bonus(slot, snapshot, e.session)
+    if name == 'top-100k-ownership':
+        from .saturday_boards import build_ownership
+        return build_ownership(slot, snapshot, now, e.session)
     if name == 'chance-creators':
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)

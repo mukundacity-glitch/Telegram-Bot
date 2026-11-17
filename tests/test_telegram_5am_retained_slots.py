@@ -31,7 +31,7 @@ def test_user_requested_window_replaces_older_overnight_triggers():
     workflow = WORKFLOW.read_text()
     crons = re.findall(r"- cron: '([^']+)'", workflow)
     assert crons == ['43 * * * *', '13 * * * *', '28 * * * *', '58 * * * *', '0,30 0-3,9-23 * * *',
-                     '15 0,23 * * *', '45 1,2 * * *']
+                     '15 0,20,21,23 * * *', '45 1,2 * * *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
     assert workflow.count("  publish:\n") == 1

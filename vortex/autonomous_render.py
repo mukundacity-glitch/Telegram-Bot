@@ -332,6 +332,9 @@ def _position_watch(plan, snapshot, output, client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind in ('saturday_bonus', 'saturday_ownership'):
+        from .saturday_boards_render import render_saturday
+        return [render_saturday(plan, snapshot, output, client)]
     if plan.kind == 'chance_creators':
         from .chance_creators import draw_chart
         canvas = _base(plan.title, plan.gw, f"GW{plan.gw} • OPEN PLAY & SET PIECES • PER 90")
