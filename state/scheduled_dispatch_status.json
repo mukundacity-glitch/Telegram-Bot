@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-17T15:30:01.226627+00:00",
-  "eastern_at": "2026-11-17T10:30:01.226627-05:00",
-  "last_news_scan": "2026-11-17T14:15:13.793114+00:00",
-  "new_posts": 1,
+  "at": "2026-11-17T16:15:15.100183+00:00",
+  "eastern_at": "2026-11-17T11:15:15.100183-05:00",
+  "last_news_scan": "2026-11-17T16:15:15.100183+00:00",
+  "new_posts": 0,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-17T16:15:13.964584+00:00"
+    "post": "player-radar-comparison",
+    "trigger": "2026-11-17T11:30:00-05:00"
   },
-  "next_telegram_at": "2026-11-17T16:15:13.964584+00:00",
+  "next_telegram_at": null,
   "pending_triggers": [
     {
       "post": "chance-creators",
@@ -32,12 +32,12 @@
   ],
   "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "scheduled_cron": "43 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 2
+  "status": "no-new-verified-content",
+  "telegram_messages_sent": 0
 }
