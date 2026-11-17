@@ -630,6 +630,11 @@
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:be85fb08f8bcd2753061",
     "status": "delivered"
   },
+  "2026-11-17-wildcard-draft.json": {
+    "at": "2026-11-17T21:48:46.639327+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:wildcard-draft:ab4bb988e3b54466eb23",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-13T16:50:31.597225+00:00",
     "reason": "ValueError: Edition is stale or generated timestamp invalid; refresh instead of replaying",
