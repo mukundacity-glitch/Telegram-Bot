@@ -14,7 +14,7 @@ from .autonomous_schedule import (
 from .bot import STATE, read_state, write_state, run as run_legacy
 from .fpl import collect_snapshot
 from .outbox import RECEIPTS, STATUS as OUTBOX_STATUS, queued_files, run as run_outbox
-from .publishing_window import WINDOW_LABEL, allowed
+from .publishing_window import OPEN_MINUTE, WINDOW_LABEL, allowed
 from .queue_retry import ATTEMPTS, failure_reason, retry_source
 from .schedule import SLOT_HOURS, SLOT_CRONS
 from .telegram_spacing import DeliveryDeferred, blocked_until, enabled as spacing_enabled
@@ -280,8 +280,32 @@ def run(now=None, cron=None):
     return result
 
 
+def followup_wait(report, now, started_at, cooldown=None):
+    """Return seconds until another useful dispatch within this publishing day."""
+    local = now.astimezone(ET)
+    if not allowed(now):
+        hour, minute = divmod(OPEN_MINUTE, 60)
+        target = local.replace(hour=hour, minute=minute, second=0, microsecond=0)
+    else:
+        timestamp = report.get('at')
+        next_due = (report.get('next_due') or {}).get('trigger')
+        if not timestamp or not next_due or datetime.fromisoformat(timestamp) < started_at:
+            return 0
+        target = max(datetime.fromisoformat(next_due), cooldown or now)
+    delay = (target - now).total_seconds()
+    if 0 < delay <= 65 * 60 and target.astimezone(ET).date() == local.date() and allowed(target):
+        return int(delay) + 1
+    return 0
+
+
 def main():
     import os
+    import sys
+    if len(sys.argv) == 3 and sys.argv[1] == '--followup-wait':
+        now = datetime.now(timezone.utc)
+        started = datetime.fromtimestamp(int(sys.argv[2]), timezone.utc)
+        print(followup_wait(read_state(REPORT), now, started, blocked_until(now)))
+        return 0
     result = run(cron=os.getenv('SCHEDULED_CRON') or None)
     return int(bool(result.get('source_error') or result.get('posts_failed') or
                     result.get('posts_retry_pending')))

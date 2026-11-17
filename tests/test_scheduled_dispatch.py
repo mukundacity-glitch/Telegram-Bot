@@ -12,7 +12,7 @@ CLOSED = datetime(2026, 11, 10, 8, 0, tzinfo=timezone.utc) # 03:00 EST
 def test_heartbeat_covers_all_utc_hours_with_eastern_runtime_guard():
     workflow = (Path(__file__).resolve().parents[1] /
                 '.github/workflows/telegram-daily.yml').read_text()
-    assert workflow.count('- cron:') == 5
+    assert workflow.count('- cron:') == 7
     assert f"cron: '{CLOCK_CRON}'" in workflow
     assert 'timezone:' not in workflow
     assert "cron: '43 * * * *'" in workflow
@@ -171,14 +171,46 @@ def test_cooldown_persists_between_publishers_and_skips_data_fetch(monkeypatch, 
 
 
 def test_exact_check_is_configured_for_all_fixed_slots_across_dst():
+    import re
     from datetime import date
     from vortex.autonomous_schedule import SLOTS
     from vortex.schedule import SLOT_HOURS
 
-    hours = {0, 1, 2, 3, *range(9, 24)}
+    workflow = (Path(__file__).resolve().parents[1] /
+                '.github/workflows/telegram-daily.yml').read_text()
+    evening_checks = {(int(hour), int(minute))
+                      for minute, hours in re.findall(r"- cron: '(15|45) ([0-9,]+) \* \* \*'", workflow)
+                      for hour in hours.split(',')}
+    exact_checks = {(hour, minute) for hour in (0, 1, 2, 3, *range(9, 24))
+                    for minute in (0, 30)} | evening_checks
     configured = set(SLOT_HOURS.values()) | {(s.hour, s.minute) for s in SLOTS}
     for day in (date(2026, 11, 17), date(2027, 7, 20)):
         for hour, minute in configured:
             trigger = datetime(day.year, day.month, day.day, hour, minute,
                                tzinfo=dispatcher.ET).astimezone(timezone.utc)
-            assert trigger.hour in hours and trigger.minute in (0, 30)
+            assert (trigger.hour, trigger.minute) in exact_checks
+
+
+def test_followup_wait_obeys_cooldown_and_publishing_window():
+    now = datetime(2026, 11, 17, 2, 30, tzinfo=timezone.utc)
+    latest = {'at': now.isoformat(),
+              'next_due': {'trigger': datetime(2026, 11, 17, 2, 40, tzinfo=timezone.utc).isoformat()}}
+    cooldown = datetime(2026, 11, 17, 3, 15, tzinfo=timezone.utc)
+    assert dispatcher.followup_wait(latest, now, now, cooldown) == 2701
+    assert dispatcher.followup_wait(latest, now, cooldown) == 0
+    closed = datetime(2026, 11, 17, 4, 0, tzinfo=timezone.utc)
+    assert dispatcher.followup_wait(latest, now, now, closed) == 0
+    assert dispatcher.followup_wait({}, datetime(2026, 11, 17, 10, tzinfo=timezone.utc), now) == 1801
+
+
+def test_fixed_times_leave_telegram_spacing_on_each_weekday():
+    from vortex.autonomous_schedule import SLOTS, eligible_on, slot_start
+    from vortex.schedule import SLOT_HOURS
+    from vortex.telegram_spacing import GAP
+
+    for day in range(16, 23):
+        now = datetime(2026, 11, day, 12, tzinfo=dispatcher.ET)
+        editorial = [slot_start(slot, now) for slot in SLOTS if eligible_on(slot, now)]
+        legacy = [now.replace(hour=hour, minute=minute) for hour, minute in SLOT_HOURS.values()]
+        slots = sorted(editorial + legacy)
+        assert all(right - left >= GAP for left, right in zip(slots, slots[1:]))

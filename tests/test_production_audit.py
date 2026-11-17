@@ -43,14 +43,8 @@ def test_receipt_retry_preserves_confirmed_delivery_after_unrelated_main_push(tm
     git(source, 'push')
     receipt = {'topic': {'delivered': True, 'telegram_message_id': 154}}
     (worker / 'state/chatgpt_deliveries.json').write_text(json.dumps(receipt))
-    tail = WORKFLOW.read_text().split('      - name: Preserve both-platform delivery receipts')[1].split('        run: |\n')[1]
-    lines = []
-    for line in tail.splitlines():
-        if line and not line.startswith('          '):
-            break
-        lines.append(line[10:])
-    script = '\n'.join(lines).replace('${{ github.ref_name }}', 'main')
-    result = subprocess.run(['bash', '-e', '-c', script], cwd=worker,
+    script = ROOT / '.github/scripts/persist-publishing-receipts.sh'
+    result = subprocess.run(['bash', str(script)], cwd=worker,
                             capture_output=True, text=True)
     assert result.returncode == 0, result.stderr
     assert 'Receipt push race' in result.stdout

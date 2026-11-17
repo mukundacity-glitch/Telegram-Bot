@@ -50,9 +50,9 @@ SLOTS = (
     WILDCARD,
     SHOT_QUALITY,
     CHIP_STRATEGY,
-    Slot('price_changes', 'confirmed-price-changes', 17, 30),
-    Slot('press_news', 'verified-press-availability', 19, 0),
+    Slot('press_news', 'verified-press-availability', 19, 15),
     Slot('three_daily', 'vortex-captain', 21, 0),
+    Slot('price_changes', 'confirmed-price-changes', 21, 45),
 )
 # Editorial slots are TIME-based catch-up slots, not bound to one cron string:
 # a delayed, cancelled or dropped GitHub run can never lose an edition because
@@ -91,8 +91,11 @@ def publication_key(slot, now, gw, season=None):
     if slot.edition in SPECIAL_EDITIONS:
         return f'{season or str(now.year)}:GW{gw}:task1:{slot.edition}'
     key = f"{now.astimezone(ET).date()}:{slot.task}:{slot.edition}:GW{gw}"
-    # An edition that runs twice a day (press availability) needs one record per slot.
-    return key + f':{slot.hour:02d}{slot.minute:02d}' if slot.task == 'press_news' else key
+    if slot.task == 'press_news':
+        # Keep the existing evening receipt key after moving the send to 19:15.
+        minute = 0 if slot.hour == 19 else slot.minute
+        return key + f':{slot.hour:02d}{minute:02d}'
+    return key
 
 
 def slot_start(slot, now):
