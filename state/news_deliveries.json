@@ -652,6 +652,13 @@
     "discord_message_id": "1570550497084047510",
     "telegram_message_id": 381
   },
+  "rotation:2026-11-17:GW11": {
+    "caption_sha256": "b934afcbac300b621c0e90bf65e40b2ff43d97b826d1885dc43ea0afc870eff8",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550497084047510",
+    "telegram_message_id": 381
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,
@@ -675,6 +682,19 @@
     "telegram_message_id": 429,
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-15T11:28:32.480431+00:00"
+  },
+  "rss:a578ab5a742fca8d25640482": {
+    "caption_sha256": "cd81162a5f43af3fbc54edf6c28aa6804fe8a5b1f9ca86e9a6747550433520cf",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1572197148240388137",
+    "gameweek": 11,
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/latest-transfer-news-barcelona-want-josko-gvardiol-as-real-madrid-eye-andres-return/view/news/445145",
+    "telegram_delivered_at": "2026-11-17T10:30:09.883640+00:00",
+    "telegram_message_id": 448,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-17T10:30:00.845132+00:00"
   },
   "rss:e13f801f17e8eb7cfa52a714": {
     "caption_sha256": "840f17ad4cfe2f93944e63423953647aeaefd814e2ec14b0df341c2befc4bfa3",
