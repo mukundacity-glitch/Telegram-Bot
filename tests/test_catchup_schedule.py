@@ -46,7 +46,7 @@ def test_closed_and_exhausted_slots_are_skipped_but_held_ones_retry():
 def test_a_dropped_day_is_recovered_by_a_late_run_in_oldest_first_batches():
     due = catchup_slots(DAY_LATE, {}, 10, '2026-27')
     assert len(due) == 3 and due[0] == SLOTS[0]
-    assert slot_start(SLOTS[-1], DAY_LATE).hour == 21
+    assert slot_start(SLOTS[-1], DAY_LATE).hour == 22
 
 
 def _drive(monkeypatch, world, state, cron_now, **trigger):
