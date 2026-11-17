@@ -50,9 +50,9 @@ SLOTS = (
     WILDCARD,
     SHOT_QUALITY,
     CHIP_STRATEGY,
-    Slot('price_changes', 'confirmed-price-changes', 21, 45),
     Slot('press_news', 'verified-press-availability', 19, 15),
     Slot('three_daily', 'vortex-captain', 21, 0),
+    Slot('price_changes', 'confirmed-price-changes', 21, 45),
 )
 # Editorial slots are TIME-based catch-up slots, not bound to one cron string:
 # a delayed, cancelled or dropped GitHub run can never lose an edition because
