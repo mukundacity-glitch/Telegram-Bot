@@ -38,6 +38,8 @@ CHIP_STRATEGY = Slot('task2', 'chip-strategy', 16, 30, weekday=1,
 SHOT_QUALITY = Slot('task2', 'assists-vs-shot-quality', 16, 30, weekday=6,
                     display_name='Assists per 90 vs xG per Shot')
 
+PASSING_CREATORS = Slot('task2', 'passing-creators', 16, 15, weekday=2,
+                        display_name='Completed Passes vs Chances Created')
 BONUS_MAGNETS = Slot('task2', 'bonus-magnets', 16, 15, weekday=5,
                      display_name='FPL Bonus Magnets')
 TOP_100K_OWNERSHIP = Slot('task2', 'top-100k-ownership', 22, 30, weekday=5,
@@ -54,6 +56,7 @@ SLOTS = (
     SCOUTING,
     VULNERABILITY,
     WILDCARD,
+    PASSING_CREATORS,
     BONUS_MAGNETS,
     SHOT_QUALITY,
     CHIP_STRATEGY,

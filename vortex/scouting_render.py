@@ -181,6 +181,8 @@ def render_scouting(plan, output, session):
         draw_fixtures(canvas, data, session)
     else:
         draw_scatter(canvas, data, session)
+    if hint := data.get('chart_hint'):
+        text(ImageDraw.Draw(canvas, 'RGBA'), hint, 105, 750, 815, 15, MUTED, center=True)
     if note := data.get('metric_note'):
         text(ImageDraw.Draw(canvas, 'RGBA'), note.upper(), 958, 724, 540, 15, GOLD, minimum=12)
     retrieved = datetime.fromisoformat(data['fetched_at']).strftime('%b %d %H:%M %z')

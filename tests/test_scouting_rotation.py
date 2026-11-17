@@ -116,3 +116,26 @@ def test_flat_metrics_are_ineligible(world):
                for p in snapshot.players]
     assert scouting_rotation.profile_rows(players, snapshot, scouting_rotation.DRIBBLES,
                                            scouting_rotation.BOX, (), 350, False) == ([], [])
+
+
+def test_passing_creators_is_a_wednesday_chart_with_per_90_rates(world, monkeypatch):
+    from vortex.autonomous_schedule import PASSING_CREATORS, eligible_on
+
+    snapshot, _, evidence, _ = world
+    wednesday = SUNDAY + timedelta(days=3, hours=1, minutes=45)
+    assert eligible_on(PASSING_CREATORS, wednesday)
+    assert not eligible_on(PASSING_CREATORS, wednesday + timedelta(days=1))
+    players = [p for p in snapshot.players if p['element_type'] != 1][:3]
+
+    def stats(snap, through, session, year, fields, **kwargs):
+        assert fields == ('accurate_passes', 'chances_created')
+        return ([(players[0], {'minutes': 450, 'accurate_passes': 200, 'chances_created': 10}),
+                 (players[1], {'minutes': 900, 'accurate_passes': 600, 'chances_created': 10}),
+                 (players[2], {'minutes': 900, 'accurate_passes': 600})], ['https://example.invalid/stats.csv'])
+
+    monkeypatch.setattr(scouting_rotation, 'player_totals', stats)
+    plan = scouting_rotation.build_passing_creators(PASSING_CREATORS, snapshot, wednesday, evidence.session)
+    assert [(row['x'], row['y']) for row in plan.extra['rows']] == [(40, 2), (60, 1)]
+    assert plan.extra['x_name'] == 'Completed passes'
+    assert plan.extra['y_name'] == 'Chances created'
+    assert len([line for line in verified_caption(plan.title, plan.caption).splitlines() if line]) == 5
