@@ -14,6 +14,7 @@ from .matchup import _media
 PANEL = '#122644'
 GRID = '#345370'
 MUTED = '#b1c7db'
+RED = '#FF626E'
 POSITION_COLORS = {'DEF': '#5cc8fa', 'MID': '#e6aaff', 'FWD': '#a4ee83'}
 FDR_COLORS = ('#14604f', '#205449', '#344c70', '#77452e', '#762947')
 
@@ -35,6 +36,18 @@ def draw_scatter(canvas, details, session):
     draw = ImageDraw.Draw(canvas, 'RGBA')
     left, right, top, bottom = 105, 920, 163, 686
     rows, featured = details['rows'], details['featured']
+    additional = details.get('additional', [])
+    if additional:
+        top = 250
+        for index, row in enumerate(additional, 6):
+            column, line = (index - 6) % 3, (index - 6) // 3
+            x, y = left + column * 271, 151 + line * 46
+            draw.rounded_rectangle((x, y, x + 261, y + 42), 8, fill='#221D3B', outline='#A24B60')
+            draw.ellipse((x + 8, y + 10, x + 32, y + 34), fill=RED)
+            text(draw, index, x + 8, y + 14, 24, 15, '#122644', minimum=11, center=True)
+            text(draw, row['name'], x + 42, y + 3, 209, 17, WHITE, minimum=13)
+            text(draw, f"{row['x']:.1f} passes · {row['y']:.2f} chances /90",
+                 x + 42, y + 22, 209, 13, MUTED, minimum=11)
     photos = portraits(session, featured)
     percentile = details['percentiles']
     x_max = 100 if percentile else axis_limit(max(r['x'] for r in rows))
@@ -68,7 +81,7 @@ def draw_scatter(canvas, details, session):
              left+250, 750, right-left-250, 14, MUTED, minimum=12)
     text(draw, f"{details['y_name'].upper()}  ·  {y_unit} ↑", left, 125, right-left, 20, GOLD)
     text(draw, f"{details['x_name'].upper()}  ·  {x_unit} →", left, 724, right-left, 20, CYAN, center=True)
-    featured_ids = {id(row): index for index, row in enumerate(featured, 1)}
+    featured_ids = {id(row): index for index, row in enumerate(featured + additional, 1)}
     labels = []
     for row in sorted(rows, key=lambda row: id(row) in featured_ids):
         x = left + (right - left) * row['x'] / x_max
@@ -89,22 +102,29 @@ def draw_scatter(canvas, details, session):
                       and all((a-u)**2 + (b-v)**2 >= 25**2 for u, v in anchors)),
                       (max(left+10, min(right-10, x)), max(top+10, min(bottom-10, y))))
         anchors.append((px, py))
-        draw.line((x, y, px, py), fill=GOLD, width=1)
-        draw.ellipse((px-10, py-10, px+10, py+10), fill=GOLD)
+        color = RED if index > len(featured) else GOLD
+        draw.line((x, y, px, py), fill=color, width=1)
+        draw.ellipse((px-10, py-10, px+10, py+10), fill=color)
         text(draw, index, px-10, py-8, 20, 14, '#122644', minimum=11, center=True)
     if benchmarks:
         draw_shot_quality_shortlist(canvas, draw, featured, photos)
         return
     text(draw, 'SCOUTING SHORTLIST', 963, 125, 535, 24, CYAN)
     for index, row in enumerate(featured, 1):
-        y = 167 + (index - 1) * 105
-        draw.rounded_rectangle((955, y, 1500, y+94), 14, fill=PANEL, outline=GRID)
+        expanded = 'total_points' in row
+        y = 164 + (index - 1) * 109 if expanded else 167 + (index - 1) * 105
+        draw.rounded_rectangle((955, y, 1500, y + (102 if expanded else 94)), 14, fill=PANEL, outline=GRID)
         text(draw, index, 970, y+34, 29, 24, GOLD, center=True)
         photo = photos.get(row['photo'])
         if photo is not None:
             contain(canvas, photo, (1003, y+6, 75, 82), bottom=True, crop_alpha=True)
         text(draw, row['name'], 1090, y+4, 396, 24, WHITE)
-        text(draw, row['club'], 1090, y+33, 396, 15, MUTED)
+        text(draw, row['club'], 1090, y + (27 if expanded else 33), 396, 14, MUTED)
+        if expanded:
+            text(draw, 'TOTAL FPL POINTS', 1090, y + 43, 285, 13, MUTED)
+            text(draw, str(row['total_points']), 1375, y + 41, 110, 16, WHITE, center=True)
+            text(draw, 'MINUTES · TOTAL / AVG PER APP', 1090, y + 57, 285, 13, MUTED)
+            text(draw, f"{row['total_minutes']:,} / {row['average_minutes']:.1f}", 1375, y + 55, 110, 16, WHITE, center=True)
         for axis_index, (axis, color) in enumerate((('x', CYAN), ('y', GOLD))):
             metric_unit = (x_unit, y_unit)[axis_index]
             if percentile:
@@ -113,7 +133,7 @@ def draw_scatter(canvas, details, session):
                 value = f"{row[axis]:.3f} /shot"
             else:
                 value = f"{row[axis]:.2f} /90"
-            metric_y = y + 52 + axis_index * 19
+            metric_y = y + (72 + axis_index * 14 if expanded else 52 + axis_index * 19)
             text(draw, details[f'{axis}_name'], 1090, metric_y, 285, 15, color, minimum=12)
             text(draw, value, 1375, metric_y, 110, 16, WHITE, minimum=12, center=True)
 

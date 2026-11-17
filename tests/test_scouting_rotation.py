@@ -134,8 +134,16 @@ def test_passing_creators_is_a_wednesday_chart_with_per_90_rates(world, monkeypa
                  (players[2], {'minutes': 900, 'accurate_passes': 600})], ['https://example.invalid/stats.csv'])
 
     monkeypatch.setattr(scouting_rotation, 'player_totals', stats)
+    monkeypatch.setattr(scouting_rotation, 'get_history', lambda *_: [
+        {'round': 9, 'minutes': 60, 'total_points': 2},
+        {'round': 8, 'minutes': 90, 'total_points': 7},
+        {'round': 8, 'minutes': 0, 'total_points': 0},
+        {'round': 10, 'minutes': 90, 'total_points': 20},
+    ])
     plan = scouting_rotation.build_passing_creators(PASSING_CREATORS, snapshot, wednesday, evidence.session)
     assert [(row['x'], row['y']) for row in plan.extra['rows']] == [(40, 2), (60, 1)]
+    assert [(r['total_points'], r['total_minutes'], r['average_minutes'])
+            for r in plan.extra['featured']] == [(9, 150, 75), (9, 150, 75)]
     assert plan.extra['x_name'] == 'Completed passes'
     assert plan.extra['y_name'] == 'Chances created'
     assert len([line for line in verified_caption(plan.title, plan.caption).splitlines() if line]) == 5
