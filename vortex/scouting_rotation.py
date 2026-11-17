@@ -1,9 +1,11 @@
 """Sunday-to-Saturday scouting board using verified Premier League metrics."""
+from concurrent.futures import ThreadPoolExecutor
 from itertools import groupby
 
 from .autonomous_schedule import ET, season_id
 from .editorial_inputs import RequiredInput
 from .fpl import latest_completed_gw
+from .recommendations import completed_rounds, get_history
 from .weekly_analysis import player_totals
 
 DRIBBLES = ('Completed dribbles', ('successful_dribbles',))
@@ -48,7 +50,7 @@ DRIBBLE_FALLBACKS = (
 )
 
 
-def profile_rows(players, snapshot, x_metric, y_metric, positions, minimum, percentiles):
+def profile_rows(players, snapshot, x_metric, y_metric, positions, minimum, percentiles, *, feature_limit=5):
     rows = []
     for player, stats in players:
         minutes = stats['minutes']
@@ -58,6 +60,8 @@ def profile_rows(players, snapshot, x_metric, y_metric, positions, minimum, perc
         gy = sum(stats.get(field, 0) for field in y_metric[1]) * 90 / minutes
         rows.append({'name': snapshot.name(player), 'club': snapshot.teams[player['team']]['name'],
                      'photo': snapshot.photo_code(player), 'rates': (gx, gy), 'x': gx, 'y': gy})
+        if feature_limit > 5:
+            rows[-1]['player_id'] = player['id']
     if len(rows) < 2 or any(len({round(r[axis], 6) for r in rows}) < 2 for axis in ('x', 'y')):
         return [], []
     if percentiles:
@@ -78,7 +82,7 @@ def profile_rows(players, snapshot, x_metric, y_metric, positions, minimum, perc
     if y_leader is not x_leader:
         featured.append(y_leader)
     featured.extend(r for r in ranked if r is not x_leader and r is not y_leader)
-    return rows, featured[:5]
+    return rows, featured[:feature_limit]
 
 
 def goalkeeper_fixtures(snapshot, gw):
@@ -201,9 +205,30 @@ def build_passing_creators(slot, snapshot, now, session):
     verified = [(player, stats) for player, stats in players
                 if all(field in stats for field in fields)]
     minimum = 450
-    rows, featured = profile_rows(verified, snapshot, passing, CHANCES, (), minimum, False)
+    rows, ranked = profile_rows(verified, snapshot, passing, CHANCES, (), minimum, False,
+                                feature_limit=10)
     if not rows:
         raise RequiredInput('Complete passes and chances-created data are required')
+
+    featured, additional = ranked[:5], ranked[5:]
+    rounds = {week for week in completed_rounds(snapshot, limit=38) if week <= through}
+
+    def season_record(row):
+        history = [entry for entry in get_history(row['player_id'], session) if entry.get('round') in rounds]
+        if not history or any(type(entry.get(key)) is not int
+                              for entry in history for key in ('minutes', 'total_points')):
+            raise RequiredInput('Official FPL season points or minutes unavailable for the shortlist')
+        played = [entry['minutes'] for entry in history if entry['minutes'] > 0]
+        if not played:
+            raise RequiredInput('No verified appearances for a featured player')
+        minutes = sum(played)
+        return sum(entry['total_points'] for entry in history), minutes, minutes / len(played)
+
+    with ThreadPoolExecutor(max_workers=5) as workers:
+        for row, (points, minutes, average) in zip(featured, workers.map(season_record, featured)):
+            row.update(total_points=points, total_minutes=minutes, average_minutes=average)
+    sources.extend(f"https://fantasy.premierleague.com/api/element-summary/{row['player_id']}/"
+                   for row in featured)
 
     x_leader = max(rows, key=lambda row: (row['x'], row['y']))
     y_leader = max(rows, key=lambda row: (row['y'], row['x']))
@@ -220,6 +245,7 @@ def build_passing_creators(slot, snapshot, now, session):
                        'through': through, 'minimum': minimum, 'percentiles': False,
                        'x_name': passing[0], 'y_name': CHANCES[0], 'sources': sources,
                        'subtitle': f'PREMIER LEAGUE THROUGH GW{through}  |  {minimum}+ MINUTES',
-                       'chart_hint': 'EACH DOT IS ONE PLAYER  •  NUMBERED DOTS MATCH THE SHORTLIST',
+                       'additional': additional,
+                       'chart_hint': 'EACH DOT IS ONE PLAYER  •  RED MARKERS MATCH THE TOP LABELS',
                        'metric_note': 'A CHANCE CREATED IS A PASS THAT LEADS TO A SHOT',
                        'fetched_at': snapshot.fetched_at.astimezone(ET).isoformat()})
