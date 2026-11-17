@@ -98,7 +98,7 @@ jobs:
       cancel-in-progress: false
       queue: max
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 155
     steps:
       - name: Checkout isolated newest receipts and queued art
         uses: actions/checkout@v4
@@ -116,7 +116,7 @@ jobs:
         if: ${{ github.event_name != 'schedule' }}
         run: python -m pytest -q
       - name: Generate and deliver the due content queue
-        timeout-minutes: 45
+        timeout-minutes: 140
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
@@ -170,25 +170,7 @@ jobs:
           PY
       - name: Preserve both-platform delivery receipts before any retry
         if: always()
-        run: |
-          git config user.name 'FPL VORTEX Publisher'
-          git config user.email 'fpl-vortex-bot@users.noreply.github.com'
-          for file in state/*.json outbox/*.json outbox/assets/*.png; do
-            if [ -f "$file" ]; then git add -- "$file"; fi
-          done
-          if git diff --cached --quiet; then exit 0; fi
-          git commit -m 'Save autonomous source baselines, editions and platform receipts [skip ci]'
-          for attempt in 1 2 3 4; do
-            if git push origin HEAD:main; then exit 0; fi
-            echo "Receipt push race: rebase the receipt commit on newest main."
-            git fetch origin main
-            if ! git rebase origin/main; then
-              git rebase --abort || true
-              echo '::error::Receipt reconciliation needed; retain archived receipts before replay'
-              exit 1
-            fi
-          done
-          exit 1
+        run: bash .github/scripts/persist-publishing-receipts.sh
       - name: Archive graphic and confirmed receipts
         if: always()
         uses: actions/upload-artifact@v4
