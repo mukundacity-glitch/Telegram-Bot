@@ -1,8 +1,8 @@
 {
-  "at": "2026-11-17T20:18:26.351201+00:00",
-  "eastern_at": "2026-11-17T15:18:26.351201-05:00",
+  "at": "2026-11-17T20:19:03.012923+00:00",
+  "eastern_at": "2026-11-17T15:19:03.012923-05:00",
   "last_news_scan": "2026-11-17T16:15:15.100183+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
     "display_name": "FPL Player Performance Comparisons",
     "post": "scouting-rotation",
@@ -31,14 +31,14 @@
       "trigger": "2026-11-21T07:30:00+00:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 0,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "58 * * * *",
+  "scheduled_cron": "0,30 0-3,9-23 * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "deferred-telegram-spacing",
+  "telegram_messages_sent": 0
 }
