@@ -1456,6 +1456,22 @@
       437
     ]
   },
+  "2026-27:GW10:task2:weekly-analysis:day2": {
+    "at": "2026-11-17T02:27:27.841882+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "weekly-analysis",
+    "file": "outbox/2026-11-16-weekly-analysis.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:be9467fce68c34389dc2",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      447
+    ]
+  },
   "_weekly_analysis": {
     "gw": 10,
     "season": "2026-27",
