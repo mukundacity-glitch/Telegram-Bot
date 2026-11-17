@@ -1,0 +1,50 @@
+name: Remove the requested Gvardiol Telegram card
+on:
+  push:
+    branches: [ops/remove-gvardiol-card-20261117]
+    paths: [.github/workflows/remove-gvardiol-card.yml]
+permissions:
+  contents: read
+concurrency:
+  group: remove-gvardiol-card-20261117
+  cancel-in-progress: false
+jobs:
+  remove:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m pip install 'requests>=2.32,<3'
+      - name: Delete the one verified Telegram message
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: |
+          python - <<'PY'
+          import json
+          from datetime import datetime, timedelta, timezone
+          from pathlib import Path
+          from vortex.telegram import TelegramClient, TelegramDeliveryError
+
+          receipt = json.loads(Path('state/news_deliveries.json').read_text())['rss:a578ab5a742fca8d25640482']
+          timestamp = '2026-11-17T10:30:00.845132+00:00'
+          if (receipt.get('timestamp') != timestamp or receipt.get('telegram_message_id') != 448
+              or not receipt.get('delivered')
+              or receipt.get('caption_sha256') != 'cd81162a5f43af3fbc54edf6c28aa6804fe8a5b1f9ca86e9a6747550433520cf'
+              or not timedelta(0) <= datetime.now(timezone.utc) - datetime.fromisoformat(timestamp) < timedelta(hours=47)):
+              raise SystemExit('Verified receipt guard rejected deletion')
+          try:
+              bot = TelegramClient()
+              chat = bot._post('getChat', {'chat_id': bot.chat_id}).get('result', {})
+              if bot.get_bot_username().casefold() != 'fplvortexdailybot' or chat.get('type') != 'private':
+                  raise SystemExit('Configured Telegram destination did not match')
+              result = bot._post('deleteMessage', {'chat_id': bot.chat_id, 'message_id': receipt['telegram_message_id']})
+          except (TelegramDeliveryError, RuntimeError, ValueError, OSError):
+              raise SystemExit('Telegram did not confirm the requested deletion') from None
+          if result.get('result') is not True:
+              raise SystemExit('Telegram did not confirm the requested deletion')
+          print('Telegram confirmed deletion of the requested Gvardiol card')
+          PY
