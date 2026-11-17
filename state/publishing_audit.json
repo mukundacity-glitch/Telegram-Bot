@@ -2771,6 +2771,24 @@
     "trigger": "2026-11-17T10:30:00-05:00",
     "type": "goalkeeper-striker-watch"
   },
+  "2026-11-17:task2:scouting-rotation": {
+    "attempts": 1,
+    "completed_at": "2026-11-17T21:03:38.142929+00:00",
+    "confirmed_telegram_message_ids": [
+      458
+    ],
+    "display_name": "FPL Player Performance Comparisons",
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-17:task2:scouting-rotation",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      458
+    ],
+    "timestamp": "2026-11-17T21:03:32.527884+00:00",
+    "trigger": "2026-11-17T14:30:00-05:00",
+    "type": "scouting-rotation"
+  },
   "2026-11-17T01:08:47.899968+00:00": {
     "posts": [
       {
@@ -3145,6 +3163,30 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-17T20:18:26.351201+00:00"
+  },
+  "2026-11-17T21:03:32.527884+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-17T21:03:38.142929+00:00",
+        "confirmed_telegram_message_ids": [
+          458
+        ],
+        "display_name": "FPL Player Performance Comparisons",
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-17:task2:scouting-rotation",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          458
+        ],
+        "timestamp": "2026-11-17T21:03:32.527884+00:00",
+        "trigger": "2026-11-17T14:30:00-05:00",
+        "type": "scouting-rotation"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-17T21:03:32.527884+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,

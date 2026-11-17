@@ -1481,6 +1481,22 @@
       454
     ]
   },
+  "2026-11-17:task2:scouting-rotation": {
+    "at": "2026-11-17T21:03:32.527884+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "scouting-rotation",
+    "file": "outbox/2026-11-17-scouting-rotation.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:scouting-rotation:e90742c31b28d51542ec",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      458
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
