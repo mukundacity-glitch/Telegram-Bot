@@ -53,6 +53,8 @@ def main(argv=None):
                 render = lambda target: render_sunday_chances(plan, target, evidence.session)
             image_path = root / (name + ".png")
             render(image_path)
+            with Image.open(image_path) as verify_image:
+                verify_image.verify()
             with Image.open(image_path) as image:
                 if image.size != (1920, 1080):
                     raise RuntimeError("Premium preview dimensions are incorrect")
@@ -60,7 +62,6 @@ def main(argv=None):
                 variance = ImageStat.Stat(image.convert("RGB")).var
                 if sum(variance) < 900:
                     raise RuntimeError("Preview failed nonblank visual QA")
-                image.verify()
             row.update(status="RENDERED", image=str(image_path),
                        sources=plan.extra.get("sources", []),
                        methodology=plan.extra.get("method"))
