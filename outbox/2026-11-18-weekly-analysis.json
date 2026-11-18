@@ -1,0 +1,169 @@
+{
+  "task": "task2",
+  "edition": "weekly-analysis",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "OPPOSITION BOX TOUCHES",
+  "caption": "OPPOSITION BOX TOUCHES • Weekly Analysis 4/7\nHaaland leads this board with 62 box touches.\nOpposition box touches • 220+ minutes.\nUse the data to shortlist targets, then verify minutes and fixtures before making a transfer.\n#FPL #GW11 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "weekly-analysis",
+    "extra": {
+      "through": 10,
+      "day": 4,
+      "layout": "rank",
+      "rows": [
+        {
+          "name": "Haaland",
+          "code": 43,
+          "photo": 223094,
+          "value": 62.0,
+          "detail": "6.27/90  •  890 min  •  10 apps",
+          "minutes": 890,
+          "rate": 6.269662921348314
+        },
+        {
+          "name": "King",
+          "code": 54,
+          "photo": 577725,
+          "value": 60.0,
+          "detail": "6.64/90  •  813 min  •  10 apps",
+          "minutes": 813,
+          "rate": 6.642066420664206
+        },
+        {
+          "name": "Doku",
+          "code": 43,
+          "photo": 248875,
+          "value": 57.0,
+          "detail": "12.95/90  •  396 min  •  6 apps",
+          "minutes": 396,
+          "rate": 12.954545454545455
+        },
+        {
+          "name": "Bobb",
+          "code": 54,
+          "photo": 477555,
+          "value": 57.0,
+          "detail": "6.94/90  •  739 min  •  10 apps",
+          "minutes": 739,
+          "rate": 6.941813261163735
+        },
+        {
+          "name": "Barry",
+          "code": 11,
+          "photo": 586309,
+          "value": 54.0,
+          "detail": "5.68/90  •  855 min  •  10 apps",
+          "minutes": 855,
+          "rate": 5.684210526315789
+        },
+        {
+          "name": "Ndiaye",
+          "code": 43,
+          "photo": 440993,
+          "value": 49.0,
+          "detail": "5.72/90  •  771 min  •  10 apps",
+          "minutes": 771,
+          "rate": 5.719844357976654
+        },
+        {
+          "name": "Palmer",
+          "code": 8,
+          "photo": 244851,
+          "value": 49.0,
+          "detail": "5.01/90  •  880 min  •  10 apps",
+          "minutes": 880,
+          "rate": 5.011363636363637
+        },
+        {
+          "name": "Barcola",
+          "code": 14,
+          "photo": 482616,
+          "value": 48.0,
+          "detail": "7.40/90  •  584 min  •  8 apps",
+          "minutes": 584,
+          "rate": 7.397260273972603
+        },
+        {
+          "name": "Rogers",
+          "code": 8,
+          "photo": 244850,
+          "value": 48.0,
+          "detail": "4.89/90  •  883 min  •  10 apps",
+          "minutes": 883,
+          "rate": 4.892412231030578
+        },
+        {
+          "name": "Tel",
+          "code": 6,
+          "photo": 511499,
+          "value": 47.0,
+          "detail": "8.78/90  •  482 min  •  8 apps",
+          "minutes": 482,
+          "rate": 8.775933609958507
+        },
+        {
+          "name": "Gonzalo",
+          "code": 54,
+          "photo": 551466,
+          "value": 47.0,
+          "detail": "5.13/90  •  825 min  •  10 apps",
+          "minutes": 825,
+          "rate": 5.127272727272727
+        },
+        {
+          "name": "Barnes",
+          "code": 4,
+          "photo": 201666,
+          "value": 47.0,
+          "detail": "4.77/90  •  886 min  •  10 apps",
+          "minutes": 886,
+          "rate": 4.774266365688487
+        }
+      ],
+      "unit": "box touches",
+      "note": "Opposition box touches • 220+ minutes",
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+      ]
+    },
+    "fixtures": []
+  },
+  "generated_at": "2026-11-18T19:58:17.861214+00:00",
+  "publish_at": "2026-11-18T19:58:17.642888+00:00",
+  "data_retrieval_at_et": "2026-11-18T14:58:17.861214-05:00",
+  "graphic_generated_at_et": "2026-11-18T14:58:19.344790-05:00",
+  "deadline": "2026-11-19T00:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-18-weekly-analysis-GW11.png"
+  ]
+}
