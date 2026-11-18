@@ -85,6 +85,11 @@ def _build(slot, snapshot, now, session, title, positions, metrics, description,
     for position in positions.values():
         if eligible[position] <= incomplete[position]:
             raise RequiredInput(f'No verified {position.lower()} with {MINUTES}+ minutes')
+        # A post with an empty position panel is not a completed graphic.
+        # Hold it with a traceable reason instead of emitting a blank board.
+        if not rows[position]:
+            raise RequiredInput(
+                f'No verified {position.lower()} above the chart thresholds')
         rows[position].sort(key=_rank)
 
     leaders = ' and '.join(f"{sum(row['mask'] == 7 for row in rows[position])} {position.lower()}"
