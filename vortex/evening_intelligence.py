@@ -77,37 +77,58 @@ def _set_piece_order(player, field):
 
 
 def _set_pieces(slot, snapshot, now):
-    rows = []
-    for player in snapshot.players:
-        team = snapshot.teams.get(player.get("team"))
-        if not team or type(player.get("minutes")) is not int or player["minutes"] < 270:
-            continue
-        orders = tuple(_set_piece_order(player, field) for field in (
-            "corners_and_indirect_freekicks_order",
-            "direct_freekicks_order", "penalties_order"))
-        if not any(orders):
-            continue
-        rows.append({
-            "name": snapshot.name(player), "code": team["code"],
-            "club": team["short_name"], "minutes": player["minutes"],
-            "orders": orders,
-            "threat": (_number(player["set_piece_threat"], max_value=10000)
-                       if player.get("set_piece_threat") not in (None, "") else None),
-            "id": player["id"],
-        })
-    rows.sort(key=lambda r: (min(x for x in r["orders"] if x is not None),
-                             -sum(x == 1 for x in r["orders"]), -r["minutes"], r["id"]))
-    if len(rows) < 10:
-        raise RequiredInput("Not enough current FPL set-piece order records")
-    rows = rows[:12]
-    return _plan(slot, snapshot, now, "FPL SET-PIECE TAKERS",
-                 f"{len(rows)} current official FPL set-piece duty leaders (270+ minutes).",
-                 "Order 1 means first in line, not set pieces per 90. Roles can change.",
-                 "set_pieces", {
-                     "rows": rows, "sources": [FPL_SOURCE],
-                     "method": "Official FPL set-piece duty order; not RotoWire CRN/90",
-                 })
+    """Map each club's verified set-piece pecking order, never global 'leaders'.
 
+    FPL set-piece ranks are per team and per duty; a '1' for one club is not
+    objectively better than another club's '1'. No made-up per90 rates.
+    """
+    fields = ("corners_and_indirect_freekicks_order",
+              "direct_freekicks_order", "penalties_order")
+    candidates = defaultdict(list)
+    for player in snapshot.players:
+        if player.get("team") not in snapshot.teams:
+            continue
+        minutes = player.get("minutes")
+        if type(minutes) is not int or minutes < 270:
+            continue
+        duties = tuple(_set_piece_order(player, field) for field in fields)
+        if any(order is not None for order in duties):
+            candidates[player["team"]].append(
+                (player, duties, minutes))
+    if len(snapshot.teams) != 20 or len(candidates) < 12:
+        raise RequiredInput("Fewer than twelve official clubs have verified set-piece duty ranks")
+
+    rows = []
+    leader_counts = [0, 0, 0]
+    for team_id, club in snapshot.teams.items():
+        players = candidates.get(team_id, [])
+        selected = []
+        for i in range(3):
+            ranking = sorted((row for row in players if row[1][i] is not None),
+                             key=lambda item: (item[1][i], -item[2],
+                                               item[0]["id"]))
+            if not ranking:
+                selected.append(None)
+                continue
+            player, duties, minutes = ranking[0]
+            selected.append({"name": snapshot.name(player), "order": duties[i],
+                             "player_id": player["id"]})
+            leader_counts[i] += int(duties[i] == 1)
+        rows.append({
+            "name": club["name"], "code": club["code"],
+            "club": club["short_name"], "duties": selected,
+        })
+    rows.sort(key=lambda row: (row["name"].casefold(), row["club"]))
+    if any(row.get("code") is None for row in rows):
+        raise RequiredInput("Official team crest identity missing for set-piece board")
+    return _plan(slot, snapshot, now, "FPL SET-PIECE TAKERS",
+                 "All 20 Premier League clubs, using official FPL duty orders.",
+                 "Order 1 is first choice within that club; NOT attempts or crosses per 90.",
+                 "set_pieces", {
+                     "rows": rows, "leader_counts": leader_counts,
+                     "sources": [FPL_SOURCE],
+                     "method": "Official FPL per-club set-piece duty orders; not RotoWire CRN/90",
+                 })
 
 def _team_fixture_rows(snapshot, feed, weeks):
     """Exact official fixture-ID/venue join; reject partial model coverage."""
