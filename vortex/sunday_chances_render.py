@@ -74,8 +74,13 @@ def _position(canvas, draw, x, label, rows, eligible, missing, art, accent, metr
     metric_width = 94 if large else 104
     for index, (_, name, threshold) in enumerate(metrics):
         left = x + 18 + index * metric_width
-        text(draw, f'{name} ≥ {threshold:g}', left, 280, metric_width - 4, 14,
-             METRIC_COLORS[index], minimum=10, center=True)
+        color = METRIC_COLORS[index]
+        if large:
+            text(draw, name, left, 271, metric_width - 4, 13, color, minimum=10, center=True)
+            text(draw, f'≥ {threshold:g}', left, 286, metric_width - 4, 15, color, minimum=12, center=True)
+        else:
+            text(draw, f'{name} ≥ {threshold:g}', left, 280, metric_width - 4, 14,
+                 color, minimum=10, center=True)
     text(draw, 'MATCHING PLAYERS', x + name_x, 279, name_width, 19 if large else 17, MUTED)
 
     for i, mask in enumerate(GROUP_ORDER):

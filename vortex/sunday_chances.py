@@ -20,7 +20,7 @@ DEFENCE_POSITIONS = {1: 'GOALKEEPERS', 2: 'DEFENDERS'}
 DEFENCE_METRICS = {
     'GOALKEEPERS': (('saves', 'SAVES', 3), ('saves_inside_box', 'BOX SAVES', 2),
                     ('sweeper_actions', 'SWEEPS', 0.5)),
-    'DEFENDERS': (('clearances', 'CLEARANCES', 4), ('interceptions', 'INTERCEPTIONS', 1),
+    'DEFENDERS': (('clearances', 'CLEARANCES', 4), ('interceptions', 'INTERCEPTS', 1),
                   ('tackles_won', 'TACKLES WON', 1.5)),
 }
 GROUP_ORDER = (7, 3, 5, 6, 1, 2, 4)
