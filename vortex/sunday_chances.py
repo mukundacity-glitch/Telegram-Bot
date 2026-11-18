@@ -79,8 +79,8 @@ def build_sunday_chances(slot, snapshot, now, session):
     return Plan(slot.task, slot.edition, TITLE, caption, gw, [], [], 'sunday_chances', {
         'season': season, 'through': through, 'rows': rows, 'eligible': eligible,
         'incomplete': incomplete, 'sources': sources,
-        'archive_retrieved_at': datetime.now(ET).isoformat(),
-        'snapshot_at': snapshot.fetched_at.astimezone(ET).isoformat(),
+        'retrieved_at': datetime.now(ET).isoformat(),
+        'data_at': snapshot.fetched_at.astimezone(ET).isoformat(),
     })
 
 

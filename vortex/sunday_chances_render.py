@@ -60,8 +60,8 @@ def _position(canvas, draw, x, label, rows, eligible, missing, art, accent):
         draw.rounded_rectangle((left, 170, left + 325, 266), 14, fill='#172956',
                                outline='#3E5591', width=1)
         photo, crest = art[row['player_id']]
-        contain(canvas, photo, (left + 3, 174, left + 80, 264))
-        contain(canvas, crest, (left + 278, 181, left + 313, 215))
+        contain(canvas, photo, (left + 3, 174, 77, 90), bottom=True, crop_alpha=True)
+        contain(canvas, crest, (left + 278, 181, 35, 34))
         text(draw, row['name'], left + 82, 183, 188, 25, WHITE, minimum=14)
         for i, rate in enumerate(row['rates']):
             stat_x = left + 82 + 73 * i
@@ -94,7 +94,7 @@ def _position(canvas, draw, x, label, rows, eligible, missing, art, accent):
 
 def render_sunday_chances(plan, output, session):
     data = plan.extra
-    scope = (f"{data['season']}  •  THROUGH GW{data['through']}  •  "
+    scope = (f"GW{plan.gw} WATCH  •  {data['season']}  •  THROUGH GW{data['through']}  •  "
              f"{MINUTES}+ SEASON MINUTES  •  PER 90")
     canvas = _base(plan.title, plan.gw, scope)
     draw = ImageDraw.Draw(canvas, 'RGBA')
@@ -105,7 +105,7 @@ def render_sunday_chances(plan, output, session):
                   data['incomplete'][label], art, accent)
 
     missing = sum(data['incomplete'].values())
-    retrieved = datetime.fromisoformat(data['archive_retrieved_at'])
+    retrieved = datetime.fromisoformat(data['retrieved_at'])
     rendered = datetime.now(ET)
     source = f'FPL CORE MATCH STATS + OFFICIAL FPL  •  DATA {retrieved:%d %b %H:%M %z}'
     if missing:
