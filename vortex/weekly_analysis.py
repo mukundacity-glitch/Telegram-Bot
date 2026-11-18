@@ -45,11 +45,12 @@ def number(row, field):
 
 
 def player_totals(snapshot, through, session, year, fields, *, previous=False, optional_fields=(),
-                  require_shot_xg=False, required_nonblank_fields=()):
+                  require_shot_xg=False, required_nonblank_fields=(), required_nonblank_by_position=None):
     players = {p['code']: p for p in snapshot.players if p.get('code') and p.get('team') in snapshot.teams}
     totals = {}
     sources = []
     incomplete_optional = set()
+    required_by_position = required_nonblank_by_position or {}
     seasons = [(year, rounds_for(snapshot, through))]
     if previous:
         seasons.append((year-1, range(1, 39)))
@@ -84,7 +85,9 @@ def player_totals(snapshot, through, session, year, fields, *, previous=False, o
                 record['appearances'] += 1
                 if require_shot_xg and number(row, 'total_shots') > 0 and not row.get('xg'):
                     record['incomplete_shot_xg'] = True
-                if any(not row.get(field) for field in required_nonblank_fields):
+                position = players[code].get('element_type')
+                required_fields = required_nonblank_fields + required_by_position.get(position, ())
+                if any(not row.get(field) for field in required_fields):
                     record['incomplete_metrics'] = True
                 for field in fields:
                     if field in optional_fields and not row.get(field):

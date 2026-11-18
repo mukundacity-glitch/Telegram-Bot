@@ -43,7 +43,8 @@ One **existing** GitHub Actions workflow, thirteen Eastern-time publication slot
 | 5:30 PM | Last completed gameweek review | Daily |
 | 6:30 PM | Four next-GW sell candidates (firm or conditional) | Daily |
 | 8:00 PM | Sunday Chance Watch (midfielders and forwards) | Sunday |
-| 8:00 PM | Open editorial slots | Monday–Saturday |
+| 8:00 PM | Monday Defence Watch (goalkeepers and defenders) | Monday |
+| 8:00 PM | Open editorial slots | Tuesday–Saturday |
 
 Each successful delivery sends a 1536×864 branded PNG to Telegram with five short X-copy lines. The **existing ten posts** retain their exact existing hashtags (`#FPL #GW<number> #FPLVortex`); **the three new editions** use four hashtags (`#FPL #GW<number> #FPLVortex #PremierLeague`). The graphic contains sourced official FPL details. Telegram does **not** automatically publish on X.
 
@@ -100,9 +101,9 @@ New manual preview choices: `preview-projections`, `preview-team_analysis`, `pre
 
 ## Sunday Chance Watch
 
-The 8:00 PM America/New_York slot publishes one VORTEX graphic on Sunday. The left panel covers midfielders and the right panel covers forwards with at least 450 minutes in the current season through the latest verified completed gameweek. FPL Core match stats supply expected goals, shots and opposition-box touches. The board groups players by which per-90 thresholds they reach and uses official FPL player and club identity. Monday to Saturday at 8:00 PM are open for future editions.
+The 8:00 PM America/New_York slot publishes one VORTEX graphic on Sunday. The left panel covers midfielders and the right panel covers forwards with at least 450 minutes in the current season through the latest verified completed gameweek. FPL Core match stats supply expected goals, shots and opposition-box touches. The board groups players by which per-90 thresholds they reach and uses official FPL player and club identity. Monday at 8:00 PM has Monday Defence Watch, with goalkeepers (saves, box saves, sweeper actions) and defenders (clearances, interceptions, tackles won). Both panels use the same verified completed-match scope and 450-minute minimum. Tuesday through Saturday remain open.
 
-Run `python -m vortex.sunday_chances` for a preview with the current data and caption. It prepares local files without sending a Telegram or Discord message. The graphics footer uses the public `FPL_TELEGRAM_HANDLE`, `FPL_DISCORD_HANDLE`, `FPL_YOUTUBE_HANDLE` and `FPL_X_HANDLE` publishing configuration.
+Run `python -m vortex.sunday_chances` (or add `--monday`) for a preview with the current data and caption. It prepares local files without sending a Telegram or Discord message. The graphics footer uses the public `FPL_TELEGRAM_HANDLE`, `FPL_DISCORD_HANDLE`, `FPL_YOUTUBE_HANDLE` and `FPL_X_HANDLE` publishing configuration.
 
 ## Run tests locally
 

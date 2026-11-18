@@ -11,7 +11,7 @@ import json,os
 from PIL import Image
 from .bot import ROOT,STATE,read_state,write_state
 from .fpl import collect_snapshot,price_snapshot,upcoming_deadline
-from .autonomous_schedule import CHIP_STRATEGY, PASSING_CREATORS, SATURDAY_BOARDS, SUNDAY_CHANCES, VULNERABILITY, SHOT_QUALITY, WILDCARD, SERIES, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
+from .autonomous_schedule import CHIP_STRATEGY, PASSING_CREATORS, SATURDAY_BOARDS, EVENING_WATCH_SLOTS, VULNERABILITY, SHOT_QUALITY, WILDCARD, SERIES, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
 from .editorial_inputs import RequiredInput,NoUpdate
@@ -49,17 +49,17 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
     pages=render(plan,snapshot,now,output,evidence.session)
-    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY, SUNDAY_CHANCES) or slot in SATURDAY_BOARDS or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation', 'passing-creators')) and len(pages) != 1:
+    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation', 'passing-creators')) and len(pages) != 1:
         raise RuntimeError(f'{plan.edition} requires exactly one graphic')
     for path in pages:
         with Image.open(path) as image:
             if image.size not in ((1920,1080),(1080,1920)):raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()
     weekly = slot.edition == 'weekly-analysis'
-    editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot == SUNDAY_CHANCES
+    editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot in EVENING_WATCH_SLOTS
     deadline = ((now.astimezone(ET) + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
                 if editorial_after_deadline else upcoming_deadline(snapshot))
-    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY, SUNDAY_CHANCES) or slot in SATURDAY_BOARDS) and deadline is not None:
+    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS) and deadline is not None:
         close = datetime.combine(day, datetime.min.time(), tzinfo=ET)
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
     if deadline is None or deadline <= datetime.now(timezone.utc):
@@ -109,7 +109,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
 
 def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,snapshot=None,model=None,research=None,catchup_limit=3, selected_slots=None, evidence=None):
     now=now or datetime.now(timezone.utc)
-    if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition, SUNDAY_CHANCES.edition, PASSING_CREATORS.edition, *(s.edition for s in SATURDAY_BOARDS)):
+    if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition, PASSING_CREATORS.edition, *(s.edition for s in EVENING_WATCH_SLOTS), *(s.edition for s in SATURDAY_BOARDS)):
         raise ValueError('This post is available through the due queue only')
     if edition in RETIRED_EDITIONS:
         raise ValueError('This edition has been retired')
@@ -184,7 +184,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                     write_state(STATE_FILE, state)
                     rows.append({'edition': slot.edition, 'status': 'already-delivered'})
                     continue
-                if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY, SUNDAY_CHANCES) or slot in SATURDAY_BOARDS or slot == PASSING_CREATORS or any(receipt.get('delivered') or receipt.get('discord_delivered')
+                if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS or slot == PASSING_CREATORS or any(receipt.get('delivered') or receipt.get('discord_delivered')
                        or receipt.get('discord_send_pending') or receipt.get('discord_album_pending')
                        for receipt in previous):
                     file, identity, count = ROOT / prior['file'], prior_identity, prior['pages']
@@ -260,7 +260,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
 
 def main():
     parser=argparse.ArgumentParser()
-    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s not in (VULNERABILITY, WILDCARD, SHOT_QUALITY, CHIP_STRATEGY, SUNDAY_CHANCES) + SATURDAY_BOARDS and s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation', 'passing-creators')}|set(SPECIAL_EDITIONS)))
+    parser.add_argument('--edition',choices=sorted({s.edition for s in SLOTS if s not in (VULNERABILITY, WILDCARD, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS + SATURDAY_BOARDS and s.edition not in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation', 'passing-creators')}|set(SPECIAL_EDITIONS)))
     parser.add_argument('--audit-all',action='store_true')
     parser.add_argument('--due', action='store_true', help='Process eligible daily editions already due')
     parser.add_argument('--manual', action='store_true', help='Publish exactly one selected, verified edition immediately')
