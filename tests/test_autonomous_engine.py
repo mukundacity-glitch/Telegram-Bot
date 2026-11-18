@@ -76,12 +76,12 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
                      '15 0,20,21,23 * * *', '45 1,2 * * *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
-    assert len(SLOTS) == 19
+    assert len(SLOTS) == 24  # existing 19 + 5 verified weekday evening slots
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 
 
-@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation','assists-vs-shot-quality','chip-strategy','wildcard-draft','positional-vulnerability','bonus-magnets','top-100k-ownership','passing-creators','sunday-chance-watch','monday-defence-watch'}))
+@pytest.mark.parametrize('name',sorted(({s.edition for s in SLOTS} | set(SPECIAL_EDITIONS)) - {'verified-press-availability','confirmed-price-changes','chance-creators','weekly-analysis','afternoon-rotation','scouting-rotation','assists-vs-shot-quality','chip-strategy','wildcard-draft','positional-vulnerability','bonus-magnets','top-100k-ownership','passing-creators','sunday-chance-watch','monday-defence-watch','tuesday-set-pieces','wednesday-predicted-xg','thursday-attacking-zones','friday-rotation-planner','saturday-fdr-grid'}))
 def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,name,monkeypatch,tmp_path):
     s,now,e,feed=world
     slot=next((slot for slot in SLOTS if slot.edition==name),Slot('task1',name,10,35))
