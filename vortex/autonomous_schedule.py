@@ -43,7 +43,9 @@ SUNDAY_CHANCES = Slot('task2', 'sunday-chance-watch', 20, 0, weekday=6,
 
 MONDAY_DEFENCE = Slot('task2', 'monday-defence-watch', 20, 0, weekday=0,
                       display_name='Monday Defence Watch')
-EVENING_WATCH_SLOTS = (SUNDAY_CHANCES, MONDAY_DEFENCE)
+TUESDAY_SET_PIECES = Slot('task2', 'tuesday-set-piece-watch', 20, 0, weekday=1,
+                          display_name='Set-Piece Takers')
+EVENING_WATCH_SLOTS = (SUNDAY_CHANCES, MONDAY_DEFENCE, TUESDAY_SET_PIECES)
 
 PASSING_CREATORS = Slot('task2', 'passing-creators', 16, 15, weekday=2,
                         display_name='Completed Passes vs Chances Created')

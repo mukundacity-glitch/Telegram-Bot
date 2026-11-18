@@ -89,6 +89,22 @@ jobs:
           path: output/*-watch/
           if-no-files-found: error
           retention-days: 5
+      - name: Render additional weekday editorial previews
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/tuesday-set-piece-watch'
+        env:
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
+          FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
+        run: python -m vortex.weekday_boards tuesday-set-piece-watch
+      - name: Archive additional weekday editorial previews
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/tuesday-set-piece-watch'
+        uses: actions/upload-artifact@v4
+        with:
+          name: weekday-editorial-previews
+          path: output/weekday-previews/
+          if-no-files-found: error
+          retention-days: 5
       - name: Validate all graphics and scheduling
         run: python -m pytest -q
       - name: Read-only verification of configured Telegram destination
