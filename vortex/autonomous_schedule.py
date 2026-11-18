@@ -43,7 +43,23 @@ SUNDAY_CHANCES = Slot('task2', 'sunday-chance-watch', 20, 0, weekday=6,
 
 MONDAY_DEFENCE = Slot('task2', 'monday-defence-watch', 20, 0, weekday=0,
                       display_name='Monday Defence Watch')
-EVENING_WATCH_SLOTS = (SUNDAY_CHANCES, MONDAY_DEFENCE)
+# Fill the previously unused 20:00 ET slots without modifying GitHub cron.
+# One weekday-only edition per date; Sunday and Monday remain unchanged.
+TUESDAY_SET_PIECES = Slot('task2', 'tuesday-set-pieces', 20, 0, weekday=1,
+                         display_name='FPL Set-Piece Takers')
+WEDNESDAY_PREDICTED_XG = Slot('task2', 'wednesday-predicted-xg', 20, 0, weekday=2,
+                             display_name='Predicted Team xG')
+THURSDAY_ATTACKING_ZONES = Slot('task2', 'thursday-attacking-zones', 20, 0, weekday=3,
+                               display_name='Attacking Zones • Shot Origins')
+FRIDAY_ROTATION_PLANNER = Slot('task2', 'friday-rotation-planner', 20, 0, weekday=4,
+                              display_name='Two-Club Rotation Planner')
+SATURDAY_FDR_GRID = Slot('task2', 'saturday-fdr-grid', 20, 0, weekday=5,
+                         display_name='Six-Gameweek FDR Grid')
+EVENING_INTELLIGENCE_SLOTS = (
+    TUESDAY_SET_PIECES, WEDNESDAY_PREDICTED_XG, THURSDAY_ATTACKING_ZONES,
+    FRIDAY_ROTATION_PLANNER, SATURDAY_FDR_GRID,
+)
+EVENING_WATCH_SLOTS = (SUNDAY_CHANCES, MONDAY_DEFENCE, *EVENING_INTELLIGENCE_SLOTS)
 
 PASSING_CREATORS = Slot('task2', 'passing-creators', 16, 15, weekday=2,
                         display_name='Completed Passes vs Chances Created')
