@@ -68,14 +68,6 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Syntax check
         run: python -m compileall -q vortex tests
-      - name: Validate all graphics and scheduling
-        run: python -m pytest -q
-      - name: Read-only verification of configured Telegram destination
-        if: github.event_name == 'push'
-        env:
-          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
-          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-        run: python -c 'from vortex.telegram import TelegramClient; TelegramClient().verify_destination()'
       - name: Render Sunday Chance Watch without publishing
         if: github.event_name == 'pull_request' && github.head_ref == 'feature/sunday-chance-watch'
         env:
@@ -92,6 +84,14 @@ jobs:
           path: output/sunday-chance-watch/
           if-no-files-found: error
           retention-days: 5
+      - name: Validate all graphics and scheduling
+        run: python -m pytest -q
+      - name: Read-only verification of configured Telegram destination
+        if: github.event_name == 'push'
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -c 'from vortex.telegram import TelegramClient; TelegramClient().verify_destination()'
       - name: Read-only live Day 3 + FPL Core source-to-forecast audit
         if: github.event_name == 'pull_request'
         timeout-minutes: 7
