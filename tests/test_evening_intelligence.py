@@ -76,7 +76,7 @@ def test_tuesday_uses_actual_official_orders_and_never_renders_fake_per90():
     assert plan.kind == "set_pieces"
     assert len(plan.extra["rows"]) == 12
     assert plan.extra["rows"][0]["orders"] == (1, 2, 3)
-    assert "NOT" in plan.extra["method"]
+    assert "not" in plan.extra["method"]
     assert "not set pieces per 90" in plan.caption
 
 
@@ -107,7 +107,7 @@ def test_wednesday_rejects_unverified_xg_and_accepts_matching_five_gw(monkeypatc
                            SimpleNamespace(session=None))
     assert len(plan.extra["rows"]) == 20
     assert plan.extra["rows"][0]["total"] == 7.5
-    assert "VORTEX MODEL xG" in plan.caption
+    assert "model version validated-model" in plan.caption
     model_rows[3][13][0]["projected_goals"] = None
     import pytest
     with pytest.raises(RequiredInput):
