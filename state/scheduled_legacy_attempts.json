@@ -256,5 +256,11 @@
     "attempts": 1,
     "generated": true,
     "status": "checked"
+  },
+  "2026-11-17:sell": {
+    "at": "2026-11-18T00:04:01.007095+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
   }
 }
