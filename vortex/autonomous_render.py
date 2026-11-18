@@ -330,6 +330,9 @@ def _position_watch(plan, snapshot, output, client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind == 'weekday_board':
+        from .weekday_boards_render import render_weekday_board
+        return [render_weekday_board(plan, output, client)]
     if plan.kind == 'sunday_chances':
         from .sunday_chances_render import render_sunday_chances
         return [render_sunday_chances(plan, output, client)]
