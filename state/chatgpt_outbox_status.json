@@ -660,6 +660,12 @@
     "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:82e87535811836c1a504",
     "status": "delivered"
   },
+  "2026-11-18-goalkeeper-striker-watch.json": {
+    "at": "2026-11-18T18:28:03.032773+00:00",
+    "caption_once_album": true,
+    "identity": "chatgpt:2026-27:GW11:task2:goalkeeper-striker-watch:f2c93231bfcffe5aee0f",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-13T16:50:31.597225+00:00",
     "reason": "ValueError: Edition is stale or generated timestamp invalid; refresh instead of replaying",
