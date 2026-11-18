@@ -630,6 +630,11 @@
     "identity": "chatgpt:2026-27:GW11:task2:scouting-rotation:e90742c31b28d51542ec",
     "status": "delivered"
   },
+  "2026-11-17-vortex-captain.json": {
+    "at": "2026-11-18T02:00:04.580967+00:00",
+    "identity": "chatgpt:2026-27:GW11:three_daily:vortex-captain:43bcd6c7e242c3a477b4",
+    "status": "delivered"
+  },
   "2026-11-17-weekly-analysis.json": {
     "at": "2026-11-17T19:33:24.346527+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:be85fb08f8bcd2753061",

@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-18T01:00:00.714734+00:00",
-  "eastern_at": "2026-11-17T20:00:00.714734-05:00",
+  "at": "2026-11-18T02:00:01.050695+00:00",
+  "eastern_at": "2026-11-17T21:00:01.050695-05:00",
   "last_news_scan": "2026-11-18T00:49:05.360220+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "vortex-captain",
-    "trigger": "2026-11-17T21:00:00-05:00"
+    "post": "news",
+    "trigger": "2026-11-18T02:45:08.094449+00:00"
   },
-  "next_telegram_at": null,
+  "next_telegram_at": "2026-11-18T02:45:08.094449+00:00",
   "pending_triggers": [
     {
       "post": "chance-creators",
