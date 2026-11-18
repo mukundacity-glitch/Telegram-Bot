@@ -252,48 +252,69 @@ def _rotation_team_ids(snapshot):
 
 
 def _rotation(slot, snapshot, now, session):
+    """Use independently verified CS model only where supported, FDR elsewhere."""
     weeks = _weeks(snapshot, 11)
     team_ids = _rotation_team_ids(snapshot)
-    feed = verified_feed(snapshot, now, session=session)
-    by_team = _team_fixture_rows(snapshot, feed, weeks)
+    # The current VORTEX model only has five future GWs. Later weeks and model
+    # downtime must use honest official FPL FDR, not invented clean-sheet odds.
+    feed = None
+    model_rows = {}
+    try:
+        feed = verified_feed(snapshot, now, session=session)
+        model_rows = _team_fixture_rows(snapshot, feed, weeks[:5])
+    except RequiredInput:
+        feed = None
     rows = []
     for gw in weeks:
         options = []
         for team_id in team_ids:
-            fixtures = by_team[team_id][gw]
-            if len(fixtures) > 1:
-                # Double gameweeks require a joint clean-sheet calculation,
-                # not the product or average of two unrelated probabilities.
-                raise RequiredInput("Rotation CS probability in a double GW requires joint model")
-            row = fixtures[0] if fixtures else None
-            if row is not None:
-                cs = _number(row["clean_sheet_pct"], max_value=100)
-                fdr = _number(row["defensive_fdr"], min_value=1, max_value=5)
-                opponent = snapshot.teams[row["opponent_id"]]
-                details = {"team": team_id, "name": snapshot.teams[team_id]["short_name"],
-                           "code": snapshot.teams[team_id]["code"],
-                           "opp": opponent["short_name"], "opp_code": opponent["code"],
-                           "venue": row["venue"], "fdr": fdr, "cs": cs}
+            official = snapshot.fixtures_for_gameweek({"team": team_id}, gw)
+            if len(official) > 1:
+                raise RequiredInput("Rotation board requires a separate double-GW model")
+            fixture = official[0] if official else None
+            model_items = model_rows.get(team_id, {}).get(gw, []) if feed else []
+            if len(model_items) > 1:
+                raise RequiredInput("No joint defensive model for double fixtures")
+            probability = None
+            if model_items:
+                if not fixture:
+                    raise RequiredInput("Verified CS fixture not found in official FPL")
+                probability = _number(model_items[0]["clean_sheet_pct"], max_value=100)
+            club = snapshot.teams[team_id]
+            if fixture:
+                opp, venue, fdr, opp_code = fixture
+                if type(fdr) is not int or not 1 <= fdr <= 5 or not opp_code:
+                    raise RequiredInput("Official rotation FDR/opponent incomplete")
+                details = {"team": team_id, "name": club["short_name"],
+                           "code": club["code"], "opp": opp, "opp_code": opp_code,
+                           "venue": venue, "fdr": fdr, "cs": probability}
             else:
-                details = {"team": team_id, "name": snapshot.teams[team_id]["short_name"],
-                           "code": snapshot.teams[team_id]["code"], "opp": "BLANK",
+                details = {"team": team_id, "name": club["short_name"],
+                           "code": club["code"], "opp": "BLANK",
                            "opp_code": None, "venue": "-", "fdr": None, "cs": None}
             options.append(details)
-        candidate = max(options, key=lambda r: (r["cs"] is not None,
-                        r["cs"] if r["cs"] is not None else -1,
-                        -(r["fdr"] if r["fdr"] is not None else 6),
-                        -r["team"]))
+        # Choose verified CS if BOTH sides have it; otherwise use FDR for
+        # both so the two data types are never compared as interchangeable.
+        both_cs = all(r["cs"] is not None for r in options)
+        if both_cs:
+            chosen = max(options, key=lambda r: (r["cs"], -r["fdr"], -r["team"]))
+        else:
+            chosen = min(options, key=lambda r: (r["fdr"] if r["fdr"] is not None else 6,
+                                                r["team"]))
         rows.append({"gw": gw, "choices": options,
-                     "chosen": candidate["team"] if candidate["cs"] is not None else None})
+                     "chosen": chosen["team"] if chosen["fdr"] is not None else None,
+                     "decision_basis": "MODEL CS%" if both_cs else "OFFICIAL FDR"})
+    model_note = (f"VORTEX {feed['model_version']} for covered GWs; later use official FDR."
+                  if feed else "Official FPL FDR only; verified CS model unavailable.")
     return _plan(slot, snapshot, now, "TWO-CLUB ROTATION PLANNER",
                  " vs ".join(snapshot.teams[team_id]["name"] for team_id in team_ids),
-                 "Highest verified clean-sheet probability selected; no guaranteed clean sheets.",
+                 f"{model_note} Clean sheets are never guaranteed.",
                  "rotation_planner", {
                      "rows": rows, "club_ids": team_ids,
-                     "model": feed["model_version"], "weeks": weeks,
-                     "sources": [FPL_SOURCE, FIXTURES_SOURCE, feed["methodology_url"]],
+                     "model": feed["model_version"] if feed else None, "weeks": weeks,
+                     "sources": [FPL_SOURCE, FIXTURES_SOURCE] +
+                                ([feed["methodology_url"]] if feed else []),
                  })
-
 
 def _fdr_grid(slot, snapshot, now):
     weeks = _weeks(snapshot, 6)
