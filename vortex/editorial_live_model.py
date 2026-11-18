@@ -12,6 +12,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from tempfile import TemporaryDirectory
 import math
+import os
 import requests
 
 from .editorial_inputs import RequiredInput
@@ -22,8 +23,15 @@ class _JsonClient:
         self.session = session
 
     def get(self, url, required=True, timeout=20):
-        response = self.session.get(url, timeout=timeout,
-                                    headers={'Accept': 'application/json'})
+        headers = {'Accept': 'application/json'}
+        # Rate-limit resilient READ-ONLY public FPL Core tree verification.
+        # Limit authentication to one exact, reviewed GitHub repository API;
+        # never forward an Actions token to raw CDN, ESPN or third-party URLs.
+        if url.startswith('https://api.github.com/repos/olbauday/FPL-Core-Insights/'):
+            token = os.environ.get('GITHUB_TOKEN', '').strip()
+            if token:
+                headers['Authorization'] = 'Bearer ' + token
+        response = self.session.get(url, timeout=timeout, headers=headers)
         response.raise_for_status()
         payload = response.json()
         # ESPN's display names sometimes add a club prefix/suffix absent
