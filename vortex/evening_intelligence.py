@@ -248,7 +248,15 @@ def _predicted_xg(slot, snapshot, now, session):
         for gw in weeks:
             fixtures = by_team[team_id][gw]
             total = sum(_number(f["projected_goals"], max_value=12) for f in fixtures)
-            cells.append({"gw": gw, "xg": round(total, 2), "fixtures": len(fixtures)})
+            official = snapshot.fixtures_for_gameweek({"team": team_id}, gw)
+            if len(official) != len(fixtures) or any(
+                opp == "TBD" or venue not in ("H", "A") or type(code) is not int
+                for opp, venue, _, code in official
+            ):
+                raise RequiredInput("Forecasted week has incomplete official opponent identities")
+            cells.append({"gw": gw, "xg": round(total, 2), "fixtures": len(fixtures),
+                          "opponents": [{"opp": opp, "venue": venue, "code": code}
+                                        for opp, venue, _, code in official]})
         total = sum(cell["xg"] for cell in cells)
         rows.append({"name": club["name"], "code": club["code"],
                      "short": club["short_name"], "cells": cells,

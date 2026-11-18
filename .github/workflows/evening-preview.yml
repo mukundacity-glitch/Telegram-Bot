@@ -13,7 +13,7 @@ permissions:
   contents: read
 jobs:
   evening-preview:
-    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'feature/weekly-evening-intelligence-20261118'
+    if: github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'feature/weekly-evening-intelligence-')
     name: Read-only ${{ matrix.edition }}
     strategy:
       fail-fast: false
