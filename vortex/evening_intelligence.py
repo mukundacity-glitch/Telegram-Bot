@@ -230,7 +230,7 @@ def _attacking_zones(slot, snapshot, now, session):
 def _rotation_team_ids(snapshot):
     """Editorial club pair is configurable; fixtures and ratings are always live."""
     choices = [x.strip().casefold() for x in
-               os.environ.get("VORTEX_ROTATION_TEAMS", "Leeds United,Tottenham Hotspur").split(",")]
+               os.environ.get("VORTEX_ROTATION_TEAMS", "LEE,TOT").split(",")]
     if len(choices) != 2 or not all(choices) or choices[0] == choices[1]:
         raise RequiredInput("VORTEX_ROTATION_TEAMS must specify two different clubs")
     aliases = {
