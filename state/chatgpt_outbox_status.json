@@ -671,6 +671,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:player-radar-comparison:338a5d0e3d12b88cba80",
     "status": "delivered"
   },
+  "2026-11-18-scouting-rotation.json": {
+    "at": "2026-11-18T20:43:26.850281+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:scouting-rotation:f952d24b004f98427de6",
+    "status": "delivered"
+  },
   "2026-11-18-weekly-analysis.json": {
     "at": "2026-11-18T19:58:19.348179+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:5acbf11cba0cb7e2314a",

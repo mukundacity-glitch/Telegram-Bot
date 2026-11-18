@@ -1372,6 +1372,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-17T21:03:34.424218+00:00"
   },
+  "chatgpt:2026-27:GW11:task2:scouting-rotation:f952d24b004f98427de6:page1": {
+    "caption_sha256": "0bcab4bc8830efebe3c6aaefacc0949b1fc5b47fbcceb34f5910eb994859f35a",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1572713881636442203",
+    "gameweek": 11,
+    "source": "",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-18T20:43:28.754305+00:00",
+    "telegram_message_id": 475,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-18T20:43:26.850281+00:00"
+  },
   "chatgpt:2026-27:GW11:task2:weekly-analysis:5acbf11cba0cb7e2314a:page1": {
     "caption_sha256": "0f273ee990c4d3cc44534172869a79a4e617e77759ad50dae38e24e02385220f",
     "delivered": true,
