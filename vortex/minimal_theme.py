@@ -5,6 +5,8 @@ Identical editions render deterministically; the approved master supplies marks.
 """
 from __future__ import annotations
 import hashlib
+import os
+import re
 from PIL import Image, ImageDraw, ImageFont
 
 INK = (232, 244, 255)
@@ -81,21 +83,44 @@ def background(master, key, size=(1536, 864)):
     return canvas
 
 
-def social_footer(canvas, telegram='', discord=''):
-    """Neon footer with unchanged, caller-provided channel handles."""
+def extra_social_handles():
+    """Return public handles supplied by the publishing environment."""
+    values = []
+    for name in ('FPL_YOUTUBE_HANDLE', 'FPL_X_HANDLE'):
+        value = os.getenv(name, '').strip().lstrip('@')
+        values.append('@' + value if re.fullmatch(r'[A-Za-z0-9_.-]{2,50}', value) else '')
+    return tuple(values)
+
+
+def social_footer(canvas, telegram=None, discord=None):
+    """Add the configured public channels to landscape and portrait graphics."""
+    telegram = os.getenv('FPL_TELEGRAM_HANDLE', '') if telegram is None else telegram
+    discord = os.getenv('FPL_DISCORD_HANDLE', '') if discord is None else discord
+    youtube, x_handle = extra_social_handles()
+    values = [value for value in (
+        'TELEGRAM  t.me/' + telegram.lstrip('@') if telegram else '',
+        'YOUTUBE  ' + youtube if youtube else '',
+        'DISCORD  ' + discord if discord else '',
+        'X  ' + x_handle if x_handle else '',
+    ) if value] or ['FPL VORTEX']
     draw = ImageDraw.Draw(canvas, 'RGBA')
     w, h = canvas.size
-    y = round(h*.928)
+    y = round(h * .928)
     draw.rectangle((0, y, w, h), fill=(*PAPER, 255))
-    draw.line((round(w*.02), y, round(w*.98), y),
-              fill=(*CYAN, 255), width=max(2, w//510))
-    draw.line((round(w*.02), y+3, round(w*.98), y+3),
+    draw.line((round(w * .02), y, round(w * .98), y),
+              fill=(*CYAN, 255), width=max(2, w // 510))
+    draw.line((round(w * .02), y + 3, round(w * .98), y + 3),
               fill=(156, 55, 249, 185), width=2)
-    values = ('TELEGRAM  t.me/'+telegram.lstrip('@') if telegram else 'FPL VORTEX',
-              'DISCORD  '+discord if discord else 'FPL VORTEX')
-    for x, value in zip((round(w*.06), round(w*.55)), values):
-        size = round(w*.019)
-        while size > 12 and draw.textbbox((0, 0), value, font=face(size))[2] > w*.40:
+
+    columns = min(len(values), 2) if w < h else len(values)
+    rows = (len(values) + columns - 1) // columns
+    column_width = w * .96 / columns
+    row_height = (h - y - 6) / rows
+    for index, value in enumerate(values):
+        row, column = divmod(index, columns)
+        size = round(w * (.027 if w < h else .018))
+        while size > 10 and draw.textlength(value, font=face(size)) > column_width - 12:
             size -= 1
-        draw.text((x, y+round(h*.017)), value, font=face(size), fill=INK)
+        draw.text((w * .02 + (column + .5) * column_width, y + 6 + (row + .5) * row_height),
+                  value, font=face(size), fill=INK, anchor='mm')
     return canvas

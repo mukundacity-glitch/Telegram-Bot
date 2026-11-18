@@ -3,7 +3,7 @@ from dataclasses import replace
 from datetime import datetime
 from zoneinfo import ZoneInfo
 from pathlib import Path
-from .minimal_theme import background, action_fill, social_footer
+from .minimal_theme import background, action_fill, extra_social_handles, social_footer
 from PIL import Image,ImageDraw,ImageOps
 import requests
 
@@ -149,11 +149,10 @@ def _market_reason(rows,key,snapshot):
 
 
 def _market_footer():
-    import os
-    telegram,discord=required_footer_handles()
-    youtube=os.getenv('FPL_YOUTUBE_HANDLE','').strip().lstrip('@')
-    x=os.getenv('FPL_X_HANDLE','').strip().lstrip('@')
-    return [('telegram','t.me/'+telegram.lstrip('@')),('youtube',youtube),('discord',discord),('x',x)]
+    telegram, discord = required_footer_handles()
+    youtube, x_handle = extra_social_handles()
+    return [('telegram', 't.me/' + telegram.lstrip('@')), ('youtube', youtube),
+            ('discord', discord), ('x', x_handle)]
 
 
 def _market(plan,snapshot,output,client):
@@ -323,8 +322,7 @@ def _position_watch(plan, snapshot, output, client):
         if top + 160 < 1746:
             vs.notes_panel(canvas, (26, top, 1054, top + 135), 'TRANSFER CHECK',
                            [f"Compare minutes and fixtures with your current {plan.extra['position']}."])
-    with Image.open(brand_dir / 'midfield-watch-footer.png') as footer:
-        vs._paste_contained(canvas, footer, (12, 1775, 1056, 116))
+    social_footer(canvas)
     output.parent.mkdir(parents=True, exist_ok=True)
     vs.finish(canvas).save(output, 'PNG', optimize=True)
     return output
@@ -332,6 +330,9 @@ def _position_watch(plan, snapshot, output, client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind == 'sunday_chances':
+        from .sunday_chances_render import render_sunday_chances
+        return [render_sunday_chances(plan, output, client)]
     if plan.kind in ('saturday_bonus', 'saturday_ownership'):
         from .saturday_boards_render import render_saturday
         return [render_saturday(plan, snapshot, output, client)]

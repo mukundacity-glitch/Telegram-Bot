@@ -9,7 +9,7 @@ from .autonomous_content import Evidence
 from .autonomous_runner import run as run_editions, STATE_FILE
 from .autonomous_schedule import (
     ET, SLOTS, catchup_slots, eligible_on, publication_key, retryable, season_id, slot_start,
-    special_triggers, SERIES, SERIES_STATE, weekly_analysis_slot,
+    special_triggers, SERIES, SERIES_STATE, SUNDAY_CHANCES, weekly_analysis_slot,
 )
 from .bot import STATE, read_state, write_state, run as run_legacy
 from .fpl import collect_snapshot
@@ -165,7 +165,10 @@ def run(now=None, cron=None):
             jobs.append((trigger, 'outbox', file.name, file))
     rows = []
     deferred = None
-    for trigger, lane, key, payload in sorted(jobs, key=lambda item: (item[0], item[1], item[2])):
+    # The 8 PM edition gets the next open send window once it is due.
+    for trigger, lane, key, payload in sorted(jobs, key=lambda item: (
+        item[3] != SUNDAY_CHANCES, item[0], item[1], item[2]
+    )):
         if until := blocked_until(now if injected_time else datetime.now(timezone.utc)):
             deferred = (upcoming_editorial(payload, until) if lane == 'editorial' else
                         {'post': payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()})
@@ -252,6 +255,10 @@ def run(now=None, cron=None):
         trigger = local.replace(hour=hour, minute=minute, second=0, microsecond=0)
         if trigger > now:
             upcoming.append({'post': name, 'trigger': trigger.isoformat()})
+    if any(row['type'] == SUNDAY_CHANCES.edition and row['status'] == 'RETRY' for row in rows):
+        retry_at = now + timedelta(minutes=15)
+        if allowed(retry_at):
+            upcoming.append(upcoming_editorial(SUNDAY_CHANCES, retry_at))
     upcoming.extend(item for item in pending if item['trigger'])
     if not upcoming:
         tomorrow = local + timedelta(days=1)

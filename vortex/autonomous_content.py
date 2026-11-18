@@ -161,6 +161,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     if name == 'wildcard-draft':
         from .wildcard import build_wildcard
         return build_wildcard(slot, snapshot, now, e)
+    if name == 'sunday-chance-watch':
+        from .sunday_chances import build_sunday_chances
+        return build_sunday_chances(slot, snapshot, now, e.session)
     if name == 'assists-vs-shot-quality':
         from .shot_quality import build_shot_quality
         return build_shot_quality(slot, snapshot, now, e.session)
