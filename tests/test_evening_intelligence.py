@@ -25,7 +25,7 @@ def snapshot(*, length=11, players=True):
         name = ("Leeds United" if number == 1 else
                 "Tottenham Hotspur" if number == 2 else f"Club {number}")
         clubs[number] = {
-            "id": number, "name": name, "short_name": f"C{number}",
+            "id": number, "name": name, "short_name": "LEE" if number == 1 else "TOT" if number == 2 else f"C{number}",
             "code": 1000 + number,
         }
     events = [{"id": i + 11, "finished": False,
