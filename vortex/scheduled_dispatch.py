@@ -32,10 +32,17 @@ def legacy_jobs(now, ledger, checks):
     for name, (hour, minute) in SLOT_HOURS.items():
         trigger = local.replace(hour=hour, minute=minute, second=0, microsecond=0)
         key = f'{local.date()}:{name}'
-        if trigger > now or not retryable(checks.get(key, {})):
+        if trigger > now:
             continue
         related = [v for k, v in ledger.items() if k == key or k.startswith(key + ':GW')]
-        if any(v.get('delivered') for v in related):
+        if any(v.get('delivered') and (name != 'evening' or v.get('telegram_message_id'))
+               for v in related):
+            continue
+        check = checks.get(key, {})
+        if name == 'evening' and check.get('status') == 'checked':
+            # Older runs could close this slot without a Telegram receipt.
+            check = {**check, 'status': 'held'}
+        if not retryable(check):
             continue
         cron = next((cron for cron, slot in SLOT_CRONS.items() if slot == name), None)
         if cron:
@@ -51,8 +58,12 @@ def due_legacy(now, ledger, checks):
 def legacy_delivery(now, snapshot, key, cron, checks):
     audit = {}
     result = run_legacy('auto', cron, snapshot=snapshot, now=now, audit=audit)
+    if key.endswith(':evening') and not result:
+        receipt = read_state(LEGACY_RECEIPTS).get(key, {})
+        if not (receipt.get('delivered') and receipt.get('telegram_message_id')):
+            audit['error'] = 'Evening Creator Watch has no confirmed Telegram delivery receipt'
     checks[key] = {
-        'status': 'held' if result else 'checked',
+        'status': 'held' if result or audit.get('error') else 'checked',
         'attempts': checks.get(key, {}).get('attempts', 0) + 1,
         'at': now.isoformat(),
         **audit,
@@ -165,7 +176,10 @@ def run(now=None, cron=None):
             jobs.append((trigger, 'outbox', file.name, file))
     rows = []
     deferred = None
-    for trigger, lane, key, payload in sorted(jobs, key=lambda item: (item[0], item[1], item[2])):
+    # Give the due evening board the next available Telegram send window.
+    for trigger, lane, key, payload in sorted(jobs, key=lambda item: (
+        not (item[1] == 'legacy' and item[3][0] == 'evening'), item[0], item[1], item[2]
+    )):
         if until := blocked_until(now if injected_time else datetime.now(timezone.utc)):
             deferred = (upcoming_editorial(payload, until) if lane == 'editorial' else
                         {'post': payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()})
@@ -252,6 +266,10 @@ def run(now=None, cron=None):
         trigger = local.replace(hour=hour, minute=minute, second=0, microsecond=0)
         if trigger > now:
             upcoming.append({'post': name, 'trigger': trigger.isoformat()})
+    if any(row['type'] == 'evening' and row['status'] == 'RETRY' for row in rows):
+        retry_at = now + timedelta(minutes=15)
+        if allowed(retry_at):
+            upcoming.append({'post': 'evening', 'trigger': retry_at.isoformat()})
     upcoming.extend(item for item in pending if item['trigger'])
     if not upcoming:
         tomorrow = local + timedelta(days=1)
