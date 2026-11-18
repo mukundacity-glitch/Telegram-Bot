@@ -125,10 +125,102 @@ def _team_fixture_rows(snapshot, feed, weeks):
     return rows
 
 
+def _official_xg_fallback(snapshot, weeks):
+    """Expected-goals forecast using only verified official season xG and GK xGC.
+
+    This is an openly disclosed, shrinkage-adjusted team rate model. It is not
+    the independent Day 3 forecast, bookmaker odds, or match-by-match shot xG.
+    """
+    played = Counter()
+    scored_home = scored_away = 0
+    results = []
+    for f in snapshot.fixtures:
+        if f.get("finished") is not True:
+            continue
+        h, a = f.get("team_h"), f.get("team_a")
+        hs, aws = f.get("team_h_score"), f.get("team_a_score")
+        if h not in snapshot.teams or a not in snapshot.teams:
+            continue
+        if type(hs) is not int or type(aws) is not int or not 0 <= hs <= 15 or not 0 <= aws <= 15:
+            raise RequiredInput("Official completed league score is missing or invalid")
+        played.update((h, a))
+        scored_home += hs
+        scored_away += aws
+        results.append(f)
+    if len(results) < 30 or len(played) != 20 or min(played.values()) < 3:
+        raise RequiredInput("Official xG-based projection needs three completed games per club")
+
+    attack = Counter()
+    keeper_xgc = Counter()
+    keeper_minutes = Counter()
+    attacking_minutes = Counter()
+    for p in snapshot.players:
+        team = p.get("team")
+        if team not in snapshot.teams:
+            continue
+        minutes = p.get("minutes")
+        if type(minutes) is not int or minutes < 0:
+            continue
+        if minutes:
+            attack[team] += _number(p.get("expected_goals"), max_value=200)
+            attacking_minutes[team] += minutes
+        if p.get("element_type") == 1 and minutes:
+            keeper_xgc[team] += _number(p.get("expected_goals_conceded"), max_value=300)
+            keeper_minutes[team] += minutes
+    for team_id in snapshot.teams:
+        if keeper_minutes[team_id] < 0.6 * played[team_id] * 90:
+            raise RequiredInput("Current FPL goalkeeper xGC coverage is too incomplete")
+        if attacking_minutes[team_id] < played[team_id] * 90 * 4:
+            raise RequiredInput("Current FPL player xG coverage is incomplete")
+    rate = sum(attack.values()) / sum(played.values())
+    if not 0.5 <= rate <= 3:
+        raise RequiredInput("Official season xG rate outside a plausible team range")
+    # Empirical league-wide home/away bias; no externally invented market odds.
+    home_bias = 2 * scored_home / max(scored_home + scored_away, 1)
+    away_bias = 2 * scored_away / max(scored_home + scored_away, 1)
+    if not all(0.65 <= factor <= 1.35 for factor in (home_bias, away_bias)):
+        raise RequiredInput("Home/away scoring balance has insufficient stability")
+    # Regularize club rates against the observed league distribution.
+    pseudo_games = max(3, round(sum(played.values()) / (2 * len(played))))
+    offense = {team_id: (attack[team_id] + rate * pseudo_games) /
+               (played[team_id] + pseudo_games) for team_id in snapshot.teams}
+    defense = {team_id: (keeper_xgc[team_id] + rate * pseudo_games) /
+               (played[team_id] + pseudo_games) for team_id in snapshot.teams}
+    by_team = {team_id: defaultdict(list) for team_id in snapshot.teams}
+    for f in snapshot.fixtures:
+        if f.get("event") not in weeks or f.get("finished") is True:
+            continue
+        home, away = f.get("team_h"), f.get("team_a")
+        if home not in by_team or away not in by_team:
+            raise RequiredInput("Upcoming fixture refers to unknown official FPL club")
+        for team_id, opponent, factor in ((home, away, home_bias),
+                                           (away, home, away_bias)):
+            expected = offense[team_id] * defense[opponent] / rate * factor
+            if not 0.2 <= expected <= 5:
+                raise RequiredInput("Official team xG-based forecast is out of range")
+            by_team[team_id][f["event"]].append({
+                "projected_goals": expected,
+                "fixture_id": f["id"],
+            })
+    return by_team
+
+
 def _predicted_xg(slot, snapshot, now, session):
     weeks = _weeks(snapshot, 5)
-    feed = verified_feed(snapshot, now, session=session)
-    by_team = _team_fixture_rows(snapshot, feed, weeks)
+    source_names = [FPL_SOURCE, FIXTURES_SOURCE]
+    note = "VORTEX fixture forecast from verified independent model."
+    try:
+        feed = verified_feed(snapshot, now, session=session)
+        by_team = _team_fixture_rows(snapshot, feed, weeks)
+        model = feed["model_version"]
+        source_names.append(feed["methodology_url"])
+    except RequiredInput:
+        # Do not label the fallback as VORTEX Day 3 or market odds. A missing
+        # external archive must not create an empty chart or fictional numbers.
+        by_team = _official_xg_fallback(snapshot, weeks)
+        model = "official-FPL-xG-rate-v1"
+        note = ("FPL season player xG + goalkeeper xGC, shrunk for sample size; "
+                "current-club transfers may affect attribution. NOT Day 3 model.")
     rows = []
     for team_id, club in snapshot.teams.items():
         cells = []
@@ -140,15 +232,17 @@ def _predicted_xg(slot, snapshot, now, session):
         rows.append({"name": club["name"], "code": club["code"],
                      "short": club["short_name"], "cells": cells,
                      "total": round(total, 2), "average": round(total / len(weeks), 2)})
+    if len(rows) != 20:
+        raise RequiredInput("Expected goals chart needs all 20 official clubs")
     rows.sort(key=lambda r: (-r["total"], r["name"]))
     return _plan(slot, snapshot, now, "PREDICTED TEAM xG",
-                 f"{len(rows)} teams · GW{weeks[0]}–GW{weeks[-1]} · model version {feed['model_version']}.",
-                 "Forward-looking model estimates, not measured match xG or bookmaker odds.",
+                 f"{len(rows)} teams · GW{weeks[0]}–GW{weeks[-1]} · model version {model}.",
+                 note + " Estimates, not bookmaker odds or guaranteed outcomes.",
                  "predicted_xg", {
-                     "rows": rows, "weeks": weeks, "model": feed["model_version"],
-                     "sources": [FPL_SOURCE, FIXTURES_SOURCE, feed["methodology_url"]],
+                     "rows": rows, "weeks": weeks, "model": model,
+                     "method": note,
+                     "sources": source_names,
                  })
-
 
 def _attacking_zones(slot, snapshot, now, session):
     """Summarize shot origin, explicitly NOT all touches or attack channels."""
