@@ -1,13 +1,14 @@
 {
-  "at": "2026-11-18T20:43:22.481445+00:00",
-  "eastern_at": "2026-11-18T15:43:22.481445-05:00",
+  "at": "2026-11-18T21:28:29.707904+00:00",
+  "eastern_at": "2026-11-18T16:28:29.707904-05:00",
   "last_news_scan": "2026-11-18T13:15:05.705969+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "positional-vulnerability",
-    "trigger": "2026-11-18T21:28:28.753439+00:00"
+    "display_name": "Completed Passes vs Chances Created",
+    "post": "passing-creators",
+    "trigger": "2026-11-18T22:13:39.269269+00:00"
   },
-  "next_telegram_at": "2026-11-18T21:28:28.753439+00:00",
+  "next_telegram_at": "2026-11-18T22:13:39.269269+00:00",
   "pending_triggers": [
     {
       "post": "chance-creators",
@@ -34,7 +35,7 @@
   "posts_failed": 0,
   "posts_generated": 1,
   "posts_pending_trigger": 5,
-  "posts_retried": 0,
+  "posts_retried": 1,
   "posts_retry_pending": 1,
   "scheduled_cron": "0,30 0-3,9-23 * * *",
   "source_error": null,
