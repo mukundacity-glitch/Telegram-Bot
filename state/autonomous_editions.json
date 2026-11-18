@@ -1407,8 +1407,8 @@
     "task": "press_news"
   },
   "2026-11-17:price_changes:confirmed-price-changes:GW11": {
-    "at": "2026-11-18T03:30:16.215186+00:00",
-    "attempts": 2,
+    "at": "2026-11-18T03:30:54.868904+00:00",
+    "attempts": 3,
     "caption_hashtags": 4,
     "edition": "confirmed-price-changes",
     "file": "outbox/2026-11-17-confirmed-price-changes.json",
