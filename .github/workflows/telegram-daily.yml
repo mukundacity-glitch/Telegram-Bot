@@ -76,6 +76,12 @@ jobs:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python -c 'from vortex.telegram import TelegramClient; TelegramClient().verify_destination()'
+      - name: Delete the retired Evening Creator Watch Telegram message
+        if: github.event_name == 'push' && contains(github.event.head_commit.message, '[RETIRE EVENING WATCH]')
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python -m vortex.retire_evening_message
       - name: Read-only live Day 3 + FPL Core source-to-forecast audit
         if: github.event_name == 'pull_request'
         timeout-minutes: 7
