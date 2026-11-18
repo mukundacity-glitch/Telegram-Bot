@@ -143,6 +143,11 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name in ('tuesday-set-pieces', 'wednesday-predicted-xg',
+                'thursday-attacking-zones', 'friday-rotation-planner',
+                'saturday-fdr-grid'):
+        from .evening_intelligence import build_evening
+        return build_evening(slot, snapshot, now, e)
     if name == 'bonus-magnets':
         from .saturday_boards import build_bonus
         return build_bonus(slot, snapshot, e.session)
