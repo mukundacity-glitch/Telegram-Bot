@@ -1566,6 +1566,22 @@
       464
     ]
   },
+  "2026-11-18:task1:form-minutes-targets:GW11": {
+    "at": "2026-11-18T13:30:00.634223+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "form-minutes-targets",
+    "file": "outbox/2026-11-18-form-minutes-targets.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:82e87535811836c1a504",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      469
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
