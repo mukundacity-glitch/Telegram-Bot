@@ -56,7 +56,8 @@ def main(argv=None):
             with Image.open(image_path) as verify_image:
                 verify_image.verify()
             with Image.open(image_path) as image:
-                if image.size != (1920, 1080):
+                expected_size = (1080, 1920) if slot.edition == "saturday-fdr-grid" else (1920, 1080)
+                if image.size != expected_size:
                     raise RuntimeError("Premium preview dimensions are incorrect")
                 # A flat background or entirely empty panel is not an accepted PNG.
                 variance = ImageStat.Stat(image.convert("RGB")).var

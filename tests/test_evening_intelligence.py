@@ -111,6 +111,7 @@ def test_wednesday_rejects_unverified_xg_and_accepts_matching_five_gw(monkeypatc
                            SimpleNamespace(session=None))
     assert len(plan.extra["rows"]) == 20
     assert plan.extra["rows"][0]["total"] == 7.5
+    assert all(cell["opponents"] for row in plan.extra["rows"] for cell in row["cells"])
     assert "model version validated-model" in plan.caption
     model_rows[3][13][0]["projected_goals"] = None
     import pytest
@@ -164,5 +165,5 @@ def test_no_blank_colourless_graphic_and_png_dimensions(tmp_path, monkeypatch):
     target = tmp_path / "fdr.png"
     assert graphic.render_evening(plan, target, None) == target
     with Image.open(target) as image:
-        assert image.size == (1920, 1080)
+        assert image.size == (1080, 1920)
         assert len(image.getcolors(1920*1080) or []) > 7

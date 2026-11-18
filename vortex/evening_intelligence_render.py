@@ -5,12 +5,13 @@ initiates delivery. Every team crest comes from its official FPL club code.
 """
 from __future__ import annotations
 
-from PIL import ImageDraw
+from PIL import Image, ImageDraw
 
 from .autonomous_render import _base, _save
 from .comparison_board import CYAN, GOLD, WHITE, contain, text
 from .editorial_inputs import RequiredInput
 from .matchup import _media
+from .minimal_theme import social_footer
 
 BACKGROUND = "#0c1838"
 TILE = "#152853"
@@ -106,7 +107,9 @@ def _set_pieces(plan, output, session):
 def _predicted_xg(plan, output, session):
     weeks = plan.extra["weeks"]
     rows = plan.extra["rows"]
-    canvas, draw = _board(plan, f"GW{weeks[0]}–GW{weeks[-1]} • VORTEX MODEL xG • 20 PREMIER LEAGUE CLUBS")
+    model = ("FPL xG-RATE MODEL" if plan.extra["model"] == "official-FPL-xG-rate-v1"
+             else "VORTEX MODEL xG")
+    canvas, draw = _board(plan, f"GW{weeks[0]}–GW{weeks[-1]} • {model} • 20 PREMIER LEAGUE CLUBS")
     gap = 5
     first_x = 332
     cell_w = int(945 / len(weeks))
@@ -127,8 +130,16 @@ def _predicted_xg(plan, output, session):
             fill = "#205c53" if value >= 2 else "#384a59" if value >= 1.3 else "#66394b"
             draw.rounded_rectangle((x + 3, y + 2, x + cell_w - 7, y + 26),
                                    5, fill=fill, outline=RULE)
-            _label(draw, f"{value:.2f}" if cell["fixtures"] else "BLANK",
-                   x + 7, y + 5, cell_w - 17, 16, WHITE, center=True)
+            opponents = cell["opponents"]
+            if not opponents:
+                _label(draw, "BLANK", x + 7, y + 5, cell_w - 17, 16, MUTED, center=True)
+                continue
+            for index, opponent in enumerate(opponents):
+                _crest(canvas, session, cache, opponent["code"], x + 8 + 20 * index, y + 5, 17)
+            labels = " + ".join(f'{opp["opp"]}({opp["venue"]})' for opp in opponents)
+            start = x + 10 + 20 * len(opponents)
+            text(draw, labels, start, y + 6, x + cell_w - 52 - start, 14, WHITE, minimum=9)
+            _label(draw, f"{value:.2f}", x + cell_w - 48, y + 4, 42, 17, WHITE, center=True)
         _label(draw, f'{row["total"]:.2f}', 1302, y + 5, 91, 16, GOLD, center=True)
         _label(draw, f'{row["average"]:.2f}', 1400, y + 5, 90, 16, WHITE, center=True)
     _footnote(draw, f'Model: {plan.extra["model"]} • xG is estimated, not observed • double fixtures are summed.')
@@ -212,50 +223,64 @@ def _rotation(plan, output, session):
 
 
 def _fdr_colour(value):
-    return {1: "#0A8F71", 2: "#197E67", 3: "#636F82",
-            4: "#A76039", 5: "#AA324F"}.get(value, "#33446C")
+    return {1: "#D3FF77", 2: "#ADFA65", 3: "#D4D4D8",
+            4: "#E10931", 5: "#60051D"}[value]
 
 
 def _fdr(plan, output, session):
-    rows = plan.extra["rows"]
+    """Keep the reference's cyan sheet, dense square grid and FDR colour scale."""
     weeks = plan.extra["weeks"]
-    canvas, draw = _board(plan, f"GW{weeks[0]}–GW{weeks[-1]} • OFFICIAL FPL 1–5 DIFFICULTY • ALL 20 CLUBS")
-    columns = len(weeks)
-    team_x = 42
-    grid_x = 304
-    grid_w = 1102
-    col_w = grid_w / columns
-    for j, gw in enumerate(weeks):
-        _label(draw, "GW" + str(gw), grid_x + j * col_w, 112, col_w - 6,
-               21, CYAN, center=True)
-    _label(draw, "AVG", 1402, 112, 94, 20, GOLD, center=True)
+    canvas = Image.new("RGB", (1080, 1920))
+    draw = ImageDraw.Draw(canvas)
+    for x in range(canvas.width):
+        fraction = x / (canvas.width - 1)
+        colour = (round(12 + 86*fraction), round(233 - 56*fraction), 242)
+        draw.line((x, 0, x, 1920), fill=colour)
+    ink, rule, blue = "#091C48", "#153960", "#5BD2F5"
+    _label(draw, plan.title, 24, 34, 1032, 56, ink, center=True)
+    _label(draw, f"GW{weeks[0]} – GW{weeks[-1]}", 24, 108, 1032, 39, ink, center=True)
+    left, team_width, header_y, row_height = 24, 131, 175, 73
+    width = (1032 - team_width) / (len(weeks) + 1)
+    cols = [(left, team_width)] + [(left + team_width + n*width, width)
+                                   for n in range(len(weeks) + 1)]
+    headers = ["TEAM", *(f"GW{gw}" for gw in weeks), "AVG FDR"]
+    for title, (x, w) in zip(headers, cols):
+        draw.rectangle((x, header_y, x+w, header_y+54), fill=blue, outline=rule, width=2)
+        _label(draw, title, x+2, header_y+14, w-4, 23, ink, center=True)
     cache = {}
-    for i, row in enumerate(rows):
-        y = 143 + i * 30
-        draw.rounded_rectangle((26, y, 1507, y + 29), 7,
-                               fill=BACKGROUND if i % 2 else TILE)
-        _crest(canvas, session, cache, row["code"], team_x, y + 3, 24)
-        _label(draw, row["short"], team_x + 34, y + 5, 225, 18)
-        for j, entries in enumerate(row["cells"]):
-            x = grid_x + j * col_w + 3
-            width = col_w - 6
-            if not entries:
-                draw.rounded_rectangle((x, y + 2, x + width, y + 27), 5, fill="#25334A")
-                _label(draw, "BLANK", x + 6, y + 7, width - 12, 14, MUTED, center=True)
-                continue
-            for k, match in enumerate(entries):
-                part = width / len(entries)
-                left = x + k * part
-                draw.rounded_rectangle((left + 1, y + 2, left + part - 1, y + 27),
-                                       5, fill=_fdr_colour(match["fdr"]), outline=RULE)
-                if part >= 100:
-                    _crest(canvas, session, cache, match["code"], left + 5, y + 5, 19)
-                label = f'{match["opp"]}({match["venue"]})  {match["fdr"]}'
-                _label(draw, label, left + (27 if part >= 100 else 2), y + 6,
-                       part - (32 if part >= 100 else 4), 15, WHITE, center=True)
-        _label(draw, f'{row["average"]:.2f}', 1404, y + 5, 90, 17, GOLD, center=True)
-    _footnote(draw, "Official FPL FDR: 1 easiest • 5 hardest • AVG counts matches, not blank weeks.")
-    return _save(canvas, output)
+    for i, row in enumerate(plan.extra["rows"]):
+        y = header_y + 54 + i*row_height
+        draw.rectangle((left, y, left+team_width, y+row_height), fill=blue, outline=rule, width=2)
+        _crest(canvas, session, cache, row["code"], left+10, y+18, 36)
+        _label(draw, row["short"], left+50, y+23, team_width-56, 27, ink)
+        for j, matches in enumerate(row["cells"], 1):
+            x, w = cols[j]
+            if not matches:
+                draw.rectangle((x, y, x+w, y+row_height), fill="#D4D4D8", outline=rule, width=2)
+                _label(draw, "BLANK", x+1, y+24, w-2, 19, ink, center=True)
+            for k, match in enumerate(matches):
+                h = row_height / len(matches)
+                top = y + k*h
+                value = match["fdr"]
+                colour = WHITE if value >= 4 else ink
+                draw.rectangle((x, top, x+w, top+h), fill=_fdr_colour(value), outline=rule, width=2)
+                crest_size = 27 if len(matches) == 1 else min(24, int(h)-5)
+                _crest(canvas, session, cache, match["code"], x+6, top+5, crest_size)
+                label = f'{match["opp"]}({match["venue"]})'
+                if len(matches) == 1:
+                    _label(draw, label, x+36, top+9, w-39, 20, colour)
+                    _label(draw, f"{value:.1f}", x+2, top+36, w-4, 25, colour, center=True)
+                else:
+                    _label(draw, f"{label} {value:.1f}", x+crest_size+9, top+5, w-crest_size-11, 14, colour)
+        x, w = cols[-1]
+        draw.rectangle((x, y, x+w, y+row_height), fill=blue, outline=rule, width=2)
+        _label(draw, f'{row["average"]:.1f}', x+2, y+21, w-4, 28, ink, center=True)
+    _label(draw, "OFFICIAL FPL FDR   •   1 EASIEST, 5 HARDEST   •   AVERAGE PER FIXTURE",
+           24, 1713, 1032, 20, ink, center=True)
+    social_footer(canvas)
+    output.parent.mkdir(parents=True, exist_ok=True)
+    canvas.save(output, "PNG", optimize=True)
+    return output
 
 
 def render_evening(plan, output, session):
