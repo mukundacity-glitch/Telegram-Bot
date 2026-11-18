@@ -39,6 +39,7 @@ jobs:
         id: preview
         continue-on-error: true
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
@@ -53,7 +54,8 @@ jobs:
           path: output/evening-intelligence/*
           if-no-files-found: warn
           retention-days: 14
-      - name: Report preview verification result
+      - name: Gate on actual read-only image QA
         if: steps.preview.outcome == 'failure'
         run: |
-          echo "::warning::No publish occurred; source or visual QA was held. See uploaded audit."
+          echo "::error::Real-data preview held. No publish occurred. See uploaded source audit."
+          exit 1
