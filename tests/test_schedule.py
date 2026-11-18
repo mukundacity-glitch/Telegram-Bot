@@ -6,9 +6,9 @@ import pytest
 from vortex.schedule import SLOT_CRONS, captaincy_due, resolve_slot
 
 
-def test_all_thirteen_slots_have_distinct_times_and_backup_checks():
-    assert len(SLOT_CRONS) == 10
-    assert len(set(SLOT_CRONS.values())) == 5
+def test_remaining_legacy_slots_have_distinct_times_and_backup_checks():
+    assert len(SLOT_CRONS) == 8
+    assert set(SLOT_CRONS.values()) == {'elite', 'daily_stats', 'review', 'sell'}
     assert {"transfer", "captaincy", "comparison", "buy", "news", "midfielders", "team_analysis", "prices"}.isdisjoint(SLOT_CRONS.values())
 
 
