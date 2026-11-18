@@ -100,6 +100,8 @@ jobs:
       - name: Read-only live Day 3 + FPL Core source-to-forecast audit
         if: github.event_name == 'pull_request'
         timeout-minutes: 7
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
         run: python -m vortex.editorial_live_model
       - name: Render real FPL BUY / SELL previews without publishing
         if: github.event_name == 'pull_request'
@@ -142,6 +144,7 @@ jobs:
       - name: Generate and deliver the due content queue
         timeout-minutes: 140
         env:
+          GITHUB_TOKEN: ${{ github.token }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
           DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}

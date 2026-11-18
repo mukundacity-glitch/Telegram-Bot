@@ -330,6 +330,10 @@ def _position_watch(plan, snapshot, output, client):
 
 def render(plan,snapshot,now,output,session=None):
     client=session or requests.Session()
+    if plan.kind in ('set_pieces', 'predicted_xg', 'attacking_zones',
+                     'rotation_planner', 'fdr_grid'):
+        from .evening_intelligence_render import render_evening
+        return [render_evening(plan, output, client)]
     if plan.kind == 'sunday_chances':
         from .sunday_chances_render import render_sunday_chances
         return [render_sunday_chances(plan, output, client)]

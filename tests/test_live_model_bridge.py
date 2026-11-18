@@ -116,3 +116,31 @@ def test_espn_name_alias_changes_only_the_verified_team_label():
     assert actual['events'][0]['date']==original['events'][0]['date']
     unmodified=_JsonClient(Session()).get('https://example.invalid/data')
     assert unmodified==original
+
+
+def test_actions_token_only_sent_to_verified_fpl_core_repository(monkeypatch):
+    from vortex.editorial_live_model import _JsonClient
+    monkeypatch.setenv("GITHUB_TOKEN", "test-token-do-not-use")
+    calls = []
+
+    class Reply:
+        def raise_for_status(self):
+            return None
+        def json(self):
+            return {"sha": "0" * 40}
+
+    class Client:
+        def get(self, url, timeout, headers):
+            calls.append((url, headers))
+            return Reply()
+
+    reader = _JsonClient(Client())
+    allowed = "https://api.github.com/repos/olbauday/FPL-Core-Insights/git/trees/main?recursive=1"
+    disallowed = "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/teams.csv"
+    adjacent = "https://api.github.com/repos/olbauday/FPL-Core-Insights-Fake/git/trees/main"
+    reader.get(allowed)
+    reader.get(disallowed)
+    reader.get(adjacent)
+    assert calls[0][1]["Authorization"] == "Bearer test-token-do-not-use"
+    assert "Authorization" not in calls[1][1]
+    assert "Authorization" not in calls[2][1]

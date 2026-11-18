@@ -7,7 +7,7 @@ from vortex.autonomous_schedule import ET, SLOTS, MONDAY_DEFENCE, SUNDAY_CHANCES
 
 def test_evening_boards_are_day_specific_and_retry_only_same_day():
     sunday = datetime(2026, 11, 22, 20, tzinfo=ET)
-    assert [slot for slot in SLOTS if (slot.hour, slot.minute) == (20, 0)] == [SUNDAY_CHANCES, MONDAY_DEFENCE]
+    assert [slot for slot in SLOTS if (slot.hour, slot.minute) == (20, 0)][:2] == [SUNDAY_CHANCES, MONDAY_DEFENCE]
     assert SUNDAY_CHANCES not in catchup_slots(sunday - timedelta(minutes=1), {}, 11, limit=None)
     assert SUNDAY_CHANCES in catchup_slots(sunday, {}, 11, limit=None)
     key = publication_key(SUNDAY_CHANCES, sunday, 11)
