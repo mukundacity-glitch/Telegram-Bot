@@ -74,10 +74,14 @@ def test_tuesday_uses_actual_official_orders_and_never_renders_fake_per90():
     plan = e.build_evening(TUESDAY_SET_PIECES, snap, snap.fetched_at,
                            SimpleNamespace(session=None))
     assert plan.kind == "set_pieces"
-    assert len(plan.extra["rows"]) == 12
-    assert plan.extra["rows"][0]["orders"] == (1, 2, 3)
+    assert len(plan.extra["rows"]) == 20
+    assert plan.extra["leader_counts"] == [20, 0, 0]
+    assert all(row["duties"][0]["order"] == 1
+               for row in plan.extra["rows"] if row["duties"][0])
+    assert all(row["duties"][1]["order"] == 2
+               for row in plan.extra["rows"] if row["duties"][1])
     assert "not" in plan.extra["method"]
-    assert "not set pieces per 90" in plan.caption
+    assert "NOT attempts or crosses per 90" in plan.caption
 
 
 def test_saturday_contains_six_real_weeks_and_20_club_cells():
