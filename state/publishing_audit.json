@@ -2684,6 +2684,23 @@
     "trigger": "2026-11-17T06:30:00-05:00",
     "type": "elite"
   },
+  "2026-11-17:evening": {
+    "attempts": 1,
+    "completed_at": "2026-11-18T01:00:07.005812+00:00",
+    "confirmed_telegram_message_ids": [
+      463
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-17:evening",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      463
+    ],
+    "timestamp": "2026-11-18T01:00:00.714734+00:00",
+    "trigger": "2026-11-17T20:00:00-05:00",
+    "type": "evening"
+  },
   "2026-11-17:press_news:verified-press-availability:GW11:1900": {
     "attempts": 0,
     "completed_at": "2026-11-18T00:49:11.419744+00:00",
@@ -3412,6 +3429,29 @@
     "posts": [],
     "status": "RUN",
     "timestamp": "2026-11-18T00:49:47.538728+00:00"
+  },
+  "2026-11-18T01:00:00.714734+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-18T01:00:07.005812+00:00",
+        "confirmed_telegram_message_ids": [
+          463
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-17:evening",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          463
+        ],
+        "timestamp": "2026-11-18T01:00:00.714734+00:00",
+        "trigger": "2026-11-17T20:00:00-05:00",
+        "type": "evening"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-18T01:00:00.714734+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
