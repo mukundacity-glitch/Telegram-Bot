@@ -2714,6 +2714,23 @@
     "trigger": "2026-11-17T19:15:00-05:00",
     "type": "verified-press-availability"
   },
+  "2026-11-17:price_changes:confirmed-price-changes:GW11": {
+    "attempts": 1,
+    "completed_at": "2026-11-18T02:45:16.153051+00:00",
+    "confirmed_telegram_message_ids": [
+      465
+    ],
+    "error": "Telegram delivery incomplete or publishing window closed",
+    "generated": true,
+    "post_id": "2026-11-17:price_changes:confirmed-price-changes:GW11",
+    "status": "RETRY",
+    "telegram_message_ids": [
+      465
+    ],
+    "timestamp": "2026-11-18T02:45:09.724454+00:00",
+    "trigger": "2026-11-17T21:45:00-05:00",
+    "type": "confirmed-price-changes"
+  },
   "2026-11-17:review": {
     "attempts": 1,
     "completed_at": "2026-11-17T23:19:00.410079+00:00",
@@ -3492,6 +3509,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-18T02:00:01.050695+00:00"
+  },
+  "2026-11-18T02:45:09.724454+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-18T02:45:16.153051+00:00",
+        "confirmed_telegram_message_ids": [
+          465
+        ],
+        "error": "Telegram delivery incomplete or publishing window closed",
+        "generated": true,
+        "post_id": "2026-11-17:price_changes:confirmed-price-changes:GW11",
+        "status": "RETRY",
+        "telegram_message_ids": [
+          465
+        ],
+        "timestamp": "2026-11-18T02:45:09.724454+00:00",
+        "trigger": "2026-11-17T21:45:00-05:00",
+        "type": "confirmed-price-changes"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-18T02:45:09.724454+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
