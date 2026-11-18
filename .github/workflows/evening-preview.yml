@@ -1,0 +1,59 @@
+name: FPL VORTEX Evening Graphic Previews (Read Only)
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'vortex/evening_*.py'
+      - 'vortex/sunday_chances*.py'
+      - 'vortex/autonomous_*.py'
+      - 'tests/test_evening_intelligence.py'
+      - '.github/workflows/evening-preview.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  evening-preview:
+    if: github.event_name == 'workflow_dispatch' || github.head_ref == 'feature/weekly-evening-intelligence-20261118'
+    name: Read-only ${{ matrix.edition }}
+    strategy:
+      fail-fast: false
+      matrix:
+        edition:
+          - sunday-chance-watch
+          - monday-defence-watch
+          - tuesday-set-pieces
+          - wednesday-predicted-xg
+          - thursday-attacking-zones
+          - friday-rotation-planner
+          - saturday-fdr-grid
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Real data image and provenance check (NEVER sends Telegram/Discord)
+        id: preview
+        continue-on-error: true
+        env:
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
+          FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
+          FPL_EDITORIAL_MODEL_URL: ${{ vars.FPL_EDITORIAL_MODEL_URL || '' }}
+        run: python -m vortex.evening_preview --editions "${{ matrix.edition }}"
+      - name: Upload actual PNG or explicit source HOLD audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: evening-${{ matrix.edition }}-${{ github.run_id }}
+          path: output/evening-intelligence/*
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Report preview verification result
+        if: steps.preview.outcome == 'failure'
+        run: |
+          echo "::warning::No publish occurred; source or visual QA was held. See uploaded audit."
