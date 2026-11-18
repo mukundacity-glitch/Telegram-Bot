@@ -83,15 +83,14 @@ def test_due_legacy_deduplicates_existing_two_platform_receipts():
     due = dispatcher.due_legacy(OPEN, ledger, {})
     assert due is not None and due[1] != 'elite'
 
-@pytest.mark.parametrize('legacy_name', ['legacy', 'evening'])
-def test_dispatch_orders_all_due_lanes_and_continues_after_failure(monkeypatch, tmp_path, legacy_name):
+def test_dispatch_orders_all_due_lanes_and_continues_after_failure(monkeypatch, tmp_path):
     from datetime import timedelta
     from types import SimpleNamespace
     from vortex.autonomous_schedule import Slot
 
     state = {}
     calls = []
-    legacy_slot = OPEN + timedelta(minutes=1) if legacy_name == 'evening' else OPEN - timedelta(hours=2)
+    legacy_slot = OPEN - timedelta(hours=2)
     outbox_slot = OPEN - timedelta(hours=1)
     paths = {'REPORT': 'report', 'AUDIT': 'audit', 'LEGACY': 'checks',
              'LEGACY_RECEIPTS': 'legacy', 'STATE_FILE': 'editorial',
@@ -108,7 +107,7 @@ def test_dispatch_orders_all_due_lanes_and_continues_after_failure(monkeypatch, 
     monkeypatch.setattr(dispatcher, 'special_triggers',
                         lambda *a: [(Slot('task1', 'special', 0), OPEN + timedelta(hours=1))])
     monkeypatch.setattr(dispatcher, 'legacy_jobs',
-                        lambda *a: [(legacy_slot, 'legacy-id', legacy_name, 'test')])
+                        lambda *a: [(legacy_slot, 'legacy-id', 'legacy', 'test')])
     monkeypatch.setattr(dispatcher, 'queued_files',
                         lambda *a: [(outbox_slot, tmp_path / 'later.json')])
 
@@ -130,7 +129,7 @@ def test_dispatch_orders_all_due_lanes_and_continues_after_failure(monkeypatch, 
     monkeypatch.setattr(dispatcher, 'run_legacy', legacy)
     monkeypatch.setattr(dispatcher, 'run_outbox', outbox)
     monkeypatch.setattr(dispatcher, 'run_editions', edition)
-    report = dispatcher.run(now=OPEN + timedelta(minutes=1), cron='13 * * * *')
+    report = dispatcher.run(now=OPEN, cron='13 * * * *')
     assert calls == ['legacy', 'outbox', 'editorial']
     assert report['new_posts'] == report['posts_generated'] == report['posts_retry_pending'] == 1
     assert report['posts_due'] == 3
@@ -216,21 +215,10 @@ def test_fixed_times_leave_telegram_spacing_on_each_weekday():
         slots = sorted(editorial + legacy)
         assert all(right - left >= GAP for left, right in zip(slots, slots[1:]))
 
-def test_evening_keeps_daily_key_open_until_telegram_confirms(monkeypatch):
-    now = datetime(2026, 11, 17, 20, 13, tzinfo=dispatcher.ET)
-    key = '2026-11-17:evening'
-    checks = {key: {'status': 'checked', 'attempts': 1}}
-    ledger = {}
-    monkeypatch.setattr(dispatcher, 'run_legacy', lambda *args, **kwargs: 0)
-    monkeypatch.setattr(dispatcher, 'read_state', lambda path: ledger)
-    monkeypatch.setattr(dispatcher, 'write_state', lambda path, data: None)
+def test_retired_evening_has_no_legacy_publication_slot():
+    from vortex.schedule import SLOT_CRONS, SLOT_HOURS, resolve_slot
 
-    assert key in {job[1] for job in dispatcher.legacy_jobs(now, ledger, checks)}
-    _, error = dispatcher.legacy_delivery(now, object(), key, '0 20 * * *', checks)
-    assert 'no confirmed Telegram delivery receipt' in error
-    assert checks[key]['status'] == 'held'
-    assert key in {job[1] for job in dispatcher.legacy_jobs(now, ledger, checks)}
-
-    ledger[key] = {'delivered': True, 'telegram_message_id': 463}
-    assert key not in {job[1] for job in dispatcher.legacy_jobs(now, ledger, checks)}
-    assert dispatcher.legacy_delivery(now, object(), key, '0 20 * * *', checks)[1] is None
+    assert 'evening' not in SLOT_CRONS.values()
+    assert 'evening' not in SLOT_HOURS
+    with pytest.raises(ValueError):
+        resolve_slot('evening', None, OPEN)
