@@ -68,20 +68,25 @@ jobs:
         run: python -m pip install -r requirements.txt
       - name: Syntax check
         run: python -m compileall -q vortex tests
-      - name: Render Sunday Chance Watch without publishing
-        if: github.event_name == 'pull_request' && github.head_ref == 'feature/sunday-chance-watch'
+      - name: Render the evening watch board without publishing
+        if: github.event_name == 'pull_request' && (github.head_ref == 'feature/sunday-chance-watch' || github.head_ref == 'feature/monday-defence-watch')
         env:
           FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
           FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
           FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
           FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
-        run: python -m vortex.sunday_chances
-      - name: Archive Sunday Chance Watch preview
-        if: github.event_name == 'pull_request' && github.head_ref == 'feature/sunday-chance-watch'
+        run: |
+          if [ "$GITHUB_HEAD_REF" = 'feature/monday-defence-watch' ]; then
+            python -m vortex.sunday_chances --monday
+          else
+            python -m vortex.sunday_chances
+          fi
+      - name: Archive the evening watch preview
+        if: github.event_name == 'pull_request' && (github.head_ref == 'feature/sunday-chance-watch' || github.head_ref == 'feature/monday-defence-watch')
         uses: actions/upload-artifact@v4
         with:
-          name: sunday-chance-watch-preview
-          path: output/sunday-chance-watch/
+          name: ${{ github.head_ref == 'feature/monday-defence-watch' && 'monday-defence-watch-preview' || 'sunday-chance-watch-preview' }}
+          path: output/*-watch/
           if-no-files-found: error
           retention-days: 5
       - name: Validate all graphics and scheduling

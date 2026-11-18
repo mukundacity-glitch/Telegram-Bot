@@ -41,6 +41,10 @@ SHOT_QUALITY = Slot('task2', 'assists-vs-shot-quality', 16, 30, weekday=6,
 SUNDAY_CHANCES = Slot('task2', 'sunday-chance-watch', 20, 0, weekday=6,
                       display_name='Sunday Chance Watch')
 
+MONDAY_DEFENCE = Slot('task2', 'monday-defence-watch', 20, 0, weekday=0,
+                      display_name='Monday Defence Watch')
+EVENING_WATCH_SLOTS = (SUNDAY_CHANCES, MONDAY_DEFENCE)
+
 PASSING_CREATORS = Slot('task2', 'passing-creators', 16, 15, weekday=2,
                         display_name='Completed Passes vs Chances Created')
 BONUS_MAGNETS = Slot('task2', 'bonus-magnets', 16, 15, weekday=5,
@@ -64,7 +68,7 @@ SLOTS = (
     SHOT_QUALITY,
     CHIP_STRATEGY,
     Slot('press_news', 'verified-press-availability', 19, 15),
-    SUNDAY_CHANCES,
+    *EVENING_WATCH_SLOTS,
     Slot('three_daily', 'vortex-captain', 21, 0),
     Slot('price_changes', 'confirmed-price-changes', 21, 45),
     TOP_100K_OWNERSHIP,
