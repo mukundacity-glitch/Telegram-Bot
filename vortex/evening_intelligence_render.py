@@ -42,8 +42,8 @@ def _board(plan, subtitle):
 
 
 def _footnote(draw, words):
-    draw.rounded_rectangle((28, 786, 1508, 807), 7, fill="#162650")
-    _label(draw, words, 36, 790, 1460, 13, MUTED, center=True)
+    draw.rounded_rectangle((28, 750, 1508, 777), 7, fill="#162650")
+    _label(draw, words, 36, 755, 1460, 17, MUTED, center=True)
 
 
 def _header(draw, labels, xs, widths, y=132, height=40):
@@ -54,41 +54,54 @@ def _header(draw, labels, xs, widths, y=132, height=40):
 
 
 def _set_pieces(plan, output, session):
+    """Each of the 20 clubs has independently ranked duties, not global leaders."""
     rows = plan.extra["rows"]
-    canvas, draw = _board(plan, f"GW{plan.gw} • VERIFIED FPL SET-PIECE ORDERS • 270+ MIN")
+    if len(rows) != 20:
+        raise RequiredInput("Set-piece graphic requires 20 current PL club rows")
+    canvas, draw = _board(plan, f"GW{plan.gw} • OFFICIAL FPL SET-PIECE PECKING ORDER • 270+ MIN")
     headings = (("CORNERS / INDIRECT FK", GREEN), ("DIRECT FREE KICKS", GOLD),
                 ("PENALTIES", LILAC))
+    counts = plan.extra["leader_counts"]
     for i, (heading, colour) in enumerate(headings):
         x = 30 + i * 502
-        draw.rounded_rectangle((x, 106, x + 484, 210), 15,
+        draw.rounded_rectangle((x, 106, x + 484, 202), 15,
                                fill=BACKGROUND, outline=colour, width=2)
-        _label(draw, heading, x + 12, 122, 460, 20, colour, center=True)
-        leader = next((r for r in rows if r["orders"][i] == 1), None)
-        _label(draw, leader["name"] if leader else "NO VERIFIED LEADER",
-               x + 12, 162, 460, 26, WHITE, center=True)
+        _label(draw, heading, x + 12, 119, 460, 20, colour, center=True)
+        _label(draw, f"{counts[i]} / 20 CLUBS HAVE RANK 1", x + 12, 157,
+               460, 25, WHITE, center=True)
+
+    _label(draw, "CLUB", 50, 208, 135, 17, CYAN)
+    _label(draw, "CORNERS", 208, 208, 174, 17, GREEN, center=True)
+    _label(draw, "FREE KICKS", 384, 208, 174, 17, GOLD, center=True)
+    _label(draw, "PENALTIES", 558, 208, 174, 17, LILAC, center=True)
+    _label(draw, "CLUB", 802, 208, 135, 17, CYAN)
+    _label(draw, "CORNERS", 960, 208, 174, 17, GREEN, center=True)
+    _label(draw, "FREE KICKS", 1136, 208, 174, 17, GOLD, center=True)
+    _label(draw, "PENALTIES", 1309, 208, 174, 17, LILAC, center=True)
     cache = {}
     for n, row in enumerate(rows):
-        col = n // 6
-        index = n % 6
-        x = 30 + col * 752
-        y = 235 + index * 87
-        draw.rounded_rectangle((x, y, x + 724, y + 79), 11,
+        column, index = divmod(n, 10)
+        x = 30 + column * 752
+        y = 232 + index * 50
+        draw.rounded_rectangle((x, y, x + 724, y + 45), 8,
                                fill=BACKGROUND if index % 2 else TILE,
                                outline=RULE, width=1)
-        _crest(canvas, session, cache, row["code"], x + 13, y + 15, 49)
-        _label(draw, row["name"], x + 75, y + 10, 273, 24)
-        _label(draw, f'{row["club"]} • {row["minutes"]} min',
-               x + 75, y + 44, 273, 16, MUTED)
-        for j, order in enumerate(row["orders"]):
-            bx = x + 361 + j * 115
-            draw.rounded_rectangle((bx, y + 14, bx + 101, y + 64), 10,
-                                   fill="#20355e", outline=(GREEN, GOLD, LILAC)[j], width=1)
-            _label(draw, ("CRN", "FK", "PEN")[j], bx + 3, y + 17, 95, 12, MUTED, center=True)
-            _label(draw, str(order) if order else "—", bx + 3, y + 34,
-                   95, 24, WHITE, center=True)
-    _footnote(draw, "Official FPL rank in set-piece pecking order, NOT corners/90 or projected points.")
+        _crest(canvas, session, cache, row["code"], x + 8, y + 6, 30)
+        _label(draw, row["club"], x + 47, y + 12, 122, 20)
+        for j, duty in enumerate(row["duties"]):
+            bx = x + 177 + j * 176
+            draw.rounded_rectangle((bx, y + 4, bx + 167, y + 40), 7,
+                                   fill="#20355e",
+                                   outline=(GREEN, GOLD, LILAC)[j], width=1)
+            if duty is None:
+                name = "UNVERIFIED"
+                ink = MUTED
+            else:
+                name = f'{duty["name"]} #{duty["order"]}'
+                ink = WHITE if duty["order"] == 1 else MUTED
+            _label(draw, name, bx + 4, y + 12, 159, 16, ink, center=True)
+    _footnote(draw, "Official FPL per-club order • rank 1 = first choice • not corners, free kicks or chances per 90.")
     return _save(canvas, output)
-
 
 def _predicted_xg(plan, output, session):
     weeks = plan.extra["weeks"]
@@ -132,7 +145,7 @@ def _attacking_zones(plan, output, session):
     cache = {}
     colours = ("#73849A", "#576EDF", "#89B7B7")
     for i, row in enumerate(rows):
-        y = 143 + 31 * i
+        y = 141 + 30 * i
         draw.rounded_rectangle((28, y, 1508, y + 29), 7,
                                fill=BACKGROUND if i % 2 else TILE)
         _label(draw, f"{i+1:02d}", 41, y + 4, 37, 15, GOLD)
@@ -194,9 +207,7 @@ def _rotation(plan, output, session):
                            f'CS {option["cs"]:.0f}%' if option["cs"] is not None
                            else f'{option["opp"]} ({option["venue"]}) • FDR {option["fdr"]:.0f} • CS —')
             _label(draw, details, base + 278, y + 10, 407, 17, WHITE)
-    _label(draw, "GREEN = PREFERRED CLUB BY VERIFIED CS CHANCE (OR FDR WHEN MODEL UNAVAILABLE)",
-           46, 764, 1450, 16, GREEN, center=True)
-    _footnote(draw, "A rotation forecast is probabilistic. No clean sheet or goals-conceded promise is made.")
+    _footnote(draw, "GREEN = PREFERRED TEAM BY VERIFIED CS% WHEN AVAILABLE; OTHERWISE OFFICIAL FDR. NO CS GUARANTEES.")
     return _save(canvas, output)
 
 
@@ -220,7 +231,7 @@ def _fdr(plan, output, session):
     _label(draw, "AVG", 1402, 112, 94, 20, GOLD, center=True)
     cache = {}
     for i, row in enumerate(rows):
-        y = 145 + i * 31
+        y = 143 + i * 30
         draw.rounded_rectangle((26, y, 1507, y + 29), 7,
                                fill=BACKGROUND if i % 2 else TILE)
         _crest(canvas, session, cache, row["code"], team_x, y + 3, 24)
