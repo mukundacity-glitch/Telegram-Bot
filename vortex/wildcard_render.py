@@ -11,6 +11,7 @@ from tempfile import TemporaryDirectory
 from .autonomous_schedule import ET
 from .editorial_inputs import RequiredInput
 from .matchup import _media
+from .minimal_theme import extra_social_handles
 from .publication_rules import required_footer_handles
 from .vortex_style import LION
 from .wildcard import POSITION_LABEL
@@ -34,6 +35,7 @@ def build_html(plan, snapshot, session):
     if any(image is None for image in portraits.values()):
         raise RequiredInput('Official player portrait unavailable for the Wildcard graphic')
     telegram, discord = required_footer_handles()
+    youtube, x_handle = extra_social_handles()
     logo = b64encode((LION.parent / 'midfield-watch-logo.png').read_bytes()).decode('ascii')
 
     def card(pid):
@@ -74,10 +76,10 @@ def build_html(plan, snapshot, session):
 <section class="fixtures"><h2>FIXTURE DIFFICULTY <span>OFFICIAL FPL FDR</span></h2>
 {headers}{''.join(table)}
 <p class="legend"><b>1</b> EASIEST <b>5</b> HARDEST · H HOME · A AWAY</p></section></main>
-<footer><span>TELEGRAM t.me/{escape(telegram.lstrip('@'))}</span>
+<footer><span>TELEGRAM t.me/{escape(telegram.lstrip('@'))}<br>{escape('YOUTUBE ' + youtube) if youtube else ''}</span>
 <div>{escape(data['method'])}<small>{snapshot.fetched_at.astimezone(ET):%d %b %Y · %H:%M %Z}
 {' · Forecasts are estimates' if data['model'] else ''}</small></div>
-<span>DISCORD {escape(discord)}</span></footer></body></html>"""
+<span>DISCORD {escape(discord)}<br>{escape('X ' + x_handle) if x_handle else ''}</span></footer></body></html>"""
 
 
 def render_wildcard(plan, snapshot, output, session):

@@ -42,7 +42,8 @@ One **existing** GitHub Actions workflow, thirteen Eastern-time publication slot
 | 4:00 PM | Captaincy showdown | Daily |
 | 5:30 PM | Last completed gameweek review | Daily |
 | 6:30 PM | Four next-GW sell candidates (firm or conditional) | Daily |
-| 8:00 PM | Evening assists/creator watch | Daily |
+| 8:00 PM | Sunday Chance Watch (midfielders and forwards) | Sunday |
+| 8:00 PM | Open editorial slots | Monday–Saturday |
 
 Each successful delivery sends a 1536×864 branded PNG to Telegram with five short X-copy lines. The **existing ten posts** retain their exact existing hashtags (`#FPL #GW<number> #FPLVortex`); **the three new editions** use four hashtags (`#FPL #GW<number> #FPLVortex #PremierLeague`). The graphic contains sourced official FPL details. Telegram does **not** automatically publish on X.
 
@@ -97,9 +98,11 @@ New manual preview choices: `preview-projections`, `preview-team_analysis`, `pre
 
 **Warning:** The workflow is active. Telegram secrets are already connected in this deployment. All thirteen Eastern-time schedules run daily, including the 4 PM captaincy card. Schedules are best effort.
 
-## Assists background
+## Sunday Chance Watch
 
-The user's shared [Drive asset folder](https://drive.google.com/drive/folders/1BI4O_ZmxaXVNeGMS8ahkbLf4CUUWdA_a) includes `5.png`, preserved under `assets/assists/5.png` for reference. The evening graphic deliberately uses the same blank premium broadcast master as the other seven slots, because `5.png` contains dated embedded copy that would otherwise appear underneath new live data.
+The 8:00 PM America/New_York slot publishes one VORTEX graphic on Sunday. The left panel covers midfielders and the right panel covers forwards with at least 450 minutes in the current season through the latest verified completed gameweek. FPL Core match stats supply expected goals, shots and opposition-box touches. The board groups players by which per-90 thresholds they reach and uses official FPL player and club identity. Monday to Saturday at 8:00 PM are open for future editions.
+
+Run `python -m vortex.sunday_chances` for a preview with the current data and caption. It prepares local files without sending a Telegram or Discord message. The graphics footer uses the public `FPL_TELEGRAM_HANDLE`, `FPL_DISCORD_HANDLE`, `FPL_YOUTUBE_HANDLE` and `FPL_X_HANDLE` publishing configuration.
 
 ## Run tests locally
 
@@ -133,6 +136,6 @@ The mock design preview contains illustrative sample values and is **not** proof
 
 Additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, `captaincy`, `review`, and `evening`, with `transfer` sharing the two-player comparison layout. All feature the same typography, high-contrast cyan/gold section headers, portrait-led player cards, visible club badges, official FPL metrics, result-focused verdict strips, and safe no-update states. The module tests include full rendering and required-image validation for every slot.
 
-To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-news`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review`, `preview-elite`, or `preview-evening`.
+To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-news`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review` or `preview-elite`.
 
 **Manual normal runs:** explicitly selecting `comparison`, `news`, etc. sends a new post even if one already went out today. **Automatic scheduled runs:** deduplicated by the Eastern calendar date and slot. This avoids silently ignoring the user's manual tests while preventing routine duplicate scheduled posts.

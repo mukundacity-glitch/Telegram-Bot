@@ -6,6 +6,7 @@ from PIL import Image, ImageDraw, ImageOps
 
 from .comparison_board import CYAN, GOLD, WHITE, contain, text
 from .matchup import _media
+from .minimal_theme import social_footer
 from .team_points_render import render_team_points
 from .vortex_style import LION, gradient
 
@@ -125,9 +126,7 @@ def render_weekly_analysis(plan, output, session):
     text(draw, plan.extra['note'], 36, 1643, 1008, 22, CYAN, 14, center=True)
     text(draw, 'FPL VORTEX  •  CHECK MINUTES & FIXTURES BEFORE TRANSFERRING',
          34, 1723, 1012, 23, GOLD, center=True)
-    with Image.open(LION.parent / 'midfield-watch-footer.png') as footer:
-        bar = ImageOps.contain(footer.convert('RGB'), (1056, 116), Image.Resampling.LANCZOS)
-        canvas.paste(bar, ((1080-bar.width)//2, 1782))
+    social_footer(canvas)
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output, 'PNG', optimize=True)
     return output
