@@ -94,7 +94,6 @@ jobs:
       - name: Read-only verification of configured Telegram destination
         if: github.event_name == 'push'
         env:
-          GITHUB_TOKEN: ${{ github.token }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: python -c 'from vortex.telegram import TelegramClient; TelegramClient().verify_destination()'
