@@ -2684,6 +2684,19 @@
     "trigger": "2026-11-17T06:30:00-05:00",
     "type": "elite"
   },
+  "2026-11-17:press_news:verified-press-availability:GW11:1900": {
+    "attempts": 0,
+    "completed_at": "2026-11-18T00:49:11.419744+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-17:press_news:verified-press-availability:GW11:1900",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-18T00:49:05.360220+00:00",
+    "trigger": "2026-11-17T19:15:00-05:00",
+    "type": "verified-press-availability"
+  },
   "2026-11-17:review": {
     "attempts": 1,
     "completed_at": "2026-11-17T23:19:00.410079+00:00",
@@ -3349,6 +3362,51 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-18T00:04:01.007095+00:00"
+  },
+  "2026-11-18T00:49:05.360220+00:00": {
+    "posts": [
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-18T00:49:11.419744+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-17:press_news:verified-press-availability:GW11:1900",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-18T00:49:05.360220+00:00",
+        "trigger": "2026-11-17T19:15:00-05:00",
+        "type": "verified-press-availability"
+      },
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-18T00:49:12.262271+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-18T00:49:05.360220+00:00:news",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-18T00:49:05.360220+00:00",
+        "trigger": "2026-11-18T00:49:05.360220+00:00",
+        "type": "2026-11-18T00:49:05.360220+00:00:news"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-18T00:49:05.360220+00:00"
+  },
+  "2026-11-18T00:49:05.360220+00:00:news": {
+    "attempts": 0,
+    "completed_at": "2026-11-18T00:49:12.262271+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-18T00:49:05.360220+00:00:news",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-18T00:49:05.360220+00:00",
+    "trigger": "2026-11-18T00:49:05.360220+00:00",
+    "type": "2026-11-18T00:49:05.360220+00:00:news"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
