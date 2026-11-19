@@ -42,9 +42,9 @@
     "status": "d"
   },
   "104": {
-    "chance_of_playing_next_round": 50,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 50,
-    "news": "Groin injury - 50% chance of playing",
+    "news": "Groin injury - 75% chance of playing",
     "now_cost": 48,
     "status": "d"
   },
@@ -462,11 +462,11 @@
     "status": "i"
   },
   "159": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 75,
-    "news": "",
+    "news": "Unspecified injury - 75% chance of playing",
     "now_cost": 53,
-    "status": "a"
+    "status": "d"
   },
   "16": {
     "chance_of_playing_next_round": 100,
@@ -672,11 +672,11 @@
     "status": "a"
   },
   "186": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Knee injury - 75% chance of playing",
     "now_cost": 53,
-    "status": "a"
+    "status": "d"
   },
   "187": {
     "chance_of_playing_next_round": 0,
@@ -730,7 +730,7 @@
   "193": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Thigh injury - Unknown return date",
+    "news": "Lack of match fitness - Unknown return date",
     "now_cost": 53,
     "status": "i"
   },
@@ -1806,11 +1806,11 @@
     "status": "a"
   },
   "331": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
-    "news": "Hamstring injury - 75% chance of playing",
+    "news": "",
     "now_cost": 45,
-    "status": "d"
+    "status": "a"
   },
   "332": {
     "chance_of_playing_next_round": null,
@@ -1834,11 +1834,11 @@
     "status": "a"
   },
   "335": {
-    "chance_of_playing_next_round": 50,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 50,
-    "news": "Foot injury - 50% chance of playing",
+    "news": "",
     "now_cost": 60,
-    "status": "d"
+    "status": "a"
   },
   "336": {
     "chance_of_playing_next_round": 100,
@@ -2975,11 +2975,11 @@
     "status": "a"
   },
   "482": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Unspecified injury - Unknown return date",
     "now_cost": 57,
-    "status": "a"
+    "status": "i"
   },
   "483": {
     "chance_of_playing_next_round": 100,
@@ -3696,11 +3696,11 @@
     "status": "a"
   },
   "575": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Unspecified injury - 75% chance of playing",
     "now_cost": 48,
-    "status": "a"
+    "status": "d"
   },
   "576": {
     "chance_of_playing_next_round": null,
