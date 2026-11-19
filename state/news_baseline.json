@@ -574,9 +574,9 @@
     "status": "a"
   },
   "173": {
-    "chance_of_playing_next_round": 50,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 50,
-    "news": "Calf injury - 50% chance of playing",
+    "news": "Calf injury - 75% chance of playing",
     "now_cost": 40,
     "status": "d"
   },
@@ -3458,11 +3458,11 @@
     "status": "i"
   },
   "544": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": null,
-    "news": "Calf injury - 75% chance of playing",
+    "news": "Calf injury - Unknown return date",
     "now_cost": 53,
-    "status": "d"
+    "status": "i"
   },
   "545": {
     "chance_of_playing_next_round": null,
@@ -3521,11 +3521,11 @@
     "status": "a"
   },
   "552": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 100,
-    "news": "Muscular injury - 75% chance of playing",
+    "news": "Muscular injury - Unknown return date",
     "now_cost": 57,
-    "status": "d"
+    "status": "i"
   },
   "553": {
     "chance_of_playing_next_round": 100,
