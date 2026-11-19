@@ -1756,6 +1756,22 @@
       487
     ]
   },
+  "2026-11-19:task2:defender-watch:GW11": {
+    "at": "2026-11-19T14:30:01.209324+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "defender-watch",
+    "file": "outbox/2026-11-19-defender-watch.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:defender-watch:15e3bf1daac9aba2980e",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      488
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
