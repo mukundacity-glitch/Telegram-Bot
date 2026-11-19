@@ -1,14 +1,13 @@
 {
-  "at": "2026-11-19T20:01:01.595649+00:00",
-  "eastern_at": "2026-11-19T15:01:01.595649-05:00",
+  "at": "2026-11-19T20:46:15.082426+00:00",
+  "eastern_at": "2026-11-19T15:46:15.082426-05:00",
   "last_news_scan": "2026-11-19T14:15:14.978356+00:00",
   "new_posts": 1,
   "next_due": {
-    "display_name": "FPL Player Performance Comparisons",
-    "post": "scouting-rotation",
-    "trigger": "2026-11-19T20:46:14.382813+00:00"
+    "post": "positional-vulnerability",
+    "trigger": "2026-11-19T21:31:19.091395+00:00"
   },
-  "next_telegram_at": "2026-11-19T20:46:14.382813+00:00",
+  "next_telegram_at": "2026-11-19T21:31:19.091395+00:00",
   "pending_triggers": [
     {
       "post": "chance-creators",
