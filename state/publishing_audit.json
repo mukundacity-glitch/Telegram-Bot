@@ -3421,6 +3421,23 @@
     "trigger": "2026-11-18T06:30:00-05:00",
     "type": "elite"
   },
+  "2026-11-18:press_news:verified-press-availability:GW11:1900": {
+    "attempts": 0,
+    "completed_at": "2026-11-19T00:31:18.074040+00:00",
+    "confirmed_telegram_message_ids": [
+      480
+    ],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-18:press_news:verified-press-availability:GW11:1900",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      480
+    ],
+    "timestamp": "2026-11-19T00:30:03.986382+00:00",
+    "trigger": "2026-11-18T19:15:00-05:00",
+    "type": "verified-press-availability"
+  },
   "2026-11-18:review": {
     "attempts": 1,
     "completed_at": "2026-11-18T22:58:54.506009+00:00",
@@ -4209,6 +4226,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-18T23:43:54.312711+00:00"
+  },
+  "2026-11-19T00:30:03.986382+00:00": {
+    "posts": [
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-19T00:31:18.074040+00:00",
+        "confirmed_telegram_message_ids": [
+          480
+        ],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-18:press_news:verified-press-availability:GW11:1900",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          480
+        ],
+        "timestamp": "2026-11-19T00:30:03.986382+00:00",
+        "trigger": "2026-11-18T19:15:00-05:00",
+        "type": "verified-press-availability"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-19T00:30:03.986382+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,

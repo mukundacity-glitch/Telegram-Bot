@@ -206,7 +206,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 53,
+    "now_cost": 52,
     "status": "a"
   },
   "126": {
@@ -220,7 +220,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 50,
+    "now_cost": 51,
     "status": "a"
   },
   "128": {
@@ -2166,7 +2166,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 44,
+    "now_cost": 43,
     "status": "a"
   },
   "379": {
@@ -2726,7 +2726,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 54,
+    "now_cost": 55,
     "status": "a"
   },
   "450": {
@@ -3650,7 +3650,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 59,
+    "now_cost": 58,
     "status": "a"
   },
   "57": {
@@ -3867,7 +3867,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 50,
+    "now_cost": 51,
     "status": "a"
   },
   "598": {
