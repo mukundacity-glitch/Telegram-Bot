@@ -1709,6 +1709,22 @@
       481
     ]
   },
+  "2026-11-18:three_daily:vortex-captain:GW11": {
+    "at": "2026-11-19T02:01:40.345176+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "vortex-captain",
+    "file": "outbox/2026-11-18-vortex-captain.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:three_daily:vortex-captain:56ad50370d9d89294db8",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "three_daily",
+    "telegram_message_ids": [
+      482
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
