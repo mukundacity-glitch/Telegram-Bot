@@ -666,6 +666,13 @@
     "discord_message_id": "1570550497084047510",
     "telegram_message_id": 381
   },
+  "rotation:2026-11-19:GW11": {
+    "caption_sha256": "b934afcbac300b621c0e90bf65e40b2ff43d97b826d1885dc43ea0afc870eff8",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1570550497084047510",
+    "telegram_message_id": 381
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,
@@ -739,5 +746,18 @@
     "source_url": "https://www.transfermarkt.com/five-kevin-de-bruyne-january-transfer-destinations-as-psv-and-galatasaray-eye-move/view/news/490495",
     "telegram_message_id": 395,
     "timestamp": "2026-11-13T02:08:47.862390+00:00"
+  },
+  "rss:ef7c86c3ce4f9481bb503b37": {
+    "caption_sha256": "c68eecf14a4b7b51df3aa0b34a832d96be2f697d87ee274649b6ba255020dde4",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1572921942955139205",
+    "gameweek": 11,
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/latest-transfer-news-ac-milan-and-galatasaray-want-bruno-fernandes-on-free/view/news/445145",
+    "telegram_delivered_at": "2026-11-19T10:30:14.345697+00:00",
+    "telegram_message_id": 484,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-19T10:30:00.608070+00:00"
   }
 }
