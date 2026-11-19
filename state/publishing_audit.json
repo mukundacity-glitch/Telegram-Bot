@@ -4396,6 +4396,23 @@
     "trigger": "2026-11-19T10:30:00-05:00",
     "type": "goalkeeper-striker-watch"
   },
+  "2026-11-19:task2:positional-vulnerability": {
+    "attempts": 1,
+    "completed_at": "2026-11-19T21:33:02.924994+00:00",
+    "confirmed_telegram_message_ids": [
+      495
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-19:task2:positional-vulnerability",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      495
+    ],
+    "timestamp": "2026-11-19T21:31:20.364229+00:00",
+    "trigger": "2026-11-19T15:30:00-05:00",
+    "type": "positional-vulnerability"
+  },
   "2026-11-19:task2:scouting-rotation": {
     "attempts": 1,
     "completed_at": "2026-11-19T20:46:20.374627+00:00",
@@ -4911,6 +4928,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-19T20:46:15.082426+00:00"
+  },
+  "2026-11-19T21:31:20.364229+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-19T21:33:02.924994+00:00",
+        "confirmed_telegram_message_ids": [
+          495
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-19:task2:positional-vulnerability",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          495
+        ],
+        "timestamp": "2026-11-19T21:31:20.364229+00:00",
+        "trigger": "2026-11-19T15:30:00-05:00",
+        "type": "positional-vulnerability"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-19T21:31:20.364229+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
