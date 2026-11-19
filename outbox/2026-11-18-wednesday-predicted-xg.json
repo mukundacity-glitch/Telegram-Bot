@@ -1,0 +1,1432 @@
+{
+  "task": "task2",
+  "edition": "wednesday-predicted-xg",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "PREDICTED TEAM xG",
+  "caption": "📊 PREDICTED TEAM xG | GW11 · 18 Nov 2026\n20 teams · GW11–GW15 · model version VORTEX-V1-PHASE4-POISSON-CS-FDR.\nVORTEX fixture forecast from verified independent model. Estimates, not bookmaker odds or guaranteed outcomes.\nOfficial data checked 18 Nov 2026; verify changes before deadline.\n\n#FPL #GW11 #FPLVORTEX #PremierLeague",
+  "facts": {
+    "players": [],
+    "edition": "wednesday-predicted-xg",
+    "extra": {
+      "rows": [
+        {
+          "name": "Man City",
+          "code": 43,
+          "short": "MCI",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 2.07,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "FUL",
+                  "venue": "H",
+                  "code": 54
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 0.82,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "ARS",
+                  "venue": "A",
+                  "code": 3
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 2.18,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LEE",
+                  "venue": "H",
+                  "code": 2
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.44,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BRE",
+                  "venue": "A",
+                  "code": 94
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 2.21,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CHE",
+                  "venue": "H",
+                  "code": 8
+                }
+              ]
+            }
+          ],
+          "total": 8.72,
+          "average": 1.74
+        },
+        {
+          "name": "Man Utd",
+          "code": 1,
+          "short": "MUN",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.13,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LIV",
+                  "venue": "A",
+                  "code": 14
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.89,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BRE",
+                  "venue": "H",
+                  "code": 94
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.6,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NEW",
+                  "venue": "A",
+                  "code": 4
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.94,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "COV",
+                  "venue": "H",
+                  "code": 9
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.83,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CRY",
+                  "venue": "A",
+                  "code": 31
+                }
+              ]
+            }
+          ],
+          "total": 8.39,
+          "average": 1.68
+        },
+        {
+          "name": "Liverpool",
+          "code": 14,
+          "short": "LIV",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.6,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MUN",
+                  "venue": "H",
+                  "code": 1
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.73,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "EVE",
+                  "venue": "A",
+                  "code": 11
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.63,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "SUN",
+                  "venue": "H",
+                  "code": 56
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.79,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CHE",
+                  "venue": "A",
+                  "code": 8
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.55,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LEE",
+                  "venue": "H",
+                  "code": 2
+                }
+              ]
+            }
+          ],
+          "total": 8.3,
+          "average": 1.66
+        },
+        {
+          "name": "Brighton",
+          "code": 36,
+          "short": "BHA",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.83,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "HUL",
+                  "venue": "A",
+                  "code": 88
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.69,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NEW",
+                  "venue": "H",
+                  "code": 4
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.11,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BOU",
+                  "venue": "A",
+                  "code": 91
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.34,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NFO",
+                  "venue": "A",
+                  "code": 17
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.99,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "EVE",
+                  "venue": "H",
+                  "code": 11
+                }
+              ]
+            }
+          ],
+          "total": 7.96,
+          "average": 1.59
+        },
+        {
+          "name": "Crystal Palace",
+          "code": 31,
+          "short": "CRY",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.3,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "COV",
+                  "venue": "A",
+                  "code": 9
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.75,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "HUL",
+                  "venue": "H",
+                  "code": 88
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.37,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CHE",
+                  "venue": "A",
+                  "code": 8
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.53,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "AVL",
+                  "venue": "A",
+                  "code": 7
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.94,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MUN",
+                  "venue": "H",
+                  "code": 1
+                }
+              ]
+            }
+          ],
+          "total": 7.89,
+          "average": 1.58
+        },
+        {
+          "name": "Aston Villa",
+          "code": 7,
+          "short": "AVL",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.43,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "SUN",
+                  "venue": "H",
+                  "code": 56
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.81,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "IPS",
+                  "venue": "A",
+                  "code": 40
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.39,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "EVE",
+                  "venue": "H",
+                  "code": 11
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.72,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CRY",
+                  "venue": "H",
+                  "code": 31
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.46,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "COV",
+                  "venue": "A",
+                  "code": 9
+                }
+              ]
+            }
+          ],
+          "total": 7.81,
+          "average": 1.56
+        },
+        {
+          "name": "Leeds",
+          "code": 2,
+          "short": "LEE",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.3,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CHE",
+                  "venue": "A",
+                  "code": 8
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.79,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "COV",
+                  "venue": "H",
+                  "code": 9
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.4,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MCI",
+                  "venue": "A",
+                  "code": 43
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 2.19,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "IPS",
+                  "venue": "H",
+                  "code": 40
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.09,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LIV",
+                  "venue": "A",
+                  "code": 14
+                }
+              ]
+            }
+          ],
+          "total": 7.77,
+          "average": 1.55
+        },
+        {
+          "name": "Chelsea",
+          "code": 8,
+          "short": "CHE",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.6,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LEE",
+                  "venue": "H",
+                  "code": 2
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.22,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NFO",
+                  "venue": "A",
+                  "code": 17
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 2.0,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CRY",
+                  "venue": "H",
+                  "code": 31
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.34,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LIV",
+                  "venue": "H",
+                  "code": 14
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.56,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MCI",
+                  "venue": "A",
+                  "code": 43
+                }
+              ]
+            }
+          ],
+          "total": 7.72,
+          "average": 1.54
+        },
+        {
+          "name": "Bournemouth",
+          "code": 91,
+          "short": "BOU",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.53,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NFO",
+                  "venue": "H",
+                  "code": 17
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.5,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "FUL",
+                  "venue": "A",
+                  "code": 54
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.75,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BHA",
+                  "venue": "H",
+                  "code": 36
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.68,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "HUL",
+                  "venue": "H",
+                  "code": 88
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 0.81,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "ARS",
+                  "venue": "A",
+                  "code": 3
+                }
+              ]
+            }
+          ],
+          "total": 7.27,
+          "average": 1.45
+        },
+        {
+          "name": "Brentford",
+          "code": 94,
+          "short": "BRE",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.92,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "EVE",
+                  "venue": "H",
+                  "code": 11
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.49,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MUN",
+                  "venue": "A",
+                  "code": 1
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.21,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "ARS",
+                  "venue": "H",
+                  "code": 3
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.41,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MCI",
+                  "venue": "H",
+                  "code": 43
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.08,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "FUL",
+                  "venue": "A",
+                  "code": 54
+                }
+              ]
+            }
+          ],
+          "total": 7.11,
+          "average": 1.42
+        },
+        {
+          "name": "Arsenal",
+          "code": 3,
+          "short": "ARS",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.72,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NEW",
+                  "venue": "A",
+                  "code": 4
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.3,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MCI",
+                  "venue": "H",
+                  "code": 43
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.21,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BRE",
+                  "venue": "A",
+                  "code": 94
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.15,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "TOT",
+                  "venue": "A",
+                  "code": 6
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.6,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BOU",
+                  "venue": "H",
+                  "code": 91
+                }
+              ]
+            }
+          ],
+          "total": 6.98,
+          "average": 1.4
+        },
+        {
+          "name": "Sunderland",
+          "code": 56,
+          "short": "SUN",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.58,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "AVL",
+                  "venue": "A",
+                  "code": 7
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.29,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "TOT",
+                  "venue": "H",
+                  "code": 6
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.17,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LIV",
+                  "venue": "A",
+                  "code": 14
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.67,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NEW",
+                  "venue": "A",
+                  "code": 4
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.19,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NFO",
+                  "venue": "H",
+                  "code": 17
+                }
+              ]
+            }
+          ],
+          "total": 6.9,
+          "average": 1.38
+        },
+        {
+          "name": "Everton",
+          "code": 11,
+          "short": "EVE",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.27,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BRE",
+                  "venue": "A",
+                  "code": 94
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.12,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LIV",
+                  "venue": "H",
+                  "code": 14
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.74,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "AVL",
+                  "venue": "A",
+                  "code": 7
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.28,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "FUL",
+                  "venue": "H",
+                  "code": 54
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.43,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BHA",
+                  "venue": "A",
+                  "code": 36
+                }
+              ]
+            }
+          ],
+          "total": 6.84,
+          "average": 1.37
+        },
+        {
+          "name": "Nott'm Forest",
+          "code": 17,
+          "short": "NFO",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.13,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BOU",
+                  "venue": "A",
+                  "code": 91
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.29,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CHE",
+                  "venue": "H",
+                  "code": 8
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.87,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "HUL",
+                  "venue": "A",
+                  "code": 88
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.24,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BHA",
+                  "venue": "H",
+                  "code": 36
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.31,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "SUN",
+                  "venue": "A",
+                  "code": 56
+                }
+              ]
+            }
+          ],
+          "total": 6.84,
+          "average": 1.37
+        },
+        {
+          "name": "Fulham",
+          "code": 54,
+          "short": "FUL",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.36,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MCI",
+                  "venue": "A",
+                  "code": 43
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.36,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BOU",
+                  "venue": "H",
+                  "code": 91
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.0,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "TOT",
+                  "venue": "A",
+                  "code": 6
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.23,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "EVE",
+                  "venue": "A",
+                  "code": 11
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.43,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BRE",
+                  "venue": "H",
+                  "code": 94
+                }
+              ]
+            }
+          ],
+          "total": 6.38,
+          "average": 1.28
+        },
+        {
+          "name": "Newcastle",
+          "code": 4,
+          "short": "NEW",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 0.92,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "ARS",
+                  "venue": "H",
+                  "code": 3
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.09,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BHA",
+                  "venue": "A",
+                  "code": 36
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.49,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MUN",
+                  "venue": "H",
+                  "code": 1
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.51,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "SUN",
+                  "venue": "H",
+                  "code": 56
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.37,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "IPS",
+                  "venue": "A",
+                  "code": 40
+                }
+              ]
+            }
+          ],
+          "total": 6.38,
+          "average": 1.28
+        },
+        {
+          "name": "Spurs",
+          "code": 6,
+          "short": "TOT",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.71,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "IPS",
+                  "venue": "H",
+                  "code": 40
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 0.89,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "SUN",
+                  "venue": "A",
+                  "code": 56
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.34,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "FUL",
+                  "venue": "H",
+                  "code": 54
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 0.9,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "ARS",
+                  "venue": "H",
+                  "code": 3
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.26,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "HUL",
+                  "venue": "A",
+                  "code": 88
+                }
+              ]
+            }
+          ],
+          "total": 6.1,
+          "average": 1.22
+        },
+        {
+          "name": "Coventry City",
+          "code": 9,
+          "short": "COV",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.38,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CRY",
+                  "venue": "H",
+                  "code": 31
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 0.88,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LEE",
+                  "venue": "A",
+                  "code": 2
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.33,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "IPS",
+                  "venue": "H",
+                  "code": 40
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 1.27,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "MUN",
+                  "venue": "A",
+                  "code": 1
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.18,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "AVL",
+                  "venue": "H",
+                  "code": 7
+                }
+              ]
+            }
+          ],
+          "total": 6.04,
+          "average": 1.21
+        },
+        {
+          "name": "Hull City",
+          "code": 88,
+          "short": "HUL",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 1.18,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BHA",
+                  "venue": "H",
+                  "code": 36
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.27,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "CRY",
+                  "venue": "A",
+                  "code": 31
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.03,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NFO",
+                  "venue": "H",
+                  "code": 17
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 0.67,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "BOU",
+                  "venue": "A",
+                  "code": 91
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 1.12,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "TOT",
+                  "venue": "H",
+                  "code": 6
+                }
+              ]
+            }
+          ],
+          "total": 5.27,
+          "average": 1.05
+        },
+        {
+          "name": "Ipswich Town",
+          "code": 40,
+          "short": "IPS",
+          "cells": [
+            {
+              "gw": 11,
+              "xg": 0.93,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "TOT",
+                  "venue": "A",
+                  "code": 6
+                }
+              ]
+            },
+            {
+              "gw": 12,
+              "xg": 1.2,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "AVL",
+                  "venue": "H",
+                  "code": 7
+                }
+              ]
+            },
+            {
+              "gw": 13,
+              "xg": 1.12,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "COV",
+                  "venue": "A",
+                  "code": 9
+                }
+              ]
+            },
+            {
+              "gw": 14,
+              "xg": 0.99,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "LEE",
+                  "venue": "A",
+                  "code": 2
+                }
+              ]
+            },
+            {
+              "gw": 15,
+              "xg": 0.98,
+              "fixtures": 1,
+              "opponents": [
+                {
+                  "opp": "NEW",
+                  "venue": "H",
+                  "code": 4
+                }
+              ]
+            }
+          ],
+          "total": 5.22,
+          "average": 1.04
+        }
+      ],
+      "weeks": [
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "model": "VORTEX-V1-PHASE4-POISSON-CS-FDR",
+      "method": "VORTEX fixture forecast from verified independent model.",
+      "sources": [
+        "https://fantasy.premierleague.com/api/bootstrap-static/",
+        "https://fantasy.premierleague.com/api/fixtures/",
+        "https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py"
+      ]
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-18"
+  },
+  "generated_at": "2026-11-19T01:16:17.708584+00:00",
+  "publish_at": "2026-11-19T01:16:17.555406+00:00",
+  "data_retrieval_at_et": "2026-11-18T20:16:17.708584-05:00",
+  "graphic_generated_at_et": "2026-11-18T20:16:23.111778-05:00",
+  "deadline": "2026-11-18T23:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://github.com/olbauday/FPL-Core-Insights",
+    "https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py",
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py"
+  ],
+  "images": [
+    "outbox/assets/2026-11-18-wednesday-predicted-xg-GW11.png"
+  ]
+}
