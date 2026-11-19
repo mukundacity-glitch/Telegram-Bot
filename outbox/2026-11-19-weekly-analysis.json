@@ -1,0 +1,104 @@
+{
+  "task": "task2",
+  "edition": "weekly-analysis",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "TEAMS TO TARGET",
+  "caption": "TEAMS TO TARGET • Weekly Analysis 5/7\nAston Villa ranks first for the next 4 GWs with 2.25 average FDR.\nOfficial FPL FDR • fixture count first, then average difficulty.\nUse the data to shortlist targets, then verify minutes and fixtures before making a transfer.\n#FPL #GW11 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "weekly-analysis",
+    "extra": {
+      "through": 10,
+      "day": 5,
+      "layout": "fixtures",
+      "weeks": [
+        11,
+        12,
+        13,
+        14
+      ],
+      "rows": [
+        {
+          "name": "Aston Villa",
+          "code": 7,
+          "cells": [
+            "SUN (H)",
+            "IPS (A)",
+            "EVE (H)",
+            "CRY (H)"
+          ],
+          "value": 2.25,
+          "played": 4
+        },
+        {
+          "name": "Coventry City",
+          "code": 9,
+          "cells": [
+            "CRY (H)",
+            "LEE (A)",
+            "IPS (H)",
+            "MUN (A)"
+          ],
+          "value": 2.5,
+          "played": 4
+        },
+        {
+          "name": "Brighton",
+          "code": 36,
+          "cells": [
+            "HUL (A)",
+            "NEW (H)",
+            "BOU (A)",
+            "NFO (A)"
+          ],
+          "value": 2.75,
+          "played": 4
+        },
+        {
+          "name": "Chelsea",
+          "code": 8,
+          "cells": [
+            "LEE (H)",
+            "NFO (A)",
+            "CRY (H)",
+            "LIV (H)"
+          ],
+          "value": 2.75,
+          "played": 4
+        },
+        {
+          "name": "Crystal Palace",
+          "code": 31,
+          "cells": [
+            "COV (A)",
+            "HUL (H)",
+            "CHE (A)",
+            "AVL (A)"
+          ],
+          "value": 2.75,
+          "played": 4
+        }
+      ],
+      "unit": "average FDR",
+      "note": "Official FPL FDR • fixture count first, then average difficulty",
+      "sources": []
+    },
+    "fixtures": []
+  },
+  "generated_at": "2026-11-19T19:15:57.793635+00:00",
+  "publish_at": "2026-11-19T19:15:57.565799+00:00",
+  "data_retrieval_at_et": "2026-11-19T14:15:57.793635-05:00",
+  "graphic_generated_at_et": "2026-11-19T14:15:58.813935-05:00",
+  "deadline": "2026-11-20T00:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/"
+  ],
+  "images": [
+    "outbox/assets/2026-11-19-weekly-analysis-GW11.png"
+  ]
+}
