@@ -4496,6 +4496,23 @@
     "trigger": "2026-11-19T20:00:00-05:00",
     "type": "thursday-attacking-zones"
   },
+  "2026-11-19:three_daily:vortex-captain:GW11": {
+    "attempts": 1,
+    "completed_at": "2026-11-20T02:00:23.222230+00:00",
+    "confirmed_telegram_message_ids": [
+      500
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-19:three_daily:vortex-captain:GW11",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      500
+    ],
+    "timestamp": "2026-11-20T02:00:13.446129+00:00",
+    "trigger": "2026-11-19T21:00:00-05:00",
+    "type": "vortex-captain"
+  },
   "2026-11-19T00:30:03.986382+00:00": {
     "posts": [
       {
@@ -5192,6 +5209,42 @@
     "status": "RUN",
     "timestamp": "2026-11-20T01:15:07.254971+00:00"
   },
+  "2026-11-20T02:00:13.446129+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-20T02:00:16.749991+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "RequiredInput: Understat did not return structured match data",
+        "generated": false,
+        "post_id": "2026-27:GW11:task1:chance-creators",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-20T02:00:13.446129+00:00",
+        "trigger": "2026-11-20T00:30:00+00:00",
+        "type": "chance-creators"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-20T02:00:23.222230+00:00",
+        "confirmed_telegram_message_ids": [
+          500
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-19:three_daily:vortex-captain:GW11",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          500
+        ],
+        "timestamp": "2026-11-20T02:00:13.446129+00:00",
+        "trigger": "2026-11-19T21:00:00-05:00",
+        "type": "vortex-captain"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-20T02:00:13.446129+00:00"
+  },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
     "completed_at": "2026-11-16T00:10:53.617078+00:00",
@@ -5293,6 +5346,19 @@
     "timestamp": "2026-11-20T00:30:00.735705+00:00",
     "trigger": "2026-11-20T00:30:00+00:00",
     "type": "captaincy-comparison"
+  },
+  "2026-27:GW11:task1:chance-creators": {
+    "attempts": 1,
+    "completed_at": "2026-11-20T02:00:16.749991+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": "RequiredInput: Understat did not return structured match data",
+    "generated": false,
+    "post_id": "2026-27:GW11:task1:chance-creators",
+    "status": "RETRY",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-20T02:00:13.446129+00:00",
+    "trigger": "2026-11-20T00:30:00+00:00",
+    "type": "chance-creators"
   },
   "gw10-four-midfielders.json": {
     "attempts": 0,

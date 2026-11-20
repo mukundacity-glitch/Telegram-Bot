@@ -1875,6 +1875,22 @@
       499
     ]
   },
+  "2026-11-19:three_daily:vortex-captain:GW11": {
+    "at": "2026-11-20T02:00:13.446129+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "vortex-captain",
+    "file": "outbox/2026-11-19-vortex-captain.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:three_daily:vortex-captain:f7a9e62203ff8b0302f5",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "three_daily",
+    "telegram_message_ids": [
+      500
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
@@ -2010,6 +2026,14 @@
     "telegram_message_ids": [
       498
     ]
+  },
+  "2026-27:GW11:task1:chance-creators": {
+    "at": "2026-11-20T02:00:13.446129+00:00",
+    "attempts": 1,
+    "edition": "chance-creators",
+    "reason": "RequiredInput: Understat did not return structured match data",
+    "status": "held",
+    "task": "task1"
   },
   "_weekly_analysis": {
     "gw": 10,
