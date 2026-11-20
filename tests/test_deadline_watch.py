@@ -16,10 +16,10 @@ def slot():
     return Slot('task1', 'deadline-watch', 16, 30)
 
 
-def test_deadline_watch_is_retired_and_press_leaves_45_minutes_after_sell():
+def test_deadline_watch_is_retired_and_press_has_no_fixed_daily_slot():
     assert slot() not in SLOTS and slot().edition in RETIRED_EDITIONS
     assert not BY_CRON  # editions are catch-up slots, not bound to one cron string
-    assert [(s.hour,s.minute) for s in SLOTS if s.task=='press_news']==[(19,15)]
+    assert not any(s.task == 'press_news' for s in SLOTS)
 
 
 def test_deadline_watch_uses_snapshot_and_changes_with_data(world):

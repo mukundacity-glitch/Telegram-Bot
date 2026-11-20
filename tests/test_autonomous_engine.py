@@ -76,7 +76,7 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
                      '15 0,20,21,23 * * *', '45 1,2 * * *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
-    assert len(SLOTS) == 24  # existing 19 + 5 verified weekday evening slots
+    assert len(SLOTS) == 23  # Matchday press is triggered by fixtures outside the fixed slots.
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 
