@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-20T14:30:00.773963+00:00",
-  "eastern_at": "2026-11-20T09:30:00.773963-05:00",
+  "at": "2026-11-20T15:30:01.650147+00:00",
+  "eastern_at": "2026-11-20T10:30:01.650147-05:00",
   "last_news_scan": "2026-11-20T14:15:50.180807+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "goalkeeper-striker-watch",
-    "trigger": "2026-11-20T10:30:00-05:00"
+    "post": "news",
+    "trigger": "2026-11-20T16:15:14.443014+00:00"
   },
-  "next_telegram_at": null,
+  "next_telegram_at": "2026-11-20T16:15:14.443014+00:00",
   "pending_triggers": [
     {
       "post": "start-bench-board",
@@ -27,5 +27,5 @@
   "scheduled_cron": "58 * * * *",
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 1
+  "telegram_messages_sent": 2
 }
