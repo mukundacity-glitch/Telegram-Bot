@@ -1979,6 +1979,22 @@
       492
     ]
   },
+  "2026-27:GW11:task1:captaincy-comparison": {
+    "at": "2026-11-20T00:30:00.735705+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "captaincy-comparison",
+    "file": "outbox/2026-11-19-captaincy-comparison.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:captaincy-comparison:e5f0365b6848b0e5aa60",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      498
+    ]
+  },
   "_weekly_analysis": {
     "gw": 10,
     "season": "2026-27",
