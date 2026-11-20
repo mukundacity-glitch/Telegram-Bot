@@ -1747,8 +1747,8 @@
     "task": "press_news"
   },
   "2026-11-19:price_changes:confirmed-price-changes:GW11": {
-    "at": "2026-11-20T02:45:23.447714+00:00",
-    "attempts": 1,
+    "at": "2026-11-20T03:30:36.088563+00:00",
+    "attempts": 2,
     "caption_hashtags": 4,
     "edition": "confirmed-price-changes",
     "file": "outbox/2026-11-19-confirmed-price-changes.json",
@@ -2043,8 +2043,8 @@
     ]
   },
   "2026-27:GW11:task1:chance-creators": {
-    "at": "2026-11-20T02:45:23.447714+00:00",
-    "attempts": 2,
+    "at": "2026-11-20T03:30:36.088563+00:00",
+    "attempts": 3,
     "edition": "chance-creators",
     "reason": "RequiredInput: Understat did not return structured match data",
     "status": "held",
