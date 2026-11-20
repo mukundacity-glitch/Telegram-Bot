@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-20T13:30:39.231541+00:00",
-  "eastern_at": "2026-11-20T08:30:39.231541-05:00",
-  "last_news_scan": "2026-11-20T11:15:17.546535+00:00",
-  "new_posts": 1,
+  "at": "2026-11-20T14:15:50.180807+00:00",
+  "eastern_at": "2026-11-20T09:15:50.180807-05:00",
+  "last_news_scan": "2026-11-20T14:15:50.180807+00:00",
+  "new_posts": 0,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-20T14:15:49.021993+00:00"
+    "post": "defender-watch",
+    "trigger": "2026-11-20T09:30:00-05:00"
   },
-  "next_telegram_at": "2026-11-20T14:15:49.021993+00:00",
+  "next_telegram_at": null,
   "pending_triggers": [
     {
       "post": "start-bench-board",
@@ -20,12 +20,12 @@
   ],
   "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 2,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "scheduled_cron": "13 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "no-new-verified-content",
+  "telegram_messages_sent": 0
 }
