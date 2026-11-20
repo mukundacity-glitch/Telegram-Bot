@@ -2091,6 +2091,22 @@
       492
     ]
   },
+  "2026-27:GW10:task2:weekly-analysis:day6": {
+    "at": "2026-11-20T18:18:42.297919+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "weekly-analysis",
+    "file": "outbox/2026-11-20-weekly-analysis.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:922f92c5b1074b83918f",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      511
+    ]
+  },
   "2026-27:GW11:task1:captaincy-comparison": {
     "at": "2026-11-20T00:30:00.735705+00:00",
     "attempts": 1,

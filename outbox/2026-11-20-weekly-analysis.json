@@ -1,0 +1,177 @@
+{
+  "task": "task2",
+  "edition": "weekly-analysis",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "GOALS THAT ADDED POINTS",
+  "caption": "GOALS THAT ADDED POINTS • Weekly Analysis 6/7\nBarry leads this board with 3.06 model points added.\nGoal-time points swing • Poisson model using remaining time and final match xG.\nUse the data to shortlist targets, then verify minutes and fixtures before making a transfer.\n#FPL #GW11 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "weekly-analysis",
+    "extra": {
+      "through": 10,
+      "day": 6,
+      "layout": "rank",
+      "rows": [
+        {
+          "name": "Barry",
+          "code": 11,
+          "photo": 586309,
+          "value": 3.0590199636178,
+          "detail": "6 goals  •  0.51/goal  •  Biggest 61′ vs COV  +1.01",
+          "minutes": 0
+        },
+        {
+          "name": "N.Jackson",
+          "code": 7,
+          "photo": 517052,
+          "value": 2.8357194228228026,
+          "detail": "6 goals  •  0.47/goal  •  Biggest 60′ vs MCI  +1.08",
+          "minutes": 0
+        },
+        {
+          "name": "Haaland",
+          "code": 43,
+          "photo": 223094,
+          "value": 2.7730909813347813,
+          "detail": "9 goals  •  0.31/goal  •  Biggest 81′ vs SUN  +0.59",
+          "minutes": 0
+        },
+        {
+          "name": "Ødegaard",
+          "code": 3,
+          "photo": 184029,
+          "value": 2.3199382481805806,
+          "detail": "3 goals  •  0.77/goal  •  Biggest 72′ vs HUL  +1.53",
+          "minutes": 0
+        },
+        {
+          "name": "Rogers",
+          "code": 8,
+          "photo": 244850,
+          "value": 2.2606177023063654,
+          "detail": "5 goals  •  0.45/goal  •  Biggest 3′ vs BOU  +0.69",
+          "minutes": 0
+        },
+        {
+          "name": "Clarke",
+          "code": 40,
+          "photo": 443261,
+          "value": 2.0302907520431455,
+          "detail": "2 goals  •  1.02/goal  •  Biggest 90′ vs SUN  +2.00",
+          "minutes": 0
+        },
+        {
+          "name": "Gvardiol",
+          "code": 43,
+          "photo": 477424,
+          "value": 2.0,
+          "detail": "1 goals  •  2.00/goal  •  Biggest 90′ vs BOU  +2.00",
+          "minutes": 0
+        },
+        {
+          "name": "O'Shea",
+          "code": 40,
+          "photo": 216616,
+          "value": 2.0,
+          "detail": "1 goals  •  2.00/goal  •  Biggest 90′ vs FUL  +2.00",
+          "minutes": 0
+        },
+        {
+          "name": "McBurnie",
+          "code": 88,
+          "photo": 169432,
+          "value": 1.8582712267978863,
+          "detail": "2 goals  •  0.93/goal  •  Biggest 68′ vs IPS  +1.34",
+          "minutes": 0
+        },
+        {
+          "name": "Mbeumo",
+          "code": 1,
+          "photo": 446008,
+          "value": 1.823719203353931,
+          "detail": "4 goals  •  0.46/goal  •  Biggest 73′ vs TOT  +1.33",
+          "minutes": 0
+        },
+        {
+          "name": "Isak",
+          "code": 14,
+          "photo": 219168,
+          "value": 1.703883389161311,
+          "detail": "7 goals  •  0.24/goal  •  Biggest 21′ vs BHA  +0.79",
+          "minutes": 0
+        },
+        {
+          "name": "Groß",
+          "code": 36,
+          "photo": 60307,
+          "value": 1.5329538206549418,
+          "detail": "5 goals  •  0.31/goal  •  Biggest 17′ vs BHA  +0.64",
+          "minutes": 0
+        }
+      ],
+      "unit": "model points added",
+      "note": "Goal-time points swing • Poisson model using remaining time and final match xG",
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv"
+      ]
+    },
+    "fixtures": []
+  },
+  "generated_at": "2026-11-20T18:18:42.296506+00:00",
+  "publish_at": "2026-11-20T18:18:42.297919+00:00",
+  "data_retrieval_at_et": "2026-11-20T13:18:42.296506-05:00",
+  "graphic_generated_at_et": "2026-11-20T13:18:43.585367-05:00",
+  "deadline": "2026-11-21T00:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-20-weekly-analysis-GW11.png"
+  ]
+}
