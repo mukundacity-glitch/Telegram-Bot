@@ -5181,6 +5181,23 @@
     "trigger": "2026-11-20T08:30:00-05:00",
     "type": "form-minutes-targets"
   },
+  "2026-11-20:task1:player-radar-comparison:GW11": {
+    "attempts": 1,
+    "completed_at": "2026-11-20T17:33:42.045841+00:00",
+    "confirmed_telegram_message_ids": [
+      510
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-20:task1:player-radar-comparison:GW11",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      510
+    ],
+    "timestamp": "2026-11-20T17:33:38.106550+00:00",
+    "trigger": "2026-11-20T11:30:00-05:00",
+    "type": "player-radar-comparison"
+  },
   "2026-11-20:task2:defender-watch:GW11": {
     "attempts": 1,
     "completed_at": "2026-11-20T14:30:11.912200+00:00",
@@ -5685,6 +5702,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-20T15:30:01.650147+00:00"
+  },
+  "2026-11-20T17:33:38.106550+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-20T17:33:42.045841+00:00",
+        "confirmed_telegram_message_ids": [
+          510
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-20:task1:player-radar-comparison:GW11",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          510
+        ],
+        "timestamp": "2026-11-20T17:33:38.106550+00:00",
+        "trigger": "2026-11-20T11:30:00-05:00",
+        "type": "player-radar-comparison"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-20T17:33:38.106550+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
