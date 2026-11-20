@@ -747,6 +747,11 @@
     "identity": "chatgpt:2026-27:GW11:task2:scouting-rotation:8f051c918d321cc8b056",
     "status": "delivered"
   },
+  "2026-11-19-thursday-attacking-zones.json": {
+    "at": "2026-11-20T01:15:10.032222+00:00",
+    "identity": "chatgpt:2026-27:GW11:task2:thursday-attacking-zones:dffb7bace55c4a11cba5",
+    "status": "delivered"
+  },
   "2026-11-19-weekly-analysis.json": {
     "at": "2026-11-19T19:15:58.817283+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:fab2e109ccde2bdf272b",

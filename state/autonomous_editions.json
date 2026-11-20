@@ -1859,6 +1859,22 @@
       494
     ]
   },
+  "2026-11-19:task2:thursday-attacking-zones": {
+    "at": "2026-11-20T01:15:07.254971+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "thursday-attacking-zones",
+    "file": "outbox/2026-11-19-thursday-attacking-zones.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:thursday-attacking-zones:dffb7bace55c4a11cba5",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      499
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
