@@ -521,7 +521,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 71,
+    "now_cost": 72,
     "status": "a"
   },
   "167": {
@@ -822,7 +822,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 45,
+    "now_cost": 44,
     "status": "a"
   },
   "205": {
@@ -849,7 +849,7 @@
   "208": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Groin injury - Expected back 21 Nov",
+    "news": "Groin injury - Expected back 29 Nov",
     "now_cost": 62,
     "status": "i"
   },
@@ -1732,7 +1732,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 45,
+    "now_cost": 44,
     "status": "a"
   },
   "322": {
@@ -3664,7 +3664,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 53,
+    "now_cost": 52,
     "status": "a"
   },
   "571": {
@@ -3712,7 +3712,7 @@
   "577": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Calf injury - Expected back 21 Nov",
+    "news": "Calf injury - Expected back 29 Nov",
     "now_cost": 43,
     "status": "i"
   },
