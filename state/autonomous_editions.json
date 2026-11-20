@@ -2050,6 +2050,22 @@
     "status": "held",
     "task": "task1"
   },
+  "2026-27:GW11:task1:value-board": {
+    "at": "2026-11-20T10:30:00.955206+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "value-board",
+    "file": "outbox/2026-11-20-value-board.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:value-board:93821e5aa83db6c6f81f",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      502
+    ]
+  },
   "_weekly_analysis": {
     "gw": 10,
     "season": "2026-27",
