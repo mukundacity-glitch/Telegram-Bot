@@ -334,5 +334,11 @@
     "attempts": 1,
     "generated": true,
     "status": "checked"
+  },
+  "2026-11-20:sell": {
+    "at": "2026-11-20T23:42:28.190196+00:00",
+    "attempts": 1,
+    "generated": true,
+    "status": "checked"
   }
 }
