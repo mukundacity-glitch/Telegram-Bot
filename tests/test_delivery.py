@@ -37,7 +37,12 @@ def delivery_environment(monkeypatch: pytest.MonkeyPatch, tmp_path: Path) -> lis
     monkeypatch.setattr(bot, 'TelegramClient', TestTelegramClient)
     monkeypatch.setattr(bot, 'collect_snapshot', lambda: TestSnapshot())
     monkeypatch.setattr(bot, 'generate', lambda kind, snapshot, now, prior: content)
-    monkeypatch.setattr(bot, 'render', lambda content, path: path)
+    def render_fixture(content, path):
+        from PIL import Image
+        path.parent.mkdir(parents=True, exist_ok=True)
+        Image.new('RGB', (1920, 1080), 'navy').save(path)
+        return path
+    monkeypatch.setattr(bot, 'render', render_fixture)
     return deliveries
 
 

@@ -83,7 +83,6 @@ SLOTS = (
     BONUS_MAGNETS,
     SHOT_QUALITY,
     CHIP_STRATEGY,
-    Slot('press_news', 'verified-press-availability', 19, 15),
     *EVENING_WATCH_SLOTS,
     Slot('three_daily', 'vortex-captain', 21, 0),
     Slot('price_changes', 'confirmed-price-changes', 21, 45),

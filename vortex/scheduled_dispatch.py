@@ -76,7 +76,7 @@ def upcoming_editorial(slot, trigger):
     return result
 
 
-def run(now=None, cron=None):
+def run(now=None, cron=None, snapshot=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
     if not allowed(now):
@@ -116,7 +116,7 @@ def run(now=None, cron=None):
     last_news_scan = previous_report.get("last_news_scan")
     source_error = None
     try:
-        snapshot = retry_source(collect_snapshot)
+        snapshot = snapshot or retry_source(collect_snapshot)
     except (RuntimeError, ValueError, OSError) as exc:
         snapshot = None
         source_error = failure_reason(exc)
@@ -314,8 +314,23 @@ def main():
         started = datetime.fromtimestamp(int(sys.argv[2]), timezone.utc)
         print(followup_wait(read_state(REPORT), now, started, blocked_until(now)))
         return 0
-    result = run(cron=os.getenv('SCHEDULED_CRON') or None)
-    return int(bool(result.get('source_error') or result.get('posts_failed') or
+    snapshot = None
+    press_error = False
+    if os.getenv('GITHUB_EVENT_NAME') == 'schedule':
+        from .matchday_press import run as press_run
+        from .telegram import TelegramClient
+        try:
+            snapshot = retry_source(collect_snapshot)
+            now = datetime.now(timezone.utc)
+            if press_run(snapshot, now, read_state, write_state, TelegramClient,
+                         live_clock=lambda: datetime.now(timezone.utc)):
+                print('Matchday press roundup has publication priority on this pass')
+                return 0
+        except (RuntimeError, ValueError, OSError) as error:
+            print('Matchday press check: ' + failure_reason(error))
+            press_error = True
+    result = run(cron=os.getenv('SCHEDULED_CRON') or None, snapshot=snapshot)
+    return int(bool(press_error or result.get('source_error') or result.get('posts_failed') or
                     result.get('posts_retry_pending')))
 
 

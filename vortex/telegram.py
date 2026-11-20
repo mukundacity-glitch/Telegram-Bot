@@ -1,6 +1,7 @@
 """Telegram Bot API delivery; tokens never logged."""
 from __future__ import annotations
 
+import json
 import html
 import os
 import time
@@ -39,13 +40,14 @@ class TelegramClient:
     def _post(self, method: str, data: dict[str, Any], files: dict[str, Any] | None = None) -> dict[str, Any]:
         if method in {"sendMessage", "sendPhoto", "sendMediaGroup"}:
             from datetime import datetime, timezone
-            from .publishing_window import assert_allowed
+            from .publishing_window import assert_allowed, is_press_delivery
             from .telegram_spacing import IN_FLIGHT, checkpoint, enabled, require_ready
 
             if enabled():
                 assert_allowed()
                 now = datetime.now(timezone.utc)
-                require_ready(now)
+                if not is_press_delivery():
+                    require_ready(now)
                 checkpoint(now, IN_FLIGHT)
                 try:
                     return self._request(method, data, files)
@@ -189,7 +191,7 @@ class TelegramClient:
         payload = self._post("sendMessage", {"chat_id": self.chat_id, "text": text[:4000]})
         return int(payload["result"]["message_id"])
 
-    def send_shared_png(self, image: Path, caption: str, title: str, gw: int) -> int:
+    def send_shared_png(self, image: Path, caption: str, title: str, gw: int, *, entities=None) -> int:
         """Send exact copy-ready caption in Telegram; identical to Discord text.
 
         This is opt-in for the shared news system only. Legacy Telegram
@@ -204,7 +206,8 @@ class TelegramClient:
         with image.open("rb") as source:
             data = self._post(
                 "sendPhoto",
-                {"chat_id": self.chat_id, "caption": caption},
+                {"chat_id": self.chat_id, "caption": caption,
+                 **({"caption_entities": json.dumps(entities)} if entities else {})},
                 {"photo": (image.name, source, "image/png")},
             )
         return int(data["result"]["message_id"])
@@ -223,7 +226,7 @@ class TelegramClient:
             raise RuntimeError('Telegram album did not confirm every page receipt')
         return [row['message_id'] for row in rows]
 
-    def edit_shared_png(self, image: Path, caption: str, message_id: int) -> int:
+    def edit_shared_png(self, image: Path, caption: str, message_id: int, *, entities=None) -> int:
         """Update the EXISTING Telegram photo in place, never publish a repeat.
 
         Telegram editMessageMedia returns the edited Message for chat_id
@@ -239,6 +242,8 @@ class TelegramClient:
             raise ValueError("Updated caption must be five Telegram-sized lines")
         media = {"type": "photo", "media": "attach://edited_photo",
                  "caption": caption}
+        if entities:
+            media["caption_entities"] = entities
         with image.open("rb") as source:
             payload = self._post(
                 "editMessageMedia",

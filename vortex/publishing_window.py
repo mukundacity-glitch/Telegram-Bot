@@ -7,6 +7,22 @@ offset. The approved publishing day is 05:30 inclusive to 23:00 exclusive.
 from datetime import datetime, timezone
 from zoneinfo import ZoneInfo
 import os
+from contextvars import ContextVar
+from contextlib import contextmanager
+
+_press = ContextVar("matchday_press_delivery", default=False)
+
+@contextmanager
+def press_delivery():
+    token = _press.set(True)
+    try:
+        yield
+    finally:
+        _press.reset(token)
+
+def is_press_delivery():
+    return _press.get()
+
 
 ZONE = ZoneInfo('America/New_York')
 OPEN_MINUTE = 5 * 60 + 30   # 05:30 ET inclusive
@@ -20,5 +36,5 @@ def allowed(now=None):
 
 
 def assert_allowed(now=None):
-    if os.getenv('FPL_PUBLISH_WINDOW_ENFORCED', 'false').lower() == 'true' and not allowed(now):
+    if os.getenv('FPL_PUBLISH_WINDOW_ENFORCED', 'false').lower() == 'true' and not allowed(now) and not is_press_delivery():
         raise RuntimeError(f'Outside {WINDOW_LABEL}; retain pending edition for next window')

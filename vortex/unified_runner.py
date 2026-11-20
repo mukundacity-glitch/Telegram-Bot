@@ -102,6 +102,9 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                 if not post.identity.startswith(("availability:", "price:"))]
     reported = ([] if pending_only else rss if rss is not None else
                 collect_reported_headlines(snapshot, current_time))
+    reported = [story for story in reported if 'PRESSCONFERENCE WATCH' not in story.title]
+    pending = {key: value for key, value in pending.items()
+               if 'PRESSCONFERENCE WATCH' not in value.get('title', '')}
     stories = {s.identity: s for s in [*official, *reported]}
     from .rotation_planner import build_rotation_plan
     try:
@@ -230,7 +233,7 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                     render_news_card(record, image_path)
                 from .graphic_numbers import stamp
                 stamp(image_path, 'news-rotation-planner' if record.identity.startswith('rotation:')
-                      else 'verified-press-availability')
+                      else 'custom-outbox')
                 record = replace(record, image=image_path)
                 generated = True
             except (RuntimeError, OSError) as exc:
