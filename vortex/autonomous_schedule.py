@@ -159,7 +159,7 @@ def catchup_slots(now, state, gw, season=None, limit=3):
 
 
 SPECIAL_LEAD_HOURS = {
-    'chance-creators': 36, 'captaincy-comparison': 36, 'value-board': 27,
+    'captaincy-comparison': 36, 'value-board': 27,
     'start-bench-board': 8, 'final-gameweek-news': 5,
 }
 
@@ -184,6 +184,10 @@ def special_triggers(snapshot, now):
         triggers['market-trends-next-five'] = (
             last if last and event.get('finished') and all(f.get('finished') for f in previous) else None
         )
+    chance_time = first.astimezone(ET).replace(hour=6, minute=0, second=0, microsecond=0) - timedelta(days=2)
+    if last is not None and chance_time == last:
+        chance_time += timedelta(minutes=10)
+    triggers['chance-creators'] = chance_time
     return [
         (Slot('task1', name, now.astimezone(ET).hour, 35), trigger)
         for name, trigger in triggers.items()

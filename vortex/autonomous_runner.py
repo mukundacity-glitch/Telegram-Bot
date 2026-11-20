@@ -14,6 +14,7 @@ from .fpl import collect_snapshot,price_snapshot,upcoming_deadline
 from .autonomous_schedule import CHIP_STRATEGY, PASSING_CREATORS, SATURDAY_BOARDS, EVENING_WATCH_SLOTS, VULNERABILITY, SHOT_QUALITY, WILDCARD, SERIES, WINDOW_CLOSE, RETIRED_EDITIONS,SLOTS,NEWS_CRONS,SPECIAL_CRONS,CATCHUP_CRONS,SPECIAL_EDITIONS,Slot,due_specials,catchup_slots,slot_for,publication_key,season_id,ET
 from .autonomous_content import build,Evidence
 from .autonomous_render import render
+from .graphic_numbers import graphic_key, stamp
 from .editorial_inputs import RequiredInput,NoUpdate
 from .publishing_window import OPEN_MINUTE, allowed
 from .outbox import validate,run as publish_outbox,RECEIPTS,STATUS
@@ -51,7 +52,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     pages=render(plan,snapshot,now,output,evidence.session)
     if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation', 'passing-creators')) and len(pages) != 1:
         raise RuntimeError(f'{plan.edition} requires exactly one graphic')
-    for path in pages:
+    for index, path in enumerate(pages):
+        stamp(path, graphic_key(slot.edition, day.weekday(), slot.series_day, index))
         with Image.open(path) as image:
             if image.size not in ((1920,1080),(1080,1920)):raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()

@@ -228,6 +228,9 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                     render_player_profile(visual, snapshot, image_path)
                 else:
                     render_news_card(record, image_path)
+                from .graphic_numbers import stamp
+                stamp(image_path, 'news-rotation-planner' if record.identity.startswith('rotation:')
+                      else 'verified-press-availability')
                 record = replace(record, image=image_path)
                 generated = True
             except (RuntimeError, OSError) as exc:

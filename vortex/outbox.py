@@ -6,13 +6,15 @@ instructions from an outbox record. Each page has independent platform receipts.
 """
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
+from tempfile import TemporaryDirectory
 import hashlib
 import json
 import re
 
 from PIL import Image
 
-from .autonomous_schedule import RETIRED_EDITIONS
+from .graphic_numbers import graphic_key, stamp
+from .autonomous_schedule import ET, RETIRED_EDITIONS
 from .bot import ROOT, STATE, read_state, write_state
 from .publishing_window import WINDOW_LABEL, assert_allowed, allowed
 from .syndication import NewsPost, DiscordWebhookClient, publish_shared
@@ -126,21 +128,30 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
                     if not telegram_primary:
                         raise
                     print("Discord credential unavailable; continuing Telegram delivery")
-            if len(images)>1:
-                from .syndication import publish_album
-                receipts=publish_album(identity,images,record['caption'],RECEIPTS,
-                                        telegram,discord,now.isoformat())
-                status[file.name]={'status':'delivered','identity':identity,'at':now.isoformat(),'caption_once_album':True}
-                write_state(STATUS,status)
-                print(f'POSTED BOTH ALBUM {identity}: {len(receipts)} pages, one caption per platform')
-                continue
-            for key, image in zip(keys, images):
-                assert_allowed()
-                post = NewsPost(identity=key, title=record['title'], caption=record['caption'],
-                                gameweek=record['gameweek'], image=image)
-                result = publish_shared(post, RECEIPTS, telegram, discord,
-                                        send_discord=discord is not None, now_iso=now.isoformat())
-                print(f"POSTED BOTH {key} Telegram#{result.get('telegram_message_id')} Discord#{result.get('discord_message_id')}")
+            with TemporaryDirectory() as tmp:
+                local_day = due.astimezone(ET).weekday()
+                extra = record['facts'].get('extra') or {}
+                series_day = extra.get('day') if isinstance(extra, dict) else None
+                images = [
+                    stamp(path, graphic_key(record['edition'], local_day, series_day, index),
+                          Path(tmp) / f'{index}-{path.name}')
+                    for index, path in enumerate(images)
+                ]
+                if len(images)>1:
+                    from .syndication import publish_album
+                    receipts=publish_album(identity,images,record['caption'],RECEIPTS,
+                                            telegram,discord,now.isoformat())
+                    status[file.name]={'status':'delivered','identity':identity,'at':now.isoformat(),'caption_once_album':True}
+                    write_state(STATUS,status)
+                    print(f'POSTED BOTH ALBUM {identity}: {len(receipts)} pages, one caption per platform')
+                    continue
+                for key, image in zip(keys, images):
+                    assert_allowed()
+                    post = NewsPost(identity=key, title=record['title'], caption=record['caption'],
+                                    gameweek=record['gameweek'], image=image)
+                    result = publish_shared(post, RECEIPTS, telegram, discord,
+                                            send_discord=discord is not None, now_iso=now.isoformat())
+                    print(f"POSTED BOTH {key} Telegram#{result.get('telegram_message_id')} Discord#{result.get('discord_message_id')}")
             status[file.name] = {'status': 'delivered', 'identity': identity, 'at': now.isoformat()}
             write_state(STATUS, status)
         except (ValueError, RuntimeError, KeyError, OSError, TypeError) as exc:

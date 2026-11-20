@@ -10,13 +10,15 @@ from vortex.fpl import FplSnapshot
 
 def test_chance_creators_uses_first_kickoff_and_gameweek_receipt():
     kickoff = datetime(2026, 11, 21, 12, 30, tzinfo=timezone.utc)
-    trigger = kickoff - timedelta(hours=36)
+    trigger = datetime(2026, 11, 19, 11, tzinfo=timezone.utc)
     snapshot = FplSnapshot([], {}, [{'id': 11, 'deadline_time': (kickoff-timedelta(minutes=90)).isoformat()}],
                            [{'event': 11, 'kickoff_time': kickoff.isoformat()}], trigger)
     assert not any(s.edition == 'chance-creators' for s in
                    due_specials(snapshot, trigger-timedelta(seconds=1), {}))
     due = {slot.edition: slot for slot in due_specials(snapshot, trigger, {})}
-    assert {'chance-creators', 'captaincy-comparison'} <= due.keys()
+    assert 'chance-creators' in due and 'captaincy-comparison' not in due
+    assert any(s.edition == 'captaincy-comparison' for s in
+               due_specials(snapshot, kickoff-timedelta(hours=36), {}))
     key = publication_key(due['chance-creators'], trigger, 11, season_id(snapshot, trigger))
     assert not any(s.edition == 'chance-creators' for s in
                    due_specials(snapshot, trigger+timedelta(days=1), {key: {'status': 'delivered'}}))
