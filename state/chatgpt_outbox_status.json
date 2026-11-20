@@ -767,6 +767,11 @@
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:fab2e109ccde2bdf272b",
     "status": "delivered"
   },
+  "2026-11-20-form-minutes-targets.json": {
+    "at": "2026-11-20T13:30:46.760798+00:00",
+    "identity": "chatgpt:2026-27:GW11:task1:form-minutes-targets:251d83f56e883c6d8088",
+    "status": "delivered"
+  },
   "2026-11-20-value-board.json": {
     "at": "2026-11-20T10:30:14.280328+00:00",
     "identity": "chatgpt:2026-27:GW11:task1:value-board:93821e5aa83db6c6f81f",
