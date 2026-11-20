@@ -716,6 +716,11 @@
     "identity": "chatgpt:2026-27:GW11:task1:captaincy-comparison:e5f0365b6848b0e5aa60",
     "status": "delivered"
   },
+  "2026-11-19-confirmed-price-changes.json": {
+    "at": "2026-11-20T02:45:29.800388+00:00",
+    "identity": "chatgpt:2026-27:GW11:price_changes:confirmed-price-changes:db6345441bd46b839f45",
+    "status": "delivered"
+  },
   "2026-11-19-defender-watch.json": {
     "at": "2026-11-19T14:30:09.787762+00:00",
     "identity": "chatgpt:2026-27:GW11:task2:defender-watch:15e3bf1daac9aba2980e",

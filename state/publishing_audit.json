@@ -4322,6 +4322,23 @@
     "trigger": "2026-11-19T19:15:00-05:00",
     "type": "verified-press-availability"
   },
+  "2026-11-19:price_changes:confirmed-price-changes:GW11": {
+    "attempts": 1,
+    "completed_at": "2026-11-20T02:45:35.448110+00:00",
+    "confirmed_telegram_message_ids": [
+      501
+    ],
+    "error": "Telegram delivery incomplete or publishing window closed",
+    "generated": true,
+    "post_id": "2026-11-19:price_changes:confirmed-price-changes:GW11",
+    "status": "RETRY",
+    "telegram_message_ids": [
+      501
+    ],
+    "timestamp": "2026-11-20T02:45:23.447714+00:00",
+    "trigger": "2026-11-19T21:45:00-05:00",
+    "type": "confirmed-price-changes"
+  },
   "2026-11-19:review": {
     "attempts": 1,
     "completed_at": "2026-11-19T22:30:05.695958+00:00",
@@ -5245,6 +5262,42 @@
     "status": "RUN",
     "timestamp": "2026-11-20T02:00:13.446129+00:00"
   },
+  "2026-11-20T02:45:23.447714+00:00": {
+    "posts": [
+      {
+        "attempts": 2,
+        "completed_at": "2026-11-20T02:45:27.277174+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "RequiredInput: Understat did not return structured match data",
+        "generated": false,
+        "post_id": "2026-27:GW11:task1:chance-creators",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-20T02:45:23.447714+00:00",
+        "trigger": "2026-11-19T06:00:00-05:00",
+        "type": "chance-creators"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-20T02:45:35.448110+00:00",
+        "confirmed_telegram_message_ids": [
+          501
+        ],
+        "error": "Telegram delivery incomplete or publishing window closed",
+        "generated": true,
+        "post_id": "2026-11-19:price_changes:confirmed-price-changes:GW11",
+        "status": "RETRY",
+        "telegram_message_ids": [
+          501
+        ],
+        "timestamp": "2026-11-20T02:45:23.447714+00:00",
+        "trigger": "2026-11-19T21:45:00-05:00",
+        "type": "confirmed-price-changes"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-20T02:45:23.447714+00:00"
+  },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
     "completed_at": "2026-11-16T00:10:53.617078+00:00",
@@ -5348,16 +5401,16 @@
     "type": "captaincy-comparison"
   },
   "2026-27:GW11:task1:chance-creators": {
-    "attempts": 1,
-    "completed_at": "2026-11-20T02:00:16.749991+00:00",
+    "attempts": 2,
+    "completed_at": "2026-11-20T02:45:27.277174+00:00",
     "confirmed_telegram_message_ids": [],
     "error": "RequiredInput: Understat did not return structured match data",
     "generated": false,
     "post_id": "2026-27:GW11:task1:chance-creators",
     "status": "RETRY",
     "telegram_message_ids": [],
-    "timestamp": "2026-11-20T02:00:13.446129+00:00",
-    "trigger": "2026-11-20T00:30:00+00:00",
+    "timestamp": "2026-11-20T02:45:23.447714+00:00",
+    "trigger": "2026-11-19T06:00:00-05:00",
     "type": "chance-creators"
   },
   "gw10-four-midfielders.json": {
