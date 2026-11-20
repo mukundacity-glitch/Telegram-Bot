@@ -1,0 +1,365 @@
+{
+  "task": "task2",
+  "edition": "scouting-rotation",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "Striker Profiles: Goals vs Aerial Wins",
+  "caption": "Who scores, who wins it in the air, and who does both? | Striker Profiles: Goals vs Aerial Wins · 20 Nov 2026\nGoals: Haaland. Aerial duels won: Barry.\nPremier League through GW10 • Per 90 • 350+ minutes.\nOne free transfer. Who makes your GW11 shortlist?\n#FPL #GW11 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "scouting-rotation",
+    "extra": {
+      "day": 6,
+      "edition_date": "2026-11-20",
+      "layout": "scatter",
+      "rows": [
+        {
+          "name": "Awoniyi",
+          "club": "Coventry City",
+          "photo": 210156,
+          "rates": [
+            0.20179372197309417,
+            1.4125560538116593
+          ],
+          "x": 28.571428571428573,
+          "y": 23.80952380952381
+        },
+        {
+          "name": "Thomas-Asante",
+          "club": "Coventry City",
+          "photo": 230730,
+          "rates": [
+            0.0,
+            2.3493975903614457
+          ],
+          "x": 0.0,
+          "y": 57.142857142857146
+        },
+        {
+          "name": "Kostoulas",
+          "club": "Brighton",
+          "photo": 647850,
+          "rates": [
+            0.3693570451436389,
+            1.8467852257181943
+          ],
+          "x": 61.904761904761905,
+          "y": 33.333333333333336
+        },
+        {
+          "name": "Haaland",
+          "club": "Man City",
+          "photo": 223094,
+          "rates": [
+            0.9101123595505618,
+            1.9213483146067416
+          ],
+          "x": 100.0,
+          "y": 38.095238095238095
+        },
+        {
+          "name": "Solanke",
+          "club": "Spurs",
+          "photo": 154566,
+          "rates": [
+            0.1836734693877551,
+            1.1020408163265305
+          ],
+          "x": 23.80952380952381,
+          "y": 14.285714285714286
+        },
+        {
+          "name": "Calvert-Lewin",
+          "club": "Leeds",
+          "photo": 177815,
+          "rates": [
+            0.3117782909930716,
+            4.572748267898383
+          ],
+          "x": 52.38095238095238,
+          "y": 95.23809523809524
+        },
+        {
+          "name": "Thiago",
+          "club": "Brentford",
+          "photo": 502500,
+          "rates": [
+            0.2179176755447942,
+            3.7046004842615012
+          ],
+          "x": 38.095238095238095,
+          "y": 80.95238095238095
+        },
+        {
+          "name": "Osula",
+          "club": "Newcastle",
+          "photo": 538207,
+          "rates": [
+            0.2542372881355932,
+            0.0
+          ],
+          "x": 42.857142857142854,
+          "y": 0.0
+        },
+        {
+          "name": "Evanilson",
+          "club": "Bournemouth",
+          "photo": 444102,
+          "rates": [
+            0.5344418052256532,
+            1.9239904988123515
+          ],
+          "x": 76.19047619047619,
+          "y": 42.857142857142854
+        },
+        {
+          "name": "Brobbey",
+          "club": "Sunderland",
+          "photo": 441264,
+          "rates": [
+            0.4333868378812199,
+            3.033707865168539
+          ],
+          "x": 71.42857142857143,
+          "y": 71.42857142857143
+        },
+        {
+          "name": "Strand Larsen",
+          "club": "Crystal Palace",
+          "photo": 247412,
+          "rates": [
+            0.17408123791102514,
+            2.263056092843327
+          ],
+          "x": 19.047619047619047,
+          "y": 47.61904761904762
+        },
+        {
+          "name": "Wissa",
+          "club": "Newcastle",
+          "photo": 216646,
+          "rates": [
+            0.12693935119887165,
+            2.411847672778561
+          ],
+          "x": 9.523809523809524,
+          "y": 61.904761904761905
+        },
+        {
+          "name": "Gonzalo",
+          "club": "Fulham",
+          "photo": 551466,
+          "rates": [
+            0.10909090909090909,
+            2.290909090909091
+          ],
+          "x": 4.761904761904762,
+          "y": 52.38095238095238
+        },
+        {
+          "name": "Barry",
+          "club": "Everton",
+          "photo": 586309,
+          "rates": [
+            0.631578947368421,
+            4.7368421052631575
+          ],
+          "x": 80.95238095238095,
+          "y": 100.0
+        },
+        {
+          "name": "McBurnie",
+          "club": "Hull City",
+          "photo": 169432,
+          "rates": [
+            0.20270270270270271,
+            4.054054054054054
+          ],
+          "x": 33.333333333333336,
+          "y": 90.47619047619048
+        },
+        {
+          "name": "João Pedro",
+          "club": "Chelsea",
+          "photo": 475168,
+          "rates": [
+            0.8637236084452975,
+            3.800383877159309
+          ],
+          "x": 95.23809523809524,
+          "y": 85.71428571428571
+        },
+        {
+          "name": "Havertz",
+          "club": "Arsenal",
+          "photo": 219847,
+          "rates": [
+            0.36684782608695654,
+            2.6902173913043477
+          ],
+          "x": 57.142857142857146,
+          "y": 66.66666666666667
+        },
+        {
+          "name": "Emersonn",
+          "club": "Ipswich Town",
+          "photo": 543968,
+          "rates": [
+            0.2723146747352496,
+            3.67624810892587
+          ],
+          "x": 47.61904761904762,
+          "y": 76.19047619047619
+        },
+        {
+          "name": "Isak",
+          "club": "Liverpool",
+          "photo": 219168,
+          "rates": [
+            0.84,
+            0.96
+          ],
+          "x": 90.47619047619048,
+          "y": 9.523809523809524
+        },
+        {
+          "name": "Marmoush",
+          "club": "Spurs",
+          "photo": 438234,
+          "rates": [
+            0.13657056145675264,
+            0.40971168437025796
+          ],
+          "x": 14.285714285714286,
+          "y": 4.761904761904762
+        },
+        {
+          "name": "Delap",
+          "club": "Nott'm Forest",
+          "photo": 463034,
+          "rates": [
+            0.39705882352941174,
+            1.4558823529411764
+          ],
+          "x": 66.66666666666667,
+          "y": 28.571428571428573
+        },
+        {
+          "name": "N.Jackson",
+          "club": "Aston Villa",
+          "photo": 517052,
+          "rates": [
+            0.7427785419532325,
+            1.1141678129298487
+          ],
+          "x": 85.71428571428571,
+          "y": 19.047619047619047
+        }
+      ],
+      "featured": [
+        {
+          "name": "Haaland",
+          "club": "Man City",
+          "photo": 223094,
+          "rates": [
+            0.9101123595505618,
+            1.9213483146067416
+          ],
+          "x": 100.0,
+          "y": 38.095238095238095
+        },
+        {
+          "name": "Barry",
+          "club": "Everton",
+          "photo": 586309,
+          "rates": [
+            0.631578947368421,
+            4.7368421052631575
+          ],
+          "x": 80.95238095238095,
+          "y": 100.0
+        },
+        {
+          "name": "João Pedro",
+          "club": "Chelsea",
+          "photo": 475168,
+          "rates": [
+            0.8637236084452975,
+            3.800383877159309
+          ],
+          "x": 95.23809523809524,
+          "y": 85.71428571428571
+        },
+        {
+          "name": "Calvert-Lewin",
+          "club": "Leeds",
+          "photo": 177815,
+          "rates": [
+            0.3117782909930716,
+            4.572748267898383
+          ],
+          "x": 52.38095238095238,
+          "y": 95.23809523809524
+        },
+        {
+          "name": "Brobbey",
+          "club": "Sunderland",
+          "photo": 441264,
+          "rates": [
+            0.4333868378812199,
+            3.033707865168539
+          ],
+          "x": 71.42857142857143,
+          "y": 71.42857142857143
+        }
+      ],
+      "through": 10,
+      "minimum": 350,
+      "x_name": "Goals",
+      "y_name": "Aerial duels won",
+      "percentiles": true,
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+      ],
+      "metric_note": ""
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-20"
+  },
+  "generated_at": "2026-11-20T19:48:50.879670+00:00",
+  "publish_at": "2026-11-20T19:48:50.880927+00:00",
+  "data_retrieval_at_et": "2026-11-20T14:48:50.879670-05:00",
+  "graphic_generated_at_et": "2026-11-20T14:48:52.547439-05:00",
+  "deadline": "2026-11-21T11:00:00+00:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-20-scouting-rotation-GW11.png"
+  ]
+}
