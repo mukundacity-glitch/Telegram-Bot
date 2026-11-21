@@ -1,0 +1,273 @@
+{
+  "task": "task2",
+  "edition": "scouting-rotation",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "Goalkeeper Fixture Difficulty",
+  "caption": "Which keeper has the best run? 🧤 | Goalkeeper Fixture Difficulty · 21 Nov 2026\nTrafford, Kinsky, Roefs, Leno compared side by side.\nOfficial FPL FDR for GW12–18, with every opponent and venue.\nWho gets your starting spot?\n#FPL #GW12 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "scouting-rotation",
+    "extra": {
+      "day": 7,
+      "edition_date": "2026-11-21",
+      "layout": "fixtures",
+      "weeks": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "rows": [
+        {
+          "name": "Trafford",
+          "club": "Leeds",
+          "photo": 432720,
+          "cells": [
+            [
+              [
+                "Coventry City",
+                "H",
+                2
+              ]
+            ],
+            [
+              [
+                "Manchester City",
+                "A",
+                5
+              ]
+            ],
+            [
+              [
+                "Ipswich Town",
+                "H",
+                2
+              ]
+            ],
+            [
+              [
+                "Liverpool",
+                "A",
+                4
+              ]
+            ],
+            [
+              [
+                "Fulham",
+                "H",
+                2
+              ]
+            ],
+            [
+              [
+                "Aston Villa",
+                "A",
+                3
+              ]
+            ],
+            [
+              [
+                "Hull City",
+                "A",
+                2
+              ]
+            ]
+          ]
+        },
+        {
+          "name": "Kinsky",
+          "club": "Spurs",
+          "photo": 485055,
+          "cells": [
+            [
+              [
+                "Sunderland",
+                "A",
+                3
+              ]
+            ],
+            [
+              [
+                "Fulham",
+                "H",
+                2
+              ]
+            ],
+            [
+              [
+                "Arsenal",
+                "H",
+                4
+              ]
+            ],
+            [
+              [
+                "Hull City",
+                "A",
+                2
+              ]
+            ],
+            [
+              [
+                "Liverpool",
+                "A",
+                4
+              ]
+            ],
+            [
+              [
+                "Bournemouth",
+                "H",
+                3
+              ]
+            ],
+            [
+              [
+                "Brighton & Hove Albion",
+                "H",
+                4
+              ]
+            ]
+          ]
+        },
+        {
+          "name": "Roefs",
+          "club": "Sunderland",
+          "photo": 498016,
+          "cells": [
+            [
+              [
+                "Tottenham Hotspur",
+                "H",
+                3
+              ]
+            ],
+            [
+              [
+                "Liverpool",
+                "A",
+                4
+              ]
+            ],
+            [
+              [
+                "Newcastle United",
+                "A",
+                3
+              ]
+            ],
+            [
+              [
+                "Nottingham Forest",
+                "H",
+                3
+              ]
+            ],
+            [
+              [
+                "Crystal Palace",
+                "H",
+                2
+              ]
+            ],
+            [
+              [
+                "Everton",
+                "A",
+                3
+              ]
+            ],
+            [
+              [
+                "Manchester United",
+                "A",
+                3
+              ]
+            ]
+          ]
+        },
+        {
+          "name": "Leno",
+          "club": "Fulham",
+          "photo": 80201,
+          "cells": [
+            [
+              [
+                "Bournemouth",
+                "H",
+                3
+              ]
+            ],
+            [
+              [
+                "Tottenham Hotspur",
+                "A",
+                3
+              ]
+            ],
+            [
+              [
+                "Everton",
+                "A",
+                3
+              ]
+            ],
+            [
+              [
+                "Brentford",
+                "H",
+                3
+              ]
+            ],
+            [
+              [
+                "Leeds United",
+                "A",
+                3
+              ]
+            ],
+            [
+              [
+                "Brighton & Hove Albion",
+                "H",
+                4
+              ]
+            ],
+            [
+              [
+                "Arsenal",
+                "H",
+                4
+              ]
+            ]
+          ]
+        }
+      ],
+      "sources": [
+        "https://fantasy.premierleague.com/api/fixtures/"
+      ]
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-21"
+  },
+  "generated_at": "2026-11-21T20:48:20.457769+00:00",
+  "publish_at": "2026-11-21T20:48:20.459660+00:00",
+  "data_retrieval_at_et": "2026-11-21T15:48:20.457769-05:00",
+  "graphic_generated_at_et": "2026-11-21T15:48:22.472886-05:00",
+  "deadline": "2026-11-27T18:30:00+00:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://fantasy.premierleague.com/api/fixtures/"
+  ],
+  "images": [
+    "outbox/assets/2026-11-21-scouting-rotation-GW12.png"
+  ]
+}
