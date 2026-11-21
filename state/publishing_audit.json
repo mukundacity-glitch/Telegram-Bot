@@ -5266,6 +5266,24 @@
     "trigger": "2026-11-20T09:30:00-05:00",
     "type": "defender-watch"
   },
+  "2026-11-20:task2:friday-rotation-planner": {
+    "attempts": 1,
+    "completed_at": "2026-11-21T01:00:12.439799+00:00",
+    "confirmed_telegram_message_ids": [
+      518
+    ],
+    "display_name": "Two-Club Rotation Planner",
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-20:task2:friday-rotation-planner",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      518
+    ],
+    "timestamp": "2026-11-21T01:00:01.576859+00:00",
+    "trigger": "2026-11-20T20:00:00-05:00",
+    "type": "friday-rotation-planner"
+  },
   "2026-11-20:task2:goalkeeper-striker-watch:GW11": {
     "attempts": 1,
     "completed_at": "2026-11-20T15:30:15.382003+00:00",
@@ -6050,6 +6068,30 @@
     "timestamp": "2026-11-21T00:54:10.498848+00:00",
     "trigger": "2026-11-21T00:54:10.498848+00:00",
     "type": "2026-11-21T00:54:10.498848+00:00:news"
+  },
+  "2026-11-21T01:00:01.576859+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-21T01:00:12.439799+00:00",
+        "confirmed_telegram_message_ids": [
+          518
+        ],
+        "display_name": "Two-Club Rotation Planner",
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-20:task2:friday-rotation-planner",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          518
+        ],
+        "timestamp": "2026-11-21T01:00:01.576859+00:00",
+        "trigger": "2026-11-20T20:00:00-05:00",
+        "type": "friday-rotation-planner"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-21T01:00:01.576859+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,

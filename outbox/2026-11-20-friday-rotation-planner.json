@@ -1,0 +1,358 @@
+{
+  "task": "task2",
+  "edition": "friday-rotation-planner",
+  "season": "2026-27",
+  "gameweek": 11,
+  "title": "TWO-CLUB ROTATION PLANNER",
+  "caption": "📊 TWO-CLUB ROTATION PLANNER | GW11 · 20 Nov 2026\nLeeds vs Spurs\nVORTEX VORTEX-V1-PHASE4-POISSON-CS-FDR for covered GWs; later use official FDR. Clean sheets are never guaranteed.\nOfficial data checked 20 Nov 2026; verify changes before deadline.\n\n#FPL #GW11 #FPLVORTEX #PremierLeague",
+  "facts": {
+    "players": [],
+    "edition": "friday-rotation-planner",
+    "extra": {
+      "rows": [
+        {
+          "gw": 11,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "CHE",
+              "opp_code": 8,
+              "venue": "A",
+              "fdr": 4,
+              "cs": 20.16
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "IPS",
+              "opp_code": 40,
+              "venue": "H",
+              "fdr": 2,
+              "cs": 39.48
+            }
+          ],
+          "chosen": 19,
+          "decision_basis": "MODEL CS%"
+        },
+        {
+          "gw": 12,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "COV",
+              "opp_code": 9,
+              "venue": "H",
+              "fdr": 2,
+              "cs": 41.67
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "SUN",
+              "opp_code": 56,
+              "venue": "A",
+              "fdr": 3,
+              "cs": 27.53
+            }
+          ],
+          "chosen": 13,
+          "decision_basis": "MODEL CS%"
+        },
+        {
+          "gw": 13,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "MCI",
+              "opp_code": 43,
+              "venue": "A",
+              "fdr": 5,
+              "cs": 11.32
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "FUL",
+              "opp_code": 54,
+              "venue": "H",
+              "fdr": 2,
+              "cs": 36.72
+            }
+          ],
+          "chosen": 19,
+          "decision_basis": "MODEL CS%"
+        },
+        {
+          "gw": 14,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "IPS",
+              "opp_code": 40,
+              "venue": "H",
+              "fdr": 2,
+              "cs": 37.33
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "ARS",
+              "opp_code": 3,
+              "venue": "H",
+              "fdr": 4,
+              "cs": 31.74
+            }
+          ],
+          "chosen": 13,
+          "decision_basis": "MODEL CS%"
+        },
+        {
+          "gw": 15,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "LIV",
+              "opp_code": 14,
+              "venue": "A",
+              "fdr": 4,
+              "cs": 21.26
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "HUL",
+              "opp_code": 88,
+              "venue": "A",
+              "fdr": 2,
+              "cs": 32.73
+            }
+          ],
+          "chosen": 19,
+          "decision_basis": "MODEL CS%"
+        },
+        {
+          "gw": 16,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "FUL",
+              "opp_code": 54,
+              "venue": "H",
+              "fdr": 2,
+              "cs": null
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "LIV",
+              "opp_code": 14,
+              "venue": "A",
+              "fdr": 4,
+              "cs": null
+            }
+          ],
+          "chosen": 13,
+          "decision_basis": "OFFICIAL FDR"
+        },
+        {
+          "gw": 17,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "AVL",
+              "opp_code": 7,
+              "venue": "A",
+              "fdr": 3,
+              "cs": null
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "BOU",
+              "opp_code": 91,
+              "venue": "H",
+              "fdr": 3,
+              "cs": null
+            }
+          ],
+          "chosen": 13,
+          "decision_basis": "OFFICIAL FDR"
+        },
+        {
+          "gw": 18,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "HUL",
+              "opp_code": 88,
+              "venue": "A",
+              "fdr": 2,
+              "cs": null
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "BHA",
+              "opp_code": 36,
+              "venue": "H",
+              "fdr": 4,
+              "cs": null
+            }
+          ],
+          "chosen": 13,
+          "decision_basis": "OFFICIAL FDR"
+        },
+        {
+          "gw": 19,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "EVE",
+              "opp_code": 11,
+              "venue": "H",
+              "fdr": 3,
+              "cs": null
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "MCI",
+              "opp_code": 43,
+              "venue": "A",
+              "fdr": 5,
+              "cs": null
+            }
+          ],
+          "chosen": 13,
+          "decision_basis": "OFFICIAL FDR"
+        },
+        {
+          "gw": 20,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "MCI",
+              "opp_code": 43,
+              "venue": "H",
+              "fdr": 4,
+              "cs": null
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "FUL",
+              "opp_code": 54,
+              "venue": "A",
+              "fdr": 3,
+              "cs": null
+            }
+          ],
+          "chosen": 19,
+          "decision_basis": "OFFICIAL FDR"
+        },
+        {
+          "gw": 21,
+          "choices": [
+            {
+              "team": 13,
+              "name": "LEE",
+              "code": 2,
+              "opp": "TOT",
+              "opp_code": 6,
+              "venue": "A",
+              "fdr": 3,
+              "cs": null
+            },
+            {
+              "team": 19,
+              "name": "TOT",
+              "code": 6,
+              "opp": "LEE",
+              "opp_code": 2,
+              "venue": "H",
+              "fdr": 3,
+              "cs": null
+            }
+          ],
+          "chosen": 13,
+          "decision_basis": "OFFICIAL FDR"
+        }
+      ],
+      "club_ids": [
+        13,
+        19
+      ],
+      "model": "VORTEX-V1-PHASE4-POISSON-CS-FDR",
+      "weeks": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "sources": [
+        "https://fantasy.premierleague.com/api/bootstrap-static/",
+        "https://fantasy.premierleague.com/api/fixtures/",
+        "https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py"
+      ]
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-20"
+  },
+  "generated_at": "2026-11-21T01:00:01.574780+00:00",
+  "publish_at": "2026-11-21T01:00:01.576859+00:00",
+  "data_retrieval_at_et": "2026-11-20T20:00:01.574780-05:00",
+  "graphic_generated_at_et": "2026-11-20T20:00:08.557427-05:00",
+  "deadline": "2026-11-20T23:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://github.com/olbauday/FPL-Core-Insights",
+    "https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py",
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py"
+  ],
+  "images": [
+    "outbox/assets/2026-11-20-friday-rotation-planner-GW11.png"
+  ]
+}

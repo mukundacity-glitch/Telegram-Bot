@@ -1970,6 +1970,22 @@
       507
     ]
   },
+  "2026-11-20:task2:friday-rotation-planner": {
+    "at": "2026-11-21T01:00:01.576859+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "friday-rotation-planner",
+    "file": "outbox/2026-11-20-friday-rotation-planner.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task2:friday-rotation-planner:7bf7837a4660acc6113a",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      518
+    ]
+  },
   "2026-11-20:task2:goalkeeper-striker-watch:GW11": {
     "at": "2026-11-20T15:30:01.650147+00:00",
     "attempts": 1,
