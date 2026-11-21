@@ -329,6 +329,15 @@ def main():
         except (RuntimeError, ValueError, OSError) as error:
             print('Matchday press check: ' + failure_reason(error))
             press_error = True
+        if snapshot is not None:
+            from .press_schedule import run as schedule_run
+            try:
+                if schedule_run(snapshot, datetime.now(timezone.utc), read_state, write_state,
+                                TelegramClient, live_clock=lambda: datetime.now(timezone.utc)):
+                    print('Published press conference timetable')
+            except (RuntimeError, ValueError, OSError) as error:
+                print('Press conference timetable check: ' + failure_reason(error))
+                press_error = True
     result = run(cron=os.getenv('SCHEDULED_CRON') or None, snapshot=snapshot)
     return int(bool(press_error or result.get('source_error') or result.get('posts_failed') or
                     result.get('posts_retry_pending')))
