@@ -2226,6 +2226,22 @@
     "status": "held",
     "task": "task1"
   },
+  "2026-27:GW11:task1:start-bench-board": {
+    "at": "2026-11-21T10:30:52.113312+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "start-bench-board",
+    "file": "outbox/2026-11-21-start-bench-board.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW11:task1:start-bench-board:f97e0bff8738274e8350",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      523
+    ]
+  },
   "2026-27:GW11:task1:value-board": {
     "at": "2026-11-20T10:30:00.955206+00:00",
     "attempts": 1,
