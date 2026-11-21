@@ -1,6 +1,7 @@
 {
   "11:2026-11-21": {
     "checked": "2026-11-21T11:51:54.416680+00:00",
+    "delete_checked": "2026-11-21T16:17:30.225217+00:00",
     "facts": {
       "8": {
         "club": "Crystal Palace",
@@ -13,6 +14,7 @@
       }
     },
     "message": 521,
+    "removed": true,
     "sending": false,
     "version": "231a4ae587dc048178aef749594415b9f104154c3b14e9b19d5cf5c8dc9daa8a"
   }

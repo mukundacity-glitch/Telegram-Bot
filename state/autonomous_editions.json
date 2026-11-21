@@ -2066,6 +2066,22 @@
       519
     ]
   },
+  "2026-11-21:task1:form-minutes-targets:GW12": {
+    "at": "2026-11-21T16:17:30.789816+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "form-minutes-targets",
+    "file": "outbox/2026-11-21-form-minutes-targets.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task1:form-minutes-targets:6bdec1aab27b54c962a7",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      527
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",

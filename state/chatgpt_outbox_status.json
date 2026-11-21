@@ -828,6 +828,11 @@
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:922f92c5b1074b83918f",
     "status": "delivered"
   },
+  "2026-11-21-form-minutes-targets.json": {
+    "at": "2026-11-21T16:17:38.795720+00:00",
+    "identity": "chatgpt:2026-27:GW12:task1:form-minutes-targets:6bdec1aab27b54c962a7",
+    "status": "delivered"
+  },
   "2026-11-21-start-bench-board.json": {
     "at": "2026-11-21T10:30:53.749158+00:00",
     "identity": "chatgpt:2026-27:GW11:task1:start-bench-board:f97e0bff8738274e8350",
