@@ -76,7 +76,7 @@ class MatchdayPress(TestCase):
     def test_hourly_collection_single_send_edit_and_no_duplicate(self):
         self.assertFalse(self.check(clock(21, 5)))
         self.assertFalse(self.check(clock(21, 6)))
-        self.assertEqual(self.state["2026:GW11"]["checked"], clock(21, 5).isoformat())
+        self.assertEqual(self.state["2026:GW11"]["checked"], clock(21, 6).isoformat())
         self.assertTrue(self.check(clock(21, 7)))
         self.assertEqual(len(self.sent), 1)
         self.assertIn("4/20 clubs", self.sent[0])
