@@ -128,9 +128,12 @@ def render(path, day, names, facts, locked, teams=None):
     if not quotes:
         text(702, 290, "No attributable manager quotation verified yet.", 559, 24, MUTED)
 
-    note(701, 811, f"{len(facts)}/{len(names)} clubs have verified reports.")
-    note(701, 858, "Unconfirmed clubs remain marked as awaiting.")
-    note(701, 906, "Sources: linked official club reports.")
+    # Manager notes are source-backed, not generic filler from the mock-up.
+    for i, (key, fact) in enumerate(ordered[:2]):
+        note(701, 811+i*47, f"{names[key]}: {fact['news']}")
+    if not ordered:
+        note(701, 811, "No source-verified team news is available.")
+    note(701, 906, f"{len(facts)}/{len(names)} official club reports verified.")
 
     crests = {}
     if teams:
@@ -166,8 +169,8 @@ def render(path, day, names, facts, locked, teams=None):
         else:
             text(1379, y+5, names[key][:1], 20, 17, GOLD, True)
         text(1409, y+3, names[key], 217, 21, WHITE, True)
-        status = "CONFIRMED" if fact else "Awaiting club source"
-        text(1635, y+5, status, 253, 18, CYAN if fact else MUTED, bool(fact))
+        summary = (fact.get("quote") or fact.get("news")) if fact else "Awaiting official report"
+        text(1635, y+5, summary, 253, 18, CYAN if fact else MUTED, bool(fact))
 
     with Image.open(ASSETS / "footer.jpg") as raw:
         im.paste(raw.convert("RGB").resize((1920, 96)), (0, 984))
