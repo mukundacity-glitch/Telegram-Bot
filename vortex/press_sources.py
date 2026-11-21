@@ -25,7 +25,7 @@ PRESS = re.compile(r'press conference|press briefing|pre.match media|spoke to (?
 UNRELATED = re.compile(r"post.match|after (?:the|our) (?:win|defeat|draw)|women.?s|under.?\d\d|u\d\d[s ]|champions league|europa league|conference league|carabao|FA cup",re.I)
 FUTURE = re.compile(r'how to watch|watch live|will (?:be speaking to|face|speak to|address) the media|press conference times',re.I)
 NEWS = re.compile(r'\b(injur\w*|fitness|fully fit|match fit|ruled out|available|training|recover\w*|suspend\w*|selection|minutes|assess\w*|starting|squad|doubtful|return\w*)\b',re.I)
-APPOINTMENT = re.compile(r'first (?:[\\w-]+ )?press conference|new manager (?:speaks|interview)|first interview|manager (?:unveiled|appointment)', re.I)
+APPOINTMENT = re.compile(r'first (?:[\w-]+ )?press conference|new manager (?:speaks|interview)|first interview|manager (?:unveiled|appointment)', re.I)
 
 class Article(HTMLParser):
     def __init__(self):
