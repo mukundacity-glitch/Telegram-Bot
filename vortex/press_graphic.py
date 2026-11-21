@@ -9,7 +9,6 @@ from pathlib import Path
 import requests
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
-from .graphic_numbers import stamp
 
 ASSETS = Path(__file__).resolve().parents[1] / "assets/press"
 BG = (8, 8, 32)
@@ -174,4 +173,3 @@ def render(path, day, names, facts, locked, teams=None):
         im.paste(raw.convert("RGB").resize((1920, 96)), (0, 984))
     path.parent.mkdir(parents=True, exist_ok=True)
     im.save(path)
-    stamp(path, "verified-press-availability")
