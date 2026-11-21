@@ -1,18 +1,43 @@
 {
-  "at": "2026-11-21T10:30:52.113312+00:00",
-  "eastern_at": "2026-11-21T05:30:52.113312-05:00",
-  "last_news_scan": "2026-11-21T03:31:30.780039+00:00",
+  "at": "2026-11-21T11:16:19.298103+00:00",
+  "eastern_at": "2026-11-21T06:16:19.298103-05:00",
+  "last_news_scan": "2026-11-21T11:16:19.298103+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "final-gameweek-news",
-    "trigger": "2026-11-21T11:15:55.592933+00:00"
+    "post": "elite",
+    "trigger": "2026-11-21T06:30:00-05:00"
   },
-  "next_telegram_at": "2026-11-21T11:15:55.592933+00:00",
-  "pending_triggers": [],
+  "next_telegram_at": null,
+  "pending_triggers": [
+    {
+      "post": "captaincy-comparison",
+      "trigger": "2026-11-26T08:00:00+00:00"
+    },
+    {
+      "post": "value-board",
+      "trigger": "2026-11-26T17:00:00+00:00"
+    },
+    {
+      "post": "start-bench-board",
+      "trigger": "2026-11-27T12:00:00+00:00"
+    },
+    {
+      "post": "final-gameweek-news",
+      "trigger": "2026-11-27T15:00:00+00:00"
+    },
+    {
+      "post": "market-trends-next-five",
+      "trigger": null
+    },
+    {
+      "post": "chance-creators",
+      "trigger": "2026-11-25T06:00:00-05:00"
+    }
+  ],
   "posts_due": 1,
   "posts_failed": 0,
   "posts_generated": 1,
-  "posts_pending_trigger": 0,
+  "posts_pending_trigger": 6,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "scheduled_cron": "13 * * * *",
