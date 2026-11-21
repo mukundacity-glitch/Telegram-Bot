@@ -835,6 +835,11 @@
     "reason": "RuntimeError: Partial delivery; retained successful receipts: telegram TelegramDeliveryError",
     "status": "held"
   },
+  "2026-11-21-bonus-magnets.json": {
+    "at": "2026-11-21T22:18:34.370255+00:00",
+    "identity": "chatgpt:2026-27:GW10:task2:bonus-magnets:2d51e34816ef061d4fd0",
+    "status": "delivered"
+  },
   "2026-11-21-defender-watch.json": {
     "at": "2026-11-21T17:02:49.355921+00:00",
     "identity": "chatgpt:2026-27:GW12:task2:defender-watch:ce1f9a6f3e3aa54263c3",

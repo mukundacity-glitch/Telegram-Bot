@@ -1,14 +1,13 @@
 {
-  "at": "2026-11-21T21:33:27.370785+00:00",
-  "eastern_at": "2026-11-21T16:33:27.370785-05:00",
+  "at": "2026-11-21T22:18:32.532882+00:00",
+  "eastern_at": "2026-11-21T17:18:32.532882-05:00",
   "last_news_scan": "2026-11-21T11:16:19.298103+00:00",
   "new_posts": 1,
   "next_due": {
-    "display_name": "FPL Bonus Magnets",
-    "post": "bonus-magnets",
-    "trigger": "2026-11-21T22:18:31.525585+00:00"
+    "post": "news",
+    "trigger": "2026-11-21T23:03:36.242626+00:00"
   },
-  "next_telegram_at": "2026-11-21T22:18:31.525585+00:00",
+  "next_telegram_at": "2026-11-21T23:03:36.242626+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -35,11 +34,11 @@
       "trigger": "2026-11-25T06:00:00-05:00"
     }
   ],
-  "posts_due": 2,
-  "posts_failed": 1,
-  "posts_generated": 2,
+  "posts_due": 1,
+  "posts_failed": 0,
+  "posts_generated": 1,
   "posts_pending_trigger": 6,
-  "posts_retried": 1,
+  "posts_retried": 0,
   "posts_retry_pending": 0,
   "scheduled_cron": "13 * * * *",
   "source_error": null,
