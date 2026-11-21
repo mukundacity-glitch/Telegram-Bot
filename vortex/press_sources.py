@@ -24,7 +24,8 @@ ALIASES = {'Spurs':('Tottenham','Spurs'), 'Man Utd':('Manchester United','Man Ut
 PRESS = re.compile(r'press conference|press briefing|pre.match media|spoke to (?:the )?media|faced the media|every word|met (?:with )?the media|told reporters',re.I)
 UNRELATED = re.compile(r"post.match|after (?:the|our) (?:win|defeat|draw)|women.?s|under.?\d\d|u\d\d[s ]|champions league|europa league|conference league|carabao|FA cup",re.I)
 FUTURE = re.compile(r'how to watch|watch live|will (?:be speaking to|face|speak to|address) the media|press conference times',re.I)
-NEWS = re.compile(r'\b(injur\w*|fit|fitness|ruled out|available|training|recover\w*|suspend\w*|selection|minutes|assess\w*)\b',re.I)
+NEWS = re.compile(r'\b(injur\w*|fitness|fully fit|match fit|ruled out|available|training|recover\w*|suspend\w*|selection|minutes|assess\w*|starting|squad|doubtful|return\w*)\b',re.I)
+APPOINTMENT = re.compile(r'first (?:[\w-]+ )?press conference|new manager (?:speaks|interview)|first interview|manager (?:unveiled|appointment)', re.I)
 
 class Article(HTMLParser):
     def __init__(self):
@@ -76,16 +77,22 @@ def evidence(html, url, club, opponents, now, since):
     except ValueError: return
     if not published.tzinfo or not since <= published <= now: return
     intro=' '.join([doc.title,*doc.paragraphs[:8]])
+    # A new coach's introductory interview is not an opponent-specific pre-match
+    # presser. In particular, do not confuse 'good fit for Palace' with player fitness.
+    if APPOINTMENT.search(doc.title): return
     if UNRELATED.search(url+' '+intro[:900]) or FUTURE.search(intro[:900]) or not PRESS.search(intro): return
     held = re.search(r'held|spoke|faced|met the media|told|speaking (?:at|to)|was asked|has confirmed|discussed|revealed|said|every word|transcript',intro,re.I)
     if not held: return
     if not any(re.search(r'\b'+re.escape(n)+r'\b',intro,re.I) for n in opponents): return
     if not re.search(r'ahead of|before|pre.match|pre.game|preview|build.up|looking ahead',intro,re.I): return
     def suitable(line):
-        return 14 <= len(line) <= 230 and not re.search(r'cookies|subscribe|sign up|tickets|copyright',line,re.I)
+        return (14 <= len(line) <= 230 and '?' not in line
+                and not re.search(r'cookies|subscribe|sign up|tickets|copyright|\\bwelcome\\b|\\bgood fit for\\b',line,re.I))
     facts=[p for p in doc.paragraphs if suitable(p) and NEWS.search(p)]
-    quotes=[q for p in doc.paragraphs for q in re.findall(r'[“"]([^”"]{12,150})[”"]',p) if NEWS.search(q)]
-    return dict(club=club,title=doc.title,news=next(iter(facts),''),quote=next(iter(quotes),''),
+    if not facts: return None  # No filler, empty or speculative press-report cards.
+    quotes=[q for p in doc.paragraphs for q in re.findall(r'[“"]([^”"]{12,150})[”"]',p)
+            if suitable(q) and NEWS.search(q)]
+    return dict(club=club,title=doc.title,news=facts[0],quote=next(iter(quotes),''),
                 url=url,published=published.isoformat())
 
 def candidates(session, domain, opponents, now):

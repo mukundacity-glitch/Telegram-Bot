@@ -226,6 +226,21 @@ class TelegramClient:
             raise RuntimeError('Telegram album did not confirm every page receipt')
         return [row['message_id'] for row in rows]
 
+    def delete_shared_message(self, message_id: int) -> bool:
+        """Explicitly retire a confirmed erroneous bot-owned Telegram message.
+
+        Only an already-recorded message ID may be passed by the caller.
+        The caller must also verify its receipt and report identity.
+        """
+        if not self.chat_id or type(message_id) is not int or message_id <= 0:
+            raise ValueError("A configured Telegram chat and original post ID are required")
+        payload = self._post("deleteMessage", {
+            "chat_id": self.chat_id, "message_id": message_id,
+        })
+        if payload.get("result") is not True:
+            raise TelegramDeliveryError("Telegram did not confirm message deletion")
+        return True
+
     def edit_shared_png(self, image: Path, caption: str, message_id: int, *, entities=None) -> int:
         """Update the EXISTING Telegram photo in place, never publish a repeat.
 
