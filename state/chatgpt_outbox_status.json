@@ -828,6 +828,13 @@
     "identity": "chatgpt:2026-27:GW11:task2:weekly-analysis:922f92c5b1074b83918f",
     "status": "delivered"
   },
+  "2026-11-21-afternoon-rotation.json": {
+    "at": "2026-11-21T20:03:18.668886+00:00",
+    "attempts": 1,
+    "identity": "chatgpt:2026-27:GW12:task2:afternoon-rotation:9233ccd2f84f4e2941a8",
+    "reason": "RuntimeError: Partial delivery; retained successful receipts: telegram TelegramDeliveryError",
+    "status": "held"
+  },
   "2026-11-21-defender-watch.json": {
     "at": "2026-11-21T17:02:49.355921+00:00",
     "identity": "chatgpt:2026-27:GW12:task2:defender-watch:ce1f9a6f3e3aa54263c3",
