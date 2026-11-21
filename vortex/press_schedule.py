@@ -149,11 +149,8 @@ def run(snapshot, now, read, write, client_factory, lookup=discover, live_clock=
     if row.get("sending"):
         return False
     days = row.setdefault("days", {})
-    seed = ROOT / "data/press_schedule_gw11.json"
-    if key == "2026:11" and not row.get("message"):
-        days.update(json.loads(seed.read_text()))
-        row["checked"] = now.isoformat()
-    elif not row.get("checked") or now-datetime.fromisoformat(row["checked"]) >= timedelta(minutes=30):
+    # Never replay a historical static timetable: use published live source dates.
+    if not row.get("checked") or now-datetime.fromisoformat(row["checked"]) >= timedelta(minutes=30):
         days.update(lookup(gw, now, deadline))
         row["checked"] = now.isoformat()
         write(STATE,state)
@@ -164,7 +161,16 @@ def run(snapshot, now, read, write, client_factory, lookup=discover, live_clock=
         return False
     path = ROOT/"outbox/assets"/f"press-schedule-{key.replace(':','-')}.png"
     render(path,gw,deadline,days)
-    caption = f"GW{gw} press conference schedule • Nepal time\nFantasy deadline {deadline.astimezone(NEPAL):%a %d %b, %I:%M %p} NPT\n" + "\n".join(d["url"] for _,d in sorted(days.items()))
+    # editMessageMedia requires five lines. Earlier free-form URL lists caused
+    # production edit failures even though the original image was published.
+    source_urls = " · ".join(d["url"] for _, d in sorted(days.items()))
+    caption = "\n".join([
+        f"GW{gw} • FPL VORTEX press conference timetable",
+        f"FPL deadline: {deadline.astimezone(NEPAL):%a %d %b, %I:%M %p} NPT",
+        "Verified published press times • Nepal local time",
+        "Sources: " + source_urls[:550],
+        f"#FPL #FPLVORTEX #GW{gw}",
+    ])
     current = live_clock() if live_clock else now
     if current >= deadline:
         return False
