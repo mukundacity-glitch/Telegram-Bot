@@ -6067,6 +6067,23 @@
     "status": "RUN",
     "timestamp": "2026-11-20T23:42:28.190196+00:00"
   },
+  "2026-11-21:elite": {
+    "attempts": 1,
+    "completed_at": "2026-11-21T12:01:35.125635+00:00",
+    "confirmed_telegram_message_ids": [
+      525
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-21:elite",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      525
+    ],
+    "timestamp": "2026-11-21T12:01:26.523514+00:00",
+    "trigger": "2026-11-21T06:30:00-05:00",
+    "type": "elite"
+  },
   "2026-11-21T00:54:10.498848+00:00": {
     "posts": [
       {
@@ -6301,6 +6318,29 @@
     "timestamp": "2026-11-21T11:16:19.298103+00:00",
     "trigger": "2026-11-21T11:16:19.298103+00:00",
     "type": "2026-11-21T11:16:19.298103+00:00:news"
+  },
+  "2026-11-21T12:01:26.523514+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-21T12:01:35.125635+00:00",
+        "confirmed_telegram_message_ids": [
+          525
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-21:elite",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          525
+        ],
+        "timestamp": "2026-11-21T12:01:26.523514+00:00",
+        "trigger": "2026-11-21T06:30:00-05:00",
+        "type": "elite"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-21T12:01:26.523514+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
