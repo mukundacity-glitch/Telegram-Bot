@@ -1,8 +1,8 @@
 {
-  "at": "2026-11-21T17:47:52.481563+00:00",
-  "eastern_at": "2026-11-21T12:47:52.481563-05:00",
+  "at": "2026-11-21T17:48:42.375166+00:00",
+  "eastern_at": "2026-11-21T12:48:42.375166-05:00",
   "last_news_scan": "2026-11-21T11:16:19.298103+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
     "post": "player-radar-comparison",
     "trigger": "2026-11-21T18:33:05.971820+00:00"
@@ -34,14 +34,14 @@
       "trigger": "2026-11-25T06:00:00-05:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 0,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 6,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "28 * * * *",
+  "scheduled_cron": "0,30 0-3,9-23 * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 2
+  "status": "deferred-telegram-spacing",
+  "telegram_messages_sent": 0
 }
