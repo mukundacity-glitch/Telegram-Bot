@@ -1907,8 +1907,8 @@
     ]
   },
   "2026-11-20:price_changes:confirmed-price-changes:GW11": {
-    "at": "2026-11-21T02:45:49.646877+00:00",
-    "attempts": 1,
+    "at": "2026-11-21T03:31:30.780039+00:00",
+    "attempts": 2,
     "caption_hashtags": 4,
     "edition": "confirmed-price-changes",
     "file": "outbox/2026-11-20-confirmed-price-changes.json",
