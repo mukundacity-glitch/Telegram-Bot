@@ -12,6 +12,8 @@
         "url": "https://www.cpfc.co.uk/news/first-team/every-word-from-thomas-franks-first-palace-press-conference/"
       }
     },
-    "sending": true
+    "message": 521,
+    "sending": false,
+    "version": "231a4ae587dc048178aef749594415b9f104154c3b14e9b19d5cf5c8dc9daa8a"
   }
 }
