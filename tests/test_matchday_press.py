@@ -1,6 +1,8 @@
 """Regression checks for verified GW-wide press cards and deduplicated edits."""
 from datetime import datetime, timedelta, timezone
 from types import SimpleNamespace
+from pathlib import Path
+from PIL import Image
 from unittest import TestCase, mock
 
 from vortex import matchday_press as press
@@ -131,6 +133,24 @@ class MatchdayPress(TestCase):
             "What makes this club a good fit for Thomas Frank?",
         )
         self.assertIsNone(check(interview))
+
+    def test_render_reference_style_locally_without_telegram(self):
+        # Exercise actual Pillow layout and bundled VORTEX logo/footer in CI.
+        # The synthetic Club N copy is never sent to a live channel.
+        from vortex.press_graphic import render as render_press
+        day, = press.matchdays(self.snap, clock(21, 8))
+        names = {str(i): f"Club {i}" for i in range(1, 21)}
+        facts = {
+            str(i): self.fetch(self.snap.teams[i], self.snap.teams[i+1],
+                               clock(21, 8), clock(20, 8))
+            for i in range(1, 5)
+        }
+        out = Path("output/pr-preview/press-layout-review.png")
+        render_press(out, day, names, facts, False, teams=None)
+        with Image.open(out) as im:
+            self.assertEqual(im.size, (1920, 1080))
+            self.assertEqual(im.mode, "RGB")
+        self.assertGreater(out.stat().st_size, 10_000)
 
     def test_source_links_point_to_real_items(self):
         day, = press.matchdays(self.snap, clock(21, 8))
