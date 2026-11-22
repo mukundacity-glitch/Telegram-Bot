@@ -2030,6 +2030,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-21T23:48:42.752828+00:00"
   },
+  "2026-11-22:elite": {
+    "caption_sha256": "3140ffa24b48a8aaedba7ab1960b2eab99d7b5bdc3dab58748692744f9b60ea4",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574058226977210489",
+    "gameweek": 12,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-22T13:45:25.592126+00:00",
+    "telegram_message_id": 546,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-22T13:45:21.660591+00:00"
+  },
   "2026-27:GW10:press_news:verified-press-availability:0a5191a683228e8a": {
     "discord_delivered": true,
     "discord_message_id": "1566986392335294705",
