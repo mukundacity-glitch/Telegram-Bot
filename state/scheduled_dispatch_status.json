@@ -1,6 +1,6 @@
 {
-  "at": "2026-11-22T03:37:56.148541+00:00",
-  "eastern_at": "2026-11-21T22:37:56.148541-05:00",
+  "at": "2026-11-22T03:38:31.070878+00:00",
+  "eastern_at": "2026-11-21T22:38:31.070878-05:00",
   "last_news_scan": "2026-11-22T03:34:14.449016+00:00",
   "new_posts": 0,
   "next_due": {
@@ -40,7 +40,7 @@
   "posts_pending_trigger": 6,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "0,30 0-3,9-23 * * *",
+  "scheduled_cron": "43 * * * *",
   "source_error": null,
   "status": "no-new-verified-content",
   "telegram_messages_sent": 0
