@@ -1,11 +1,12 @@
 {
-  "at": "2026-11-22T20:15:10.715678+00:00",
-  "eastern_at": "2026-11-22T15:15:10.715678-05:00",
+  "at": "2026-11-22T21:00:21.655080+00:00",
+  "eastern_at": "2026-11-22T16:00:21.655080-05:00",
   "last_news_scan": "2026-11-22T20:15:10.715678+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "positional-vulnerability",
-    "trigger": "2026-11-22T15:30:00-05:00"
+    "display_name": "Assists per 90 vs xG per Shot",
+    "post": "assists-vs-shot-quality",
+    "trigger": "2026-11-22T16:30:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [

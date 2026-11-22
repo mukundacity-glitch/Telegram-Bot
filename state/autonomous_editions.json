@@ -2330,6 +2330,22 @@
       551
     ]
   },
+  "2026-11-22:task2:positional-vulnerability": {
+    "at": "2026-11-22T21:00:21.655080+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "positional-vulnerability",
+    "file": "outbox/2026-11-22-positional-vulnerability.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:positional-vulnerability:4ab2fa0ca73aed2f1bfb",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      556
+    ]
+  },
   "2026-11-22:task2:scouting-rotation": {
     "at": "2026-11-22T19:30:03.020064+00:00",
     "attempts": 1,
