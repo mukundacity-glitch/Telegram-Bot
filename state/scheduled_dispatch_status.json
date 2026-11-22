@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-22T15:15:32.494342+00:00",
-  "eastern_at": "2026-11-22T10:15:32.494342-05:00",
+  "at": "2026-11-22T16:00:43.222065+00:00",
+  "eastern_at": "2026-11-22T11:00:43.222065-05:00",
   "last_news_scan": "2026-11-22T12:15:06.587619+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "defender-watch",
-    "trigger": "2026-11-22T16:00:42.460658+00:00"
+    "post": "goalkeeper-striker-watch",
+    "trigger": "2026-11-22T16:45:55.052269+00:00"
   },
-  "next_telegram_at": "2026-11-22T16:00:42.460658+00:00",
+  "next_telegram_at": "2026-11-22T16:45:55.052269+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
