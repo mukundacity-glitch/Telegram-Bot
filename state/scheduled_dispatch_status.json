@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-22T16:45:56.557127+00:00",
-  "eastern_at": "2026-11-22T11:45:56.557127-05:00",
+  "at": "2026-11-22T17:31:13.251014+00:00",
+  "eastern_at": "2026-11-22T12:31:13.251014-05:00",
   "last_news_scan": "2026-11-22T12:15:06.587619+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "player-radar-comparison",
-    "trigger": "2026-11-22T17:31:11.884527+00:00"
+    "post": "news",
+    "trigger": "2026-11-22T18:16:16.737992+00:00"
   },
-  "next_telegram_at": "2026-11-22T17:31:11.884527+00:00",
+  "next_telegram_at": "2026-11-22T18:16:16.737992+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -43,5 +43,5 @@
   "scheduled_cron": "58 * * * *",
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 2
+  "telegram_messages_sent": 1
 }
