@@ -736,6 +736,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-15T11:28:32.480431+00:00"
   },
+  "rss:7be594a6e4ce556b3ec26598": {
+    "caption_sha256": "eb9d10a46a7da15c4d5860a293030d254f277283bf646f800fb5cda119c60c5a",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574156346675433533",
+    "gameweek": 12,
+    "source": "media.sky_sports",
+    "source_url": "https://www.skysports.com/football/news/12040/13615402/leny-yoro-red-card-man-utd-boss-mauricio-pochettino-and-kobbie-mainoo-angry-at-sending-off-for-foul-on-liverpools-alexander-isak",
+    "telegram_delivered_at": "2026-11-22T20:15:18.869968+00:00",
+    "telegram_message_id": 555,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-22T20:15:10.715678+00:00"
+  },
   "rss:860e53792ef92a9dfe660660": {
     "caption_sha256": "7a560903aa2f3ac08001cf5590759dd748a3368bd6b1d9be8ce97861a41bd0fc",
     "delivered": true,
