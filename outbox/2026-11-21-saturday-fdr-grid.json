@@ -1,0 +1,1187 @@
+{
+  "task": "task2",
+  "edition": "saturday-fdr-grid",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "FIXTURE DIFFICULTY RATING",
+  "caption": "📊 FIXTURE DIFFICULTY RATING | GW12 · 21 Nov 2026\nOfficial FPL FDR • GW12–GW17.\n1 easiest / 5 toughest; blank and double gameweeks marked explicitly.\nOfficial data checked 21 Nov 2026; verify changes before deadline.\n\n#FPL #GW12 #FPLVORTEX #PremierLeague",
+  "facts": {
+    "players": [],
+    "edition": "saturday-fdr-grid",
+    "extra": {
+      "rows": [
+        {
+          "name": "Aston Villa",
+          "short": "AVL",
+          "code": 7,
+          "cells": [
+            [
+              {
+                "opp": "IPS",
+                "venue": "A",
+                "fdr": 2,
+                "code": 40
+              }
+            ],
+            [
+              {
+                "opp": "EVE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 11
+              }
+            ],
+            [
+              {
+                "opp": "CRY",
+                "venue": "H",
+                "fdr": 2,
+                "code": 31
+              }
+            ],
+            [
+              {
+                "opp": "COV",
+                "venue": "A",
+                "fdr": 2,
+                "code": 9
+              }
+            ],
+            [
+              {
+                "opp": "CHE",
+                "venue": "A",
+                "fdr": 4,
+                "code": 8
+              }
+            ],
+            [
+              {
+                "opp": "LEE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 2
+              }
+            ]
+          ],
+          "average": 2.67,
+          "games": 6
+        },
+        {
+          "name": "Brighton",
+          "short": "BHA",
+          "code": 36,
+          "cells": [
+            [
+              {
+                "opp": "NEW",
+                "venue": "H",
+                "fdr": 3,
+                "code": 4
+              }
+            ],
+            [
+              {
+                "opp": "BOU",
+                "venue": "A",
+                "fdr": 4,
+                "code": 91
+              }
+            ],
+            [
+              {
+                "opp": "NFO",
+                "venue": "A",
+                "fdr": 2,
+                "code": 17
+              }
+            ],
+            [
+              {
+                "opp": "EVE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 11
+              }
+            ],
+            [
+              {
+                "opp": "IPS",
+                "venue": "H",
+                "fdr": 2,
+                "code": 40
+              }
+            ],
+            [
+              {
+                "opp": "FUL",
+                "venue": "A",
+                "fdr": 3,
+                "code": 54
+              }
+            ]
+          ],
+          "average": 2.83,
+          "games": 6
+        },
+        {
+          "name": "Everton",
+          "short": "EVE",
+          "code": 11,
+          "cells": [
+            [
+              {
+                "opp": "LIV",
+                "venue": "H",
+                "fdr": 4,
+                "code": 14
+              }
+            ],
+            [
+              {
+                "opp": "AVL",
+                "venue": "A",
+                "fdr": 3,
+                "code": 7
+              }
+            ],
+            [
+              {
+                "opp": "FUL",
+                "venue": "H",
+                "fdr": 2,
+                "code": 54
+              }
+            ],
+            [
+              {
+                "opp": "BHA",
+                "venue": "A",
+                "fdr": 4,
+                "code": 36
+              }
+            ],
+            [
+              {
+                "opp": "NFO",
+                "venue": "A",
+                "fdr": 2,
+                "code": 17
+              }
+            ],
+            [
+              {
+                "opp": "SUN",
+                "venue": "H",
+                "fdr": 2,
+                "code": 56
+              }
+            ]
+          ],
+          "average": 2.83,
+          "games": 6
+        },
+        {
+          "name": "Liverpool",
+          "short": "LIV",
+          "code": 14,
+          "cells": [
+            [
+              {
+                "opp": "EVE",
+                "venue": "A",
+                "fdr": 3,
+                "code": 11
+              }
+            ],
+            [
+              {
+                "opp": "SUN",
+                "venue": "H",
+                "fdr": 2,
+                "code": 56
+              }
+            ],
+            [
+              {
+                "opp": "CHE",
+                "venue": "A",
+                "fdr": 4,
+                "code": 8
+              }
+            ],
+            [
+              {
+                "opp": "LEE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 2
+              }
+            ],
+            [
+              {
+                "opp": "TOT",
+                "venue": "H",
+                "fdr": 3,
+                "code": 6
+              }
+            ],
+            [
+              {
+                "opp": "HUL",
+                "venue": "A",
+                "fdr": 2,
+                "code": 88
+              }
+            ]
+          ],
+          "average": 2.83,
+          "games": 6
+        },
+        {
+          "name": "Chelsea",
+          "short": "CHE",
+          "code": 8,
+          "cells": [
+            [
+              {
+                "opp": "NFO",
+                "venue": "A",
+                "fdr": 2,
+                "code": 17
+              }
+            ],
+            [
+              {
+                "opp": "CRY",
+                "venue": "H",
+                "fdr": 2,
+                "code": 31
+              }
+            ],
+            [
+              {
+                "opp": "LIV",
+                "venue": "H",
+                "fdr": 4,
+                "code": 14
+              }
+            ],
+            [
+              {
+                "opp": "MCI",
+                "venue": "A",
+                "fdr": 5,
+                "code": 43
+              }
+            ],
+            [
+              {
+                "opp": "AVL",
+                "venue": "H",
+                "fdr": 3,
+                "code": 7
+              }
+            ],
+            [
+              {
+                "opp": "COV",
+                "venue": "A",
+                "fdr": 2,
+                "code": 9
+              }
+            ]
+          ],
+          "average": 3.0,
+          "games": 6
+        },
+        {
+          "name": "Ipswich Town",
+          "short": "IPS",
+          "code": 40,
+          "cells": [
+            [
+              {
+                "opp": "AVL",
+                "venue": "H",
+                "fdr": 3,
+                "code": 7
+              }
+            ],
+            [
+              {
+                "opp": "COV",
+                "venue": "A",
+                "fdr": 2,
+                "code": 9
+              }
+            ],
+            [
+              {
+                "opp": "LEE",
+                "venue": "A",
+                "fdr": 3,
+                "code": 2
+              }
+            ],
+            [
+              {
+                "opp": "NEW",
+                "venue": "H",
+                "fdr": 3,
+                "code": 4
+              }
+            ],
+            [
+              {
+                "opp": "BHA",
+                "venue": "A",
+                "fdr": 4,
+                "code": 36
+              }
+            ],
+            [
+              {
+                "opp": "BRE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 94
+              }
+            ]
+          ],
+          "average": 3.0,
+          "games": 6
+        },
+        {
+          "name": "Leeds",
+          "short": "LEE",
+          "code": 2,
+          "cells": [
+            [
+              {
+                "opp": "COV",
+                "venue": "H",
+                "fdr": 2,
+                "code": 9
+              }
+            ],
+            [
+              {
+                "opp": "MCI",
+                "venue": "A",
+                "fdr": 5,
+                "code": 43
+              }
+            ],
+            [
+              {
+                "opp": "IPS",
+                "venue": "H",
+                "fdr": 2,
+                "code": 40
+              }
+            ],
+            [
+              {
+                "opp": "LIV",
+                "venue": "A",
+                "fdr": 4,
+                "code": 14
+              }
+            ],
+            [
+              {
+                "opp": "FUL",
+                "venue": "H",
+                "fdr": 2,
+                "code": 54
+              }
+            ],
+            [
+              {
+                "opp": "AVL",
+                "venue": "A",
+                "fdr": 3,
+                "code": 7
+              }
+            ]
+          ],
+          "average": 3.0,
+          "games": 6
+        },
+        {
+          "name": "Man Utd",
+          "short": "MUN",
+          "code": 1,
+          "cells": [
+            [
+              {
+                "opp": "BRE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 94
+              }
+            ],
+            [
+              {
+                "opp": "NEW",
+                "venue": "A",
+                "fdr": 3,
+                "code": 4
+              }
+            ],
+            [
+              {
+                "opp": "COV",
+                "venue": "H",
+                "fdr": 2,
+                "code": 9
+              }
+            ],
+            [
+              {
+                "opp": "CRY",
+                "venue": "A",
+                "fdr": 2,
+                "code": 31
+              }
+            ],
+            [
+              {
+                "opp": "ARS",
+                "venue": "A",
+                "fdr": 5,
+                "code": 3
+              }
+            ],
+            [
+              {
+                "opp": "NFO",
+                "venue": "H",
+                "fdr": 3,
+                "code": 17
+              }
+            ]
+          ],
+          "average": 3.0,
+          "games": 6
+        },
+        {
+          "name": "Spurs",
+          "short": "TOT",
+          "code": 6,
+          "cells": [
+            [
+              {
+                "opp": "SUN",
+                "venue": "A",
+                "fdr": 3,
+                "code": 56
+              }
+            ],
+            [
+              {
+                "opp": "FUL",
+                "venue": "H",
+                "fdr": 2,
+                "code": 54
+              }
+            ],
+            [
+              {
+                "opp": "ARS",
+                "venue": "H",
+                "fdr": 4,
+                "code": 3
+              }
+            ],
+            [
+              {
+                "opp": "HUL",
+                "venue": "A",
+                "fdr": 2,
+                "code": 88
+              }
+            ],
+            [
+              {
+                "opp": "LIV",
+                "venue": "A",
+                "fdr": 4,
+                "code": 14
+              }
+            ],
+            [
+              {
+                "opp": "BOU",
+                "venue": "H",
+                "fdr": 3,
+                "code": 91
+              }
+            ]
+          ],
+          "average": 3.0,
+          "games": 6
+        },
+        {
+          "name": "Sunderland",
+          "short": "SUN",
+          "code": 56,
+          "cells": [
+            [
+              {
+                "opp": "TOT",
+                "venue": "H",
+                "fdr": 3,
+                "code": 6
+              }
+            ],
+            [
+              {
+                "opp": "LIV",
+                "venue": "A",
+                "fdr": 4,
+                "code": 14
+              }
+            ],
+            [
+              {
+                "opp": "NEW",
+                "venue": "A",
+                "fdr": 3,
+                "code": 4
+              }
+            ],
+            [
+              {
+                "opp": "NFO",
+                "venue": "H",
+                "fdr": 3,
+                "code": 17
+              }
+            ],
+            [
+              {
+                "opp": "CRY",
+                "venue": "H",
+                "fdr": 2,
+                "code": 31
+              }
+            ],
+            [
+              {
+                "opp": "EVE",
+                "venue": "A",
+                "fdr": 3,
+                "code": 11
+              }
+            ]
+          ],
+          "average": 3.0,
+          "games": 6
+        },
+        {
+          "name": "Arsenal",
+          "short": "ARS",
+          "code": 3,
+          "cells": [
+            [
+              {
+                "opp": "MCI",
+                "venue": "H",
+                "fdr": 4,
+                "code": 43
+              }
+            ],
+            [
+              {
+                "opp": "BRE",
+                "venue": "A",
+                "fdr": 4,
+                "code": 94
+              }
+            ],
+            [
+              {
+                "opp": "TOT",
+                "venue": "A",
+                "fdr": 3,
+                "code": 6
+              }
+            ],
+            [
+              {
+                "opp": "BOU",
+                "venue": "H",
+                "fdr": 3,
+                "code": 91
+              }
+            ],
+            [
+              {
+                "opp": "MUN",
+                "venue": "H",
+                "fdr": 3,
+                "code": 1
+              }
+            ],
+            [
+              {
+                "opp": "CRY",
+                "venue": "A",
+                "fdr": 2,
+                "code": 31
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Bournemouth",
+          "short": "BOU",
+          "code": 91,
+          "cells": [
+            [
+              {
+                "opp": "FUL",
+                "venue": "A",
+                "fdr": 3,
+                "code": 54
+              }
+            ],
+            [
+              {
+                "opp": "BHA",
+                "venue": "H",
+                "fdr": 4,
+                "code": 36
+              }
+            ],
+            [
+              {
+                "opp": "HUL",
+                "venue": "H",
+                "fdr": 2,
+                "code": 88
+              }
+            ],
+            [
+              {
+                "opp": "ARS",
+                "venue": "A",
+                "fdr": 5,
+                "code": 3
+              }
+            ],
+            [
+              {
+                "opp": "COV",
+                "venue": "H",
+                "fdr": 2,
+                "code": 9
+              }
+            ],
+            [
+              {
+                "opp": "TOT",
+                "venue": "A",
+                "fdr": 3,
+                "code": 6
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Brentford",
+          "short": "BRE",
+          "code": 94,
+          "cells": [
+            [
+              {
+                "opp": "MUN",
+                "venue": "A",
+                "fdr": 3,
+                "code": 1
+              }
+            ],
+            [
+              {
+                "opp": "ARS",
+                "venue": "H",
+                "fdr": 4,
+                "code": 3
+              }
+            ],
+            [
+              {
+                "opp": "MCI",
+                "venue": "H",
+                "fdr": 4,
+                "code": 43
+              }
+            ],
+            [
+              {
+                "opp": "FUL",
+                "venue": "A",
+                "fdr": 3,
+                "code": 54
+              }
+            ],
+            [
+              {
+                "opp": "NEW",
+                "venue": "H",
+                "fdr": 3,
+                "code": 4
+              }
+            ],
+            [
+              {
+                "opp": "IPS",
+                "venue": "A",
+                "fdr": 2,
+                "code": 40
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Coventry City",
+          "short": "COV",
+          "code": 9,
+          "cells": [
+            [
+              {
+                "opp": "LEE",
+                "venue": "A",
+                "fdr": 3,
+                "code": 2
+              }
+            ],
+            [
+              {
+                "opp": "IPS",
+                "venue": "H",
+                "fdr": 2,
+                "code": 40
+              }
+            ],
+            [
+              {
+                "opp": "MUN",
+                "venue": "A",
+                "fdr": 3,
+                "code": 1
+              }
+            ],
+            [
+              {
+                "opp": "AVL",
+                "venue": "H",
+                "fdr": 3,
+                "code": 7
+              }
+            ],
+            [
+              {
+                "opp": "BOU",
+                "venue": "A",
+                "fdr": 4,
+                "code": 91
+              }
+            ],
+            [
+              {
+                "opp": "CHE",
+                "venue": "H",
+                "fdr": 4,
+                "code": 8
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Crystal Palace",
+          "short": "CRY",
+          "code": 31,
+          "cells": [
+            [
+              {
+                "opp": "HUL",
+                "venue": "H",
+                "fdr": 2,
+                "code": 88
+              }
+            ],
+            [
+              {
+                "opp": "CHE",
+                "venue": "A",
+                "fdr": 4,
+                "code": 8
+              }
+            ],
+            [
+              {
+                "opp": "AVL",
+                "venue": "A",
+                "fdr": 3,
+                "code": 7
+              }
+            ],
+            [
+              {
+                "opp": "MUN",
+                "venue": "H",
+                "fdr": 3,
+                "code": 1
+              }
+            ],
+            [
+              {
+                "opp": "SUN",
+                "venue": "A",
+                "fdr": 3,
+                "code": 56
+              }
+            ],
+            [
+              {
+                "opp": "ARS",
+                "venue": "H",
+                "fdr": 4,
+                "code": 3
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Fulham",
+          "short": "FUL",
+          "code": 54,
+          "cells": [
+            [
+              {
+                "opp": "BOU",
+                "venue": "H",
+                "fdr": 3,
+                "code": 91
+              }
+            ],
+            [
+              {
+                "opp": "TOT",
+                "venue": "A",
+                "fdr": 3,
+                "code": 6
+              }
+            ],
+            [
+              {
+                "opp": "EVE",
+                "venue": "A",
+                "fdr": 3,
+                "code": 11
+              }
+            ],
+            [
+              {
+                "opp": "BRE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 94
+              }
+            ],
+            [
+              {
+                "opp": "LEE",
+                "venue": "A",
+                "fdr": 3,
+                "code": 2
+              }
+            ],
+            [
+              {
+                "opp": "BHA",
+                "venue": "H",
+                "fdr": 4,
+                "code": 36
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Newcastle",
+          "short": "NEW",
+          "code": 4,
+          "cells": [
+            [
+              {
+                "opp": "BHA",
+                "venue": "A",
+                "fdr": 4,
+                "code": 36
+              }
+            ],
+            [
+              {
+                "opp": "MUN",
+                "venue": "H",
+                "fdr": 3,
+                "code": 1
+              }
+            ],
+            [
+              {
+                "opp": "SUN",
+                "venue": "H",
+                "fdr": 2,
+                "code": 56
+              }
+            ],
+            [
+              {
+                "opp": "IPS",
+                "venue": "A",
+                "fdr": 2,
+                "code": 40
+              }
+            ],
+            [
+              {
+                "opp": "BRE",
+                "venue": "A",
+                "fdr": 4,
+                "code": 94
+              }
+            ],
+            [
+              {
+                "opp": "MCI",
+                "venue": "H",
+                "fdr": 4,
+                "code": 43
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Nott'm Forest",
+          "short": "NFO",
+          "code": 17,
+          "cells": [
+            [
+              {
+                "opp": "CHE",
+                "venue": "H",
+                "fdr": 4,
+                "code": 8
+              }
+            ],
+            [
+              {
+                "opp": "HUL",
+                "venue": "A",
+                "fdr": 2,
+                "code": 88
+              }
+            ],
+            [
+              {
+                "opp": "BHA",
+                "venue": "H",
+                "fdr": 4,
+                "code": 36
+              }
+            ],
+            [
+              {
+                "opp": "SUN",
+                "venue": "A",
+                "fdr": 3,
+                "code": 56
+              }
+            ],
+            [
+              {
+                "opp": "EVE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 11
+              }
+            ],
+            [
+              {
+                "opp": "MUN",
+                "venue": "A",
+                "fdr": 3,
+                "code": 1
+              }
+            ]
+          ],
+          "average": 3.17,
+          "games": 6
+        },
+        {
+          "name": "Hull City",
+          "short": "HUL",
+          "code": 88,
+          "cells": [
+            [
+              {
+                "opp": "CRY",
+                "venue": "A",
+                "fdr": 2,
+                "code": 31
+              }
+            ],
+            [
+              {
+                "opp": "NFO",
+                "venue": "H",
+                "fdr": 3,
+                "code": 17
+              }
+            ],
+            [
+              {
+                "opp": "BOU",
+                "venue": "A",
+                "fdr": 4,
+                "code": 91
+              }
+            ],
+            [
+              {
+                "opp": "TOT",
+                "venue": "H",
+                "fdr": 3,
+                "code": 6
+              }
+            ],
+            [
+              {
+                "opp": "MCI",
+                "venue": "A",
+                "fdr": 5,
+                "code": 43
+              }
+            ],
+            [
+              {
+                "opp": "LIV",
+                "venue": "H",
+                "fdr": 4,
+                "code": 14
+              }
+            ]
+          ],
+          "average": 3.5,
+          "games": 6
+        },
+        {
+          "name": "Man City",
+          "short": "MCI",
+          "code": 43,
+          "cells": [
+            [
+              {
+                "opp": "ARS",
+                "venue": "A",
+                "fdr": 5,
+                "code": 3
+              }
+            ],
+            [
+              {
+                "opp": "LEE",
+                "venue": "H",
+                "fdr": 3,
+                "code": 2
+              }
+            ],
+            [
+              {
+                "opp": "BRE",
+                "venue": "A",
+                "fdr": 4,
+                "code": 94
+              }
+            ],
+            [
+              {
+                "opp": "CHE",
+                "venue": "H",
+                "fdr": 4,
+                "code": 8
+              }
+            ],
+            [
+              {
+                "opp": "HUL",
+                "venue": "H",
+                "fdr": 2,
+                "code": 88
+              }
+            ],
+            [
+              {
+                "opp": "NEW",
+                "venue": "A",
+                "fdr": 3,
+                "code": 4
+              }
+            ]
+          ],
+          "average": 3.5,
+          "games": 6
+        }
+      ],
+      "weeks": [
+        12,
+        13,
+        14,
+        15,
+        16,
+        17
+      ],
+      "sources": [
+        "https://fantasy.premierleague.com/api/bootstrap-static/",
+        "https://fantasy.premierleague.com/api/fixtures/"
+      ]
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-21"
+  },
+  "generated_at": "2026-11-22T01:18:57.865760+00:00",
+  "publish_at": "2026-11-22T01:18:57.867640+00:00",
+  "data_retrieval_at_et": "2026-11-21T20:18:57.865760-05:00",
+  "graphic_generated_at_et": "2026-11-21T20:18:59.695043-05:00",
+  "deadline": "2026-11-21T23:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/"
+  ],
+  "images": [
+    "outbox/assets/2026-11-21-saturday-fdr-grid-GW12.png"
+  ]
+}

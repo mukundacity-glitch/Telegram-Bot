@@ -1,12 +1,11 @@
 {
-  "at": "2026-11-22T00:33:48.225172+00:00",
-  "eastern_at": "2026-11-21T19:33:48.225172-05:00",
+  "at": "2026-11-22T01:18:57.867640+00:00",
+  "eastern_at": "2026-11-21T20:18:57.867640-05:00",
   "last_news_scan": "2026-11-22T00:33:48.225172+00:00",
   "new_posts": 1,
   "next_due": {
-    "display_name": "Six-Gameweek FDR Grid",
-    "post": "saturday-fdr-grid",
-    "trigger": "2026-11-21T20:00:00-05:00"
+    "post": "vortex-captain",
+    "trigger": "2026-11-21T21:00:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [
