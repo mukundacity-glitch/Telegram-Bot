@@ -1,0 +1,965 @@
+{
+  "task": "task2",
+  "edition": "assists-vs-shot-quality",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "Assists per 90 vs xG per Shot",
+  "caption": "🎯 Assists per 90 vs xG per Shot · 22 Nov 2026\nManzambi leads on assists (0.58/90).\nBrobbey leads on shot quality (0.248 xG/shot across 17 shots).\n91 Premier League players through GW10. Who makes your GW12 shortlist?\n#FPL #GW12 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "assists-vs-shot-quality",
+    "extra": {
+      "layout": "scatter",
+      "rows": [
+        {
+          "position": "MID",
+          "name": "E.Le Fée",
+          "club": "Sunderland",
+          "photo": 484420,
+          "x": 0.10380622837370242,
+          "y": 0.22529411764705884,
+          "shots": 17
+        },
+        {
+          "position": "MID",
+          "name": "Ødegaard",
+          "club": "Arsenal",
+          "photo": 184029,
+          "x": 0.0,
+          "y": 0.15750000000000003,
+          "shots": 16
+        },
+        {
+          "position": "FWD",
+          "name": "Awoniyi",
+          "club": "Coventry City",
+          "photo": 210156,
+          "x": 0.0,
+          "y": 0.17636363636363636,
+          "shots": 11
+        },
+        {
+          "position": "MID",
+          "name": "Rice",
+          "club": "Arsenal",
+          "photo": 204480,
+          "x": 0.5441354292623942,
+          "y": 0.050833333333333335,
+          "shots": 12
+        },
+        {
+          "position": "FWD",
+          "name": "Thomas-Asante",
+          "club": "Coventry City",
+          "photo": 230730,
+          "x": 0.3614457831325301,
+          "y": 0.0525,
+          "shots": 12
+        },
+        {
+          "position": "MID",
+          "name": "Saka",
+          "club": "Arsenal",
+          "photo": 223340,
+          "x": 0.0,
+          "y": 0.2064705882352941,
+          "shots": 17
+        },
+        {
+          "position": "MID",
+          "name": "Rudoni",
+          "club": "Coventry City",
+          "photo": 480457,
+          "x": 0.0,
+          "y": 0.1311764705882353,
+          "shots": 17
+        },
+        {
+          "position": "MID",
+          "name": "Madueke",
+          "club": "Arsenal",
+          "photo": 248857,
+          "x": 0.0,
+          "y": 0.06076923076923077,
+          "shots": 13
+        },
+        {
+          "position": "DEF",
+          "name": "Thomas",
+          "club": "Coventry City",
+          "photo": 461102,
+          "x": 0.0,
+          "y": 0.042857142857142864,
+          "shots": 14
+        },
+        {
+          "position": "DEF",
+          "name": "Vuskovic",
+          "club": "Brighton",
+          "photo": 610799,
+          "x": 0.0,
+          "y": 0.07812500000000001,
+          "shots": 16
+        },
+        {
+          "position": "DEF",
+          "name": "Dalot",
+          "club": "Man Utd",
+          "photo": 216051,
+          "x": 0.0,
+          "y": 0.028000000000000004,
+          "shots": 10
+        },
+        {
+          "position": "FWD",
+          "name": "Kostoulas",
+          "club": "Brighton",
+          "photo": 647850,
+          "x": 0.24623803009575923,
+          "y": 0.1036,
+          "shots": 25
+        },
+        {
+          "position": "MID",
+          "name": "Iwobi",
+          "club": "Fulham",
+          "photo": 153133,
+          "x": 0.0,
+          "y": 0.09000000000000001,
+          "shots": 15
+        },
+        {
+          "position": "MID",
+          "name": "Dewsbury-Hall",
+          "club": "Everton",
+          "photo": 215413,
+          "x": 0.10067114093959731,
+          "y": 0.0712,
+          "shots": 25
+        },
+        {
+          "position": "MID",
+          "name": "Neto",
+          "club": "Chelsea",
+          "photo": 247632,
+          "x": 0.12080536912751678,
+          "y": 0.1011111111111111,
+          "shots": 18
+        },
+        {
+          "position": "MID",
+          "name": "Rogers",
+          "club": "Chelsea",
+          "photo": 244850,
+          "x": 0.10192525481313704,
+          "y": 0.13217391304347825,
+          "shots": 23
+        },
+        {
+          "position": "MID",
+          "name": "Stach",
+          "club": "Leeds",
+          "photo": 466525,
+          "x": 0.0,
+          "y": 0.11846153846153847,
+          "shots": 13
+        },
+        {
+          "position": "MID",
+          "name": "Okafor",
+          "club": "Leeds",
+          "photo": 435997,
+          "x": 0.0,
+          "y": 0.084,
+          "shots": 10
+        },
+        {
+          "position": "DEF",
+          "name": "Bogle",
+          "club": "Leeds",
+          "photo": 226182,
+          "x": 0.0,
+          "y": 0.14153846153846156,
+          "shots": 13
+        },
+        {
+          "position": "MID",
+          "name": "Ndoye",
+          "club": "Nott'm Forest",
+          "photo": 456512,
+          "x": 0.0,
+          "y": 0.11399999999999996,
+          "shots": 20
+        },
+        {
+          "position": "FWD",
+          "name": "Haaland",
+          "club": "Man City",
+          "photo": 223094,
+          "x": 0.0,
+          "y": 0.18526315789473685,
+          "shots": 38
+        },
+        {
+          "position": "MID",
+          "name": "Tavernier",
+          "club": "Bournemouth",
+          "photo": 201658,
+          "x": 0.0,
+          "y": 0.21049999999999996,
+          "shots": 20
+        },
+        {
+          "position": "MID",
+          "name": "Kluivert",
+          "club": "Bournemouth",
+          "photo": 222683,
+          "x": 0.34285714285714286,
+          "y": 0.089375,
+          "shots": 16
+        },
+        {
+          "position": "MID",
+          "name": "Foden",
+          "club": "Man City",
+          "photo": 209244,
+          "x": 0.4945054945054945,
+          "y": 0.1925,
+          "shots": 12
+        },
+        {
+          "position": "MID",
+          "name": "Tonali",
+          "club": "Spurs",
+          "photo": 432422,
+          "x": 0.10238907849829351,
+          "y": 0.028571428571428574,
+          "shots": 14
+        },
+        {
+          "position": "FWD",
+          "name": "Solanke",
+          "club": "Spurs",
+          "photo": 154566,
+          "x": 0.1836734693877551,
+          "y": 0.11875,
+          "shots": 16
+        },
+        {
+          "position": "DEF",
+          "name": "Van Hecke",
+          "club": "Spurs",
+          "photo": 469142,
+          "x": 0.0,
+          "y": 0.15454545454545454,
+          "shots": 11
+        },
+        {
+          "position": "MID",
+          "name": "Lewis-Potter",
+          "club": "Brentford",
+          "photo": 249231,
+          "x": 0.11538461538461539,
+          "y": 0.10846153846153846,
+          "shots": 13
+        },
+        {
+          "position": "MID",
+          "name": "Gibbs-White",
+          "club": "Nott'm Forest",
+          "photo": 222531,
+          "x": 0.3333333333333333,
+          "y": 0.1511764705882353,
+          "shots": 17
+        },
+        {
+          "position": "MID",
+          "name": "Ndiaye",
+          "club": "Man City",
+          "photo": 440993,
+          "x": 0.35019455252918286,
+          "y": 0.11470588235294119,
+          "shots": 17
+        },
+        {
+          "position": "FWD",
+          "name": "Calvert-Lewin",
+          "club": "Leeds",
+          "photo": 177815,
+          "x": 0.10392609699769054,
+          "y": 0.2236842105263158,
+          "shots": 19
+        },
+        {
+          "position": "MID",
+          "name": "Schade",
+          "club": "Brentford",
+          "photo": 513418,
+          "x": 0.0,
+          "y": 0.12842105263157894,
+          "shots": 19
+        },
+        {
+          "position": "MID",
+          "name": "Anthony",
+          "club": "Brentford",
+          "photo": 444180,
+          "x": 0.37656903765690375,
+          "y": 0.12923076923076923,
+          "shots": 13
+        },
+        {
+          "position": "DEF",
+          "name": "N.Williams",
+          "club": "Nott'm Forest",
+          "photo": 215136,
+          "x": 0.0,
+          "y": 0.08,
+          "shots": 12
+        },
+        {
+          "position": "MID",
+          "name": "Schlager",
+          "club": "Nott'm Forest",
+          "photo": 204561,
+          "x": 0.11889035667107001,
+          "y": 0.03166666666666667,
+          "shots": 12
+        },
+        {
+          "position": "MID",
+          "name": "George",
+          "club": "Everton",
+          "photo": 550615,
+          "x": 0.0,
+          "y": 0.035625000000000004,
+          "shots": 16
+        },
+        {
+          "position": "MID",
+          "name": "Mbeumo",
+          "club": "Man Utd",
+          "photo": 446008,
+          "x": 0.0,
+          "y": 0.15366666666666662,
+          "shots": 30
+        },
+        {
+          "position": "MID",
+          "name": "Belloumi",
+          "club": "Hull City",
+          "photo": 540324,
+          "x": 0.2608695652173913,
+          "y": 0.05782608695652174,
+          "shots": 23
+        },
+        {
+          "position": "MID",
+          "name": "Tel",
+          "club": "Spurs",
+          "photo": 511499,
+          "x": 0.0,
+          "y": 0.050769230769230775,
+          "shots": 13
+        },
+        {
+          "position": "FWD",
+          "name": "Thiago",
+          "club": "Brentford",
+          "photo": 502500,
+          "x": 0.2179176755447942,
+          "y": 0.19619047619047617,
+          "shots": 21
+        },
+        {
+          "position": "MID",
+          "name": "Enciso",
+          "club": "Ipswich Town",
+          "photo": 474120,
+          "x": 0.21712907117008443,
+          "y": 0.065625,
+          "shots": 32
+        },
+        {
+          "position": "MID",
+          "name": "Groß",
+          "club": "Brighton",
+          "photo": 60307,
+          "x": 0.4086265607264472,
+          "y": 0.20200000000000004,
+          "shots": 15
+        },
+        {
+          "position": "MID",
+          "name": "Barkley",
+          "club": "Aston Villa",
+          "photo": 88894,
+          "x": 0.0,
+          "y": 0.05545454545454545,
+          "shots": 11
+        },
+        {
+          "position": "MID",
+          "name": "McAtee",
+          "club": "Nott'm Forest",
+          "photo": 432714,
+          "x": 0.0,
+          "y": 0.052941176470588235,
+          "shots": 17
+        },
+        {
+          "position": "DEF",
+          "name": "Murillo",
+          "club": "Nott'm Forest",
+          "photo": 575476,
+          "x": 0.10022271714922049,
+          "y": 0.07411764705882352,
+          "shots": 17
+        },
+        {
+          "position": "MID",
+          "name": "Rayan",
+          "club": "Bournemouth",
+          "photo": 499604,
+          "x": 0.0,
+          "y": 0.08928571428571429,
+          "shots": 28
+        },
+        {
+          "position": "MID",
+          "name": "Cherki",
+          "club": "Man City",
+          "photo": 466052,
+          "x": 0.3185840707964602,
+          "y": 0.10666666666666666,
+          "shots": 18
+        },
+        {
+          "position": "FWD",
+          "name": "Evanilson",
+          "club": "Bournemouth",
+          "photo": 444102,
+          "x": 0.42755344418052255,
+          "y": 0.17115384615384613,
+          "shots": 26
+        },
+        {
+          "position": "MID",
+          "name": "Cunha",
+          "club": "Man Utd",
+          "photo": 430871,
+          "x": 0.254957507082153,
+          "y": 0.06904761904761905,
+          "shots": 21
+        },
+        {
+          "position": "MID",
+          "name": "Yeremy",
+          "club": "Crystal Palace",
+          "photo": 488024,
+          "x": 0.0,
+          "y": 0.10733333333333332,
+          "shots": 15
+        },
+        {
+          "position": "MID",
+          "name": "Bobb",
+          "club": "Fulham",
+          "photo": 477555,
+          "x": 0.0,
+          "y": 0.12200000000000003,
+          "shots": 15
+        },
+        {
+          "position": "DEF",
+          "name": "De Cuyper",
+          "club": "Brighton",
+          "photo": 465730,
+          "x": 0.3264812575574365,
+          "y": 0.16266666666666665,
+          "shots": 15
+        },
+        {
+          "position": "MID",
+          "name": "Buendía",
+          "club": "Aston Villa",
+          "photo": 195546,
+          "x": 0.0,
+          "y": 0.10600000000000001,
+          "shots": 15
+        },
+        {
+          "position": "FWD",
+          "name": "Brobbey",
+          "club": "Sunderland",
+          "photo": 441264,
+          "x": 0.0,
+          "y": 0.24764705882352941,
+          "shots": 17
+        },
+        {
+          "position": "MID",
+          "name": "Enzo",
+          "club": "Man City",
+          "photo": 448047,
+          "x": 0.0,
+          "y": 0.12000000000000001,
+          "shots": 13
+        },
+        {
+          "position": "MID",
+          "name": "Barnes",
+          "club": "Newcastle",
+          "photo": 201666,
+          "x": 0.20316027088036118,
+          "y": 0.09565217391304348,
+          "shots": 23
+        },
+        {
+          "position": "FWD",
+          "name": "Strand Larsen",
+          "club": "Crystal Palace",
+          "photo": 247412,
+          "x": 0.0,
+          "y": 0.148,
+          "shots": 10
+        },
+        {
+          "position": "DEF",
+          "name": "Muñoz",
+          "club": "Nott'm Forest",
+          "photo": 247348,
+          "x": 0.14084507042253522,
+          "y": 0.1,
+          "shots": 11
+        },
+        {
+          "position": "DEF",
+          "name": "Khalaili",
+          "club": "Crystal Palace",
+          "photo": 570794,
+          "x": 0.0,
+          "y": 0.11272727272727273,
+          "shots": 11
+        },
+        {
+          "position": "MID",
+          "name": "Rashford",
+          "club": "Man Utd",
+          "photo": 176297,
+          "x": 0.0,
+          "y": 0.060000000000000005,
+          "shots": 13
+        },
+        {
+          "position": "FWD",
+          "name": "Wissa",
+          "club": "Newcastle",
+          "photo": 216646,
+          "x": 0.12693935119887165,
+          "y": 0.16238095238095238,
+          "shots": 21
+        },
+        {
+          "position": "FWD",
+          "name": "Gonzalo",
+          "club": "Fulham",
+          "photo": 551466,
+          "x": 0.0,
+          "y": 0.16874999999999998,
+          "shots": 24
+        },
+        {
+          "position": "MID",
+          "name": "King",
+          "club": "Fulham",
+          "photo": 577725,
+          "x": 0.11070110701107011,
+          "y": 0.08739130434782608,
+          "shots": 23
+        },
+        {
+          "position": "MID",
+          "name": "Gomez",
+          "club": "Brighton",
+          "photo": 514254,
+          "x": 0.20524515393386544,
+          "y": 0.051923076923076926,
+          "shots": 26
+        },
+        {
+          "position": "MID",
+          "name": "Mac Allister",
+          "club": "Liverpool",
+          "photo": 243016,
+          "x": 0.0,
+          "y": 0.058823529411764705,
+          "shots": 17
+        },
+        {
+          "position": "MID",
+          "name": "Szoboszlai",
+          "club": "Liverpool",
+          "photo": 424876,
+          "x": 0.15706806282722513,
+          "y": 0.10266666666666667,
+          "shots": 15
+        },
+        {
+          "position": "MID",
+          "name": "Willock",
+          "club": "Newcastle",
+          "photo": 200089,
+          "x": 0.0,
+          "y": 0.06894736842105263,
+          "shots": 19
+        },
+        {
+          "position": "MID",
+          "name": "Gakpo",
+          "club": "Liverpool",
+          "photo": 243298,
+          "x": 0.4470198675496689,
+          "y": 0.07294117647058825,
+          "shots": 17
+        },
+        {
+          "position": "FWD",
+          "name": "Barry",
+          "club": "Everton",
+          "photo": 586309,
+          "x": 0.10526315789473684,
+          "y": 0.19916666666666666,
+          "shots": 36
+        },
+        {
+          "position": "MID",
+          "name": "B.Fernandes",
+          "club": "Man Utd",
+          "photo": 141746,
+          "x": 0.2222222222222222,
+          "y": 0.1267741935483871,
+          "shots": 31
+        },
+        {
+          "position": "MID",
+          "name": "Tielemans",
+          "club": "Man Utd",
+          "photo": 166989,
+          "x": 0.13677811550151975,
+          "y": 0.08727272727272727,
+          "shots": 11
+        },
+        {
+          "position": "FWD",
+          "name": "McBurnie",
+          "club": "Hull City",
+          "photo": 169432,
+          "x": 0.20270270270270271,
+          "y": 0.17076923076923078,
+          "shots": 13
+        },
+        {
+          "position": "FWD",
+          "name": "João Pedro",
+          "club": "Chelsea",
+          "photo": 475168,
+          "x": 0.5182341650671785,
+          "y": 0.190625,
+          "shots": 16
+        },
+        {
+          "position": "MID",
+          "name": "Palmer",
+          "club": "Chelsea",
+          "photo": 244851,
+          "x": 0.3068181818181818,
+          "y": 0.08499999999999999,
+          "shots": 30
+        },
+        {
+          "position": "MID",
+          "name": "Munoz",
+          "club": "Liverpool",
+          "photo": 551499,
+          "x": 0.0,
+          "y": 0.06076923076923077,
+          "shots": 13
+        },
+        {
+          "position": "FWD",
+          "name": "Havertz",
+          "club": "Arsenal",
+          "photo": 219847,
+          "x": 0.0,
+          "y": 0.18933333333333333,
+          "shots": 15
+        },
+        {
+          "position": "FWD",
+          "name": "Emersonn",
+          "club": "Ipswich Town",
+          "photo": 543968,
+          "x": 0.1361573373676248,
+          "y": 0.13944444444444443,
+          "shots": 18
+        },
+        {
+          "position": "MID",
+          "name": "Wirtz",
+          "club": "Liverpool",
+          "photo": 494595,
+          "x": 0.33962264150943394,
+          "y": 0.08,
+          "shots": 23
+        },
+        {
+          "position": "MID",
+          "name": "Ayari",
+          "club": "Brighton",
+          "photo": 509416,
+          "x": 0.0,
+          "y": 0.09166666666666667,
+          "shots": 24
+        },
+        {
+          "position": "MID",
+          "name": "Fernandes",
+          "club": "Spurs",
+          "photo": 551226,
+          "x": 0.0,
+          "y": 0.03181818181818182,
+          "shots": 11
+        },
+        {
+          "position": "FWD",
+          "name": "Isak",
+          "club": "Liverpool",
+          "photo": 219168,
+          "x": 0.0,
+          "y": 0.196,
+          "shots": 25
+        },
+        {
+          "position": "MID",
+          "name": "Christie",
+          "club": "Bournemouth",
+          "photo": 158499,
+          "x": 0.0,
+          "y": 0.08583333333333336,
+          "shots": 12
+        },
+        {
+          "position": "FWD",
+          "name": "Marmoush",
+          "club": "Spurs",
+          "photo": 438234,
+          "x": 0.0,
+          "y": 0.05777777777777778,
+          "shots": 18
+        },
+        {
+          "position": "FWD",
+          "name": "Delap",
+          "club": "Nott'm Forest",
+          "photo": 463034,
+          "x": 0.0,
+          "y": 0.10518518518518517,
+          "shots": 27
+        },
+        {
+          "position": "MID",
+          "name": "Kudus",
+          "club": "Spurs",
+          "photo": 460842,
+          "x": 0.5018587360594795,
+          "y": 0.09769230769230769,
+          "shots": 13
+        },
+        {
+          "position": "MID",
+          "name": "Tanaka",
+          "club": "Leeds",
+          "photo": 248056,
+          "x": 0.14040561622464898,
+          "y": 0.11636363636363636,
+          "shots": 11
+        },
+        {
+          "position": "FWD",
+          "name": "N.Jackson",
+          "club": "Aston Villa",
+          "photo": 517052,
+          "x": 0.12379642365887207,
+          "y": 0.15043478260869564,
+          "shots": 23
+        },
+        {
+          "position": "MID",
+          "name": "Barcola",
+          "club": "Liverpool",
+          "photo": 482616,
+          "x": 0.4623287671232877,
+          "y": 0.11750000000000001,
+          "shots": 12
+        },
+        {
+          "position": "MID",
+          "name": "Manzambi",
+          "club": "Aston Villa",
+          "photo": 614071,
+          "x": 0.5781584582441114,
+          "y": 0.09277777777777779,
+          "shots": 18
+        },
+        {
+          "position": "MID",
+          "name": "Doku",
+          "club": "Man City",
+          "photo": 248875,
+          "x": 0.22727272727272727,
+          "y": 0.07818181818181819,
+          "shots": 11
+        },
+        {
+          "position": "MID",
+          "name": "Amad",
+          "club": "Man Utd",
+          "photo": 493250,
+          "x": 0.0,
+          "y": 0.09000000000000001,
+          "shots": 12
+        }
+      ],
+      "featured": [
+        {
+          "position": "MID",
+          "name": "Manzambi",
+          "club": "Aston Villa",
+          "photo": 614071,
+          "x": 0.5781584582441114,
+          "y": 0.09277777777777779,
+          "shots": 18
+        },
+        {
+          "position": "FWD",
+          "name": "Brobbey",
+          "club": "Sunderland",
+          "photo": 441264,
+          "x": 0.0,
+          "y": 0.24764705882352941,
+          "shots": 17
+        },
+        {
+          "position": "FWD",
+          "name": "João Pedro",
+          "club": "Chelsea",
+          "photo": 475168,
+          "x": 0.5182341650671785,
+          "y": 0.190625,
+          "shots": 16
+        },
+        {
+          "position": "MID",
+          "name": "Foden",
+          "club": "Man City",
+          "photo": 209244,
+          "x": 0.4945054945054945,
+          "y": 0.1925,
+          "shots": 12
+        },
+        {
+          "position": "MID",
+          "name": "Groß",
+          "club": "Brighton",
+          "photo": 60307,
+          "x": 0.4086265607264472,
+          "y": 0.20200000000000004,
+          "shots": 15
+        },
+        {
+          "position": "FWD",
+          "name": "Evanilson",
+          "club": "Bournemouth",
+          "photo": 444102,
+          "x": 0.42755344418052255,
+          "y": 0.17115384615384613,
+          "shots": 26
+        },
+        {
+          "position": "MID",
+          "name": "Barcola",
+          "club": "Liverpool",
+          "photo": 482616,
+          "x": 0.4623287671232877,
+          "y": 0.11750000000000001,
+          "shots": 12
+        },
+        {
+          "position": "MID",
+          "name": "Kudus",
+          "club": "Spurs",
+          "photo": 460842,
+          "x": 0.5018587360594795,
+          "y": 0.09769230769230769,
+          "shots": 13
+        }
+      ],
+      "through": 10,
+      "minimum": 350,
+      "percentiles": false,
+      "x_name": "Assists",
+      "y_name": "Expected goals",
+      "units": [
+        "PER 90",
+        "PER SHOT"
+      ],
+      "benchmarks": [
+        0.12951483332279082,
+        0.11685034439574203
+      ],
+      "subtitle": "PREMIER LEAGUE  |  GW10  |  91 PLAYERS PLOTTED  |  350+ MIN  |  10+ SHOTS",
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+      ]
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-22"
+  },
+  "generated_at": "2026-11-22T21:45:27.305326+00:00",
+  "publish_at": "2026-11-22T21:45:28.878868+00:00",
+  "data_retrieval_at_et": "2026-11-22T16:45:27.305326-05:00",
+  "graphic_generated_at_et": "2026-11-22T16:45:30.955092-05:00",
+  "deadline": "2026-11-22T23:00:00-05:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-22-assists-vs-shot-quality-GW12.png"
+  ]
+}

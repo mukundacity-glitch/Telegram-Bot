@@ -2138,6 +2138,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-22T18:30:06.019307+00:00"
   },
+  "chatgpt:2026-27:GW12:task2:assists-vs-shot-quality:6b71ed876977edab8ba3:page1": {
+    "caption_sha256": "4cac176d293c2b34d5a61c76c655696d81738f1ebd274b372fedc4a304849937",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574179327011192942",
+    "gameweek": 12,
+    "source": "",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-22T21:46:38.135747+00:00",
+    "telegram_message_id": 557,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-22T21:45:30.959184+00:00"
+  },
   "chatgpt:2026-27:GW12:task2:defender-watch:cdfa51689b3f55586785:page1": {
     "caption_sha256": "c6699ff235c558df3a0bc8910552f4f8879581c7de7265d2f45ff23d93cf64bc",
     "delivered": true,

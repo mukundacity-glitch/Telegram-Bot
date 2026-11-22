@@ -2297,6 +2297,22 @@
       553
     ]
   },
+  "2026-11-22:task2:assists-vs-shot-quality": {
+    "at": "2026-11-22T21:45:28.878868+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "assists-vs-shot-quality",
+    "file": "outbox/2026-11-22-assists-vs-shot-quality.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:assists-vs-shot-quality:6b71ed876977edab8ba3",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      557
+    ]
+  },
   "2026-11-22:task2:defender-watch:GW12": {
     "at": "2026-11-22T16:00:43.222065+00:00",
     "attempts": 1,
