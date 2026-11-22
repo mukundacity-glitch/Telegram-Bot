@@ -2067,8 +2067,8 @@
     ]
   },
   "2026-11-21:price_changes:confirmed-price-changes:GW12": {
-    "at": "2026-11-22T02:49:08.973745+00:00",
-    "attempts": 1,
+    "at": "2026-11-22T03:34:14.449016+00:00",
+    "attempts": 2,
     "caption_hashtags": 4,
     "edition": "confirmed-price-changes",
     "file": "outbox/2026-11-21-confirmed-price-changes.json",
@@ -2224,6 +2224,14 @@
     "telegram_message_ids": [
       533
     ]
+  },
+  "2026-11-21:task2:top-100k-ownership": {
+    "at": "2026-11-22T03:34:14.449016+00:00",
+    "attempts": 1,
+    "edition": "top-100k-ownership",
+    "reason": "RequiredInput: Top 100k ownership sample is not ready",
+    "status": "held",
+    "task": "task2"
   },
   "2026-11-21:three_daily:vortex-captain:GW12": {
     "at": "2026-11-22T02:04:02.578711+00:00",

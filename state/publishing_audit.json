@@ -6102,19 +6102,15 @@
     "type": "elite"
   },
   "2026-11-21:price_changes:confirmed-price-changes:GW12": {
-    "attempts": 1,
-    "completed_at": "2026-11-22T02:49:14.313516+00:00",
-    "confirmed_telegram_message_ids": [
-      541
-    ],
+    "attempts": 2,
+    "completed_at": "2026-11-22T03:34:16.843500+00:00",
+    "confirmed_telegram_message_ids": [],
     "error": "Telegram delivery incomplete or publishing window closed",
     "generated": true,
     "post_id": "2026-11-21:price_changes:confirmed-price-changes:GW12",
     "status": "RETRY",
-    "telegram_message_ids": [
-      541
-    ],
-    "timestamp": "2026-11-22T02:49:08.973745+00:00",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-22T03:34:14.449016+00:00",
     "trigger": "2026-11-21T21:45:00-05:00",
     "type": "confirmed-price-changes"
   },
@@ -6305,6 +6301,20 @@
     "timestamp": "2026-11-21T20:48:20.459660+00:00",
     "trigger": "2026-11-21T14:30:00-05:00",
     "type": "scouting-rotation"
+  },
+  "2026-11-21:task2:top-100k-ownership": {
+    "attempts": 1,
+    "completed_at": "2026-11-22T03:34:19.274969+00:00",
+    "confirmed_telegram_message_ids": [],
+    "display_name": "Top 100k Ownership",
+    "error": "RequiredInput: Top 100k ownership sample is not ready",
+    "generated": false,
+    "post_id": "2026-11-21:task2:top-100k-ownership",
+    "status": "RETRY",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-22T03:34:14.449016+00:00",
+    "trigger": "2026-11-21T22:30:00-05:00",
+    "type": "top-100k-ownership"
   },
   "2026-11-21:three_daily:vortex-captain:GW12": {
     "attempts": 1,
@@ -6988,6 +6998,65 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-22T02:49:08.973745+00:00"
+  },
+  "2026-11-22T03:34:14.449016+00:00": {
+    "posts": [
+      {
+        "attempts": 2,
+        "completed_at": "2026-11-22T03:34:16.843500+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "Telegram delivery incomplete or publishing window closed",
+        "generated": true,
+        "post_id": "2026-11-21:price_changes:confirmed-price-changes:GW12",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-22T03:34:14.449016+00:00",
+        "trigger": "2026-11-21T21:45:00-05:00",
+        "type": "confirmed-price-changes"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-22T03:34:19.274969+00:00",
+        "confirmed_telegram_message_ids": [],
+        "display_name": "Top 100k Ownership",
+        "error": "RequiredInput: Top 100k ownership sample is not ready",
+        "generated": false,
+        "post_id": "2026-11-21:task2:top-100k-ownership",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-22T03:34:14.449016+00:00",
+        "trigger": "2026-11-21T22:30:00-05:00",
+        "type": "top-100k-ownership"
+      },
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-22T03:34:24.637613+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-22T03:34:14.449016+00:00:news",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-22T03:34:14.449016+00:00",
+        "trigger": "2026-11-22T03:34:14.449016+00:00",
+        "type": "2026-11-22T03:34:14.449016+00:00:news"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-22T03:34:14.449016+00:00"
+  },
+  "2026-11-22T03:34:14.449016+00:00:news": {
+    "attempts": 0,
+    "completed_at": "2026-11-22T03:34:24.637613+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-22T03:34:14.449016+00:00:news",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-22T03:34:14.449016+00:00",
+    "trigger": "2026-11-22T03:34:14.449016+00:00",
+    "type": "2026-11-22T03:34:14.449016+00:00:news"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
