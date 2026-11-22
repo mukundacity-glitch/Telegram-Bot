@@ -1605,7 +1605,7 @@
   "305": {
     "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "Unspecified injury - 75% chance of playing",
+    "news": "Calf injury - 75% chance of playing",
     "now_cost": 40,
     "status": "d"
   },
@@ -2368,7 +2368,7 @@
   "403": {
     "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "Unspecified injury - 75% chance of playing",
+    "news": "Hamstring injury - 75% chance of playing",
     "now_cost": 64,
     "status": "d"
   },
@@ -3054,7 +3054,7 @@
   "492": {
     "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "Leg injury - 75% chance of playing",
+    "news": "Ankle injury - 75% chance of playing",
     "now_cost": 54,
     "status": "d"
   },
