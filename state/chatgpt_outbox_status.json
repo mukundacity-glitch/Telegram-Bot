@@ -840,6 +840,11 @@
     "identity": "chatgpt:2026-27:GW10:task2:bonus-magnets:2d51e34816ef061d4fd0",
     "status": "delivered"
   },
+  "2026-11-21-confirmed-price-changes.json": {
+    "at": "2026-11-22T02:49:10.937191+00:00",
+    "identity": "chatgpt:2026-27:GW12:price_changes:confirmed-price-changes:7a05683a7046f79e34a2",
+    "status": "delivered"
+  },
   "2026-11-21-defender-watch.json": {
     "at": "2026-11-21T17:02:49.355921+00:00",
     "identity": "chatgpt:2026-27:GW12:task2:defender-watch:ce1f9a6f3e3aa54263c3",
