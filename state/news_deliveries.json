@@ -736,6 +736,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-15T11:28:32.480431+00:00"
   },
+  "rss:5f805c9669b464ca016affde": {
+    "caption_sha256": "32c1b313fbf54626538cf3f0f44fa08f4ca1027178b8a3c8f9b6fa6bad250984",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574202054187159582",
+    "gameweek": 12,
+    "source": "media.sky_sports",
+    "source_url": "https://www.skysports.com/football/news/12040/13615413/liverpool-4-0-man-utd-gary-neville-on-matthijs-de-ligt-selection-and-negligent-red-devils",
+    "telegram_delivered_at": "2026-11-22T23:16:56.218756+00:00",
+    "telegram_message_id": 559,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-22T23:16:47.814378+00:00"
+  },
   "rss:7be594a6e4ce556b3ec26598": {
     "caption_sha256": "eb9d10a46a7da15c4d5860a293030d254f277283bf646f800fb5cda119c60c5a",
     "delivered": true,
