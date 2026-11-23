@@ -906,6 +906,11 @@
     "identity": "chatgpt:2026-27:GW12:task2:assists-vs-shot-quality:6b71ed876977edab8ba3",
     "status": "delivered"
   },
+  "2026-11-22-confirmed-price-changes.json": {
+    "at": "2026-11-23T02:45:16.651228+00:00",
+    "identity": "chatgpt:2026-27:GW12:price_changes:confirmed-price-changes:3ebb2dfbe6ff14179f04",
+    "status": "delivered"
+  },
   "2026-11-22-defender-watch.json": {
     "at": "2026-11-22T16:00:50.994646+00:00",
     "identity": "chatgpt:2026-27:GW12:task2:defender-watch:cdfa51689b3f55586785",
