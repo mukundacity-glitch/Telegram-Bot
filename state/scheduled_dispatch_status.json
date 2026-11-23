@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-23T02:45:11.839019+00:00",
-  "eastern_at": "2026-11-22T21:45:11.839019-05:00",
-  "last_news_scan": "2026-11-23T01:45:10.468571+00:00",
-  "new_posts": 1,
+  "at": "2026-11-23T03:30:24.436882+00:00",
+  "eastern_at": "2026-11-22T22:30:24.436882-05:00",
+  "last_news_scan": "2026-11-23T03:30:24.436882+00:00",
+  "new_posts": 0,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-23T03:30:19.550441+00:00"
+    "post": "chance-creators",
+    "trigger": "2026-11-25T06:00:00-05:00"
   },
-  "next_telegram_at": "2026-11-23T03:30:19.550441+00:00",
+  "next_telegram_at": null,
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -34,14 +34,14 @@
       "trigger": "2026-11-25T06:00:00-05:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 2,
   "posts_failed": 0,
   "posts_generated": 1,
   "posts_pending_trigger": 6,
-  "posts_retried": 0,
+  "posts_retried": 1,
   "posts_retry_pending": 1,
   "scheduled_cron": "43 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "held",
+  "telegram_messages_sent": 0
 }
