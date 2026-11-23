@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-23T21:09:49.135414+00:00",
-  "eastern_at": "2026-11-23T16:09:49.135414-05:00",
+  "at": "2026-11-23T21:55:02.036248+00:00",
+  "eastern_at": "2026-11-23T16:55:02.036248-05:00",
   "last_news_scan": "2026-11-23T10:30:03.404723+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "goalkeeper-striker-watch",
-    "trigger": "2026-11-23T21:54:59.904512+00:00"
+    "post": "player-radar-comparison",
+    "trigger": "2026-11-23T22:40:17.149125+00:00"
   },
-  "next_telegram_at": "2026-11-23T21:54:59.904512+00:00",
+  "next_telegram_at": "2026-11-23T22:40:17.149125+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -43,5 +43,5 @@
   "scheduled_cron": "28 * * * *",
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 1
+  "telegram_messages_sent": 2
 }
