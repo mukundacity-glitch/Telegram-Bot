@@ -6944,6 +6944,23 @@
     "trigger": "2026-11-22T17:30:00-05:00",
     "type": "review"
   },
+  "2026-11-22:sell": {
+    "attempts": 1,
+    "completed_at": "2026-11-23T00:02:04.955966+00:00",
+    "confirmed_telegram_message_ids": [
+      560
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-22:sell",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      560
+    ],
+    "timestamp": "2026-11-23T00:01:59.238286+00:00",
+    "trigger": "2026-11-22T18:30:00-05:00",
+    "type": "sell"
+  },
   "2026-11-22:task1:form-minutes-targets:GW12": {
     "attempts": 1,
     "completed_at": "2026-11-22T15:15:44.620691+00:00",
@@ -7836,6 +7853,29 @@
     "timestamp": "2026-11-22T23:16:47.814378+00:00",
     "trigger": "2026-11-22T23:16:47.814378+00:00",
     "type": "2026-11-22T23:16:47.814378+00:00:news"
+  },
+  "2026-11-23T00:01:59.238286+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-23T00:02:04.955966+00:00",
+        "confirmed_telegram_message_ids": [
+          560
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-22:sell",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          560
+        ],
+        "timestamp": "2026-11-23T00:01:59.238286+00:00",
+        "trigger": "2026-11-22T18:30:00-05:00",
+        "type": "sell"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-23T00:01:59.238286+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,

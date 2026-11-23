@@ -1,11 +1,12 @@
 {
-  "at": "2026-11-22T23:16:47.814378+00:00",
-  "eastern_at": "2026-11-22T18:16:47.814378-05:00",
+  "at": "2026-11-23T00:01:59.238286+00:00",
+  "eastern_at": "2026-11-22T19:01:59.238286-05:00",
   "last_news_scan": "2026-11-22T23:16:47.814378+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "sell",
-    "trigger": "2026-11-22T18:30:00-05:00"
+    "display_name": "Sunday Chance Watch",
+    "post": "sunday-chance-watch",
+    "trigger": "2026-11-22T20:00:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [
