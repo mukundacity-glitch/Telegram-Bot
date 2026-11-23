@@ -1,0 +1,539 @@
+{
+  "task": "task2",
+  "edition": "sunday-chance-watch",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "SUNDAY CHANCE WATCH",
+  "caption": "🎯 SUNDAY CHANCE WATCH | GW12 · 22 Nov 2026\n0 midfielders and 3 forwards clear all three per-90 thresholds.\nThe board groups players by xG, shots and opposition-box touches.\n450+ season minutes through GW10. Source: FPL Core match stats. Who makes your watchlist?\n\n#FPL #GW12 #FPLVORTEX #PremierLeague",
+  "facts": {
+    "players": [],
+    "edition": "sunday-chance-watch",
+    "extra": {
+      "season": "2026-27",
+      "through": 10,
+      "rows": {
+        "MIDFIELDERS": [
+          {
+            "player_id": 12,
+            "name": "Saka",
+            "photo": 223340,
+            "code": 3,
+            "rates": [
+              0.5282608696,
+              2.5585284281,
+              5.8695652174
+            ],
+            "mask": 5,
+            "minutes": 598
+          },
+          {
+            "player_id": 427,
+            "name": "Mbeumo",
+            "photo": 446008,
+            "code": 1,
+            "rates": [
+              0.4646136618,
+              3.0235162374,
+              4.4344904815
+            ],
+            "mask": 3,
+            "minutes": 893
+          },
+          {
+            "player_id": 426,
+            "name": "B.Fernandes",
+            "photo": 141746,
+            "code": 1,
+            "rates": [
+              0.4366666667,
+              3.4444444444,
+              2.7777777778
+            ],
+            "mask": 3,
+            "minutes": 810
+          },
+          {
+            "player_id": 154,
+            "name": "Palmer",
+            "photo": 244851,
+            "code": 8,
+            "rates": [
+              0.2607954545,
+              3.0681818182,
+              5.0113636364
+            ],
+            "mask": 6,
+            "minutes": 880
+          },
+          {
+            "player_id": 68,
+            "name": "Tavernier",
+            "photo": 201658,
+            "code": 91,
+            "rates": [
+              0.4484023669,
+              2.1301775148,
+              2.9822485207
+            ],
+            "mask": 1,
+            "minutes": 845
+          },
+          {
+            "player_id": 483,
+            "name": "Ndoye",
+            "photo": 456512,
+            "code": 17,
+            "rates": [
+              0.32832,
+              2.88,
+              5.184
+            ],
+            "mask": 4,
+            "minutes": 625
+          },
+          {
+            "player_id": 53,
+            "name": "Manzambi",
+            "photo": 614071,
+            "code": 7,
+            "rates": [
+              0.3218415418,
+              3.4689507495,
+              4.2398286938
+            ],
+            "mask": 2,
+            "minutes": 467
+          },
+          {
+            "player_id": 105,
+            "name": "Anthony",
+            "photo": 444180,
+            "code": 94,
+            "rates": [
+              0.3163179916,
+              2.4476987448,
+              5.0836820084
+            ],
+            "mask": 4,
+            "minutes": 478
+          },
+          {
+            "player_id": 399,
+            "name": "Cherki",
+            "photo": 466052,
+            "code": 43,
+            "rates": [
+              0.305840708,
+              2.8672566372,
+              6.2123893805
+            ],
+            "mask": 4,
+            "minutes": 565
+          },
+          {
+            "player_id": 591,
+            "name": "Enciso",
+            "photo": 474120,
+            "code": 40,
+            "rates": [
+              0.2279855247,
+              3.4740651387,
+              3.0398069964
+            ],
+            "mask": 2,
+            "minutes": 829
+          },
+          {
+            "player_id": 237,
+            "name": "Ndiaye",
+            "photo": 440993,
+            "code": 43,
+            "rates": [
+              0.2276264591,
+              1.9844357977,
+              5.719844358
+            ],
+            "mask": 4,
+            "minutes": 771
+          },
+          {
+            "player_id": 264,
+            "name": "Bobb",
+            "photo": 477555,
+            "code": 54,
+            "rates": [
+              0.2228687415,
+              1.8267929635,
+              6.9418132612
+            ],
+            "mask": 4,
+            "minutes": 739
+          },
+          {
+            "player_id": 268,
+            "name": "King",
+            "photo": 577725,
+            "code": 54,
+            "rates": [
+              0.2225092251,
+              2.5461254613,
+              6.6420664207
+            ],
+            "mask": 4,
+            "minutes": 813
+          },
+          {
+            "player_id": 627,
+            "name": "Barcola",
+            "photo": 482616,
+            "code": 14,
+            "rates": [
+              0.2172945205,
+              1.8493150685,
+              7.397260274
+            ],
+            "mask": 4,
+            "minutes": 584
+          },
+          {
+            "player_id": 512,
+            "name": "Kudus",
+            "photo": 460842,
+            "code": 6,
+            "rates": [
+              0.2124535316,
+              2.1747211896,
+              5.687732342
+            ],
+            "mask": 4,
+            "minutes": 538
+          },
+          {
+            "player_id": 428,
+            "name": "Cunha",
+            "photo": 430871,
+            "code": 1,
+            "rates": [
+              0.1848441926,
+              2.6770538244,
+              5.6090651558
+            ],
+            "mask": 4,
+            "minutes": 706
+          },
+          {
+            "player_id": 367,
+            "name": "Gakpo",
+            "photo": 243298,
+            "code": 14,
+            "rates": [
+              0.1847682119,
+              2.5331125828,
+              5.6622516556
+            ],
+            "mask": 4,
+            "minutes": 604
+          },
+          {
+            "player_id": 286,
+            "name": "Belloumi",
+            "photo": 540324,
+            "code": 88,
+            "rates": [
+              0.1734782609,
+              3.0,
+              4.1739130435
+            ],
+            "mask": 2,
+            "minutes": 690
+          },
+          {
+            "player_id": 377,
+            "name": "Munoz",
+            "photo": 551499,
+            "code": 14,
+            "rates": [
+              0.1552401747,
+              2.5545851528,
+              5.1091703057
+            ],
+            "mask": 4,
+            "minutes": 458
+          },
+          {
+            "player_id": 514,
+            "name": "Tel",
+            "photo": 511499,
+            "code": 6,
+            "rates": [
+              0.1232365145,
+              2.4273858921,
+              8.77593361
+            ],
+            "mask": 4,
+            "minutes": 482
+          },
+          {
+            "player_id": 557,
+            "name": "Tzolis",
+            "photo": 439509,
+            "code": 3,
+            "rates": [
+              0.0764478764,
+              1.5637065637,
+              5.3861003861
+            ],
+            "mask": 4,
+            "minutes": 518
+          },
+          {
+            "player_id": 397,
+            "name": "Semenyo",
+            "photo": 437730,
+            "code": 43,
+            "rates": [
+              0.0553345389,
+              1.3019891501,
+              5.5334538879
+            ],
+            "mask": 4,
+            "minutes": 553
+          }
+        ],
+        "FORWARDS": [
+          {
+            "player_id": 249,
+            "name": "Barry",
+            "photo": 586309,
+            "code": 11,
+            "rates": [
+              0.7547368421,
+              3.7894736842,
+              5.6842105263
+            ],
+            "mask": 7,
+            "minutes": 855
+          },
+          {
+            "player_id": 411,
+            "name": "Haaland",
+            "photo": 223094,
+            "code": 43,
+            "rates": [
+              0.7119101124,
+              3.8426966292,
+              6.2696629213
+            ],
+            "mask": 7,
+            "minutes": 890
+          },
+          {
+            "player_id": 379,
+            "name": "Isak",
+            "photo": 219168,
+            "code": 14,
+            "rates": [
+              0.588,
+              3.0,
+              5.4
+            ],
+            "mask": 7,
+            "minutes": 750
+          },
+          {
+            "player_id": 552,
+            "name": "Brobbey",
+            "photo": 441264,
+            "code": 56,
+            "rates": [
+              0.6081861958,
+              2.455858748,
+              5.7784911717
+            ],
+            "mask": 5,
+            "minutes": 623
+          },
+          {
+            "player_id": 165,
+            "name": "João Pedro",
+            "photo": 475168,
+            "code": 8,
+            "rates": [
+              0.5268714012,
+              2.763915547,
+              6.0460652591
+            ],
+            "mask": 5,
+            "minutes": 521
+          },
+          {
+            "player_id": 106,
+            "name": "Thiago",
+            "photo": 502500,
+            "code": 94,
+            "rates": [
+              0.4489104116,
+              2.2881355932,
+              5.0121065375
+            ],
+            "mask": 5,
+            "minutes": 826
+          },
+          {
+            "player_id": 569,
+            "name": "Gonzalo",
+            "photo": 551466,
+            "code": 54,
+            "rates": [
+              0.4418181818,
+              2.6181818182,
+              5.1272727273
+            ],
+            "mask": 5,
+            "minutes": 825
+          },
+          {
+            "player_id": 166,
+            "name": "N.Jackson",
+            "photo": 517052,
+            "code": 7,
+            "rates": [
+              0.4283356259,
+              2.8473177442,
+              5.1994497937
+            ],
+            "mask": 5,
+            "minutes": 727
+          },
+          {
+            "player_id": 167,
+            "name": "Delap",
+            "photo": 463034,
+            "code": 17,
+            "rates": [
+              0.3758823529,
+              3.5735294118,
+              5.2941176471
+            ],
+            "mask": 6,
+            "minutes": 680
+          },
+          {
+            "player_id": 79,
+            "name": "Evanilson",
+            "photo": 444102,
+            "code": 91,
+            "rates": [
+              0.4756532067,
+              2.7790973872,
+              4.2755344418
+            ],
+            "mask": 1,
+            "minutes": 842
+          },
+          {
+            "player_id": 346,
+            "name": "Calvert-Lewin",
+            "photo": 177815,
+            "code": 2,
+            "rates": [
+              0.4416859122,
+              1.974595843,
+              3.3256351039
+            ],
+            "mask": 1,
+            "minutes": 866
+          },
+          {
+            "player_id": 464,
+            "name": "Wissa",
+            "photo": 216646,
+            "code": 4,
+            "rates": [
+              0.4328631876,
+              2.6657263752,
+              4.1889985896
+            ],
+            "mask": 1,
+            "minutes": 709
+          },
+          {
+            "player_id": 526,
+            "name": "Solanke",
+            "photo": 154566,
+            "code": 6,
+            "rates": [
+              0.3489795918,
+              2.9387755102,
+              5.693877551
+            ],
+            "mask": 4,
+            "minutes": 490
+          },
+          {
+            "player_id": 138,
+            "name": "Kostoulas",
+            "photo": 647850,
+            "code": 36,
+            "rates": [
+              0.318878249,
+              3.0779753762,
+              4.8016415869
+            ],
+            "mask": 2,
+            "minutes": 731
+          }
+        ]
+      },
+      "eligible": {
+        "MIDFIELDERS": 86,
+        "FORWARDS": 20
+      },
+      "incomplete": {
+        "MIDFIELDERS": 0,
+        "FORWARDS": 0
+      },
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+      ]
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-22"
+  },
+  "generated_at": "2026-11-23T01:00:01.277961+00:00",
+  "publish_at": "2026-11-23T01:00:03.015047+00:00",
+  "data_retrieval_at_et": "2026-11-22T20:00:01.277961-05:00",
+  "graphic_generated_at_et": "2026-11-22T20:00:05.292192-05:00",
+  "deadline": "2026-11-22T23:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-22-sunday-chance-watch-GW12.png"
+  ]
+}

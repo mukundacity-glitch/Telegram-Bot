@@ -937,6 +937,11 @@
     "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:b38fe592a076dd9f85bf",
     "status": "delivered"
   },
+  "2026-11-22-sunday-chance-watch.json": {
+    "at": "2026-11-23T01:00:05.296325+00:00",
+    "identity": "chatgpt:2026-27:GW12:task2:sunday-chance-watch:db1c458eaf461de8b6ae",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-13T16:50:31.597225+00:00",
     "reason": "ValueError: Edition is stale or generated timestamp invalid; refresh instead of replaying",

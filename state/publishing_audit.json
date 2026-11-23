@@ -7101,6 +7101,24 @@
     "trigger": "2026-11-22T14:30:00-05:00",
     "type": "scouting-rotation"
   },
+  "2026-11-22:task2:sunday-chance-watch": {
+    "attempts": 1,
+    "completed_at": "2026-11-23T01:00:08.519766+00:00",
+    "confirmed_telegram_message_ids": [
+      561
+    ],
+    "display_name": "Sunday Chance Watch",
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-22:task2:sunday-chance-watch",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      561
+    ],
+    "timestamp": "2026-11-23T01:00:03.015047+00:00",
+    "trigger": "2026-11-22T20:00:00-05:00",
+    "type": "sunday-chance-watch"
+  },
   "2026-11-22T00:33:48.225172+00:00": {
     "posts": [
       {
@@ -7876,6 +7894,30 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-23T00:01:59.238286+00:00"
+  },
+  "2026-11-23T01:00:03.015047+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-23T01:00:08.519766+00:00",
+        "confirmed_telegram_message_ids": [
+          561
+        ],
+        "display_name": "Sunday Chance Watch",
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-22:task2:sunday-chance-watch",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          561
+        ],
+        "timestamp": "2026-11-23T01:00:03.015047+00:00",
+        "trigger": "2026-11-22T20:00:00-05:00",
+        "type": "sunday-chance-watch"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-23T01:00:03.015047+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
