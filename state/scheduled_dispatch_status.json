@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-23T01:00:48.842358+00:00",
-  "eastern_at": "2026-11-22T20:00:48.842358-05:00",
-  "last_news_scan": "2026-11-22T23:16:47.814378+00:00",
+  "at": "2026-11-23T01:45:10.468571+00:00",
+  "eastern_at": "2026-11-22T20:45:10.468571-05:00",
+  "last_news_scan": "2026-11-23T01:45:10.468571+00:00",
   "new_posts": 0,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-23T01:45:07.238681+00:00"
+    "post": "vortex-captain",
+    "trigger": "2026-11-22T21:00:00-05:00"
   },
-  "next_telegram_at": "2026-11-23T01:45:07.238681+00:00",
+  "next_telegram_at": null,
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -34,7 +34,7 @@
       "trigger": "2026-11-25T06:00:00-05:00"
     }
   ],
-  "posts_due": 0,
+  "posts_due": 1,
   "posts_failed": 0,
   "posts_generated": 0,
   "posts_pending_trigger": 6,
@@ -42,6 +42,6 @@
   "posts_retry_pending": 0,
   "scheduled_cron": "28 * * * *",
   "source_error": null,
-  "status": "deferred-telegram-spacing",
+  "status": "no-new-verified-content",
   "telegram_messages_sent": 0
 }
