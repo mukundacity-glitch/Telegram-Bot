@@ -712,6 +712,15 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-22T10:30:00.845934+00:00"
   },
+  "rotation:2026-11-23:GW12": {
+    "caption_sha256": "4b79453c9e5e3cf76f05322e08de30e5dc1975a63ce836444a9d8554ea9daa98",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574009088243671081",
+    "telegram_delivered_at": "2026-11-22T10:30:09.360908+00:00",
+    "telegram_message_id": 542,
+    "telegram_verification_source": "telegram-bot-api"
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,
@@ -722,6 +731,19 @@
     "source_url": "https://www.theguardian.com/football/2026/nov/12/the-problems-awaiting-manchester-united-next-manager",
     "telegram_message_id": 392,
     "timestamp": "2026-11-12T21:36:51.001744+00:00"
+  },
+  "rss:36dd64fa0ce08b050ad13fc2": {
+    "caption_sha256": "9e9c472a9414e9bd898afdda15720e17e8b114f6c635b56831193aab7aed1315",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574371489744949298",
+    "gameweek": 12,
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/transfer-news-live-ac-milan-want-virgil-van-dijk-as-arsenal-eye-jamal-musiala/view/news/445145",
+    "telegram_delivered_at": "2026-11-23T10:30:13.101569+00:00",
+    "telegram_message_id": 564,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-23T10:30:03.404723+00:00"
   },
   "rss:41bb18415301e13678678f7f": {
     "caption_sha256": "be3bde436d953f7bafe85e357d42971a9be40f48653c2e41c2c3f5e81a241a69",
