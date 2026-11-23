@@ -1,11 +1,11 @@
 {
-  "at": "2026-11-23T10:30:03.404723+00:00",
-  "eastern_at": "2026-11-23T05:30:03.404723-05:00",
+  "at": "2026-11-23T11:30:02.973613+00:00",
+  "eastern_at": "2026-11-23T06:30:02.973613-05:00",
   "last_news_scan": "2026-11-23T10:30:03.404723+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "elite",
-    "trigger": "2026-11-23T06:30:00-05:00"
+    "post": "daily_stats",
+    "trigger": "2026-11-23T07:30:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [
@@ -34,9 +34,9 @@
       "trigger": "2026-11-25T06:00:00-05:00"
     }
   ],
-  "posts_due": 2,
+  "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 2,
+  "posts_generated": 1,
   "posts_pending_trigger": 6,
   "posts_retried": 0,
   "posts_retry_pending": 0,
