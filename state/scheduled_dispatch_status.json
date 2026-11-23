@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-23T12:30:03.602452+00:00",
-  "eastern_at": "2026-11-23T07:30:03.602452-05:00",
+  "at": "2026-11-23T20:24:35.969087+00:00",
+  "eastern_at": "2026-11-23T15:24:35.969087-05:00",
   "last_news_scan": "2026-11-23T10:30:03.404723+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-23T13:15:08.303349+00:00"
+    "post": "defender-watch",
+    "trigger": "2026-11-23T21:09:46.547933+00:00"
   },
-  "next_telegram_at": "2026-11-23T13:15:08.303349+00:00",
+  "next_telegram_at": "2026-11-23T21:09:46.547933+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -40,7 +40,7 @@
   "posts_pending_trigger": 6,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "58 * * * *",
+  "scheduled_cron": "28 * * * *",
   "source_error": null,
   "status": "published",
   "telegram_messages_sent": 1
