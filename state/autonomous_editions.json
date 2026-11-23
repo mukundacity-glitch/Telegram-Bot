@@ -2457,6 +2457,22 @@
       571
     ]
   },
+  "2026-11-23:task2:afternoon-rotation": {
+    "at": "2026-11-23T23:25:31.467072+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "afternoon-rotation",
+    "file": "outbox/2026-11-23-afternoon-rotation.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:afternoon-rotation:e322d572292e5083d03e",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      572
+    ]
+  },
   "2026-11-23:task2:defender-watch:GW12": {
     "at": "2026-11-23T21:09:49.135414+00:00",
     "attempts": 1,
