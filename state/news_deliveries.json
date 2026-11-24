@@ -875,6 +875,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-22T00:33:48.225172+00:00"
   },
+  "rss:c58c46d76d0683ff28ddda92": {
+    "caption_sha256": "3931e4f95895dac1930d6c5fd5c4c43f97c2a0fcfe281df2c4181b9eb9fd4ade",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574774236705194144",
+    "gameweek": 12,
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/transfer-news-live-psg-want-estevao-as-jude-bellingham-in-real-madrid-talks/view/news/445145",
+    "telegram_delivered_at": "2026-11-24T13:10:35.527942+00:00",
+    "telegram_message_id": 581,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-24T13:10:31.097338+00:00"
+  },
   "rss:d1a2a55c0687e8989e75b11d": {
     "caption_sha256": "f83631e7c3394c319d2f30700a720d9729207cdeab5a10ac8425d51d82e076e0",
     "delivered": true,
