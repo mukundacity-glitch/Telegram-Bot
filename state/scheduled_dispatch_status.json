@@ -1,14 +1,13 @@
 {
-  "at": "2026-11-24T21:19:12.834252+00:00",
-  "eastern_at": "2026-11-24T16:19:12.834252-05:00",
+  "at": "2026-11-24T22:04:59.120519+00:00",
+  "eastern_at": "2026-11-24T17:04:59.120519-05:00",
   "last_news_scan": "2026-11-24T12:25:19.348187+00:00",
   "new_posts": 1,
   "next_due": {
-    "display_name": "FPL Player Performance Comparisons",
-    "post": "scouting-rotation",
-    "trigger": "2026-11-24T22:04:18.976060+00:00"
+    "post": "wildcard-draft",
+    "trigger": "2026-11-24T22:50:04.137186+00:00"
   },
-  "next_telegram_at": "2026-11-24T22:04:18.976060+00:00",
+  "next_telegram_at": "2026-11-24T22:50:04.137186+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
