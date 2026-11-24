@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-24T03:11:11.733799+00:00",
-  "eastern_at": "2026-11-23T22:11:11.733799-05:00",
+  "at": "2026-11-24T03:56:17.639501+00:00",
+  "eastern_at": "2026-11-23T22:56:17.639501-05:00",
   "last_news_scan": "2026-11-23T10:30:03.404723+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "vortex-captain",
-    "trigger": "2026-11-24T03:56:15.148934+00:00"
+    "post": "confirmed-price-changes",
+    "trigger": "2026-11-24T04:41:21.052125+00:00"
   },
-  "next_telegram_at": "2026-11-24T03:56:15.148934+00:00",
+  "next_telegram_at": "2026-11-24T04:41:21.052125+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",

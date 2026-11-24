@@ -993,6 +993,11 @@
     "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:22454339cac9cf33a685",
     "status": "delivered"
   },
+  "2026-11-23-vortex-captain.json": {
+    "at": "2026-11-24T03:56:19.231587+00:00",
+    "identity": "chatgpt:2026-27:GW12:three_daily:vortex-captain:82eed2a92a37e968118a",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-13T16:50:31.597225+00:00",
     "reason": "ValueError: Edition is stale or generated timestamp invalid; refresh instead of replaying",
