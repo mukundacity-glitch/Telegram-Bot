@@ -2843,6 +2843,22 @@
       502
     ]
   },
+  "2026-27:GW11:task2:weekly-analysis:day1": {
+    "at": "2026-11-24T20:34:06.590555+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "weekly-analysis",
+    "file": "outbox/2026-11-24-weekly-analysis.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:weekly-analysis:f23e3ad02d3aec3e6085",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      589
+    ]
+  },
   "2026-27:GW12:task1:market-trends-next-five": {
     "at": "2026-11-24T16:02:33.012877+00:00",
     "attempts": 1,
