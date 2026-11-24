@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-24T00:10:41.468855+00:00",
-  "eastern_at": "2026-11-23T19:10:41.468855-05:00",
+  "at": "2026-11-24T00:55:48.878076+00:00",
+  "eastern_at": "2026-11-23T19:55:48.878076-05:00",
   "last_news_scan": "2026-11-23T10:30:03.404723+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "positional-vulnerability",
-    "trigger": "2026-11-24T00:55:45.902057+00:00"
+    "post": "review",
+    "trigger": "2026-11-24T01:40:53.153708+00:00"
   },
-  "next_telegram_at": "2026-11-24T00:55:45.902057+00:00",
+  "next_telegram_at": "2026-11-24T01:40:53.153708+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
