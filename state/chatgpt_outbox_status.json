@@ -998,6 +998,11 @@
     "identity": "chatgpt:2026-27:GW12:three_daily:vortex-captain:82eed2a92a37e968118a",
     "status": "delivered"
   },
+  "2026-11-24-market-trends-next-five.json": {
+    "at": "2026-11-24T16:02:34.799844+00:00",
+    "identity": "chatgpt:2026-27:GW12:task1:market-trends-next-five:903728149c1f3c2901eb",
+    "status": "delivered"
+  },
   "gw10-four-midfielders.json": {
     "at": "2026-11-13T16:50:31.597225+00:00",
     "reason": "ValueError: Edition is stale or generated timestamp invalid; refresh instead of replaying",

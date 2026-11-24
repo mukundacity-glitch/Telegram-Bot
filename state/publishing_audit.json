@@ -8793,6 +8793,29 @@
     "trigger": "2026-11-24T12:25:19.348187+00:00",
     "type": "2026-11-24T13:10:31.097338+00:00:news"
   },
+  "2026-11-24T16:02:33.012877+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-24T16:02:37.620924+00:00",
+        "confirmed_telegram_message_ids": [
+          582
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-27:GW12:task1:market-trends-next-five",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          582
+        ],
+        "timestamp": "2026-11-24T16:02:33.012877+00:00",
+        "trigger": "2026-11-23T20:00:00+00:00",
+        "type": "market-trends-next-five"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-24T16:02:33.012877+00:00"
+  },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
     "completed_at": "2026-11-16T00:10:53.617078+00:00",
@@ -8975,6 +8998,23 @@
     "timestamp": "2026-11-20T10:30:00.955206+00:00",
     "trigger": "2026-11-20T09:30:00+00:00",
     "type": "value-board"
+  },
+  "2026-27:GW12:task1:market-trends-next-five": {
+    "attempts": 1,
+    "completed_at": "2026-11-24T16:02:37.620924+00:00",
+    "confirmed_telegram_message_ids": [
+      582
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-27:GW12:task1:market-trends-next-five",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      582
+    ],
+    "timestamp": "2026-11-24T16:02:33.012877+00:00",
+    "trigger": "2026-11-23T20:00:00+00:00",
+    "type": "market-trends-next-five"
   },
   "gw10-four-midfielders.json": {
     "attempts": 0,

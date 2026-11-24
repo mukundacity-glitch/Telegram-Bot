@@ -2778,6 +2778,22 @@
       502
     ]
   },
+  "2026-27:GW12:task1:market-trends-next-five": {
+    "at": "2026-11-24T16:02:33.012877+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "market-trends-next-five",
+    "file": "outbox/2026-11-24-market-trends-next-five.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task1:market-trends-next-five:903728149c1f3c2901eb",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      582
+    ]
+  },
   "_weekly_analysis": {
     "gw": 10,
     "season": "2026-27",

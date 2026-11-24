@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-24T13:10:31.097338+00:00",
-  "eastern_at": "2026-11-24T08:10:31.097338-05:00",
+  "at": "2026-11-24T16:02:33.012877+00:00",
+  "eastern_at": "2026-11-24T11:02:33.012877-05:00",
   "last_news_scan": "2026-11-24T12:25:19.348187+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "daily_stats",
-    "trigger": "2026-11-24T13:55:35.527402+00:00"
+    "trigger": "2026-11-24T16:47:36.844993+00:00"
   },
-  "next_telegram_at": "2026-11-24T13:55:35.527402+00:00",
+  "next_telegram_at": "2026-11-24T16:47:36.844993+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -26,10 +26,6 @@
       "trigger": "2026-11-27T15:00:00+00:00"
     },
     {
-      "post": "market-trends-next-five",
-      "trigger": null
-    },
-    {
       "post": "chance-creators",
       "trigger": "2026-11-25T06:00:00-05:00"
     }
@@ -37,10 +33,10 @@
   "posts_due": 1,
   "posts_failed": 0,
   "posts_generated": 1,
-  "posts_pending_trigger": 6,
+  "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "45 1,2 * * *",
+  "scheduled_cron": "28 * * * *",
   "source_error": null,
   "status": "published",
   "telegram_messages_sent": 1
