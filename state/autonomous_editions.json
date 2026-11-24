@@ -2570,6 +2570,22 @@
       578
     ]
   },
+  "2026-11-24:task1:form-minutes-targets:GW12": {
+    "at": "2026-11-24T17:32:47.044385+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "form-minutes-targets",
+    "file": "outbox/2026-11-24-form-minutes-targets.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task1:form-minutes-targets:adf88e23386a8d1dd8a0",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      584
+    ]
+  },
   "2026-27:GW10:task1:captaincy-comparison": {
     "caption_hashtags": 4,
     "edition": "captaincy-comparison",
@@ -2795,8 +2811,8 @@
     ]
   },
   "_weekly_analysis": {
-    "gw": 10,
+    "gw": 11,
     "season": "2026-27",
-    "start": "2026-11-15"
+    "start": "2026-11-24"
   }
 }
