@@ -1,0 +1,1225 @@
+{
+  "task": "task2",
+  "edition": "monday-defence-watch",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "MONDAY DEFENCE WATCH",
+  "caption": "🎯 MONDAY DEFENCE WATCH | GW12 · 23 Nov 2026\n6 goalkeepers and 14 defenders clear all three per-90 thresholds.\nKeeper shot-stopping and sweeping on the left, defender actions on the right.\n450+ season minutes through GW10. Source: FPL Core match stats. Who makes your watchlist?\n\n#FPL #GW12 #FPLVORTEX #PremierLeague",
+  "facts": {
+    "players": [],
+    "edition": "monday-defence-watch",
+    "extra": {
+      "season": "2026-27",
+      "through": 10,
+      "rows": {
+        "GOALKEEPERS": [
+          {
+            "player_id": 198,
+            "name": "Henderson",
+            "photo": 172649,
+            "code": 31,
+            "rates": [
+              4.8,
+              4.0,
+              1.0
+            ],
+            "mask": 7,
+            "minutes": 450
+          },
+          {
+            "player_id": 28,
+            "name": "Martinez",
+            "photo": 98980,
+            "code": 8,
+            "rates": [
+              4.2857142857,
+              3.4285714286,
+              0.6857142857
+            ],
+            "mask": 7,
+            "minutes": 525
+          },
+          {
+            "player_id": 572,
+            "name": "Tzolakis",
+            "photo": 473284,
+            "code": 88,
+            "rates": [
+              4.1,
+              2.9,
+              1.0
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 597,
+            "name": "Suzuki",
+            "photo": 433969,
+            "code": 7,
+            "rates": [
+              3.7777777778,
+              2.6666666667,
+              1.2222222222
+            ],
+            "mask": 7,
+            "minutes": 810
+          },
+          {
+            "player_id": 567,
+            "name": "Horníček",
+            "photo": 470551,
+            "code": 4,
+            "rates": [
+              3.6,
+              2.5,
+              1.2
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 412,
+            "name": "Lammens",
+            "photo": 465247,
+            "code": 1,
+            "rates": [
+              3.3,
+              2.3,
+              0.8
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 385,
+            "name": "Trafford",
+            "photo": 432720,
+            "code": 2,
+            "rates": [
+              3.7,
+              1.9,
+              1.9
+            ],
+            "mask": 5,
+            "minutes": 900
+          },
+          {
+            "player_id": 82,
+            "name": "Kelleher",
+            "photo": 200720,
+            "code": 94,
+            "rates": [
+              3.1,
+              1.5,
+              0.6
+            ],
+            "mask": 5,
+            "minutes": 900
+          },
+          {
+            "player_id": 109,
+            "name": "Verbruggen",
+            "photo": 489639,
+            "code": 36,
+            "rates": [
+              2.6,
+              2.2,
+              0.8
+            ],
+            "mask": 6,
+            "minutes": 900
+          },
+          {
+            "player_id": 226,
+            "name": "Pickford",
+            "photo": 111234,
+            "code": 11,
+            "rates": [
+              2.8,
+              1.6,
+              1.0
+            ],
+            "mask": 4,
+            "minutes": 900
+          },
+          {
+            "player_id": 250,
+            "name": "Leno",
+            "photo": 80201,
+            "code": 54,
+            "rates": [
+              2.7,
+              1.8,
+              0.5
+            ],
+            "mask": 4,
+            "minutes": 900
+          },
+          {
+            "player_id": 350,
+            "name": "A.Becker",
+            "photo": 116535,
+            "code": 14,
+            "rates": [
+              2.5,
+              1.5,
+              0.6
+            ],
+            "mask": 4,
+            "minutes": 900
+          },
+          {
+            "player_id": 496,
+            "name": "Kinsky",
+            "photo": 485055,
+            "code": 6,
+            "rates": [
+              2.2,
+              1.6,
+              0.7
+            ],
+            "mask": 4,
+            "minutes": 900
+          },
+          {
+            "player_id": 1,
+            "name": "Raya",
+            "photo": 154561,
+            "code": 3,
+            "rates": [
+              2.0,
+              1.3,
+              1.2
+            ],
+            "mask": 4,
+            "minutes": 900
+          },
+          {
+            "player_id": 467,
+            "name": "Sels",
+            "photo": 85633,
+            "code": 17,
+            "rates": [
+              1.9,
+              1.2,
+              0.5
+            ],
+            "mask": 4,
+            "minutes": 900
+          }
+        ],
+        "DEFENDERS": [
+          {
+            "player_id": 650,
+            "name": "Affengruber",
+            "photo": 442299,
+            "code": 54,
+            "rates": [
+              7.2857142857,
+              1.5714285714,
+              1.7142857143
+            ],
+            "mask": 7,
+            "minutes": 630
+          },
+          {
+            "player_id": 202,
+            "name": "Richards",
+            "photo": 427623,
+            "code": 31,
+            "rates": [
+              6.5,
+              1.5,
+              1.9
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 533,
+            "name": "Mukiele",
+            "photo": 200834,
+            "code": 56,
+            "rates": [
+              6.4662756598,
+              1.8475073314,
+              2.7712609971
+            ],
+            "mask": 7,
+            "minutes": 682
+          },
+          {
+            "player_id": 60,
+            "name": "Hill",
+            "photo": 463981,
+            "code": 91,
+            "rates": [
+              6.4,
+              1.7,
+              2.5
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 200,
+            "name": "Lacroix",
+            "photo": 437499,
+            "code": 8,
+            "rates": [
+              6.2460567823,
+              1.4195583596,
+              1.9873817035
+            ],
+            "mask": 7,
+            "minutes": 634
+          },
+          {
+            "player_id": 304,
+            "name": "O'Shea",
+            "photo": 216616,
+            "code": 40,
+            "rates": [
+              5.8,
+              1.2,
+              1.7
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 472,
+            "name": "Murillo",
+            "photo": 575476,
+            "code": 17,
+            "rates": [
+              5.6124721604,
+              1.8040089087,
+              2.3051224944
+            ],
+            "mask": 7,
+            "minutes": 898
+          },
+          {
+            "player_id": 579,
+            "name": "Araujo",
+            "photo": 445087,
+            "code": 14,
+            "rates": [
+              5.2781954887,
+              1.0827067669,
+              1.6240601504
+            ],
+            "mask": 7,
+            "minutes": 665
+          },
+          {
+            "player_id": 229,
+            "name": "Tarkowski",
+            "photo": 17761,
+            "code": 11,
+            "rates": [
+              5.0,
+              2.3,
+              1.5
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 112,
+            "name": "Van Hecke",
+            "photo": 469142,
+            "code": 6,
+            "rates": [
+              4.8,
+              1.0,
+              1.6
+            ],
+            "mask": 7,
+            "minutes": 900
+          },
+          {
+            "player_id": 203,
+            "name": "Canvot",
+            "photo": 651426,
+            "code": 31,
+            "rates": [
+              4.5,
+              1.5,
+              2.375
+            ],
+            "mask": 7,
+            "minutes": 720
+          },
+          {
+            "player_id": 31,
+            "name": "Konsa",
+            "photo": 199798,
+            "code": 3,
+            "rates": [
+              4.4322845417,
+              1.1080711354,
+              1.9699042408
+            ],
+            "mask": 7,
+            "minutes": 731
+          },
+          {
+            "player_id": 279,
+            "name": "Ajayi",
+            "photo": 146426,
+            "code": 88,
+            "rates": [
+              4.1148886284,
+              1.0550996483,
+              2.1101992966
+            ],
+            "mask": 7,
+            "minutes": 853
+          },
+          {
+            "player_id": 449,
+            "name": "Hall",
+            "photo": 487838,
+            "code": 4,
+            "rates": [
+              4.0044493882,
+              1.8020022247,
+              2.2024471635
+            ],
+            "mask": 7,
+            "minutes": 899
+          },
+          {
+            "player_id": 586,
+            "name": "Mendy",
+            "photo": 606930,
+            "code": 88,
+            "rates": [
+              9.120458891,
+              0.8604206501,
+              1.5487571702
+            ],
+            "mask": 5,
+            "minutes": 523
+          },
+          {
+            "player_id": 173,
+            "name": "Thomas",
+            "photo": 461102,
+            "code": 9,
+            "rates": [
+              8.3628318584,
+              1.4601769912,
+              0.6637168142
+            ],
+            "mask": 3,
+            "minutes": 678
+          },
+          {
+            "player_id": 334,
+            "name": "Muharemović",
+            "photo": 522047,
+            "code": 2,
+            "rates": [
+              8.3,
+              1.5,
+              0.7
+            ],
+            "mask": 3,
+            "minutes": 900
+          },
+          {
+            "player_id": 447,
+            "name": "Botman",
+            "photo": 220237,
+            "code": 4,
+            "rates": [
+              8.0,
+              1.0,
+              0.8571428571
+            ],
+            "mask": 3,
+            "minutes": 630
+          },
+          {
+            "player_id": 91,
+            "name": "Pinnock",
+            "photo": 231065,
+            "code": 9,
+            "rates": [
+              7.5,
+              1.2295081967,
+              0.737704918
+            ],
+            "mask": 3,
+            "minutes": 732
+          },
+          {
+            "player_id": 566,
+            "name": "Silva",
+            "photo": 483067,
+            "code": 91,
+            "rates": [
+              7.4,
+              1.2,
+              1.2
+            ],
+            "mask": 3,
+            "minutes": 900
+          },
+          {
+            "player_id": 87,
+            "name": "Ajer",
+            "photo": 191866,
+            "code": 94,
+            "rates": [
+              7.1,
+              1.6,
+              1.2
+            ],
+            "mask": 3,
+            "minutes": 900
+          },
+          {
+            "player_id": 356,
+            "name": "Virgil",
+            "photo": 97032,
+            "code": 14,
+            "rates": [
+              7.1,
+              1.1,
+              0.9
+            ],
+            "mask": 3,
+            "minutes": 900
+          },
+          {
+            "player_id": 277,
+            "name": "Egan",
+            "photo": 108416,
+            "code": 88,
+            "rates": [
+              7.0462633452,
+              1.0676156584,
+              1.4946619217
+            ],
+            "mask": 3,
+            "minutes": 843
+          },
+          {
+            "player_id": 504,
+            "name": "Vuskovic",
+            "photo": 610799,
+            "code": 36,
+            "rates": [
+              6.2837837838,
+              1.1148648649,
+              1.0135135135
+            ],
+            "mask": 3,
+            "minutes": 888
+          },
+          {
+            "player_id": 532,
+            "name": "Ballard",
+            "photo": 223827,
+            "code": 56,
+            "rates": [
+              6.2,
+              0.8,
+              2.0
+            ],
+            "mask": 5,
+            "minutes": 450
+          },
+          {
+            "player_id": 145,
+            "name": "Fofana",
+            "photo": 444463,
+            "code": 8,
+            "rates": [
+              6.1818181818,
+              3.0909090909,
+              1.4545454545
+            ],
+            "mask": 3,
+            "minutes": 495
+          },
+          {
+            "player_id": 230,
+            "name": "Branthwaite",
+            "photo": 480455,
+            "code": 11,
+            "rates": [
+              6.0674157303,
+              1.3483146067,
+              1.1235955056
+            ],
+            "mask": 3,
+            "minutes": 801
+          },
+          {
+            "player_id": 471,
+            "name": "Milenković",
+            "photo": 227444,
+            "code": 17,
+            "rates": [
+              5.1666666667,
+              1.5,
+              1.3333333333
+            ],
+            "mask": 3,
+            "minutes": 540
+          },
+          {
+            "player_id": 259,
+            "name": "Diop",
+            "photo": 219924,
+            "code": 40,
+            "rates": [
+              4.8,
+              1.9,
+              0.8
+            ],
+            "mask": 3,
+            "minutes": 900
+          },
+          {
+            "player_id": 257,
+            "name": "Bassey",
+            "photo": 232892,
+            "code": 54,
+            "rates": [
+              4.6,
+              0.7,
+              1.7
+            ],
+            "mask": 5,
+            "minutes": 900
+          },
+          {
+            "player_id": 536,
+            "name": "Reinildo",
+            "photo": 434399,
+            "code": 56,
+            "rates": [
+              3.7452711223,
+              1.3619167718,
+              1.7023959647
+            ],
+            "mask": 6,
+            "minutes": 793
+          },
+          {
+            "player_id": 175,
+            "name": "van Ewijk",
+            "photo": 451284,
+            "code": 9,
+            "rates": [
+              3.5555555556,
+              2.0,
+              1.8888888889
+            ],
+            "mask": 6,
+            "minutes": 810
+          },
+          {
+            "player_id": 362,
+            "name": "Jacquet",
+            "photo": 606702,
+            "code": 14,
+            "rates": [
+              3.5375722543,
+              1.9768786127,
+              2.9132947977
+            ],
+            "mask": 6,
+            "minutes": 865
+          },
+          {
+            "player_id": 233,
+            "name": "Mykolenko",
+            "photo": 224967,
+            "code": 11,
+            "rates": [
+              3.5138539043,
+              1.1335012594,
+              2.040302267
+            ],
+            "mask": 6,
+            "minutes": 794
+          },
+          {
+            "player_id": 332,
+            "name": "Justin",
+            "photo": 220627,
+            "code": 2,
+            "rates": [
+              3.3635334088,
+              1.3250283126,
+              2.5481313703
+            ],
+            "mask": 6,
+            "minutes": 883
+          },
+          {
+            "player_id": 61,
+            "name": "Truffert",
+            "photo": 494521,
+            "code": 91,
+            "rates": [
+              3.322147651,
+              1.1073825503,
+              2.5167785235
+            ],
+            "mask": 6,
+            "minutes": 894
+          },
+          {
+            "player_id": 393,
+            "name": "Khusanov",
+            "photo": 578153,
+            "code": 43,
+            "rates": [
+              3.0922242315,
+              1.4647377939,
+              3.0922242315
+            ],
+            "mask": 6,
+            "minutes": 553
+          },
+          {
+            "player_id": 588,
+            "name": "Khalaili",
+            "photo": 570794,
+            "code": 31,
+            "rates": [
+              3.0307467057,
+              1.8448023426,
+              3.8213762811
+            ],
+            "mask": 6,
+            "minutes": 683
+          },
+          {
+            "player_id": 417,
+            "name": "Dalot",
+            "photo": 216051,
+            "code": 1,
+            "rates": [
+              2.3916083916,
+              1.8881118881,
+              2.3916083916
+            ],
+            "mask": 6,
+            "minutes": 715
+          },
+          {
+            "player_id": 391,
+            "name": "Gvardiol",
+            "photo": 477424,
+            "code": 43,
+            "rates": [
+              2.3076923077,
+              1.5384615385,
+              2.4358974359
+            ],
+            "mask": 6,
+            "minutes": 702
+          },
+          {
+            "player_id": 36,
+            "name": "Maatsen",
+            "photo": 441302,
+            "code": 7,
+            "rates": [
+              2.1,
+              1.5,
+              2.55
+            ],
+            "mask": 6,
+            "minutes": 600
+          },
+          {
+            "player_id": 331,
+            "name": "Gudmundsson",
+            "photo": 243526,
+            "code": 2,
+            "rates": [
+              0.9984152139,
+              1.2836767036,
+              2.5673534073
+            ],
+            "mask": 6,
+            "minutes": 631
+          },
+          {
+            "player_id": 445,
+            "name": "Thiaw",
+            "photo": 465642,
+            "code": 4,
+            "rates": [
+              6.2849162011,
+              0.6284916201,
+              0.251396648
+            ],
+            "mask": 1,
+            "minutes": 716
+          },
+          {
+            "player_id": 598,
+            "name": "Elvedi",
+            "photo": 173774,
+            "code": 2,
+            "rates": [
+              6.0703812317,
+              0.7917888563,
+              0.7917888563
+            ],
+            "mask": 1,
+            "minutes": 682
+          },
+          {
+            "player_id": 4,
+            "name": "Gabriel",
+            "photo": 226597,
+            "code": 3,
+            "rates": [
+              5.6,
+              0.9,
+              1.3
+            ],
+            "mask": 1,
+            "minutes": 900
+          },
+          {
+            "player_id": 37,
+            "name": "Lindelöf",
+            "photo": 184667,
+            "code": 7,
+            "rates": [
+              5.6,
+              0.8,
+              0.3
+            ],
+            "mask": 1,
+            "minutes": 900
+          },
+          {
+            "player_id": 34,
+            "name": "Pau",
+            "photo": 244954,
+            "code": 7,
+            "rates": [
+              5.1483050847,
+              0.5720338983,
+              0.1906779661
+            ],
+            "mask": 1,
+            "minutes": 472
+          },
+          {
+            "player_id": 149,
+            "name": "Colwill",
+            "photo": 460028,
+            "code": 8,
+            "rates": [
+              4.9397590361,
+              0.7228915663,
+              1.0843373494
+            ],
+            "mask": 1,
+            "minutes": 747
+          },
+          {
+            "player_id": 474,
+            "name": "Jair Cunha",
+            "photo": 575458,
+            "code": 17,
+            "rates": [
+              4.7832167832,
+              0.7552447552,
+              1.006993007
+            ],
+            "mask": 1,
+            "minutes": 715
+          },
+          {
+            "player_id": 503,
+            "name": "Van de Ven",
+            "photo": 491279,
+            "code": 6,
+            "rates": [
+              4.402173913,
+              0.3668478261,
+              0.8559782609
+            ],
+            "mask": 1,
+            "minutes": 736
+          },
+          {
+            "player_id": 116,
+            "name": "Dunk",
+            "photo": 83299,
+            "code": 36,
+            "rates": [
+              4.2056074766,
+              0.9612817089,
+              0.9612817089
+            ],
+            "mask": 1,
+            "minutes": 749
+          },
+          {
+            "player_id": 254,
+            "name": "Robinson",
+            "photo": 169528,
+            "code": 54,
+            "rates": [
+              3.982300885,
+              0.9102402023,
+              2.1618204804
+            ],
+            "mask": 4,
+            "minutes": 791
+          },
+          {
+            "player_id": 114,
+            "name": "Boscagli",
+            "photo": 204120,
+            "code": 36,
+            "rates": [
+              3.898089172,
+              1.4904458599,
+              0.6878980892
+            ],
+            "mask": 2,
+            "minutes": 785
+          },
+          {
+            "player_id": 593,
+            "name": "Dedić",
+            "photo": 463726,
+            "code": 4,
+            "rates": [
+              3.888,
+              0.72,
+              1.584
+            ],
+            "mask": 4,
+            "minutes": 625
+          },
+          {
+            "player_id": 418,
+            "name": "Maguire",
+            "photo": 95658,
+            "code": 1,
+            "rates": [
+              3.7894736842,
+              1.7894736842,
+              1.0526315789
+            ],
+            "mask": 2,
+            "minutes": 855
+          },
+          {
+            "player_id": 534,
+            "name": "Hume",
+            "photo": 487676,
+            "code": 56,
+            "rates": [
+              3.5046728972,
+              0.5607476636,
+              2.8037383178
+            ],
+            "mask": 4,
+            "minutes": 642
+          },
+          {
+            "player_id": 358,
+            "name": "Kerkez",
+            "photo": 544877,
+            "code": 14,
+            "rates": [
+              3.3818181818,
+              0.8727272727,
+              1.6363636364
+            ],
+            "mask": 4,
+            "minutes": 825
+          },
+          {
+            "player_id": 389,
+            "name": "Matheus N.",
+            "photo": 465351,
+            "code": 43,
+            "rates": [
+              3.326848249,
+              0.7003891051,
+              2.1011673152
+            ],
+            "mask": 4,
+            "minutes": 514
+          },
+          {
+            "player_id": 592,
+            "name": "Ouattara",
+            "photo": 572584,
+            "code": 40,
+            "rates": [
+              3.2530120482,
+              1.0843373494,
+              1.3941480207
+            ],
+            "mask": 2,
+            "minutes": 581
+          },
+          {
+            "player_id": 151,
+            "name": "Acheampong",
+            "photo": 577016,
+            "code": 8,
+            "rates": [
+              3.0981067126,
+              0.4647160069,
+              3.2530120482
+            ],
+            "mask": 4,
+            "minutes": 581
+          },
+          {
+            "player_id": 258,
+            "name": "Castagne",
+            "photo": 166477,
+            "code": 54,
+            "rates": [
+              2.9840848806,
+              0.9549071618,
+              1.6710875332
+            ],
+            "mask": 4,
+            "minutes": 754
+          },
+          {
+            "player_id": 204,
+            "name": "Mitchell",
+            "photo": 244723,
+            "code": 31,
+            "rates": [
+              2.7898966705,
+              0.8266360505,
+              2.7898966705
+            ],
+            "mask": 4,
+            "minutes": 871
+          },
+          {
+            "player_id": 201,
+            "name": "Muñoz",
+            "photo": 247348,
+            "code": 17,
+            "rates": [
+              2.676056338,
+              0.4225352113,
+              3.661971831
+            ],
+            "mask": 4,
+            "minutes": 639
+          },
+          {
+            "player_id": 469,
+            "name": "N.Williams",
+            "photo": 215136,
+            "code": 17,
+            "rates": [
+              2.6174496644,
+              0.6040268456,
+              2.0134228188
+            ],
+            "mask": 4,
+            "minutes": 894
+          },
+          {
+            "player_id": 282,
+            "name": "Giles",
+            "photo": 232351,
+            "code": 88,
+            "rates": [
+              2.5677603424,
+              0.6419400856,
+              1.5406562054
+            ],
+            "mask": 4,
+            "minutes": 701
+          },
+          {
+            "player_id": 32,
+            "name": "Cash",
+            "photo": 199796,
+            "code": 7,
+            "rates": [
+              2.462006079,
+              0.4103343465,
+              3.4194528875
+            ],
+            "mask": 4,
+            "minutes": 658
+          },
+          {
+            "player_id": 88,
+            "name": "Kayode",
+            "photo": 607464,
+            "code": 94,
+            "rates": [
+              2.4096385542,
+              1.9277108434,
+              1.2048192771
+            ],
+            "mask": 2,
+            "minutes": 747
+          },
+          {
+            "player_id": 10,
+            "name": "White",
+            "photo": 198869,
+            "code": 3,
+            "rates": [
+              2.3595505618,
+              0.5056179775,
+              1.6853932584
+            ],
+            "mask": 4,
+            "minutes": 534
+          },
+          {
+            "player_id": 8,
+            "name": "Calafiori",
+            "photo": 466075,
+            "code": 3,
+            "rates": [
+              2.3346303502,
+              0.7003891051,
+              1.5175097276
+            ],
+            "mask": 4,
+            "minutes": 771
+          },
+          {
+            "player_id": 176,
+            "name": "Dasilva",
+            "photo": 173878,
+            "code": 9,
+            "rates": [
+              1.7094972067,
+              1.0055865922,
+              1.3072625698
+            ],
+            "mask": 2,
+            "minutes": 895
+          },
+          {
+            "player_id": 115,
+            "name": "De Cuyper",
+            "photo": 465730,
+            "code": 36,
+            "rates": [
+              1.0882708585,
+              0.761789601,
+              1.7412333736
+            ],
+            "mask": 4,
+            "minutes": 827
+          }
+        ]
+      },
+      "eligible": {
+        "GOALKEEPERS": 21,
+        "DEFENDERS": 81
+      },
+      "incomplete": {
+        "GOALKEEPERS": 0,
+        "DEFENDERS": 0
+      },
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+      ],
+      "metrics": {
+        "GOALKEEPERS": [
+          [
+            "saves",
+            "SAVES",
+            3
+          ],
+          [
+            "saves_inside_box",
+            "BOX SAVES",
+            2
+          ],
+          [
+            "sweeper_actions",
+            "SWEEPS",
+            0.5
+          ]
+        ],
+        "DEFENDERS": [
+          [
+            "clearances",
+            "CLEARANCES",
+            4
+          ],
+          [
+            "interceptions",
+            "INTERCEPTS",
+            1
+          ],
+          [
+            "tackles_won",
+            "TACKLES WON",
+            1.5
+          ]
+        ]
+      }
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-23"
+  },
+  "generated_at": "2026-11-24T01:40:54.647387+00:00",
+  "publish_at": "2026-11-24T01:40:56.515151+00:00",
+  "data_retrieval_at_et": "2026-11-23T20:40:54.647387-05:00",
+  "graphic_generated_at_et": "2026-11-23T20:40:59.877027-05:00",
+  "deadline": "2026-11-23T23:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-23-monday-defence-watch-GW12.png"
+  ]
+}

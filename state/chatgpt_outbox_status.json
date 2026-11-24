@@ -973,6 +973,11 @@
     "identity": "chatgpt:2026-27:GW12:task2:goalkeeper-striker-watch:1c4da988ec4a261bd305",
     "status": "delivered"
   },
+  "2026-11-23-monday-defence-watch.json": {
+    "at": "2026-11-24T01:40:59.882026+00:00",
+    "identity": "chatgpt:2026-27:GW12:task2:monday-defence-watch:32e130fc049f2304b929",
+    "status": "delivered"
+  },
   "2026-11-23-player-radar-comparison.json": {
     "at": "2026-11-23T22:40:26.536589+00:00",
     "identity": "chatgpt:2026-27:GW12:task1:player-radar-comparison:7854c778ae3e256f925c",

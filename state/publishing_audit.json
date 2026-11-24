@@ -8023,6 +8023,24 @@
     "trigger": "2026-11-23T10:30:00-05:00",
     "type": "goalkeeper-striker-watch"
   },
+  "2026-11-23:task2:monday-defence-watch": {
+    "attempts": 1,
+    "completed_at": "2026-11-24T01:41:03.125525+00:00",
+    "confirmed_telegram_message_ids": [
+      575
+    ],
+    "display_name": "Monday Defence Watch",
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-23:task2:monday-defence-watch",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      575
+    ],
+    "timestamp": "2026-11-24T01:40:56.515151+00:00",
+    "trigger": "2026-11-23T20:00:00-05:00",
+    "type": "monday-defence-watch"
+  },
   "2026-11-23:task2:positional-vulnerability": {
     "attempts": 1,
     "completed_at": "2026-11-24T00:55:54.557613+00:00",
@@ -8518,6 +8536,30 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-24T00:55:48.878076+00:00"
+  },
+  "2026-11-24T01:40:56.515151+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-24T01:41:03.125525+00:00",
+        "confirmed_telegram_message_ids": [
+          575
+        ],
+        "display_name": "Monday Defence Watch",
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-23:task2:monday-defence-watch",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          575
+        ],
+        "timestamp": "2026-11-24T01:40:56.515151+00:00",
+        "trigger": "2026-11-23T20:00:00-05:00",
+        "type": "monday-defence-watch"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-24T01:40:56.515151+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,

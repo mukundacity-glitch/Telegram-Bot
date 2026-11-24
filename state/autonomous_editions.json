@@ -2506,6 +2506,22 @@
       570
     ]
   },
+  "2026-11-23:task2:monday-defence-watch": {
+    "at": "2026-11-24T01:40:56.515151+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "monday-defence-watch",
+    "file": "outbox/2026-11-23-monday-defence-watch.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:monday-defence-watch:32e130fc049f2304b929",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      575
+    ]
+  },
   "2026-11-23:task2:positional-vulnerability": {
     "at": "2026-11-24T00:55:48.878076+00:00",
     "attempts": 1,
