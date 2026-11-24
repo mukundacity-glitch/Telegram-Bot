@@ -1,0 +1,1145 @@
+{
+  "task": "task2",
+  "edition": "wildcard-draft",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "Best FPL Wildcard for Gameweek 12",
+  "caption": "🏆 Best FPL Wildcard for Gameweek 12 · 24 Nov 2026\n£87.1m • 4-3-3 • Wirtz (C) • Evanilson (VC).\nGW12–16 planned using official fpl form, points, minutes and fdr ranking.\nWho would you swap before the deadline?\n#FPL #GW12 #FPLWildcard #FPLVORTEX",
+  "facts": {
+    "players": [
+      {
+        "id": 572,
+        "code": 473284,
+        "team": 11,
+        "element_type": 1,
+        "now_cost": 47,
+        "selected_by_percent": "13.6",
+        "status": "a",
+        "news": "",
+        "minutes": 990,
+        "total_points": 59,
+        "form": "5.7",
+        "expected_goals": "0.00",
+        "expected_assists": "0.00"
+      },
+      {
+        "id": 112,
+        "code": 469142,
+        "team": 19,
+        "element_type": 2,
+        "now_cost": 52,
+        "selected_by_percent": "19.4",
+        "status": "a",
+        "news": "",
+        "minutes": 990,
+        "total_points": 63,
+        "form": "8.3",
+        "expected_goals": "1.77",
+        "expected_assists": "0.77"
+      },
+      {
+        "id": 60,
+        "code": 463981,
+        "team": 3,
+        "element_type": 2,
+        "now_cost": 56,
+        "selected_by_percent": "4.4",
+        "status": "a",
+        "news": "",
+        "minutes": 990,
+        "total_points": 56,
+        "form": "8.0",
+        "expected_goals": "0.40",
+        "expected_assists": "0.97"
+      },
+      {
+        "id": 504,
+        "code": 610799,
+        "team": 5,
+        "element_type": 2,
+        "now_cost": 53,
+        "selected_by_percent": "11.7",
+        "status": "a",
+        "news": "",
+        "minutes": 977,
+        "total_points": 70,
+        "form": "6.0",
+        "expected_goals": "1.25",
+        "expected_assists": "0.23"
+      },
+      {
+        "id": 115,
+        "code": 465730,
+        "team": 5,
+        "element_type": 2,
+        "now_cost": 55,
+        "selected_by_percent": "50.2",
+        "status": "a",
+        "news": "",
+        "minutes": 912,
+        "total_points": 76,
+        "form": "5.3",
+        "expected_goals": "2.44",
+        "expected_assists": "1.91"
+      },
+      {
+        "id": 366,
+        "code": 494595,
+        "team": 14,
+        "element_type": 3,
+        "now_cost": 74,
+        "selected_by_percent": "10.0",
+        "status": "a",
+        "news": "",
+        "minutes": 881,
+        "total_points": 60,
+        "form": "9.7",
+        "expected_goals": "2.19",
+        "expected_assists": "2.31"
+      },
+      {
+        "id": 542,
+        "code": 484420,
+        "team": 20,
+        "element_type": 3,
+        "now_cost": 57,
+        "selected_by_percent": "3.1",
+        "status": "a",
+        "news": "",
+        "minutes": 953,
+        "total_points": 49,
+        "form": "7.3",
+        "expected_goals": "3.92",
+        "expected_assists": "1.94"
+      },
+      {
+        "id": 124,
+        "code": 60307,
+        "team": 5,
+        "element_type": 3,
+        "now_cost": 63,
+        "selected_by_percent": "49.5",
+        "status": "a",
+        "news": "",
+        "minutes": 970,
+        "total_points": 74,
+        "form": "5.3",
+        "expected_goals": "3.07",
+        "expected_assists": "2.62"
+      },
+      {
+        "id": 79,
+        "code": 444102,
+        "team": 3,
+        "element_type": 4,
+        "now_cost": 66,
+        "selected_by_percent": "27.4",
+        "status": "a",
+        "news": "",
+        "minutes": 927,
+        "total_points": 67,
+        "form": "8.0",
+        "expected_goals": "5.57",
+        "expected_assists": "1.07"
+      },
+      {
+        "id": 166,
+        "code": 517052,
+        "team": 2,
+        "element_type": 4,
+        "now_cost": 73,
+        "selected_by_percent": "36.5",
+        "status": "a",
+        "news": "",
+        "minutes": 794,
+        "total_points": 56,
+        "form": "7.3",
+        "expected_goals": "3.56",
+        "expected_assists": "1.13"
+      },
+      {
+        "id": 249,
+        "code": 586309,
+        "team": 9,
+        "element_type": 4,
+        "now_cost": 57,
+        "selected_by_percent": "11.4",
+        "status": "a",
+        "news": "",
+        "minutes": 919,
+        "total_points": 57,
+        "form": "9.0",
+        "expected_goals": "7.41",
+        "expected_assists": "0.48"
+      },
+      {
+        "id": 385,
+        "code": 432720,
+        "team": 13,
+        "element_type": 1,
+        "now_cost": 51,
+        "selected_by_percent": "7.9",
+        "status": "a",
+        "news": "",
+        "minutes": 990,
+        "total_points": 56,
+        "form": "4.7",
+        "expected_goals": "0.00",
+        "expected_assists": "0.02"
+      },
+      {
+        "id": 183,
+        "code": 480457,
+        "team": 7,
+        "element_type": 3,
+        "now_cost": 50,
+        "selected_by_percent": "1.8",
+        "status": "a",
+        "news": "",
+        "minutes": 820,
+        "total_points": 49,
+        "form": "7.0",
+        "expected_goals": "2.28",
+        "expected_assists": "2.04"
+      },
+      {
+        "id": 31,
+        "code": 199798,
+        "team": 1,
+        "element_type": 2,
+        "now_cost": 49,
+        "selected_by_percent": "25.3",
+        "status": "a",
+        "news": "",
+        "minutes": 821,
+        "total_points": 58,
+        "form": "6.3",
+        "expected_goals": "0.64",
+        "expected_assists": "0.05"
+      },
+      {
+        "id": 68,
+        "code": 201658,
+        "team": 3,
+        "element_type": 3,
+        "now_cost": 68,
+        "selected_by_percent": "33.6",
+        "status": "a",
+        "news": "",
+        "minutes": 930,
+        "total_points": 66,
+        "form": "4.7",
+        "expected_goals": "4.27",
+        "expected_assists": "2.36"
+      }
+    ],
+    "edition": "wildcard-draft",
+    "extra": {
+      "weeks": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "formation": "4-3-3",
+      "cost": 871,
+      "model": false,
+      "method": "Official FPL form, points, minutes and FDR ranking",
+      "captain": 366,
+      "vice": 79,
+      "xi": [
+        572,
+        112,
+        60,
+        504,
+        115,
+        366,
+        542,
+        124,
+        79,
+        166,
+        249
+      ],
+      "bench": [
+        385,
+        183,
+        31,
+        68
+      ],
+      "fixtures": {
+        "31": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "MCI",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 111,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BRE",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 123,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "TOT",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 140,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "BOU",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 141,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "MUN",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 151,
+            "double": false
+          }
+        ],
+        "166": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 116,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "EVE",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 121,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "CRY",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 131,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "COV",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 143,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "CHE",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 155,
+            "double": false
+          }
+        ],
+        "60": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 115,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BHA",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 132,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "ARS",
+            "venue": "A",
+            "fdr": 5,
+            "xpts": null,
+            "fixture_id": 141,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "COV",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 152,
+            "double": false
+          }
+        ],
+        "68": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 115,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BHA",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 132,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "ARS",
+            "venue": "A",
+            "fdr": 5,
+            "xpts": null,
+            "fixture_id": 141,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "COV",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 152,
+            "double": false
+          }
+        ],
+        "79": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 115,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BHA",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 132,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "ARS",
+            "venue": "A",
+            "fdr": 5,
+            "xpts": null,
+            "fixture_id": 141,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "COV",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 152,
+            "double": false
+          }
+        ],
+        "115": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "NEW",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 112,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BOU",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 139,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "EVE",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 142,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 154,
+            "double": false
+          }
+        ],
+        "124": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "NEW",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 112,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BOU",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 139,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "EVE",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 142,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 154,
+            "double": false
+          }
+        ],
+        "504": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "NEW",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 112,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "BOU",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 122,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 139,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "EVE",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 142,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 154,
+            "double": false
+          }
+        ],
+        "183": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "LEE",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 117,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 125,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "MUN",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 137,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "AVL",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 143,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "BOU",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 152,
+            "double": false
+          }
+        ],
+        "249": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "LIV",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 114,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "AVL",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 121,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 135,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "BHA",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 142,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 159,
+            "double": false
+          }
+        ],
+        "572": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "CRY",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 113,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 126,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "BOU",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 132,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "TOT",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 146,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "MCI",
+            "venue": "A",
+            "fdr": 5,
+            "xpts": null,
+            "fixture_id": 158,
+            "double": false
+          }
+        ],
+        "385": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "COV",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 117,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "MCI",
+            "venue": "A",
+            "fdr": 5,
+            "xpts": null,
+            "fixture_id": 128,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "IPS",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 136,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "LIV",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 148,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 156,
+            "double": false
+          }
+        ],
+        "366": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "EVE",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 114,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "SUN",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 127,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "CHE",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 134,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "LEE",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 148,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "TOT",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 157,
+            "double": false
+          }
+        ],
+        "112": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "SUN",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 120,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "FUL",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 130,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "ARS",
+            "venue": "H",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 140,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "HUL",
+            "venue": "A",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 146,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "LIV",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 157,
+            "double": false
+          }
+        ],
+        "542": [
+          {
+            "gw": 12,
+            "blank": false,
+            "opponent": "TOT",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 120,
+            "double": false
+          },
+          {
+            "gw": 13,
+            "blank": false,
+            "opponent": "LIV",
+            "venue": "A",
+            "fdr": 4,
+            "xpts": null,
+            "fixture_id": 127,
+            "double": false
+          },
+          {
+            "gw": 14,
+            "blank": false,
+            "opponent": "NEW",
+            "venue": "A",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 138,
+            "double": false
+          },
+          {
+            "gw": 15,
+            "blank": false,
+            "opponent": "NFO",
+            "venue": "H",
+            "fdr": 3,
+            "xpts": null,
+            "fixture_id": 150,
+            "double": false
+          },
+          {
+            "gw": 16,
+            "blank": false,
+            "opponent": "CRY",
+            "venue": "H",
+            "fdr": 2,
+            "xpts": null,
+            "fixture_id": 160,
+            "double": false
+          }
+        ]
+      },
+      "lineups": [
+        [
+          166,
+          60,
+          79,
+          115,
+          124,
+          504,
+          249,
+          572,
+          366,
+          112,
+          542
+        ],
+        [
+          166,
+          60,
+          79,
+          115,
+          124,
+          504,
+          183,
+          249,
+          572,
+          366,
+          112
+        ],
+        [
+          31,
+          166,
+          60,
+          68,
+          79,
+          115,
+          124,
+          504,
+          249,
+          385,
+          366
+        ],
+        [
+          31,
+          166,
+          115,
+          124,
+          504,
+          183,
+          249,
+          572,
+          366,
+          112,
+          542
+        ],
+        [
+          31,
+          60,
+          68,
+          79,
+          115,
+          124,
+          504,
+          249,
+          385,
+          366,
+          542
+        ]
+      ],
+      "weekly_captains": [
+        366,
+        366,
+        79,
+        112,
+        79
+      ],
+      "sources": []
+    },
+    "publication_date": "2026-11-24"
+  },
+  "generated_at": "2026-11-24T22:50:05.614990+00:00",
+  "publish_at": "2026-11-24T22:50:07.695792+00:00",
+  "data_retrieval_at_et": "2026-11-24T17:50:05.614990-05:00",
+  "graphic_generated_at_et": "2026-11-24T17:50:10.923237-05:00",
+  "deadline": "2026-11-24T23:00:00-05:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/"
+  ],
+  "images": [
+    "outbox/assets/2026-11-24-wildcard-draft-GW12.png"
+  ]
+}
