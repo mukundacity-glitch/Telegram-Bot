@@ -1,14 +1,13 @@
 {
-  "at": "2026-11-24T22:50:07.695792+00:00",
-  "eastern_at": "2026-11-24T17:50:07.695792-05:00",
+  "at": "2026-11-24T23:35:51.629085+00:00",
+  "eastern_at": "2026-11-24T18:35:51.629085-05:00",
   "last_news_scan": "2026-11-24T12:25:19.348187+00:00",
   "new_posts": 1,
   "next_due": {
-    "display_name": "FPL Chip Strategy",
-    "post": "chip-strategy",
-    "trigger": "2026-11-24T23:35:13.209759+00:00"
+    "post": "review",
+    "trigger": "2026-11-25T00:20:56.795249+00:00"
   },
-  "next_telegram_at": "2026-11-24T23:35:13.209759+00:00",
+  "next_telegram_at": "2026-11-25T00:20:56.795249+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",

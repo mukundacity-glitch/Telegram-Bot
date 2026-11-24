@@ -1,0 +1,312 @@
+{
+  "task": "task2",
+  "edition": "chip-strategy",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "FPL CHIP STRATEGY",
+  "caption": "🏆 FPL CHIP STRATEGY | GW12–16 · 24 Nov 2026\nBench Boost GW16 +15.5 xPts if all four start • Wildcard GW12 +9.6 xPts\nFree Hit GW13 +4.0 xPts • Triple Captain GW14 +6.6 xPts\nCheck your chips and squad first. Estimates use a £100m reference squad.\n#FPL #GW12 #FPLChips #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "chip-strategy",
+    "extra": {
+      "weeks": [
+        12,
+        13,
+        14,
+        15,
+        16
+      ],
+      "span": "GW12–16",
+      "rows": {
+        "bboost": [
+          {
+            "gw": 12,
+            "xpts": 9.36,
+            "detail": "2/4 regular bench starters. Confirm all four can play.",
+            "player_id": null,
+            "conditional": true
+          },
+          {
+            "gw": 13,
+            "xpts": 9.77,
+            "detail": "2/4 regular bench starters. Confirm all four can play.",
+            "player_id": null,
+            "conditional": true
+          },
+          {
+            "gw": 14,
+            "xpts": 10.91,
+            "detail": "2/4 regular bench starters. Confirm all four can play.",
+            "player_id": null,
+            "conditional": true
+          },
+          {
+            "gw": 15,
+            "xpts": 12.14,
+            "detail": "3/4 regular bench starters. Confirm all four can play.",
+            "player_id": null,
+            "conditional": true
+          },
+          {
+            "gw": 16,
+            "xpts": 15.5,
+            "detail": "3/4 regular bench starters. Confirm all four can play.",
+            "player_id": null,
+            "conditional": true
+          }
+        ],
+        "wildcard": [
+          {
+            "gw": 12,
+            "xpts": 9.64,
+            "detail": "Permanent rebuild, with gain measured through GW16.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 13,
+            "xpts": 5.17,
+            "detail": "Permanent rebuild, with gain measured through GW16.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 14,
+            "xpts": 3.56,
+            "detail": "Permanent rebuild, with gain measured through GW16.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 15,
+            "xpts": 2.59,
+            "detail": "Permanent rebuild, with gain measured through GW16.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 16,
+            "xpts": 0.57,
+            "detail": "Permanent rebuild, with gain measured through GW16.",
+            "player_id": null,
+            "conditional": false
+          }
+        ],
+        "freehit": [
+          {
+            "gw": 12,
+            "xpts": 5.52,
+            "detail": "One-week rebuild. Squad reverts next GW.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 13,
+            "xpts": 4.01,
+            "detail": "One-week rebuild. Squad reverts next GW.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 14,
+            "xpts": 1.65,
+            "detail": "One-week rebuild. Squad reverts next GW.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 15,
+            "xpts": 3.29,
+            "detail": "One-week rebuild. Squad reverts next GW.",
+            "player_id": null,
+            "conditional": false
+          },
+          {
+            "gw": 16,
+            "xpts": 0.57,
+            "detail": "One-week rebuild. Squad reverts next GW.",
+            "player_id": null,
+            "conditional": false
+          }
+        ],
+        "3xc": [
+          {
+            "gw": 12,
+            "xpts": 6.92,
+            "detail": "Wirtz vs EVE (A) • best captain in reference XI",
+            "player_id": 366,
+            "conditional": false
+          },
+          {
+            "gw": 13,
+            "xpts": 6.73,
+            "detail": "Wirtz vs SUN (H) • best captain in reference XI",
+            "player_id": 366,
+            "conditional": false
+          },
+          {
+            "gw": 14,
+            "xpts": 6.62,
+            "detail": "Evanilson vs HUL (H) • best captain in reference XI",
+            "player_id": 79,
+            "conditional": false
+          },
+          {
+            "gw": 15,
+            "xpts": 5.99,
+            "detail": "Wirtz vs LEE (H) • best captain in reference XI",
+            "player_id": 366,
+            "conditional": false
+          },
+          {
+            "gw": 16,
+            "xpts": 6.62,
+            "detail": "Evanilson vs COV (H) • best captain in reference XI",
+            "player_id": 79,
+            "conditional": false
+          }
+        ]
+      },
+      "cards": {
+        "bboost": {
+          "pick": {
+            "gw": 16,
+            "xpts": 15.5,
+            "detail": "3/4 regular bench starters. Confirm all four can play.",
+            "player_id": null,
+            "conditional": true
+          },
+          "peak": {
+            "gw": 16,
+            "xpts": 15.5,
+            "detail": "3/4 regular bench starters. Confirm all four can play.",
+            "player_id": null,
+            "conditional": true
+          },
+          "usage": 24.1,
+          "through": 11,
+          "expires": 19
+        },
+        "wildcard": {
+          "pick": {
+            "gw": 12,
+            "xpts": 9.64,
+            "detail": "Permanent rebuild, with gain measured through GW16.",
+            "player_id": null,
+            "conditional": false
+          },
+          "peak": {
+            "gw": 12,
+            "xpts": 9.64,
+            "detail": "Permanent rebuild, with gain measured through GW16.",
+            "player_id": null,
+            "conditional": false
+          },
+          "usage": 36.5,
+          "through": 11,
+          "expires": 19
+        },
+        "freehit": {
+          "pick": {
+            "gw": 13,
+            "xpts": 4.01,
+            "detail": "One-week rebuild. Squad reverts next GW.",
+            "player_id": null,
+            "conditional": false
+          },
+          "peak": {
+            "gw": 12,
+            "xpts": 5.52,
+            "detail": "One-week rebuild. Squad reverts next GW.",
+            "player_id": null,
+            "conditional": false
+          },
+          "usage": 17.5,
+          "through": 11,
+          "expires": 19
+        },
+        "3xc": {
+          "pick": {
+            "gw": 14,
+            "xpts": 6.62,
+            "detail": "Evanilson vs HUL (H) • best captain in reference XI",
+            "player_id": 79,
+            "conditional": false
+          },
+          "peak": {
+            "gw": 12,
+            "xpts": 6.92,
+            "detail": "Wirtz vs EVE (A) • best captain in reference XI",
+            "player_id": 366,
+            "conditional": false
+          },
+          "usage": 36.3,
+          "through": 11,
+          "expires": 19
+        }
+      },
+      "squad": [
+        1,
+        8,
+        31,
+        166,
+        68,
+        79,
+        109,
+        115,
+        124,
+        40,
+        212,
+        279,
+        399,
+        411,
+        112
+      ],
+      "targets": [
+        {
+          "gw": 16,
+          "club": "Brighton",
+          "opponent": "Ipswich Town",
+          "venue": "H",
+          "total": 18.7
+        },
+        {
+          "gw": 16,
+          "club": "Bournemouth",
+          "opponent": "Coventry City",
+          "venue": "H",
+          "total": 18.2
+        },
+        {
+          "gw": 12,
+          "club": "Hull City",
+          "opponent": "Crystal Palace",
+          "venue": "A",
+          "total": 16.4
+        }
+      ],
+      "forecast": "FPL EP NEXT + FORM / MINUTES / FDR ESTIMATES",
+      "data_date": "24 Nov 2026",
+      "sources": [
+        "https://www.premierleague.com/en/news/4679879/whats-happening-with-fpl-chips-in-202627"
+      ]
+    },
+    "publication_date": "2026-11-24"
+  },
+  "generated_at": "2026-11-24T23:35:14.547935+00:00",
+  "publish_at": "2026-11-24T23:35:51.629085+00:00",
+  "data_retrieval_at_et": "2026-11-24T18:35:14.547935-05:00",
+  "graphic_generated_at_et": "2026-11-24T18:35:54.524734-05:00",
+  "deadline": "2026-11-24T23:00:00-05:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://www.premierleague.com/en/news/4679879/whats-happening-with-fpl-chips-in-202627"
+  ],
+  "images": [
+    "outbox/assets/2026-11-24-chip-strategy-GW12.png"
+  ]
+}
