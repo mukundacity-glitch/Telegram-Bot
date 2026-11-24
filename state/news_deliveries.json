@@ -721,6 +721,19 @@
     "telegram_message_id": 542,
     "telegram_verification_source": "telegram-bot-api"
   },
+  "rotation:2026-11-24:GW12": {
+    "caption_sha256": "8191dcf36c37f2334d9372cb5df4d8db889bec66c98731fecceaa44ac61b6b47",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574762878991597690",
+    "gameweek": 12,
+    "source": "Official FPL",
+    "source_url": "https://fantasy.premierleague.com/",
+    "telegram_delivered_at": "2026-11-24T12:25:27.621584+00:00",
+    "telegram_message_id": 580,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-24T12:25:19.348187+00:00"
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,
