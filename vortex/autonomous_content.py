@@ -143,6 +143,9 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'gw-key-players':
+        from .gw_key_players import build_key_players
+        return build_key_players(slot, snapshot, now, e)
     if name in ('tuesday-set-pieces', 'wednesday-predicted-xg',
                 'thursday-attacking-zones', 'friday-rotation-planner',
                 'saturday-fdr-grid'):

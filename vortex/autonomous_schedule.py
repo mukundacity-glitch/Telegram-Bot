@@ -101,7 +101,7 @@ CATCHUP_CRONS = {f'{m} {h} * * *' for h in range(5, 23) for m in (10, 40) if (h,
 NEWS_CRONS = {f'5 {hour} * * *' for hour in range(6, 23)}
 SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5, 23)}
 OUTBOX_CRONS = {f'50 {hour} * * *' for hour in range(5, 23)}
-SPECIAL_EDITIONS = ('chance-creators','captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five')
+SPECIAL_EDITIONS = ('chance-creators','captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five','gw-key-players')
 CLOSED = {'delivered', 'already-delivered', 'no-new-facts', 'checked'}
 MAX_ATTEMPTS = 3
 
@@ -160,6 +160,7 @@ def catchup_slots(now, state, gw, season=None, limit=3):
 SPECIAL_LEAD_HOURS = {
     'captaincy-comparison': 36, 'value-board': 27,
     'start-bench-board': 8, 'final-gameweek-news': 5,
+    'gw-key-players': 48,
 }
 
 

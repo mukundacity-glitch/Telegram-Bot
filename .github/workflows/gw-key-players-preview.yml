@@ -1,0 +1,56 @@
+name: FPL VORTEX 55 read-only preview
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  preview:
+    if: github.head_ref == 'feature/gw-key-player-board-55'
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    env:
+      FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+      FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+      FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
+      FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - name: Render current official gameweek with production renderer
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from datetime import datetime, timezone
+          import json, os
+          from vortex.fpl import collect_snapshot
+          from vortex.autonomous_content import Evidence, build, retrying_session
+          from vortex.autonomous_schedule import Slot
+          from vortex.autonomous_render import render
+          from vortex.graphic_numbers import stamp, graphic_key
+          from vortex.queue_retry import verified_caption
+          session = retrying_session()
+          snapshot = collect_snapshot(session)
+          now = datetime.now(timezone.utc)
+          plan = build(Slot('task1','gw-key-players',10,35),snapshot,now,Evidence(snapshot,now,session))
+          folder = Path('output/gw-key-players-preview')
+          folder.mkdir(parents=True,exist_ok=True)
+          output, = render(plan,snapshot,now,folder/'graphic-55.png',session)
+          stamp(output,graphic_key(plan.edition,now.weekday()))
+          caption = verified_caption(plan.title,plan.caption)
+          (folder/'caption.txt').write_text(caption,encoding='utf-8')
+          (folder/'facts.json').write_text(json.dumps({'gw':plan.gw,'players':[snapshot.name(p) for p in plan.players],'details':plan.extra},indent=2),encoding='utf-8')
+          print('CAPTION START\n'+caption+'\nCAPTION END')
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as summary:
+              summary.write('## Exact 55/55 preview\n\n'+caption+'\n')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: graphic-55-current-gameweek
+          path: output/gw-key-players-preview/
+          if-no-files-found: error
+          retention-days: 7

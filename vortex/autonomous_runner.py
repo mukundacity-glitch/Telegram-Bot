@@ -26,7 +26,7 @@ AUDIT=ROOT/'output/autonomous-audit.json'
 def canonical(value):
     if isinstance(value,dict):
         return {k:canonical(v) for k,v in value.items() if k not in {
-            'generated_at','retrieved_at','fetched_at','computed_at','data_at','caption','title','kicker','footer'}}
+            'generated_at','retrieved_at','fetched_at','computed_at','data_at','caption','title','kicker','footer','editorial_reference'}}
     if isinstance(value,(list,tuple)):return [canonical(v) for v in value]
     return value
 
@@ -91,6 +91,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
             if len(safe_caption.splitlines()) != 5:
                 raise RequiredInput('Watch editions require a five-line caption')
         record['caption'] = dated_caption(safe_caption, day) if recurring and slot != VULNERABILITY else safe_caption
+    if plan.kind == 'gw_key_players':
+        record['editorial_reference'] = plan.extra.get('editorial_reference')
     if plan.kind == 'chance_creators':
         record['sources'].append(plan.extra['source'])
     if editorial_after_deadline:

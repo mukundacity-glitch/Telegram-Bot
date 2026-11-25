@@ -17,7 +17,7 @@ CATALOG = (
     *(f'scouting-rotation-{day}' for day in range(2, 8)),
     'tuesday-set-pieces', 'wednesday-predicted-xg', 'thursday-attacking-zones',
     'friday-rotation-planner', 'saturday-fdr-grid', 'sunday-chance-watch',
-    'news-rotation-planner', 'custom-outbox',
+    'news-rotation-planner', 'gw-key-players',
 )
 
 
@@ -28,12 +28,15 @@ def graphic_key(edition, weekday, series_day=None, page=0):
         return f'{edition}-{weekday + 1}'
     if edition == 'weekly-analysis' and series_day in range(2, 8):
         return f'{edition}-{series_day}'
-    return edition if edition in CATALOG else 'custom-outbox'
+    return edition if edition in CATALOG else None
 
 
 def stamp(path, key, destination=None):
     """Reserve a header above the complete artwork and keep the upload dimensions."""
     path = Path(path)
+    # Uncatalogued custom/news artwork is no longer assigned the retired 55/55 slot.
+    if key not in CATALOG:
+        return path
     label = f'{CATALOG.index(key) + 1}/{len(CATALOG)}'
     with Image.open(path) as source:
         if source.info.get('vortex_graphic_number') == label:
