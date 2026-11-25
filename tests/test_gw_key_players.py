@@ -60,6 +60,7 @@ def test_render_dark_and_missing_portrait_holds(world,monkeypatch,tmp_path):
     with Image.open(output) as image:
         assert image.size == (1920,1080)
         assert max(image.convert('RGB').getpixel((10,500))) < 150
+    with Image.open(output) as image:
         image.verify()
     monkeypatch.setattr('vortex.matchup._image_from_url',lambda *args: None)
     with pytest.raises(RequiredInput,match='Authentic'):
