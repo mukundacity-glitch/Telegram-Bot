@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-25T14:46:56.034741+00:00",
-  "eastern_at": "2026-11-25T09:46:56.034741-05:00",
+  "at": "2026-11-25T15:32:43.532534+00:00",
+  "eastern_at": "2026-11-25T10:32:43.532534-05:00",
   "last_news_scan": "2026-11-25T13:15:47.497387+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "news",
-    "trigger": "2026-11-25T15:32:04.954837+00:00"
+    "trigger": "2026-11-25T16:17:55.459791+00:00"
   },
-  "next_telegram_at": "2026-11-25T15:32:04.954837+00:00",
+  "next_telegram_at": "2026-11-25T16:17:55.459791+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -35,5 +35,5 @@
   "scheduled_cron": "58 * * * *",
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 1
+  "telegram_messages_sent": 2
 }
