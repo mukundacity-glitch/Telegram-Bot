@@ -493,7 +493,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 47,
+    "now_cost": 46,
     "status": "a"
   },
   "163": {
@@ -549,7 +549,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 57,
+    "now_cost": 56,
     "status": "a"
   },
   "170": {
@@ -661,7 +661,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 48,
+    "now_cost": 47,
     "status": "a"
   },
   "185": {
@@ -2032,7 +2032,7 @@
   "360": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Knee injury - Unknown return date",
+    "news": "Knee injury - Expected back 12 Dec",
     "now_cost": 49,
     "status": "i"
   },
@@ -2053,7 +2053,7 @@
   "363": {
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
-    "news": "Knee injury - Unknown return date",
+    "news": "Knee injury - Expected back 12 Dec",
     "now_cost": 39,
     "status": "i"
   },
@@ -2499,11 +2499,11 @@
     "status": "a"
   },
   "420": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": null,
-    "news": "Suspended until 2 Dec",
+    "news": "",
     "now_cost": 48,
-    "status": "s"
+    "status": "a"
   },
   "421": {
     "chance_of_playing_next_round": 100,
@@ -2520,11 +2520,11 @@
     "status": "a"
   },
   "423": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 0,
-    "news": "Unspecified injury - Unknown return date",
+    "news": "Unspecified injury - 75% chance of playing",
     "now_cost": 42,
-    "status": "i"
+    "status": "d"
   },
   "424": {
     "chance_of_playing_next_round": null,
@@ -3566,7 +3566,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 75,
     "news": "",
-    "now_cost": 50,
+    "now_cost": 49,
     "status": "a"
   },
   "559": {
@@ -3895,7 +3895,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 56,
+    "now_cost": 57,
     "status": "a"
   },
   "600": {
@@ -4637,7 +4637,7 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Hip injury - Unknown return date",
-    "now_cost": 44,
+    "now_cost": 43,
     "status": "i"
   },
   "9": {

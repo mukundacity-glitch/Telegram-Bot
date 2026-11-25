@@ -734,6 +734,15 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-24T12:25:19.348187+00:00"
   },
+  "rotation:2026-11-25:GW12": {
+    "caption_sha256": "8191dcf36c37f2334d9372cb5df4d8db889bec66c98731fecceaa44ac61b6b47",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574762878991597690",
+    "telegram_delivered_at": "2026-11-24T12:25:27.621584+00:00",
+    "telegram_message_id": 580,
+    "telegram_verification_source": "telegram-bot-api"
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,
@@ -911,6 +920,19 @@
     "source_url": "https://www.transfermarkt.com/five-kevin-de-bruyne-january-transfer-destinations-as-psv-and-galatasaray-eye-move/view/news/490495",
     "telegram_message_id": 395,
     "timestamp": "2026-11-13T02:08:47.862390+00:00"
+  },
+  "rss:e17841df9821c12dd5beaed5": {
+    "caption_sha256": "6e503d244c7c501360fb9c1548f9add71a8c9120b2c6caeb98890c63817f57ff",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575096269850935517",
+    "gameweek": 12,
+    "source": "official.premier_league",
+    "source_url": "https://news.google.com/rss/articles/CBMiogFBVV95cUxQbVU4cDIxaDIwb3J1WDR0aGw4QWIxQ1BaYU1OTXhib3RsRVBPT3lEdk1VNFpLRlBuVjItYUtyQmlZZkc2d3VrS1FSNjlFR3kzd180LTNqM1otX1QyUWZ4ZUNrOF90V1QwTUlxYjZmR3lwVzFjbEE1UTdUV0N1MnNPLXd2c2lQR3g4SnhuaEJ3ZlhzT1ZWeGdMejBfdk1VNG9acWc?oc=5",
+    "telegram_delivered_at": "2026-11-25T10:30:13.830138+00:00",
+    "telegram_message_id": 599,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-25T10:30:03.033644+00:00"
   },
   "rss:e8a21e0808de07d9b3aafa4f": {
     "caption_sha256": "2e11c00cd8dc485ceb08d0cab527b75e0c41fadc70318843bc53f5b119634a24",
