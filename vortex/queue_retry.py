@@ -53,6 +53,10 @@ def verified_caption(title, caption):
     result = "\n".join([*lines, "", tags])
     if len(result) > 1024:
         raise RequiredInput("Caption exceeds Telegram's 1024-character limit")
+    # Preserve the approved 55/55 emoji caption and paragraph spacing only
+    # after the usual validation has succeeded, without affecting other editions.
+    if re.fullmatch(r"GW\d+ \| FIVE ELITE FPL PICKS", title) and not blocked.search(caption) and len(caption.strip()) <= 1024 and normalized_title in normalized_hook:
+        return caption.strip()
     return result
 
 
