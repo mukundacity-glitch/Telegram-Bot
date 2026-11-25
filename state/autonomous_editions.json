@@ -2971,8 +2971,8 @@
     ]
   },
   "2026-27:GW12:task1:chance-creators": {
-    "at": "2026-11-25T11:16:32.628347+00:00",
-    "attempts": 2,
+    "at": "2026-11-25T11:30:01.554296+00:00",
+    "attempts": 3,
     "edition": "chance-creators",
     "reason": "RequiredInput: Understat did not return structured match data",
     "status": "held",

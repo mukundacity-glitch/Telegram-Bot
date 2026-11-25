@@ -9293,6 +9293,23 @@
     "status": "RUN",
     "timestamp": "2026-11-24T23:35:51.629085+00:00"
   },
+  "2026-11-25:elite": {
+    "attempts": 1,
+    "completed_at": "2026-11-25T11:30:10.974298+00:00",
+    "confirmed_telegram_message_ids": [
+      600
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-25:elite",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      600
+    ],
+    "timestamp": "2026-11-25T11:30:01.554296+00:00",
+    "trigger": "2026-11-25T06:30:00-05:00",
+    "type": "elite"
+  },
   "2026-11-25T00:56:22.301798+00:00": {
     "posts": [
       {
@@ -9493,6 +9510,42 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-25T11:16:32.628347+00:00"
+  },
+  "2026-11-25T11:30:01.554296+00:00": {
+    "posts": [
+      {
+        "attempts": 3,
+        "completed_at": "2026-11-25T11:30:05.112227+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "RequiredInput: Understat did not return structured match data",
+        "generated": false,
+        "post_id": "2026-27:GW12:task1:chance-creators",
+        "status": "FAILED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-25T11:30:01.554296+00:00",
+        "trigger": "2026-11-25T06:00:00-05:00",
+        "type": "chance-creators"
+      },
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-25T11:30:10.974298+00:00",
+        "confirmed_telegram_message_ids": [
+          600
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-25:elite",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          600
+        ],
+        "timestamp": "2026-11-25T11:30:01.554296+00:00",
+        "trigger": "2026-11-25T06:30:00-05:00",
+        "type": "elite"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-25T11:30:01.554296+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
@@ -9695,15 +9748,15 @@
     "type": "weekly-analysis"
   },
   "2026-27:GW12:task1:chance-creators": {
-    "attempts": 2,
-    "completed_at": "2026-11-25T11:16:35.911021+00:00",
+    "attempts": 3,
+    "completed_at": "2026-11-25T11:30:05.112227+00:00",
     "confirmed_telegram_message_ids": [],
     "error": "RequiredInput: Understat did not return structured match data",
     "generated": false,
     "post_id": "2026-27:GW12:task1:chance-creators",
-    "status": "RETRY",
+    "status": "FAILED",
     "telegram_message_ids": [],
-    "timestamp": "2026-11-25T11:16:32.628347+00:00",
+    "timestamp": "2026-11-25T11:30:01.554296+00:00",
     "trigger": "2026-11-25T06:00:00-05:00",
     "type": "chance-creators"
   },
