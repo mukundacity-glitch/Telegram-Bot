@@ -10054,6 +10054,29 @@
     "status": "RUN",
     "timestamp": "2026-11-25T21:31:25.519104+00:00"
   },
+  "2026-11-25T22:16:33.775083+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-25T22:16:40.915307+00:00",
+        "confirmed_telegram_message_ids": [
+          613
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-27:GW12:task1:gw-key-players",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          613
+        ],
+        "timestamp": "2026-11-25T22:16:33.775083+00:00",
+        "trigger": "2026-11-25T20:00:00+00:00",
+        "type": "gw-key-players"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-25T22:16:33.775083+00:00"
+  },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
     "completed_at": "2026-11-16T00:10:53.617078+00:00",
@@ -10283,6 +10306,23 @@
     "timestamp": "2026-11-25T11:30:01.554296+00:00",
     "trigger": "2026-11-25T06:00:00-05:00",
     "type": "chance-creators"
+  },
+  "2026-27:GW12:task1:gw-key-players": {
+    "attempts": 1,
+    "completed_at": "2026-11-25T22:16:40.915307+00:00",
+    "confirmed_telegram_message_ids": [
+      613
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-27:GW12:task1:gw-key-players",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      613
+    ],
+    "timestamp": "2026-11-25T22:16:33.775083+00:00",
+    "trigger": "2026-11-25T20:00:00+00:00",
+    "type": "gw-key-players"
   },
   "2026-27:GW12:task1:market-trends-next-five": {
     "attempts": 1,

@@ -3115,6 +3115,22 @@
     "status": "held",
     "task": "task1"
   },
+  "2026-27:GW12:task1:gw-key-players": {
+    "at": "2026-11-25T22:16:33.775083+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "gw-key-players",
+    "file": "outbox/2026-11-25-gw-key-players.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task1:gw-key-players:ed080957c5fd979c7276",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      613
+    ]
+  },
   "2026-27:GW12:task1:market-trends-next-five": {
     "at": "2026-11-24T16:02:33.012877+00:00",
     "attempts": 1,
