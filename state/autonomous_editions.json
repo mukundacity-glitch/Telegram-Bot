@@ -2819,6 +2819,22 @@
       606
     ]
   },
+  "2026-11-25:task2:passing-creators": {
+    "at": "2026-11-25T21:31:25.519104+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "passing-creators",
+    "file": "outbox/2026-11-25-passing-creators.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:passing-creators:30c18e6c16f73befb4f5",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      612
+    ]
+  },
   "2026-11-25:task2:positional-vulnerability": {
     "at": "2026-11-25T20:45:45.929117+00:00",
     "attempts": 1,
