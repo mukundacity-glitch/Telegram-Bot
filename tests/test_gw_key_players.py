@@ -39,7 +39,12 @@ def test_five_tiers_and_stable_number(world):
     assert graphic_key('unknown-news',0) is None
     plan = build_key_players(Slot('task1','gw-key-players',10,35),s,now,e)
     assert plan.gw == s.gameweek()
-    assert len(plan.caption.splitlines()) == 5
+    assert len([line for line in plan.caption.splitlines() if line]) == 7
+    assert plan.caption.startswith(f'🎯 GW{plan.gw} | FIVE ELITE FPL PICKS\n\n')
+    assert '💎 Premium:' in plan.caption and '💰 Value:' in plan.caption and '🛡️ Defence:' in plan.caption
+    from vortex.queue_retry import verified_caption
+    assert verified_caption(plan.title, plan.caption) == plan.caption
+    assert plan.caption.endswith(f'#FPL #GW{plan.gw} #FPLTips #FPLVORTEX')
     assert len(plan.extra['details']) == 5
 
 def test_special_identity_and_trigger(world):
