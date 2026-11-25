@@ -1,0 +1,483 @@
+{
+  "task": "task2",
+  "edition": "tuesday-set-pieces",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "FPL SET-PIECE TAKERS",
+  "caption": "📊 FPL SET-PIECE TAKERS | GW12 · 24 Nov 2026\nAll 20 Premier League clubs, using official FPL duty orders.\nOrder 1 is first choice within that club; NOT attempts or crosses per 90.\nOfficial data checked 24 Nov 2026; verify changes before deadline.\n\n#FPL #GW12 #FPLVORTEX #PremierLeague",
+  "facts": {
+    "players": [],
+    "edition": "tuesday-set-pieces",
+    "extra": {
+      "rows": [
+        {
+          "name": "Arsenal",
+          "code": 3,
+          "club": "ARS",
+          "duties": [
+            {
+              "name": "Rice",
+              "order": 1,
+              "player_id": 13
+            },
+            {
+              "name": "Rice",
+              "order": 1,
+              "player_id": 13
+            },
+            {
+              "name": "Saka",
+              "order": 1,
+              "player_id": 12
+            }
+          ]
+        },
+        {
+          "name": "Aston Villa",
+          "code": 7,
+          "club": "AVL",
+          "duties": [
+            {
+              "name": "McGinn",
+              "order": 1,
+              "player_id": 45
+            },
+            {
+              "name": "Buendía",
+              "order": 1,
+              "player_id": 41
+            },
+            {
+              "name": "McGinn",
+              "order": 1,
+              "player_id": 45
+            }
+          ]
+        },
+        {
+          "name": "Bournemouth",
+          "code": 91,
+          "club": "BOU",
+          "duties": [
+            {
+              "name": "Tavernier",
+              "order": 1,
+              "player_id": 68
+            },
+            {
+              "name": "Tavernier",
+              "order": 1,
+              "player_id": 68
+            },
+            {
+              "name": "Kluivert",
+              "order": 2,
+              "player_id": 70
+            }
+          ]
+        },
+        {
+          "name": "Brentford",
+          "code": 94,
+          "club": "BRE",
+          "duties": [
+            {
+              "name": "Jensen",
+              "order": 1,
+              "player_id": 97
+            },
+            {
+              "name": "Lewis-Potter",
+              "order": 1,
+              "player_id": 86
+            },
+            {
+              "name": "Thiago",
+              "order": 1,
+              "player_id": 106
+            }
+          ]
+        },
+        {
+          "name": "Brighton",
+          "code": 36,
+          "club": "BHA",
+          "duties": [
+            {
+              "name": "Groß",
+              "order": 1,
+              "player_id": 124
+            },
+            {
+              "name": "Groß",
+              "order": 1,
+              "player_id": 124
+            },
+            {
+              "name": "Groß",
+              "order": 1,
+              "player_id": 124
+            }
+          ]
+        },
+        {
+          "name": "Chelsea",
+          "code": 8,
+          "club": "CHE",
+          "duties": [
+            {
+              "name": "Henderson",
+              "order": 1,
+              "player_id": 101
+            },
+            {
+              "name": "James",
+              "order": 1,
+              "player_id": 142
+            },
+            {
+              "name": "Palmer",
+              "order": 1,
+              "player_id": 154
+            }
+          ]
+        },
+        {
+          "name": "Coventry City",
+          "code": 9,
+          "club": "COV",
+          "duties": [
+            {
+              "name": "Rudoni",
+              "order": 1,
+              "player_id": 183
+            },
+            {
+              "name": "Rudoni",
+              "order": 1,
+              "player_id": 183
+            },
+            {
+              "name": "Rudoni",
+              "order": 1,
+              "player_id": 183
+            }
+          ]
+        },
+        {
+          "name": "Crystal Palace",
+          "code": 31,
+          "club": "CRY",
+          "duties": [
+            {
+              "name": "Yeremy",
+              "order": 1,
+              "player_id": 211
+            },
+            {
+              "name": "Yeremy",
+              "order": 1,
+              "player_id": 211
+            },
+            {
+              "name": "Nketiah",
+              "order": 2,
+              "player_id": 224
+            }
+          ]
+        },
+        {
+          "name": "Everton",
+          "code": 11,
+          "club": "EVE",
+          "duties": [
+            {
+              "name": "Garner",
+              "order": 1,
+              "player_id": 239
+            },
+            {
+              "name": "Garner",
+              "order": 1,
+              "player_id": 239
+            },
+            {
+              "name": "Barry",
+              "order": 1,
+              "player_id": 249
+            }
+          ]
+        },
+        {
+          "name": "Fulham",
+          "code": 54,
+          "club": "FUL",
+          "duties": [
+            {
+              "name": "Iwobi",
+              "order": 1,
+              "player_id": 261
+            },
+            {
+              "name": "Iwobi",
+              "order": 1,
+              "player_id": 261
+            },
+            {
+              "name": "Gonzalo",
+              "order": 1,
+              "player_id": 569
+            }
+          ]
+        },
+        {
+          "name": "Hull City",
+          "code": 88,
+          "club": "HUL",
+          "duties": [
+            {
+              "name": "Belloumi",
+              "order": 1,
+              "player_id": 286
+            },
+            {
+              "name": "Belloumi",
+              "order": 1,
+              "player_id": 286
+            },
+            {
+              "name": "McBurnie",
+              "order": 1,
+              "player_id": 295
+            }
+          ]
+        },
+        {
+          "name": "Ipswich Town",
+          "code": 40,
+          "club": "IPS",
+          "duties": [
+            {
+              "name": "Lukić",
+              "order": 1,
+              "player_id": 267
+            },
+            {
+              "name": "Enciso",
+              "order": 1,
+              "player_id": 591
+            },
+            {
+              "name": "Clarke",
+              "order": 1,
+              "player_id": 313
+            }
+          ]
+        },
+        {
+          "name": "Leeds",
+          "code": 2,
+          "club": "LEE",
+          "duties": [
+            {
+              "name": "Stach",
+              "order": 1,
+              "player_id": 335
+            },
+            {
+              "name": "Stach",
+              "order": 1,
+              "player_id": 335
+            },
+            {
+              "name": "Calvert-Lewin",
+              "order": 1,
+              "player_id": 346
+            }
+          ]
+        },
+        {
+          "name": "Liverpool",
+          "code": 14,
+          "club": "LIV",
+          "duties": [
+            {
+              "name": "Szoboszlai",
+              "order": 1,
+              "player_id": 368
+            },
+            {
+              "name": "Szoboszlai",
+              "order": 1,
+              "player_id": 368
+            },
+            {
+              "name": "Szoboszlai",
+              "order": 1,
+              "player_id": 368
+            }
+          ]
+        },
+        {
+          "name": "Man City",
+          "code": 43,
+          "club": "MCI",
+          "duties": [
+            {
+              "name": "Cherki",
+              "order": 1,
+              "player_id": 399
+            },
+            {
+              "name": "Cherki",
+              "order": 1,
+              "player_id": 399
+            },
+            {
+              "name": "Haaland",
+              "order": 1,
+              "player_id": 411
+            }
+          ]
+        },
+        {
+          "name": "Man Utd",
+          "code": 1,
+          "club": "MUN",
+          "duties": [
+            {
+              "name": "B.Fernandes",
+              "order": 1,
+              "player_id": 426
+            },
+            {
+              "name": "B.Fernandes",
+              "order": 1,
+              "player_id": 426
+            },
+            {
+              "name": "B.Fernandes",
+              "order": 1,
+              "player_id": 426
+            }
+          ]
+        },
+        {
+          "name": "Newcastle",
+          "code": 4,
+          "club": "NEW",
+          "duties": [
+            {
+              "name": "Hall",
+              "order": 1,
+              "player_id": 449
+            },
+            {
+              "name": "Hall",
+              "order": 1,
+              "player_id": 449
+            },
+            {
+              "name": "Wissa",
+              "order": 1,
+              "player_id": 464
+            }
+          ]
+        },
+        {
+          "name": "Nott'm Forest",
+          "code": 17,
+          "club": "NFO",
+          "duties": [
+            {
+              "name": "McAtee",
+              "order": 1,
+              "player_id": 486
+            },
+            {
+              "name": "Gibbs-White",
+              "order": 1,
+              "player_id": 480
+            },
+            {
+              "name": "Gibbs-White",
+              "order": 1,
+              "player_id": 480
+            }
+          ]
+        },
+        {
+          "name": "Spurs",
+          "code": 6,
+          "club": "TOT",
+          "duties": [
+            {
+              "name": "Pedro Porro",
+              "order": 1,
+              "player_id": 499
+            },
+            {
+              "name": "Pedro Porro",
+              "order": 1,
+              "player_id": 499
+            },
+            {
+              "name": "Solanke",
+              "order": 1,
+              "player_id": 526
+            }
+          ]
+        },
+        {
+          "name": "Sunderland",
+          "code": 56,
+          "club": "SUN",
+          "duties": [
+            {
+              "name": "E.Le Fée",
+              "order": 1,
+              "player_id": 542
+            },
+            {
+              "name": "Xhaka",
+              "order": 1,
+              "player_id": 544
+            },
+            {
+              "name": "E.Le Fée",
+              "order": 1,
+              "player_id": 542
+            }
+          ]
+        }
+      ],
+      "leader_counts": [
+        20,
+        20,
+        18
+      ],
+      "sources": [
+        "https://fantasy.premierleague.com/api/bootstrap-static/"
+      ],
+      "method": "Official FPL per-club set-piece duty orders; not RotoWire CRN/90"
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-24"
+  },
+  "generated_at": "2026-11-25T01:41:28.737440+00:00",
+  "publish_at": "2026-11-25T01:41:30.554852+00:00",
+  "data_retrieval_at_et": "2026-11-24T20:41:28.737440-05:00",
+  "graphic_generated_at_et": "2026-11-24T20:41:33.359064-05:00",
+  "deadline": "2026-11-24T23:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://fantasy.premierleague.com/api/bootstrap-static/"
+  ],
+  "images": [
+    "outbox/assets/2026-11-24-tuesday-set-pieces-GW12.png"
+  ]
+}

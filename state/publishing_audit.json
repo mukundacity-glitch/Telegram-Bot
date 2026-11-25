@@ -8715,6 +8715,24 @@
     "trigger": "2026-11-24T14:30:00-05:00",
     "type": "scouting-rotation"
   },
+  "2026-11-24:task2:tuesday-set-pieces": {
+    "attempts": 1,
+    "completed_at": "2026-11-25T01:41:38.720089+00:00",
+    "confirmed_telegram_message_ids": [
+      595
+    ],
+    "display_name": "FPL Set-Piece Takers",
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-24:task2:tuesday-set-pieces",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      595
+    ],
+    "timestamp": "2026-11-25T01:41:30.554852+00:00",
+    "trigger": "2026-11-24T20:00:00-05:00",
+    "type": "tuesday-set-pieces"
+  },
   "2026-11-24:task2:wildcard-draft": {
     "attempts": 1,
     "completed_at": "2026-11-24T22:50:14.429646+00:00",
@@ -9246,6 +9264,30 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-25T00:56:22.301798+00:00"
+  },
+  "2026-11-25T01:41:30.554852+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-25T01:41:38.720089+00:00",
+        "confirmed_telegram_message_ids": [
+          595
+        ],
+        "display_name": "FPL Set-Piece Takers",
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-24:task2:tuesday-set-pieces",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          595
+        ],
+        "timestamp": "2026-11-25T01:41:30.554852+00:00",
+        "trigger": "2026-11-24T20:00:00-05:00",
+        "type": "tuesday-set-pieces"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-25T01:41:30.554852+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
