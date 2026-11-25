@@ -2762,6 +2762,22 @@
       603
     ]
   },
+  "2026-11-25:task1:player-radar-comparison:GW12": {
+    "at": "2026-11-25T17:03:44.036166+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "player-radar-comparison",
+    "file": "outbox/2026-11-25-player-radar-comparison.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task1:player-radar-comparison:e62275f9cbe66b28762c",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task1",
+    "telegram_message_ids": [
+      608
+    ]
+  },
   "2026-11-25:task2:defender-watch:GW12": {
     "at": "2026-11-25T14:46:56.034741+00:00",
     "attempts": 1,

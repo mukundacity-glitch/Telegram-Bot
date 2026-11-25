@@ -1,11 +1,11 @@
 {
-  "at": "2026-11-25T16:17:59.148179+00:00",
-  "eastern_at": "2026-11-25T11:17:59.148179-05:00",
+  "at": "2026-11-25T17:03:44.036166+00:00",
+  "eastern_at": "2026-11-25T12:03:44.036166-05:00",
   "last_news_scan": "2026-11-25T16:17:59.148179+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "player-radar-comparison",
-    "trigger": "2026-11-25T11:30:00-05:00"
+    "post": "weekly-analysis",
+    "trigger": "2026-11-25T12:30:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [
