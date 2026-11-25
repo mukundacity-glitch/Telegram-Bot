@@ -897,6 +897,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-22T00:33:48.225172+00:00"
   },
+  "rss:c0c30f9c78338966aca124ff": {
+    "caption_sha256": "6f3b201ae91f605c77bbda984bdbc11ab78df5f64cb7d13369babed77c9f7a08",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575183822612602910",
+    "gameweek": 12,
+    "source": "media.sky_sports",
+    "source_url": "https://www.skysports.com/football/news/12040/13616388/dominik-szoboszlai-free-kick-for-liverpool-vs-man-utd-reveals-grey-area-as-mauricio-pochettino-questions-decision",
+    "telegram_delivered_at": "2026-11-25T16:18:08.407355+00:00",
+    "telegram_message_id": 607,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-25T16:17:59.148179+00:00"
+  },
   "rss:c58c46d76d0683ff28ddda92": {
     "caption_sha256": "3931e4f95895dac1930d6c5fd5c4c43f97c2a0fcfe281df2c4181b9eb9fd4ade",
     "delivered": true,

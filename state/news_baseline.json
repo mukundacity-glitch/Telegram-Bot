@@ -119,11 +119,11 @@
     "status": "a"
   },
   "114": {
-    "chance_of_playing_next_round": null,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": null,
-    "news": "",
+    "news": "Illness - 75% chance of playing",
     "now_cost": 45,
-    "status": "a"
+    "status": "d"
   },
   "115": {
     "chance_of_playing_next_round": null,
