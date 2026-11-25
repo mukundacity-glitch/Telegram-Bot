@@ -1,8 +1,8 @@
 {
-  "at": "2026-11-25T23:02:09.393043+00:00",
-  "eastern_at": "2026-11-25T18:02:09.393043-05:00",
+  "at": "2026-11-25T23:02:54.542451+00:00",
+  "eastern_at": "2026-11-25T18:02:54.542451-05:00",
   "last_news_scan": "2026-11-25T18:34:26.732378+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
     "post": "news",
     "trigger": "2026-11-25T23:47:13.447532+00:00"
@@ -26,14 +26,14 @@
       "trigger": "2026-11-27T15:00:00+00:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 0,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 4,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "43 * * * *",
+  "scheduled_cron": "58 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "deferred-telegram-spacing",
+  "telegram_messages_sent": 0
 }
