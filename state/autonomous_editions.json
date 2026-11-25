@@ -2778,6 +2778,14 @@
       608
     ]
   },
+  "2026-11-25:task2:afternoon-rotation": {
+    "at": "2026-11-25T18:34:26.732378+00:00",
+    "attempts": 1,
+    "edition": "afternoon-rotation",
+    "reason": "RequiredInput: No verified bookmaker win probabilities for the market outlook",
+    "status": "held",
+    "task": "task2"
+  },
   "2026-11-25:task2:defender-watch:GW12": {
     "at": "2026-11-25T14:46:56.034741+00:00",
     "attempts": 1,

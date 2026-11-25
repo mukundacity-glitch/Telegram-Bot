@@ -2975,11 +2975,11 @@
     "status": "a"
   },
   "482": {
-    "chance_of_playing_next_round": 0,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 0,
-    "news": "Unspecified injury - Unknown return date",
+    "news": "",
     "now_cost": 57,
-    "status": "i"
+    "status": "a"
   },
   "483": {
     "chance_of_playing_next_round": 100,
