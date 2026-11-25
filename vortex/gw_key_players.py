@@ -59,6 +59,8 @@ def discover_reference(html, gw):
 def reference(session, gw):
     # Editorial discovery only; no login, no third-party article data ingestion.
     # Never block independent publication when the public index is unavailable.
+    if not callable(getattr(session, 'get', None)):
+        return None
     try:
         response = session.get(INDEX, timeout=8, allow_redirects=False)
         if response.status_code == 200 and len(response.content) <= 2_000_000:
@@ -69,7 +71,7 @@ def reference(session, gw):
 
 def select(snapshot):
     gw = snapshot.gameweek()
-    if not 1 <= gw <= 38 or [e.get('id') for e in snapshot.events if e.get('is_next')] != [gw]:
+    if type(gw) is not int or not 1 <= gw <= 38 or [e.get('id') for e in snapshot.events if e.get('is_next')] != [gw]:
         raise RequiredInput('Official next-event forecast does not match upcoming gameweek')
     groups = [[], [], []]
     for p in snapshot.players:
@@ -154,7 +156,10 @@ def render_key_players(plan, snapshot, output, session):
         code = snapshot.photo_code(p)
         urls = (
             f'https://resources.premierleague.com/premierleague25/photos/players/250x250/{code}.png',
+            f'https://resources.premierleague.com/premierleague25/photos/players/110x140/{code}.png',
+            f'https://resources.premierleague.com/premierleague25/photos/players/250x250/p{code}.png',
             f'https://resources.premierleague.com/premierleague/photos/players/250x250/p{code}.png',
+            f'https://resources.premierleague.com/premierleague/photos/players/110x140/p{code}.png',
             f'https://images.fantasy.premierleague.com/premierleague/photos/players/250x250/p{code}.png',
         )
         photo = next((v for url in urls if (v := _image_from_url(session,url)) is not None),None)
