@@ -2779,8 +2779,8 @@
     ]
   },
   "2026-11-25:task2:afternoon-rotation": {
-    "at": "2026-11-25T18:34:26.732378+00:00",
-    "attempts": 1,
+    "at": "2026-11-25T20:00:35.355168+00:00",
+    "attempts": 2,
     "edition": "afternoon-rotation",
     "reason": "RequiredInput: No verified bookmaker win probabilities for the market outlook",
     "status": "held",
@@ -2817,6 +2817,22 @@
     "telegram_message_ids": [
       605,
       606
+    ]
+  },
+  "2026-11-25:task2:scouting-rotation": {
+    "at": "2026-11-25T20:00:35.355168+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "scouting-rotation",
+    "file": "outbox/2026-11-25-scouting-rotation.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:bb08c4f9a9a01aaa5d79",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      610
     ]
   },
   "2026-27:GW10:task1:captaincy-comparison": {
