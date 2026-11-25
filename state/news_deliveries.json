@@ -743,6 +743,19 @@
     "telegram_message_id": 580,
     "telegram_verification_source": "telegram-bot-api"
   },
+  "rss:1602937a0e4f297b51add2dc": {
+    "caption_sha256": "32e0180c7958b56e02c3ca487eefd8958ebffaf394af25839415993b68fa4f50",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575137973828198591",
+    "gameweek": 12,
+    "source": "database.transfermarkt",
+    "source_url": "https://www.transfermarkt.com/transfer-news-live-italian-duo-chase-zirkzee-barcelona-consider-move-for-dortmund-star/view/news/445145",
+    "telegram_delivered_at": "2026-11-25T13:15:57.128848+00:00",
+    "telegram_message_id": 602,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-25T13:15:47.497387+00:00"
+  },
   "rss:20e5c9dd6be27a94b3fa6e11": {
     "caption_sha256": "4987579edcf0999832ed1c24ca787b98ed49aa0fc5c612658787d52bc03f5e6a",
     "delivered": true,
