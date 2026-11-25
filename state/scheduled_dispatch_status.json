@@ -1,6 +1,6 @@
 {
-  "at": "2026-11-25T03:59:04.095631+00:00",
-  "eastern_at": "2026-11-24T22:59:04.095631-05:00",
+  "at": "2026-11-25T03:59:42.216084+00:00",
+  "eastern_at": "2026-11-24T22:59:42.216084-05:00",
   "last_news_scan": "2026-11-24T12:25:19.348187+00:00",
   "new_posts": 0,
   "next_due": {
@@ -36,7 +36,7 @@
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "58 * * * *",
+  "scheduled_cron": "13 * * * *",
   "source_error": null,
   "status": "deferred-telegram-spacing",
   "telegram_messages_sent": 0
