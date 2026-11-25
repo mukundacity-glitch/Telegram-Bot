@@ -22,6 +22,8 @@ CATALOG = (
 
 
 def graphic_key(edition, weekday, series_day=None, page=0):
+    if edition == 'gw-key-players':
+        return 'custom-outbox'  # reuse 55/55; leave existing news stamping untouched
     if edition == 'goalkeeper-striker-watch' and page == 1:
         return 'striker-watch'
     if edition in ('afternoon-rotation', 'scouting-rotation') and weekday:
