@@ -3035,6 +3035,22 @@
       589
     ]
   },
+  "2026-27:GW11:task2:weekly-analysis:day2": {
+    "at": "2026-11-25T17:48:51.558287+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "weekly-analysis",
+    "file": "outbox/2026-11-25-weekly-analysis.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:task2:weekly-analysis:42315da4862d55ce1cdc",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "status": "delivered",
+    "task": "task2",
+    "telegram_message_ids": [
+      609
+    ]
+  },
   "2026-27:GW12:task1:chance-creators": {
     "at": "2026-11-25T11:30:01.554296+00:00",
     "attempts": 3,
