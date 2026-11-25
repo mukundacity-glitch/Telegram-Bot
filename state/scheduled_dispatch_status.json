@@ -1,11 +1,11 @@
 {
-  "at": "2026-11-25T10:30:03.033644+00:00",
-  "eastern_at": "2026-11-25T05:30:03.033644-05:00",
+  "at": "2026-11-25T11:15:50.599271+00:00",
+  "eastern_at": "2026-11-25T06:15:50.599271-05:00",
   "last_news_scan": "2026-11-25T10:30:03.033644+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
-    "post": "chance-creators",
-    "trigger": "2026-11-25T06:00:00-05:00"
+    "post": "elite",
+    "trigger": "2026-11-25T06:30:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [
@@ -24,20 +24,16 @@
     {
       "post": "final-gameweek-news",
       "trigger": "2026-11-27T15:00:00+00:00"
-    },
-    {
-      "post": "chance-creators",
-      "trigger": "2026-11-25T06:00:00-05:00"
     }
   ],
-  "posts_due": 2,
+  "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 2,
-  "posts_pending_trigger": 5,
+  "posts_generated": 0,
+  "posts_pending_trigger": 4,
   "posts_retried": 0,
-  "posts_retry_pending": 0,
+  "posts_retry_pending": 1,
   "scheduled_cron": "28 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "held",
+  "telegram_messages_sent": 0
 }

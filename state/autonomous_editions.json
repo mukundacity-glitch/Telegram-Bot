@@ -2970,6 +2970,14 @@
       589
     ]
   },
+  "2026-27:GW12:task1:chance-creators": {
+    "at": "2026-11-25T11:15:50.599271+00:00",
+    "attempts": 1,
+    "edition": "chance-creators",
+    "reason": "RequiredInput: Understat did not return structured match data",
+    "status": "held",
+    "task": "task1"
+  },
   "2026-27:GW12:task1:market-trends-next-five": {
     "at": "2026-11-24T16:02:33.012877+00:00",
     "attempts": 1,
