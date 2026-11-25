@@ -1085,6 +1085,11 @@
     "identity": "chatgpt:2026-27:GW12:task1:player-radar-comparison:e62275f9cbe66b28762c",
     "status": "delivered"
   },
+  "2026-11-25-positional-vulnerability.json": {
+    "at": "2026-11-25T20:45:50.637810+00:00",
+    "identity": "chatgpt:2026-27:GW12:task2:positional-vulnerability:51a7a19a5eeb31ef9bb2",
+    "status": "delivered"
+  },
   "2026-11-25-scouting-rotation.json": {
     "at": "2026-11-25T20:00:39.957644+00:00",
     "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:bb08c4f9a9a01aaa5d79",

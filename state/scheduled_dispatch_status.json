@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-25T20:00:35.355168+00:00",
-  "eastern_at": "2026-11-25T15:00:35.355168-05:00",
+  "at": "2026-11-25T20:45:45.929117+00:00",
+  "eastern_at": "2026-11-25T15:45:45.929117-05:00",
   "last_news_scan": "2026-11-25T18:34:26.732378+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "news",
-    "trigger": "2026-11-25T20:45:42.021336+00:00"
+    "trigger": "2026-11-25T21:30:52.679895+00:00"
   },
-  "next_telegram_at": "2026-11-25T20:45:42.021336+00:00",
+  "next_telegram_at": "2026-11-25T21:30:52.679895+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -27,11 +27,11 @@
     }
   ],
   "posts_due": 2,
-  "posts_failed": 0,
+  "posts_failed": 1,
   "posts_generated": 1,
   "posts_pending_trigger": 4,
   "posts_retried": 1,
-  "posts_retry_pending": 1,
+  "posts_retry_pending": 0,
   "scheduled_cron": "28 * * * *",
   "source_error": null,
   "status": "published",
