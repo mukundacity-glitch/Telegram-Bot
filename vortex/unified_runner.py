@@ -232,8 +232,8 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                 else:
                     render_news_card(record, image_path)
                 from .graphic_numbers import stamp
-                stamp(image_path, 'news-rotation-planner' if record.identity.startswith('rotation:')
-                      else 'custom-outbox')
+                if record.identity.startswith('rotation:'):
+                    stamp(image_path, 'news-rotation-planner')
                 record = replace(record, image=image_path)
                 generated = True
             except (RuntimeError, OSError) as exc:
