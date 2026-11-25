@@ -1,8 +1,8 @@
 {
-  "at": "2026-11-25T02:27:22.783298+00:00",
-  "eastern_at": "2026-11-24T21:27:22.783298-05:00",
+  "at": "2026-11-25T02:28:14.976750+00:00",
+  "eastern_at": "2026-11-24T21:28:14.976750-05:00",
   "last_news_scan": "2026-11-24T12:25:19.348187+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
     "post": "vortex-captain",
     "trigger": "2026-11-25T03:12:27.631101+00:00"
@@ -30,14 +30,14 @@
       "trigger": "2026-11-25T06:00:00-05:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 0,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 5,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "28 * * * *",
+  "scheduled_cron": "43 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "deferred-telegram-spacing",
+  "telegram_messages_sent": 0
 }
