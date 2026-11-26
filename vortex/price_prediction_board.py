@@ -296,7 +296,6 @@ def preview():
     inspect(boot)
     print("PRICE CLOCK METADATA:",json.dumps(metadata,default=str)[:5000])
     (folder/"clock-audit.json").write_text(json.dumps(metadata,indent=2),encoding="utf-8")
-    (folder/"ownership-snapshot.json").write_text(json.dumps(ownership_snapshot(snapshot)),encoding="utf-8")
     update_at, refreshed_at=official_clock(boot,datetime.now(timezone.utc))
     # Use the same response for ranking and timing, preventing mixed-feed data.
     from dataclasses import replace
@@ -314,6 +313,8 @@ def preview():
     board["clock_source"]="game_config.settings.price_change_deadlines[0]"
     board["ownership_baseline_at"]=prior.get("at") if isinstance(prior,dict) else None
     (folder/"ownership-snapshot.json").write_text(json.dumps(ownership_snapshot(snapshot)),encoding="utf-8")
+    # Invalidate stale art before replacing evidence; never pair different snapshots.
+    (folder/"graphic-16.png").unlink(missing_ok=True)
     # Save source evidence even if an authentic portrait cannot be fetched.
     (folder/"facts.json").write_text(json.dumps(board,indent=2,ensure_ascii=False),encoding="utf-8")
     (folder/"caption.txt").write_text(board["caption"],encoding="utf-8")
