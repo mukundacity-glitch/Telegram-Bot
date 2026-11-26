@@ -122,6 +122,8 @@
         "url": "https://www.fantasyfootballscout.co.uk/2026/11/26/fpl-gameweek-12-team-news-thursdays-live-injury-updates-2"
       }
     },
-    "sending": true
+    "message": 624,
+    "sending": false,
+    "version": "9ea4e21cc9092bc9f70719ea466c519bc4cd3977a386232859f275c5c41baf25"
   }
 }
