@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-26T02:04:24.894360+00:00",
-  "eastern_at": "2026-11-25T21:04:24.894360-05:00",
+  "at": "2026-11-26T02:48:48.902570+00:00",
+  "eastern_at": "2026-11-25T21:48:48.902570-05:00",
   "last_news_scan": "2026-11-26T00:32:49.307087+00:00",
-  "new_posts": 0,
+  "new_posts": 1,
   "next_due": {
     "post": "news",
-    "trigger": "2026-11-26T02:48:45.133033+00:00"
+    "trigger": "2026-11-26T03:33:52.773482+00:00"
   },
-  "next_telegram_at": "2026-11-26T02:48:45.133033+00:00",
+  "next_telegram_at": "2026-11-26T03:33:52.773482+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -26,14 +26,14 @@
       "trigger": "2026-11-27T15:00:00+00:00"
     }
   ],
-  "posts_due": 0,
+  "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 0,
+  "posts_generated": 1,
   "posts_pending_trigger": 4,
   "posts_retried": 0,
-  "posts_retry_pending": 0,
+  "posts_retry_pending": 1,
   "scheduled_cron": "0,30 0-3,9-23 * * *",
   "source_error": null,
-  "status": "deferred-telegram-spacing",
-  "telegram_messages_sent": 0
+  "status": "published",
+  "telegram_messages_sent": 1
 }

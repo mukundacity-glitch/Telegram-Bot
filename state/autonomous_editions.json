@@ -2746,6 +2746,21 @@
       597
     ]
   },
+  "2026-11-25:price_changes:confirmed-price-changes:GW12": {
+    "at": "2026-11-26T02:48:48.902570+00:00",
+    "attempts": 1,
+    "caption_hashtags": 4,
+    "edition": "confirmed-price-changes",
+    "file": "outbox/2026-11-25-confirmed-price-changes.json",
+    "generated": true,
+    "identity": "chatgpt:2026-27:GW12:price_changes:confirmed-price-changes:c556a41590cc16ecbb5e",
+    "pages": 1,
+    "publisher_exit_code": 0,
+    "reason": "Telegram delivery incomplete or publishing window closed",
+    "status": "queued-or-partial",
+    "task": "price_changes",
+    "telegram_message_ids": []
+  },
   "2026-11-25:task1:form-minutes-targets:GW12": {
     "at": "2026-11-25T14:01:40.937901+00:00",
     "attempts": 1,
