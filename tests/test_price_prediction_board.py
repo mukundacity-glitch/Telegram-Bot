@@ -62,5 +62,21 @@ def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
         im.verify()
     assert len(CATALOG)==55
     monkeypatch.setattr("vortex.matchup._image_from_url",lambda *a:None)
-    with pytest.raises(RequiredInput,match="Authentic"):
-        render_board(s,board,tmp_path/"missing.png",e.session)
+    missing = render_board(s,board,tmp_path/"missing.png",e.session)
+    assert missing.exists()
+    monkeypatch.setattr("vortex.matchup._media",lambda *a:None)
+    with pytest.raises(RequiredInput,match="Authentic club crest"):
+        render_board(s,board,tmp_path/"missing-crest.png",e.session)
+
+def test_ownership_trend_is_measured_not_guessed(world):
+    from vortex.price_prediction_board import ownership_snapshot, ownership_trend
+    s,e=populated(world)
+    p=s.players[0]
+    previous=ownership_snapshot(s)
+    previous["at"]=(s.fetched_at-timedelta(hours=1)).isoformat()
+    previous["players"][str(p["code"])]=5.0
+    p["selected_by_percent"]="5.2"
+    assert ownership_trend(s,previous,p)==0.2
+    assert ownership_trend(s,None,p) is None
+    previous["at"]=(s.fetched_at-timedelta(days=2)).isoformat()
+    assert ownership_trend(s,previous,p) is None
