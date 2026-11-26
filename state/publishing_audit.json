@@ -10704,6 +10704,29 @@
     "status": "RUN",
     "timestamp": "2026-11-26T17:28:59.270375+00:00"
   },
+  "2026-11-26T18:14:07.851451+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-26T18:14:25.023648+00:00",
+        "confirmed_telegram_message_ids": [
+          630
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-27:GW12:task1:value-board",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          630
+        ],
+        "timestamp": "2026-11-26T18:14:07.851451+00:00",
+        "trigger": "2026-11-26T17:00:00+00:00",
+        "type": "value-board"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-26T18:14:07.851451+00:00"
+  },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
     "completed_at": "2026-11-16T00:10:53.617078+00:00",
@@ -10984,6 +11007,23 @@
     "timestamp": "2026-11-24T16:02:33.012877+00:00",
     "trigger": "2026-11-23T20:00:00+00:00",
     "type": "market-trends-next-five"
+  },
+  "2026-27:GW12:task1:value-board": {
+    "attempts": 1,
+    "completed_at": "2026-11-26T18:14:25.023648+00:00",
+    "confirmed_telegram_message_ids": [
+      630
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-27:GW12:task1:value-board",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      630
+    ],
+    "timestamp": "2026-11-26T18:14:07.851451+00:00",
+    "trigger": "2026-11-26T17:00:00+00:00",
+    "type": "value-board"
   },
   "gw10-four-midfielders.json": {
     "attempts": 0,
