@@ -2238,6 +2238,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-25T23:47:16.692038+00:00"
   },
+  "2026-11-26:daily_stats": {
+    "caption_sha256": "64ab74fd8f4e5063fc71daa342b4e0618e49f5d83d29aa9e181c683b8e5a774d",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575506726055182536",
+    "gameweek": 12,
+    "source": "Official FPL",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-26T13:41:14.739281+00:00",
+    "telegram_message_id": 623,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-26T13:41:10.437315+00:00"
+  },
   "2026-11-26:elite": {
     "caption_sha256": "e1d2ea3bc7132e1782b78da8fd2b3c059c1367289038b43255a6fc24164bf167",
     "delivered": true,
