@@ -1,0 +1,66 @@
+from dataclasses import replace
+from datetime import datetime, timezone, timedelta
+from PIL import Image
+import pytest
+from test_autonomous_engine import world
+from vortex.price_prediction_board import build_board, next_published_update, render_board, select_rows
+from vortex.graphic_numbers import stamp, CATALOG
+from vortex.editorial_inputs import RequiredInput
+
+def populated(world):
+    s,now,e,_=world
+    players=[]
+    for i,p in enumerate(s.players[:20]):
+        pct = 70+i if i<10 else -(70+i)
+        players.append(dict(p,price_change_calibrating=False,can_transact=True,
+            price_change_percent=str(pct-1),price_change_hourly_rate=i*17,
+            price_change_projections=[dict(offset=1,projected_percent="999",likelihood=5),
+                dict(offset=0,projected_percent=str(pct),likelihood=3 if pct>0 else -3)]))
+    return replace(s,players=players),e
+
+def test_ranked_16_players_and_no_links(world):
+    s,e=populated(world)
+    board=build_board(s,next_published_update(s.fetched_at))
+    assert len(board["rises"])==len(board["falls"])==8
+    assert [r["projected"] for r in board["rises"]]==list(range(79,71,-1))
+    assert [r["projected"] for r in board["falls"]]==list(range(-89,-81))
+    assert len({r["player"]["id"] for side in ("rises","falls") for r in board[side]})==16
+    assert "http" not in board["caption"]
+    assert board["caption"].count("#")==6
+
+def test_locked_and_uncalibrated_excluded(world):
+    s,e=populated(world)
+    update=next_published_update(s.fetched_at)
+    s.players[9]["price_change_calibrating"]=True
+    s.players[19]["price_change_locked_until"]=(update+timedelta(hours=1)).isoformat()
+    a,b=select_rows(s,update)
+    assert a[0]["projected"]==78 and b[0]["projected"]==-88
+    s.players[8]["price_change_projections"]=[]
+    s.players[7]["price_change_projections"]=[]
+    with pytest.raises(RequiredInput):
+        select_rows(s,update)
+
+def test_published_clock_tracks_uk_dst():
+    winter=datetime(2026,11,26,18,tzinfo=timezone.utc)
+    summer=datetime(2027,5,1,18,tzinfo=timezone.utc)
+    assert next_published_update(winter).astimezone(timezone.utc).hour==0
+    assert next_published_update(summer).astimezone(timezone.utc).hour==23
+
+def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
+    s,e=populated(world)
+    board=build_board(s,next_published_update(s.fetched_at))
+    monkeypatch.setenv("FPL_TELEGRAM_HANDLE","@FPLVortexDailyBot")
+    monkeypatch.setenv("FPL_DISCORD_HANDLE","@fplvortex")
+    asset=Image.new("RGBA",(100,140),"#5a9ac9")
+    monkeypatch.setattr("vortex.matchup._image_from_url",lambda *a:asset)
+    monkeypatch.setattr("vortex.matchup._media",lambda *a:asset)
+    p=render_board(s,board,tmp_path/"price.png",e.session)
+    stamp(p,"confirmed-price-changes")
+    with Image.open(p) as im:
+        assert im.size==(1080,1920)
+        assert im.info["vortex_graphic_number"]=="16/55"
+        im.verify()
+    assert len(CATALOG)==55
+    monkeypatch.setattr("vortex.matchup._image_from_url",lambda *a:None)
+    with pytest.raises(RequiredInput,match="Authentic"):
+        render_board(s,board,tmp_path/"missing.png",e.session)
