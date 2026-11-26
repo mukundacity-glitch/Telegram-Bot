@@ -334,6 +334,9 @@ def render(plan,snapshot,now,output,session=None):
                      'rotation_planner', 'fdr_grid'):
         from .evening_intelligence_render import render_evening
         return [render_evening(plan, output, client)]
+    if plan.kind == 'price_prediction':
+        from .price_prediction_board import render_board
+        return [render_board(snapshot, plan.extra, output, client)]
     if plan.kind == 'gw_key_players':
         from .gw_key_players import render_key_players
         return [render_key_players(plan,snapshot,output,client)]

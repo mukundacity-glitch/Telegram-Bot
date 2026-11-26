@@ -55,7 +55,7 @@ def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
     monkeypatch.setattr("vortex.matchup._image_from_url",lambda *a:asset)
     monkeypatch.setattr("vortex.matchup._media",lambda *a:asset)
     p=render_board(s,board,tmp_path/"price.png",e.session)
-    stamp(p,"confirmed-price-changes")
+    stamp(p,"price-prediction")
     with Image.open(p) as im:
         assert im.size==(1080,1920)
         assert im.info["vortex_graphic_number"]=="16/55"
@@ -97,3 +97,37 @@ def test_official_clock_uses_exact_feed_not_midnight():
     data["game_config"]["settings"]["price_change_deadlines"][0]="2026-11-26T20:59:00Z"
     with pytest.raises(RequiredInput):
         official_clock(data,now)
+
+def test_legacy_edition_retired_and_only_new_catalog_entry():
+    from vortex.autonomous_schedule import RETIRED_EDITIONS, SLOTS
+    from vortex.graphic_numbers import CATALOG
+    assert 'confirmed-price-changes' in RETIRED_EDITIONS
+    assert all(s.task != 'price_changes' for s in SLOTS)
+    assert CATALOG[15] == 'price-prediction'
+    assert 'confirmed-price-changes' not in CATALOG
+    assert len(CATALOG) == 55
+
+
+def test_dynamic_clock_respects_existing_schedule(world, monkeypatch):
+    from dataclasses import replace
+    from vortex.price_prediction_board import opportunity
+    from vortex.autonomous_schedule import publication_key
+    from vortex import autonomous_schedule, schedule
+    s, _, _, _ = world
+    now = datetime(2026,11,26,23,0,tzinfo=timezone.utc)
+    config={"settings":{"price_change_deadlines":["2026-11-27T00:00:00Z"]},
+            "status":{"price_change_last_updated":"2026-11-26T22:55:00Z"}}
+    s=replace(s,fetched_at=now,game_config=config)
+    monkeypatch.setattr(autonomous_schedule,'special_triggers',lambda *_: [])
+    slot,info=opportunity(s,now,{})
+    assert slot is None and info['status']=='skipped-schedule-conflict'
+    assert 'review' in {name for name,_ in info['conflicts']}
+    monkeypatch.setattr(autonomous_schedule,'SLOTS',())
+    monkeypatch.setattr(schedule,'SLOT_HOURS',{})
+    slot,info=opportunity(s,now,{})
+    assert info['status']=='due'
+    assert slot.price_update_at=='2026-11-27T00:00:00+00:00'
+    key=publication_key(slot,now,12,'2026-27')
+    assert publication_key(slot,now,13,'2026-27')==key
+    assert opportunity(s,now,{key:{'status':'delivered'}})[1]['status']=='closed'
+    assert opportunity(s,now+timedelta(minutes=15),{})[1]['status']=='missed-window'

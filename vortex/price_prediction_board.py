@@ -10,7 +10,7 @@ from math import isfinite
 from .editorial_inputs import RequiredInput
 
 UK = ZoneInfo("Europe/London")
-EDITION = "confirmed-price-changes"  # stable graphic ID 16/55, not a new catalog entry
+EDITION = "price-prediction"  # replaces retired confirmed-price-changes at 16/55
 SOURCE = "https://fantasy.premierleague.com/api/bootstrap-static/"
 
 
@@ -44,6 +44,55 @@ def official_clock(bootstrap, now):
         return parsed[0], updated
     except (KeyError,TypeError,ValueError,AttributeError,OverflowError) as exc:
         raise RequiredInput("Official FPL price clock unavailable or stale") from exc
+
+
+PRICE_LEAD = timedelta(hours=1)
+PRICE_GRACE = timedelta(minutes=15)
+
+
+def opportunity(snapshot, now, state):
+    """Find the API-clock opportunity without moving any other editorial slot."""
+    from .autonomous_schedule import ET, SLOTS, Slot, eligible_on, slot_start, special_triggers, publication_key, season_id, retryable
+    from .schedule import SLOT_HOURS
+    from .publishing_window import allowed
+    from .telegram_spacing import GAP
+    update, updated = official_clock({"game_config": snapshot.game_config}, max(now, snapshot.fetched_at))
+    update = update.astimezone(timezone.utc)
+    trigger = update - PRICE_LEAD
+    local = trigger.astimezone(ET)
+    slot = Slot("price_changes", EDITION, local.hour, local.minute,
+                display_name="Price Change Prediction", price_update_at=update.isoformat())
+    key = publication_key(slot, now, snapshot.gameweek(), season_id(snapshot, now))
+    info = {"post": EDITION, "trigger": trigger.isoformat(), "update_at": update.isoformat(),
+            "source_updated_at": updated.isoformat()}
+    if not retryable(state.get(key, {})):
+        return None, {**info, "status": "closed"}
+    if now >= trigger + PRICE_GRACE:
+        return None, {**info, "status": "missed-window"}
+    if not allowed(trigger):
+        return None, {**info, "status": "outside-publishing-window"}
+    # User's agreed skip rule: protect scheduled posts during the three-hour
+    # lead-up, including the target and the Telegram spacing interval after it.
+    start, end = update - timedelta(hours=3), trigger + GAP
+    conflicts = []
+    for offset in (-1, 0, 1):
+        day = local + timedelta(days=offset)
+        for other in SLOTS:
+            if eligible_on(other, day):
+                at = slot_start(other, day)
+                if start <= at < end:
+                    conflicts.append((other.edition, at.isoformat()))
+        for name, (hour, minute) in SLOT_HOURS.items():
+            at = day.replace(hour=hour, minute=minute, second=0, microsecond=0)
+            if start <= at < end:
+                conflicts.append((name, at.isoformat()))
+    for other, at in special_triggers(snapshot, now):
+        if at is not None and start <= at < end:
+            if retryable(state.get(publication_key(other, now, snapshot.gameweek(), season_id(snapshot, now)), {})):
+                conflicts.append((other.edition, at.isoformat()))
+    if conflicts:
+        return None, {**info, "status": "skipped-schedule-conflict", "conflicts": sorted(set(conflicts))}
+    return slot, {**info, "status": "due" if now >= trigger else "waiting"}
 
 
 def numeric(value):

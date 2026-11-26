@@ -115,6 +115,7 @@ def run(now=None, cron=None, snapshot=None):
     pending = []
     last_news_scan = previous_report.get("last_news_scan")
     source_error = None
+    price_status = {'status': 'unavailable'}
     try:
         snapshot = snapshot or retry_source(collect_snapshot)
     except (RuntimeError, ValueError, OSError) as exc:
@@ -130,6 +131,28 @@ def run(now=None, cron=None, snapshot=None):
     else:
         gw, season = snapshot.gameweek(), season_id(snapshot, now)
         evidence = Evidence(snapshot, now)
+        if snapshot.game_config is not None:
+            from .price_prediction_board import opportunity, ownership_snapshot
+            from .editorial_inputs import RequiredInput
+            try:
+                price_slot, price_status = opportunity(snapshot, now, editorial)
+                prior = editorial.get('_price_ownership', {})
+                evidence.price_previous = prior
+                try:
+                    elapsed = snapshot.fetched_at - datetime.fromisoformat(prior['at'])
+                except (KeyError, ValueError, TypeError):
+                    elapsed = timedelta(hours=27)
+                if elapsed >= timedelta(minutes=5):
+                    editorial['_price_ownership'] = ownership_snapshot(snapshot)
+                    write_state(STATE_FILE, editorial)
+                if price_slot is not None:
+                    trigger = datetime.fromisoformat(price_status['trigger'])
+                    if trigger > now:
+                        pending.append(upcoming_editorial(price_slot, trigger))
+                    else:
+                        jobs.append((trigger, 'editorial', publication_key(price_slot, now, gw, season), price_slot))
+            except RequiredInput as exc:
+                price_status = {'status': 'unavailable', 'reason': str(exc)}
         for slot in catchup_slots(now, editorial, gw, season, limit=None):
             jobs.append((slot_start(slot, now), 'editorial',
                          publication_key(slot, now, gw, season), slot))
@@ -173,6 +196,12 @@ def run(now=None, cron=None, snapshot=None):
             deferred = (upcoming_editorial(payload, until) if lane == 'editorial' else
                         {'post': payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()})
             break
+        if lane == 'editorial' and payload.edition == 'price-prediction':
+            from .price_prediction_board import PRICE_GRACE
+            live_now = now if injected_time else datetime.now(timezone.utc)
+            if live_now >= trigger + PRICE_GRACE:
+                price_status['status'] = 'missed-window'
+                continue
         post = payload.edition if lane == 'editorial' else payload[0] if lane == 'legacy' else key
         row = {'post_id': key, 'type': post, 'trigger': trigger.isoformat(),
                'timestamp': run_key, 'status': 'PENDING', 'attempts': 0}
@@ -280,6 +309,7 @@ def run(now=None, cron=None, snapshot=None):
         'posts_failed': counts['FAILED'], 'posts_retry_pending': counts['RETRY'],
         'posts_pending_trigger': len(pending), 'pending_triggers': pending, 'next_due': deferred or min(upcoming, key=lambda item: datetime.fromisoformat(item['trigger'])),
         'source_error': source_error,
+        'price_prediction': price_status,
         'last_news_scan': last_news_scan,
         'next_telegram_at': deferred['trigger'] if deferred else None,
     }

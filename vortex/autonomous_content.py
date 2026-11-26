@@ -11,7 +11,7 @@ import requests
 from .chatgpt_task_editions import _make_cards, _report
 from .content import Content
 from .autonomous_schedule import ET
-from .fpl import score, choose_news, confirmed_price_changes
+from .fpl import score, choose_news
 from .publication_rules import five_gw_fixtures, player_metrics
 from .recommendations import get_history, completed_rounds
 from .editorial_inputs import RequiredInput, NoUpdate, verified_feed, eo_for
@@ -143,6 +143,18 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'confirmed-price-changes':
+        raise RequiredInput('Legacy confirmed price-change edition is retired')
+    if name == 'price-prediction':
+        from .price_prediction_board import official_clock, build_board
+        update, updated = official_clock({"game_config": snapshot.game_config}, max(now, snapshot.fetched_at))
+        if not slot.price_update_at or datetime.fromisoformat(slot.price_update_at) != update:
+            raise RequiredInput('Price update changed after scheduling')
+        board = build_board(snapshot, update, getattr(e, 'price_previous', None))
+        board['source_updated_at'] = updated.isoformat()
+        return Plan(slot.task, name, 'PRICE CHANGE PREDICTION', board['caption'], gw,
+                    [r['player'] for r in board['rises'] + board['falls']], ['RISE']*8+['FALL']*8,
+                    kind='price_prediction', extra=board)
     if name == 'gw-key-players':
         from .gw_key_players import build_key_players
         return build_key_players(slot, snapshot, now, e)
@@ -305,13 +317,6 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         if not players: raise NoUpdate('No new verified actionable availability story')
         labels=['MONITOR' if p.get('status')!='a' else 'HOLD' for p in players]
         title='FINAL GAMEWEEK AVAILABILITY' if name=='final-gameweek-news' else 'AVAILABILITY & TRANSFER DECISIONS' if name.startswith('availability') else 'TRANSFER MARKET • TEAM NEWS'
-    elif name == 'confirmed-price-changes':
-        changes = confirmed_price_changes(snapshot, prices or {})
-        if not changes: raise NoUpdate('No confirmed price movement versus the persisted official baseline')
-        players=[p for p, _, _ in changes[:4]];labels=['MONITOR']*len(players)
-        title='CONFIRMED FPL PRICE CHANGES'
-        moves={p['id']:f'£{old/10:.1f}m → £{new/10:.1f}m' for p,old,new in changes}
-        return Plan(slot.task,name,title,caption(snapshot,title,players),gw,players,labels,extra={'price_moves':moves})
     elif name == 'market-verdict':
         feed=verified_feed(snapshot,now,e.session,payload=model)
         safe=e.qualified(30)

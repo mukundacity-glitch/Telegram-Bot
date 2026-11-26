@@ -16,6 +16,7 @@ class Slot:
     series_day: int | None = None
     weekday: int | None = None
     display_name: str = ""
+    price_update_at: str | None = None
 
 
 RETIRED_EDITIONS = {
@@ -23,6 +24,7 @@ RETIRED_EDITIONS = {
     "market-verdict", "transfer_suggestions", "transfer-suggestions",
     "four-team-targets", "transfer-desk", "transfer",
     "availability-transfer-decisions", "rank-booster", "fixture-targets",
+    "confirmed-price-changes",
     "start_bench", "squad-surgery", "transfer-market-team-news", "four-midfielders", "captain-differential",
 }
 
@@ -85,7 +87,6 @@ SLOTS = (
     CHIP_STRATEGY,
     *EVENING_WATCH_SLOTS,
     Slot('three_daily', 'vortex-captain', 21, 0),
-    Slot('price_changes', 'confirmed-price-changes', 21, 45),
     TOP_100K_OWNERSHIP,
 )
 # Editorial slots are TIME-based catch-up slots, not bound to one cron string:
@@ -118,6 +119,10 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.edition == 'price-prediction':
+        if not slot.price_update_at:
+            raise ValueError('Verified price update timestamp required')
+        return f'{season}:price_changes:price-prediction:{slot.price_update_at}'
     if slot.weekday is not None or slot in (AFTERNOON, SCOUTING, VULNERABILITY):
         return f'{now.astimezone(ET).date()}:{slot.task}:{slot.edition}'
     if slot.series_day is not None:
