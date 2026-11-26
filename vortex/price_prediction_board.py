@@ -3,7 +3,7 @@
 Official FPL bootstrap-static predictions, not confirmed price changes.
 The caller supplies the verified next update time; never infer it from a player's data.
 """
-from datetime import datetime, timedelta, time
+from datetime import datetime, timedelta, time, timezone
 from zoneinfo import ZoneInfo
 from pathlib import Path
 from math import isfinite
@@ -32,7 +32,31 @@ def numeric(value):
     return n if isfinite(n) else None
 
 
-def select_rows(snapshot, update_at):
+def ownership_snapshot(snapshot):
+    """Aggregate public ownership only; no authenticated manager data."""
+    return {"at": snapshot.fetched_at.isoformat(), "players": {
+        str(p["code"]): numeric(p.get("selected_by_percent"))
+        for p in snapshot.players if type(p.get("code")) is int
+    }}
+
+
+def ownership_trend(snapshot, previous, player):
+    """Measured percentage-point delta over the recorded interval, not a forecast."""
+    if not isinstance(previous, dict) or not isinstance(previous.get("players"), dict):
+        return None
+    try:
+        at = datetime.fromisoformat(previous["at"])
+        elapsed = snapshot.fetched_at - at
+    except (KeyError, TypeError, ValueError):
+        return None
+    if not timedelta(minutes=5) <= elapsed <= timedelta(hours=26):
+        return None
+    old = numeric(previous["players"].get(str(player.get("code"))))
+    current = numeric(player.get("selected_by_percent"))
+    return round(current-old, 2) if old is not None and current is not None else None
+
+
+def select_rows(snapshot, update_at, previous=None):
     if update_at.tzinfo is None:
         raise ValueError("timezone-aware update required")
     rows = []
@@ -69,7 +93,8 @@ def select_rows(snapshot, update_at):
         seen.add(pid)
         rows.append(dict(player=p, projected=projected, progress=progress, likelihood=band,
                          hourly_rate=numeric(p.get("price_change_hourly_rate")),
-                         owned=numeric(p.get("selected_by_percent"))))
+                         owned=numeric(p.get("selected_by_percent")),
+                         ownership_delta=ownership_trend(snapshot, previous, p)))
     rises = sorted((r for r in rows if r["projected"] > 0), key=lambda r:(-r["projected"],-r["progress"],r["player"]["id"]))[:8]
     falls = sorted((r for r in rows if r["projected"] < 0), key=lambda r:(r["projected"],r["progress"],r["player"]["id"]))[:8]
     if len(rises) != 8 or len(falls) != 8:
@@ -77,10 +102,10 @@ def select_rows(snapshot, update_at):
     return rises, falls
 
 
-def build_board(snapshot, update_at):
+def build_board(snapshot, update_at, previous=None):
     if update_at <= snapshot.fetched_at:
         raise RequiredInput("Prediction update is not in the future")
-    rises, falls = select_rows(snapshot, update_at)
+    rises, falls = select_rows(snapshot, update_at, previous)
     label = update_at.astimezone(UK).strftime("%H:%M UK")
     caption = (
         "⏱ PRICE CHANGE PREDICTION\n"
@@ -149,12 +174,21 @@ def render_board(snapshot, board, output, session):
                 f"https://resources.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
                 f"https://resources.premierleague.com/premierleague/photos/players/110x140/p{code}.png",
                 f"https://images.fantasy.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
+                f"https://resources.premierleague.pulselive.com/photos/players/250x250/p{code}.png",
+                f"https://resources.premierleague.pulselive.com/photos/players/110x140/p{code}.png",
             )
             photo=next((img for url in urls if (img:=_image_from_url(session,url)) is not None),None)
             crest=_media(session,snapshot.team_code(p),"crest",cache)
-            if photo is None or crest is None:
-                raise RequiredInput(f"Authentic photo/crest missing for official player {p['id']}")
-            contain(canvas,photo,(x+16,y+34,104,116),bottom=True,crop_alpha=True)
+            if crest is None:
+                raise RequiredInput(f"Authentic club crest missing for official player {p['id']}")
+            if photo is None:
+                # Do not silently omit or substitute a top-ranked player.
+                # Authentic club crest and explicit missing-photo notice only.
+                contain(canvas,crest,(x+30,y+49,76,76))
+                text(d,"NO PHOTO",x+13,y+130,108,14,muted,12,center=True)
+                print(f"::warning::Authentic portrait unavailable for FPL player {p['id']}; rank retained")
+            else:
+                contain(canvas,photo,(x+16,y+34,104,116),bottom=True,crop_alpha=True)
             contain(canvas,crest,(x+18,y+9,32,32))
             text(d,f"{rank:02d}",x+74,y+8,36,18,accent,15,center=True)
             name=snapshot.name(p)
@@ -172,14 +206,15 @@ def render_board(snapshot, board, output, session):
             d.rounded_rectangle((bx,by,bx+n,by+7),radius=3,fill=accent)
             # Raw hourly-rate unit is not independently documented: do not mislabel it
             # as verified net transfers or manufacture an ownership trend.
-            text(d,"RATE "+fmt(row["hourly_rate"],0,True),x+126,y+137,168,18,muted,12)
+            text(d,"RATE/HR "+fmt(row["hourly_rate"],0,True),x+126,y+137,168,18,muted,12)
             text(d,"OWN "+fmt(row["owned"],suffix="%"),x+305,y+137,187,18,muted,12)
             status="THRESHOLD MET" if abs(row["projected"])>=100 else "BELOW THRESHOLD"
-            text(d,status,x+126,y+156,width-146,14,accent,11)
+            text(d,status,x+126,y+156,170,14,accent,11)
+            text(d,"OWN Δ "+fmt(row.get("ownership_delta"),2,True,"pp"),x+305,y+156,187,14,muted,11)
     side(board["rises"],18,green,"TOP 8 RISE WATCH")
     side(board["falls"],550,red,"TOP 8 FALL WATCH")
     d.rectangle((0,1770,W,H),fill=navy)
-    text(d,"±100% IS THE PRICE-MOVE THRESHOLD • NOT A GUARANTEE",20,1778,1040,22,gold,16,center=True)
+    text(d,"±100% THRESHOLD • NOT GUARANTEED • OWN Δ VS PRIOR SNAPSHOT",20,1778,1040,22,gold,16,center=True)
     d.line((25,1812,1055,1812),fill=gold,width=2)
     telegram,discord=required_footer_handles()
     youtube,x_handle=extra_social_handles()
@@ -217,9 +252,28 @@ def preview():
     from .graphic_numbers import stamp
     session=retrying_session()
     snapshot=collect_snapshot(session)
-    board=build_board(snapshot,next_published_update(snapshot.fetched_at))
     folder=Path("output/price-prediction-preview")
     folder.mkdir(parents=True,exist_ok=True)
+    # Audit public clock metadata without exporting player lists or any private data.
+    from .fpl import _fetch_json
+    boot=_fetch_json(session,"bootstrap-static/")
+    metadata={}
+    def inspect(obj,path=""):
+        if not isinstance(obj,dict):
+            return
+        for key,value in obj.items():
+            if key in ("elements","events","teams"):
+                continue
+            location=f"{path}.{key}" if path else key
+            if any(word in key.lower() for word in ("price_change","price_update","cutoff","countdown")):
+                metadata[location]=value
+            elif isinstance(value,dict):
+                inspect(value,location)
+    inspect(boot)
+    print("PRICE CLOCK METADATA:",json.dumps(metadata,default=str)[:5000])
+    (folder/"clock-audit.json").write_text(json.dumps(metadata,indent=2),encoding="utf-8")
+    (folder/"ownership-snapshot.json").write_text(json.dumps(ownership_snapshot(snapshot)),encoding="utf-8")
+    board=build_board(snapshot,next_published_update(snapshot.fetched_at))
     # Save source evidence even if an authentic portrait cannot be fetched.
     (folder/"facts.json").write_text(json.dumps(board,indent=2,ensure_ascii=False),encoding="utf-8")
     (folder/"caption.txt").write_text(board["caption"],encoding="utf-8")
