@@ -1105,6 +1105,11 @@
     "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:bb08c4f9a9a01aaa5d79",
     "status": "delivered"
   },
+  "2026-11-25-wednesday-predicted-xg.json": {
+    "at": "2026-11-26T01:18:07.828224+00:00",
+    "identity": "chatgpt:2026-27:GW12:task2:wednesday-predicted-xg:463e7c2a09aaaaf6577d",
+    "status": "delivered"
+  },
   "2026-11-25-weekly-analysis.json": {
     "at": "2026-11-25T17:48:53.303425+00:00",
     "identity": "chatgpt:2026-27:GW12:task2:weekly-analysis:42315da4862d55ce1cdc",

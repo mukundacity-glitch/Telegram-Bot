@@ -9497,6 +9497,24 @@
     "trigger": "2026-11-25T14:30:00-05:00",
     "type": "scouting-rotation"
   },
+  "2026-11-25:task2:wednesday-predicted-xg": {
+    "attempts": 1,
+    "completed_at": "2026-11-26T01:18:10.597586+00:00",
+    "confirmed_telegram_message_ids": [
+      617
+    ],
+    "display_name": "Predicted Team xG",
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-25:task2:wednesday-predicted-xg",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      617
+    ],
+    "timestamp": "2026-11-26T01:18:00.774826+00:00",
+    "trigger": "2026-11-25T20:00:00-05:00",
+    "type": "wednesday-predicted-xg"
+  },
   "2026-11-25T00:56:22.301798+00:00": {
     "posts": [
       {
@@ -10192,6 +10210,30 @@
     "timestamp": "2026-11-26T00:32:49.307087+00:00",
     "trigger": "2026-11-26T00:32:49.307087+00:00",
     "type": "2026-11-26T00:32:49.307087+00:00:news"
+  },
+  "2026-11-26T01:18:00.774826+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-26T01:18:10.597586+00:00",
+        "confirmed_telegram_message_ids": [
+          617
+        ],
+        "display_name": "Predicted Team xG",
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-25:task2:wednesday-predicted-xg",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          617
+        ],
+        "timestamp": "2026-11-26T01:18:00.774826+00:00",
+        "trigger": "2026-11-25T20:00:00-05:00",
+        "type": "wednesday-predicted-xg"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-26T01:18:00.774826+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
