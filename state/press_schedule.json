@@ -98,7 +98,30 @@
     "version": "8f92ce3abf58e3ad0c622512582e3542a402ad56a8cc91df09236f0283df58db"
   },
   "2026:12": {
-    "checked": "2026-11-26T13:41:08.116047+00:00",
-    "days": {}
+    "checked": "2026-11-26T14:26:47.306136+00:00",
+    "days": {
+      "2026-11-26": {
+        "slots": [
+          [
+            "13:30",
+            "Alonso"
+          ],
+          [
+            "13:30",
+            "Farke"
+          ],
+          [
+            "13:30",
+            "Lampard"
+          ],
+          [
+            "14:00",
+            "Andrews"
+          ]
+        ],
+        "url": "https://www.fantasyfootballscout.co.uk/2026/11/26/fpl-gameweek-12-team-news-thursdays-live-injury-updates-2"
+      }
+    },
+    "sending": true
   }
 }
