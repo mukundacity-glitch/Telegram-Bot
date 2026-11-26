@@ -131,7 +131,7 @@ def run(now=None, cron=None, snapshot=None):
     else:
         gw, season = snapshot.gameweek(), season_id(snapshot, now)
         evidence = Evidence(snapshot, now)
-        if snapshot.game_config is not None:
+        if getattr(snapshot, 'game_config', None) is not None:
             from .price_prediction_board import opportunity, ownership_snapshot
             from .editorial_inputs import RequiredInput
             try:
