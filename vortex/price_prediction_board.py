@@ -22,6 +22,30 @@ def next_published_update(now):
     return datetime.combine(local.date() + timedelta(days=1), time.min, tzinfo=UK)
 
 
+def official_clock(bootstrap, now):
+    """Exact live API paths verified in the 26 Nov 2026 read-only audit."""
+    if now.tzinfo is None:
+        raise ValueError("timezone-aware time required")
+    try:
+        config=bootstrap["game_config"]
+        deadlines=config["settings"]["price_change_deadlines"]
+        updated=datetime.fromisoformat(config["status"]["price_change_last_updated"].replace("Z","+00:00"))
+        if updated.tzinfo is None or not -timedelta(minutes=2) <= now-updated <= timedelta(minutes=45):
+            raise ValueError("stale prediction timestamp")
+        if not isinstance(deadlines,list) or not deadlines:
+            raise ValueError("missing deadlines")
+        parsed=[datetime.fromisoformat(v.replace("Z","+00:00")) for v in deadlines]
+        if any(v.tzinfo is None for v in parsed):
+            raise ValueError("timezone missing")
+        # Offset zero refers to the first source deadline, not the next guessed midnight.
+        # Do not advance past a stale first deadline while keeping old projections.
+        if parsed != sorted(set(parsed)) or not timedelta(0) < parsed[0]-now <= timedelta(hours=26):
+            raise ValueError("invalid/stale first deadline")
+        return parsed[0], updated
+    except (KeyError,TypeError,ValueError,AttributeError,OverflowError) as exc:
+        raise RequiredInput("Official FPL price clock unavailable or stale") from exc
+
+
 def numeric(value):
     if isinstance(value, bool):
         return None
@@ -273,7 +297,23 @@ def preview():
     print("PRICE CLOCK METADATA:",json.dumps(metadata,default=str)[:5000])
     (folder/"clock-audit.json").write_text(json.dumps(metadata,indent=2),encoding="utf-8")
     (folder/"ownership-snapshot.json").write_text(json.dumps(ownership_snapshot(snapshot)),encoding="utf-8")
-    board=build_board(snapshot,next_published_update(snapshot.fetched_at))
+    update_at, refreshed_at=official_clock(boot,datetime.now(timezone.utc))
+    # Use the same response for ranking and timing, preventing mixed-feed data.
+    from dataclasses import replace
+    snapshot=replace(snapshot,players=boot["elements"],fetched_at=datetime.now(timezone.utc))
+    import os
+    prior_path=os.getenv("PRICE_PREVIEW_PRIOR")
+    prior=None
+    if prior_path:
+        try:
+            prior=json.loads(Path(prior_path).read_text(encoding="utf-8"))
+        except (OSError,ValueError):
+            pass
+    board=build_board(snapshot,update_at,prior)
+    board["source_updated_at"]=refreshed_at.isoformat()
+    board["clock_source"]="game_config.settings.price_change_deadlines[0]"
+    board["ownership_baseline_at"]=prior.get("at") if isinstance(prior,dict) else None
+    (folder/"ownership-snapshot.json").write_text(json.dumps(ownership_snapshot(snapshot)),encoding="utf-8")
     # Save source evidence even if an authentic portrait cannot be fetched.
     (folder/"facts.json").write_text(json.dumps(board,indent=2,ensure_ascii=False),encoding="utf-8")
     (folder/"caption.txt").write_text(board["caption"],encoding="utf-8")
