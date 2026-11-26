@@ -1,8 +1,7 @@
 """Evidence-only, one 20-club press roundup per official FPL gameweek.
 
-The existing GitHub Actions heartbeat calls this module. It checks club sources
-at most once an hour, starts 72h before the first fixture, publishes around
-six hours before kickoff and edits the SAME Telegram message before deadline.
+The GitHub Actions heartbeat discovers conference times and checks club sources.
+It publishes after the last relevant presser, then edits before the FPL deadline.
 No fixtures or managerial quotes are hard-coded.
 """
 from concurrent.futures import ThreadPoolExecutor
@@ -11,18 +10,23 @@ from hashlib import sha256
 from pathlib import Path
 import json
 import os
+import re
 import subprocess
+from unicodedata import normalize
 from zoneinfo import ZoneInfo
 
-from .press_sources import lookup
+from .press_sources import ALIASES, lookup
+from .press_schedule import conference_times, discover
 from .press_graphic import render
 
 UK = ZoneInfo("Europe/London")
 NEPAL = ZoneInfo("Asia/Kathmandu")
 ROOT = Path(__file__).resolve().parents[1]
 STATE = ROOT / "state/matchday_press.json"
-SCOUTING_LEAD = timedelta(hours=72)
-SEND_LEAD = timedelta(hours=6)
+SCOUTING_LEAD = timedelta(days=5)
+TIMETABLE_INTERVAL = timedelta(minutes=15)
+REPORT_GRACE = timedelta(minutes=30)
+DEADLINE_FALLBACK = timedelta(minutes=90)
 CHECK_INTERVAL = timedelta(hours=1)
 MIN_CLUBS = 4
 
@@ -40,7 +44,7 @@ def matchdays(snapshot, now):
     for event in sorted(snapshot.events, key=lambda e: e.get("id", 999)):
         gw = event.get("id")
         deadline_text = event.get("deadline_time")
-        if type(gw) is not int or not 1 <= gw <= 38 or not deadline_text:
+        if type(gw) is not int or not 1 <= gw <= 38 or not deadline_text or event.get("finished"):
             continue
         deadline = clock(deadline_text)
         if not now < deadline:
@@ -59,8 +63,8 @@ def matchdays(snapshot, now):
         for f in fixtures:
             h, a = f.get("team_h"), f.get("team_a")
             if h in snapshot.teams and a in snapshot.teams:
-                pairs[str(h)] = a
-                pairs[str(a)] = h
+                pairs.setdefault(str(h), a)
+                pairs.setdefault(str(a), h)
         if not pairs:
             continue
         local = first.astimezone(UK)
@@ -73,21 +77,24 @@ def matchdays(snapshot, now):
 
 
 def caption_for(day, names, facts, now):
-    """Exactly five Telegram lines, with clickable official-club source names."""
+    """Exactly five Telegram lines, with clickable sources for each club."""
+    coverage = f"{len(facts)}/{len(names)} clubs: verified pre-match reports"
+    if len(facts) < len(names):
+        coverage += "; others awaiting evidence"
     lines = [
         f"GW{day['gw']} | FPL VORTEX PRESS CONFERENCE | {day['season']}/{str(day['season']+1)[-2:]}",
-        f"{len(facts)}/{len(names)} clubs: verified pre-match reports; others awaiting evidence",
+        coverage,
         "Fantasy deadline: " + day["deadline"].astimezone(NEPAL).strftime("%a %d %b, %I:%M %p NPT"),
-        "Club sources: ",
+        "Report sources: ",
         f"#FPL #FPLVORTEX #GW{day['gw']}",
     ]
     entities = []
     for key in sorted(facts, key=lambda k: names[k]):
         name = names[key]
-        proposed = lines[3] + (" · " if lines[3] != "Club sources: " else "") + name
+        proposed = lines[3] + (" · " if lines[3] != "Report sources: " else "") + name
         if len(proposed) > 700:
             break
-        if lines[3] != "Club sources: ":
+        if lines[3] != "Report sources: ":
             lines[3] += " · "
         offset = len("\n".join(lines[:3]).encode("utf-16-le")) // 2 + 1 + len(lines[3].encode("utf-16-le")) // 2
         lines[3] += name
@@ -125,8 +132,58 @@ def _retire_incorrect_legacy_post(state, write, client_factory, now):
     print("Incorrect GW11 press graphic removed from its original Telegram message.")
 
 
+def _club_key(name):
+    return re.sub(r"[^a-z0-9]", "", normalize("NFKD", name).casefold())
+
+
+def _scout_reports(timetable, day, names, now):
+    """Use only the named clubs in the GW-specific Premier League summary."""
+    aliases = {
+        _club_key(alias): key
+        for key, name in names.items()
+        for alias in (name, *ALIASES.get(name, ()), *SCOUT_CLUB_ALIASES.get(name, ()))
+    }
+    reports = {}
+    for date, source in sorted(timetable.items()):
+        source_day = clock(f"{date}T00:00:00").replace(tzinfo=UK)
+        if source_day > now:
+            continue
+        for line in source.get("summary", ()):
+            club, separator, news = line.partition(":")
+            key = aliases.get(_club_key(club))
+            if not (key and separator and news.strip()) or re.search(
+                    r"coming soon|updates? to follow|awaiting|^\s*(?:tbc|tbd)\b", news, re.I):
+                continue
+            reports[key] = {
+                "club": names[key], "opponent": day["pairs"][key],
+                "news": news.strip(), "url": source["url"],
+                "published": source_day.isoformat(), "source": "Fantasy Football Scout",
+            }
+    return reports
+
+
+SCOUT_CLUB_ALIASES = {
+    "Brighton": ("Brighton and Hove Albion", "Brighton & Hove Albion"),
+    "Coventry": ("Coventry City",), "Hull": ("Hull City",),
+    "Ipswich": ("Ipswich Town",), "Leeds": ("Leeds United",),
+    "Newcastle": ("Newcastle United",), "West Ham": ("West Ham United",),
+    "Wolves": ("Wolverhampton Wanderers",), "Leicester": ("Leicester City",),
+    "Spurs": ("Tottenham Hotspur",),
+}
+
+
+def report_target(deadline, times, clubs):
+    if not times:
+        return deadline - DEADLINE_FALLBACK
+    last = times[-1]
+    ready = max(last, min(last + REPORT_GRACE, deadline - REPORT_GRACE))
+    if len(times) < clubs:
+        ready = max(ready, deadline - DEADLINE_FALLBACK)
+    return ready
+
+
 def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=render,
-        live_clock=None):
+        live_clock=None, schedule_lookup=discover):
     from .publishing_window import press_delivery
     from .telegram_spacing import blocked_until
 
@@ -137,12 +194,33 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
         if row.get("sending"):
             continue  # Uncertain acceptance: do not blindly send a duplicate.
         pairs = day["pairs"]
+        names = {key: snapshot.teams[int(key)]["name"] for key in sorted(pairs, key=int)}
+        checked_schedule = row.get("schedule_checked")
+        if not checked_schedule or now - clock(checked_schedule) >= TIMETABLE_INTERVAL:
+            timetable = row.setdefault("timetable", {})
+            try:
+                timetable.update(schedule_lookup(day["gw"], now, day["deadline"]))
+            except (OSError, ValueError, RuntimeError) as error:
+                print(f"GW{day['gw']} press timetable source: {type(error).__name__}")
+            row["schedule_checked"] = now.isoformat()
+            write(STATE, state)
+        timetable = row.get("timetable", {})
+        times = conference_times(timetable, day["deadline"])
+        target = report_target(day["deadline"], times, len(pairs))
+        if not row.get("message") and now < target:
+            print(f"GW{day['gw']} press roundup waiting until {target.isoformat()} "
+                  f"({len(times)}/{len(pairs)} published conference times)")
         facts = {str(k): v for k, v in row.get("facts", {}).items()
                  if str(k) in pairs and isinstance(v, dict)
-                 and v.get("opponent") == pairs[str(k)] and v.get("news") and v.get("url")}
+                 and v.get("opponent") == pairs[str(k)] and v.get("news") and v.get("url")
+                 and v.get("published")}
+        scout = _scout_reports(timetable, day, names, now)
         checked = row.get("checked")
         due = not checked or now - clock(checked) >= CHECK_INTERVAL
-        if due:
+        # Deliver on time if the live league roundup already has enough evidence.
+        # Slower official-club lookups can enrich the existing message afterward.
+        ready_from_scout = not row.get("message") and now >= target and len(scout) >= min(MIN_CLUBS, len(pairs))
+        if due and not ready_from_scout:
             def find(key):
                 club = snapshot.teams[int(key)]
                 opponent = snapshot.teams[pairs[key]]
@@ -167,22 +245,32 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
                     facts[key] = {**item, "opponent": pairs[key]}
             row.update(facts=facts, checked=now.isoformat())
             write(STATE, state)
+        combined = dict(scout)
+        for key, item in facts.items():
+            secondary = scout.get(key)
+            if not secondary or clock(item["published"]).astimezone(UK).date() >= clock(secondary["published"]).date():
+                combined[key] = item
         current = live_clock() if live_clock else now
         if current >= day["deadline"] or current >= day["first"]:
             continue  # News published after the FPL deadline is not transfer advice.
-        if current < day["first"] - SEND_LEAD:
+        if not row.get("message") and current < target:
             continue
-        if len(facts) < min(MIN_CLUBS, len(pairs)):
+        if len(combined) < min(MIN_CLUBS, len(pairs)):
+            print(f"GW{day['gw']} press roundup awaiting verified reports ({len(combined)}/{len(pairs)})")
             continue  # Do not publish a 1/20 pseudo-roundup or fabricate quotes.
         version = sha256(json.dumps(
-            [day["first"].isoformat(), day["deadline"].isoformat(), pairs, facts],
+            [day["first"].isoformat(), day["deadline"].isoformat(), pairs,
+             {key: (fact["news"], fact.get("quote"), fact["url"])
+              for key, fact in combined.items()}],
             sort_keys=True, ensure_ascii=False).encode()).hexdigest()
         if row.get("version") == version:
             continue
-        names = {key: snapshot.teams[int(key)]["name"] for key in sorted(pairs, key=int)}
         path = ROOT / "outbox/assets" / f"press-GW{day['gw']}-{day['season']}.png"
-        render_image(path, day, names, facts, False, teams=snapshot.teams)
-        caption, entities = caption_for(day, names, facts, current)
+        render_image(path, day, names, combined, False, teams=snapshot.teams)
+        caption, entities = caption_for(day, names, combined, current)
+        current = live_clock() if live_clock else now
+        if current >= day["deadline"]:
+            continue
         if len(caption) > 1024:
             raise ValueError("Press roundup caption exceeds Telegram size")
         if not row.get("message") and blocked_until(current):
@@ -194,6 +282,11 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
             if os.getenv("GITHUB_ACTIONS") == "true":
                 subprocess.run(["bash", ".github/scripts/persist-publishing-receipts.sh"],
                                cwd=ROOT, check=True)
+        if live_clock and live_clock() >= day["deadline"]:
+            if not row.get("message"):
+                row.pop("sending", None)
+                write(STATE, state)
+            continue
         try:
             with press_delivery():
                 if row.get("message"):
