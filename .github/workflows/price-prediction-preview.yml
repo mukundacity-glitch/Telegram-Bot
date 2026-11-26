@@ -1,0 +1,32 @@
+name: Price prediction 16 read-only preview
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+jobs:
+  preview:
+    if: github.head_ref == 'feature/price-prediction-board-step1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+      FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+      FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
+      FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest -q tests/test_price_prediction_board.py
+      - run: python -m vortex.price_prediction_board
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: price-prediction-16-preview
+          path: output/price-prediction-preview/
+          if-no-files-found: warn
+          retention-days: 7
