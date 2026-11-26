@@ -1105,6 +1105,11 @@
     "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:bb08c4f9a9a01aaa5d79",
     "status": "delivered"
   },
+  "2026-11-25-vortex-captain.json": {
+    "at": "2026-11-26T02:03:42.750694+00:00",
+    "identity": "chatgpt:2026-27:GW12:three_daily:vortex-captain:5fa3465b24a52b5ac71b",
+    "status": "delivered"
+  },
   "2026-11-25-wednesday-predicted-xg.json": {
     "at": "2026-11-26T01:18:07.828224+00:00",
     "identity": "chatgpt:2026-27:GW12:task2:wednesday-predicted-xg:463e7c2a09aaaaf6577d",

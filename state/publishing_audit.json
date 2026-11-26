@@ -9515,6 +9515,23 @@
     "trigger": "2026-11-25T20:00:00-05:00",
     "type": "wednesday-predicted-xg"
   },
+  "2026-11-25:three_daily:vortex-captain:GW12": {
+    "attempts": 1,
+    "completed_at": "2026-11-26T02:03:45.810573+00:00",
+    "confirmed_telegram_message_ids": [
+      618
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-25:three_daily:vortex-captain:GW12",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      618
+    ],
+    "timestamp": "2026-11-26T02:03:40.482642+00:00",
+    "trigger": "2026-11-25T21:00:00-05:00",
+    "type": "vortex-captain"
+  },
   "2026-11-25T00:56:22.301798+00:00": {
     "posts": [
       {
@@ -10234,6 +10251,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-26T01:18:00.774826+00:00"
+  },
+  "2026-11-26T02:03:40.482642+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-26T02:03:45.810573+00:00",
+        "confirmed_telegram_message_ids": [
+          618
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-25:three_daily:vortex-captain:GW12",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          618
+        ],
+        "timestamp": "2026-11-26T02:03:40.482642+00:00",
+        "trigger": "2026-11-25T21:00:00-05:00",
+        "type": "vortex-captain"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-26T02:03:40.482642+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
