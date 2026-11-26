@@ -1,18 +1,14 @@
 {
-  "at": "2026-11-26T16:43:01.097261+00:00",
-  "eastern_at": "2026-11-26T11:43:01.097261-05:00",
+  "at": "2026-11-26T17:28:59.270375+00:00",
+  "eastern_at": "2026-11-26T12:28:59.270375-05:00",
   "last_news_scan": "2026-11-26T11:15:57.539679+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "player-radar-comparison",
-    "trigger": "2026-11-26T17:28:13.390221+00:00"
+    "post": "value-board",
+    "trigger": "2026-11-26T18:14:03.102269+00:00"
   },
-  "next_telegram_at": "2026-11-26T17:28:13.390221+00:00",
+  "next_telegram_at": "2026-11-26T18:14:03.102269+00:00",
   "pending_triggers": [
-    {
-      "post": "value-board",
-      "trigger": "2026-11-26T17:00:00+00:00"
-    },
     {
       "post": "start-bench-board",
       "trigger": "2026-11-27T12:00:00+00:00"
@@ -25,7 +21,7 @@
   "posts_due": 1,
   "posts_failed": 0,
   "posts_generated": 1,
-  "posts_pending_trigger": 3,
+  "posts_pending_trigger": 2,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
@@ -40,7 +36,7 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-26T16:35:13.516707+00:00",
+    "source_updated_at": "2026-11-26T17:20:13.634327+00:00",
     "status": "skipped-schedule-conflict",
     "trigger": "2026-11-26T23:00:00+00:00",
     "update_at": "2026-11-27T00:00:00+00:00"
@@ -48,5 +44,5 @@
   "scheduled_cron": "58 * * * *",
   "source_error": null,
   "status": "published",
-  "telegram_messages_sent": 2
+  "telegram_messages_sent": 1
 }
