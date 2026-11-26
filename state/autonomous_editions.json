@@ -2747,8 +2747,8 @@
     ]
   },
   "2026-11-25:price_changes:confirmed-price-changes:GW12": {
-    "at": "2026-11-26T03:34:32.635929+00:00",
-    "attempts": 2,
+    "at": "2026-11-26T03:35:32.948720+00:00",
+    "attempts": 3,
     "caption_hashtags": 4,
     "edition": "confirmed-price-changes",
     "file": "outbox/2026-11-25-confirmed-price-changes.json",
