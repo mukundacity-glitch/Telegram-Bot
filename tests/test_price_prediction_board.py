@@ -131,3 +131,24 @@ def test_dynamic_clock_respects_existing_schedule(world, monkeypatch):
     assert publication_key(slot,now,13,'2026-27')==key
     assert opportunity(s,now,{key:{'status':'delivered'}})[1]['status']=='closed'
     assert opportunity(s,now+timedelta(minutes=15),{})[1]['status']=='missed-window'
+
+def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_path):
+    from test_chatgpt_outbox import record, NOW
+    from vortex.outbox import validate, retired_record
+    item=record(tmp_path)
+    item.update(task='price_changes', edition='confirmed-price-changes')
+    with pytest.raises(ValueError,match='Retired'):
+        validate(item,tmp_path,NOW)
+    item['edition']='old-price-report'
+    assert retired_record(item)
+    with pytest.raises(ValueError,match='Retired'):
+        validate(item,tmp_path,NOW)
+    update=NOW+timedelta(hours=1)
+    item.update(edition='price-prediction', deadline=update.isoformat(),
+                facts={'update_at':update.isoformat(),'source_updated_at':NOW.isoformat(),'projected':99})
+    first=validate(item,tmp_path,NOW)[0]
+    item['facts']['projected']=101
+    item['gameweek']=11
+    assert validate(item,tmp_path,NOW)[0]==first
+    with pytest.raises(ValueError,match='one-hour'):
+        validate(item,tmp_path,NOW+timedelta(minutes=15))
