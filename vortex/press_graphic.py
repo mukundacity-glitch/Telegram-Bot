@@ -101,7 +101,7 @@ def render(path, day, names, facts, locked, teams=None):
         key=lambda kv: (kv[1].get("published", ""), names.get(kv[0], "")),
         reverse=True,
     )
-    # Each card is a real official-club paragraph. No sample quotes carried over.
+    # Each card is a verified, attributed report. No sample quotes carried over.
     for index, (key, fact) in enumerate(
         [(key, fact) for key, fact in ordered if fact.get("news")][:8]
     ):
@@ -133,7 +133,7 @@ def render(path, day, names, facts, locked, teams=None):
         note(701, 811+i*47, f"{names[key]}: {fact['news']}")
     if not ordered:
         note(701, 811, "No source-verified team news is available.")
-    note(701, 906, f"{len(facts)}/{len(names)} official club reports verified.")
+    note(701, 906, f"{len(facts)}/{len(names)} club reports verified.")
 
     crests = {}
     if teams:
@@ -169,7 +169,7 @@ def render(path, day, names, facts, locked, teams=None):
         else:
             text(1379, y+5, names[key][:1], 20, 17, GOLD, True)
         text(1409, y+3, names[key], 217, 21, WHITE, True)
-        summary = (fact.get("quote") or fact.get("news")) if fact else "Awaiting official report"
+        summary = (fact.get("quote") or fact.get("news")) if fact else "Awaiting verified report"
         text(1635, y+5, summary, 253, 18, CYAN if fact else MUTED, bool(fact))
 
     with Image.open(ASSETS / "footer.jpg") as raw:
