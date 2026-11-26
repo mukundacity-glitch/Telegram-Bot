@@ -10256,6 +10256,23 @@
     "trigger": "2026-11-26T08:30:00-05:00",
     "type": "form-minutes-targets"
   },
+  "2026-11-26:task2:defender-watch:GW12": {
+    "attempts": 1,
+    "completed_at": "2026-11-26T15:57:56.465321+00:00",
+    "confirmed_telegram_message_ids": [
+      626
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-26:task2:defender-watch:GW12",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      626
+    ],
+    "timestamp": "2026-11-26T15:57:46.013287+00:00",
+    "trigger": "2026-11-26T09:30:00-05:00",
+    "type": "defender-watch"
+  },
   "2026-11-26T00:32:49.307087+00:00": {
     "posts": [
       {
@@ -10579,6 +10596,29 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-26T15:11:58.604210+00:00"
+  },
+  "2026-11-26T15:57:46.013287+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-26T15:57:56.465321+00:00",
+        "confirmed_telegram_message_ids": [
+          626
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-26:task2:defender-watch:GW12",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          626
+        ],
+        "timestamp": "2026-11-26T15:57:46.013287+00:00",
+        "trigger": "2026-11-26T09:30:00-05:00",
+        "type": "defender-watch"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-26T15:57:46.013287+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,

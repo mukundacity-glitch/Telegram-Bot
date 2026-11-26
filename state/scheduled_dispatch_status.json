@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-26T15:11:58.604210+00:00",
-  "eastern_at": "2026-11-26T10:11:58.604210-05:00",
+  "at": "2026-11-26T15:57:46.013287+00:00",
+  "eastern_at": "2026-11-26T10:57:46.013287-05:00",
   "last_news_scan": "2026-11-26T11:15:57.539679+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "defender-watch",
-    "trigger": "2026-11-26T15:57:08.834417+00:00"
+    "post": "goalkeeper-striker-watch",
+    "trigger": "2026-11-26T16:42:55.795876+00:00"
   },
-  "next_telegram_at": "2026-11-26T15:57:08.834417+00:00",
+  "next_telegram_at": "2026-11-26T16:42:55.795876+00:00",
   "pending_triggers": [
     {
       "post": "value-board",
@@ -40,7 +40,7 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-26T15:05:12.942570+00:00",
+    "source_updated_at": "2026-11-26T15:50:14.027374+00:00",
     "status": "skipped-schedule-conflict",
     "trigger": "2026-11-26T23:00:00+00:00",
     "update_at": "2026-11-27T00:00:00+00:00"
