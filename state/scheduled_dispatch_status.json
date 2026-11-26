@@ -1,14 +1,14 @@
 {
-  "at": "2026-11-26T00:32:49.307087+00:00",
-  "eastern_at": "2026-11-25T19:32:49.307087-05:00",
+  "at": "2026-11-26T00:33:36.752115+00:00",
+  "eastern_at": "2026-11-25T19:33:36.752115-05:00",
   "last_news_scan": "2026-11-26T00:32:49.307087+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
     "display_name": "Predicted Team xG",
     "post": "wednesday-predicted-xg",
     "trigger": "2026-11-25T20:00:00-05:00"
   },
-  "next_telegram_at": null,
+  "next_telegram_at": "2026-11-26T01:17:57.680901+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -27,14 +27,14 @@
       "trigger": "2026-11-27T15:00:00+00:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 0,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 4,
   "posts_retried": 0,
   "posts_retry_pending": 0,
-  "scheduled_cron": "58 * * * *",
+  "scheduled_cron": "13 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "deferred-telegram-spacing",
+  "telegram_messages_sent": 0
 }
