@@ -20,6 +20,7 @@ class FplSnapshot:
     live: dict[str, Any] | None = None
     total_entries: int | None = None
     chips: tuple[dict[str, Any], ...] = ()
+    game_config: dict[str, Any] | None = None
 
     def gameweek(self) -> int:
         """Next FPL transfer-deadline event, never a live/locked gameweek."""
@@ -103,7 +104,8 @@ def collect_snapshot(session: requests.Session | None = None) -> FplSnapshot:
         raise ValueError("FPL gameweek list is empty")
     return FplSnapshot(players, teams, events, fixtures, datetime.now(timezone.utc),
                        total_entries=bootstrap.get("total_players"),
-                       chips=tuple(bootstrap.get("chips") or ()))
+                       chips=tuple(bootstrap.get("chips") or ()),
+                       game_config=bootstrap.get("game_config"))
 
 
 def current_players(snapshot: FplSnapshot, min_minutes: int = 1) -> list[dict[str, Any]]:

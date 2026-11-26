@@ -1,0 +1,43 @@
+name: Price prediction 16 read-only preview
+on:
+  pull_request:
+    branches: [main]
+permissions:
+  contents: read
+  actions: read
+jobs:
+  preview:
+    if: github.head_ref == 'feature/price-prediction-board-step1'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+      FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+      FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
+      FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+          cache: pip
+      - run: python -m pip install -r requirements.txt
+      - run: python -m pytest -q tests/test_price_prediction_board.py
+      - name: Retrieve previous successful read-only ownership snapshot
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          prior=$(gh run list --repo "$GITHUB_REPOSITORY" --workflow price-prediction-preview.yml --branch feature/price-prediction-board-step1 --status success --limit 1 --json databaseId --jq '.[0].databaseId // empty' || true)
+          if [ -n "$prior" ]; then
+            gh run download "$prior" --repo "$GITHUB_REPOSITORY" --name price-prediction-16-preview --dir "$RUNNER_TEMP/price-prior" || true
+          fi
+      - run: python -m vortex.price_prediction_board
+        env:
+          PRICE_PREVIEW_PRIOR: ${{ runner.temp }}/price-prior/ownership-snapshot.json
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: price-prediction-16-preview
+          path: output/price-prediction-preview/
+          if-no-files-found: warn
+          retention-days: 7

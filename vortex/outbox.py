@@ -27,10 +27,19 @@ STATUS = STATE / 'chatgpt_outbox_status.json'
 TASKS = {'task1', 'task2', 'three_daily', 'press_news', 'price_changes'}
 
 
+def retired_record(record):
+    # Reject legacy/custom submissions from the former price_changes task,
+    # regardless of which edition slug an external generator supplied.
+    return (record.get('edition') in RETIRED_EDITIONS
+            or (record.get('task') == 'price_changes' and record.get('edition') != 'price-prediction'))
+
+
 def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
     now = now or datetime.now(timezone.utc)
     if record.get('task') not in TASKS or not re.fullmatch(r'[a-z0-9-]+', str(record.get('edition', ''))):
         raise ValueError('Unrecognized task or edition')
+    if record.get('edition') == 'confirmed-price-changes' or (record.get('task') == 'price_changes' and record.get('edition') != 'price-prediction'):
+        raise ValueError('Retired edition cannot publish')
     gw = record.get('gameweek')
     if type(gw) is not int or not 1 <= gw <= 38 or not re.fullmatch(r'20\d{2}-\d{2}', record.get('season', '')):
         raise ValueError('Verified season and GW required')
@@ -43,6 +52,18 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
     deadline = datetime.fromisoformat(record['deadline'].replace('Z', '+00:00'))
     if deadline.tzinfo is None or (record.get('pre_deadline', True) and deadline <= now):
         raise ValueError('Actionable deadline has elapsed')
+    if record.get('edition') == 'price-prediction':
+        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE
+        if record.get('task') != 'price_changes' or allow_outside_window or not deadline-PRICE_LEAD <= now < deadline-PRICE_LEAD+PRICE_GRACE:
+            raise ValueError('Price prediction outside its verified one-hour lead window')
+        if not deadline-PRICE_LEAD <= publish_at < deadline-PRICE_LEAD+PRICE_GRACE:
+            raise ValueError('Invalid price prediction publication time')
+        facts = record.get('facts') or {}
+        if datetime.fromisoformat(facts['update_at']) != deadline:
+            raise ValueError('Price prediction deadline mismatch')
+        updated = datetime.fromisoformat(facts['source_updated_at'])
+        if updated.tzinfo is None or not -timedelta(minutes=2) <= now-updated <= timedelta(minutes=45):
+            raise ValueError('Price prediction source stale')
     if not record.get('qa_passed') or not record.get('sources'):
         raise ValueError('Graphic QA and source evidence are required')
     caption = str(record.get('caption', ''))
@@ -70,6 +91,9 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
         resolved.append(path)
     version = digest.hexdigest()[:20]
     identity = f"chatgpt:{record['season']}:GW{gw}:{record['task']}:{record['edition']}:{version}"
+    if record.get('edition') == 'price-prediction':
+        # One publication per update even if forecasts or the current GW change.
+        identity = f"chatgpt:{record['season']}:price_changes:price-prediction:{deadline.astimezone(timezone.utc).isoformat()}"
     return identity, resolved, publish_at
 
 
@@ -78,7 +102,7 @@ def queued_files(now):
     for file in sorted(QUEUE.glob('*.json')):
         try:
             row = json.loads(file.read_text())
-            if row.get('edition') in RETIRED_EDITIONS:
+            if retired_record(row) or row.get('edition') == 'price-prediction':
                 continue
             due = datetime.fromisoformat(row['publish_at'].replace('Z', '+00:00'))
             if due.tzinfo and due <= now:
@@ -107,7 +131,7 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
         previous = status.get(file.name, {})
         try:
             record = json.loads(file.read_text())
-            if record.get('edition') in RETIRED_EDITIONS:
+            if retired_record(record):
                 continue
             identity, images, due = validate(record, root=ROOT, now=now,
                                              allow_outside_window=manual)

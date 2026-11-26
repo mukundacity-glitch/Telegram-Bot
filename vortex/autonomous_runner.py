@@ -34,6 +34,9 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
+    if plan.kind == 'price_prediction':
+        return {'edition': plan.edition, 'update_at': plan.extra['update_at'],
+                'source_updated_at': plan.extra['source_updated_at'], 'board': canonical(plan.extra)}
     if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'chip_strategy'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
@@ -64,6 +67,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS) and deadline is not None:
         close = datetime.combine(day, datetime.min.time(), tzinfo=ET)
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
+    if plan.kind == 'price_prediction':
+        deadline = datetime.fromisoformat(plan.extra['update_at'])
     if deadline is None or deadline <= datetime.now(timezone.utc):
         raise RuntimeError('Verified next deadline elapsed during rendering')
     season=season_id(snapshot,now)
@@ -77,7 +82,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                 'https://fantasy.premierleague.com/api/bootstrap-static/',
                 'https://fantasy.premierleague.com/api/fixtures/']+[
                 f"https://fantasy.premierleague.com/api/element-summary/{p['id']}/" for p in plan.players
-                if plan.kind not in ('wildcard', 'positional_vulnerability', 'chip_strategy')]+(
+                if plan.kind not in ('wildcard', 'positional_vulnerability', 'chip_strategy', 'price_prediction')]+(
                     ['https://github.com/olbauday/FPL-Core-Insights',
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.kind != 'wildcard' and plan.extra and plan.extra.get('model') else []),
@@ -85,7 +90,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     if recurring:
         record['facts']['publication_date'] = day.isoformat()
     if not manual and not audit:
-        safe_caption = verified_caption(plan.title, plan.caption)
+        safe_caption = plan.caption if plan.kind == 'price_prediction' else verified_caption(plan.title, plan.caption)
         if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation', 'passing-creators'):
             safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
             if len(safe_caption.splitlines()) != 5:
@@ -115,6 +120,8 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     now=now or datetime.now(timezone.utc)
     if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition, PASSING_CREATORS.edition, *(s.edition for s in EVENING_WATCH_SLOTS), *(s.edition for s in SATURDAY_BOARDS)):
         raise ValueError('This post is available through the due queue only')
+    if edition == 'price-prediction':
+        raise ValueError('Price prediction is available only through the API-clock due queue')
     if edition in RETIRED_EDITIONS:
         raise ValueError('This edition has been retired')
     if manual and edition in ('afternoon-rotation', 'scouting-rotation'):
@@ -158,6 +165,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         # at the price slot instead of being absorbed by an earlier hourly run.
         write_state(STATE/'prices.json',price_snapshot(snapshot))
     for slot in slots:
+        if slot.edition in RETIRED_EDITIONS:
+            continue
+        if slot.edition == 'price-prediction' and (audit or manual or selected_slots is None):
+            raise ValueError('Price prediction is available only through the API-clock due queue')
         key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
         if not audit and state.get(key,{}).get('status') in ('delivered','already-delivered'):
             rows.append({'edition':slot.edition,'status':'already-delivered'});continue
@@ -199,7 +210,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 file,identity,count=stage(slot,snapshot,now,evidence,model=model,prices=previous_prices,
                                           research=research,audit=audit,manual=manual)
             row={'task':slot.task,'edition':slot.edition,'status':'generated','file':str(file.relative_to(ROOT)),
-                 'identity':identity,'pages':count,'caption_hashtags':4,'generated':True}
+                 'identity':identity,'pages':count,'caption_hashtags':6 if slot.edition == 'price-prediction' else 4,'generated':True}
             if not audit:
                 known_ids = {item.get('telegram_message_id') for item in before.values()}
                 row['attempts'] = prior.get('attempts', 0) + 1

@@ -8,7 +8,7 @@ CATALOG = (
     'goalkeeper-striker-watch', 'player-radar-comparison', 'weekly-analysis',
     'afternoon-rotation', 'scouting-rotation', 'positional-vulnerability',
     'review', 'sell', 'verified-press-availability', 'monday-defence-watch',
-    'vortex-captain', 'confirmed-price-changes', 'wildcard-draft', 'chip-strategy',
+    'vortex-captain', 'price-prediction', 'wildcard-draft', 'chip-strategy',
     'passing-creators', 'bonus-magnets', 'top-100k-ownership', 'assists-vs-shot-quality',
     'chance-creators', 'captaincy-comparison', 'value-board', 'start-bench-board',
     'final-gameweek-news', 'market-trends-next-five', 'striker-watch',
