@@ -38,7 +38,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
     now = now or datetime.now(timezone.utc)
     if record.get('task') not in TASKS or not re.fullmatch(r'[a-z0-9-]+', str(record.get('edition', ''))):
         raise ValueError('Unrecognized task or edition')
-    if retired_record(record):
+    if record.get('edition') == 'confirmed-price-changes' or (record.get('task') == 'price_changes' and record.get('edition') != 'price-prediction'):
         raise ValueError('Retired edition cannot publish')
     gw = record.get('gameweek')
     if type(gw) is not int or not 1 <= gw <= 38 or not re.fullmatch(r'20\d{2}-\d{2}', record.get('season', '')):
