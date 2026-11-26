@@ -1,0 +1,180 @@
+{
+  "task": "task2",
+  "edition": "weekly-analysis",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "SWEEPER KEEPERS",
+  "caption": "SWEEPER KEEPERS • Weekly Analysis 3/7\nTrafford leads this board with 19 sweeper actions.\nTotals and per 90 • 220+ minutes.\nUse the data to shortlist targets, then verify minutes and fixtures before making a transfer.\n#FPL #GW12 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "weekly-analysis",
+    "extra": {
+      "through": 11,
+      "day": 3,
+      "layout": "rank",
+      "rate_leader": {
+        "name": "Penders",
+        "code": 8,
+        "photo": 549939,
+        "value": 7.0,
+        "detail": "2.21/90  •  285 min  •  4 apps",
+        "minutes": 285,
+        "rate": 2.210526315789474
+      },
+      "rows": [
+        {
+          "name": "Trafford",
+          "code": 2,
+          "photo": 432720,
+          "value": 19.0,
+          "detail": "1.73/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 1.7272727272727273
+        },
+        {
+          "name": "Pickford",
+          "code": 11,
+          "photo": 111234,
+          "value": 13.0,
+          "detail": "1.18/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 1.1818181818181819
+        },
+        {
+          "name": "Suzuki",
+          "code": 7,
+          "photo": 433969,
+          "value": 12.0,
+          "detail": "1.20/90  •  900 min  •  10 apps",
+          "minutes": 900,
+          "rate": 1.2
+        },
+        {
+          "name": "Raya",
+          "code": 3,
+          "photo": 154561,
+          "value": 12.0,
+          "detail": "1.11/90  •  970 min  •  11 apps",
+          "minutes": 970,
+          "rate": 1.1134020618556701
+        },
+        {
+          "name": "Horníček",
+          "code": 4,
+          "photo": 470551,
+          "value": 12.0,
+          "detail": "1.09/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 1.0909090909090908
+        },
+        {
+          "name": "Tzolakis",
+          "code": 88,
+          "photo": 473284,
+          "value": 10.0,
+          "detail": "0.91/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 0.9090909090909091
+        },
+        {
+          "name": "Lammens",
+          "code": 1,
+          "photo": 465247,
+          "value": 9.0,
+          "detail": "0.82/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 0.8181818181818182
+        },
+        {
+          "name": "Verbruggen",
+          "code": 36,
+          "photo": 489639,
+          "value": 9.0,
+          "detail": "0.82/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 0.8181818181818182
+        },
+        {
+          "name": "Kinsky",
+          "code": 6,
+          "photo": 485055,
+          "value": 8.0,
+          "detail": "0.73/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 0.7272727272727273
+        },
+        {
+          "name": "Penders",
+          "code": 8,
+          "photo": 549939,
+          "value": 7.0,
+          "detail": "2.21/90  •  285 min  •  4 apps",
+          "minutes": 285,
+          "rate": 2.210526315789474
+        },
+        {
+          "name": "Kelleher",
+          "code": 94,
+          "photo": 200720,
+          "value": 7.0,
+          "detail": "0.64/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 0.6363636363636364
+        },
+        {
+          "name": "Sels",
+          "code": 17,
+          "photo": 85633,
+          "value": 7.0,
+          "detail": "0.64/90  •  990 min  •  11 apps",
+          "minutes": 990,
+          "rate": 0.6363636363636364
+        }
+      ],
+      "unit": "sweeper actions",
+      "note": "Totals and per 90 • 220+ minutes",
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/playermatchstats.csv"
+      ]
+    },
+    "fixtures": []
+  },
+  "generated_at": "2026-11-26T18:59:25.004848+00:00",
+  "publish_at": "2026-11-26T19:00:11.262049+00:00",
+  "data_retrieval_at_et": "2026-11-26T13:59:25.004848-05:00",
+  "graphic_generated_at_et": "2026-11-26T14:00:12.869035-05:00",
+  "deadline": "2026-11-27T00:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/playermatchstats.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-26-weekly-analysis-GW12.png"
+  ]
+}
