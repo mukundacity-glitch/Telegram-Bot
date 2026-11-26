@@ -78,9 +78,12 @@ def matchdays(snapshot, now):
 
 def caption_for(day, names, facts, now):
     """Exactly five Telegram lines, with clickable sources for each club."""
+    coverage = f"{len(facts)}/{len(names)} clubs: verified pre-match reports"
+    if len(facts) < len(names):
+        coverage += "; others awaiting evidence"
     lines = [
         f"GW{day['gw']} | FPL VORTEX PRESS CONFERENCE | {day['season']}/{str(day['season']+1)[-2:]}",
-        f"{len(facts)}/{len(names)} clubs: verified pre-match reports; others awaiting evidence",
+        coverage,
         "Fantasy deadline: " + day["deadline"].astimezone(NEPAL).strftime("%a %d %b, %I:%M %p NPT"),
         "Report sources: ",
         f"#FPL #FPLVORTEX #GW{day['gw']}",
@@ -165,6 +168,7 @@ SCOUT_CLUB_ALIASES = {
     "Ipswich": ("Ipswich Town",), "Leeds": ("Leeds United",),
     "Newcastle": ("Newcastle United",), "West Ham": ("West Ham United",),
     "Wolves": ("Wolverhampton Wanderers",), "Leicester": ("Leicester City",),
+    "Spurs": ("Tottenham Hotspur",),
 }
 
 

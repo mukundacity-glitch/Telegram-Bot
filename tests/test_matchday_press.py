@@ -144,6 +144,13 @@ class MatchdayPress(TestCase):
         self.assertIn("4/20 clubs", self.sent[0])
         self.assertFalse(self.check(clock(20, 15)))
 
+    def test_maps_full_club_name_to_official_fpl_short_label(self):
+        day = {"pairs": {"1": 2}}
+        schedule = {"2026-11-20": {"url": "https://example.org",
+                    "summary": ["Tottenham Hotspur: Player cleared to return"]}}
+        reports = press._scout_reports(schedule, day, {"1": "Spurs"}, clock(20, 15))
+        self.assertEqual(reports["1"]["club"], "Spurs")
+
     def test_official_pre_match_evidence_and_false_positive_guard(self):
         html = ('<meta property="article:published_time" content="2026-11-20T09:00:00Z">'
                 '<h1>Team news before Brentford</h1>'
