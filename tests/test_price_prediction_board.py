@@ -80,3 +80,20 @@ def test_ownership_trend_is_measured_not_guessed(world):
     assert ownership_trend(s,None,p) is None
     previous["at"]=(s.fetched_at-timedelta(days=2)).isoformat()
     assert ownership_trend(s,previous,p) is None
+
+def test_official_clock_uses_exact_feed_not_midnight():
+    from vortex.price_prediction_board import official_clock
+    now=datetime(2026,11,26,21,tzinfo=timezone.utc)
+    data={"game_config":{"settings":{"price_change_deadlines":["2026-11-26T23:45:00Z","2026-11-28T00:00:00Z"]},
+        "status":{"price_change_last_updated":"2026-11-26T20:55:00Z"}}}
+    deadline,updated=official_clock(data,now)
+    assert deadline.hour==23 and deadline.minute==45
+    assert updated.minute==55
+    with pytest.raises(RequiredInput):
+        official_clock({},now)
+    with pytest.raises(RequiredInput):
+        official_clock(data,now+timedelta(hours=1))
+    data["game_config"]["status"]["price_change_last_updated"]=now.isoformat()
+    data["game_config"]["settings"]["price_change_deadlines"][0]="2026-11-26T20:59:00Z"
+    with pytest.raises(RequiredInput):
+        official_clock(data,now)
