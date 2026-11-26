@@ -780,6 +780,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-23T10:30:03.404723+00:00"
   },
+  "rss:3c4638a40ea1b246d6f76306": {
+    "caption_sha256": "80c78fa87eb74831b0adc4352f263504589501ee76beacb52f10d5ab6fa26944",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575308347815493633",
+    "gameweek": 12,
+    "source": "media.sky_sports",
+    "source_url": "https://www.skysports.com/football/live-blog/12040/13025501/liverpool-transfer-news-rumours-and-gossip-live-updates-and-latest-on-deals-signings-loans-and-contracts",
+    "telegram_delivered_at": "2026-11-26T00:32:57.681405+00:00",
+    "telegram_message_id": 616,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-26T00:32:49.307087+00:00"
+  },
   "rss:41bb18415301e13678678f7f": {
     "caption_sha256": "be3bde436d953f7bafe85e357d42971a9be40f48653c2e41c2c3f5e81a241a69",
     "delivered": true,
