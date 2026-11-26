@@ -20,6 +20,36 @@
   },
   "2026:GW12": {
     "checked": "2026-11-26T15:57:09.617693+00:00",
-    "facts": {}
+    "facts": {},
+    "schedule_checked": "2026-11-26T16:42:57.520212+00:00",
+    "timetable": {
+      "2026-11-26": {
+        "slots": [
+          [
+            "13:30",
+            "Alonso"
+          ],
+          [
+            "13:30",
+            "Farke"
+          ],
+          [
+            "13:30",
+            "Lampard"
+          ],
+          [
+            "14:00",
+            "Andrews"
+          ]
+        ],
+        "summary": [
+          "Chelsea: Alonso not expecting anyone back, Caicedo fit",
+          "Leeds United: Everyone fit",
+          "Brentford: Thiago still banned, four still injured, Milambo + Dasilva building fitness",
+          "Coventry City: Awoniyi out, Wright not ready to return, Yirenkyi + Mason-Clark could be available"
+        ],
+        "url": "https://www.fantasyfootballscout.co.uk/2026/11/26/fpl-gameweek-12-team-news-thursdays-live-injury-updates-2"
+      }
+    }
   }
 }
