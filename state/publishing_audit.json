@@ -9328,19 +9328,15 @@
     "type": "elite"
   },
   "2026-11-25:price_changes:confirmed-price-changes:GW12": {
-    "attempts": 1,
-    "completed_at": "2026-11-26T02:48:53.422583+00:00",
-    "confirmed_telegram_message_ids": [
-      619
-    ],
+    "attempts": 2,
+    "completed_at": "2026-11-26T03:34:34.685979+00:00",
+    "confirmed_telegram_message_ids": [],
     "error": "Telegram delivery incomplete or publishing window closed",
     "generated": true,
     "post_id": "2026-11-25:price_changes:confirmed-price-changes:GW12",
     "status": "RETRY",
-    "telegram_message_ids": [
-      619
-    ],
-    "timestamp": "2026-11-26T02:48:48.902570+00:00",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-26T03:34:32.635929+00:00",
     "trigger": "2026-11-25T21:45:00-05:00",
     "type": "confirmed-price-changes"
   },
@@ -10314,6 +10310,51 @@
     ],
     "status": "RUN",
     "timestamp": "2026-11-26T02:48:48.902570+00:00"
+  },
+  "2026-11-26T03:34:32.635929+00:00": {
+    "posts": [
+      {
+        "attempts": 2,
+        "completed_at": "2026-11-26T03:34:34.685979+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": "Telegram delivery incomplete or publishing window closed",
+        "generated": true,
+        "post_id": "2026-11-25:price_changes:confirmed-price-changes:GW12",
+        "status": "RETRY",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-26T03:34:32.635929+00:00",
+        "trigger": "2026-11-25T21:45:00-05:00",
+        "type": "confirmed-price-changes"
+      },
+      {
+        "attempts": 0,
+        "completed_at": "2026-11-26T03:34:39.067165+00:00",
+        "confirmed_telegram_message_ids": [],
+        "error": null,
+        "generated": false,
+        "post_id": "2026-11-26T03:34:32.635929+00:00:news",
+        "status": "CHECKED",
+        "telegram_message_ids": [],
+        "timestamp": "2026-11-26T03:34:32.635929+00:00",
+        "trigger": "2026-11-26T03:34:32.635929+00:00",
+        "type": "2026-11-26T03:34:32.635929+00:00:news"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-26T03:34:32.635929+00:00"
+  },
+  "2026-11-26T03:34:32.635929+00:00:news": {
+    "attempts": 0,
+    "completed_at": "2026-11-26T03:34:39.067165+00:00",
+    "confirmed_telegram_message_ids": [],
+    "error": null,
+    "generated": false,
+    "post_id": "2026-11-26T03:34:32.635929+00:00:news",
+    "status": "CHECKED",
+    "telegram_message_ids": [],
+    "timestamp": "2026-11-26T03:34:32.635929+00:00",
+    "trigger": "2026-11-26T03:34:32.635929+00:00",
+    "type": "2026-11-26T03:34:32.635929+00:00:news"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
