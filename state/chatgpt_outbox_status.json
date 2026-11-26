@@ -1156,6 +1156,11 @@
     "identity": "chatgpt:2026-27:GW12:task1:player-radar-comparison:36a41815643a35fb0921",
     "status": "delivered"
   },
+  "2026-11-26-scouting-rotation.json": {
+    "at": "2026-11-26T20:31:59.444775+00:00",
+    "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:4ccef7df696b41328df2",
+    "status": "delivered"
+  },
   "2026-11-26-value-board.json": {
     "at": "2026-11-26T18:14:21.207826+00:00",
     "identity": "chatgpt:2026-27:GW12:task1:value-board:46b989ae079eb2e1df6e",

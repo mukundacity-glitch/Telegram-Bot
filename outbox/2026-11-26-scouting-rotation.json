@@ -1,0 +1,1214 @@
+{
+  "task": "task2",
+  "edition": "scouting-rotation",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "Midfield Creation vs Defensive Work",
+  "caption": "Which FPL midfielders create chances and win the ball back? | Midfield Creation vs Defensive Work · 26 Nov 2026\nExpected assists (xA): Doku. Tackles won + interceptions: M.Sangaré.\nPremier League through GW11 • Per 90 • 450+ minutes.\nOne free transfer. Who makes your GW12 shortlist?\n#FPL #GW12 #PremierLeague #FPLVORTEX",
+  "facts": {
+    "players": [],
+    "edition": "scouting-rotation",
+    "extra": {
+      "day": 5,
+      "edition_date": "2026-11-26",
+      "layout": "scatter",
+      "rows": [
+        {
+          "name": "Grimes",
+          "club": "Coventry City",
+          "photo": 168144,
+          "rates": [
+            0.0285171102661597,
+            2.3954372623574143
+          ],
+          "x": 0.0285171102661597,
+          "y": 2.3954372623574143
+        },
+        {
+          "name": "McGinn",
+          "club": "Aston Villa",
+          "photo": 122806,
+          "rates": [
+            0.10800000000000001,
+            2.0727272727272728
+          ],
+          "x": 0.10800000000000001,
+          "y": 2.0727272727272728
+        },
+        {
+          "name": "E.Le Fée",
+          "club": "Sunderland",
+          "photo": 484420,
+          "rates": [
+            0.1824451410658307,
+            2.25705329153605
+          ],
+          "x": 0.1824451410658307,
+          "y": 2.25705329153605
+        },
+        {
+          "name": "Ødegaard",
+          "club": "Arsenal",
+          "photo": 184029,
+          "rates": [
+            0.257843137254902,
+            1.0784313725490196
+          ],
+          "x": 0.257843137254902,
+          "y": 1.0784313725490196
+        },
+        {
+          "name": "Rice",
+          "club": "Arsenal",
+          "photo": 204480,
+          "rates": [
+            0.2365321701199564,
+            2.257360959651036
+          ],
+          "x": 0.2365321701199564,
+          "y": 2.257360959651036
+        },
+        {
+          "name": "Saka",
+          "club": "Arsenal",
+          "photo": 223340,
+          "rates": [
+            0.17909698996655518,
+            2.25752508361204
+          ],
+          "x": 0.17909698996655518,
+          "y": 2.25752508361204
+        },
+        {
+          "name": "Rudoni",
+          "club": "Coventry City",
+          "photo": 480457,
+          "rates": [
+            0.22200725513905684,
+            1.6324062877871826
+          ],
+          "x": 0.22200725513905684,
+          "y": 1.6324062877871826
+        },
+        {
+          "name": "Madueke",
+          "club": "Arsenal",
+          "photo": 248857,
+          "rates": [
+            0.2727799227799228,
+            1.0424710424710424
+          ],
+          "x": 0.2727799227799228,
+          "y": 1.0424710424710424
+        },
+        {
+          "name": "Tzolis",
+          "club": "Arsenal",
+          "photo": 439509,
+          "rates": [
+            0.15390334572490708,
+            1.5055762081784387
+          ],
+          "x": 0.15390334572490708,
+          "y": 1.5055762081784387
+        },
+        {
+          "name": "Kamara",
+          "club": "Aston Villa",
+          "photo": 226944,
+          "rates": [
+            0.03699897225077081,
+            3.5149023638232273
+          ],
+          "x": 0.03699897225077081,
+          "y": 3.5149023638232273
+        },
+        {
+          "name": "Yirenkyi",
+          "club": "Coventry City",
+          "photo": 661888,
+          "rates": [
+            0.02764976958525346,
+            2.3502304147465436
+          ],
+          "x": 0.02764976958525346,
+          "y": 2.3502304147465436
+        },
+        {
+          "name": "Berge",
+          "club": "Fulham",
+          "photo": 207189,
+          "rates": [
+            0.06296743063932449,
+            2.1712907117008444
+          ],
+          "x": 0.06296743063932449,
+          "y": 2.1712907117008444
+        },
+        {
+          "name": "Iwobi",
+          "club": "Fulham",
+          "photo": 153133,
+          "rates": [
+            0.2979933110367892,
+            1.5050167224080269
+          ],
+          "x": 0.2979933110367892,
+          "y": 1.5050167224080269
+        },
+        {
+          "name": "Slater",
+          "club": "Hull City",
+          "photo": 243413,
+          "rates": [
+            0.08838437170010562,
+            2.470960929250264
+          ],
+          "x": 0.08838437170010562,
+          "y": 2.470960929250264
+        },
+        {
+          "name": "Dewsbury-Hall",
+          "club": "Everton",
+          "photo": 215413,
+          "rates": [
+            0.12990654205607477,
+            2.2429906542056073
+          ],
+          "x": 0.12990654205607477,
+          "y": 2.2429906542056073
+        },
+        {
+          "name": "Mainoo",
+          "club": "Man Utd",
+          "photo": 516895,
+          "rates": [
+            0.10015243902439025,
+            4.115853658536586
+          ],
+          "x": 0.10015243902439025,
+          "y": 4.115853658536586
+        },
+        {
+          "name": "Neto",
+          "club": "Chelsea",
+          "photo": 247632,
+          "rates": [
+            0.1295719844357977,
+            2.568093385214008
+          ],
+          "x": 0.1295719844357977,
+          "y": 2.568093385214008
+        },
+        {
+          "name": "Garner",
+          "club": "Everton",
+          "photo": 232928,
+          "rates": [
+            0.07803468208092486,
+            3.745664739884393
+          ],
+          "x": 0.07803468208092486,
+          "y": 3.745664739884393
+        },
+        {
+          "name": "Rogers",
+          "club": "Chelsea",
+          "photo": 244850,
+          "rates": [
+            0.1424460431654677,
+            1.7574511819116136
+          ],
+          "x": 0.1424460431654677,
+          "y": 1.7574511819116136
+        },
+        {
+          "name": "Stach",
+          "club": "Leeds",
+          "photo": 466525,
+          "rates": [
+            0.09251101321585904,
+            3.5682819383259914
+          ],
+          "x": 0.09251101321585904,
+          "y": 3.5682819383259914
+        },
+        {
+          "name": "Okafor",
+          "club": "Leeds",
+          "photo": 435997,
+          "rates": [
+            0.08050089445438283,
+            1.4490161001788908
+          ],
+          "x": 0.08050089445438283,
+          "y": 1.4490161001788908
+        },
+        {
+          "name": "Charles",
+          "club": "Fulham",
+          "photo": 463210,
+          "rates": [
+            0.09163636363636364,
+            3.6
+          ],
+          "x": 0.09163636363636364,
+          "y": 3.6
+        },
+        {
+          "name": "Lavia",
+          "club": "Chelsea",
+          "photo": 514356,
+          "rates": [
+            0.0294010889292196,
+            5.063520871143376
+          ],
+          "x": 0.0294010889292196,
+          "y": 5.063520871143376
+        },
+        {
+          "name": "Ndoye",
+          "club": "Nott'm Forest",
+          "photo": 456512,
+          "rates": [
+            0.1826865671641791,
+            0.5373134328358209
+          ],
+          "x": 0.1826865671641791,
+          "y": 0.5373134328358209
+        },
+        {
+          "name": "Crooks",
+          "club": "Hull City",
+          "photo": 101282,
+          "rates": [
+            0.028000000000000004,
+            2.6
+          ],
+          "x": 0.028000000000000004,
+          "y": 2.6
+        },
+        {
+          "name": "Scott",
+          "club": "Bournemouth",
+          "photo": 503139,
+          "rates": [
+            0.0809421841541756,
+            3.468950749464668
+          ],
+          "x": 0.0809421841541756,
+          "y": 3.468950749464668
+        },
+        {
+          "name": "Tavernier",
+          "club": "Bournemouth",
+          "photo": 201658,
+          "rates": [
+            0.2271657754010695,
+            1.732620320855615
+          ],
+          "x": 0.2271657754010695,
+          "y": 1.732620320855615
+        },
+        {
+          "name": "Kluivert",
+          "club": "Bournemouth",
+          "photo": 222683,
+          "rates": [
+            0.08181818181818182,
+            1.3636363636363635
+          ],
+          "x": 0.08181818181818182,
+          "y": 1.3636363636363635
+        },
+        {
+          "name": "Xhaka",
+          "club": "Sunderland",
+          "photo": 84450,
+          "rates": [
+            0.20122850122850125,
+            2.6535626535626538
+          ],
+          "x": 0.20122850122850125,
+          "y": 2.6535626535626538
+        },
+        {
+          "name": "Lukić",
+          "club": "Ipswich Town",
+          "photo": 212314,
+          "rates": [
+            0.07255574614065181,
+            4.168096054888507
+          ],
+          "x": 0.07255574614065181,
+          "y": 4.168096054888507
+        },
+        {
+          "name": "Semenyo",
+          "club": "Man City",
+          "photo": 437730,
+          "rates": [
+            0.23924050632911395,
+            1.301989150090416
+          ],
+          "x": 0.23924050632911395,
+          "y": 1.301989150090416
+        },
+        {
+          "name": "Tonali",
+          "club": "Spurs",
+          "photo": 432422,
+          "rates": [
+            0.13822525597269625,
+            3.2764505119453924
+          ],
+          "x": 0.13822525597269625,
+          "y": 3.2764505119453924
+        },
+        {
+          "name": "Lewis-Potter",
+          "club": "Brentford",
+          "photo": 249231,
+          "rates": [
+            0.11276346604215458,
+            1.2646370023419204
+          ],
+          "x": 0.11276346604215458,
+          "y": 1.2646370023419204
+        },
+        {
+          "name": "Gibbs-White",
+          "club": "Nott'm Forest",
+          "photo": 222531,
+          "rates": [
+            0.26100000000000007,
+            1.4
+          ],
+          "x": 0.26100000000000007,
+          "y": 1.4
+        },
+        {
+          "name": "Ndiaye",
+          "club": "Man City",
+          "photo": 440993,
+          "rates": [
+            0.17915194346289756,
+            1.9081272084805654
+          ],
+          "x": 0.17915194346289756,
+          "y": 1.9081272084805654
+        },
+        {
+          "name": "Ampadu",
+          "club": "Leeds",
+          "photo": 199598,
+          "rates": [
+            0.05818181818181818,
+            3.909090909090909
+          ],
+          "x": 0.05818181818181818,
+          "y": 3.909090909090909
+        },
+        {
+          "name": "Schade",
+          "club": "Brentford",
+          "photo": 513418,
+          "rates": [
+            0.039130434782608706,
+            1.7888198757763976
+          ],
+          "x": 0.039130434782608706,
+          "y": 1.7888198757763976
+        },
+        {
+          "name": "Anthony",
+          "club": "Brentford",
+          "photo": 444180,
+          "rates": [
+            0.1561717352415027,
+            1.2880143112701252
+          ],
+          "x": 0.1561717352415027,
+          "y": 1.2880143112701252
+        },
+        {
+          "name": "Schlager",
+          "club": "Nott'm Forest",
+          "photo": 204561,
+          "rates": [
+            0.07182044887780549,
+            4.937655860349127
+          ],
+          "x": 0.07182044887780549,
+          "y": 4.937655860349127
+        },
+        {
+          "name": "George",
+          "club": "Everton",
+          "photo": 550615,
+          "rates": [
+            0.13947368421052633,
+            1.8421052631578947
+          ],
+          "x": 0.13947368421052633,
+          "y": 1.8421052631578947
+        },
+        {
+          "name": "Mbeumo",
+          "club": "Man Utd",
+          "photo": 446008,
+          "rates": [
+            0.12688524590163935,
+            1.3770491803278688
+          ],
+          "x": 0.12688524590163935,
+          "y": 1.3770491803278688
+        },
+        {
+          "name": "Belloumi",
+          "club": "Hull City",
+          "photo": 540324,
+          "rates": [
+            0.16615384615384615,
+            4.038461538461538
+          ],
+          "x": 0.16615384615384615,
+          "y": 4.038461538461538
+        },
+        {
+          "name": "Stroud",
+          "club": "Hull City",
+          "photo": 608227,
+          "rates": [
+            0.022066549912434327,
+            2.9947460595446587
+          ],
+          "x": 0.022066549912434327,
+          "y": 2.9947460595446587
+        },
+        {
+          "name": "M.Sangaré",
+          "club": "Brentford",
+          "photo": 513545,
+          "rates": [
+            0.1168269230769231,
+            6.346153846153846
+          ],
+          "x": 0.1168269230769231,
+          "y": 6.346153846153846
+        },
+        {
+          "name": "Anderson",
+          "club": "Man City",
+          "photo": 215379,
+          "rates": [
+            0.18451025056947604,
+            3.5876993166287017
+          ],
+          "x": 0.18451025056947604,
+          "y": 3.5876993166287017
+        },
+        {
+          "name": "Kamada",
+          "club": "Crystal Palace",
+          "photo": 209400,
+          "rates": [
+            0.06951596292481978,
+            1.8537590113285274
+          ],
+          "x": 0.06951596292481978,
+          "y": 1.8537590113285274
+        },
+        {
+          "name": "O.Dango",
+          "club": "Brentford",
+          "photo": 533463,
+          "rates": [
+            0.13968565815324166,
+            2.475442043222004
+          ],
+          "x": 0.13968565815324166,
+          "y": 2.475442043222004
+        },
+        {
+          "name": "Tel",
+          "club": "Spurs",
+          "photo": 511499,
+          "rates": [
+            0.09896265560165976,
+            0.9336099585062241
+          ],
+          "x": 0.09896265560165976,
+          "y": 0.9336099585062241
+        },
+        {
+          "name": "Enciso",
+          "club": "Ipswich Town",
+          "photo": 474120,
+          "rates": [
+            0.22426550598476605,
+            1.2731229597388465
+          ],
+          "x": 0.22426550598476605,
+          "y": 1.2731229597388465
+        },
+        {
+          "name": "Gray",
+          "club": "Spurs",
+          "photo": 547701,
+          "rates": [
+            0.025139664804469275,
+            2.8910614525139664
+          ],
+          "x": 0.025139664804469275,
+          "y": 2.8910614525139664
+        },
+        {
+          "name": "Röhl",
+          "club": "Everton",
+          "photo": 513466,
+          "rates": [
+            0.04751131221719457,
+            2.579185520361991
+          ],
+          "x": 0.04751131221719457,
+          "y": 2.579185520361991
+        },
+        {
+          "name": "Maeda",
+          "club": "Ipswich Town",
+          "photo": 442967,
+          "rates": [
+            0.007867132867132868,
+            2.0454545454545454
+          ],
+          "x": 0.007867132867132868,
+          "y": 2.0454545454545454
+        },
+        {
+          "name": "Groß",
+          "club": "Brighton",
+          "photo": 60307,
+          "rates": [
+            0.2428424304840371,
+            1.761071060762101
+          ],
+          "x": 0.2428424304840371,
+          "y": 1.761071060762101
+        },
+        {
+          "name": "McAtee",
+          "club": "Nott'm Forest",
+          "photo": 432714,
+          "rates": [
+            0.18692307692307694,
+            3.2637362637362637
+          ],
+          "x": 0.18692307692307694,
+          "y": 3.2637362637362637
+        },
+        {
+          "name": "Janelt",
+          "club": "Brentford",
+          "photo": 204580,
+          "rates": [
+            0.08071748878923768,
+            5.650224215246637
+          ],
+          "x": 0.08071748878923768,
+          "y": 5.650224215246637
+        },
+        {
+          "name": "Rayan",
+          "club": "Bournemouth",
+          "photo": 499604,
+          "rates": [
+            0.0845201238390093,
+            2.321981424148607
+          ],
+          "x": 0.0845201238390093,
+          "y": 2.321981424148607
+        },
+        {
+          "name": "L.Miley",
+          "club": "Newcastle",
+          "photo": 547719,
+          "rates": [
+            0.06746626686656672,
+            2.9685157421289357
+          ],
+          "x": 0.06746626686656672,
+          "y": 2.9685157421289357
+        },
+        {
+          "name": "Cherki",
+          "club": "Man City",
+          "photo": 466052,
+          "rates": [
+            0.2876923076923077,
+            1.0769230769230769
+          ],
+          "x": 0.2876923076923077,
+          "y": 1.0769230769230769
+        },
+        {
+          "name": "Sadiki",
+          "club": "Sunderland",
+          "photo": 577669,
+          "rates": [
+            0.042262540021344726,
+            1.7289220917822838
+          ],
+          "x": 0.042262540021344726,
+          "y": 1.7289220917822838
+        },
+        {
+          "name": "Adams",
+          "club": "Bournemouth",
+          "photo": 200785,
+          "rates": [
+            0.016875,
+            3.825
+          ],
+          "x": 0.016875,
+          "y": 3.825
+        },
+        {
+          "name": "Cunha",
+          "club": "Man Utd",
+          "photo": 430871,
+          "rates": [
+            0.15938748335552597,
+            2.396804260985353
+          ],
+          "x": 0.15938748335552597,
+          "y": 2.396804260985353
+        },
+        {
+          "name": "Yeremy",
+          "club": "Crystal Palace",
+          "photo": 488024,
+          "rates": [
+            0.17509727626459148,
+            2.217898832684825
+          ],
+          "x": 0.17509727626459148,
+          "y": 2.217898832684825
+        },
+        {
+          "name": "Armstrong",
+          "club": "Everton",
+          "photo": 609873,
+          "rates": [
+            0.07468487394957984,
+            2.457983193277311
+          ],
+          "x": 0.07468487394957984,
+          "y": 2.457983193277311
+        },
+        {
+          "name": "Bobb",
+          "club": "Fulham",
+          "photo": 477555,
+          "rates": [
+            0.19411764705882353,
+            2.426470588235294
+          ],
+          "x": 0.19411764705882353,
+          "y": 2.426470588235294
+        },
+        {
+          "name": "Buendía",
+          "club": "Aston Villa",
+          "photo": 195546,
+          "rates": [
+            0.09027777777777778,
+            3.888888888888889
+          ],
+          "x": 0.09027777777777778,
+          "y": 3.888888888888889
+        },
+        {
+          "name": "Wharton",
+          "club": "Crystal Palace",
+          "photo": 496221,
+          "rates": [
+            0.13476923076923078,
+            3.1384615384615384
+          ],
+          "x": 0.13476923076923078,
+          "y": 3.1384615384615384
+        },
+        {
+          "name": "Enzo",
+          "club": "Man City",
+          "photo": 448047,
+          "rates": [
+            0.20571428571428574,
+            1.7142857142857142
+          ],
+          "x": 0.20571428571428574,
+          "y": 1.7142857142857142
+        },
+        {
+          "name": "Barnes",
+          "club": "Newcastle",
+          "photo": 201666,
+          "rates": [
+            0.09866803278688525,
+            1.1065573770491803
+          ],
+          "x": 0.09866803278688525,
+          "y": 1.1065573770491803
+        },
+        {
+          "name": "King",
+          "club": "Fulham",
+          "photo": 577725,
+          "rates": [
+            0.13963759909399776,
+            1.8346545866364665
+          ],
+          "x": 0.13963759909399776,
+          "y": 1.8346545866364665
+        },
+        {
+          "name": "J.Murphy",
+          "club": "Newcastle",
+          "photo": 114243,
+          "rates": [
+            0.2025,
+            2.0625
+          ],
+          "x": 0.2025,
+          "y": 2.0625
+        },
+        {
+          "name": "Gomez",
+          "club": "Brighton",
+          "photo": 514254,
+          "rates": [
+            0.1297805642633229,
+            3.103448275862069
+          ],
+          "x": 0.1297805642633229,
+          "y": 3.103448275862069
+        },
+        {
+          "name": "Mac Allister",
+          "club": "Liverpool",
+          "photo": 243016,
+          "rates": [
+            0.12144578313253013,
+            3.036144578313253
+          ],
+          "x": 0.12144578313253013,
+          "y": 3.036144578313253
+        },
+        {
+          "name": "Szoboszlai",
+          "club": "Liverpool",
+          "photo": 424876,
+          "rates": [
+            0.23619909502262443,
+            1.6289592760180995
+          ],
+          "x": 0.23619909502262443,
+          "y": 1.6289592760180995
+        },
+        {
+          "name": "Willock",
+          "club": "Newcastle",
+          "photo": 200089,
+          "rates": [
+            0.056335877862595425,
+            1.9236641221374047
+          ],
+          "x": 0.056335877862595425,
+          "y": 1.9236641221374047
+        },
+        {
+          "name": "N.Angulo",
+          "club": "Sunderland",
+          "photo": 536661,
+          "rates": [
+            0.046494464944649455,
+            3.1549815498154983
+          ],
+          "x": 0.046494464944649455,
+          "y": 3.1549815498154983
+        },
+        {
+          "name": "Gakpo",
+          "club": "Liverpool",
+          "photo": 243298,
+          "rates": [
+            0.2846026490066226,
+            2.8311258278145695
+          ],
+          "x": 0.2846026490066226,
+          "y": 2.8311258278145695
+        },
+        {
+          "name": "B.Fernandes",
+          "club": "Man Utd",
+          "photo": 141746,
+          "rates": [
+            0.233,
+            1.3
+          ],
+          "x": 0.233,
+          "y": 1.3
+        },
+        {
+          "name": "Tielemans",
+          "club": "Man Utd",
+          "photo": 166989,
+          "rates": [
+            0.14564315352697096,
+            3.7344398340248963
+          ],
+          "x": 0.14564315352697096,
+          "y": 3.7344398340248963
+        },
+        {
+          "name": "Palmer",
+          "club": "Chelsea",
+          "photo": 244851,
+          "rates": [
+            0.11597938144329899,
+            1.7628865979381443
+          ],
+          "x": 0.11597938144329899,
+          "y": 1.7628865979381443
+        },
+        {
+          "name": "Munoz",
+          "club": "Liverpool",
+          "photo": 551499,
+          "rates": [
+            0.09075630252100841,
+            1.8907563025210083
+          ],
+          "x": 0.09075630252100841,
+          "y": 1.8907563025210083
+        },
+        {
+          "name": "Fatawu",
+          "club": "Ipswich Town",
+          "photo": 531442,
+          "rates": [
+            0.22422145328719728,
+            2.958477508650519
+          ],
+          "x": 0.22422145328719728,
+          "y": 2.958477508650519
+        },
+        {
+          "name": "Lewis-Skelly",
+          "club": "Arsenal",
+          "photo": 499169,
+          "rates": [
+            0.08163716814159291,
+            1.7920353982300885
+          ],
+          "x": 0.08163716814159291,
+          "y": 1.7920353982300885
+        },
+        {
+          "name": "Wirtz",
+          "club": "Liverpool",
+          "photo": 494595,
+          "rates": [
+            0.23491525423728815,
+            1.8305084745762712
+          ],
+          "x": 0.23491525423728815,
+          "y": 1.8305084745762712
+        },
+        {
+          "name": "Ayari",
+          "club": "Brighton",
+          "photo": 509416,
+          "rates": [
+            0.054243542435424355,
+            1.4391143911439115
+          ],
+          "x": 0.054243542435424355,
+          "y": 1.4391143911439115
+        },
+        {
+          "name": "Fernandes",
+          "club": "Spurs",
+          "photo": 551226,
+          "rates": [
+            0.14727272727272728,
+            4.1652892561983474
+          ],
+          "x": 0.14727272727272728,
+          "y": 4.1652892561983474
+        },
+        {
+          "name": "Christie",
+          "club": "Bournemouth",
+          "photo": 158499,
+          "rates": [
+            0.15402061855670104,
+            3.5257731958762886
+          ],
+          "x": 0.15402061855670104,
+          "y": 3.5257731958762886
+        },
+        {
+          "name": "Sakamoto",
+          "club": "Coventry City",
+          "photo": 501459,
+          "rates": [
+            0.02020408163265306,
+            2.5714285714285716
+          ],
+          "x": 0.02020408163265306,
+          "y": 2.5714285714285716
+        },
+        {
+          "name": "N.Gonzalez",
+          "club": "Newcastle",
+          "photo": 465694,
+          "rates": [
+            0.10249110320284699,
+            2.882562277580071
+          ],
+          "x": 0.10249110320284699,
+          "y": 2.882562277580071
+        },
+        {
+          "name": "Kudus",
+          "club": "Spurs",
+          "photo": 460842,
+          "rates": [
+            0.16337579617834397,
+            2.0063694267515926
+          ],
+          "x": 0.16337579617834397,
+          "y": 2.0063694267515926
+        },
+        {
+          "name": "Tanaka",
+          "club": "Leeds",
+          "photo": 248056,
+          "rates": [
+            0.01361760660247593,
+            4.085281980742779
+          ],
+          "x": 0.01361760660247593,
+          "y": 4.085281980742779
+        },
+        {
+          "name": "Caicedo",
+          "club": "Chelsea",
+          "photo": 486672,
+          "rates": [
+            0.01939655172413793,
+            4.267241379310345
+          ],
+          "x": 0.01939655172413793,
+          "y": 4.267241379310345
+        },
+        {
+          "name": "Palacios",
+          "club": "Ipswich Town",
+          "photo": 218543,
+          "rates": [
+            0.045000000000000005,
+            4.375
+          ],
+          "x": 0.045000000000000005,
+          "y": 4.375
+        },
+        {
+          "name": "Bruno G.",
+          "club": "Arsenal",
+          "photo": 208706,
+          "rates": [
+            0.07434782608695654,
+            2.347826086956522
+          ],
+          "x": 0.07434782608695654,
+          "y": 2.347826086956522
+        },
+        {
+          "name": "Barcola",
+          "club": "Liverpool",
+          "photo": 482616,
+          "rates": [
+            0.20579268292682926,
+            2.8810975609756095
+          ],
+          "x": 0.20579268292682926,
+          "y": 2.8810975609756095
+        },
+        {
+          "name": "Timber",
+          "club": "Crystal Palace",
+          "photo": 450063,
+          "rates": [
+            0.03103448275862069,
+            3.4482758620689653
+          ],
+          "x": 0.03103448275862069,
+          "y": 3.4482758620689653
+        },
+        {
+          "name": "Manzambi",
+          "club": "Aston Villa",
+          "photo": 614071,
+          "rates": [
+            0.1537001897533207,
+            2.390891840607211
+          ],
+          "x": 0.1537001897533207,
+          "y": 2.390891840607211
+        },
+        {
+          "name": "Andrés",
+          "club": "Brighton",
+          "photo": 592984,
+          "rates": [
+            0.056457564575645755,
+            3.819188191881919
+          ],
+          "x": 0.056457564575645755,
+          "y": 3.819188191881919
+        },
+        {
+          "name": "Henderson",
+          "club": "Chelsea",
+          "photo": 56979,
+          "rates": [
+            0.10135922330097089,
+            0.6990291262135923
+          ],
+          "x": 0.10135922330097089,
+          "y": 0.6990291262135923
+        },
+        {
+          "name": "Doku",
+          "club": "Man City",
+          "photo": 248875,
+          "rates": [
+            0.32592592592592595,
+            1.1111111111111112
+          ],
+          "x": 0.32592592592592595,
+          "y": 1.1111111111111112
+        }
+      ],
+      "featured": [
+        {
+          "name": "Doku",
+          "club": "Man City",
+          "photo": 248875,
+          "rates": [
+            0.32592592592592595,
+            1.1111111111111112
+          ],
+          "x": 0.32592592592592595,
+          "y": 1.1111111111111112
+        },
+        {
+          "name": "M.Sangaré",
+          "club": "Brentford",
+          "photo": 513545,
+          "rates": [
+            0.1168269230769231,
+            6.346153846153846
+          ],
+          "x": 0.1168269230769231,
+          "y": 6.346153846153846
+        },
+        {
+          "name": "Gakpo",
+          "club": "Liverpool",
+          "photo": 243298,
+          "rates": [
+            0.2846026490066226,
+            2.8311258278145695
+          ],
+          "x": 0.2846026490066226,
+          "y": 2.8311258278145695
+        },
+        {
+          "name": "Fatawu",
+          "club": "Ipswich Town",
+          "photo": 531442,
+          "rates": [
+            0.22422145328719728,
+            2.958477508650519
+          ],
+          "x": 0.22422145328719728,
+          "y": 2.958477508650519
+        },
+        {
+          "name": "Iwobi",
+          "club": "Fulham",
+          "photo": 153133,
+          "rates": [
+            0.2979933110367892,
+            1.5050167224080269
+          ],
+          "x": 0.2979933110367892,
+          "y": 1.5050167224080269
+        }
+      ],
+      "through": 11,
+      "minimum": 450,
+      "x_name": "Expected assists (xA)",
+      "y_name": "Tackles won + interceptions",
+      "percentiles": false,
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/playermatchstats.csv"
+      ],
+      "metric_note": ""
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-26"
+  },
+  "generated_at": "2026-11-26T20:30:39.309905+00:00",
+  "publish_at": "2026-11-26T20:31:56.848930+00:00",
+  "data_retrieval_at_et": "2026-11-26T15:30:39.309905-05:00",
+  "graphic_generated_at_et": "2026-11-26T15:31:59.437948-05:00",
+  "deadline": "2026-11-27T18:30:00+00:00",
+  "pre_deadline": true,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/players.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW1/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW2/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW3/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW4/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW5/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW6/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/playermatchstats.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/playermatchstats.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-26-scouting-rotation-GW12.png"
+  ]
+}

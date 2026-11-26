@@ -19,9 +19,9 @@
     "version": "231a4ae587dc048178aef749594415b9f104154c3b14e9b19d5cf5c8dc9daa8a"
   },
   "2026:GW12": {
-    "checked": "2026-11-26T18:59:25.005631+00:00",
+    "checked": "2026-11-26T20:30:39.310709+00:00",
     "facts": {},
-    "schedule_checked": "2026-11-26T19:45:15.810238+00:00",
+    "schedule_checked": "2026-11-26T20:30:39.310709+00:00",
     "timetable": {
       "2026-11-26": {
         "slots": [
@@ -51,5 +51,11 @@
         "url": "https://www.fantasyfootballscout.co.uk/2026/11/26/fpl-gameweek-12-team-news-thursdays-live-injury-updates-2"
       }
     }
+  },
+  "2026:GW13": {
+    "checked": "2026-11-26T20:30:39.310709+00:00",
+    "facts": {},
+    "schedule_checked": "2026-11-26T20:30:39.310709+00:00",
+    "timetable": {}
   }
 }

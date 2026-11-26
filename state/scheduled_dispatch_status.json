@@ -1,14 +1,13 @@
 {
-  "at": "2026-11-26T19:45:19.230601+00:00",
-  "eastern_at": "2026-11-26T14:45:19.230601-05:00",
+  "at": "2026-11-26T20:31:56.848930+00:00",
+  "eastern_at": "2026-11-26T15:31:56.848930-05:00",
   "last_news_scan": "2026-11-26T11:15:57.539679+00:00",
   "new_posts": 1,
   "next_due": {
-    "display_name": "FPL Player Performance Comparisons",
-    "post": "scouting-rotation",
-    "trigger": "2026-11-26T20:30:37.665311+00:00"
+    "post": "positional-vulnerability",
+    "trigger": "2026-11-26T21:17:01.499044+00:00"
   },
-  "next_telegram_at": "2026-11-26T20:30:37.665311+00:00",
+  "next_telegram_at": "2026-11-26T21:17:01.499044+00:00",
   "pending_triggers": [
     {
       "post": "start-bench-board",
@@ -37,7 +36,7 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-26T19:35:13.652555+00:00",
+    "source_updated_at": "2026-11-26T20:20:13.847670+00:00",
     "status": "skipped-schedule-conflict",
     "trigger": "2026-11-26T23:00:00+00:00",
     "update_at": "2026-11-27T00:00:00+00:00"
