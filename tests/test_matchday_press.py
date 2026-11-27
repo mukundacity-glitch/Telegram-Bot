@@ -186,7 +186,7 @@ class MatchdayPress(TestCase):
             for i in range(1, 5)
         }
         out = Path("output/pr-preview/press-layout-review.png")
-        render_press(out, day, names, facts, False, teams=None)
+        render_press(out, {**day, "data_at": clock(21, 8), "updated": True}, names, facts, False, teams=None)
         with Image.open(out) as im:
             self.assertEqual(im.size, (1920, 1080))
             self.assertEqual(im.mode, "RGB")
@@ -201,3 +201,12 @@ class MatchdayPress(TestCase):
         self.assertLess(len(caption), 1024)
         self.assertEqual(len(entities), 1)
         self.assertIn("example.org", entities[0]["url"])
+
+
+def test_press_portrait_matches_only_named_current_club_player():
+    from vortex.press_graphic import featured_player
+    players = [{"team": 1, "code": 100, "web_name": "Example"},
+               {"team": 2, "code": 200, "web_name": "Example"}]
+    assert featured_player(players, {"1": {"news": "Example is fit"}})["code"] == 100
+    assert featured_player(players, {"3": {"news": "Example is fit"}}) is None
+    assert featured_player(players, {"1": {"news": "No injury updates"}}) is None

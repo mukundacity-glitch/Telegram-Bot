@@ -268,7 +268,8 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
             continue
         path = ROOT / "outbox/assets" / f"press-GW{day['gw']}-{day['season']}.png"
         updated = bool(row.get("message"))
-        render_day = {**day, "data_at": current.astimezone(timezone.utc), "updated": updated}
+        render_day = {**day, "data_at": current.astimezone(timezone.utc), "updated": updated,
+                      "players": getattr(snapshot, "players", ())}
         render_image(path, render_day, names, combined, False, teams=snapshot.teams)
         caption, entities = caption_for(day, names, combined, current, updated=updated)
         current = live_clock() if live_clock else now

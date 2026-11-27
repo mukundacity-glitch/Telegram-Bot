@@ -346,9 +346,11 @@ def main():
         return 0
     snapshot = None
     press_error = False
-    if os.getenv('GITHUB_EVENT_NAME') == 'schedule':
+    if os.getenv('GITHUB_EVENT_NAME') in ('schedule', 'push', 'workflow_dispatch'):
         from .retire_player_news import retire_calvert_lewin
-        retire_calvert_lewin(datetime.now(timezone.utc))
+        retired = retire_calvert_lewin(datetime.now(timezone.utc))
+        print('Rejected player news retirement: Telegram=' + str(bool(retired.get('telegram_deleted'))) +
+              ', Discord=' + str(bool(retired.get('discord_deleted'))))
         from .matchday_press import run as press_run
         from .telegram import TelegramClient
         from .press_schedule import retire_graphics
