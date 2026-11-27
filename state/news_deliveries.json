@@ -752,6 +752,15 @@
     "telegram_message_id": 580,
     "telegram_verification_source": "telegram-bot-api"
   },
+  "rotation:2026-11-27:GW12": {
+    "caption_sha256": "8191dcf36c37f2334d9372cb5df4d8db889bec66c98731fecceaa44ac61b6b47",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1574762878991597690",
+    "telegram_delivered_at": "2026-11-24T12:25:27.621584+00:00",
+    "telegram_message_id": 580,
+    "telegram_verification_source": "telegram-bot-api"
+  },
   "rss:1602937a0e4f297b51add2dc": {
     "caption_sha256": "32e0180c7958b56e02c3ca487eefd8958ebffaf394af25839415993b68fa4f50",
     "delivered": true,
