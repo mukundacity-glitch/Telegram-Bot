@@ -122,8 +122,9 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
         if path.stat().st_size > 8_000_000:
             raise ValueError('PNG upload exceeds safe size')
         with Image.open(path) as image:
-            if image.size not in ((1920, 1080), (1080, 1920)):
-                raise ValueError('Finished art must be 1920x1080 or 1080x1920')
+            expected_sizes = ((1600, 1200),) if record.get('edition') == 'price-prediction' else ((1920, 1080), (1080, 1920))
+            if image.size not in expected_sizes:
+                raise ValueError('Finished art dimensions do not match the edition contract')
             image.verify()
         resolved.append(path)
     version = digest.hexdigest()[:20]

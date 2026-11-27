@@ -24,8 +24,12 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 
 - Slot 2 and 4 selection/rendering increment: official event inflows by position and ownership-ranked distinct same-club options, caller-supplied exclusions, purple background. Builders remain unscheduled until durable cross-edition exclusions and exact production windows are reconciled. 05:00 ET is outside the current approved 05:30–23:00 publication window; no unverified new time has been activated.
 
+- Slot 1 renderer now uses the supplied 4:3 two-column composition, FPL purple background and up to ten verified candidates per direction. A 1600×1200 PNG is required specifically for this edition, without changing the other graphic sizes. The official signed likelihood band is displayed instead of invented probability labels.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.
 
 Superseded timing rules: price research T−2h and FDR research Saturday 19:28–19:40 ET. Archived only; do not execute.
+
+Superseded price graphic: portrait top-eight-per-direction layout and previous social-footer formatting. Historical version remains in Git history; use only the new 4:3 format for this slot.

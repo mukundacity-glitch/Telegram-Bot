@@ -252,10 +252,10 @@ def select_rows(snapshot, update_at, previous=None):
                          hourly_rate=numeric(p.get("price_change_hourly_rate")),
                          owned=numeric(p.get("selected_by_percent")),
                          ownership_delta=ownership_trend(snapshot, previous, p)))
-    rises = sorted((r for r in rows if r["projected"] > 0), key=lambda r:(-r["projected"],-r["progress"],r["player"]["id"]))[:8]
-    falls = sorted((r for r in rows if r["projected"] < 0), key=lambda r:(r["projected"],r["progress"],r["player"]["id"]))[:8]
-    if len(rises) != 8 or len(falls) != 8:
-        raise RequiredInput("Need eight verified positive and eight negative next-update predictions")
+    rises = sorted((r for r in rows if r["projected"] > 0), key=lambda r:(-r["projected"],-r["progress"],r["player"]["id"]))[:10]
+    falls = sorted((r for r in rows if r["projected"] < 0), key=lambda r:(r["projected"],r["progress"],r["player"]["id"]))[:10]
+    if not rises and not falls:
+        raise RequiredInput("No verified next-update predictions")
     return rises, falls
 
 
@@ -267,134 +267,88 @@ def build_board(snapshot, update_at, previous=None):
     caption = (
         "⏱ PRICE CHANGE PREDICTION\n"
         f"MONITOR {label}\n\n"
-        "📈 Top 8 risers • 📉 Top 8 fallers\n"
+        f"📈 {len(rises)} rise candidates • 📉 {len(falls)} fall candidates\n"
         "Official FPL projections. Moves are not guaranteed.\n\n"
         "#FPL #PriceChanges #FPLTips #FantasyPremierLeague #FPLVORTEX #FPLUpdates"
     )
     return dict(rises=rises, falls=falls, update_at=update_at.isoformat(), caption=caption)
 
 
+PRICE_ART_SIZE = (1600, 1200)
+
+
 def render_board(snapshot, board, output, session):
-    """White data body, navy/gold 55-style masthead and icon footer; one portrait PNG."""
-    from PIL import Image, ImageDraw, ImageFilter
+    """The supplied 4:3 two-panel price reference, with current official data."""
+    from PIL import Image, ImageDraw
     from .brand_footer import MASTER, verify_exact_master
     from .comparison_board import contain, text
     from .matchup import _image_from_url, _media
-    from .minimal_theme import extra_social_handles
-    from .publication_rules import required_footer_handles
+
     verify_exact_master()
-    W,H = 1080,1920
-    navy=(5,15,40); gold=(255,205,82); cyan=(34,208,248)
-    white=(255,255,255); ink=(18,35,53); muted=(75,94,110)
-    green=(0,133,90); red=(202,32,65)
-    canvas=Image.new("RGB",(W,H),navy)
-    d=ImageDraw.Draw(canvas,"RGBA")
-    for points,col in [
-        ([(0,0),(290,0),(0,230)],(17,98,225,230)),
-        ([(0,40),(160,0),(0,142)],(20,183,255,200)),
-        ([(W,0),(W-240,0),(W,235)],(80,54,215,210)),
-        ([(0,H),(0,H-200),(220,H)],(20,87,200,190)),
-        ([(W,H),(W,H-220),(W-190,H)],(94,52,220,190))]:
-        d.polygon(points,fill=col)
+    W, H = PRICE_ART_SIZE
+    purple, ink, muted = "#37003C", "#201A29", "#535366"
+    white, cyan, emerald = "#FFFFFF", "#04F5FF", "#00FF87"
+    green, red = "#008553", "#B91F45"
+    canvas = Image.new("RGB", (W, H), purple)
+    d = ImageDraw.Draw(canvas)
     with Image.open(MASTER) as original:
-        master=original.convert("RGB").resize((1536,864))
-        canvas.paste(master.crop((0,0,310,80)).resize((218,56),Image.Resampling.LANCZOS),(15,12))
-        canvas.paste(master.crop((1336,0,1536,80)).resize((145,58),Image.Resampling.LANCZOS),(920,12))
-    d=ImageDraw.Draw(canvas,"RGBA")
-    text(d,"PRICE CHANGE PREDICTION",248,11,657,40,white,25,center=True)
-    update=datetime.fromisoformat(board["update_at"])
-    d.polygon([(273,77),(807,77),(793,126),(259,126)],fill=gold)
-    text(d,"MONITOR "+update.astimezone(UK).strftime("%H:%M UK"),280,83,520,31,navy,21,center=True)
-    text(d,"OFFICIAL FPL • NEXT UPDATE • RANKED BY PROJECTED PROGRESS",30,142,1020,24,white,17,center=True)
-    d.line((25,178,1055,178),fill=cyan,width=3)
+        master = original.convert("RGB").resize((1536,864))
+        canvas.paste(master.crop((0,0,310,80)).resize((158,41),Image.Resampling.LANCZOS),(34,37))
+    def label(value, x, y, width, size, color=white, center=False, minimum=14):
+        text(d, value, x, y, width, size=size, color=color, minimum=minimum, center=center)
 
-    cache={}
-    def fmt(v,dp=1,signed=False,suffix=""):
-        return "—" if v is None else (f"{v:+,.{dp}f}" if signed else f"{v:,.{dp}f}")+suffix
-
-    def side(rows,x,accent,heading):
-        width=512
-        d.rounded_rectangle((x,188,x+width,1763),radius=18,fill=white,outline=cyan,width=3)
-        d.rounded_rectangle((x+3,191,x+width-3,253),radius=12,fill=accent)
-        text(d,heading,x+12,204,width-24,32,white,23,center=True)
-        for rank,row in enumerate(rows,1):
-            p=row["player"]
-            y=262+(rank-1)*186
-            d.rounded_rectangle((x+8,y,x+width-8,y+176),radius=12,
-                                fill=(248,252,250) if accent==green else (255,248,250),
-                                outline=(218,230,232),width=2)
-            code=snapshot.photo_code(p)
-            urls=(
+    update = datetime.fromisoformat(board["update_at"])
+    local = snapshot.fetched_at.astimezone(UK)
+    label("PRICE CHANGE PREDICTIONS", 220, 26, 1340, 52)
+    label(local.strftime("%A, %d %B %Y"), 220, 83, 1340, 29, emerald)
+    label("Fantasy Premier League • daily price movement watch", 220, 119, 1340, 21)
+    cache = {}
+    def side(rows, x, accent, heading, pale):
+        width = 756
+        d.rounded_rectangle((x,160,x+width,1122),radius=20,fill=white,outline=cyan,width=2)
+        d.rounded_rectangle((x,160,x+width,216),radius=18,fill=accent)
+        d.rectangle((x,192,x+width,216),fill=accent)
+        label(heading,x+22,171,width-44,31)
+        label("PLAYER / CLUB",x+87,225,360,20,ink)
+        label("LIKELIHOOD",x+443,225,142,17,ink,True)
+        label("PREDICTION",x+598,225,145,17,ink,True)
+        if not rows:
+            label("No verified candidates",x+25,280,width-50,24,muted,True)
+        for index, row in enumerate(rows[:10]):
+            p = row["player"]
+            y = 260 + index*84
+            d.rounded_rectangle((x+12,y,x+width-12,y+76),radius=11,fill=pale,outline="#DDD6E0",width=1)
+            d.rectangle((x+12,y,x+19,y+76),fill=accent)
+            code = snapshot.photo_code(p)
+            urls = (
                 f"https://resources.premierleague.com/premierleague25/photos/players/250x250/{code}.png",
                 f"https://resources.premierleague.com/premierleague25/photos/players/110x140/{code}.png",
-                f"https://resources.premierleague.com/premierleague25/photos/players/250x250/p{code}.png",
                 f"https://resources.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
-                f"https://resources.premierleague.com/premierleague/photos/players/110x140/p{code}.png",
                 f"https://images.fantasy.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
-                f"https://resources.premierleague.pulselive.com/photos/players/250x250/p{code}.png",
-                f"https://resources.premierleague.pulselive.com/photos/players/110x140/p{code}.png",
             )
-            photo=next((img for url in urls if (img:=_image_from_url(session,url)) is not None),None)
-            crest=_media(session,snapshot.team_code(p),"crest",cache)
+            photo = next((img for url in urls if (img := _image_from_url(session,url)) is not None),None)
+            crest = _media(session,snapshot.team_code(p),"crest",cache)
             if crest is None:
                 raise RequiredInput(f"Authentic club crest missing for official player {p['id']}")
-            if photo is None:
-                # Do not silently omit or substitute a top-ranked player.
-                # Authentic club crest and explicit missing-photo notice only.
-                contain(canvas,crest,(x+30,y+49,76,76))
-                text(d,"NO PHOTO",x+13,y+130,108,14,muted,12,center=True)
-                print(f"::warning::Authentic portrait unavailable for FPL player {p['id']}; rank retained")
+            if photo is not None:
+                contain(canvas,photo,(x+25,y+4,66,69),bottom=True,crop_alpha=True)
             else:
-                contain(canvas,photo,(x+16,y+34,104,116),bottom=True,crop_alpha=True)
-            contain(canvas,crest,(x+18,y+9,32,32))
-            text(d,f"{rank:02d}",x+74,y+8,36,18,accent,15,center=True)
-            name=snapshot.name(p)
-            text(d,name.upper(),x+126,y+9,width-142,28,ink,18)
-            position={1:"GK",2:"DEF",3:"MID",4:"FWD"}[p["element_type"]]
-            text(d,f"{snapshot.team(p)} • {position} • {snapshot.price(p)}",x+126,y+42,width-144,19,muted,14)
-            # Progress is signed and projected % is a threshold meter, not a probability.
-            text(d,"PROGRESS",x+126,y+69,162,17,muted,13)
-            text(d,"PREDICTED",x+305,y+69,187,17,muted,13)
-            text(d,fmt(row["progress"],signed=True,suffix="%"),x+126,y+89,166,25,ink,18)
-            text(d,fmt(row["projected"],signed=True,suffix="%"),x+305,y+86,187,30,accent,19)
-            bx=x+126; by=y+120; bw=163
-            d.rounded_rectangle((bx,by,bx+bw,by+7),radius=3,fill=(222,230,233))
-            n=max(1,round(bw*min(1,abs(row["progress"])/100)))
-            d.rounded_rectangle((bx,by,bx+n,by+7),radius=3,fill=accent)
-            # Raw hourly-rate unit is not independently documented: do not mislabel it
-            # as verified net transfers or manufacture an ownership trend.
-            text(d,"RATE/HR "+fmt(row["hourly_rate"],0,True),x+126,y+137,168,18,muted,12)
-            text(d,"OWN "+fmt(row["owned"],suffix="%"),x+305,y+137,187,18,muted,12)
-            status="THRESHOLD MET" if abs(row["projected"])>=100 else "BELOW THRESHOLD"
-            text(d,status,x+126,y+156,170,14,accent,11)
-            text(d,"OWN Δ "+fmt(row.get("ownership_delta"),2,True,"pp"),x+305,y+156,187,14,muted,11)
-    side(board["rises"],18,green,"TOP 8 RISE WATCH")
-    side(board["falls"],550,red,"TOP 8 FALL WATCH")
-    d.rectangle((0,1770,W,H),fill=navy)
-    text(d,"±100% THRESHOLD • NOT GUARANTEED • OWN Δ VS PRIOR SNAPSHOT",20,1778,1040,22,gold,16,center=True)
-    d.line((25,1812,1055,1812),fill=gold,width=2)
-    telegram,discord=required_footer_handles()
-    youtube,x_handle=extra_social_handles()
-    channels=[("youtube",youtube),("x",x_handle),("telegram","t.me/"+telegram.lstrip("@")),("discord",discord)]
-    for i,(kind,value) in enumerate(channels):
-        if not value:
-            continue
-        x=30+(i%2)*540;y=1824+(i//2)*43
-        if kind=="youtube":
-            d.rounded_rectangle((x,y,x+34,y+25),radius=6,fill="#ff1735")
-            d.polygon([(x+13,y+5),(x+13,y+20),(x+25,y+12)],fill="white")
-        elif kind=="x":
-            d.line((x+3,y,x+28,y+26),fill="white",width=3)
-            d.line((x+27,y,x+2,y+26),fill="white",width=2)
-        elif kind=="telegram":
-            d.ellipse((x,y-3,x+32,y+29),fill="#29a9ec")
-            d.polygon([(x+5,y+10),(x+27,y+2),(x+21,y+23),(x+15,y+17),(x+10,y+21),(x+12,y+13)],fill="white")
-        else:
-            d.rounded_rectangle((x,y,x+34,y+25),radius=8,fill="#5865f2")
-            d.ellipse((x+7,y+8,x+13,y+14),fill="white")
-            d.ellipse((x+21,y+8,x+27,y+14),fill="white")
-            d.arc((x+8,y+10,x+26,y+21),0,180,fill="white",width=2)
-        text(d,value,x+44,y+1,465,21,white,14)
+                contain(canvas,crest,(x+33,y+7,48,48))
+                label("NO PHOTO",x+23,y+56,70,11,muted,True,10)
+            label(snapshot.name(p),x+102,y+5,327,29,ink)
+            contain(canvas,crest,(x+103,y+43,23,23))
+            label(f"{snapshot.team(p)}  •  {snapshot.price(p)}",x+132,y+43,300,19,muted)
+            d.rounded_rectangle((x+446,y+25,x+583,y+54),radius=14,fill="#E2F5EA" if accent==green else "#FBE2E8")
+            # Official signed likelihood band; no invented probability/word mapping.
+            label(f"BAND {row['likelihood']:+d}",x+450,y+29,129,17,accent,True)
+            label("TARGET %",x+600,y+7,139,14,muted,True,12)
+            label(f"{abs(row['projected']):.1f}%",x+599,y+28,140,29,accent,True)
+    side(board["rises"],28,green,"▲ PRICE RISES","#F9FCFA")
+    side(board["falls"],816,red,"▼ PRICE DROPS","#FFF9FA")
+    label("FPL VORTEX • Official FPL projections • Target progress, not probability • Likelihood: official signed band",
+          30,1136,1540,19,white,True)
+    label("Expected update: "+update.astimezone(UK).strftime("%H:%M UK")+" • Price movements are not guaranteed",
+          30,1166,1540,17,emerald,True)
     output=Path(output)
     output.parent.mkdir(parents=True,exist_ok=True)
     canvas.save(output,"PNG",optimize=True)

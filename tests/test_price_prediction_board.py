@@ -18,13 +18,13 @@ def populated(world):
                 dict(offset=0,projected_percent=str(pct),likelihood=3 if pct>0 else -3)]))
     return replace(s,players=players),e
 
-def test_ranked_16_players_and_no_links(world):
+def test_ranked_up_to_twenty_players_and_no_links(world):
     s,e=populated(world)
     board=build_board(s,next_published_update(s.fetched_at))
-    assert len(board["rises"])==len(board["falls"])==8
-    assert [r["projected"] for r in board["rises"]]==list(range(79,71,-1))
-    assert [r["projected"] for r in board["falls"]]==list(range(-89,-81))
-    assert len({r["player"]["id"] for side in ("rises","falls") for r in board[side]})==16
+    assert len(board["rises"])==len(board["falls"])==10
+    assert [r["projected"] for r in board["rises"]]==list(range(79,69,-1))
+    assert [r["projected"] for r in board["falls"]]==list(range(-89,-79))
+    assert len({r["player"]["id"] for side in ("rises","falls") for r in board[side]})==20
     assert "http" not in board["caption"]
     assert board["caption"].count("#")==6
 
@@ -37,6 +37,10 @@ def test_locked_and_uncalibrated_excluded(world):
     assert a[0]["projected"]==78 and b[0]["projected"]==-88
     s.players[8]["price_change_projections"]=[]
     s.players[7]["price_change_projections"]=[]
+    a,b=select_rows(s,update)
+    assert len(a)==7 and len(b)==9
+    for p in s.players:
+        p["price_change_projections"]=[]
     with pytest.raises(RequiredInput):
         select_rows(s,update)
 
@@ -46,7 +50,7 @@ def test_published_clock_tracks_uk_dst():
     assert next_published_update(winter).astimezone(timezone.utc).hour==0
     assert next_published_update(summer).astimezone(timezone.utc).hour==23
 
-def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
+def test_reference_four_by_three_render_and_catalog_id(world,monkeypatch,tmp_path):
     s,e=populated(world)
     board=build_board(s,next_published_update(s.fetched_at))
     monkeypatch.setenv("FPL_TELEGRAM_HANDLE","@FPLVortexDailyBot")
@@ -57,7 +61,7 @@ def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
     p=render_board(s,board,tmp_path/"price.png",e.session)
     stamp(p,"price-prediction")
     with Image.open(p) as im:
-        assert im.size==(1080,1920)
+        assert im.size==(1600,1200)
         assert im.info["vortex_graphic_number"]=="16/51"
         im.verify()
     assert len(CATALOG) == 51
@@ -144,6 +148,7 @@ def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_pat
                 facts={'update_at':update.isoformat(),'source_updated_at':NOW.isoformat(),'projected':99,
                        'target_deadline':(update+timedelta(days=1)).isoformat(),
                        'research':{'checked_at':(update-timedelta(hours=4,minutes=15)).isoformat(),'changes':[{'id':1,'before':{'cost':50},'after':{'cost':51}}]}})
+    Image.new("RGB",(1600,1200)).save(tmp_path/item["images"][0])
     first=validate(item,tmp_path,NOW)[0]
     item['facts']['projected']=101
     assert validate(item,tmp_path,NOW)[0]==first

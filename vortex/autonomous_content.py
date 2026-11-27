@@ -159,7 +159,7 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         board['target_deadline'] = upcoming_deadline(snapshot).isoformat()
         board['source_updated_at'] = updated.isoformat()
         return Plan(slot.task, name, 'PRICE CHANGE PREDICTION', board['caption'], gw,
-                    [r['player'] for r in board['rises'] + board['falls']], ['RISE']*8+['FALL']*8,
+                    [r['player'] for r in board['rises'] + board['falls']], ['RISE']*len(board['rises'])+['FALL']*len(board['falls']),
                     kind='price_prediction', extra=board)
     if name == 'gw-key-players':
         from .gw_key_players import build_key_players

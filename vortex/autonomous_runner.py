@@ -64,7 +64,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         # Every active production edition must have a permanent catalog number.
         stamp(path, key, required=slot.edition in {s.edition for s in SLOTS} or slot.edition in SPECIAL_EDITIONS or slot.edition == 'price-prediction')
         with Image.open(path) as image:
-            if image.size not in ((1920,1080),(1080,1920)):raise RuntimeError('Generated PNG dimensions failed QA')
+            expected_sizes = ((1600,1200),) if plan.kind == 'price_prediction' else ((1920,1080),(1080,1920))
+            if image.size not in expected_sizes:raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()
     weekly = slot.edition == 'weekly-analysis'
     editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot in EVENING_WATCH_SLOTS
