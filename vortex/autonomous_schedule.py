@@ -119,6 +119,8 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.edition == 'player-radar-comparison' and slot.series_gw is not None:
+        return f'{season}:GW{slot.series_gw}:task1:player-radar-comparison'
     if slot.edition == 'price-prediction':
         if not slot.price_update_at:
             raise ValueError('Verified price update timestamp required')
@@ -155,7 +157,7 @@ def catchup_slots(now, state, gw, season=None, limit=3):
     """Slots already due today with remaining attempts, oldest first."""
     return [
         slot for slot in sorted(SLOTS, key=lambda s: (s.hour, s.minute))
-        if slot != SERIES and eligible_on(slot, now) and now >= slot_start(slot, now)
+        if slot != SERIES and slot.edition != 'player-radar-comparison' and eligible_on(slot, now) and now >= slot_start(slot, now)
         and retryable(state.get(publication_key(slot, now, gw, season), {}))
     ][:limit]
 
@@ -222,3 +224,21 @@ def weekly_analysis_slot(snapshot, now, state):
             return None
     state[SERIES_STATE] = {'season': season, 'gw': latest, 'start': today.isoformat()}
     return replace(SERIES, series_gw=latest, series_day=1)
+
+def finalized_radar_slot(snapshot, now, state):
+    """Only the latest officially settled GW, using the existing 11:30 slot."""
+    from dataclasses import replace
+    events = getattr(snapshot, 'events', ())
+    fixtures = getattr(snapshot, 'fixtures', ())
+    finalized = [e['id'] for e in events if type(e.get('id')) is int
+                 and e.get('finished') is True and e.get('data_checked') is True
+                 and any(f.get('event') == e['id'] for f in fixtures)
+                 and all(f.get('finished') is True for f in fixtures if f.get('event') == e['id'])]
+    if not finalized:
+        return None
+    slot = next((s for s in SLOTS if s.edition == 'player-radar-comparison'), None)
+    if slot is None or now < slot_start(slot, now):
+        return None
+    slot = replace(slot, series_gw=max(finalized))
+    key = publication_key(slot, now, snapshot.gameweek(), season_id(snapshot, now))
+    return slot if retryable(state.get(key, {})) else None
