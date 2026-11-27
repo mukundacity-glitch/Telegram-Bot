@@ -444,7 +444,25 @@ def _fdr_grid(slot, snapshot, now):
     rows = []
     if len(snapshot.teams) != 20:
         raise RequiredInput("FDR board needs all 20 current Premier League clubs")
+    if weeks != list(range(weeks[0], weeks[-1] + 1)):
+        raise RequiredInput("Nonconsecutive official FDR calendar")
+    seen = set()
+    for fixture in snapshot.fixtures:
+        if fixture.get("event") not in weeks:
+            continue
+        fid = fixture.get("id")
+        home, away = fixture.get("team_h"), fixture.get("team_a")
+        if (type(fid) is not int or fid in seen or home == away
+                or home not in snapshot.teams or away not in snapshot.teams
+                or fixture.get("finished") is True):
+            raise RequiredInput("Invalid or duplicate fixture in future FDR matrix")
+        seen.add(fid)
+    if not seen:
+        raise RequiredInput("No official future fixtures")
     for team_id, club in snapshot.teams.items():
+        if (not club.get("short_name") or not club.get("name")
+                or type(club.get("code")) is not int or club["code"] <= 0):
+            raise RequiredInput("Incomplete current club identity")
         cells = []
         fdr_values = []
         for gw in weeks:
@@ -457,13 +475,12 @@ def _fdr_grid(slot, snapshot, now):
             cells.append([{"opp": opp, "venue": venue, "fdr": fdr, "code": code}
                           for opp, venue, fdr, code in fixtures])
             fdr_values.extend(fdr for _, _, fdr, _ in fixtures)
-        if not fdr_values:
-            raise RequiredInput("No future FDR for a current club")
+        # A blank contributes no fixture, not an invented zero difficulty.
         rows.append({"name": club["name"], "short": club["short_name"],
                      "code": club["code"], "cells": cells,
-                     "average": round(sum(fdr_values) / len(fdr_values), 2),
+                     "average": sum(fdr_values) / len(fdr_values) if fdr_values else None,
                      "games": len(fdr_values)})
-    rows.sort(key=lambda row: (row["average"], -row["games"], row["name"]))
+    rows.sort(key=lambda row: (row["average"] is None, row["average"] or 0, -row["games"], row["name"]))
     return _plan(slot, snapshot, now, "FIXTURE DIFFICULTY RATING",
                  f"Official FPL FDR • GW{weeks[0]}–GW{weeks[-1]}.",
                  "1 easiest / 5 toughest; blank and double gameweeks marked explicitly.",

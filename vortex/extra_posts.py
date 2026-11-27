@@ -160,7 +160,7 @@ def _team_history(snapshot: FplSnapshot, team_id: int, limit: int = 9) -> list[d
 
 
 def _best_team(snapshot: FplSnapshot, upcoming: list[dict[str, Any]],
-               current: datetime) -> dict[str, Any]:
+               current: datetime, excluded_ids=frozenset()) -> dict[str, Any]:
     candidates = []
     for f in upcoming:
         for side in ("h", "a"):
@@ -179,15 +179,31 @@ def _best_team(snapshot: FplSnapshot, upcoming: list[dict[str, Any]],
     # Rotate the focal club daily among the most favourable options; maintain
     # verified selection criteria while avoiding identical daily editions.
     pool = attractive[:min(8, len(attractive))]
-    fdr, _, team_id, fixture, side = pool[current.astimezone(ET).date().toordinal() % len(pool)]
+    start = current.astimezone(ET).date().toordinal() % len(pool)
+    # Choose only from distinct, current, eligible official player IDs.
+    # Ownership, not a synthetic form score, orders the featured options.
+    for fdr, _, team_id, fixture, side in pool[start:] + pool[:start]:
+        available = {}
+        for player in snapshot.players:
+            pid = player.get("id")
+            ownership = number(player.get("selected_by_percent"))
+            if (type(pid) is not int or pid in excluded_ids or player.get("team") != team_id
+                    or player.get("status") != "a" or not snapshot.photo_code(player)
+                    or not snapshot.team_code(player) or ownership is None or not 0 <= ownership <= 100
+                    or type(player.get("now_cost")) is not int or player["now_cost"] <= 0):
+                continue
+            row = _player_model(snapshot, player)
+            if row["form_value"] is None or row["minutes"] is None or row["fdr"] is None:
+                continue
+            available[pid] = (ownership, row)
+        featured = [row for _, row in sorted(available.values(),
+                    key=lambda item: (-item[0], item[1]["id"]))[:3]]
+        if len(featured) == 3 and _team_history(snapshot, team_id):
+            break
+    else:
+        raise ValueError("Not enough distinct verified same-club players for team analysis")
     opp_id = fixture["team_a" if side == "h" else "team_h"]
     club = snapshot.teams[team_id]
-    available = [_player_model(snapshot, p) for p in snapshot.players if p.get("team") == team_id
-                 and p.get("status") == "a" and isinstance(p.get("code"), int)]
-    available.sort(key=_score, reverse=True)
-    featured = available[:3]
-    if len(featured) < 3:
-        raise ValueError("Not enough verifiable available players for team analysis")
     goals = _team_history(snapshot, team_id)
     return {
         "team_id": team_id, "team": str(club.get("name")), "short": str(club.get("short_name")),
@@ -195,7 +211,7 @@ def _best_team(snapshot: FplSnapshot, upcoming: list[dict[str, Any]],
         "opponent": snapshot.teams.get(opp_id, {}).get("short_name", "TBD"),
         "opponent_code": snapshot.teams.get(opp_id, {}).get("code"),
         "venue": "H" if side == "h" else "A", "fdr": fdr,
-        "history": goals, "players": featured,
+        "history": goals, "players": featured, "selection_metric": "selected_by_percent",
         "gf_total": sum(x["gf"] for x in goals) if goals else None,
         "ga_total": sum(x["ga"] for x in goals) if goals else None,
         "period": f"LAST {len(goals)} COMPLETED MATCHES",
@@ -254,11 +270,35 @@ def _transfers(snapshot: FplSnapshot) -> list[dict[str, Any]]:
     return rows
 
 
-def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost:
+def most_transferred_in(snapshot, excluded_ids=frozenset()):
+    """Highest verified event inflow per position, excluding already featured IDs."""
+    unique = {}
+    for p in snapshot.players:
+        pid, count = p.get("id"), p.get("transfers_in_event")
+        if (type(pid) is not int or pid in excluded_ids or type(count) is not int or count <= 0
+                or p.get("element_type") not in POS or not snapshot.team_code(p)
+                or not snapshot.photo_code(p) or type(p.get("now_cost")) is not int
+                or p["now_cost"] <= 0):
+            continue
+        if pid in unique:
+            raise ValueError("Duplicate official player identity")
+        unique[pid] = p
+    rows = []
+    for position, label in POS.items():
+        ranked = sorted((p for p in unique.values() if p["element_type"] == position),
+                        key=lambda p: (-p["transfers_in_event"], p["id"]))
+        if not ranked:
+            raise ValueError(f"No distinct verified transfer-in candidate for {label}")
+        rows.append({"position": label, "player": _player_model(snapshot, ranked[0]),
+                     "metric": "transfers_in_event"})
+    return tuple(rows)
+
+
+def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime, *, excluded_ids=frozenset()) -> ExtraPost:
     if kind == "start_bench":
         from .decision_board import start_bench
         return start_bench(snapshot, now)
-    if kind not in {"projections", "team_analysis", "transfer_suggestions"}:
+    if kind not in {"projections", "team_analysis", "transfer_suggestions", "most_transferred_in"}:
         raise ValueError("Unsupported extra post kind")
     gw = snapshot.gameweek()
     deadline = upcoming_deadline(snapshot)
@@ -293,8 +333,19 @@ def generate_extra(kind: str, snapshot: FplSnapshot, now: datetime) -> ExtraPost
         ], gw)
         return ExtraPost(kind, f"GW{gw} · GOALS & CLEAN SHEETS", "ALL CLUBS · 10 MATCHUPS WHEN STANDARD",
                          c, time_label, gw, "Official FPL · " + label, fixtures=games)
+    if kind == "most_transferred_in":
+        rows = most_transferred_in(snapshot, excluded_ids)
+        c = caption([
+            f"GW{gw}: Most transferred-in distinct picks by position.",
+            "Ranked by official FPL event-to-date transfer inflow.",
+            "GK, DEF, MID and FWD; ownership is not the ranking metric.",
+            "MONITOR minutes and team news before transferring.",
+        ], gw)
+        return ExtraPost(kind, f"GW{gw} · MOST TRANSFERRED-IN",
+                         "GK · DEF · MID · FWD", c, time_label, gw,
+                         "Official FPL event-to-date transfers", transfers=rows)
     if kind == "team_analysis":
-        subject = _best_team(snapshot, _next_fixtures(snapshot), now)
+        subject = _best_team(snapshot, _next_fixtures(snapshot), now, excluded_ids)
         c = caption([
             f"GW{gw}: {subject['short']} attack and defence evaluated.",
             f"Next: {subject['opponent']} ({subject['venue']}), official FDR {subject['fdr']}.",

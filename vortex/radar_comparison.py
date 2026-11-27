@@ -1,4 +1,4 @@
-"""Daily transfer comparison from official FPL player and fixture records."""
+"""Post-gameweek comparison from official FPL player and fixture records."""
 from math import isfinite
 from statistics import mean
 
@@ -19,6 +19,12 @@ def build_radar(slot, snapshot, now, evidence):
 
     gw = snapshot.gameweek()
     rounds = completed_rounds(snapshot, 5)
+    if slot.series_gw is not None:
+        settled = {event['id'] for event in snapshot.events
+                   if event.get('finished') is True and event.get('data_checked') is True}
+        rounds = [r for r in rounds if r <= slot.series_gw and r in settled]
+        if not rounds or max(rounds) != slot.series_gw:
+            raise RequiredInput('Target Gameweek is not officially finalized')
     if not gw or len(rounds) < 5:
         raise RequiredInput("Five completed FPL gameweeks and a future deadline are required")
     candidates = [
@@ -74,7 +80,7 @@ def build_radar(slot, snapshot, now, evidence):
                 )
                 return Plan(slot.task, slot.edition, "FPL VORTEX PLAYER RADAR", caption,
                             gw, [peer, player], [], kind="player_radar", extra={
-                                "rounds": sorted(rounds), "metrics": shared,
+                                "rounds": sorted(rounds), "completed_gw": max(rounds), "metrics": shared,
                                 "values": [other_values, values], "fixtures": [other_fixtures, fixtures],
                             })
         verified.append((player, values, fixtures))

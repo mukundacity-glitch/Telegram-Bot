@@ -18,13 +18,13 @@ def populated(world):
                 dict(offset=0,projected_percent=str(pct),likelihood=3 if pct>0 else -3)]))
     return replace(s,players=players),e
 
-def test_ranked_16_players_and_no_links(world):
+def test_ranked_up_to_twenty_players_and_no_links(world):
     s,e=populated(world)
     board=build_board(s,next_published_update(s.fetched_at))
-    assert len(board["rises"])==len(board["falls"])==8
-    assert [r["projected"] for r in board["rises"]]==list(range(79,71,-1))
-    assert [r["projected"] for r in board["falls"]]==list(range(-89,-81))
-    assert len({r["player"]["id"] for side in ("rises","falls") for r in board[side]})==16
+    assert len(board["rises"])==len(board["falls"])==10
+    assert [r["projected"] for r in board["rises"]]==list(range(79,69,-1))
+    assert [r["projected"] for r in board["falls"]]==list(range(-89,-79))
+    assert len({r["player"]["id"] for side in ("rises","falls") for r in board[side]})==20
     assert "http" not in board["caption"]
     assert board["caption"].count("#")==6
 
@@ -37,6 +37,10 @@ def test_locked_and_uncalibrated_excluded(world):
     assert a[0]["projected"]==78 and b[0]["projected"]==-88
     s.players[8]["price_change_projections"]=[]
     s.players[7]["price_change_projections"]=[]
+    a,b=select_rows(s,update)
+    assert len(a)==7 and len(b)==9
+    for p in s.players:
+        p["price_change_projections"]=[]
     with pytest.raises(RequiredInput):
         select_rows(s,update)
 
@@ -46,7 +50,7 @@ def test_published_clock_tracks_uk_dst():
     assert next_published_update(winter).astimezone(timezone.utc).hour==0
     assert next_published_update(summer).astimezone(timezone.utc).hour==23
 
-def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
+def test_reference_four_by_three_render_and_catalog_id(world,monkeypatch,tmp_path):
     s,e=populated(world)
     board=build_board(s,next_published_update(s.fetched_at))
     monkeypatch.setenv("FPL_TELEGRAM_HANDLE","@FPLVortexDailyBot")
@@ -57,7 +61,7 @@ def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
     p=render_board(s,board,tmp_path/"price.png",e.session)
     stamp(p,"price-prediction")
     with Image.open(p) as im:
-        assert im.size==(1080,1920)
+        assert im.size==(1600,1200)
         assert im.info["vortex_graphic_number"]=="16/51"
         im.verify()
     assert len(CATALOG) == 51
@@ -125,11 +129,7 @@ def test_dynamic_clock_respects_existing_schedule(world, monkeypatch):
     monkeypatch.setattr(autonomous_schedule,'SLOTS',())
     monkeypatch.setattr(schedule,'SLOT_HOURS',{})
     slot,info=opportunity(s,now,{})
-    assert info['status']=='due'
-    assert slot.price_update_at=='2026-11-27T00:00:00+00:00'
-    key=publication_key(slot,now,12,'2026-27')
-    assert publication_key(slot,now,13,'2026-27')==key
-    assert opportunity(s,now,{key:{'status':'delivered'}})[1]['status']=='closed'
+    assert slot is None and info['status']=='research-missing'
     assert opportunity(s,now+timedelta(minutes=15),{})[1]['status']=='missed-window'
 
 def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_path):
@@ -145,10 +145,91 @@ def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_pat
         validate(item,tmp_path,NOW)
     update=NOW+timedelta(hours=1)
     item.update(edition='price-prediction', deadline=update.isoformat(),
-                facts={'update_at':update.isoformat(),'source_updated_at':NOW.isoformat(),'projected':99})
+                facts={'update_at':update.isoformat(),'source_updated_at':NOW.isoformat(),'projected':99,
+                       'target_deadline':(update+timedelta(days=1)).isoformat(),
+                       'research':{'checked_at':(update-timedelta(hours=4,minutes=15)).isoformat(),
+                                   'research_at':(update-timedelta(hours=4,minutes=15)).isoformat(),
+                                   'post_at':NOW.isoformat(),
+                                   'observed_settlement': settlement_fixture(update, item['season']),
+                                   'changes':[{'id':1,'before':{'cost':50},'after':{'cost':51}}]}})
+    Image.new("RGB",(1600,1200)).save(tmp_path/item["images"][0])
     first=validate(item,tmp_path,NOW)[0]
     item['facts']['projected']=101
-    item['gameweek']=11
     assert validate(item,tmp_path,NOW)[0]==first
-    with pytest.raises(ValueError,match='one-hour'):
+    item['gameweek']=11
+    assert validate(item,tmp_path,NOW)[0]!=first
+    with pytest.raises(ValueError,match='publication window'):
         validate(item,tmp_path,NOW+timedelta(minutes=15))
+
+
+def test_pre_gameweek_research_and_material_change_gate(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity
+    from vortex.autonomous_schedule import publication_key
+    from vortex import autonomous_schedule, schedule
+    s, _ = populated(world)
+    update = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    research = update - timedelta(hours=4, minutes=15)
+    posting = update - timedelta(hours=1)
+    monkeypatch.setattr(autonomous_schedule, 'SLOTS', ())
+    monkeypatch.setattr(schedule, 'SLOT_HOURS', {})
+    monkeypatch.setattr(autonomous_schedule, 'special_triggers', lambda *_: [])
+    def at(instant):
+        return replace(s, fetched_at=instant, game_config={
+            'settings': {'price_change_deadlines': [update.isoformat()]},
+            'status': {'price_change_last_updated': instant.isoformat()}})
+    # The official target deadline is future for both checks.
+    monkeypatch.setattr('vortex.fpl.upcoming_deadline', lambda _: update + timedelta(days=1))
+    from vortex.price_prediction_board import SETTLEMENT_KEY
+    from vortex.autonomous_schedule import season_id
+    state = {SETTLEMENT_KEY:settlement_fixture(update, season_id(s, posting))}
+    assert opportunity(at(posting), posting, state)[0] is None
+    assert opportunity(at(research), research, state)[1]['status'] == 'research-verified'
+    assert opportunity(at(posting), posting, state)[1]['status'] == 'no-new-facts'
+    s.players[0]['now_cost'] += 1
+    slot, info = opportunity(at(posting), posting, state)
+    assert slot is not None and info['status'] == 'due'
+    key = publication_key(slot, posting, 12, '2026-27')
+    assert key != publication_key(slot, posting, 13, '2026-27')
+    assert key == publication_key(replace(slot, price_update_at=(update+timedelta(days=1)).isoformat()), posting, 12, '2026-27')
+
+
+def test_price_gap_rejects_legacy_short_research(tmp_path):
+    from test_chatgpt_outbox import record, NOW
+    from vortex.outbox import validate
+    item = record(tmp_path)
+    update = NOW + timedelta(hours=1)
+    item.update(task='price_changes', edition='price-prediction', deadline=update.isoformat(), facts={
+        'update_at': update.isoformat(), 'source_updated_at': NOW.isoformat(),
+        'target_deadline': (update + timedelta(days=1)).isoformat(),
+        'research': {'checked_at': (NOW-timedelta(hours=1)).isoformat(), 'changes': [{'id':1}]}})
+    with pytest.raises(ValueError, match='research/target deadline gate'):
+        validate(item, tmp_path, NOW)
+
+
+
+def settlement_fixture(update, season):
+    prior=update-timedelta(days=1)
+    return {"season":season,"expected_at":prior.isoformat(),
+            "last_before":(prior-timedelta(minutes=15)).isoformat(),
+            "first_after":(prior+timedelta(minutes=15)).isoformat(),
+            "changes":[{"id":1,"before":{"cost":50},"after":{"cost":51}}]}
+
+
+def test_observed_settlement_is_bounded_by_real_snapshots(world):
+    from vortex.price_prediction_board import observe_settlement, SETTLEMENT_KEY, valid_settlement
+    from vortex.autonomous_schedule import season_id
+    s,_=populated(world)
+    expected=datetime(2026,11,27,0,tzinfo=timezone.utc)
+    before=expected-timedelta(minutes=10)
+    after=expected+timedelta(minutes=10)
+    def snap(at,next_update):
+        return replace(s,fetched_at=at,game_config={"settings":{"price_change_deadlines":[next_update.isoformat()]},
+             "status":{"price_change_last_updated":at.isoformat()}})
+    state={}
+    assert observe_settlement(snap(before,expected),state)
+    assert SETTLEMENT_KEY not in state
+    s.players[0]["now_cost"]+=1
+    assert observe_settlement(snap(after,expected+timedelta(days=1)),state)
+    observed=state[SETTLEMENT_KEY]
+    assert observed["last_before"]==before.isoformat() and observed["first_after"]==after.isoformat()
+    assert valid_settlement(observed,season_id(s,after),after)

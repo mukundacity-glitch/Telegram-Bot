@@ -1,11 +1,12 @@
-"""Daily rotation planner queue only; individual news publishing is removed."""
+"""Weekly four-club rotation planner queue; retired news rules remain historical."""
 from __future__ import annotations
 
 import argparse
 import json
 import os
 from dataclasses import asdict, replace
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Any
 
@@ -19,6 +20,64 @@ PENDING = BASE / "news_pending.json"
 READY = BASE / "rotation_initialized.json"
 RECEIPTS = BASE / "news_deliveries.json"
 NEWS_OUTPUT = BASE.parent / "output" / "news"
+ET = ZoneInfo('America/New_York')
+
+
+def rotation_due(now):
+    """Friday 20:00 ET, using the existing Friday rotation publication slot."""
+    local = now.astimezone(ET)
+    return local.weekday() == 4 and (20, 0) <= (local.hour, local.minute) < (20, 15)
+
+
+def rotation_research_due(now):
+    local = now.astimezone(ET)
+    return local.weekday() == 4 and (15, 28) <= (local.hour, local.minute) < (15, 40)
+
+
+def rotation_research_valid(snapshot, now, state):
+    from .autonomous_schedule import season_id
+    from .research_gap import verified_gap
+    local = now.astimezone(ET)
+    post = local.replace(hour=20, minute=0, second=0, microsecond=0)
+    row = state.get('research', {})
+    return (row.get('date') == local.date().isoformat()
+            and row.get('gw') == snapshot.gameweek()
+            and row.get('season') == season_id(snapshot, now)
+            and verified_gap(row.get('checked_at'), post)
+            and verified_gap(row.get('checked_at'), now))
+
+
+def prepare_rotation_research(snapshot, now, *, clock=None):
+    if not rotation_research_due(now):
+        return False
+    from .rotation_planner import build_rotation_plan
+    from .autonomous_schedule import season_id
+    plan = build_rotation_plan(snapshot, now)
+    state = _read(READY)
+    state.update(initialized=True, research={
+        'date': now.astimezone(ET).date().isoformat(), 'gw': plan.gameweek,
+        'season': season_id(snapshot, now), 'checked_at': (clock() if clock else now).isoformat(),
+        'club_ids': [club['id'] for club in plan.clubs],
+    })
+    save_journal(READY, state)
+    return True
+
+
+def rotation_week_claimed(receipts, pending, now):
+    """Legacy date-keyed receipts also count; never replay an uncertain send."""
+    week = now.astimezone(ET).date().isocalendar()[:2]
+    for identity, row in {**receipts, **pending}.items():
+        if not identity.startswith('rotation:'):
+            continue
+        try:
+            date = datetime.fromisoformat(identity.split(':')[1]).date()
+        except (ValueError, IndexError):
+            raise ValueError('Unreadable rotation receipt identity')
+        if date.isocalendar()[:2] == week and (identity in pending or any(
+            row.get(k) for k in ('delivered', 'discord_delivered', 'telegram_send_pending', 'discord_send_pending')
+        )):
+            return True
+    return False
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -41,8 +100,9 @@ def _create_clients() -> tuple[TelegramClient, DiscordWebhookClient]:
 
 def run(dry_run: bool = False, *, snapshot=None,
         telegram=None, discord=None, now: datetime | None = None,
-        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None) -> dict[str, int]:
+        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None, live_clock=None) -> dict[str, int]:
     current_time = now or datetime.now(timezone.utc)
+    clock = live_clock or ((lambda: now) if now is not None else (lambda: datetime.now(timezone.utc)))
     if current_time.tzinfo is None:
         raise ValueError("Timestamp must include a timezone")
     snapshot = snapshot or collect_snapshot()
@@ -65,8 +125,10 @@ def run(dry_run: bool = False, *, snapshot=None,
     if not 0 <= cap <= 6:
         raise ValueError("MAX_NEWS_PER_RUN must be between 0 and 6")
     initial = not READY.exists()
+    research_ok = rotation_research_valid(snapshot, current_time, _read(READY))
 
-    if not initial and rotation is not None and not pending_only:
+    if (not initial and rotation is not None and not pending_only and rotation_due(current_time) and research_ok
+            and not rotation_week_claimed(receipt, pending, current_time)):
         identity = rotation.identity
         if identity not in pending and not (
             receipt.get(identity, {}).get("delivered") and
@@ -89,7 +151,8 @@ def run(dry_run: bool = False, *, snapshot=None,
         return summary
     save_journal(PENDING, pending)
 
-    eligible = [(key, row) for key, row in pending.items() if row.get("attempts", 0) < ATTEMPTS]
+    eligible = [(key, row) for key, row in pending.items()
+                if rotation_due(current_time) and research_ok and row.get("attempts", 0) < ATTEMPTS]
     if drain:
         eligible.sort(key=lambda item: item[1].get("queued_at", ""))
     if not eligible or (cap == 0 and not drain):
@@ -126,8 +189,11 @@ def run(dry_run: bool = False, *, snapshot=None,
             stamp(image_path, 'news-rotation-planner')
             record = replace(record, image=image_path)
             generated = True
+            delivered_at = clock()
+            if not rotation_due(delivered_at) or not rotation_research_valid(snapshot, delivered_at, _read(READY)):
+                break  # The window elapsed while rendering; never send late.
             result = publish_shared(record, RECEIPTS, telegram, discord,
-                                    send_discord=discord is not None, now_iso=current_time.isoformat())
+                                    send_discord=discord is not None, now_iso=delivered_at.isoformat())
         except (RuntimeError, ValueError, OSError, KeyError, TypeError) as exc:
             reason = failure_reason(exc)
             failures.append(f"{identity}: {reason}")

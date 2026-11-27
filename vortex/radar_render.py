@@ -11,11 +11,11 @@ from .minimal_theme import social_footer
 from .publication_rules import FDR_COLORS, required_footer_handles
 from .render import font
 
-CYAN = "#39ddf4"
-GOLD = "#ffc959"
+CYAN = "#45E6D1"
+GOLD = "#FFD166"
 INK = "#f0f6ff"
 MUTED = "#9db7d8"
-PANEL = "#091932"
+PANEL = "#03282C"
 
 
 def _portrait(session, code):
@@ -34,13 +34,15 @@ def render_radar(plan, snapshot, output, session):
     verify_exact_master()
     with Image.open(MASTER) as original:
         canvas = original.convert("RGB").resize((1920, 1080), Image.Resampling.LANCZOS)
+    # Preserve the authentic masthead marks from the original master.
     draw = ImageDraw.Draw(canvas, "RGBA")
+    draw.rectangle((0, 114, 1920, 1001), fill="#063B3B")
     text(draw, plan.title, 310, 4, 1300, 46, INK, 30, center=True)
     rounds = plan.extra["rounds"]
     history = " · ".join(f"GW{gw}" for gw in rounds)
     text(draw, f"LAST FIVE COMPLETED GAMEWEEKS  /  {history}", 310, 78, 1300, 25, CYAN, 18, center=True)
     for box in ((55, 129, 1008, 777), (1030, 129, 1865, 777), (55, 793, 1865, 990)):
-        draw.rounded_rectangle(box, 19, fill=PANEL, outline="#2d6199", width=2)
+        draw.rounded_rectangle(box, 19, fill=PANEL, outline="#397E7D", width=2)
 
     with ThreadPoolExecutor(max_workers=4) as workers:
         portraits = [workers.submit(_portrait, session, snapshot.photo_code(p)) for p in plan.players]
@@ -67,16 +69,16 @@ def render_radar(plan, snapshot, output, session):
         return cx + radius*fraction*cos(angle), cy + radius*fraction*sin(angle)
 
     for ring in (.25, .5, .75, 1):
-        draw.polygon([point(angle, ring) for angle in angles], outline="#355071", width=2)
+        draw.polygon([point(angle, ring) for angle in angles], outline="#436A69", width=2)
     for label, angle in zip(labels, angles):
-        draw.line([(cx, cy), point(angle, 1)], fill="#355071", width=2)
+        draw.line([(cx, cy), point(angle, 1)], fill="#436A69", width=2)
         lx, ly = point(angle, 1.23)
         draw.text((lx, ly), label, anchor="mm", font=font(24), fill=INK)
 
     for i, (row, color) in enumerate(zip(values, colors)):
         polygon = [point(angle, max(0, row[label]) / (max(0, *(v[label] for v in values)) or 1))
                    for label, angle in zip(labels, angles)]
-        draw.polygon(polygon, fill=(57, 221, 244, 47) if i == 0 else (255, 201, 89, 47),
+        draw.polygon(polygon, fill=(69, 230, 209, 47) if i == 0 else (255, 209, 102, 47),
                      outline=color, width=4)
         for x, y in polygon:
             draw.ellipse((x-6, y-6, x+6, y+6), fill=color, outline=PANEL, width=2)
@@ -84,7 +86,7 @@ def render_radar(plan, snapshot, output, session):
 
     for i, label in enumerate(labels):
         y = 439 + 39*i
-        draw.rounded_rectangle((1054, y, 1841, y+34), 5, fill="#102749")
+        draw.rounded_rectangle((1054, y, 1841, y+34), 5, fill="#104448")
         text(draw, label, 1080, y+3, 350, 24, INK, 18)
         for column, row in enumerate(values):
             value = f"{row[label]:.2f}" if label in ("xG", "xA") else f"{row[label]:.0f}"
@@ -97,7 +99,7 @@ def render_radar(plan, snapshot, output, session):
         for j, gw in enumerate(sorted({row["gw"] for row in fixtures})):
             items = [row for row in fixtures if row["gw"] == gw]
             left = 380 + 291*j
-            draw.rounded_rectangle((left, y, left+280, y+49), 7, fill="#102749")
+            draw.rounded_rectangle((left, y, left+280, y+49), 7, fill="#104448")
             text(draw, f"GW{gw}", left+7, y+14, 64, 19, MUTED, 12)
             width = 200 / len(items)
             for k, row in enumerate(items):
