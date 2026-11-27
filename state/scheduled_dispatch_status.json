@@ -1,28 +1,24 @@
 {
-  "at": "2026-11-27T11:32:02.936825+00:00",
-  "eastern_at": "2026-11-27T06:32:02.936825-05:00",
+  "at": "2026-11-27T12:16:29.777530+00:00",
+  "eastern_at": "2026-11-27T07:16:29.777530-05:00",
   "last_news_scan": "2026-11-27T10:30:06.565372+00:00",
-  "new_posts": 0,
+  "new_posts": 1,
   "next_due": {
-    "post": "due-queue",
-    "trigger": "2026-11-27T12:16:22.416040+00:00"
+    "post": "news",
+    "trigger": "2026-11-27T13:01:34.642824+00:00"
   },
-  "next_telegram_at": "2026-11-27T12:16:22.416040+00:00",
+  "next_telegram_at": "2026-11-27T13:01:34.642824+00:00",
   "pending_triggers": [
-    {
-      "post": "start-bench-board",
-      "trigger": "2026-11-27T12:00:00+00:00"
-    },
     {
       "post": "final-gameweek-news",
       "trigger": "2026-11-27T15:00:00+00:00"
     }
   ],
-  "posts_due": null,
+  "posts_due": 2,
   "posts_failed": 0,
-  "posts_generated": 0,
-  "posts_pending_trigger": 2,
-  "posts_processed": 0,
+  "posts_generated": 1,
+  "posts_pending_trigger": 1,
+  "posts_processed": 1,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
@@ -42,15 +38,15 @@
     ],
     "post": "price-prediction",
     "research_at": "2026-11-27T07:43:00+00:00",
-    "source_updated_at": "2026-11-27T11:20:14.056506+00:00",
+    "source_updated_at": "2026-11-27T12:05:13.837127+00:00",
     "status": "no-actionable-gameweek",
     "trigger": "2026-11-27T21:30:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
   },
-  "queue_enumerated": false,
-  "queue_items_unprocessed": null,
+  "queue_enumerated": true,
+  "queue_items_unprocessed": 1,
   "scheduled_cron": "0,30 0-3,9-23 * * *",
   "source_error": null,
-  "status": "deferred-telegram-spacing",
-  "telegram_messages_sent": 0
+  "status": "published",
+  "telegram_messages_sent": 1
 }
