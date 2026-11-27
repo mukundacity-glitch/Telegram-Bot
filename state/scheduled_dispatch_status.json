@@ -1,19 +1,19 @@
 {
-  "at": "2026-11-27T15:41:18.941751+00:00",
-  "eastern_at": "2026-11-27T10:41:18.941751-05:00",
+  "at": "2026-11-27T15:42:04.086615+00:00",
+  "eastern_at": "2026-11-27T10:42:04.086615-05:00",
   "last_news_scan": "2026-11-27T10:30:06.565372+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
-    "post": "news",
+    "post": "due-queue",
     "trigger": "2026-11-27T16:26:22.832720+00:00"
   },
   "next_telegram_at": "2026-11-27T16:26:22.832720+00:00",
   "pending_triggers": [],
-  "posts_due": 2,
+  "posts_due": null,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 0,
-  "posts_processed": 1,
+  "posts_processed": 0,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
@@ -38,10 +38,10 @@
     "trigger": "2026-11-27T21:30:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
   },
-  "queue_enumerated": true,
-  "queue_items_unprocessed": 1,
-  "scheduled_cron": "28 * * * *",
+  "queue_enumerated": false,
+  "queue_items_unprocessed": null,
+  "scheduled_cron": "43 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "deferred-telegram-spacing",
+  "telegram_messages_sent": 0
 }
