@@ -1,19 +1,44 @@
 {
-  "at": "2026-11-27T16:30:48.163383+00:00",
-  "eastern_at": "2026-11-27T11:30:48.163383-05:00",
+  "at": "2026-11-27T18:55:16.797427+00:00",
+  "eastern_at": "2026-11-27T13:55:16.797427-05:00",
   "last_news_scan": "2026-11-27T16:26:29.174996+00:00",
-  "new_posts": 0,
+  "new_posts": 1,
   "next_due": {
-    "post": "weekly-analysis",
-    "trigger": "2026-11-27T12:30:00-05:00"
+    "post": "defender-watch",
+    "trigger": "2026-11-27T19:40:28.360114+00:00"
   },
-  "next_telegram_at": null,
-  "pending_triggers": [],
-  "posts_due": 0,
+  "next_telegram_at": "2026-11-27T19:40:28.360114+00:00",
+  "pending_triggers": [
+    {
+      "post": "captaincy-comparison",
+      "trigger": "2026-11-30T08:00:00+00:00"
+    },
+    {
+      "post": "value-board",
+      "trigger": "2026-11-30T17:00:00+00:00"
+    },
+    {
+      "post": "start-bench-board",
+      "trigger": "2026-12-01T12:00:00+00:00"
+    },
+    {
+      "post": "final-gameweek-news",
+      "trigger": "2026-12-01T15:00:00+00:00"
+    },
+    {
+      "post": "market-trends-next-five",
+      "trigger": null
+    },
+    {
+      "post": "chance-creators",
+      "trigger": "2026-11-29T06:00:00-05:00"
+    }
+  ],
+  "posts_due": 5,
   "posts_failed": 0,
-  "posts_generated": 0,
-  "posts_pending_trigger": 0,
-  "posts_processed": 0,
+  "posts_generated": 1,
+  "posts_pending_trigger": 6,
+  "posts_processed": 1,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
@@ -33,15 +58,15 @@
     ],
     "post": "price-prediction",
     "research_at": "2026-11-27T07:43:00+00:00",
-    "source_updated_at": "2026-11-27T16:20:15.820862+00:00",
-    "status": "no-actionable-gameweek",
+    "source_updated_at": "2026-11-27T18:20:19.060096+00:00",
+    "status": "waiting",
     "trigger": "2026-11-27T21:30:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
   },
   "queue_enumerated": true,
-  "queue_items_unprocessed": 0,
-  "scheduled_cron": "58 * * * *",
+  "queue_items_unprocessed": 4,
+  "scheduled_cron": "13 * * * *",
   "source_error": null,
-  "status": "no-new-verified-content",
-  "telegram_messages_sent": 0
+  "status": "published",
+  "telegram_messages_sent": 1
 }
