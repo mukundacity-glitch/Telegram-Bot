@@ -28,3 +28,28 @@ def test_radar_gap_requires_same_finalized_gw_and_actual_three_hours():
     row['checked_at'] = (now-timedelta(hours=3)).isoformat()
     row['completed_gw'] = 10
     assert not radar_research_valid(state, slot, snapshot, now)
+
+
+def test_exclusive_publication_preserves_other_due_jobs():
+    from vortex.autonomous_schedule import ET, Slot
+    from vortex.scheduled_dispatch import exclusive_cutover_jobs
+    post = datetime(2026, 11, 27, 11, 30, tzinfo=ET)
+    radar = (post, 'editorial', 'radar', Slot('task1', 'player-radar-comparison', 11, 30))
+    legacy = (post, 'legacy', 'legacy', ('elite', 'cron'))
+    idle_news = (post, 'news', 'news', True)
+    assert exclusive_cutover_jobs([radar, idle_news], post) == [radar]
+    assert exclusive_cutover_jobs([radar, legacy], post) == [legacy]
+    assert exclusive_cutover_jobs([idle_news], post, research_due=True) == []
+    from vortex.autonomous_schedule import radar_post_due
+    assert radar_post_due(post)
+    assert not radar_post_due(post + timedelta(minutes=15))
+
+
+def test_weekly_rotation_cannot_displace_another_due_job():
+    from vortex.autonomous_schedule import ET
+    from vortex.scheduled_dispatch import exclusive_cutover_jobs
+    post = datetime(2026, 11, 27, 20, 0, tzinfo=ET)
+    rotation = (post, 'news', 'rotation', True)
+    legacy = (post, 'legacy', 'legacy', ('sell', 'cron'))
+    assert exclusive_cutover_jobs([rotation], post) == [rotation]
+    assert exclusive_cutover_jobs([rotation, legacy], post) == [legacy]

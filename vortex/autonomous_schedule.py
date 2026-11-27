@@ -282,10 +282,15 @@ def radar_research_due(now):
     return (5, 58) <= (local.hour, local.minute) < (6, 10)
 
 
+def radar_post_due(now):
+    local = now.astimezone(ET)
+    return (11, 30) <= (local.hour, local.minute) < (11, 45)
+
+
 def radar_research_valid(state, slot, snapshot, now):
     from .research_gap import verified_gap
     row = state.get(RADAR_RESEARCH_STATE, {})
-    return (slot.series_gw is not None and row.get('completed_gw') == slot.series_gw
+    return (radar_post_due(now) and slot.series_gw is not None and row.get('completed_gw') == slot.series_gw
             and row.get('season') == season_id(snapshot, now)
             and row.get('date') == now.astimezone(ET).date().isoformat()
             and verified_gap(row.get('checked_at'), slot_start(slot, now))

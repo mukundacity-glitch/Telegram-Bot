@@ -19,12 +19,20 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 09:51:27 UTC — catalogue correction committed (c81e2a8).
 - Friday, 27 November 2026 at 09:53:14.083743 UTC — regression suite passed: 442 passed, zero failures (run 45977206370).
 - Friday, 27 November 2026 at 09:53:18.128314 UTC — read-only live source audit generated passing result, 20 teams and 674 players.
+- Friday, 27 November 2026 at 09:55:43 UTC — price/FDR minimum-gap code committed (7a45076).
+- Friday, 27 November 2026 at 09:56:41 UTC — radar/rotation minimum-gap code committed (e85322b).
+- Friday, 27 November 2026 at 09:57:54.868813 UTC — 451 regression tests passed for 7a45076 (run 45977788745).
+- Friday, 27 November 2026 at 09:58:03 UTC — transfer-in and team-desk preview builders committed (020592d).
+- Friday, 27 November 2026 at 09:59:25 UTC — price reference renderer committed (e394695).
+- Friday, 27 November 2026 at 09:59:33.304049 UTC — 452 regression tests passed for e85322b (run 45977913431).
 - New minimum three-hour research-to-post rule applies to all slots. Current implementation increment enforces it for price prediction, finalized radar, weekly rotation and FDR. Radar research is 05:58–06:10 ET before existing 11:30 post; Friday rotation research is 15:28–15:40 ET before existing 20:00 post. Both require persisted research and skip when another job is due. Remaining slots and other active workflows require reconciliation. Existing publication times are retained; runtime conflicts must result in a hold, not a late send.
 - Position Watch #7: blocked; do not implement or activate until slots 1–6 are fully implemented and verified. No production merge until that gate passes.
 
 - Slot 2 and 4 selection/rendering increment: official event inflows by position and ownership-ranked distinct same-club options, caller-supplied exclusions, purple background. Builders remain unscheduled until durable cross-edition exclusions and exact production windows are reconciled. 05:00 ET is outside the current approved 05:30–23:00 publication window; no unverified new time has been activated.
 
 - Slot 1 renderer now uses the supplied 4:3 two-column composition, FPL purple background and up to ten verified candidates per direction. A 1600×1200 PNG is required specifically for this edition, without changing the other graphic sizes. The official signed likelihood band is displayed instead of invented probability labels.
+
+- Dispatch exclusivity increment: price, finalized radar, rotation and FDR hold when another real due job is present; idle rotation polling does not block research. Radar no longer permits late-day catch-up, and guarded publication windows are checked again at execution. This is a fail-closed runtime safeguard, not proof of conflict-free operation for every legacy workflow.
 
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 

@@ -102,6 +102,24 @@ def observe_during_deferral(snapshot):
         record_price_ownership(snapshot, read_state(STATE_FILE))
 
 
+def exclusive_cutover_jobs(jobs, now, research_due=False):
+    """A guarded publication must own its run; do not displace other due jobs.
+
+    Idle rotation polling is not a publication. Preserve every unrelated real
+    job and hold guarded editions if another job actually competes for this run.
+    """
+    from .unified_runner import rotation_due
+    def guarded(job):
+        return ((job[1] == 'editorial' and job[3].edition in {
+            'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid'})
+            or (job[1] == 'news' and rotation_due(now)))
+    if research_due or any(guarded(job) for job in jobs):
+        jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
+    if len(jobs) > 1:
+        return [job for job in jobs if not guarded(job)]
+    return jobs
+
+
 def run(now=None, cron=None, snapshot=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
@@ -143,6 +161,7 @@ def run(now=None, cron=None, snapshot=None):
     last_news_scan = previous_report.get("last_news_scan")
     source_error = None
     price_status = {'status': 'unavailable'}
+    candidate_price_research = None
     try:
         snapshot = snapshot or retry_source(collect_snapshot)
     except (RuntimeError, ValueError, OSError) as exc:
@@ -163,9 +182,11 @@ def run(now=None, cron=None, snapshot=None):
             from .editorial_inputs import RequiredInput
             evidence.price_previous = record_price_ownership(snapshot, editorial)
             try:
-                price_slot, price_status = opportunity(snapshot, now, editorial)
+                from .price_prediction_board import RESEARCH_KEY
+                candidate_state = dict(editorial)
+                price_slot, price_status = opportunity(snapshot, now, candidate_state)
                 if price_status.get('status') == 'research-verified':
-                    write_state(STATE_FILE, editorial)
+                    candidate_price_research = candidate_state.get(RESEARCH_KEY)
                 if price_slot is not None:
                     evidence.price_research = price_status['research']
                 if price_slot is not None:
@@ -218,7 +239,28 @@ def run(now=None, cron=None, snapshot=None):
         if f'outbox/{file.name}' not in owned_files:
             jobs.append((trigger, 'outbox', file.name, file))
     # Research occupies its own heartbeat, never a competing publication run.
-    if snapshot is not None and not jobs:
+    from .autonomous_schedule import radar_research_due, fdr_phase
+    from .unified_runner import rotation_research_due
+    research_window = (candidate_price_research is not None or radar_research_due(now)
+                       or rotation_research_due(now) or fdr_phase(now) == 'research')
+    original_jobs = jobs
+    jobs = exclusive_cutover_jobs(jobs, now, research_window)
+    if price_status.get('status') == 'due' and not any(
+            lane == 'editorial' and payload.edition == 'price-prediction' for _, lane, _, payload in jobs):
+        price_status['status'] = 'skipped-schedule-conflict'
+    # Do not begin research on a run that had another real publication queued,
+    # even when the exclusivity guard removed it.
+    from .unified_runner import rotation_due
+    real_jobs = [job for job in original_jobs if job[1] != 'news' or rotation_due(now)]
+    research_allowed = snapshot is not None and not real_jobs
+    if candidate_price_research is not None:
+        if research_allowed:
+            from .price_prediction_board import RESEARCH_KEY
+            editorial[RESEARCH_KEY] = candidate_price_research
+            write_state(STATE_FILE, editorial)
+        else:
+            price_status['status'] = 'skipped-schedule-conflict'
+    if research_allowed and candidate_price_research is None:
         from .autonomous_schedule import prepare_radar_research
         from .unified_runner import prepare_rotation_research
         clock = (lambda: now) if injected_time else (lambda: datetime.now(timezone.utc))
@@ -231,7 +273,7 @@ def run(now=None, cron=None, snapshot=None):
     # FDR is a strict weekly phase, not a generic late catch-up.
     from .autonomous_schedule import SATURDAY_FDR_GRID, FDR_RESEARCH_STATE, fdr_phase, fdr_research_valid
     phase = fdr_phase(now)
-    if snapshot is not None and phase == 'research' and not jobs:
+    if research_allowed and candidate_price_research is None and phase == 'research':
         from .evening_intelligence import build_evening
         try:
             build_evening(SATURDAY_FDR_GRID, snapshot, now, evidence)
@@ -259,6 +301,15 @@ def run(now=None, cron=None, snapshot=None):
             deferred = (upcoming_editorial(payload, until) if lane == 'editorial' else
                         {'post': payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()})
             break
+        live_now = now if injected_time else datetime.now(timezone.utc)
+        if lane == 'editorial' and payload.edition == 'player-radar-comparison':
+            from .autonomous_schedule import radar_post_due
+            if not radar_post_due(live_now):
+                continue
+        if lane == 'editorial' and payload.edition == 'saturday-fdr-grid' and fdr_phase(live_now) != 'post':
+            continue
+        if lane == 'news' and rotation_due(now) and not rotation_due(live_now):
+            continue
         if lane == 'editorial' and payload.edition == 'price-prediction':
             from .price_prediction_board import PRICE_GRACE
             live_now = now if injected_time else datetime.now(timezone.utc)
