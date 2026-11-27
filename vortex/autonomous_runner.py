@@ -56,7 +56,9 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation', 'passing-creators')) and len(pages) != 1:
         raise RuntimeError(f'{plan.edition} requires exactly one graphic')
     for index, path in enumerate(pages):
-        stamp(path, graphic_key(slot.edition, day.weekday(), slot.series_day, index))
+        key = graphic_key(slot.edition, day.weekday(), slot.series_day, index)
+        # Every active production edition must have a permanent catalog number.
+        stamp(path, key, required=slot.edition in {s.edition for s in SLOTS} or slot.edition in SPECIAL_EDITIONS or slot.edition == 'price-prediction')
         with Image.open(path) as image:
             if image.size not in ((1920,1080),(1080,1920)):raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()
