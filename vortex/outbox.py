@@ -72,7 +72,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
     if deadline.tzinfo is None or (record.get('pre_deadline', True) and deadline <= now):
         raise ValueError('Actionable deadline has elapsed')
     if record.get('edition') == 'price-prediction':
-        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE, valid_settlement
+        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE, valid_settlement, genuine_cost_changes
         from .research_gap import verified_gap
         facts = record.get('facts') or {}
         try:
@@ -93,7 +93,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
             proof = facts['research']
             checked = datetime.fromisoformat(proof['checked_at'])
             target_deadline = datetime.fromisoformat(facts['target_deadline'])
-            if (not proof['changes'] or not research_at <= checked < research_at+PRICE_GRACE
+            if (not genuine_cost_changes(proof['changes']) or not research_at <= checked < research_at+PRICE_GRACE
                     or not verified_gap(proof['checked_at'], post) or not verified_gap(proof['checked_at'], now)
                     or not valid_settlement(proof.get('observed_settlement',{}),record['season'],now)
                     or target_deadline <= now or target_deadline <= publish_at):

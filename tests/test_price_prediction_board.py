@@ -233,3 +233,51 @@ def test_observed_settlement_is_bounded_by_real_snapshots(world):
     observed=state[SETTLEMENT_KEY]
     assert observed["last_before"]==before.isoformat() and observed["first_after"]==after.isoformat()
     assert valid_settlement(observed,season_id(s,after),after)
+
+
+def test_delayed_observed_settlement_retains_real_pre_deadline_baseline(world):
+    from vortex.price_prediction_board import observe_settlement, SETTLEMENT_KEY, PENDING_SETTLEMENT_KEY
+    s,_=populated(world)
+    expected=datetime(2026,11,27,0,tzinfo=timezone.utc)
+    before=expected-timedelta(minutes=10)
+    def snap(at,next_update):
+        return replace(s,fetched_at=at,game_config={"settings":{"price_change_deadlines":[next_update.isoformat()]},
+             "status":{"price_change_last_updated":at.isoformat()}})
+    state={}
+    assert observe_settlement(snap(before,expected),state)
+    assert observe_settlement(snap(expected+timedelta(minutes=10),expected+timedelta(days=1)),state)
+    assert SETTLEMENT_KEY not in state and PENDING_SETTLEMENT_KEY in state
+    s.players[0]["now_cost"]+=1
+    after=expected+timedelta(minutes=25)
+    assert observe_settlement(snap(after,expected+timedelta(days=1)),state)
+    assert state[SETTLEMENT_KEY]["last_before"]==before.isoformat()
+    assert state[SETTLEMENT_KEY]["first_after"]==after.isoformat()
+    assert PENDING_SETTLEMENT_KEY not in state
+
+
+def test_projection_only_movement_is_not_a_genuine_price_delta():
+    from vortex.price_prediction_board import genuine_cost_changes, material_changes
+    before={"1":{"code":10,"cost":50,"threshold":0,"band":1}}
+    after={"1":{"code":10,"cost":50,"threshold":1,"band":2}}
+    assert material_changes(before,after)
+    assert not genuine_cost_changes(material_changes(before,after))
+    after["1"]["cost"]=51
+    assert len(genuine_cost_changes(material_changes(before,after)))==1
+    assert not genuine_cost_changes([{"id":1,"before":{"cost":True},"after":{"cost":51}}])
+
+
+def test_price_respects_persisted_dynamic_reservations(world, monkeypatch):
+    from vortex.price_prediction_board import price_schedule
+    from vortex.autonomous_schedule import season_id
+    from vortex import autonomous_schedule,schedule
+    s,_,_,_=world
+    update=datetime(2026,11,27,0,tzinfo=timezone.utc)
+    now=update-timedelta(hours=1)
+    monkeypatch.setattr(autonomous_schedule,"SLOTS",())
+    monkeypatch.setattr(schedule,"SLOT_HOURS",{})
+    monkeypatch.setattr(autonomous_schedule,"special_triggers",lambda *_:[])
+    state={"_weekly_sweeper_keepers":{"season":season_id(s,now),
+        "research_at":(now-timedelta(hours=4)).isoformat(),"post_at":now.isoformat()}}
+    research,post,conflicts=price_schedule(s,now,update,state)
+    assert post is None or post!=now
+    assert any("sweeper" in name for name,_ in conflicts)

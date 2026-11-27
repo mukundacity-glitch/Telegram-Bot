@@ -52,6 +52,7 @@ PRICE_GRACE = timedelta(minutes=15)
 RESEARCH_KEY = "_pre_gameweek_price_research"
 SETTLEMENT_KEY = "_observed_price_settlement"
 COST_SNAPSHOT_KEY = "_consecutive_cost_snapshot"
+PENDING_SETTLEMENT_KEY = "_pending_price_settlement"
 
 
 def price_observation(snapshot):
@@ -94,6 +95,21 @@ def material_changes(previous, current):
     return changes
 
 
+def genuine_cost_changes(changes):
+    """A forecast threshold or likelihood transition is not a settled cost change."""
+    result = []
+    for change in changes:
+        if not isinstance(change, dict):
+            continue
+        before, after = change.get("before"), change.get("after")
+        if not isinstance(before, dict) or not isinstance(after, dict):
+            continue
+        old, new = before.get("cost"), after.get("cost")
+        if type(change.get("id")) is int and type(old) is int and type(new) is int and old > 0 and new > 0 and old != new:
+            result.append(change)
+    return result
+
+
 def observe_settlement(snapshot, state):
     """Bound observed cost settlement by actual consecutive snapshot times.
 
@@ -119,13 +135,29 @@ def observe_settlement(snapshot, state):
                 return False
             prior_deadline = datetime.fromisoformat(previous["deadline"])
             if at < prior_deadline <= observed < deadline and observed-at <= timedelta(hours=2):
-                changes = material_changes(previous["players"], costs)
+                # Retain the last pre-deadline observation across unchanged
+                # polls; the official prediction clock can roll before costs settle.
+                state[PENDING_SETTLEMENT_KEY] = {
+                    "season": season, "expected_at": prior_deadline.isoformat(),
+                    "last_before": at.isoformat(), "players": previous["players"],
+                }
+        pending = state.get(PENDING_SETTLEMENT_KEY, {})
+        if pending.get("season") == season:
+            lower = datetime.fromisoformat(pending["last_before"])
+            expected = datetime.fromisoformat(pending["expected_at"])
+            if lower < expected <= observed < deadline and observed-lower <= timedelta(hours=2):
+                changes = genuine_cost_changes(material_changes(pending["players"], costs))
                 if changes:
                     state[SETTLEMENT_KEY] = {
-                        "season": season, "expected_at": prior_deadline.isoformat(),
-                        "last_before": at.isoformat(), "first_after": observed.isoformat(),
+                        "season": season, "expected_at": expected.isoformat(),
+                        "last_before": lower.isoformat(), "first_after": observed.isoformat(),
                         "changes": changes,
                     }
+                    state.pop(PENDING_SETTLEMENT_KEY, None)
+            else:
+                state.pop(PENDING_SETTLEMENT_KEY, None)
+        elif pending:
+            state.pop(PENDING_SETTLEMENT_KEY, None)
         state[COST_SNAPSHOT_KEY] = {"season": season, "at": observed.isoformat(),
                                    "deadline": deadline.isoformat(), "players": costs}
         return True
@@ -140,8 +172,7 @@ def valid_settlement(row, season, now):
         expected = datetime.fromisoformat(row["expected_at"])
         return (row["season"] == season and lower < expected <= upper <= now
                 and upper-lower <= timedelta(hours=2) and now-upper <= timedelta(days=7)
-                and any("cost" in c.get("before", {}) and c["before"]["cost"] != c["after"]["cost"]
-                        for c in row["changes"]))
+                and bool(genuine_cost_changes(row["changes"])))
     except (ValueError, KeyError, TypeError, AttributeError):
         return False
 
@@ -163,7 +194,7 @@ def research_evidence(snapshot, now, update, state, *, research_at=None, post_at
         from .research_gap import verified_gap
         if snapshot.fetched_at <= checked or not verified_gap(row['checked_at'], post_at) or not verified_gap(row['checked_at'], now):
             return None
-        changes = material_changes(row["players"], price_observation(snapshot))
+        changes = genuine_cost_changes(material_changes(row["players"], price_observation(snapshot)))
     except (ValueError, TypeError, KeyError, AttributeError):
         return None
     return {"checked_at": checked.isoformat(), "changes": changes,
@@ -208,6 +239,23 @@ def price_schedule(snapshot, now, update, state):
     for other, at in special_triggers(snapshot, now):
         if at is not None and retryable(state.get(publication_key(other,now,snapshot.gameweek(),season_id(snapshot,now)),{})):
             posts.append((other.edition,at))
+    # Previously researched dynamic slots are durable reservations, even when
+    # their proposed post time is outside today's fixed catalogue.
+    reserved = []
+    for key in ("_weekly_pre_kickoff_position_watch", "_post_gameweek_shot_origins",
+                "_weekly_availability_decisions", "_post_gameweek_vulnerability",
+                "_weekly_sweeper_keepers"):
+        row = state.get(key, {})
+        if row.get("season") != season_id(snapshot, now):
+            continue
+        try:
+            r, p = (datetime.fromisoformat(row[k]) for k in ("research_at", "post_at"))
+            if r.tzinfo is None or p.tzinfo is None:
+                raise ValueError("timezone required")
+            reserved.extend(((key+"-research", r, r+timedelta(minutes=10)),
+                             (key+"-post", p-GAP, p+GAP+timedelta(minutes=10))))
+        except (TypeError, ValueError, KeyError, AttributeError):
+            return None, None, [(key, "invalid persisted reservation")]
     def conflicts(check, post):
         reasons=[]
         check, post = check.astimezone(timezone.utc), post.astimezone(timezone.utc)
@@ -219,6 +267,9 @@ def price_schedule(snapshot, now, update, state):
             at = at.astimezone(timezone.utc)
             if (at < check+PRICE_GRACE and check < at+length) or (at < post+PRICE_GRACE and post < at+length):
                 reasons.append((name,at.isoformat()))
+        for name, start, end in reserved:
+            if (start < check+PRICE_GRACE and check < end) or (start < post+PRICE_GRACE and post < end):
+                reasons.append((name,start.isoformat()))
         return sorted(set(reasons))
     # Compare elapsed time and overlaps in UTC, including the DST transition.
     check=update.astimezone(timezone.utc)-PRICE_RESEARCH_LEAD
