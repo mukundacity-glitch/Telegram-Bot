@@ -60,7 +60,8 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
     if deadline.tzinfo is None or (record.get('pre_deadline', True) and deadline <= now):
         raise ValueError('Actionable deadline has elapsed')
     if record.get('edition') == 'price-prediction':
-        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE
+        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE, PRICE_RESEARCH_LEAD
+        from .research_gap import verified_gap
         if record.get('task') != 'price_changes' or allow_outside_window or not deadline-PRICE_LEAD <= now < deadline-PRICE_LEAD+PRICE_GRACE:
             raise ValueError('Price prediction outside its verified one-hour lead window')
         if not deadline-PRICE_LEAD <= publish_at < deadline-PRICE_LEAD+PRICE_GRACE:
@@ -75,7 +76,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
             proof = facts['research']
             checked = datetime.fromisoformat(proof['checked_at'])
             target_deadline = datetime.fromisoformat(facts['target_deadline'])
-            if not proof['changes'] or not deadline-timedelta(hours=2) <= checked < deadline-timedelta(hours=2)+PRICE_GRACE or target_deadline <= now or target_deadline <= publish_at:
+            if not proof['changes'] or not deadline-PRICE_RESEARCH_LEAD <= checked < deadline-PRICE_RESEARCH_LEAD+PRICE_GRACE or not verified_gap(proof['checked_at'], publish_at) or not verified_gap(proof['checked_at'], now) or target_deadline <= now or target_deadline <= publish_at:
                 raise ValueError('Price research/target deadline gate failed')
         except (KeyError, TypeError, AttributeError) as exc:
             raise ValueError('Verified price research required') from exc

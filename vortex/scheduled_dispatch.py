@@ -227,6 +227,7 @@ def run(now=None, cron=None, snapshot=None):
                 'date': local.date().isoformat(), 'gw': snapshot.gameweek(),
                 'season': season_id(snapshot, now), 'verified': True,
                 'fetched_at': snapshot.fetched_at.isoformat(),
+                'checked_at': (now if injected_time else datetime.now(timezone.utc)).isoformat(),
             }
             write_state(STATE_FILE, editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):

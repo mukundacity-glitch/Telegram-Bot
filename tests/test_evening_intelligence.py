@@ -168,7 +168,7 @@ def test_no_blank_colourless_graphic_and_png_dimensions(tmp_path, monkeypatch):
 def test_fdr_weekly_phase_and_existing_receipt_guard():
     from vortex.autonomous_schedule import fdr_phase, fdr_research_valid, FDR_RESEARCH_STATE, season_id
     snap = snapshot()
-    research = datetime(2026, 11, 21, 19, 28, tzinfo=ET)
+    research = datetime(2026, 11, 21, 15, 28, tzinfo=ET)
     post = research.replace(hour=20, minute=0)
     assert fdr_phase(research) == 'research'
     assert fdr_phase(post) == 'post'
@@ -176,8 +176,12 @@ def test_fdr_weekly_phase_and_existing_receipt_guard():
     assert fdr_phase(post + timedelta(days=1)) is None
     assert not fdr_research_valid({}, snap, post)
     state = {FDR_RESEARCH_STATE: {'date': post.date().isoformat(),
-        'gw': snap.gameweek(), 'season': season_id(snap, post), 'verified': True}}
+        'gw': snap.gameweek(), 'season': season_id(snap, post), 'verified': True,
+        'checked_at': research.isoformat()}}
     assert fdr_research_valid(state, snap, post)
+    state[FDR_RESEARCH_STATE]['checked_at'] = (post - timedelta(hours=2, minutes=59)).isoformat()
+    assert not fdr_research_valid(state, snap, post)
+    state[FDR_RESEARCH_STATE]['checked_at'] = research.isoformat()
     key = publication_key(SATURDAY_FDR_GRID, post, snap.gameweek())
     state[key] = {'status': 'generated', 'identity': 'pending-acceptance'}
     assert SATURDAY_FDR_GRID not in catchup_slots(post, state, snap.gameweek(), limit=None)

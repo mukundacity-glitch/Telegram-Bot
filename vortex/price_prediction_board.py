@@ -47,7 +47,7 @@ def official_clock(bootstrap, now):
 
 
 PRICE_LEAD = timedelta(hours=1)
-PRICE_RESEARCH_LEAD = timedelta(hours=2)
+PRICE_RESEARCH_LEAD = timedelta(hours=4, minutes=15)
 PRICE_GRACE = timedelta(minutes=15)
 RESEARCH_KEY = "_pre_gameweek_price_research"
 
@@ -93,7 +93,7 @@ def material_changes(previous, current):
 
 
 def research_evidence(snapshot, now, update, state):
-    """Match a real T-2 observation to this T-1 run; never manufacture a baseline."""
+    """Match verified advance research to the T-1 run; require at least three elapsed hours."""
     from .autonomous_schedule import season_id
     row = state.get(RESEARCH_KEY, {})
     if not isinstance(row, dict) or row.get("update_at") != update.isoformat() or row.get("gw") != snapshot.gameweek() or row.get("season") != season_id(snapshot, now):
@@ -102,7 +102,8 @@ def research_evidence(snapshot, now, update, state):
         checked = datetime.fromisoformat(row["checked_at"])
         if not update-PRICE_RESEARCH_LEAD <= checked < update-PRICE_RESEARCH_LEAD+PRICE_GRACE:
             return None
-        if snapshot.fetched_at <= checked:
+        from .research_gap import verified_gap
+        if snapshot.fetched_at <= checked or not verified_gap(row['checked_at'], update-PRICE_LEAD) or not verified_gap(row['checked_at'], now):
             return None
         changes = material_changes(row["players"], price_observation(snapshot))
     except (ValueError, TypeError, KeyError, AttributeError):
@@ -137,23 +138,25 @@ def opportunity(snapshot, now, state):
         return None, {**info, "status": "missed-window"}
     if not allowed(trigger):
         return None, {**info, "status": "outside-publishing-window"}
-    # User's agreed skip rule: protect scheduled posts during the three-hour
-    # lead-up, including the target and the Telegram spacing interval after it.
-    start, end = update - PRICE_RESEARCH_LEAD, trigger + GAP
+    # Protect actual research and publication windows, not the idle time between.
+    research_at = update - PRICE_RESEARCH_LEAD
+    def collides(at):
+        return (research_at-GAP < at < research_at+PRICE_GRACE
+                or trigger-GAP < at < trigger+GAP)
     conflicts = []
     for offset in (-1, 0, 1):
         day = local + timedelta(days=offset)
         for other in SLOTS:
             if eligible_on(other, day):
                 at = slot_start(other, day)
-                if start <= at < end:
+                if collides(at):
                     conflicts.append((other.edition, at.isoformat()))
         for name, (hour, minute) in SLOT_HOURS.items():
             at = day.replace(hour=hour, minute=minute, second=0, microsecond=0)
-            if start <= at < end:
+            if collides(at):
                 conflicts.append((name, at.isoformat()))
     for other, at in special_triggers(snapshot, now):
-        if at is not None and start <= at < end:
+        if at is not None and collides(at):
             if retryable(state.get(publication_key(other, now, snapshot.gameweek(), season_id(snapshot, now)), {})):
                 conflicts.append((other.edition, at.isoformat()))
     if conflicts:

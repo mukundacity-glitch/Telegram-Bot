@@ -162,7 +162,7 @@ def fdr_phase(now):
     if local.weekday() != 5:
         return None
     minute = local.hour * 60 + local.minute
-    if 19 * 60 + 28 <= minute < 19 * 60 + 40:
+    if 15 * 60 + 28 <= minute < 15 * 60 + 40:
         return 'research'
     if 20 * 60 <= minute < 20 * 60 + 15:
         return 'post'
@@ -170,8 +170,11 @@ def fdr_phase(now):
 
 
 def fdr_research_valid(state, snapshot, now):
+    from .research_gap import verified_gap
     row = state.get(FDR_RESEARCH_STATE, {})
     return (fdr_phase(now) == 'post'
+            and verified_gap(row.get('checked_at'), slot_start(SATURDAY_FDR_GRID, now))
+            and verified_gap(row.get('checked_at'), now)
             and row.get('date') == now.astimezone(ET).date().isoformat()
             and row.get('gw') == snapshot.gameweek()
             and row.get('season') == season_id(snapshot, now)

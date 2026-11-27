@@ -143,7 +143,7 @@ def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_pat
     item.update(edition='price-prediction', deadline=update.isoformat(),
                 facts={'update_at':update.isoformat(),'source_updated_at':NOW.isoformat(),'projected':99,
                        'target_deadline':(update+timedelta(days=1)).isoformat(),
-                       'research':{'checked_at':(update-timedelta(hours=2)).isoformat(),'changes':[{'id':1,'before':{'cost':50},'after':{'cost':51}}]}})
+                       'research':{'checked_at':(update-timedelta(hours=4,minutes=15)).isoformat(),'changes':[{'id':1,'before':{'cost':50},'after':{'cost':51}}]}})
     first=validate(item,tmp_path,NOW)[0]
     item['facts']['projected']=101
     assert validate(item,tmp_path,NOW)[0]==first
@@ -159,7 +159,7 @@ def test_pre_gameweek_research_and_material_change_gate(world, monkeypatch):
     from vortex import autonomous_schedule, schedule
     s, _ = populated(world)
     update = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
-    research = update - timedelta(hours=2)
+    research = update - timedelta(hours=4, minutes=15)
     posting = update - timedelta(hours=1)
     monkeypatch.setattr(autonomous_schedule, 'SLOTS', ())
     monkeypatch.setattr(schedule, 'SLOT_HOURS', {})
@@ -180,3 +180,16 @@ def test_pre_gameweek_research_and_material_change_gate(world, monkeypatch):
     key = publication_key(slot, posting, 12, '2026-27')
     assert key != publication_key(slot, posting, 13, '2026-27')
     assert key == publication_key(replace(slot, price_update_at=(update+timedelta(days=1)).isoformat()), posting, 12, '2026-27')
+
+
+def test_price_gap_rejects_legacy_short_research(tmp_path):
+    from test_chatgpt_outbox import record, NOW
+    from vortex.outbox import validate
+    item = record(tmp_path)
+    update = NOW + timedelta(hours=1)
+    item.update(task='price_changes', edition='price-prediction', deadline=update.isoformat(), facts={
+        'update_at': update.isoformat(), 'source_updated_at': NOW.isoformat(),
+        'target_deadline': (update + timedelta(days=1)).isoformat(),
+        'research': {'checked_at': (NOW-timedelta(hours=1)).isoformat(), 'changes': [{'id':1}]}})
+    with pytest.raises(ValueError, match='research/target deadline gate'):
+        validate(item, tmp_path, NOW)

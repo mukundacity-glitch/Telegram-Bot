@@ -154,7 +154,7 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         from .fpl import upcoming_deadline
         proof = getattr(e, 'price_research', None)
         if not proof or not proof.get('changes'):
-            raise NoUpdate('No verified T-2h research and material change')
+            raise NoUpdate('No verified advance research and material change')
         board['research'] = proof
         board['target_deadline'] = upcoming_deadline(snapshot).isoformat()
         board['source_updated_at'] = updated.isoformat()
