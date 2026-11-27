@@ -828,6 +828,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-22T23:16:47.814378+00:00"
   },
+  "rss:688db51a98a1e51ae2a74939": {
+    "caption_sha256": "f528b8f642edfdc5b53eaf3af12e9cc8a3a580e92a3bb466e38983d0b2e47834",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575696895769317436",
+    "gameweek": 12,
+    "source": "official.premier_league",
+    "source_url": "https://news.google.com/rss/articles/CBMihwFBVV95cUxOdmxaOElGcTBRaFAzLUdOSTVmMnhCUUdVNzhjMlhuaWduS1ZWak9XTFdsS2tkeGt0RVhTbUJjY0hObWpyS0tIdEd0dXktV3lQaFh0UFFqN1pTVGZvYXFzc0JtWGtkVDdiNkJ5M09reXA5ZkZfRnRod2l6aERsX1dsNlk4Q0s5bTA?oc=5",
+    "telegram_delivered_at": "2026-11-27T02:16:54.284959+00:00",
+    "telegram_message_id": 640,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-27T02:16:45.613433+00:00"
+  },
   "rss:7be594a6e4ce556b3ec26598": {
     "caption_sha256": "eb9d10a46a7da15c4d5860a293030d254f277283bf646f800fb5cda119c60c5a",
     "delivered": true,

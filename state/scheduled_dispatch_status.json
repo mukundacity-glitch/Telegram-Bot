@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-27T01:32:15.797259+00:00",
-  "eastern_at": "2026-11-26T20:32:15.797259-05:00",
-  "last_news_scan": "2026-11-27T00:45:17.076427+00:00",
-  "new_posts": 0,
+  "at": "2026-11-27T02:16:45.613433+00:00",
+  "eastern_at": "2026-11-26T21:16:45.613433-05:00",
+  "last_news_scan": "2026-11-27T02:16:45.613433+00:00",
+  "new_posts": 1,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-27T02:16:39.917450+00:00"
+    "post": "vortex-captain",
+    "trigger": "2026-11-27T03:01:54.284406+00:00"
   },
-  "next_telegram_at": "2026-11-27T02:16:39.917450+00:00",
+  "next_telegram_at": "2026-11-27T03:01:54.284406+00:00",
   "pending_triggers": [
     {
       "post": "start-bench-board",
@@ -18,9 +18,9 @@
       "trigger": "2026-11-27T15:00:00+00:00"
     }
   ],
-  "posts_due": 0,
+  "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 0,
+  "posts_generated": 1,
   "posts_pending_trigger": 2,
   "posts_retried": 0,
   "posts_retry_pending": 0,
@@ -36,13 +36,13 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-27T01:20:12.846706+00:00",
+    "source_updated_at": "2026-11-27T02:05:12.108622+00:00",
     "status": "skipped-schedule-conflict",
     "trigger": "2026-11-27T23:00:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
   },
   "scheduled_cron": "58 * * * *",
   "source_error": null,
-  "status": "deferred-telegram-spacing",
-  "telegram_messages_sent": 0
+  "status": "published",
+  "telegram_messages_sent": 1
 }
