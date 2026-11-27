@@ -54,6 +54,11 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 10:17:46.413799 UTC — CI on 8a71a87: 465 passed, one failed; old Tuesday one-hour research assertion. Updated the assertion to check the new overnight window and explicitly reject the old window. No test removed.
 - Added an independent read-only six-slot live rendering step to PR validation; checks real official data, dimensions, and FDR arithmetic; reports dynamic price timing, observed settlement evidence, and uncovered legacy routes. It does not simulate missing live observations or claim to verify actual delivery. Daily research now records price snapshots, and daily conflict checks include other research windows. Slot 7 and merge remain gated.
 
+- Friday, 27 November 2026 at 10:36:49 UTC — 466 regression tests passed on 32dfd47.
+- Friday, 27 November 2026 at 10:37:11 UTC — all six live source-to-PNG checks passed. Observed price settlement, global legacy gap coverage and actual platform delivery remain unverified.
+- Friday, 27 November 2026 at 10:39:55 UTC — PR #64 merged at user direction (69d4467). This is not a certification of production publication readiness.
+- PR #63 reconciliation: retain the current 50 active permanent graphic IDs (42 regular, 8 dynamic) and one reserved historical ID; the new daily cutover routes are not assigned new permanent catalogue numbers. Preserve receipt keys, weekly cohort migration and honest cooldown reporting. No legacy cleanup or new slot activation.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.

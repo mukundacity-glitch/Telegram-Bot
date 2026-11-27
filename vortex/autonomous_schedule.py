@@ -236,7 +236,12 @@ def due_specials(snapshot, now, state):
 
 
 def weekly_analysis_slot(snapshot, now, state):
-    """Start one seven-day series per completed GW, pinned for all seven days."""
+    """Regular Mon–Sun analysis, finishing any pre-migration cohort first.
+
+    Keep the original season/GW/topic receipt keys. A topic already delivered
+    for the latest completed GW is not regenerated during an international
+    break or because its scheduled weekday changed.
+    """
     from dataclasses import replace
     from .fpl import latest_completed_gw
 
@@ -250,10 +255,30 @@ def weekly_analysis_slot(snapshot, now, state):
         elapsed = (today - datetime.fromisoformat(tracker['start']).date()).days
         if 0 <= elapsed < 7:
             return replace(SERIES, series_gw=tracker['gw'], series_day=elapsed+1)
-        if latest <= tracker['gw']:
-            return None
-    state[SERIES_STATE] = {'season': season, 'gw': latest, 'start': today.isoformat()}
-    return replace(SERIES, series_gw=latest, series_day=1)
+    return replace(SERIES, series_gw=latest, series_day=today.weekday()+1)
+
+
+def schedule_catalogue():
+    """Derive the 42 regular and eight event-driven permanent graphic IDs."""
+    from .graphic_numbers import CATALOG, ACTIVE_CATALOG, PRESS_REPORT_KEY, graphic_key
+    from .schedule import SLOT_HOURS
+
+    regular = set(SLOT_HOURS)
+    for slot in SLOTS:
+        for weekday in range(7):
+            if slot.weekday is not None and weekday != slot.weekday:
+                continue
+            day = weekday + 1 if slot == SERIES else None
+            regular.add(graphic_key(slot.edition, weekday, day))
+    # The existing news rotation is scanned on the regular heartbeat;
+    # its own eligibility and receipt checks still govern actual publication.
+    regular.add('news-rotation-planner')
+    dynamic = set(SPECIAL_EDITIONS) | {PRESS_REPORT_KEY, 'price-prediction'}
+    if (None in regular or regular & dynamic or regular | dynamic != set(ACTIVE_CATALOG)
+            or len(regular) != 42 or len(dynamic) != 8):
+        raise ValueError('Scheduled catalogue must cover 43 regular and 8 dynamic identities')
+    return tuple(key for key in CATALOG if key in regular), tuple(key for key in CATALOG if key in dynamic)
+
 
 def finalized_radar_slot(snapshot, now, state):
     """Only the latest officially settled GW, using the existing 11:30 slot."""

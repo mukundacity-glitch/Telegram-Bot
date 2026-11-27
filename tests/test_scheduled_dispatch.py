@@ -166,6 +166,8 @@ def test_cooldown_persists_between_publishers_and_skips_data_fetch(monkeypatch, 
     report = dispatcher.run(now=now + timedelta(minutes=15))
     assert report["status"] == "deferred-telegram-spacing"
     assert report["posts_failed"] == report["posts_retry_pending"] == 0
+    assert report["queue_enumerated"] is False and report["posts_due"] is None
+    assert report["next_due"]["trigger"] == report["next_telegram_at"]
     assert datetime.fromisoformat(report["next_telegram_at"]) >= now + timedelta(minutes=45)
     assert telegram_spacing.blocked_until(datetime.fromisoformat(report["next_telegram_at"])) is None
 

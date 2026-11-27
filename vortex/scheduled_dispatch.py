@@ -9,7 +9,7 @@ from .autonomous_content import Evidence
 from .autonomous_runner import run as run_editions, STATE_FILE
 from .autonomous_schedule import (
     ET, SLOTS, catchup_slots, eligible_on, publication_key, retryable, season_id, slot_start,
-    special_triggers, SERIES, SERIES_STATE, EVENING_WATCH_SLOTS, weekly_analysis_slot,
+    special_triggers, SERIES, EVENING_WATCH_SLOTS, weekly_analysis_slot, schedule_catalogue,
 )
 from .bot import STATE, read_state, write_state, run as run_legacy
 from .fpl import collect_snapshot
@@ -126,6 +126,7 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
 def run(now=None, cron=None, snapshot=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
+    schedule_catalogue()
     from .daily_cutover import slots as daily_slots, research_window, prepare as prepare_daily
     research_slots = [slot for slot in daily_slots(now) if research_window(slot, now)]
     if research_slots:
@@ -159,7 +160,7 @@ def run(now=None, cron=None, snapshot=None):
             except RequiredInput:
                 pass
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),
-                  'new_posts': 0, 'window': WINDOW_LABEL}
+                  'new_posts': 0, 'window': WINDOW_LABEL, 'queue_enumerated': False}
         print(json.dumps(result, sort_keys=True))
         return result
 
@@ -173,8 +174,11 @@ def run(now=None, cron=None, snapshot=None):
                   'at': now.isoformat(), 'eastern_at': now.astimezone(ET).isoformat(),
                   'scheduled_cron': cron, 'next_telegram_at': until.isoformat(),
                   'new_posts': 0, 'telegram_messages_sent': 0}
-        for field in ('posts_due', 'posts_generated', 'posts_retried', 'posts_failed', 'posts_retry_pending'):
+        for field in ('posts_generated', 'posts_retried', 'posts_failed', 'posts_retry_pending'):
             result[field] = 0
+        result.update(queue_enumerated=False, posts_due=None, posts_processed=0,
+                      queue_items_unprocessed=None,
+                      next_due={'post': 'due-queue', 'trigger': until.isoformat()})
         result['source_error'] = None
         write_state(REPORT, result)
         print('SCHEDULED PUBLISH REPORT ' + json.dumps(result, ensure_ascii=False))
@@ -253,11 +257,8 @@ def run(now=None, cron=None, snapshot=None):
                 except (RuntimeError, ValueError, KeyError, TypeError, OSError):
                     continue  # Unsafe historical state must not block unrelated slots.
                 jobs.append((slot_start(daily, now), 'editorial', day_key(daily, now), daily))
-        old_series = editorial.get(SERIES_STATE)
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
-            if old_series != editorial.get(SERIES_STATE):
-                write_state(STATE_FILE, editorial)
             key = publication_key(series, now, gw, season)
             if retryable(editorial.get(key, {})):
                 jobs.append((slot_start(series, now), 'editorial', key, series))
@@ -342,6 +343,7 @@ def run(now=None, cron=None, snapshot=None):
         if other_due or snapshot is None or not fdr_research_valid(editorial, snapshot, now):
             jobs = [job for job in jobs if job[1] != 'editorial' or job[3] != SATURDAY_FDR_GRID]
     rows = []
+    processed_jobs = 0
     deferred = None
     # The 8 PM edition gets the next open send window once it is due.
     for trigger, lane, key, payload in sorted(jobs, key=lambda item: (
@@ -370,6 +372,7 @@ def run(now=None, cron=None, snapshot=None):
             if live_now >= trigger + PRICE_GRACE:
                 price_status['status'] = 'missed-window'
                 continue
+        processed_jobs += 1
         post = payload.edition if lane == 'editorial' else payload[0] if lane == 'legacy' else key
         row = {'post_id': key, 'type': post, 'trigger': trigger.isoformat(),
                'timestamp': run_key, 'status': 'PENDING', 'attempts': 0}
@@ -405,6 +408,7 @@ def run(now=None, cron=None, snapshot=None):
                     error = entry.get('reason') or 'Outbox delivery incomplete'
                     attempts = entry.get('attempts', 0)
         except DeliveryDeferred as exc:
+            processed_jobs -= 1
             deferred = {'post': post, 'trigger': exc.until.isoformat()}
             row['status'] = 'DEFERRED'
             audit[key] = row
@@ -472,10 +476,12 @@ def run(now=None, cron=None, snapshot=None):
         'status': 'published' if posted else 'held' if counts['RETRY'] or counts['FAILED'] or source_error
                   else 'no-new-verified-content',
         'at': run_key, 'eastern_at': local.isoformat(), 'scheduled_cron': cron,
-        'posts_due': len(rows), 'posts_generated': sum(row['generated'] for row in rows),
+        'queue_enumerated': True, 'posts_due': len(jobs), 'posts_processed': len(rows),
+        'queue_items_unprocessed': len(jobs) - processed_jobs,
+        'posts_generated': sum(row['generated'] for row in rows),
         'new_posts': posted, 'telegram_messages_sent': messages, 'posts_retried': sum(row['attempts'] > 1 for row in rows),
         'posts_failed': counts['FAILED'], 'posts_retry_pending': counts['RETRY'],
-        'posts_pending_trigger': len(pending), 'pending_triggers': pending, 'next_due': deferred or min(upcoming, key=lambda item: datetime.fromisoformat(item['trigger'])),
+        'posts_pending_trigger': len(pending), 'pending_triggers': pending, 'next_due': deferred or min(upcoming, key=lambda item: datetime.fromisoformat(item['trigger']), default=None),
         'source_error': source_error,
         'price_prediction': price_status,
         'last_news_scan': last_news_scan,
