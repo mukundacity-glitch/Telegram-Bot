@@ -162,7 +162,10 @@ def run(now=None, cron=None, snapshot=None):
         return result
 
     previous_report = read_state(REPORT) if spacing_enabled() else {}
-    if until := blocked_until(now):
+    from .autonomous_schedule import radar_research_due, fdr_phase
+    from .unified_runner import rotation_research_due
+    dedicated_research = radar_research_due(now) or rotation_research_due(now) or fdr_phase(now) == 'research'
+    if (until := blocked_until(now)) and not dedicated_research:
         observe_during_deferral(snapshot)
         result = {**previous_report, 'status': 'deferred-telegram-spacing',
                   'at': now.isoformat(), 'eastern_at': now.astimezone(ET).isoformat(),
@@ -295,6 +298,9 @@ def run(now=None, cron=None, snapshot=None):
     from .unified_runner import rotation_due
     real_jobs = [job for job in original_jobs if job[1] != 'news' or rotation_due(now)]
     research_allowed = snapshot is not None and not real_jobs
+    # The cooldown prevents a second send, not an isolated read-only check.
+    if dedicated_research and blocked_until(now):
+        jobs = []
     if candidate_price_research is not None:
         if research_allowed:
             from .price_prediction_board import RESEARCH_KEY
@@ -513,24 +519,6 @@ def main():
         try:
             snapshot = retry_source(collect_snapshot)
             now = datetime.now(timezone.utc)
-            from .weekly_position_watch import prepare_research, research_due
-            if research_due(now):
-                try:
-                    prepare_research(snapshot, now)
-                except (RuntimeError, ValueError, OSError) as error:
-                    print('Weekly position research: ' + failure_reason(error))
-            from .weekly_wildcard_vulnerability import prepare_research as tuesday_research, research_due as tuesday_due
-            if tuesday_due(now):
-                try:
-                    tuesday_research(snapshot, now)
-                except (RuntimeError, ValueError, OSError) as error:
-                    print('Tuesday combined research: ' + failure_reason(error))
-            from .monday_intelligence import prepare_research as monday_research, research_due as monday_due
-            if monday_due(now):
-                try:
-                    monday_research(snapshot, now)
-                except (RuntimeError, ValueError, OSError) as error:
-                    print('Monday intelligence research: ' + failure_reason(error))
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
                          live_clock=lambda: datetime.now(timezone.utc),
                          discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):
@@ -541,6 +529,15 @@ def main():
                     return 1
                 print('Matchday press roundup has publication priority on this pass')
                 return 0
+            # Existing weekly research gets its own overnight heartbeat;
+            # the publication lane is not executed on the same pass.
+            from . import weekly_position_watch, weekly_wildcard_vulnerability, monday_intelligence
+            for module in (weekly_position_watch, weekly_wildcard_vulnerability, monday_intelligence):
+                now = datetime.now(timezone.utc)
+                if module.research_due(now):
+                    record_price_ownership(snapshot, read_state(STATE_FILE))
+                    module.prepare_research(snapshot, now, clock=lambda: datetime.now(timezone.utc))
+                    return 0
         except (RuntimeError, ValueError, OSError) as error:
             print('Matchday press check: ' + failure_reason(error))
             press_error = True

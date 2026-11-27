@@ -51,6 +51,12 @@ def facts(plan,snapshot,evidence):
 
 
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
+    from .legacy_research_gap import WINDOWS, read_proof
+    legacy_proof = None
+    if slot.edition in WINDOWS and not audit:
+        legacy_proof = read_proof(slot.edition, snapshot, now, evidence)
+        if not legacy_proof:
+            raise RequiredInput('Missing verified advance research for existing weekly edition')
     if slot.edition == 'goalkeeper-striker-watch':
         from .weekly_position_watch import restore_research
         restore_research(snapshot, now, evidence)
@@ -103,6 +109,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         from .autonomous_schedule import RADAR_RESEARCH_STATE, FDR_RESEARCH_STATE
         key = RADAR_RESEARCH_STATE if slot.edition == 'player-radar-comparison' else FDR_RESEARCH_STATE
         record['facts']['research'] = read_state(STATE_FILE).get(key, {})
+    if legacy_proof:
+        record['facts']['research'] = legacy_proof
     if recurring:
         record['facts']['publication_date'] = day.isoformat()
     if not manual and not audit:

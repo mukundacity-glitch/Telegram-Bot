@@ -111,6 +111,12 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
         if allow_outside_window:
             raise ValueError('Research-gated edition cannot bypass publication window')
         daily_identity = verify_settled_or_weekly_record(record, now, publish_at)
+    from .legacy_research_gap import WINDOWS, proof_valid as legacy_proof_valid
+    if record.get('edition') in WINDOWS and not preview:
+        proof = (record.get('facts') or {}).get('research') or {}
+        if (allow_outside_window or not legacy_proof_valid(record['edition'], proof, record['season'], gw, publish_at)
+                or not legacy_proof_valid(record['edition'], proof, record['season'], gw, now)):
+            raise ValueError('Existing weekly edition lacks verified three-hour research')
     if not record.get('qa_passed') or not record.get('sources'):
         raise ValueError('Graphic QA and source evidence are required')
     caption = str(record.get('caption', ''))

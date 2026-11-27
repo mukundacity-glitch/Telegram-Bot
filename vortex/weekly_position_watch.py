@@ -1,5 +1,5 @@
 """Monday-only official research cache and one-page goalkeeper/striker board."""
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from PIL import Image, ImageDraw
 from .autonomous_schedule import ET, SLOTS
@@ -9,7 +9,7 @@ RESEARCH = Path(__file__).resolve().parents[1] / "state" / "weekly_position_rese
 
 def research_due(now):
     local = now.astimezone(ET)
-    return local.weekday() == 0 and (9,30) <= (local.hour,local.minute) < (10,30)
+    return local.weekday() == 0 and (3,13) <= (local.hour,local.minute) < (3,28)
 
 def publication_due(now):
     local = now.astimezone(ET)
@@ -18,7 +18,7 @@ def publication_due(now):
 def _matching(row, snapshot, now, completed):
     try:
         stamp = datetime.fromisoformat(row["at"])
-        return (stamp.tzinfo is not None and timedelta(0) <= now-stamp <= timedelta(hours=2)
+        return (stamp.tzinfo is not None and timedelta(0) <= now.astimezone(timezone.utc)-stamp.astimezone(timezone.utc) <= timedelta(hours=24)
                 and stamp.astimezone(ET).date() == now.astimezone(ET).date()
                 and row["gw"] == snapshot.gameweek()
                 and row["completed"] == sorted(completed)
@@ -26,7 +26,7 @@ def _matching(row, snapshot, now, completed):
     except (KeyError, ValueError, TypeError):
         return False
 
-def prepare_research(snapshot, now):
+def prepare_research(snapshot, now, *, clock=None):
     """Read-only FPL research, independent of the publishing cooldown."""
     if not research_due(now):
         return False
@@ -37,7 +37,7 @@ def prepare_research(snapshot, now):
         return False
     slot = next(s for s in SLOTS if s.edition == "goalkeeper-striker-watch")
     plan = build(slot, snapshot, now, evidence)
-    write_state(RESEARCH, {"at": now.isoformat(), "gw": plan.gw,
+    write_state(RESEARCH, {"at": (clock() if clock else now).isoformat(), "gw": plan.gw,
                            "completed": sorted(evidence.completed),
                            "history": {str(pid): rows for pid, rows in evidence.history.items() if rows},
                            "selected": [p["id"] for p in plan.players]})

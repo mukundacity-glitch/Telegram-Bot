@@ -200,9 +200,9 @@ def price_schedule(snapshot, now, update, state):
         if local.weekday() in (4,5):
             ranges.append(("matrix-research",15,28,12))
         if local.weekday()==0:
-            ranges.extend([("legacy-position-research",9,30,60),("legacy-monday-research",19,0,60)])
+            ranges.extend([("legacy-position-research",3,13,15),("legacy-monday-research",4,43,15)])
         if local.weekday()==1:
-            ranges.append(("legacy-wildcard-research",14,30,60))
+            ranges.append(("legacy-wildcard-research",3,13,15))
         research.extend((name,local.replace(hour=h,minute=m,second=0,microsecond=0),timedelta(minutes=length))
                         for name,h,m,length in ranges)
     for other, at in special_triggers(snapshot, now):

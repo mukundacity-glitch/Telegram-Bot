@@ -119,7 +119,7 @@ def conflicts(slot, snapshot, now, state, *, research=False):
     from .autonomous_schedule import SLOTS, eligible_on, special_triggers, publication_key, retryable
     from .schedule import SLOT_HOURS
     from .telegram_spacing import GAP
-    from .price_prediction_board import official_clock, PRICE_LEAD, PRICE_RESEARCH_LEAD
+    from .price_prediction_board import official_clock, price_schedule
     from .editorial_inputs import RequiredInput
     at = now if research else max(now, slot_start(slot, now))
     other_times = [(s.edition, slot_start(s, now)) for s in SLOTS if eligible_on(s, now)]
@@ -131,7 +131,9 @@ def conflicts(slot, snapshot, now, state, *, research=False):
                     retryable(state.get(publication_key(s, now, snapshot.gameweek(), season_id(snapshot, now)), {}))]
     try:
         update, _ = official_clock({"game_config": snapshot.game_config}, max(now, snapshot.fetched_at))
-        other_times.extend([("price-research", update-PRICE_RESEARCH_LEAD), ("price-prediction", update-PRICE_LEAD)])
+        check, post, _ = price_schedule(snapshot, now, update, state)
+        if check is not None and post is not None:
+            other_times.extend([("price-research", check), ("price-prediction", post)])
     except (RequiredInput, AttributeError):
         # A missing price clock cannot authorize a conflicting run.
         return ["unverified-price-clock"]

@@ -45,6 +45,11 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 10:07:44 UTC — daily dispatch implementation committed (e71c62d).
 - Friday, 27 November 2026 at 10:09:13 UTC — outbox proof and Saturday timing reconciliation committed (a324c7e).
 
+- Friday, 27 November 2026 at 10:11:01 UTC — observed settlement and earlier price-window implementation committed (3b7f0b9).
+- Friday, 27 November 2026 at 10:13:08.931709 UTC — 463 regression tests passed, zero failures on 3b7f0b9 (run 45979944006).
+- Friday, 27 November 2026 at 10:13:13.498089 UTC — read-only live audit passed, 20 teams and 674 players.
+- Existing Monday goalkeeper/striker, Tuesday wildcard and Monday defence boards retain their publication times, with research moved to separate overnight windows (Monday/Tuesday 03:13–03:28 ET, Monday defence 04:43–04:58 ET). Research must be recorded and pass the elapsed three-hour gate at nominal and actual publication; missing evidence is held. New Slot 7 remains unimplemented. The existing press priority is unchanged. Isolated radar/rotation/FDR research may run during send cooldown, but not if a real competing publication is due. Daily conflict checks use the actual dynamic price candidate rather than the abandoned preferred time. This is not yet global verification of all other legacy routes.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.
@@ -52,3 +57,5 @@ The retired Friday two-club rotation and daily radar dispatch rules remain in Gi
 Superseded timing rules: price research T−2h and FDR research Saturday 19:28–19:40 ET. Archived only; do not execute.
 
 Superseded price graphic: portrait top-eight-per-direction layout and previous social-footer formatting. Historical version remains in Git history; use only the new 4:3 format for this slot.
+
+Superseded existing weekly research windows: Monday goalkeeper/striker 09:30–10:30 ET; Tuesday wildcard 14:30–15:30 ET; Monday defence 19:00–20:00 ET. Retained for cleanup only, not executed. This is distinct from the new gated #7 workflow.
