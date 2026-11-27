@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-27T18:55:16.797427+00:00",
-  "eastern_at": "2026-11-27T13:55:16.797427-05:00",
+  "at": "2026-11-27T19:40:31.719635+00:00",
+  "eastern_at": "2026-11-27T14:40:31.719635-05:00",
   "last_news_scan": "2026-11-27T16:26:29.174996+00:00",
   "new_posts": 1,
   "next_due": {
-    "post": "defender-watch",
-    "trigger": "2026-11-27T19:40:28.360114+00:00"
+    "post": "weekly-analysis",
+    "trigger": "2026-11-27T20:25:40.802481+00:00"
   },
-  "next_telegram_at": "2026-11-27T19:40:28.360114+00:00",
+  "next_telegram_at": "2026-11-27T20:25:40.802481+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -58,7 +58,7 @@
     ],
     "post": "price-prediction",
     "research_at": "2026-11-27T07:43:00+00:00",
-    "source_updated_at": "2026-11-27T18:20:19.060096+00:00",
+    "source_updated_at": "2026-11-27T19:35:13.856892+00:00",
     "status": "waiting",
     "trigger": "2026-11-27T21:30:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
