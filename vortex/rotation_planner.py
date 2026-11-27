@@ -1,6 +1,6 @@
 """FPL VORTEX rotation planner: live official fixtures, no hard-coded clubs.
 
-Runs within the existing news heartbeat. The reference layout is not a data source.
+Runs within the existing serialized GitHub publishing heartbeat. The reference layout is not a data source.
 """
 from __future__ import annotations
 
@@ -24,7 +24,7 @@ FDR = {
     1: ((8, 200, 124), (14, 52, 46)),
     2: ((112, 224, 174), (15, 53, 48)),
     3: ((255, 207, 154), (69, 42, 36)),
-    4: ((237, 87, 110), (255, 255, 255)),
+    4: ((190, 43, 75), (255, 255, 255)),
     5: ((181, 27, 80), (255, 255, 255)),
 }
 
@@ -80,14 +80,16 @@ def build_rotation_plan(snapshot, now: datetime) -> RotationPlan:
         club for club in sorted(snapshot.teams)
         if eligible[club] and snapshot.teams[club].get("short_name")
         and type(snapshot.teams[club].get("code")) is int
-        and any(grid[club][week] for week in weeks[:5])
+        and any(grid[club][week] for week in weeks)
+        and all(row['fdr'] is not None and row['opponent'] != 'TBD'
+                for week in weeks for row in grid[club][week])
     ]
     if len(candidates) < 4:
         raise ValueError("Four eligible current PL clubs unavailable")
 
     def rotation_score(clubs):
         coverage, depth = 0, 0
-        for week in weeks[:5]:
+        for week in weeks:
             difficulties = sorted(row["fdr"] for club in clubs
                                   for row in grid[club][week] if row["fdr"] is not None)
             if difficulties:
@@ -160,7 +162,7 @@ def render_rotation_plan(plan: RotationPlan, output: Path,
         canvas = background(master, plan.identity, (1536, 864))
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((28, 79, 1508, 798), radius=18,
-                           fill=(250, 248, 253), outline=(205, 188, 220), width=2)
+                           fill=(255, 255, 255), outline=(198, 161, 91), width=2)
     _center(draw, "ROTATION PLANNER", (322, 85, 1214, 122), 40, INK)
     _center(draw, f"GW{plan.weeks[0]}–GW{plan.weeks[-1]} • FOUR CLUB FIXTURE MATRIX",
             (310, 124, 1225, 149), 20, PURPLE)
@@ -168,7 +170,7 @@ def render_rotation_plan(plan: RotationPlan, output: Path,
     for i, (club, badge) in enumerate(zip(plan.clubs, badges)):
         x = x0 + i * (cw + gap)
         draw.rounded_rectangle((x, 161, x + cw, 235), radius=13,
-                               fill=(233, 224, 241), outline=(201, 185, 215), width=2)
+                               fill=(243, 239, 247), outline=(201, 185, 215), width=2)
         draw.text((x + 18, 171), club["short"], font=_font(32), fill=PURPLE)
         draw.text((x + 18, 207),
                   f'{club["options"]} options • from £{club["min_price"]:.1f}m',
