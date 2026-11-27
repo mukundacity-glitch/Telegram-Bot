@@ -997,6 +997,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-18T10:30:01.249711+00:00"
   },
+  "rss:dffa3e48075aa013952125f1": {
+    "caption_sha256": "8182fd92026786d24d326a03fcbce8e1ea58ef005f523025cf5b53044fdfca1d",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575708423645823107",
+    "gameweek": 12,
+    "source": "media.bbc_sport",
+    "source_url": "https://www.bbc.co.uk/sport/football/articles/cx62pnz1evv4o?at_medium=RSS&at_campaign=rss",
+    "telegram_delivered_at": "2026-11-27T03:02:43.023247+00:00",
+    "telegram_message_id": 641,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-27T03:02:40.493729+00:00"
+  },
   "rss:e13f801f17e8eb7cfa52a714": {
     "caption_sha256": "840f17ad4cfe2f93944e63423953647aeaefd814e2ec14b0df341c2befc4bfa3",
     "delivered": true,

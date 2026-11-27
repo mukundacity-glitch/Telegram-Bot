@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-27T02:16:45.613433+00:00",
-  "eastern_at": "2026-11-26T21:16:45.613433-05:00",
+  "at": "2026-11-27T03:02:40.493729+00:00",
+  "eastern_at": "2026-11-26T22:02:40.493729-05:00",
   "last_news_scan": "2026-11-27T02:16:45.613433+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "vortex-captain",
-    "trigger": "2026-11-27T03:01:54.284406+00:00"
+    "trigger": "2026-11-27T03:47:43.022682+00:00"
   },
-  "next_telegram_at": "2026-11-27T03:01:54.284406+00:00",
+  "next_telegram_at": "2026-11-27T03:47:43.022682+00:00",
   "pending_triggers": [
     {
       "post": "start-bench-board",
@@ -36,7 +36,7 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-27T02:05:12.108622+00:00",
+    "source_updated_at": "2026-11-27T02:50:12.392587+00:00",
     "status": "skipped-schedule-conflict",
     "trigger": "2026-11-27T23:00:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
