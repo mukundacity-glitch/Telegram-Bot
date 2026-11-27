@@ -1,13 +1,14 @@
 {
-  "at": "2026-11-27T20:27:00.756524+00:00",
-  "eastern_at": "2026-11-27T15:27:00.756524-05:00",
+  "at": "2026-11-27T21:11:20.308195+00:00",
+  "eastern_at": "2026-11-27T16:11:20.308195-05:00",
   "last_news_scan": "2026-11-27T16:26:29.174996+00:00",
-  "new_posts": 0,
+  "new_posts": 1,
   "next_due": {
-    "post": "due-queue",
-    "trigger": "2026-11-27T21:11:17.206714+00:00"
+    "display_name": "FPL Player Performance Comparisons",
+    "post": "scouting-rotation",
+    "trigger": "2026-11-27T21:56:26.140812+00:00"
   },
-  "next_telegram_at": "2026-11-27T21:11:17.206714+00:00",
+  "next_telegram_at": "2026-11-27T21:56:26.140812+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -34,11 +35,11 @@
       "trigger": "2026-11-29T06:00:00-05:00"
     }
   ],
-  "posts_due": null,
+  "posts_due": 3,
   "posts_failed": 0,
-  "posts_generated": 0,
+  "posts_generated": 1,
   "posts_pending_trigger": 6,
-  "posts_processed": 0,
+  "posts_processed": 1,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
@@ -58,15 +59,15 @@
     ],
     "post": "price-prediction",
     "research_at": "2026-11-27T07:43:00+00:00",
-    "source_updated_at": "2026-11-27T20:20:14.026557+00:00",
+    "source_updated_at": "2026-11-27T21:05:12.433516+00:00",
     "status": "waiting",
     "trigger": "2026-11-27T21:30:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
   },
-  "queue_enumerated": false,
-  "queue_items_unprocessed": null,
+  "queue_enumerated": true,
+  "queue_items_unprocessed": 2,
   "scheduled_cron": "0,30 0-3,9-23 * * *",
   "source_error": null,
-  "status": "deferred-telegram-spacing",
-  "telegram_messages_sent": 0
+  "status": "published",
+  "telegram_messages_sent": 1
 }
