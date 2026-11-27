@@ -114,7 +114,7 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
     def guarded(job):
         return ((job[1] == 'editorial' and job[3].edition in {
             'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
-            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch'})
+            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins'})
             or (job[1] == 'news' and rotation_due(now)))
     if research_due or any(guarded(job) for job in jobs):
         jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
@@ -276,6 +276,12 @@ def run(now=None, cron=None, snapshot=None):
             evidence.position_watch_research = editorial[POSITION_STATE]
             jobs.append((datetime.fromisoformat(editorial[POSITION_STATE]['post_at']),
                          'editorial', publication_key(position,now,gw,season),position))
+        from .post_gameweek_zones import eligible as zones_eligible, STATE_KEY as ZONES_STATE
+        zones = zones_eligible(snapshot,now,editorial)
+        if zones is not None:
+            evidence.shot_origins_research = editorial[ZONES_STATE]
+            jobs.append((datetime.fromisoformat(editorial[ZONES_STATE]['post_at']),
+                         'editorial',publication_key(zones,now,gw,season),zones))
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
             key = publication_key(series, now, gw, season)
@@ -341,6 +347,10 @@ def run(now=None, cron=None, snapshot=None):
             from .position_watch import prepare as prepare_watch
             if prepare_watch(snapshot,now,editorial,evidence,clock):
                 write_state(STATE_FILE,editorial)
+            elif not dedicated_research:
+                from .post_gameweek_zones import prepare as prepare_zones
+                if prepare_zones(snapshot,now,editorial,evidence,clock):
+                    write_state(STATE_FILE,editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass
     # FDR is a strict weekly phase, not a generic late catch-up.
@@ -379,6 +389,10 @@ def run(now=None, cron=None, snapshot=None):
         if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
             from .daily_cutover import eligible as daily_eligible
             if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
+        if lane == 'editorial' and payload.edition == 'post-gameweek-shot-origins':
+            from .post_gameweek_zones import eligible as zones_eligible
+            if zones_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
                 continue
         if lane == 'editorial' and payload.edition == 'weekly-position-watch':
             from .position_watch import eligible as position_eligible

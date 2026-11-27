@@ -131,7 +131,15 @@ def reservations(snapshot, now, state, kickoff):
 def schedule(snapshot, now, state):
     try:
         gw, kickoff, deadline = target(snapshot)
-        selected = choose_schedule(kickoff,deadline,reservations(snapshot,now,state,kickoff))
+        busy = reservations(snapshot,now,state,kickoff)
+        # Respect the other edition's durable reservation without recursion.
+        from .telegram_spacing import GAP
+        zones = state.get("_post_gameweek_shot_origins",{})
+        if zones.get("season")==season_id(snapshot,now):
+            zr,zp=clock(zones["research_at"]),clock(zones["post_at"])
+            busy.extend((("shot-origins-research",zr,zr+WINDOW),
+                         ("shot-origins-post",zp-GAP,zp+GAP+WINDOW)))
+        selected = choose_schedule(kickoff,deadline,busy)
         if selected is None:
             return None
         research, post = selected

@@ -114,6 +114,10 @@ jobs:
         if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
         timeout-minutes: 4
         run: python -m vortex.position_watch
+      - name: Verify Slot 8 live finalized-GW shot origins (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 4
+        run: python -m vortex.post_gameweek_zones
       - name: Archive six-slot read-only verification
         if: always() && github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
         uses: actions/upload-artifact@v4

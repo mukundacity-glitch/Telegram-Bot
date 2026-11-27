@@ -102,6 +102,9 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
             raise ValueError('Verified price research required') from exc
     from .daily_cutover import KINDS, validate_record as validate_daily
     daily_identity = None
+    if record.get('edition') == 'post-gameweek-shot-origins':
+        from .post_gameweek_zones import validate_record as validate_zones
+        daily_identity = validate_zones(record,now,publish_at,manual=allow_outside_window)
     if record.get('edition') == 'weekly-position-watch':
         from .position_watch import validate_record as validate_watch
         daily_identity = validate_watch(record,now,publish_at,manual=allow_outside_window)
@@ -165,7 +168,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
             raise ValueError('PNG upload exceeds safe size')
         with Image.open(path) as image:
             expected_sizes = ((1600, 1200),) if record.get('edition') == 'price-prediction' else ((1920, 1080), (1080, 1920))
-            if destination == 'discord-only' or record.get('edition') == 'weekly-position-watch':
+            if destination == 'discord-only' or record.get('edition') in ('weekly-position-watch','post-gameweek-shot-origins'):
                 expected_sizes = ((1920, 1080),)
             if image.size not in expected_sizes:
                 raise ValueError('Finished art dimensions do not match the edition contract')
@@ -185,7 +188,7 @@ def queued_files(now):
         try:
             row = json.loads(file.read_text())
             from .daily_cutover import KINDS
-            if retired_record(row) or row.get('edition') in ('price-prediction', 'player-radar-comparison', 'saturday-fdr-grid', 'weekly-position-watch') or row.get('edition') in KINDS:
+            if retired_record(row) or row.get('edition') in ('price-prediction', 'player-radar-comparison', 'saturday-fdr-grid', 'weekly-position-watch', 'post-gameweek-shot-origins') or row.get('edition') in KINDS:
                 continue
             due = datetime.fromisoformat(row['publish_at'].replace('Z', '+00:00'))
             if due.tzinfo and due <= now:

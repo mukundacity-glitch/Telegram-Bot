@@ -143,6 +143,12 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'post-gameweek-shot-origins':
+        from .post_gameweek_zones import build as build_zones, RELEASE_VERIFIED
+        proof = getattr(e,'shot_origins_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Shot origins release/research gate is closed')
+        return build_zones(snapshot,now,e,proof)
     if name == 'weekly-position-watch':
         from .position_watch import build as build_watch, RELEASE_VERIFIED
         proof = getattr(e,'position_watch_research',None)

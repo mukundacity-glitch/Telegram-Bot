@@ -72,6 +72,9 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 10:52:06.5849202 UTC — first Slot 7 regression run 45985419822: 477 passed, 1 failed. Root cause: the existing cooldown regression used the wall clock and entered the dedicated radar research window (05:58–06:10 ET). Its test clock is now pinned to an ordinary publishing period; the cooldown assertion is preserved, not disabled.
 - Friday, 27 November 2026 at 10:52:08 UTC — landscape polish and final publication guards committed (857f62aa).
 
+- Friday, 27 November 2026 at 10:52:43 UTC — deterministic cooldown test correction pushed (1b04ef6); latest-head CI still requires verification.
+- Slot 8 branch implementation: standalone post-gameweek shot origins, once per official finalized season/GW (finished + data_checked + finished fixtures), rolling last five finalized rounds, FPL Core matches/shots reconciled to official scores and club codes. One 1920×1080 deep forest-teal / champagne / rose board, 20 clubs, large team and numeric share columns, proportional bars, genuine crests. Zero-width/tiny segments still have visible percentage labels. Separate research proof and stable per-GW delivery identity; post only on existing conflict-checked heartbeat after at least three elapsed hours. No fixed Thursday cadence. Release disabled; no production merge, and no catalogue renumbering. The Monday combined edition remains unchanged pending explicit cleanup and verification of removal of overlapping content. The current global audit does not prove every legacy reservation, settlement or actual publication; do not activate either new route until verified.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.
@@ -81,3 +84,5 @@ Superseded timing rules: price research T−2h and FDR research Saturday 19:28�
 Superseded price graphic: portrait top-eight-per-direction layout and previous social-footer formatting. Historical version remains in Git history; use only the new 4:3 format for this slot.
 
 Superseded existing weekly research windows: Monday goalkeeper/striker 09:30–10:30 ET; Tuesday wildcard 14:30–15:30 ET; Monday defence 19:00–20:00 ET. Retained for cleanup only, not executed. This is distinct from the new gated #7 workflow.
+
+Superseded Slot 8 standalone rule: Thursday 20:00 ET attacking-zones edition (retired). Replaced in the branch by official post-final-GW cadence, not reinstated. Monday combined shot-origin section is preserved pending cleanup; duplicate-content reconciliation remains a release prerequisite.
