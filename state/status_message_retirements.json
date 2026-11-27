@@ -10,5 +10,14 @@
     "deleted": true,
     "player": "Belloumi",
     "scope": "Telegram private"
+  },
+  "rss:dffa3e48075aa013952125f1": {
+    "discord_deleted": true,
+    "discord_deleted_at": "2026-11-27T06:34:40.271261+00:00",
+    "telegram_chat_digest": "061b079dc682e72a0a91ed16849c0f8499f2548da15026a122596c7b0c7e897f",
+    "telegram_deleted": true,
+    "telegram_deleted_at": "2026-11-27T06:34:40.271261+00:00",
+    "telegram_original_verified": true,
+    "telegram_verification_attempted": true
   }
 }
