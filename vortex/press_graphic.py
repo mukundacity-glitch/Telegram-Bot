@@ -107,9 +107,9 @@ def render(path, day, names, facts, locked, teams=None):
                             fill=(35, 31, 52), outline=(82, 67, 116), width=2)
         d.ellipse((42, y+16, 86, y+60), fill=(74, 26, 171))
         text(54, y+22, str(index+1), 28, 25, WHITE, True)
-        text(101, y+6, names[key], 520, 26, CYAN, True)
+        text(101, y+3, names[key], 520, 24, CYAN, True)
         for i, line in enumerate(wrap(fact["news"], 518, 21, 2)):
-            text(103, y+36+i*22, line, 518, 21, WHITE)
+            text(103, y+31+i*21, line, 518, 21, WHITE)
     if not ordered:
         text(49, 284, "Awaiting verified club reports.", 560, 31, MUTED)
 
@@ -172,8 +172,17 @@ def render(path, day, names, facts, locked, teams=None):
     # Source/coverage note above the existing supplied branded social strip.
     d.rectangle((0, 972, width, 1010), fill=(19, 16, 33))
     text(25, 979, "Verified club reports • See linked sources in caption • Awaiting = no confirmed report • Check before FPL deadline", 1870, 23, MUTED)
-    with Image.open(ASSETS / "midfield-watch-footer.png") as raw:
-        footer = raw.convert("RGB").resize((1920, 70), Image.Resampling.LANCZOS)
-        im.paste(footer, (0, 1010))
+    # Draw the existing brand's four verified public handles at native scale,
+    # avoiding distortion of the source social-strip aspect ratio.
+    d.rectangle((0, 1010, width, height), fill=(25, 17, 48))
+    d.line((20, 1011, width-20, 1011), fill=PURPLE, width=3)
+    handles = ("TELEGRAM  t.me/FPLVortexDailyBot", "YOUTUBE  @FPLVORTEX",
+               "DISCORD  @fplvortex", "X  @FPLVORTEXM")
+    for index, value in enumerate(handles):
+        x = index * 480
+        if index:
+            d.line((x, 1022, x, 1068), fill=PURPLE, width=2)
+        label, face = fit(value, 450, 30, bold=True)
+        d.text((x+240, 1047), label, font=face, fill=WHITE, anchor="mm")
     path.parent.mkdir(parents=True, exist_ok=True)
     im.save(path)

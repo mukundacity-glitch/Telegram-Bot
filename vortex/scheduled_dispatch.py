@@ -347,6 +347,8 @@ def main():
     snapshot = None
     press_error = False
     if os.getenv('GITHUB_EVENT_NAME') == 'schedule':
+        from .retire_player_news import retire_calvert_lewin
+        retire_calvert_lewin(datetime.now(timezone.utc))
         from .matchday_press import run as press_run
         from .telegram import TelegramClient
         from .press_schedule import retire_graphics
