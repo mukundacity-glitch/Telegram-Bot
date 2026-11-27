@@ -69,6 +69,9 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Rechecked persisted main state: no `_observed_price_settlement`, `_consecutive_cost_snapshot` or `_pre_gameweek_price_research` yet. Do not fabricate a settlement interval. Older radar/FDR receipts exist but do not establish a timed delivery of the new cutover code. Global gap audit and genuine platform delivery remain outstanding. Keep release disabled.
 - Slot 7 polish: larger landscape portraits and typography where available, full-width stacked double-GW fixture tiles, explicit FDR and GW transfer labels. Final outbox must match the persisted research group and a fresh official schedule. Publish job is explicitly limited to main; branch validation does not send posts or push receipts to production.
 
+- Friday, 27 November 2026 at 10:52:06.5849202 UTC — first Slot 7 regression run 45985419822: 477 passed, 1 failed. Root cause: the existing cooldown regression used the wall clock and entered the dedicated radar research window (05:58–06:10 ET). Its test clock is now pinned to an ordinary publishing period; the cooldown assertion is preserved, not disabled.
+- Friday, 27 November 2026 at 10:52:08 UTC — landscape polish and final publication guards committed (857f62aa).
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.

@@ -146,9 +146,17 @@ def test_cooldown_persists_between_publishers_and_skips_data_fetch(monkeypatch, 
     monkeypatch.setattr(telegram_spacing, "STATE", tmp_path)
     monkeypatch.setattr(telegram_spacing, "COOLDOWN", tmp_path / "spacing.json")
     monkeypatch.setattr(dispatcher, "REPORT", tmp_path / "report.json")
-    now = datetime.now(timezone.utc)
+    now = OPEN
+    # Pin the shared clock, including the local datetime import in TelegramClient.
+    # A wall-clock test could accidentally land inside a dedicated research phase.
+    class FrozenDatetime(datetime):
+        @classmethod
+        def now(cls, tz=None):
+            return now.astimezone(tz) if tz is not None else now.replace(tzinfo=None)
+    import datetime as datetime_module
+    monkeypatch.setattr(datetime_module, "datetime", FrozenDatetime)
     monkeypatch.setattr(dispatcher, "allowed", lambda now: True)
-    monkeypatch.setattr(dispatcher, "collect_snapshot", lambda: pytest.fail("Cooldown must skip network reads"))
+    monkeypatch.setattr(dispatcher, "collect_snapshot", lambda: pytest.fail("Ordinary cooldown must skip network reads"))
     send_calls = []
 
     def send(method, data, files):
