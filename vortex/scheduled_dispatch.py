@@ -177,7 +177,7 @@ def run(now=None, cron=None, snapshot=None):
             state = read_state(STATE_FILE)
             record_price_ownership(snapshot, state)
             try:
-                _, info = opportunity(snapshot, now, state)
+                _, info = opportunity(snapshot, now, state, clock=(None if injected_time else lambda: datetime.now(timezone.utc)))
                 if info.get('status') == 'research-verified':
                     write_state(STATE_FILE, state)
                     return {'status': 'research-verified', 'new_posts': 0, 'edition': 'price-prediction'}
@@ -249,7 +249,7 @@ def run(now=None, cron=None, snapshot=None):
             try:
                 from .price_prediction_board import RESEARCH_KEY
                 candidate_state = dict(editorial)
-                price_slot, price_status = opportunity(snapshot, now, candidate_state)
+                price_slot, price_status = opportunity(snapshot, now, candidate_state, clock=(None if injected_time else lambda: datetime.now(timezone.utc)))
                 if price_status.get('status') == 'research-verified':
                     candidate_price_research = candidate_state.get(RESEARCH_KEY)
                 if price_slot is not None:

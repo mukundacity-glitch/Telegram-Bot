@@ -193,8 +193,12 @@ def research_evidence(snapshot, now, update, state, *, research_at=None, post_at
             return None
         if not research_at <= checked < research_at+PRICE_GRACE:
             return None
-        from .research_gap import verified_gap
-        if snapshot.fetched_at <= checked or not verified_gap(row['checked_at'], post_at) or not verified_gap(row['checked_at'], now):
+        from .research_gap import fresh_research_source, verified_gap
+        if (not fresh_research_source(row.get("fetched_at"), row.get("checked_at"))
+                or not fresh_research_source(snapshot.fetched_at.isoformat(), now.isoformat())
+                or snapshot.fetched_at <= checked
+                or not verified_gap(row['checked_at'], post_at)
+                or not verified_gap(row['checked_at'], now)):
             return None
         changes = genuine_cost_changes(material_changes(row["players"], price_observation(snapshot)))
     except (ValueError, TypeError, KeyError, AttributeError):
@@ -291,7 +295,7 @@ def price_schedule(snapshot, now, update, state):
     return None,None,original
 
 
-def opportunity(snapshot, now, state):
+def opportunity(snapshot, now, state, *, clock=None):
     """Find a verified pre-change opportunity without moving other slots."""
     from .autonomous_schedule import ET, Slot, publication_key, season_id, retryable
     from .fpl import upcoming_deadline
@@ -319,14 +323,20 @@ def opportunity(snapshot, now, state):
     if now >= trigger+PRICE_GRACE:
         return None, {**info, "status":"skipped-schedule-conflict" if conflicts else "missed-window"}
     if research_at <= now < research_at+PRICE_GRACE:
-        checked_at = max(now, snapshot.fetched_at)
-        if checked_at >= research_at+PRICE_GRACE:
+        from .research_gap import fresh_research_source, verified_gap
+        players = price_observation(snapshot)
+        checked_at = clock() if clock is not None else max(now, snapshot.fetched_at)
+        if checked_at.tzinfo is None or not research_at <= checked_at < research_at+PRICE_GRACE:
             return None, {**info, "status":"research-window-expired"}
+        if not fresh_research_source(snapshot.fetched_at.isoformat(), checked_at.isoformat()):
+            return None, {**info, "status":"research-source-stale"}
+        if not verified_gap(checked_at.isoformat(), trigger):
+            return None, {**info, "status":"research-gap-insufficient"}
         prior = state.get(RESEARCH_KEY,{})
         if prior.get("update_at") != update.isoformat() or prior.get("post_at") != trigger.isoformat() or prior.get("gw") != snapshot.gameweek() or prior.get("season") != season:
             state[RESEARCH_KEY] = {"update_at":update.isoformat(),"gw":snapshot.gameweek(),
-                                   "season":season,"checked_at":max(now,snapshot.fetched_at).isoformat(),
-                                   "fetched_at":snapshot.fetched_at.isoformat(),"players":price_observation(snapshot),
+                                   "season":season,"checked_at":checked_at.isoformat(),
+                                   "fetched_at":snapshot.fetched_at.isoformat(),"players":players,
                                    "research_at":research_at.isoformat(),"post_at":trigger.isoformat()}
         return None, {**info,"status":"research-verified"}
     if now < trigger:

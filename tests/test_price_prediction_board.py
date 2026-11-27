@@ -350,3 +350,30 @@ def test_late_price_snapshot_does_not_record_reserved_research(world, monkeypatc
     slot, info = opportunity(s, research, state)
     assert slot is None and info["status"] == "research-window-expired"
     assert RESEARCH_KEY not in state
+
+
+def test_price_research_records_actual_completion_and_rejects_stale_source(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity, RESEARCH_KEY
+    from vortex import autonomous_schedule, schedule
+    s, _ = populated(world)
+    update = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    research = update - timedelta(hours=4, minutes=15)
+    monkeypatch.setattr(autonomous_schedule, "SLOTS", ())
+    monkeypatch.setattr(schedule, "SLOT_HOURS", {})
+    monkeypatch.setattr(autonomous_schedule, "special_triggers", lambda *_: [])
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline", lambda _: update+timedelta(days=1))
+    def at(instant):
+        return replace(s, fetched_at=instant, game_config={
+            "settings": {"price_change_deadlines": [update.isoformat()]},
+            "status": {"price_change_last_updated": research.isoformat()}})
+    state = {}
+    _, info = opportunity(at(research), research, state, clock=lambda: research+timedelta(minutes=15))
+    assert info["status"] == "research-window-expired"
+    assert RESEARCH_KEY not in state
+    _, info = opportunity(at(research-timedelta(minutes=31)), research, state, clock=lambda: research)
+    assert info["status"] == "research-source-stale"
+    assert RESEARCH_KEY not in state
+    checked = research+timedelta(minutes=2)
+    _, info = opportunity(at(research), research, state, clock=lambda: checked)
+    assert info["status"] == "research-verified"
+    assert state[RESEARCH_KEY]["checked_at"] == checked.isoformat()
