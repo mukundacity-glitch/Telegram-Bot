@@ -150,6 +150,11 @@ def test_status_cards_retired_then_weekly_rotation_posted_once(monkeypatch, tmp_
     snapshot.players[0]["status"] = "d"
     friday = datetime(2026, 11, 14, 1, 0, tzinfo=timezone.utc)  # Friday 20:00 ET
     # Nov 14 is Saturday UTC; the previous ET date is Friday Nov 13.
+    missing = unified_runner.run(snapshot=snapshot, now=friday, telegram=t, discord=d)
+    assert missing["sent"] == 0
+    checked = friday.astimezone(unified_runner.ET).replace(hour=15, minute=28)
+    assert unified_runner.prepare_rotation_research(snapshot, checked)
+    assert unified_runner.rotation_research_valid(snapshot, friday, unified_runner._read(unified_runner.READY))
     posted = unified_runner.run(snapshot=snapshot, now=friday,
                                 telegram=t, discord=d)
     assert warmup["retired_status_cards"] == 1 and posted["retired_status_cards"] == 0

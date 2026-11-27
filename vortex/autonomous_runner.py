@@ -189,6 +189,12 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 continue
         if slot.edition == 'price-prediction' and (audit or manual or selected_slots is None):
             raise ValueError('Price prediction is available only through the API-clock due queue')
+        if slot.edition == 'player-radar-comparison' and not audit:
+            from .autonomous_schedule import radar_research_valid
+            if not radar_research_valid(state, slot, snapshot, now):
+                rows.append({'edition': slot.edition, 'status': 'no-new-facts',
+                             'reason': 'Missing finalized GW research or minimum three-hour gap'})
+                continue
         if slot.edition == 'saturday-fdr-grid' and not audit:
             from .autonomous_schedule import fdr_research_valid
             if not fdr_research_valid(state, snapshot, now):

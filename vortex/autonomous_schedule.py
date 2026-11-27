@@ -272,3 +272,38 @@ def finalized_radar_slot(snapshot, now, state):
     slot = replace(slot, series_gw=max(finalized))
     key = publication_key(slot, now, snapshot.gameweek(), season_id(snapshot, now))
     return slot if retryable(state.get(key, {})) else None
+
+
+RADAR_RESEARCH_STATE = '_settled_radar_research'
+
+
+def radar_research_due(now):
+    local = now.astimezone(ET)
+    return (5, 58) <= (local.hour, local.minute) < (6, 10)
+
+
+def radar_research_valid(state, slot, snapshot, now):
+    from .research_gap import verified_gap
+    row = state.get(RADAR_RESEARCH_STATE, {})
+    return (slot.series_gw is not None and row.get('completed_gw') == slot.series_gw
+            and row.get('season') == season_id(snapshot, now)
+            and row.get('date') == now.astimezone(ET).date().isoformat()
+            and verified_gap(row.get('checked_at'), slot_start(slot, now))
+            and verified_gap(row.get('checked_at'), now))
+
+
+def prepare_radar_research(snapshot, now, state, evidence, clock):
+    if not radar_research_due(now):
+        return False
+    post = now.astimezone(ET).replace(hour=11, minute=30, second=0, microsecond=0)
+    slot = finalized_radar_slot(snapshot, post, state)
+    if slot is None or radar_research_valid(state, slot, snapshot, post):
+        return False
+    from .radar_comparison import build_radar
+    plan = build_radar(slot, snapshot, now, evidence)
+    state[RADAR_RESEARCH_STATE] = {
+        'date': now.astimezone(ET).date().isoformat(), 'season': season_id(snapshot, now),
+        'completed_gw': slot.series_gw, 'checked_at': clock().isoformat(),
+        'player_ids': [p['id'] for p in plan.players],
+    }
+    return True

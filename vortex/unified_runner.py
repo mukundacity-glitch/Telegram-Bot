@@ -29,6 +29,40 @@ def rotation_due(now):
     return local.weekday() == 4 and (20, 0) <= (local.hour, local.minute) < (20, 15)
 
 
+def rotation_research_due(now):
+    local = now.astimezone(ET)
+    return local.weekday() == 4 and (15, 28) <= (local.hour, local.minute) < (15, 40)
+
+
+def rotation_research_valid(snapshot, now, state):
+    from .autonomous_schedule import season_id
+    from .research_gap import verified_gap
+    local = now.astimezone(ET)
+    post = local.replace(hour=20, minute=0, second=0, microsecond=0)
+    row = state.get('research', {})
+    return (row.get('date') == local.date().isoformat()
+            and row.get('gw') == snapshot.gameweek()
+            and row.get('season') == season_id(snapshot, now)
+            and verified_gap(row.get('checked_at'), post)
+            and verified_gap(row.get('checked_at'), now))
+
+
+def prepare_rotation_research(snapshot, now, *, clock=None):
+    if not rotation_research_due(now):
+        return False
+    from .rotation_planner import build_rotation_plan
+    from .autonomous_schedule import season_id
+    plan = build_rotation_plan(snapshot, now)
+    state = _read(READY)
+    state.update(initialized=True, research={
+        'date': now.astimezone(ET).date().isoformat(), 'gw': plan.gameweek,
+        'season': season_id(snapshot, now), 'checked_at': (clock() if clock else now).isoformat(),
+        'club_ids': [club['id'] for club in plan.clubs],
+    })
+    save_journal(READY, state)
+    return True
+
+
 def rotation_week_claimed(receipts, pending, now):
     """Legacy date-keyed receipts also count; never replay an uncertain send."""
     week = now.astimezone(ET).date().isocalendar()[:2]
@@ -90,8 +124,9 @@ def run(dry_run: bool = False, *, snapshot=None,
     if not 0 <= cap <= 6:
         raise ValueError("MAX_NEWS_PER_RUN must be between 0 and 6")
     initial = not READY.exists()
+    research_ok = rotation_research_valid(snapshot, current_time, _read(READY))
 
-    if (not initial and rotation is not None and not pending_only and rotation_due(current_time)
+    if (not initial and rotation is not None and not pending_only and rotation_due(current_time) and research_ok
             and not rotation_week_claimed(receipt, pending, current_time)):
         identity = rotation.identity
         if identity not in pending and not (
@@ -116,7 +151,7 @@ def run(dry_run: bool = False, *, snapshot=None,
     save_journal(PENDING, pending)
 
     eligible = [(key, row) for key, row in pending.items()
-                if rotation_due(current_time) and row.get("attempts", 0) < ATTEMPTS]
+                if rotation_due(current_time) and research_ok and row.get("attempts", 0) < ATTEMPTS]
     if drain:
         eligible.sort(key=lambda item: item[1].get("queued_at", ""))
     if not eligible or (cap == 0 and not drain):

@@ -19,7 +19,7 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 09:51:27 UTC — catalogue correction committed (c81e2a8).
 - Friday, 27 November 2026 at 09:53:14.083743 UTC — regression suite passed: 442 passed, zero failures (run 45977206370).
 - Friday, 27 November 2026 at 09:53:18.128314 UTC — read-only live source audit generated passing result, 20 teams and 674 players.
-- New minimum three-hour research-to-post rule applies to all slots. Current implementation increment enforces it for price prediction and FDR; remaining slots and other active workflows require reconciliation. Existing publication times are retained; runtime conflicts must result in a hold, not a late send.
+- New minimum three-hour research-to-post rule applies to all slots. Current implementation increment enforces it for price prediction, finalized radar, weekly rotation and FDR. Radar research is 05:58–06:10 ET before existing 11:30 post; Friday rotation research is 15:28–15:40 ET before existing 20:00 post. Both require persisted research and skip when another job is due. Remaining slots and other active workflows require reconciliation. Existing publication times are retained; runtime conflicts must result in a hold, not a late send.
 - Position Watch #7: blocked; do not implement or activate until slots 1–6 are fully implemented and verified. No production merge until that gate passes.
 
 ## Legacy / Moved Slots (Pending Telegram Cleanup)

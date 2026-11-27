@@ -181,7 +181,8 @@ def run(now=None, cron=None, snapshot=None):
                          publication_key(slot, now, gw, season), slot))
         from .autonomous_schedule import finalized_radar_slot
         radar = finalized_radar_slot(snapshot, now, editorial)
-        if radar is not None:
+        from .autonomous_schedule import radar_research_valid
+        if radar is not None and radar_research_valid(editorial, radar, snapshot, now):
             jobs.append((slot_start(radar, now), 'editorial',
                          publication_key(radar, now, gw, season), radar))
         old_series = editorial.get(SERIES_STATE)
@@ -216,6 +217,17 @@ def run(now=None, cron=None, snapshot=None):
             continue
         if f'outbox/{file.name}' not in owned_files:
             jobs.append((trigger, 'outbox', file.name, file))
+    # Research occupies its own heartbeat, never a competing publication run.
+    if snapshot is not None and not jobs:
+        from .autonomous_schedule import prepare_radar_research
+        from .unified_runner import prepare_rotation_research
+        clock = (lambda: now) if injected_time else (lambda: datetime.now(timezone.utc))
+        try:
+            if prepare_radar_research(snapshot, now, editorial, evidence, clock):
+                write_state(STATE_FILE, editorial)
+            prepare_rotation_research(snapshot, now, clock=clock)
+        except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+            pass
     # FDR is a strict weekly phase, not a generic late catch-up.
     from .autonomous_schedule import SATURDAY_FDR_GRID, FDR_RESEARCH_STATE, fdr_phase, fdr_research_valid
     phase = fdr_phase(now)
