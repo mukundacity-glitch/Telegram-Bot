@@ -93,6 +93,7 @@ class MatchdayPress(TestCase):
         self.assertEqual(len(self.sent), 1)
         self.assertEqual(len(self.edited), 1)
         self.assertIn("5/20 clubs", self.edited[0])
+        self.assertIn("UPDATED 21 Nov 2026 08:00 UTC", self.edited[0])
         self.assertFalse(self.check(clock(21, 8, 30)))
         self.assertFalse(self.check(clock(21, 11)))
         self.assertEqual(len(self.edited), 1)

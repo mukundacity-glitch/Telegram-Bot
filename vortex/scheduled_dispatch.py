@@ -227,7 +227,7 @@ def run(now=None, cron=None, snapshot=None):
                     error = edition.get('reason') or 'Telegram delivery incomplete; see outbox receipt'
             elif lane == 'news':
                 run_news(now=now, snapshot=snapshot, drain=True, pending_only=not payload,
-                         audit_rows=news_rows)
+                         audit_rows=news_rows, rotation_only=True)
                 if payload:
                     last_news_scan = run_key
             else:

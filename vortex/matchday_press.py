@@ -76,13 +76,14 @@ def matchdays(snapshot, now):
         }
 
 
-def caption_for(day, names, facts, now):
+def caption_for(day, names, facts, now, *, updated=False):
     """Exactly five Telegram lines, with clickable sources for each club."""
     coverage = f"{len(facts)}/{len(names)} clubs: verified pre-match reports"
     if len(facts) < len(names):
         coverage += "; others awaiting evidence"
     lines = [
-        f"GW{day['gw']} | FPL VORTEX PRESS CONFERENCE | {day['season']}/{str(day['season']+1)[-2:]}",
+        f"GW{day['gw']} | FPL VORTEX PRESS CONFERENCE | {day['season']}/{str(day['season']+1)[-2:]} | "
+        + ("UPDATED " if updated else "AS OF ") + now.astimezone(timezone.utc).strftime("%d %b %Y %H:%M UTC"),
         coverage,
         "Fantasy deadline: " + day["deadline"].astimezone(NEPAL).strftime("%a %d %b, %I:%M %p NPT"),
         "Report sources: ",
@@ -266,8 +267,10 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
         if row.get("version") == version:
             continue
         path = ROOT / "outbox/assets" / f"press-GW{day['gw']}-{day['season']}.png"
-        render_image(path, day, names, combined, False, teams=snapshot.teams)
-        caption, entities = caption_for(day, names, combined, current)
+        updated = bool(row.get("message"))
+        render_day = {**day, "data_at": current.astimezone(timezone.utc), "updated": updated}
+        render_image(path, render_day, names, combined, False, teams=snapshot.teams)
+        caption, entities = caption_for(day, names, combined, current, updated=updated)
         current = live_clock() if live_clock else now
         if current >= day["deadline"]:
             continue

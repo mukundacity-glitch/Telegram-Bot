@@ -1,6 +1,6 @@
 """Reference-style FPL VORTEX press poster; all statements are sourced data.
 
-Preserves the existing assets/press logo and footer, never the sample's names,
+Uses existing FPL VORTEX brand assets, never the sample's names,
 quotes or its illustrative Gameweek 1 text. Real FPL clubs and status only.
 """
 from io import BytesIO
@@ -10,11 +10,11 @@ import requests
 from PIL import Image, ImageDraw, ImageFont, ImageOps
 
 
-ASSETS = Path(__file__).resolve().parents[1] / "assets/press"
-BG = (8, 8, 32)
-PURPLE = (154, 47, 252)
-CYAN = (63, 225, 252)
-GOLD = (255, 219, 71)
+ASSETS = Path(__file__).resolve().parents[1] / "assets/brand"
+BG = (14, 13, 27)
+PURPLE = (116, 91, 166)
+CYAN = (181, 159, 246)
+GOLD = (251, 207, 105)
 WHITE = (245, 245, 255)
 MUTED = (188, 187, 213)
 
@@ -67,29 +67,26 @@ def render(path, day, names, facts, locked, teams=None):
 
     def panel(box, label, accent=PURPLE):
         x1, y1, x2, y2 = box
-        d.rounded_rectangle(box, radius=28, fill=(15, 10, 44), outline=accent, width=4)
+        d.rounded_rectangle(box, radius=28, fill=(25, 23, 43), outline=accent, width=2)
         d.rounded_rectangle((x1+10, y1+9, x2-10, y1+64), radius=18,
-                            fill=(65, 21, 129))
+                            fill=(53, 38, 78))
         text(x1+27, y1+14, label, x2-x1-54, 35, WHITE, True)
 
     def note(x, y, s, color=GOLD):
         d.ellipse((x, y+9, x+13, y+22), fill=color)
         text(x+29, y, s, 548, 26, WHITE)
 
-    with Image.open(ASSETS / "logo.jpg") as raw:
-        logo = ImageOps.contain(raw.convert("RGB"), (405, 141))
-        im.paste(logo, (12, (149-logo.height)//2))
-    d.rounded_rectangle((431, 20, 1532, 126), radius=30,
-                        fill=(68, 14, 179), outline=(152, 45, 253), width=5)
-    d.ellipse((452, 37, 516, 104), outline=WHITE, width=4)
-    d.rounded_rectangle((476, 46, 492, 77), radius=6, fill=WHITE)
-    d.arc((468, 51, 500, 88), 0, 180, fill=WHITE, width=4)
-    d.line((484, 88, 484, 97), fill=WHITE, width=4)
-    text(535, 36, "PRESS CONFERENCE", 985, 73, WHITE, True)
-    text(1562, 26, f"GAMEWEEK {day['gw']}", 345, 44, WHITE, True)
-    text(1615, 85, f"{day['season']}/{str(day['season'] + 1)[-2:]}", 280, 35,
-         (150, 253, 69), True)
-    d.line((12, 155, 1908, 155), fill=(94, 31, 223), width=6)
+    # Existing FPL VORTEX lion logo; the final supplied brand asset can replace it.
+    with Image.open(ASSETS / "midfield-watch-logo.png") as raw:
+        logo = ImageOps.contain(raw.convert("RGB"), (290, 135))
+        im.paste(logo, (20, (146-logo.height)//2))
+    d.line((330, 22, 330, 137), fill=PURPLE, width=3)
+    text(355, 18, f"GAMEWEEK {day['gw']} / FPL VORTEX / {day['season']}/{str(day['season']+1)[-2:]}", 1515, 31, CYAN, True)
+    text(355, 53, "PRESS CONFERENCE REPORT", 1515, 56, WHITE, True)
+    at = day.get("data_at")
+    stamp = at.strftime("%d %b %Y • %H:%M UTC") if at else "Report time unavailable"
+    text(355, 119, ("UPDATED • " if day.get("updated") else "DATA AS OF • ") + stamp, 1515, 25, GOLD, True)
+    d.line((20, 155, 1900, 155), fill=PURPLE, width=3)
 
     panel((12, 173, 656, 970), "LATEST NEWS")
     panel((670, 173, 1296, 713), "KEY QUOTES")
@@ -107,7 +104,7 @@ def render(path, day, names, facts, locked, teams=None):
     ):
         y = 257 + index*85
         d.rounded_rectangle((27, y, 641, y+77), radius=17,
-                            fill=(24, 13, 60), outline=(113, 34, 220), width=2)
+                            fill=(35, 31, 52), outline=(82, 67, 116), width=2)
         d.ellipse((42, y+16, 86, y+60), fill=(74, 26, 171))
         text(54, y+22, str(index+1), 28, 25, WHITE, True)
         text(101, y+6, names[key], 520, 26, CYAN, True)
@@ -120,7 +117,7 @@ def render(path, day, names, facts, locked, teams=None):
     for index, (key, quote) in enumerate(quotes[:4]):
         y = 254 + index*109
         d.rounded_rectangle((684, y, 1280, y+101), radius=17,
-                            fill=(22, 12, 57), outline=(118, 42, 208), width=2)
+                            fill=(35, 31, 52), outline=(82, 67, 116), width=2)
         text(701, y+4, "“", 50, 47, GOLD, True)
         text(752, y+6, names[key], 495, 25, CYAN, True)
         for i, line in enumerate(wrap("“" + quote + "”", 528, 22, 2)):
@@ -158,9 +155,9 @@ def render(path, day, names, facts, locked, teams=None):
         y = 253 + index*34
         fact = facts.get(key)
         d.rounded_rectangle((1323, y, 1895, y+32), radius=12,
-                            fill=(30, 14, 65) if index % 2 else (21, 10, 49))
+                            fill=(38, 32, 57) if index % 2 else (31, 27, 48))
         d.rounded_rectangle((1327, y+2, 1364, y+31), radius=12,
-                            fill=(75, 25, 168))
+                            fill=(62, 45, 97))
         text(1333, y+2, str(index+1), 27, 20, WHITE, True)
         if key in crests:
             badge = crests[key]
@@ -172,7 +169,11 @@ def render(path, day, names, facts, locked, teams=None):
         summary = (fact.get("quote") or fact.get("news")) if fact else "Awaiting verified report"
         text(1635, y+5, summary, 253, 18, CYAN if fact else MUTED, bool(fact))
 
-    with Image.open(ASSETS / "footer.jpg") as raw:
-        im.paste(raw.convert("RGB").resize((1920, 96)), (0, 984))
+    # Source/coverage note above the existing supplied branded social strip.
+    d.rectangle((0, 972, width, 1010), fill=(19, 16, 33))
+    text(25, 979, "Verified club reports • See linked sources in caption • Awaiting = no confirmed report • Check before FPL deadline", 1870, 23, MUTED)
+    with Image.open(ASSETS / "midfield-watch-footer.png") as raw:
+        footer = raw.convert("RGB").resize((1920, 70), Image.Resampling.LANCZOS)
+        im.paste(footer, (0, 1010))
     path.parent.mkdir(parents=True, exist_ok=True)
     im.save(path)

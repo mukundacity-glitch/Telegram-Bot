@@ -79,7 +79,8 @@ def _create_clients() -> tuple[TelegramClient, DiscordWebhookClient]:
 
 def run(dry_run: bool = False, *, snapshot=None, rss=None,
         telegram=None, discord=None, now: datetime | None = None,
-        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None) -> dict[str, int]:
+        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None,
+        rotation_only=False) -> dict[str, int]:
     current_time = now or datetime.now(timezone.utc)
     if current_time.tzinfo is None:
         raise ValueError("Timestamp must include a timezone")
@@ -98,13 +99,17 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     receipt = load_journal(RECEIPTS)
 
     # Retire individual status and price cards while keeping attributed news.
-    official = [] if pending_only else [post for post in collect_fpl_changes(snapshot, prior, current_time)
+    official = [] if pending_only or rotation_only else [post for post in collect_fpl_changes(snapshot, prior, current_time)
                 if not post.identity.startswith(("availability:", "price:"))]
-    reported = ([] if pending_only else rss if rss is not None else
+    reported = ([] if pending_only or rotation_only else rss if rss is not None else
                 collect_reported_headlines(snapshot, current_time))
     reported = [story for story in reported if 'PRESSCONFERENCE WATCH' not in story.title]
     pending = {key: value for key, value in pending.items()
                if 'PRESSCONFERENCE WATCH' not in value.get('title', '')}
+    if rotation_only:
+        # The scheduled individual FPL NEWS edition is retired. Keep receipts
+        # for audit but never regenerate or retry its queued stories.
+        pending = {key: value for key, value in pending.items() if key.startswith('rotation:')}
     stories = {s.identity: s for s in [*official, *reported]}
     from .rotation_planner import build_rotation_plan
     try:
@@ -213,22 +218,6 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                         raise RuntimeError("Stale rotation board must not publish")
                     from .rotation_planner import render_rotation_plan
                     render_rotation_plan(rotation, image_path)
-                elif os.getenv("FPL_ENRICHED_VISUALS_ENABLED", "false").lower() == "true":
-                    # Keep original approved blue slide and genuine current player
-                    # portrait/crest. Source and technical verification never enter
-                    # the image; the same exact caption accompanies both channels.
-                    from .content import Card, Content
-                    from .player_profile import render_player_profile
-                    if not record.photo_code or not record.club_code or not record.player_name:
-                        raise RuntimeError("Verified player identity and club portrait required")
-                    tag = "FPL NEWS"
-                    visual = Content(
-                        kind="news_profile", title=tag, kicker="GW NEWS",
-                        cards=(Card(record.player_name, record.team_name, tag, (),
-                                    record.photo_code, record.club_code),),
-                        verdict="MONITOR", caption=record.caption,
-                        data_at="", gw=record.gameweek, footer="")
-                    render_player_profile(visual, snapshot, image_path)
                 else:
                     render_news_card(record, image_path)
                 from .graphic_numbers import stamp
@@ -290,7 +279,7 @@ def main() -> int:
         print("Unified news publishing is disabled until approved cutover")
         return 0
     try:
-        summary = run(dry_run=args.dry_run)
+        summary = run(dry_run=args.dry_run, rotation_only=True)
         print(json.dumps(summary, sort_keys=True))
         return 0
     except (RuntimeError, ValueError) as exc:
