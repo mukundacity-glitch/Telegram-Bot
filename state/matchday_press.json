@@ -21,7 +21,7 @@
   "2026:GW12": {
     "checked": "2026-11-27T14:07:38.561511+00:00",
     "facts": {},
-    "schedule_checked": "2026-11-27T14:07:38.561511+00:00",
+    "schedule_checked": "2026-11-27T14:54:19.483007+00:00",
     "timetable": {
       "2026-11-26": {
         "slots": [
@@ -110,11 +110,18 @@
           ]
         ],
         "summary": [
+          "Arsenal: Arteta unsure whether Raya will be fit but goalkeeper does train",
           "Manchester United: Fernandes to be assessed after virus, Baleba out, Rashford on the grass",
           "Liverpool: Gakpo out, Gravenberch doubtful, Munoz not seriously injured",
           "Manchester City: Semenyo close to returning. no new concerns",
+          "Brighton and Hove Albion: Mitoma still 1-2 weeks away, Gomez rested, Boscagli should return",
           "Bournemouth: Kroupi misses win over Celta Vigo due to illness, Gannon-Doak also sick",
+          "Tottenham Hotspur: Savio out till after Xmas, Bergvall ill, Tosin + Mudryk still out",
+          "Aston Villa: Cash back from concussion, Onana + Ruggeri still out",
+          "Everton: Tarkowski suspended, Moyes coy on injury news",
+          "Newcastle United: Joelinton out, Hall trains, Jaissle to assess if Livramento can start",
           "Crystal Palace: Mateta + Pino suspended, Sarr still out, no fresh fitness issues",
+          "Sunderland: Black Cats have illness issues, five still injured, loanee Danso can’t play",
           "Fulham: Smith Rowe + Andersen ruled out",
           "Ipswich Town: Davis fit and will start",
           "Hull City: Iroegbunam joins injury list, Ansah back in training"
@@ -126,7 +133,7 @@
   "2026:GW13": {
     "checked": "2026-11-27T14:07:38.561511+00:00",
     "facts": {},
-    "schedule_checked": "2026-11-27T14:07:38.561511+00:00",
+    "schedule_checked": "2026-11-27T14:54:19.483007+00:00",
     "timetable": {}
   }
 }
