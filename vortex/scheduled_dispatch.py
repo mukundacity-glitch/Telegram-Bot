@@ -353,13 +353,15 @@ def main():
               ', Discord=' + str(bool(retired.get('discord_deleted'))))
         from .matchday_press import run as press_run
         from .telegram import TelegramClient
+        from .syndication import DiscordWebhookClient
         from .press_schedule import retire_graphics
         retire_graphics(datetime.now(timezone.utc), read_state, write_state, TelegramClient)
         try:
             snapshot = retry_source(collect_snapshot)
             now = datetime.now(timezone.utc)
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
-                         live_clock=lambda: datetime.now(timezone.utc)):
+                         live_clock=lambda: datetime.now(timezone.utc),
+                         discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):
                 print('Matchday press roundup has publication priority on this pass')
                 return 0
         except (RuntimeError, ValueError, OSError) as error:

@@ -127,6 +127,29 @@ class DiscordWebhookClient:
             raise ValueError("Shared image missing or invalid")
         return self._send(payload, post.image)
 
+    def edit_news(self, message_id: str, post: NewsPost) -> str:
+        """Replace the same webhook-owned message's media, never send a duplicate."""
+        from .publishing_window import assert_allowed
+        assert_allowed()
+        if not str(message_id).isdigit() or not post.image or not post.image.is_file():
+            raise ValueError("Discord edit requires original receipt and verified image")
+        if len(post.caption) > 2000:
+            raise ValueError("Discord content exceeds 2000 characters")
+        url = self.url.split("?", 1)[0].rstrip("/") + "/messages/" + str(message_id)
+        payload = {"content": post.caption, "allowed_mentions": {"parse": []},
+                   "attachments": [{"id": 0, "filename": post.image.name}]}
+        try:
+            with post.image.open("rb") as stream:
+                response = self.session.patch(url, data={"payload_json": json.dumps(payload)},
+                    files={"files[0]": (post.image.name, stream, "image/png")}, timeout=35)
+            if not 200 <= response.status_code < 300:
+                raise DeliveryRejected("Discord edit rejected")
+            if str(response.json().get("id")) != str(message_id):
+                raise DeliveryUncertain("Discord edit receipt mismatch")
+        except (requests.RequestException, ValueError):
+            raise DeliveryUncertain("Discord edit outcome unconfirmed") from None
+        return str(message_id)
+
     def send_album(self, images, caption):
         from contextlib import ExitStack
         from .publishing_window import assert_allowed
