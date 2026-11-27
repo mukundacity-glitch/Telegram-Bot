@@ -134,11 +134,11 @@ def _header(canvas: Image.Image, content: Content) -> None:
 
 def _footer(canvas: Image.Image, content: Content) -> None:
     draw = ImageDraw.Draw(canvas, 'RGBA')
-    if content.kind in ('buy', 'sell'):
-        bottom = 781 if content.kind == 'sell' else 796
+    if content.kind in ('buy', 'sell', 'review'):
+        bottom = 781 if content.kind in ('sell', 'review') else 796
         draw.rounded_rectangle((69, 751, 1468, bottom), radius=10,
                                fill=(9, 22, 54, 255), outline=(*CYAN, 221), width=2)
-        _center_text(draw, 764, 754 if content.kind == 'sell' else 761, content.verdict.upper(),
+        _center_text(draw, 764, 754 if content.kind in ('sell', 'review') else 761, content.verdict.upper(),
                      _fitted_font(draw, content.verdict.upper(), 1250, 25, 19), WHITE)
         draw.rectangle((1162, 802, 1536, 864), fill=(9, 22, 54, 255))
         _center_text(draw, 1347, 806, 'Source: Official Fantasy Premier League API',
@@ -280,7 +280,7 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
     width = (1474 - 3 * gap) // 4
     for index, (card, (portrait, crest)) in enumerate(zip(content.cards, media)):
         if card.metrics is None or portrait is None or crest is None:
-            raise RuntimeError('BUY/SELL publication requires verified player photo and club crest')
+            raise RuntimeError('Recommendation publication requires verified player photo and club crest')
         x = 31 + index * (width + gap)
         m = card.metrics
         accent = PALETTE[index] if card.label != 'WATCHLIST' else MUTED
@@ -293,7 +293,7 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
         _text(draw, card.subtitle.upper(), x + 18, 253, width - 35, 23, GOLD, 18)
         _crest(canvas, crest, x + width - 80, 204, 64)
         _photo(canvas, portrait, (x + 172, 287, x + width - 11, 462), accent)
-        if content.kind == 'sell':
+        if content.kind in ('sell', 'review'):
             _badge(draw, str(m.get('minutes', '—')), 'SEASON MINS',
                    (x + 15, 296, x + 162, 366), accent)
         else:
@@ -380,7 +380,7 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
     _header(canvas, content)
     if content.kind == 'elite':
         _large_feature(canvas, content, content.cards[0], *media[0], session)
-    elif content.kind in ('buy', 'sell'):
+    elif content.kind in ('buy', 'sell', 'review'):
         _recommendation_layout(canvas, content, media)
     elif content.kind == 'midfielders':
         _midfielders_layout(canvas, content, media, session)
@@ -388,7 +388,7 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
         _four_card_layout(canvas, content, media, session)
     _footer(canvas, content)
     import os
-    if content.kind == 'sell':
+    if content.kind in ('sell', 'review'):
         from .brand_footer import approved_social_footer, approved_sell_logo
         approved_sell_logo(canvas)
         approved_social_footer(canvas)

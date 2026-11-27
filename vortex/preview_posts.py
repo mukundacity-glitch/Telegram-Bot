@@ -16,11 +16,11 @@ def main() -> int:
     folder = Path("output/pr-preview")
     folder.mkdir(parents=True, exist_ok=True)
     failures = 0
-    for kind in ("buy", "sell"):
+    for kind in ("buy", "sell", "review"):
         try:
             article = generate(kind, snapshot, datetime.now(timezone.utc), {})
             path = folder / f"FPLVortex_GW{article.gw}_{kind}_PREVIEW.png"
-            if kind == 'sell':
+            if kind in ('sell', 'review'):
                 # Use the same renderer and resolution as production.
                 from .publish_checks import render_checked
                 from .graphic_numbers import stamp
@@ -28,7 +28,7 @@ def main() -> int:
                 for key, value in {'FPL_TELEGRAM_HANDLE':'@FPLVortexDailyBot', 'FPL_DISCORD_HANDLE':'@fplvortex', 'FPL_ENRICHED_VISUALS_ENABLED':'true'}.items():
                     os.environ.setdefault(key, value)
                 render_checked(article, snapshot, path)
-                stamp(path, 'sell', required=True)
+                stamp(path, kind, required=True)
             else:
                 render(article, path)
             (folder / f"FPLVortex_GW{article.gw}_{kind}_CAPTION.txt").write_text(

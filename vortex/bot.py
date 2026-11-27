@@ -129,6 +129,11 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
             if previously_posted_same_players(publication_slot, article, recorded, now):
                 print(f"ALREADY COVERED TODAY {publication_slot}: official player/topic overlap; skip duplicate")
                 return 0
+        if publication_slot == "review":
+            # Keep the existing daily receipt identity; monitor is now forward-looking.
+            deadline = upcoming_deadline(snapshot)
+            if deadline is None or deadline <= datetime.now(timezone.utc):
+                raise RuntimeError("Next-GW monitor deadline has passed or is unavailable")
         if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions", "midfielders", "start_bench"):
             deadline = upcoming_deadline(snapshot)
             # Use the same API snapshot for both the heading and the deadline.
@@ -207,7 +212,7 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
             stamp(path, publication_slot, required=bool(scheduled_cron))
         if audit is not None:
             audit["generated"] = True
-        if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions", "midfielders", "start_bench"):
+        if publication_slot in ("buy", "sell", "review", "projections", "team_analysis", "transfer_suggestions", "midfielders", "start_bench"):
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
                 raise RuntimeError("GW deadline elapsed during recommendation generation")

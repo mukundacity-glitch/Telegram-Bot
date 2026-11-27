@@ -1,4 +1,4 @@
-"""One-gameweek BUY/SELL research using verified FPL fields and official history."""
+"""One-gameweek BUY, MONITOR and SELL research using verified FPL fields."""
 from __future__ import annotations
 
 from datetime import datetime
@@ -120,14 +120,15 @@ def _evidence(player: dict[str, Any], fixtures: list[tuple], kind: str) -> tuple
     minutes = integer(player.get("minutes"))
     fdr = _average_fdr(fixtures)
     blank = not fixtures
-    if kind == "buy":
+    if kind in ("buy", "review"):
         strong = (not blank and status == "a" and (chance is None or chance >= 75)
                   and minutes is not None and minutes >= 360 and form is not None and form >= 4
                   and fdr is not None and fdr <= 3.5)
         reason = (f"Good GW fixture (FDR {display(fdr, 1)}); "
                   f"FPL form {display(form, 1)} with {display(minutes)} season mins.")
         if not strong:
-            reason = "Popular transfer; minutes, form or GW fixture do not yet justify a firm buy."
+            reason = ("Monitor minutes, form, availability and the next fixture before moving."
+                      if kind == "review" else "Popular transfer; minutes, form or GW fixture do not yet justify a firm buy.")
         return strong, reason, risk(player, fixtures, status)
     if blank:
         return True, "Confirmed GW blank; no scheduled scoring opportunity.", "HOLD if saving a transfer is worth more."
@@ -141,24 +142,25 @@ def _evidence(player: dict[str, Any], fixtures: list[tuple], kind: str) -> tuple
 
 
 def select(snapshot: FplSnapshot, kind: str) -> list[tuple[dict[str, Any], bool, str, str, list[tuple]]]:
-    if kind not in {"buy", "sell"}:
-        raise ValueError("Expected buy or sell")
-    transfer_key = "transfers_in_event" if kind == "buy" else "transfers_out_event"
-    eligible = [p for p in snapshot.players if integer(p.get(transfer_key)) is not None
+    if kind not in {"buy", "sell", "review"}:
+        raise ValueError("Expected buy, sell or review (monitor)")
+    transfer_key = "transfers_out_event" if kind == "sell" else "transfers_in_event"
+    eligible = [p for p in snapshot.players if integer(p.get(transfer_key)) is not None and p[transfer_key] >= 0
+                and integer(p.get("id")) is not None
                 and integer(p.get("element_type")) in POSITION and integer(p.get("now_cost")) is not None]
     eligible.sort(key=lambda p: (-p[transfer_key], p["id"]))
     strong: list[tuple] = []
     watch: list[tuple] = []
-    # SELL membership and order follow the official event-to-date ranking.
-    # Evidence still determines whether each candidate is a SELL or WATCHLIST.
+    # SELL and MONITOR membership and order follow the official event ranking.
+    # Evidence still determines the accompanying assessment.
     ranked = []
-    for player in eligible[:4] if kind == "sell" else eligible[:80]:
+    for player in eligible[:4] if kind in ("sell", "review") else eligible[:80]:
         matches = snapshot.fixtures_for_gameweek(player)
         good, why, caution = _evidence(player, matches, kind)
         row = (player, good, why, caution, matches)
         ranked.append(row)
         (strong if good else watch).append(row)
-    if kind == "sell":
+    if kind in ("sell", "review"):
         return ranked
     # Prefer evidence over popularity, while still starting from the official
     # most-transferred cohorts. Never claim conditional picks are strong verdicts.
@@ -168,7 +170,7 @@ def select(snapshot: FplSnapshot, kind: str) -> list[tuple[dict[str, Any], bool,
 def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Session | None = None):
     """Build Content while preserving the bot's existing five-line + hashtag contract."""
     from .content import Card, Content, _caption
-    if kind not in ("buy", "sell"):
+    if kind not in ("buy", "sell", "review"):
         raise ValueError("Unsupported recommendation kind")
     gw = snapshot.gameweek()
     if not gw:
@@ -185,7 +187,7 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
         history = get_history(int(player["id"]), client)
         recent = recent_summary(history, rounds, int(player["element_type"]))
         season_text, last_three_text = position_stats(player, recent)
-        transferred = player.get("transfers_in_event" if kind == "buy" else "transfers_out_event")
+        transferred = player.get("transfers_out_event" if kind == "sell" else "transfers_in_event")
         opponent = " · ".join(f"{opp} ({venue}) FDR {fdr if fdr is not None else 'N/A'}"
                               for opp, venue, fdr, _ in fixtures) if fixtures else "BLANK GW"
         replacement = "N/A"
@@ -223,7 +225,7 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
             "minutes": display(player.get("minutes")),
             "transfers": display(transferred),
             "transfer_period": "OFFICIAL EVENT-TO-DATE",
-            "decision": ("BUY" if kind == "buy" else "SELL") if strong else "WATCHLIST",
+            "decision": "MONITOR" if kind == "review" else (("BUY" if kind == "buy" else "SELL") if strong else "WATCHLIST"),
             "reason": why,
             "caveat": caution,
             "season_stat": season_text,
@@ -232,8 +234,8 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
             "replacement": replacement,
             "next_gw": str(gw),
         }
-        if kind == "sell":
-            # Transfer-out counts rank candidates internally, never appear in public copy.
+        if kind in ("sell", "review"):
+            # Official counts rank candidates internally, never appear in public copy.
             metrics.pop("transfers", None)
             metrics.pop("transfer_period", None)
         metrics = {key: value for key, value in metrics.items() if "N/A" not in str(value)}
@@ -256,9 +258,18 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
         "VORTEX recommendation: form, availability and GW FDR." if kind == "sell" else "Official event-to-date transfers, form and GW FDR.",
         "Check final XI; avoid unnecessary points hits.",
     ], gw)
+    if kind == "review":
+        title = f"GW{gw}: FOUR PLAYERS TO MONITOR"
+        caption = _caption([
+            f"GW{gw}: four players to monitor.",
+            f"Featured: {lead}.",
+            "VORTEX watchlist: form, minutes and fixtures.",
+            "Assess availability and team fit.",
+            "Wait for final team news before moving.",
+        ], gw)
     from zoneinfo import ZoneInfo
     timestamp = snapshot.fetched_at.astimezone(ZoneInfo("America/New_York")).strftime("%d %b %Y · %I:%M %p ET")
-    kicker = "VORTEX RECOMMENDATIONS · NEXT GW" if kind == "sell" else "ONE GAMEWEEK · OFFICIAL EVENT-TO-DATE TRANSFERS"
+    kicker = "VORTEX RECOMMENDATIONS · NEXT GW" if kind in ("sell", "review") else "ONE GAMEWEEK · OFFICIAL EVENT-TO-DATE TRANSFERS"
     return Content(kind, title, kicker,
                    tuple(cards), "NO AUTOMATIC HITS · CHECK TEAM NEWS", caption,
                    timestamp, gw, "Source: Official Fantasy Premier League API")

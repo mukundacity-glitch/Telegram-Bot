@@ -26,8 +26,9 @@ def sample_content(slot: str, monkeypatch: pytest.MonkeyPatch):
     else:
         old_prices = {}
     if slot == 'review':
-        monkeypatch.setattr('vortex.content.previous_gw_top_players',
-                            lambda sample: [(player, index + 12) for index, player in enumerate(sample.players[:4])])
+        from test_recommendations import recommendation_snapshot
+        snapshot = recommendation_snapshot()
+        monkeypatch.setattr('vortex.recommendations.get_history', lambda *args: [])
     return generate(slot, snapshot, now, old_prices)
 
 
@@ -59,7 +60,7 @@ def test_player_templates_fail_closed_on_missing_images(slot: str, tmp_path: Pat
     monkeypatch.setattr('vortex.matchup._media', lambda *args: None)
     monkeypatch.setattr('vortex.premium._media', lambda *args: None)
     target = tmp_path / f'{slot}.png'
-    with pytest.raises(RuntimeError, match='(Mandatory club badge unavailable|Neither official portrait nor club crest available)'):
+    with pytest.raises(RuntimeError, match='(Mandatory club badge unavailable|Neither official portrait nor club crest available|requires verified player photo)'):
         render(content, target, session=object())
     assert not target.exists()
 
@@ -92,5 +93,9 @@ def test_premium_layout_handles_missing_player_portrait(
 
     monkeypatch.setattr('vortex.premium._media', media_without_portrait)
     monkeypatch.setattr('vortex.matchup._media', media_without_portrait)
-    result = render(content, tmp_path / f'{slot}-no-portrait.png', session=object())
-    assert result.exists()
+    if slot == 'review':
+        with pytest.raises(RuntimeError, match='requires verified player photo'):
+            render(content, tmp_path / f'{slot}-no-portrait.png', session=object())
+    else:
+        result = render(content, tmp_path / f'{slot}-no-portrait.png', session=object())
+        assert result.exists()

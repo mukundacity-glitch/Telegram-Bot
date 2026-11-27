@@ -197,3 +197,30 @@ def test_sell_footer_preserves_exact_approved_artwork(tmp_path):
         logo = ImageOps.contain(original.convert("RGB"), (w-24,h-16), Image.Resampling.LANCZOS)
     x0,y0=(w-logo.width)//2,(h-logo.height)//2
     assert ImageChops.difference(logo, canvas.crop((x0,y0,x0+logo.width,y0+logo.height))).getbbox() is None
+
+
+def test_monitor_and_sell_share_identical_brand_regions(monkeypatch, tmp_path):
+    from PIL import ImageChops
+    from vortex.graphic_numbers import stamp
+    snap = recommendation_snapshot()
+    monkeypatch.setattr("vortex.recommendations.get_history", lambda *args: [])
+    monkeypatch.setattr("vortex.premium._media", lambda session, code, kind, cache:
+                        Image.new("RGBA", (260,300) if kind=="photo" else (80,80), (150,200,245,255)))
+    images = []
+    for kind in ("review", "sell"):
+        post = generate(kind, snap, datetime(2026,10,16,14,tzinfo=timezone.utc), {})
+        out = render(post, tmp_path / f"{kind}.png", session=object())
+        with Image.open(out) as im:
+            images.append(im.convert("RGB"))
+        stamp(out, kind, required=True)
+        with Image.open(out) as im:
+            assert im.info["vortex_graphic_number"] == ("11/55" if kind=="review" else "12/55")
+    for box in ((0,0,314,145), (0,787,1536,864)):
+        assert ImageChops.difference(images[0].crop(box), images[1].crop(box)).getbbox() is None
+
+def test_monitor_rejects_missing_official_transfer_in_counts(monkeypatch):
+    snap = recommendation_snapshot()
+    for player in snap.players:
+        player.pop("transfers_in_event", None)
+    with pytest.raises(ValueError, match="Fewer than four players"):
+        generate("review", snap, datetime(2026,10,16,14,tzinfo=timezone.utc), {})
