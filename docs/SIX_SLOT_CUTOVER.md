@@ -4,7 +4,7 @@ GitHub is the execution owner; do not create ChatGPT schedules. Only replace ins
 
 | Priority | Cadence / contract |
 |---|---|
-| 1 Price change | One per target GW, live API clock plus timestamped cost deltas, at least 3h check-to-post gap; T-4h15m research/T-1h post, no material change = no post. 12/54 reference. Conference dates separate. |
+| 1 Price Change (ACTIVE PRIMARY) | Pre-GW single post (1 per season/GW), separate different-day conferences, live FPL API clock and predictor, >=3h actual research-to-post gap, genuine price movement or silent no-op, 12/54 reference, FPL purple background, two-column price rises/drops prediction board. |
 | 2 Transfers in | Daily, position-segregated official event inflows, four hours of research lead, no repeated IDs. Exact five-hour interpretation must be reconciled with production schedule before cutover. |
 | 3 Radar comparison | Once after official GW settlement, last five completed and next five fixtures, teal/gold reference. |
 | 4 Team Decision Desk | Daily, one club, nine completed matches GF/GA and three distinct eligible players ranked by live ownership or transfers, no conflicts. |
@@ -13,7 +13,14 @@ GitHub is the execution owner; do not create ChatGPT schedules. Only replace ins
 
 Slot 6 uses existing Saturday 20:00 ET edition. Research check 15:28 ET (:28 UTC hourly heartbeat), research window 15:28–15:40; post window 20:00–20:15 ET (existing 0/13 minute heartbeats). UTC offsets follow America/New_York. If other due jobs, spacing lock, no verified same-day research or pending identity, skip. Never add another publisher. Existing serialized job is retained. These are nominal scheduling opportunities, not a guarantee of timely GitHub runner starts. Actual workflow validation is required before production cutover.
 
-Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least 3h elapsed and a verified material price/projection-state change gate before staging. Both dispatch and outbox validation require evidence. The existing 45-minute publisher cooldown and existing legacy schedules may prevent a qualifying price window; no conflicting publish is authorized. The remaining requirements for slots 1 (layout and full runtime verification), 2 and 4 and cross-slot coordination must be implemented and regression-tested before merging the cutover. No claim of completed migration from this document alone.
+## #1 PRIORITY WORKFLOW — PRE-GAMEWEEK PRICE CHANGE & RESEARCH POSTER
+
+- Live official FPL bootstrap-static player identities, prices, availability/news, transfers and calibrated next-update predictor fields only; no hardcoded data, historical screenshot values or inferred probabilities. Compare timestamped same-season official player cost snapshots with stable player IDs/codes. LiveFPL publicly displays official FPL progress data; a separate LiveFPL feed may be credited only if actually retrieved, verified and permitted. Current runtime uses the official FPL predictor directly and does not independently ingest LiveFPL. Do not double-count the same upstream data.
+- Once per target season/GW ahead of the live deadline, with separate conference posts on different days. Prefer T−4h15m research/T−1h posting; retain the existing earlier conflict-free candidate selection, 45-minute publishing cooldown, all research reservations and actual >=3h elapsed gap. Verify actual research completion and source freshness at publication, including final outbox checks. No new cron or changed cadence for other slots.
+- Require a genuine now_cost rise or drop between matching live observations plus recent observed settlement evidence. Forecast threshold, likelihood or ownership movement alone is not a settled cost change. No genuine change, no verified research, missing evidence, duplicate GW identity or conflicting window = no production graphic, no post. A prior observed settlement interval is evidence of a previous update, not proof of a future change. Keep all release gates and independent conference workflows.
+- Use the supplied reference: 4:3, 1600×1200, FPL VORTEX mark, PRICE CHANGE PREDICTIONS, dynamic UK date and Fantasy Premier League · daily price movement watch. Left ▲ PRICE RISES, right ▼ PRICE DROPS. Each panel has PLAYER / CLUB, LIKELIHOOD and PREDICTION (TARGET %), up to ten distinct verified candidates per direction, current portrait where available, authentic current crest, club name and price. Green rises/red drops, white cards, FPL purple #37003C background, #00FF87 and #04F5FF accents. Retain the reference 12/54 as a layout reference only; do not renumber existing active catalogue 16/51.
+- The reference shows Possible/Likely/Very Likely. Display verified provider text when a verified mapping/source exists; otherwise retain the actual signed official likelihood band, never manufacture a word or probability from the target percentage. Target % means projected progress toward a change threshold; values over 100% are not probabilities. Use a truthful source footer, prediction is a guide, not a guarantee, and dynamic Price-change check: date/time UK from the API target update, with the official player data retrieval time separately shown. Never hardcode midnight or attribute unconsumed data to LiveFPL.
+- Current renderer already supports this two-column layout. This increment updates the source/check footer and regression contract only. Live settlement evidence, all-route conflict verification and timed platform receipt remain unverified; no production merge or release activation authorized.
 
 ## Cutover verification tracker — UTC
 - Friday, 27 November 2026 at 09:51:27 UTC — catalogue correction committed (c81e2a8).
@@ -183,7 +190,7 @@ The retired Friday two-club rotation and daily radar dispatch rules remain in Gi
 
 Superseded timing rules: price research T−2h and FDR research Saturday 19:28–19:40 ET. Archived only; do not execute.
 
-Superseded price graphic: portrait top-eight-per-direction layout and previous social-footer formatting. Historical version remains in Git history; use only the new 4:3 format for this slot.
+Superseded price graphic: portrait top-eight-per-direction layout and previous social-footer formatting, including fixed 00:00 UK text and unverified external predictor attribution. Historical versions remain in Git history; use only the new 4:3 format for this slot. Do not run an additional daily price edition.
 
 Superseded existing weekly research windows: Monday goalkeeper/striker 09:30–10:30 ET; Tuesday wildcard 14:30–15:30 ET; Monday defence 19:00–20:00 ET. Retained for cleanup only, not executed. This is distinct from the new gated #7 workflow.
 

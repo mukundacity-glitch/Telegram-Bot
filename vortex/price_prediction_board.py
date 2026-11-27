@@ -488,6 +488,18 @@ def build_board(snapshot, update_at, previous=None):
 PRICE_ART_SIZE = (1600, 1200)
 
 
+def price_board_footer(snapshot, update_at):
+    """Distinguish the live prediction deadline from the data retrieval time."""
+    if update_at.tzinfo is None or snapshot.fetched_at.tzinfo is None:
+        raise ValueError("Timezone-aware price board timestamps required")
+    target = update_at.astimezone(UK).strftime("%d %b %Y %H:%M UK")
+    observed = snapshot.fetched_at.astimezone(UK).strftime("%d %b %Y %H:%M UK")
+    return (
+        "FPL VORTEX • Official FPL predictor + player data • Prediction is a guide, not a guarantee",
+        f"Price-change check: {target} • Data retrieved: {observed} • Target % is not probability",
+    )
+
+
 def render_board(snapshot, board, output, session):
     """The supplied 4:3 two-panel price reference, with current official data."""
     from PIL import Image, ImageDraw
@@ -556,10 +568,9 @@ def render_board(snapshot, board, output, session):
             label(f"{abs(row['projected']):.1f}%",x+599,y+28,140,29,accent,True)
     side(board["rises"],28,green,"▲ PRICE RISES","#F9FCFA")
     side(board["falls"],816,red,"▼ PRICE DROPS","#FFF9FA")
-    label("FPL VORTEX • Official FPL projections • Target progress, not probability • Likelihood: official signed band",
-          30,1136,1540,19,white,True)
-    label("Expected update: "+update.astimezone(UK).strftime("%H:%M UK")+" • Price movements are not guaranteed",
-          30,1166,1540,17,emerald,True)
+    source_footer, timing_footer = price_board_footer(snapshot, update)
+    label(source_footer,30,1136,1540,19,white,True)
+    label(timing_footer,30,1166,1540,17,emerald,True)
     output=Path(output)
     output.parent.mkdir(parents=True,exist_ok=True)
     canvas.save(output,"PNG",optimize=True)

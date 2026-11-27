@@ -377,3 +377,19 @@ def test_price_research_records_actual_completion_and_rejects_stale_source(world
     _, info = opportunity(at(research), research, state, clock=lambda: checked)
     assert info["status"] == "research-verified"
     assert state[RESEARCH_KEY]["checked_at"] == checked.isoformat()
+
+
+def test_price_reference_footer_uses_verified_source_and_dynamic_uk_clock(world):
+    from vortex.price_prediction_board import price_board_footer
+    s, _, _, _ = world
+    s = replace(s, fetched_at=datetime(2027, 5, 1, 18, 10, tzinfo=timezone.utc))
+    update = datetime(2027, 5, 1, 22, 45, tzinfo=timezone.utc)
+    source, timing = price_board_footer(s, update)
+    assert "Official FPL predictor + player data" in source
+    assert "Prediction is a guide, not a guarantee" in source
+    assert "LiveFPL" not in source
+    assert "Price-change check: 01 May 2027 23:45 UK" in timing
+    assert "Data retrieved: 01 May 2027 19:10 UK" in timing
+    assert "Target % is not probability" in timing
+    with pytest.raises(ValueError, match="Timezone-aware"):
+        price_board_footer(s, update.replace(tzinfo=None))
