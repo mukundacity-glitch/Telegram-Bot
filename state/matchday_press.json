@@ -20,9 +20,12 @@
   },
   "2026:GW12": {
     "checked": "2026-11-27T15:39:35.807847+00:00",
+    "discord_sending": true,
     "facts": {},
+    "message": 650,
+    "posted_at": "2026-11-27T17:30:05.403325+00:00",
     "schedule_checked": "2026-11-27T17:30:01.005416+00:00",
-    "sending": true,
+    "sending": false,
     "timetable": {
       "2026-11-26": {
         "slots": [
@@ -129,7 +132,9 @@
         ],
         "url": "https://www.fantasyfootballscout.co.uk/2026/11/27/fpl-gameweek-12-team-news-fridays-live-injury-updates-raya-latest"
       }
-    }
+    },
+    "version": "9c27d1e8fb74b92f09e973150ebf34155d7faedd4b2d35b08a6fc0f5c006269c",
+    "was_update": false
   },
   "2026:GW13": {
     "checked": "2026-11-27T15:39:35.807847+00:00",
