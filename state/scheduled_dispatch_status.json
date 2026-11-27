@@ -1,6 +1,6 @@
 {
-  "at": "2026-11-27T16:30:01.413389+00:00",
-  "eastern_at": "2026-11-27T11:30:01.413389-05:00",
+  "at": "2026-11-27T16:30:48.163383+00:00",
+  "eastern_at": "2026-11-27T11:30:48.163383-05:00",
   "last_news_scan": "2026-11-27T16:26:29.174996+00:00",
   "new_posts": 0,
   "next_due": {
@@ -40,7 +40,7 @@
   },
   "queue_enumerated": true,
   "queue_items_unprocessed": 0,
-  "scheduled_cron": "43 * * * *",
+  "scheduled_cron": "58 * * * *",
   "source_error": null,
   "status": "no-new-verified-content",
   "telegram_messages_sent": 0
