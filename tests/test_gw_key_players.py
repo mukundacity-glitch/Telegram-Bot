@@ -32,8 +32,8 @@ def test_five_tiers_and_stable_number(world):
     assert all(p['element_type'] in (3,4) and p['now_cost'] >= 75 for p in players[:2])
     assert all(p['element_type'] in (3,4) and p['now_cost'] < 75 for p in players[2:4])
     assert players[4]['element_type'] in (1,2)
-    assert CATALOG.index(graphic_key('gw-key-players',0))+1 == len(CATALOG) == 53
-    assert CATALOG[-1] == 'gw-key-players'
+    assert graphic_key('gw-key-players',0) is None
+    assert CATALOG[-1] == 'retired-53' and len(CATALOG) == 53
     assert 'custom-outbox' not in CATALOG
     assert graphic_key('custom-outbox',0) is None
     assert graphic_key('unknown-news',0) is None
@@ -47,15 +47,10 @@ def test_five_tiers_and_stable_number(world):
     assert plan.caption.endswith(f'#FPL #GW{plan.gw} #FPLTips #FPLVORTEX')
     assert len(plan.extra['details']) == 5
 
-def test_special_identity_and_trigger(world):
+def test_old_five_pick_trigger_is_retired(world):
     s,now,e,_ = world
-    slot,trigger = next((slot,trigger) for slot,trigger in special_triggers(s,now)
-                        if slot.edition == 'gw-key-players')
-    first = min(f['kickoff_time'] for f in s.fixtures if f['event']==s.gameweek())
-    from datetime import datetime
-    assert trigger == datetime.fromisoformat(first)-timedelta(hours=48)
-    season = season_id(s,now)
-    assert publication_key(slot,now,s.gameweek(),season) == publication_key(slot,now+timedelta(days=1),s.gameweek(),season)
+    assert all(slot.edition != 'gw-key-players' for slot,_ in special_triggers(s,now))
+
 
 def test_render_dark_and_missing_portrait_holds(world,monkeypatch,tmp_path):
     s,now,e,_ = world

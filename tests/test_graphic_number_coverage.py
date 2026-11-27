@@ -15,13 +15,15 @@ def test_all_active_scheduled_editions_cover_exactly_53_graphic_numbers():
     keys.update((PRESS_REPORT_KEY, "news-rotation-planner", "price-prediction"))
     assert None not in keys
     assert len(CATALOG) == len(set(CATALOG)) == 53
-    assert len(ACTIVE_CATALOG) == 53
+    assert len(ACTIVE_CATALOG) == 51
     assert keys == set(ACTIVE_CATALOG)
     assert graphic_key('striker-watch', 0) is None
     assert graphic_key('goalkeeper-striker-watch', 0, page=1) is None
     assert CATALOG[12] == PRESS_REPORT_KEY
     assert CATALOG[15] == "price-prediction"
-    assert CATALOG[-1] == "gw-key-players"
+    assert CATALOG[47] == 'retired-48' and CATALOG[52] == 'retired-53'
+    assert graphic_key('gw-key-players', 0) is None
+    assert graphic_key('thursday-attacking-zones', 3) is None
 
 @pytest.mark.parametrize("key", ACTIVE_CATALOG)
 def test_every_catalog_number_is_visible_and_idempotent(key, tmp_path):

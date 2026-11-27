@@ -146,3 +146,6 @@ Monday 09:30 Eastern: research official recent minutes, form and fixtures withou
 
 ### Weekly Wildcard and Positional Vulnerability (10/53)
 Tuesday 14:30 Eastern: research completed match data and a preliminary Wildcard without publishing. Tuesday 15:30 Eastern: refresh official prices, fixtures and availability, recompute the legal £100m wildcard, and publish one combined landscape board with the full 15-player five-GW fixture matrix and matchup scatterplot. No standalone Wildcard or off-day positional chart. Old records are blocked. The two merged slots are removed from the numbering: 53 active graphics, 1/53–53/53.
+
+### Monday FPL Intelligence (14/53)
+Monday 19:00 Eastern: research verified defence rates, 20-club shot origins and five preliminary recommendations. Monday 20:00 Eastern: refresh official FPL forecast and availability, revalidate the archive cutoff, generate and deliver one 1080×1920 branded board (subject to shared cooldown and future deadline). Retire the separate Thursday shot-origin and gameweek elite-picks publication routes. Preserve 14/53 and existing labels; 48/53 and 53/53 are retired, leaving 51 active editions. Historical receipts are retained. The approved SELL masthead and footer are reused. No public data is fabricated when a source is missing.

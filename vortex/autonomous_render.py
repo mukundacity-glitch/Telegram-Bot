@@ -340,6 +340,9 @@ def render(plan,snapshot,now,output,session=None):
     if plan.kind == 'gw_key_players':
         from .gw_key_players import render_key_players
         return [render_key_players(plan,snapshot,output,client)]
+    if plan.kind == 'monday_intelligence':
+        from .monday_intelligence import render_combined
+        return [render_combined(plan, snapshot, output, client)]
     if plan.kind == 'sunday_chances':
         from .sunday_chances_render import render_sunday_chances
         return [render_sunday_chances(plan, output, client)]

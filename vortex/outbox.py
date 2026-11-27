@@ -35,6 +35,8 @@ def retired_record(record):
                 not (record.get('facts') or {}).get('extra', {}).get('combined_weekly'))
             or (record.get('edition') == 'positional-vulnerability' and
                 not (record.get('facts') or {}).get('extra', {}).get('combined_wildcard'))
+            or (record.get('edition') == 'monday-defence-watch' and
+                not (record.get('facts') or {}).get('extra', {}).get('combined_monday'))
             or record.get('edition') in RETIRED_EDITIONS
             or (record.get('task') == 'price_changes' and record.get('edition') != 'price-prediction'))
 
@@ -91,6 +93,13 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
                 or not publication_due(publish_at)
                 or publish_at.astimezone(ET).date() != now.astimezone(ET).date()))):
             raise ValueError('Combined Wildcard requires one Tuesday graphic at or after 15:30 ET')
+    if record.get('edition') == 'monday-defence-watch':
+        from .monday_intelligence import publication_due
+        if (len(images) != 1 or not (record.get('facts') or {}).get('extra', {}).get('combined_monday')
+                or (not preview and (allow_outside_window or not publication_due(now)
+                or not publication_due(publish_at)
+                or publish_at.astimezone(ET).date() != now.astimezone(ET).date()))):
+            raise ValueError('Monday intelligence requires one Monday graphic at or after 20:00 ET')
     if not 1 <= len(images) <= 6:
         raise ValueError('One to six finished PNG pages required')
     resolved = []
