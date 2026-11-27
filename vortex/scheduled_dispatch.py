@@ -193,7 +193,9 @@ def run(now=None, cron=None, snapshot=None):
         check_news = cron is None or cron.startswith(f'{FIRST_RUN_NEWS_MINUTE} ')
         if spacing_enabled():
             check_news = not last_news_scan or now - datetime.fromisoformat(last_news_scan) >= timedelta(hours=1)
-        if check_news or news_pending:
+        from .unified_runner import rotation_due
+        if check_news or news_pending or rotation_due(now):
+            check_news = check_news or rotation_due(now)
             retry_times = [datetime.fromisoformat(item['queued_at']) for item in news_pending.values()
                            if item.get('queued_at') and item.get('attempts', 0) < ATTEMPTS]
             jobs.append((min(retry_times, default=now), 'news', f'{run_key}:news', check_news))
