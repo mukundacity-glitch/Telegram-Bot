@@ -40,7 +40,7 @@ One **existing** GitHub Actions workflow, thirteen Eastern-time publication slot
 | 2:00 PM | Transfer comparison/decision | Daily |
 | **3:00 PM** | **NEW — Positional GK/DEF/MID/FWD transfer suggestions** | Daily |
 | 4:00 PM | Captaincy showdown | Daily |
-| 5:30 PM | Four players to monitor (11/55) | Daily |
+| 5:30 PM | Four players to monitor (11/51) | Daily |
 | 6:30 PM | Four next-GW sell candidates (firm or conditional) | Daily |
 | 8:00 PM | Sunday Chance Watch (midfielders and forwards) | Sunday |
 | 8:00 PM | Monday Defence Watch (goalkeepers and defenders) | Monday |
@@ -50,7 +50,7 @@ Each successful delivery sends a 1536×864 branded PNG to Telegram with five sho
 
 ## Next-GW recommendations and metric periods
 
-The MONITOR (11/55) and SELL (12/55) graphics target the first future FPL deadline. MONITOR selects the four highest verified official `transfers_in_event` counts, SELL selects the four highest `transfers_out_event` counts. Both keep the counts internal and use evidence-based assessments and identical approved branding. Completed-round history is used only when verified.
+The MONITOR (11/51) and SELL (12/51) graphics target the first future FPL deadline. MONITOR selects the four highest verified official `transfers_in_event` counts, SELL selects the four highest `transfers_out_event` counts. Both keep the counts internal and use evidence-based assessments and identical approved branding. Completed-round history is used only when verified.
 
 The next-GW BUY/SELL research starts with the official `transfers_in_event` and `transfers_out_event` counters, clearly labeled **event-to-date at the snapshot**. These counters are not 24-hour movements and are not treated as evidence of managers' motives. Four names appear, but those without a defensible strong verdict are explicitly **WATCHLIST**. Only the next gameweek's official fixtures enter the FDR table; a blank is marked and double fixtures are individually shown. No automatic transfer or points hit is executed.
 
@@ -141,11 +141,14 @@ To preview any new template on demand without affecting the once-per-day ledger,
 
 **Manual normal runs:** explicitly selecting `comparison`, `news`, etc. sends a new post even if one already went out today. **Automatic scheduled runs:** deduplicated by the Eastern calendar date and slot. This avoids silently ignoring the user's manual tests while preventing routine duplicate scheduled posts.
 
-### Weekly goalkeeper and striker watch (5/53)
-Monday 09:30 Eastern: research official recent minutes, form and fixtures without publishing. Monday 10:30 Eastern: refresh the FPL snapshot and publish one combined landscape board (two goalkeepers, three strikers) when the shared Telegram cooldown permits. The standalone Striker Watch position is removed from the compacted 53-graphic catalogue. Older two-page watch outbox records cannot replay.
+### Weekly goalkeeper and striker watch (5/51)
+Monday 09:30 Eastern: research official recent minutes, form and fixtures without publishing. Monday 10:30 Eastern: refresh the FPL snapshot and publish one combined landscape board (two goalkeepers, three strikers) when the shared Telegram cooldown permits. The standalone Striker Watch position is removed from the compacted 51-graphic catalogue. Older two-page watch outbox records cannot replay.
 
-### Weekly Wildcard and Positional Vulnerability (10/53)
-Tuesday 14:30 Eastern: research completed match data and a preliminary Wildcard without publishing. Tuesday 15:30 Eastern: refresh official prices, fixtures and availability, recompute the legal £100m wildcard, and publish one combined landscape board with the full 15-player five-GW fixture matrix and matchup scatterplot. No standalone Wildcard or off-day positional chart. Old records are blocked. The two merged slots are removed from the numbering: 53 active graphics, 1/53–53/53.
+### Weekly Wildcard and Positional Vulnerability (10/51)
+Tuesday 14:30 Eastern: research completed match data and a preliminary Wildcard without publishing. Tuesday 15:30 Eastern: refresh official prices, fixtures and availability, recompute the legal £100m wildcard, and publish one combined landscape board with the full 15-player five-GW fixture matrix and matchup scatterplot. No standalone Wildcard or off-day positional chart. Old records are blocked. The two merged slots are removed from the numbering: 51 active graphics, 1/51–51/51.
 
-### Monday FPL Intelligence (14/53)
-Monday 19:00 Eastern: research verified defence rates, 20-club shot origins and five preliminary recommendations. Monday 20:00 Eastern: refresh official FPL forecast and availability, revalidate the archive cutoff, generate and deliver one 1080×1920 branded board (subject to shared cooldown and future deadline). Retire the separate Thursday shot-origin and gameweek elite-picks publication routes. Preserve 14/53 and existing labels; 48/53 and 53/53 are retired, leaving 51 active editions. Historical receipts are retained. The approved SELL masthead and footer are reused. No public data is fabricated when a source is missing.
+### Monday FPL Intelligence (14/51)
+Monday 19:00 Eastern: research verified defence rates, 20-club shot origins and five preliminary recommendations. Monday 20:00 Eastern: refresh official FPL forecast and availability, revalidate the archive cutoff, generate and deliver one 1080×1920 branded board (subject to shared cooldown and future deadline). Retire the separate Thursday shot-origin and gameweek elite-picks publication routes. The former standalone shot-origin and elite-picks editions are merged into 14/51; the catalogue contains no vacant numbers. Historical receipts are retained. The approved SELL masthead and footer are reused. No public data is fabricated when a source is missing.
+
+### Active catalogue numbering
+All 51 active editorial editions are numbered 1/51–51/51. The two retired placeholders are removed; stable edition identities, historical receipts and scheduling rules are unchanged. Previously stamped queued artwork has its numbering band replaced without resizing the underlying graphic. Existing historical channel messages are not bulk edited.

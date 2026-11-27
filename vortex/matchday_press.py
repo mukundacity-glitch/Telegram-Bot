@@ -300,7 +300,7 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
             print(f"GW{day['gw']} press roundup awaiting verified reports ({len(combined)}/{len(pairs)})")
             continue  # Do not publish a 1/20 pseudo-roundup or fabricate quotes.
         version = sha256(json.dumps(
-            ["premium-neon-numbered-v2", day["first"].isoformat(), day["deadline"].isoformat(), pairs,
+            ["premium-neon-numbered-v3-catalog51", day["first"].isoformat(), day["deadline"].isoformat(), pairs,
              {key: (fact["news"], fact.get("quote"), fact["url"])
               for key, fact in combined.items()}],
             sort_keys=True, ensure_ascii=False).encode()).hexdigest()

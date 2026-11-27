@@ -119,7 +119,7 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         stamp(pages[0], slot.edition, required=True)
         with Image.open(pages[0]) as image:
             assert image.size == (1920, 1080)
-            assert image.info['vortex_graphic_number'] == '5/53'
+            assert image.info['vortex_graphic_number'] == '5/51'
             image.verify()
     if name in ('form-minutes-targets', 'defender-watch'):
         from vortex.autonomous_render import render

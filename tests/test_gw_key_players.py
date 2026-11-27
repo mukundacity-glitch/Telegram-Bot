@@ -33,7 +33,7 @@ def test_five_tiers_and_stable_number(world):
     assert all(p['element_type'] in (3,4) and p['now_cost'] < 75 for p in players[2:4])
     assert players[4]['element_type'] in (1,2)
     assert graphic_key('gw-key-players',0) is None
-    assert CATALOG[-1] == 'retired-53' and len(CATALOG) == 53
+    assert CATALOG[-1] == 'news-rotation-planner' and len(CATALOG) == 51
     assert 'custom-outbox' not in CATALOG
     assert graphic_key('custom-outbox',0) is None
     assert graphic_key('unknown-news',0) is None
