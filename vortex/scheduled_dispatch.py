@@ -133,6 +133,8 @@ def run(now=None, cron=None, snapshot=None):
         try:
             snapshot = snapshot or retry_source(collect_snapshot)
             state = read_state(STATE_FILE)
+            if getattr(snapshot, 'game_config', None) is not None:
+                record_price_ownership(snapshot, state)
             if len(research_slots) == 1 and prepare_daily(research_slots[0], snapshot, now, state, QUEUE,
                     read_state(STATE / 'cutover_featured_players.json'),
                     (lambda: now) if injected_time else (lambda: datetime.now(timezone.utc))):

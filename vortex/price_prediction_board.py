@@ -210,14 +210,18 @@ def price_schedule(snapshot, now, update, state):
             posts.append((other.edition,at))
     def conflicts(check, post):
         reasons=[]
+        check, post = check.astimezone(timezone.utc), post.astimezone(timezone.utc)
         for name,at in posts:
+            at = at.astimezone(timezone.utc)
             if check-GAP < at < check+PRICE_GRACE or post-GAP < at < post+GAP+PRICE_GRACE:
                 reasons.append((name,at.isoformat()))
         for name,at,length in research:
-            if at < check+PRICE_GRACE and check < at+length or at < post+PRICE_GRACE and post < at+length:
+            at = at.astimezone(timezone.utc)
+            if (at < check+PRICE_GRACE and check < at+length) or (at < post+PRICE_GRACE and post < at+length):
                 reasons.append((name,at.isoformat()))
         return sorted(set(reasons))
-    check=update-PRICE_RESEARCH_LEAD
+    # Compare elapsed time and overlaps in UTC, including the DST transition.
+    check=update.astimezone(timezone.utc)-PRICE_RESEARCH_LEAD
     original=conflicts(check,preferred)
     if not original and allowed(preferred):
         return check,preferred,[]
@@ -227,7 +231,7 @@ def price_schedule(snapshot, now, update, state):
     for hour in range(day.hour,-1,-1):
         for minute in (30,0):
             post=day.replace(hour=hour,minute=minute,second=0,microsecond=0)
-            if not allowed(post) or post>=preferred or post-candidate_check < timedelta(hours=3,minutes=15):
+            if not allowed(post) or post>=preferred or post.astimezone(timezone.utc)-candidate_check.astimezone(timezone.utc) < timedelta(hours=3,minutes=15):
                 continue
             if not conflicts(candidate_check,post):
                 return candidate_check,post,original

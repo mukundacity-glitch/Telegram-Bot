@@ -101,6 +101,23 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python -m vortex.editorial_live_model
+      - name: Verify six live source-to-PNG routes without publishing
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 5
+        env:
+          FPL_TELEGRAM_HANDLE: ${{ vars.FPL_TELEGRAM_HANDLE || '@FPLVortexDailyBot' }}
+          FPL_DISCORD_HANDLE: ${{ vars.FPL_DISCORD_HANDLE || '@fplvortex' }}
+          FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
+          FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
+        run: python -m vortex.six_slot_live_audit
+      - name: Archive six-slot read-only verification
+        if: always() && github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        uses: actions/upload-artifact@v4
+        with:
+          name: six-slot-live-audit-${{ github.run_id }}
+          path: output/six-slot-live-audit/
+          if-no-files-found: warn
+          retention-days: 5
       - name: Render real FPL BUY / SELL previews without publishing
         if: github.event_name == 'pull_request'
         continue-on-error: true

@@ -137,10 +137,29 @@ def conflicts(slot, snapshot, now, state, *, research=False):
     except (RequiredInput, AttributeError):
         # A missing price clock cannot authorize a conflicting run.
         return ["unverified-price-clock"]
-    # Publication needs the existing cooldown on either side. Research occupies
-    # a separate serialized heartbeat. In-flight/late work is checked by the dispatcher.
+    # Reserve the other new daily phase, the matrix/radar checks and the
+    # existing overnight weekly checks, not merely their post times.
+    local = now.astimezone(ET)
+    ranges = [("radar-research",5,58,12)]
+    for other in slots(now):
+        if other.edition != slot.edition:
+            other_times.append((other.edition, slot_start(other, now)))
+            h,m,length = (1,13,17) if other.edition == "most-transferred-in" else (4,13,15)
+            ranges.append((other.edition+"-research",h,m,length))
+    if local.weekday() in (4,5):
+        ranges.append(("matrix-research",15,28,12))
+    if local.weekday() == 0:
+        ranges.extend([("legacy-position-research",3,13,15),("legacy-monday-research",4,43,15)])
+    if local.weekday() == 1:
+        ranges.append(("legacy-wildcard-research",3,13,15))
+    at = at.astimezone(timezone.utc)
     distance = timedelta(minutes=15) if research else GAP
-    return [name for name,t in other_times if abs(t.astimezone(timezone.utc)-at.astimezone(timezone.utc)) < distance]
+    reasons = [name for name,t in other_times if abs(t.astimezone(timezone.utc)-at) < distance]
+    for name,h,m,length in ranges:
+        start = local.replace(hour=h,minute=m,second=0,microsecond=0).astimezone(timezone.utc)
+        if start < at+timedelta(minutes=15) and at < start+timedelta(minutes=length):
+            reasons.append(name)
+    return sorted(set(reasons))
 
 
 def proof_valid(slot, row, season, gw, now):
