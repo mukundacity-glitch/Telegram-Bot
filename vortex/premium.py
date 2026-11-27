@@ -292,9 +292,12 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
         _text(draw, card.subtitle.upper(), x + 18, 253, width - 35, 23, GOLD, 18)
         _crest(canvas, crest, x + width - 80, 204, 64)
         _photo(canvas, portrait, (x + 172, 287, x + width - 11, 462), accent)
-        transfer_label = 'IN · EVENT TO DATE' if content.kind == 'buy' else 'OUT · EVENT TO DATE'
-        _badge(draw, str(m.get('transfers', 'N/A')), transfer_label,
-               (x + 15, 296, x + 162, 366), accent)
+        if content.kind == 'sell':
+            _badge(draw, str(m.get('minutes', '—')), 'SEASON MINS',
+                   (x + 15, 296, x + 162, 366), accent)
+        else:
+            _badge(draw, str(m.get('transfers', 'N/A')), 'IN · EVENT TO DATE',
+                   (x + 15, 296, x + 162, 366), accent)
         _badge(draw, str(m.get('price', 'N/A')), 'PRICE',
                (x + 15, 378, x + 162, 445), accent)
         _text(draw, 'OWN ' + str(m.get('ownership', 'N/A')) + '  •  FORM ' + str(m.get('form', 'N/A')),
@@ -384,7 +387,11 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
         _four_card_layout(canvas, content, media, session)
     _footer(canvas, content)
     import os
-    social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))
+    if content.kind == 'sell':
+        from .brand_footer import approved_social_footer
+        approved_social_footer(canvas)
+    else:
+        social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))
     output.parent.mkdir(parents=True, exist_ok=True)
     temp = output.with_suffix('.tmp.png')
     if content.kind == 'midfielders':

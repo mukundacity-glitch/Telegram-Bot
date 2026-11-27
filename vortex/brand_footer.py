@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import os
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 
 from .publication_rules import required_footer_handles
 
@@ -72,3 +72,41 @@ def apply_footer(output: Path, *, verdict: str = "",
         check.verify()
     tmp.replace(output)
     return output
+
+
+def approved_social_footer(canvas):
+    """Use the approved original social icon/handle artwork, not typed substitutes.
+
+    The four original lockups are distributed across the footer without
+    stretching their logos or altering the player's cards and fixture bands.
+    """
+    asset = ROOT / "assets" / "brand" / "midfield-watch-footer.png"
+    if not asset.is_file():
+        raise FileNotFoundError("Approved logo-and-handle footer artwork missing")
+    w, h = canvas.size
+    y = round(h * .928)
+    band = h - y
+    draw = ImageDraw.Draw(canvas)
+    draw.rectangle((0, y, w, h), fill="#090e28")
+    inset = max(4, round(w * .014))
+    draw.rounded_rectangle((inset, y+2, w-inset, h-3), radius=max(7, band//3),
+                           fill="#100b28", outline="#f7b946", width=max(1, w//640))
+    with Image.open(asset) as source:
+        original = source.convert("RGB")
+        # Exact source artwork: Telegram, YouTube, Discord, X (846 x 83).
+        spans = ((19, 282), (299, 468), (484, 638), (653, 828))
+        for index, (left, right) in enumerate(spans):
+            cell_left = inset + (w-2*inset)*index//4
+            cell_right = inset + (w-2*inset)*(index+1)//4
+            crop = original.crop((round(left*original.width/846),
+                                  round(19*original.height/83),
+                                  round(right*original.width/846),
+                                  round(63*original.height/83)))
+            lockup = ImageOps.contain(crop, (cell_right-cell_left-12, max(1,band-15)),
+                                       Image.Resampling.LANCZOS)
+            canvas.paste(lockup, ((cell_left+cell_right-lockup.width)//2,
+                                  y+(band-lockup.height)//2))
+            if index:
+                draw.line((cell_left, y+band//5, cell_left, h-band//5),
+                          fill="#f7b946", width=max(1,w//950))
+    return canvas

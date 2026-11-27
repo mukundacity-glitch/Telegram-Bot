@@ -83,4 +83,11 @@ def render_multi_profile(post, snapshot, output: Path, session=None) -> Path:
     canvas.resize((1920, 1080), Image.Resampling.LANCZOS).save(interim, "PNG", optimize=True)
     interim.replace(output)
     # Preserve the five-GW fixture bands drawn immediately above the footer.
-    return apply_footer(output)
+    result = apply_footer(output)
+    if post.kind == 'sell':
+        from .brand_footer import approved_social_footer
+        with Image.open(result) as source:
+            final = source.convert('RGB')
+        approved_social_footer(final)
+        final.save(result, 'PNG', optimize=True)
+    return result

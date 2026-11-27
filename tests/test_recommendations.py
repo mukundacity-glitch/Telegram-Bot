@@ -105,8 +105,12 @@ def test_new_post_has_four_ranked_cards_consistent_caption_and_true_transfer_per
     transfer_key = "transfers_in_event" if kind == "buy" else "transfers_out_event"
     for card in post.cards:
         player = next(p for p in snap.players if p["web_name"] == card.headline)
-        assert card.metrics["transfers"] == f"{player[transfer_key]:,}"
-        assert card.metrics["transfer_period"] == "OFFICIAL EVENT-TO-DATE"
+        if kind == "buy":
+            assert card.metrics["transfers"] == f"{player[transfer_key]:,}"
+            assert card.metrics["transfer_period"] == "OFFICIAL EVENT-TO-DATE"
+        else:
+            assert "transfers" not in card.metrics and "transfer_period" not in card.metrics
+            assert "transfers out" not in (post.kicker + post.caption + str(card.fields)).lower()
         assert card.metrics["decision"] in (kind.upper(), "WATCHLIST")
         assert card.metrics["next_gw"] == "7"
 
@@ -161,3 +165,31 @@ def test_recommendation_risk_text_is_bounded_by_card_width():
     bbox = ImageChops.difference(img, before).getbbox()
     assert bbox is not None
     assert bbox[2] <= left + width + 1
+
+
+def test_sell_uses_exact_four_highest_official_transfer_out_counts():
+    snap = recommendation_snapshot()
+    ranked = sorted(snap.players, key=lambda p: (-p["transfers_out_event"], p["id"]))
+    # The most transferred-out player can still be an evidence-based WATCHLIST.
+    ranked[0].update(status="a", form="9.0", minutes=900, chance_of_playing_next_round=100)
+    if len(ranked) > 4:
+        ranked[4].update(status="i")
+    rows = select(snap, "sell")
+    assert [r[0]["id"] for r in rows] == [p["id"] for p in ranked[:4]]
+    assert rows[0][1] is False
+    assert "transfers out" not in rows[0][2].lower()
+
+def test_sell_footer_preserves_approved_four_platform_logos(tmp_path):
+    from vortex.brand_footer import approved_social_footer, ROOT
+    from PIL import ImageChops
+    canvas = Image.new("RGB", (1920, 1080), "#25364a")
+    before = canvas.copy()
+    approved_social_footer(canvas)
+    y = round(canvas.height*.928)
+    assert ImageChops.difference(before.crop((0,0,1920,y)),canvas.crop((0,0,1920,y))).getbbox() is None
+    # Original lockups contain cyan Telegram, red YouTube and blue Discord pixels.
+    for i, pred in enumerate((lambda r,g,b: b>150 and g>100 and r<100,
+                              lambda r,g,b: r>160 and g<100 and b<100,
+                              lambda r,g,b: b>140 and r<160 and g<170,
+                              lambda r,g,b: min(r,g,b)>210)):
+        assert any(pred(*pixel) for pixel in canvas.crop((i*480,y,(i+1)*480,1080)).getdata())
