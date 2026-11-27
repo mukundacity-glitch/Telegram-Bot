@@ -128,7 +128,7 @@ class Discord:
         return "54321"
 
 
-def test_status_cards_retired_then_daily_rotation_posted_once(monkeypatch, tmp_path):
+def test_status_cards_retired_then_weekly_rotation_posted_once(monkeypatch, tmp_path):
     snapshot, now = sample()
     for name in ("READY", "PENDING", "RECEIPTS"):
         monkeypatch.setattr(unified_runner, name, tmp_path / (name.lower() + ".json"))
@@ -148,7 +148,9 @@ def test_status_cards_retired_then_daily_rotation_posted_once(monkeypatch, tmp_p
     assert warmup["warmup"] == 1 and warmup["sent"] == 0
     # Change official injury status: no STATUS CHANGE card should be sent.
     snapshot.players[0]["status"] = "d"
-    posted = unified_runner.run(snapshot=snapshot, now=now + timedelta(hours=1),
+    friday = datetime(2026, 11, 14, 1, 0, tzinfo=timezone.utc)  # Friday 20:00 ET
+    # Nov 14 is Saturday UTC; the previous ET date is Friday Nov 13.
+    posted = unified_runner.run(snapshot=snapshot, now=friday,
                                 telegram=t, discord=d)
     assert warmup["retired_status_cards"] == 1 and posted["retired_status_cards"] == 0
     assert posted["sent"] == 1 and posted["rotation_due"]
@@ -159,7 +161,7 @@ def test_status_cards_retired_then_daily_rotation_posted_once(monkeypatch, tmp_p
     journal = json.loads(unified_runner.RECEIPTS.read_text())
     assert journal["availability:old"]["telegram_message_id"] == 55
     assert len([key for key in journal if key.startswith("rotation:")]) == 1
-    repeat = unified_runner.run(snapshot=snapshot, now=now + timedelta(hours=2),
+    repeat = unified_runner.run(snapshot=snapshot, now=friday + timedelta(minutes=5),
                                 telegram=t, discord=d)
     assert repeat["sent"] == 0
     assert len(t.images) == 1
