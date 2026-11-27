@@ -130,7 +130,7 @@ class Discord:
 
 def test_status_cards_retired_then_daily_rotation_posted_once(monkeypatch, tmp_path):
     snapshot, now = sample()
-    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
+    for name in ("READY", "PENDING", "RECEIPTS"):
         monkeypatch.setattr(unified_runner, name, tmp_path / (name.lower() + ".json"))
     monkeypatch.setattr(unified_runner, "NEWS_OUTPUT", tmp_path / "art")
     def fake_render(plan, path):
@@ -144,13 +144,13 @@ def test_status_cards_retired_then_daily_rotation_posted_once(monkeypatch, tmp_p
     unified_runner.RECEIPTS.write_text(json.dumps({
         old.identity: {"delivered": True, "telegram_message_id": 55}
     }))
-    warmup = unified_runner.run(snapshot=snapshot, now=now, rss=[], telegram=t, discord=d)
+    warmup = unified_runner.run(snapshot=snapshot, now=now, telegram=t, discord=d)
     assert warmup["warmup"] == 1 and warmup["sent"] == 0
     # Change official injury status: no STATUS CHANGE card should be sent.
     snapshot.players[0]["status"] = "d"
     posted = unified_runner.run(snapshot=snapshot, now=now + timedelta(hours=1),
-                                rss=[], telegram=t, discord=d)
-    assert posted["retired_status_cards"] == 1
+                                telegram=t, discord=d)
+    assert warmup["retired_status_cards"] == 1 and posted["retired_status_cards"] == 0
     assert posted["sent"] == 1 and posted["rotation_due"]
     assert len(t.images) == len(d.images) == 1
     assert "ROTATION PLANNER" in t.images[0][2]
@@ -160,7 +160,7 @@ def test_status_cards_retired_then_daily_rotation_posted_once(monkeypatch, tmp_p
     assert journal["availability:old"]["telegram_message_id"] == 55
     assert len([key for key in journal if key.startswith("rotation:")]) == 1
     repeat = unified_runner.run(snapshot=snapshot, now=now + timedelta(hours=2),
-                                rss=[], telegram=t, discord=d)
+                                telegram=t, discord=d)
     assert repeat["sent"] == 0
     assert len(t.images) == 1
 

@@ -56,10 +56,3 @@ def test_all20_fixture_only_graphic_is_not_blocked_by_missing_optional_bookmaker
         validate_article(incomplete, s)
 
 
-def test_news_early_window_defers_to_shared_news_publisher(monkeypatch, tmp_path):
-    import vortex.telegram_news_window as news
-    monkeypatch.setenv("UNIFIED_NEWS_ENABLED", "true")
-    monkeypatch.setattr(news, "BASELINE", tmp_path / "not-used.json")
-    result = news.run(cron="0 22 * * *")
-    assert result["status"] == "shared-news-owns-topic"
-    assert result["posted"] == 0 and result["edited"] == 0

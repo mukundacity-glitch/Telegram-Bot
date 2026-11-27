@@ -1,24 +1,20 @@
-"""One-player news/price editions must not fall back to the retired card style."""
-from PIL import Image
-from vortex.content import Card, Content
+"""Retired individual FPL NEWS is rejected even if manually constructed."""
+import pytest
+from vortex.content import Card, Content, generate
 from vortex.publish_checks import render_checked
+from vortex.schedule import resolve_slot
 from test_publication_contract import snap
 
-
-def test_single_news_player_uses_reference2_profile(monkeypatch, tmp_path):
-    monkeypatch.setenv('FPL_ENRICHED_VISUALS_ENABLED', 'true')
-    monkeypatch.setenv('FPL_TELEGRAM_HANDLE', '@verifiedTelegram')
-    monkeypatch.setenv('FPL_DISCORD_HANDLE', '@verifiedDiscord')
-    article = Content('news', 'PLAYER STATUS UPDATE', 'NEXT GW',
-                      (Card('Example', 'ARS', 'MONITOR', (), 123, 3),),
-                      'MONITOR', '#FPL #GW10 #FPLVortex #PremierLeague',
-                      'verified', 10, '')
-    calls = []
-    def profile(post, snapshot, output, session=None):
-        calls.append(post.kind)
-        Image.new('RGB', (1920, 1080)).save(output)
-        return output
-    monkeypatch.setattr('vortex.player_profile.render_player_profile', profile)
-    target = tmp_path / 'profile.png'
-    assert render_checked(article, snap(), target) == target
-    assert calls == ['news']
+def test_retired_player_news_has_no_manual_generation_or_preview(tmp_path):
+    from datetime import datetime, timezone
+    now = datetime(2026, 11, 27, tzinfo=timezone.utc)
+    for slot in ("news", "preview-news"):
+        with pytest.raises(ValueError):
+            resolve_slot(slot, None, now)
+    with pytest.raises(ValueError):
+        generate("news", snap(), now, {})
+    for kind in ("news", "news_profile"):
+        article = Content(kind, "Retired", "", (Card("Example","ARS","",()),), "", "", "", 12, "")
+        with pytest.raises(ValueError, match="retired"):
+            render_checked(article, snap(), tmp_path/"retired.png")
+    assert not (tmp_path/"retired.png").exists()

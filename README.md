@@ -34,7 +34,7 @@ One **existing** GitHub Actions workflow, thirteen Eastern-time publication slot
 | **7:00 AM** | **NEW — All 20 teams projected goals & clean-sheet board** | Daily |
 | 8:00 AM | Player comparison | Daily |
 | 9:00 AM | Four next-GW buy candidates (firm or conditional) | Daily |
-| 10:00 AM | Official FPL player-status/news board | Daily |
+| Dynamic pre-deadline | Premium Press Conference Round-Up (one per gameweek) | Every gameweek |
 | **11:00 AM** | **NEW — Single-team attack, defence & FPL decision desk** | Daily |
 | 12:00 PM | Confirmed official FPL price snapshot differences | Daily |
 | 2:00 PM | Transfer comparison/decision | Daily |
@@ -78,7 +78,7 @@ New manual preview choices: `preview-projections`, `preview-team_analysis`, `pre
 - GitHub Actions scheduled jobs may be **delayed or dropped** even with the additional catch-up checks. This is a no-subscription best-effort system, not a guaranteed delivery SLA.
 - This version renders fixed layouts with Pillow using the supplied **blank FPL VORTEX master background**; supplied sample cards are **design references only** and their historical statistics are never reused. Genuine AI image synthesis would need an additional, possibly paid, provider.
 - The price tracker can confirm a **change between its own official snapshots**, but not the exact minute of the change. **Its first execution establishes a baseline** and does not invent movements.
-- 10 AM board uses fresh dated FPL availability/news flags; it does **not** claim to aggregate every official club press conference. No flagged news means an honest no-update card.
+- The retired individual FPL NEWS and standalone timetable have been removed. Verified conference times remain an internal scheduling input for the premium roundup.
 - Featured player photos and club crests are mandatory. If a photo or required crest cannot be verified/downloaded, that graphic does not publish; the bot attempts to send a Telegram failure alert. Respect image and logo rights for public redistribution.
 - Telegram receives attachments and retains message history. No Google Drive storage or paid AI is used. 
 - GitHub state is committed to **this new repository only**; concurrency prevents overlapping state pushes. Rare delivery-then-push failures can cause duplicates on retry; the delivery ledger reduces but does not eliminate this risk.
@@ -137,6 +137,6 @@ The mock design preview contains illustrative sample values and is **not** proof
 
 Additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, `captaincy`, `review`, and `evening`, with `transfer` sharing the two-player comparison layout. All feature the same typography, high-contrast cyan/gold section headers, portrait-led player cards, visible club badges, official FPL metrics, result-focused verdict strips, and safe no-update states. The module tests include full rendering and required-image validation for every slot.
 
-To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-news`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review` or `preview-elite`.
+To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review` or `preview-elite`.
 
 **Manual normal runs:** explicitly selecting `comparison`, `news`, etc. sends a new post even if one already went out today. **Automatic scheduled runs:** deduplicated by the Eastern calendar date and slot. This avoids silently ignoring the user's manual tests while preventing routine duplicate scheduled posts.

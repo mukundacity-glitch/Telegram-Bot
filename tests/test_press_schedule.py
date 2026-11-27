@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta, timezone
-from unittest import TestCase, mock
+from unittest import TestCase
 
 from vortex import press_schedule as schedule
 
@@ -33,16 +33,6 @@ class PressScheduleTest(TestCase):
         self.assertEqual(schedule.conference_times(days, deadline),
                          [datetime(2027, 5, 22, 14, tzinfo=timezone.utc)])
 
-    def test_retirement_only_deletes_recent_confirmed_timetable_once(self):
-        now = datetime(2026, 11, 26, 18, tzinfo=timezone.utc)
-        state = {
-            "2026:11": {"message": 522, "version": "old", "checked": (now-timedelta(days=5)).isoformat()},
-            "2026:12": {"message": 624, "version": "receipt", "checked": now.isoformat()},
-            "unknown": {"message": 625, "checked": now.isoformat()},
-        }
-        client = mock.Mock()
-        client.delete_shared_message.return_value = True
-        for _ in range(2):
-            schedule.retire_graphics(now, lambda _: state, lambda *_: None, lambda: client)
-        client.delete_shared_message.assert_called_once_with(624)
-        self.assertTrue(state["2026:12"]["removed"])
+    def test_timetable_is_source_only(self):
+        self.assertFalse(hasattr(schedule, "retire_graphics"))
+        self.assertFalse(hasattr(schedule, "STATE"))

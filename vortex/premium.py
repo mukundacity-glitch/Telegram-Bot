@@ -188,38 +188,6 @@ def _fixture_tiles(canvas: Image.Image, draw: ImageDraw.ImageDraw, card: Card, x
         _center_text(draw, xx + tile_width - 21, y + 12, str(difficulty), _font(25), (255, 255, 255))
 
 
-def _news(canvas: Image.Image, content: Content,
-          media: list[tuple[Image.Image | None, Image.Image | None]], session: requests.Session) -> None:
-    draw = ImageDraw.Draw(canvas, 'RGBA')
-    count = len(content.cards)
-    gap = 22
-    width = (1472 - gap * (count - 1)) // count
-    for index, (card, (portrait, crest)) in enumerate(zip(content.cards, media)):
-        x = 32 + index * (width + gap)
-        accent = PALETTE[index]
-        _panel(draw, (x, 150, x + width, 715), accent)
-        _text(draw, 'FPL STATUS UPDATE  •  OFFICIAL FLAG', x + 25, 176, width - 50, 19, accent)
-        _text(draw, card.headline.upper(), x + 23, 216, width - 120 if crest else width - 46, 34, WHITE)
-        _text(draw, card.subtitle.upper(), x + 24, 259, width - 48, 26, accent)
-        if crest is not None:
-            _crest(canvas, crest, x + width - 96, 202, 66)
-        if portrait is not None:
-            _photo(canvas, portrait, (x + width - 227, 300, x + width - 19, 510), accent)
-        elif crest is not None:
-            _crest(canvas, crest, x + width - 208, 334, 145)
-            _text(draw, 'PORTRAIT UNAVAILABLE', x + width - 221, 495, 203, 15, MUTED)
-        price = str(card.metrics.get('price', '')) if card.metrics else ''
-        _badge(draw, price, 'CURRENT PRICE', (x + 18, 318, x + width - 236 if width > 400 else x + 170, 386), accent)
-        draw.rounded_rectangle((x + 18, 518, x + width - 18, 666), radius=11,
-                               fill=(9, 22, 54, 255), outline=(*accent, 200), width=2)
-        status = str(card.metrics.get('status', '')) if card.metrics else 'NO NEW UPDATE'
-        _text(draw, f'FPL STATUS: {status.upper()}', x + 35, 530, width - 70, 22, accent)
-        detail = card.fields[1] if card.metrics and len(card.fields) > 1 else (card.fields[0] if card.fields else 'No new dated FPL updates.')
-        _wrapped(draw, detail, x + 35, 571, width - 70, 3, 22, WHITE)
-        if not card.metrics:
-            _center_text(draw, x + width // 2, 415, 'NO NEW PLAYER FLAGS', _font(33), MUTED)
-
-
 def _large_feature(canvas: Image.Image, content: Content, card: Card,
                    portrait: Image.Image | None, crest: Image.Image | None, session: requests.Session) -> None:
     draw = ImageDraw.Draw(canvas, 'RGBA')
@@ -398,7 +366,7 @@ def _midfielders_layout(canvas: Image.Image, content: Content,
 
 def render_premium(content: Content, output: Path, session: requests.Session) -> Path:
     """Render verified data with club crests when a CDN player portrait is unavailable."""
-    supported = {'news', 'prices', 'captaincy', 'review', 'elite', 'evening', 'buy', 'sell', 'midfielders'}
+    supported = {'prices', 'captaincy', 'review', 'elite', 'evening', 'buy', 'sell', 'midfielders'}
     if content.kind not in supported:
         raise ValueError(f'No premium layout for {content.kind}')
     if not content.cards:
@@ -412,8 +380,6 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
         _recommendation_layout(canvas, content, media)
     elif content.kind == 'midfielders':
         _midfielders_layout(canvas, content, media, session)
-    elif content.kind == 'news':
-        _news(canvas, content, media, session)
     else:
         _four_card_layout(canvas, content, media, session)
     _footer(canvas, content)

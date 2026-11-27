@@ -10,7 +10,6 @@ from .fpl import (
     choose_captains,
     choose_comparison,
     choose_creators,
-    choose_news,
     confirmed_price_changes,
     latest_completed_gw,
     previous_gw_top_players,
@@ -124,33 +123,6 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
         title, kicker = "THE FPL DECISION ROOM", "8:00 AM • PLAYER VS PLAYER"
         verdict = f"FORM EDGE: {snapshot.name(first)} • ACCOUNT FOR FIXTURES"
         lines = [f"FPL GW{gw}: player comparison showdown.", f"{snapshot.name(first)} vs {snapshot.name(second)}.", f"Prices: {snapshot.price(first)} vs {snapshot.price(second)}.", "Compare form, minutes and fixture difficulty.", "Who makes your team?"]
-    elif kind == "news":
-        news = choose_news(snapshot, now)
-        cards = [replace(
-            _card(snapshot, player, "FPL STATUS UPDATE"),
-            fields=(snapshot.price(player), str(player.get("news") or ""), "FPL flag: " + str(player.get("status") or "unknown")),
-            metrics={**_card(snapshot, player, "FPL STATUS UPDATE").metrics, "status": str(player.get("status") or "unknown")},
-        ) for player in news[:3]]
-        if not cards:
-            cards = [Card("NO NEW DATED FPL FLAGS", "Official FPL", "VERIFIED STATUS", ("No fresh changes in the last 72 hours.", "No injury story has been invented."))]
-        title, kicker = "FPL NEWS BOARD", "10:00 AM • OFFICIAL FPL STATUS"
-        verdict = "FPL FLAGS ARE NOT MEDICAL CONFIRMATIONS"
-        if news:
-            actions = {"a": "HOLD", "d": "MONITOR", "i": "MONITOR / PLAN REPLACEMENT",
-                       "s": "REPLACE IF SUSPENDED", "u": "MONITOR"}
-            updates = [
-                f"{snapshot.name(player)} ({snapshot.team(player)}): "
-                f"{actions.get(str(player.get('status') or ''), 'MONITOR')}."
-                for player in news[:2]
-            ]
-            while len(updates) < 2:
-                updates.append("Recheck confirmed club team news.")
-            lines = [f"FPL GW{gw}: verified player availability.", *updates,
-                     f"{len(news)} new official flags in 72h.", "Make transfers after club updates."]
-        else:
-            lines = [f"FPL GW{gw}: official status checked.", "No fresh dated FPL player flags in 72h.",
-                     "HOLD: no injury transfer on rumours alone.", "Monitor manager press conferences.",
-                     "Save a transfer until there is real news."]
     elif kind == "prices":
         changes = confirmed_price_changes(snapshot, previous_prices)
         valid_baseline = isinstance(previous_prices.get("prices"), dict)

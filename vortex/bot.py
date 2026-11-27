@@ -274,7 +274,7 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
 
 def main() -> int:
     parser = argparse.ArgumentParser(description="FPL Vortex Telegram content delivery")
-    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "news", "prices", "transfer", "captaincy", "review", "evening", "preview-news", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening", "buy", "sell", "preview-buy", "preview-sell", "projections", "team_analysis", "transfer_suggestions", "preview-projections", "daily_stats", "preview-daily_stats", "preview-team_analysis", "preview-transfer_suggestions", "midfielders", "preview-midfielders", "start_bench", "preview-start_bench"])
+    parser.add_argument("--slot", default="auto", choices=["auto", "discover", "test", "elite", "comparison", "preview", "prices", "transfer", "captaincy", "review", "evening", "preview-transfer", "preview-prices", "preview-captaincy", "preview-review", "preview-elite", "preview-evening", "buy", "sell", "preview-buy", "preview-sell", "projections", "team_analysis", "transfer_suggestions", "preview-projections", "daily_stats", "preview-daily_stats", "preview-team_analysis", "preview-transfer_suggestions", "midfielders", "preview-midfielders", "start_bench", "preview-start_bench"])
     args = parser.parse_args()
     return run(args.slot, os.environ.get("SCHEDULED_CRON"))
 

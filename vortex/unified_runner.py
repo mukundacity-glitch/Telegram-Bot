@@ -1,62 +1,24 @@
-"""Single canonical news queue for Telegram and Discord, initially opt-in.
-
-Safe dry-run: no writes and no external posts.
-Production: checkpoint baseline and pending queue before independent delivery.
-"""
+"""Daily rotation planner queue only; individual news publishing is removed."""
 from __future__ import annotations
 
 import argparse
 import json
 import os
-import re
 from dataclasses import asdict, replace
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
 from .fpl import collect_snapshot
-from .news_sources import collect_fpl_changes, collect_reported_headlines, fpl_baseline
-from .news_graphics import render_news_card
 from .syndication import DiscordWebhookClient, NewsPost, load_journal, publish_shared, save_journal
 from .telegram import TelegramClient
 from .queue_retry import ATTEMPTS, failure_reason, verified_caption
 
 BASE = Path(__file__).resolve().parents[1] / "state"
 PENDING = BASE / "news_pending.json"
-BASELINE = BASE / "news_baseline.json"
-SEEN = BASE / "news_seen.json"
+READY = BASE / "rotation_initialized.json"
 RECEIPTS = BASE / "news_deliveries.json"
 NEWS_OUTPUT = BASE.parent / "output" / "news"
-
-
-def _expire_undelivered_old_news(pending, receipt, now, gameweek, *, max_hours=20):
-    """Clear superseded editorial queue stories before any attempt to post them.
-
-    The stored caption contains the explicit official-data or RSS timestamp.
-    Do not silently discard an uncertain/partial upload: such records require
-    the separate destination-receipt reconciliation procedure.
-    """
-    expired = []
-    for identity, record in list(pending.items()):
-        if not isinstance(record, dict):
-            continue
-        delivery = receipt.get(identity, {})
-        if delivery.get("delivered") or delivery.get("discord_delivered"):
-            continue  # An existing one-platform receipt must not be lost.
-        source_times = re.findall(r"20\d{2}-\d{2}-\d{2} \d{2}:\d{2} UTC",
-                                  str(record.get("caption") or ""))
-        stamped = None
-        if source_times:
-            try:
-                stamped = datetime.strptime(source_times[-1], "%Y-%m-%d %H:%M UTC").replace(tzinfo=timezone.utc)
-            except ValueError:
-                pass
-        wrong_gw = record.get("gameweek") != gameweek
-        too_old = bool(stamped is not None and (now - stamped) > timedelta(hours=max_hours))
-        if wrong_gw or too_old:
-            pending.pop(identity, None)
-            expired.append(identity)
-    return expired
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -77,52 +39,23 @@ def _create_clients() -> tuple[TelegramClient, DiscordWebhookClient]:
     return TelegramClient(), DiscordWebhookClient()
 
 
-def run(dry_run: bool = False, *, snapshot=None, rss=None,
+def run(dry_run: bool = False, *, snapshot=None,
         telegram=None, discord=None, now: datetime | None = None,
-        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None,
-        rotation_only=False) -> dict[str, int]:
+        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None) -> dict[str, int]:
     current_time = now or datetime.now(timezone.utc)
     if current_time.tzinfo is None:
         raise ValueError("Timestamp must include a timezone")
-    if not dry_run:
-        # Best-effort ONE-TIME deletion of exactly two user-rejected images.
-        # Reads existing receipts, never bulk-deletes or modifies the schedule.
-        from .retire_status_messages import retire_rejected_status_cards
-        try:
-            retire_rejected_status_cards(current_time)
-        except (RuntimeError, ValueError, OSError) as exc:
-            print("::warning::Targeted old-card cleanup deferred: " + type(exc).__name__)
     snapshot = snapshot or collect_snapshot()
-    prior = _read(BASELINE)
-    prior_seen = _read(SEEN)
     pending = _read(PENDING)
     receipt = load_journal(RECEIPTS)
-
-    # Retire individual status and price cards while keeping attributed news.
-    official = [] if pending_only or rotation_only else [post for post in collect_fpl_changes(snapshot, prior, current_time)
-                if not post.identity.startswith(("availability:", "price:"))]
-    reported = ([] if pending_only or rotation_only else rss if rss is not None else
-                collect_reported_headlines(snapshot, current_time))
-    reported = [story for story in reported if 'PRESSCONFERENCE WATCH' not in story.title]
-    pending = {key: value for key, value in pending.items()
-               if 'PRESSCONFERENCE WATCH' not in value.get('title', '')}
-    if rotation_only:
-        # The scheduled individual FPL NEWS edition is retired. Keep receipts
-        # for audit but never regenerate or retry its queued stories.
-        pending = {key: value for key, value in pending.items() if key.startswith('rotation:')}
-    stories = {s.identity: s for s in [*official, *reported]}
+    retired = [key for key in pending if not key.startswith("rotation:")]
+    pending = {key: value for key, value in pending.items() if key.startswith("rotation:")}
     from .rotation_planner import build_rotation_plan
     try:
         rotation = build_rotation_plan(snapshot, current_time)
     except (ValueError, KeyError, TypeError):
         rotation = None  # Never invent teams or FDR when official data is incomplete.
 
-    # Cancel queued retired cards even when a receipt exists;
-    # previously delivered receipt IDs remain untouched for audit/reconciliation.
-    retired = [identity for identity in pending
-               if identity.startswith(("availability:", "price:"))]
-    for identity in retired:
-        pending.pop(identity)
     for identity in list(pending):
         if (identity.startswith("rotation:") and
                 (rotation is None or identity != rotation.identity)):
@@ -131,18 +64,8 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
     cap = max_posts if max_posts is not None else int(os.getenv("MAX_NEWS_PER_RUN", "2"))
     if not 0 <= cap <= 6:
         raise ValueError("MAX_NEWS_PER_RUN must be between 0 and 6")
-    initial = not BASELINE.exists() or not SEEN.exists()
+    initial = not READY.exists()
 
-    # First run is a warm-up, not a 16-feed backfill into live channels.
-    if not initial:
-        for ident, story in stories.items():
-            if ident not in prior_seen and ident not in pending and not (
-                receipt.get(ident, {}).get("delivered")
-                and receipt.get(ident, {}).get("discord_delivered")
-            ):
-                pending[ident] = asdict(story) | {"image": None, "queued_at": current_time.isoformat()}
-    # Existing hourly news heartbeat also generates one fresh planner per ET day.
-    # No scheduled cron, publisher, or other editorial slot is changed.
     if not initial and rotation is not None and not pending_only:
         identity = rotation.identity
         if identity not in pending and not (
@@ -153,7 +76,7 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                              rotation.gameweek, source="Official FPL",
                              source_url="https://fantasy.premierleague.com/")
             pending = {identity: asdict(board), **pending}
-    summary = {"official_changes": len(official), "reported_headlines": len(reported),
+    summary = {"official_changes": 0, "reported_headlines": 0,
                "retired_status_cards": len(retired),
                "rotation_due": bool(rotation and rotation.identity in pending),
                "pending": len(pending), "sent": 0, "warmup": int(initial)}
@@ -161,26 +84,9 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
         return summary  # Absolutely no state writes, Telegram or Discord calls
 
     if initial:
-        save_journal(BASELINE, fpl_baseline(snapshot))
-        seen = {ident: current_time.isoformat() for ident in stories}
-        save_journal(SEEN, seen)
+        save_journal(READY, {"initialized": True})
+        save_journal(PENDING, pending)
         return summary
-
-    # Remove aged news from the durable backlog before attempting any upload.
-    # Retired records remain in the seen ledger, so stale RSS headlines cannot
-    # regenerate or crowd out new verified FPL changes on the next heartbeat.
-    expired = _expire_undelivered_old_news(pending, receipt, current_time, snapshot.gameweek())
-    summary["expired_unposted"] = len(expired)
-    summary["pending"] = len(pending)
-
-    # Preserve a bounded source-seen ledger; pending + delivered receipts are durable.
-    seen = {k: v for k, v in prior_seen.items() if isinstance(v, str)}
-    seen.update({k: current_time.isoformat() for k in stories})
-    if len(seen) > 5000:
-        seen = dict(sorted(seen.items(), key=lambda pair: pair[1])[-3500:])
-    save_journal(SEEN, seen)
-    if not pending_only:
-        save_journal(BASELINE, fpl_baseline(snapshot))
     save_journal(PENDING, pending)
 
     eligible = [(key, row) for key, row in pending.items() if row.get("attempts", 0) < ATTEMPTS]
@@ -211,25 +117,15 @@ def run(dry_run: bool = False, *, snapshot=None, rss=None,
                   if k in data})
             if drain:
                 record = replace(record, caption=verified_caption(record.title, record.caption))
-            try:
-                image_path = NEWS_OUTPUT / f"{record.identity.replace(':', '_')}.png"
-                if record.identity.startswith("rotation:"):
-                    if rotation is None or rotation.identity != record.identity:
-                        raise RuntimeError("Stale rotation board must not publish")
-                    from .rotation_planner import render_rotation_plan
-                    render_rotation_plan(rotation, image_path)
-                else:
-                    render_news_card(record, image_path)
-                from .graphic_numbers import stamp
-                if record.identity.startswith('rotation:'):
-                    stamp(image_path, 'news-rotation-planner')
-                record = replace(record, image=image_path)
-                generated = True
-            except (RuntimeError, OSError) as exc:
-                if not drain or not record.identity.startswith("rss:") or not record.source:
-                    raise
-                print(f"{identity} image fallback: {failure_reason(exc)}")
-                generated = True
+            if rotation is None or rotation.identity != record.identity:
+                raise RuntimeError("Stale rotation board must not publish")
+            image_path = NEWS_OUTPUT / f"{record.identity.replace(':', '_')}.png"
+            from .rotation_planner import render_rotation_plan
+            from .graphic_numbers import stamp
+            render_rotation_plan(rotation, image_path)
+            stamp(image_path, 'news-rotation-planner')
+            record = replace(record, image=image_path)
+            generated = True
             result = publish_shared(record, RECEIPTS, telegram, discord,
                                     send_discord=discord is not None, now_iso=current_time.isoformat())
         except (RuntimeError, ValueError, OSError, KeyError, TypeError) as exc:
@@ -279,7 +175,7 @@ def main() -> int:
         print("Unified news publishing is disabled until approved cutover")
         return 0
     try:
-        summary = run(dry_run=args.dry_run, rotation_only=True)
+        summary = run(dry_run=args.dry_run)
         print(json.dumps(summary, sort_keys=True))
         return 0
     except (RuntimeError, ValueError) as exc:

@@ -61,7 +61,7 @@ def test_manual_preview_never_modifies_daily_state(delivery_environment: list[st
     from pathlib import Path
     path = bot.STATE / 'deliveries.json'
     before = path.read_bytes()
-    assert bot.run('preview-news') == 0
+    assert bot.run('preview-comparison') == 0
     assert delivery_environment == ['THE FPL DECISION ROOM — PREVIEW']
     assert path.read_bytes() == before
 
