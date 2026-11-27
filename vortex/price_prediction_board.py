@@ -47,52 +47,244 @@ def official_clock(bootstrap, now):
 
 
 PRICE_LEAD = timedelta(hours=1)
+PRICE_RESEARCH_LEAD = timedelta(hours=4, minutes=15)
 PRICE_GRACE = timedelta(minutes=15)
+RESEARCH_KEY = "_pre_gameweek_price_research"
+SETTLEMENT_KEY = "_observed_price_settlement"
+COST_SNAPSHOT_KEY = "_consecutive_cost_snapshot"
+
+
+def price_observation(snapshot):
+    """Verified cost and calibrated next-update state, keyed by official player ID."""
+    result = {}
+    for player in snapshot.players:
+        pid, cost = player.get("id"), player.get("now_cost")
+        if type(pid) is not int or type(cost) is not int or cost <= 0:
+            continue
+        if str(pid) in result:
+            raise RequiredInput("Duplicate official player identity")
+        projection = player.get("price_change_projections")
+        rows = [row for row in projection if isinstance(row, dict) and row.get("offset") == 0] if isinstance(projection, list) else []
+        projected = numeric(rows[0].get("projected_percent")) if len(rows) == 1 and player.get("price_change_calibrating") is False else None
+        band = rows[0].get("likelihood") if projected is not None else None
+        result[str(pid)] = {"code": player.get("code"), "cost": cost,
+                            "threshold": (1 if projected >= 100 else -1 if projected <= -100 else 0) if projected is not None else None,
+                            "band": band if type(band) is int and -5 <= band <= 5 else None,
+                            "transfers_in_event": player.get("transfers_in_event"),
+                            "transfers_out_event": player.get("transfers_out_event"),
+                            "ownership": player.get("selected_by_percent"),
+                            "status": player.get("status"), "news": player.get("news")}
+    if not result:
+        raise RequiredInput("No verified price observation")
+    return result
+
+
+def material_changes(previous, current):
+    """Only real cost deltas or a verified threshold/likelihood transition qualify."""
+    changes = []
+    for pid, new in current.items():
+        old = previous.get(pid)
+        if not isinstance(old, dict) or old.get("code") != new.get("code"):
+            continue
+        fields = [key for key in ("cost", "threshold", "band")
+                  if old.get(key) is not None and new.get(key) is not None and old[key] != new[key]]
+        if fields:
+            changes.append({"id": int(pid), "before": {key: old[key] for key in fields},
+                            "after": {key: new[key] for key in fields}})
+    return changes
+
+
+def observe_settlement(snapshot, state):
+    """Bound observed cost settlement by actual consecutive snapshot times.
+
+    The API prediction deadline is not an observed settlement timestamp.
+    A changed cost only establishes an interval, never an exact minute.
+    """
+    from .autonomous_schedule import season_id
+    if not hasattr(snapshot, "events"):
+        return False
+    try:
+        observed = snapshot.fetched_at
+        deadline, _ = official_clock({"game_config": snapshot.game_config}, observed)
+        season = season_id(snapshot, observed)
+        costs = {pid: {"code": row["code"], "cost": row["cost"]}
+                 for pid, row in price_observation(snapshot).items()
+                 if type(row["code"]) is int}
+        if not costs:
+            return False
+        previous = state.get(COST_SNAPSHOT_KEY, {})
+        if previous.get("season") == season:
+            at = datetime.fromisoformat(previous["at"])
+            if observed <= at:
+                return False
+            prior_deadline = datetime.fromisoformat(previous["deadline"])
+            if at < prior_deadline <= observed < deadline and observed-at <= timedelta(hours=2):
+                changes = material_changes(previous["players"], costs)
+                if changes:
+                    state[SETTLEMENT_KEY] = {
+                        "season": season, "expected_at": prior_deadline.isoformat(),
+                        "last_before": at.isoformat(), "first_after": observed.isoformat(),
+                        "changes": changes,
+                    }
+        state[COST_SNAPSHOT_KEY] = {"season": season, "at": observed.isoformat(),
+                                   "deadline": deadline.isoformat(), "players": costs}
+        return True
+    except (RequiredInput, ValueError, KeyError, TypeError, AttributeError):
+        return False
+
+
+def valid_settlement(row, season, now):
+    try:
+        lower = datetime.fromisoformat(row["last_before"])
+        upper = datetime.fromisoformat(row["first_after"])
+        expected = datetime.fromisoformat(row["expected_at"])
+        return (row["season"] == season and lower < expected <= upper <= now
+                and upper-lower <= timedelta(hours=2) and now-upper <= timedelta(days=7)
+                and any("cost" in c.get("before", {}) and c["before"]["cost"] != c["after"]["cost"]
+                        for c in row["changes"]))
+    except (ValueError, KeyError, TypeError, AttributeError):
+        return False
+
+
+def research_evidence(snapshot, now, update, state, *, research_at=None, post_at=None):
+    """Match verified advance research to the T-1 run; require at least three elapsed hours."""
+    from .autonomous_schedule import season_id
+    row = state.get(RESEARCH_KEY, {})
+    if not isinstance(row, dict) or row.get("update_at") != update.isoformat() or row.get("gw") != snapshot.gameweek() or row.get("season") != season_id(snapshot, now):
+        return None
+    research_at = research_at or update-PRICE_RESEARCH_LEAD
+    post_at = post_at or update-PRICE_LEAD
+    try:
+        checked = datetime.fromisoformat(row["checked_at"])
+        if row.get("research_at") != research_at.isoformat() or row.get("post_at") != post_at.isoformat():
+            return None
+        if not research_at <= checked < research_at+PRICE_GRACE:
+            return None
+        from .research_gap import verified_gap
+        if snapshot.fetched_at <= checked or not verified_gap(row['checked_at'], post_at) or not verified_gap(row['checked_at'], now):
+            return None
+        changes = material_changes(row["players"], price_observation(snapshot))
+    except (ValueError, TypeError, KeyError, AttributeError):
+        return None
+    return {"checked_at": checked.isoformat(), "changes": changes,
+            "research_at": research_at.isoformat(), "post_at": post_at.isoformat()}
+
+
+
+def price_schedule(snapshot, now, update, state):
+    """Prefer the original T-1 window; otherwise select an earlier free check.
+
+    Use the actual API deadline and the existing heartbeat, never move other
+    editions. No same-day slot is promised when all options are occupied.
+    """
+    from .autonomous_schedule import ET, SLOTS, eligible_on, slot_start, special_triggers, publication_key, season_id, retryable
+    from .schedule import SLOT_HOURS
+    from .daily_cutover import slots as daily_slots
+    from .publishing_window import allowed
+    from .telegram_spacing import GAP
+
+    preferred = update-PRICE_LEAD
+    day = preferred.astimezone(ET)
+    posts = []
+    research = []
+    for offset in (-1, 0, 1):
+        local = day+timedelta(days=offset)
+        posts.extend((s.edition, slot_start(s,local)) for s in SLOTS if eligible_on(s,local))
+        posts.extend((s.edition, slot_start(s,local)) for s in daily_slots(local))
+        posts.extend((name,local.replace(hour=h,minute=m,second=0,microsecond=0)) for name,(h,m) in SLOT_HOURS.items())
+        if local.weekday()==4:
+            posts.append(("rotation-planner",local.replace(hour=20,minute=0,second=0,microsecond=0)))
+        # Existing documented research starts, never move these workflows.
+        ranges = [("transfer-research",1,13,17),("desk-research",4,13,15),
+                  ("radar-research",5,58,12)]
+        if local.weekday() in (4,5):
+            ranges.append(("matrix-research",15,28,12))
+        if local.weekday()==0:
+            ranges.extend([("legacy-position-research",3,13,15),("legacy-monday-research",4,43,15)])
+        if local.weekday()==1:
+            ranges.append(("legacy-wildcard-research",3,13,15))
+        research.extend((name,local.replace(hour=h,minute=m,second=0,microsecond=0),timedelta(minutes=length))
+                        for name,h,m,length in ranges)
+    for other, at in special_triggers(snapshot, now):
+        if at is not None and retryable(state.get(publication_key(other,now,snapshot.gameweek(),season_id(snapshot,now)),{})):
+            posts.append((other.edition,at))
+    def conflicts(check, post):
+        reasons=[]
+        check, post = check.astimezone(timezone.utc), post.astimezone(timezone.utc)
+        for name,at in posts:
+            at = at.astimezone(timezone.utc)
+            if check-GAP < at < check+PRICE_GRACE or post-GAP < at < post+GAP+PRICE_GRACE:
+                reasons.append((name,at.isoformat()))
+        for name,at,length in research:
+            at = at.astimezone(timezone.utc)
+            if (at < check+PRICE_GRACE and check < at+length) or (at < post+PRICE_GRACE and post < at+length):
+                reasons.append((name,at.isoformat()))
+        return sorted(set(reasons))
+    # Compare elapsed time and overlaps in UTC, including the DST transition.
+    check=update.astimezone(timezone.utc)-PRICE_RESEARCH_LEAD
+    original=conflicts(check,preferred)
+    if not original and allowed(preferred):
+        return check,preferred,[]
+    # Only earlier, already configured half-hour heartbeats in the same ET
+    # date; a dedicated overnight check provides at least three elapsed hours.
+    candidate_check=day.replace(hour=2,minute=43,second=0,microsecond=0)
+    for hour in range(day.hour,-1,-1):
+        for minute in (30,0):
+            post=day.replace(hour=hour,minute=minute,second=0,microsecond=0)
+            if not allowed(post) or post>=preferred or post.astimezone(timezone.utc)-candidate_check.astimezone(timezone.utc) < timedelta(hours=3,minutes=15):
+                continue
+            if not conflicts(candidate_check,post):
+                return candidate_check,post,original
+    return None,None,original
 
 
 def opportunity(snapshot, now, state):
-    """Find the API-clock opportunity without moving any other editorial slot."""
-    from .autonomous_schedule import ET, SLOTS, Slot, eligible_on, slot_start, special_triggers, publication_key, season_id, retryable
-    from .schedule import SLOT_HOURS
-    from .publishing_window import allowed
-    from .telegram_spacing import GAP
+    """Find a verified pre-change opportunity without moving other slots."""
+    from .autonomous_schedule import ET, Slot, publication_key, season_id, retryable
+    from .fpl import upcoming_deadline
     update, updated = official_clock({"game_config": snapshot.game_config}, max(now, snapshot.fetched_at))
     update = update.astimezone(timezone.utc)
-    trigger = update - PRICE_LEAD
+    research_at, trigger, conflicts = price_schedule(snapshot, now, update, state)
+    info = {"post": EDITION, "update_at": update.isoformat(), "source_updated_at": updated.isoformat(),
+            "conflicts": conflicts}
+    if trigger is None:
+        return None, {**info, "status":"skipped-schedule-conflict"}
+    # Normalize to UTC for durable comparisons and DST-safe elapsed durations.
+    trigger, research_at = trigger.astimezone(timezone.utc), research_at.astimezone(timezone.utc)
+    info.update(trigger=trigger.isoformat(), research_at=research_at.isoformat())
     local = trigger.astimezone(ET)
     slot = Slot("price_changes", EDITION, local.hour, local.minute,
                 display_name="Price Change Prediction", price_update_at=update.isoformat())
-    key = publication_key(slot, now, snapshot.gameweek(), season_id(snapshot, now))
-    info = {"post": EDITION, "trigger": trigger.isoformat(), "update_at": update.isoformat(),
-            "source_updated_at": updated.isoformat()}
-    if not retryable(state.get(key, {})):
-        return None, {**info, "status": "closed"}
-    if now >= trigger + PRICE_GRACE:
-        return None, {**info, "status": "missed-window"}
-    if not allowed(trigger):
-        return None, {**info, "status": "outside-publishing-window"}
-    # User's agreed skip rule: protect scheduled posts during the three-hour
-    # lead-up, including the target and the Telegram spacing interval after it.
-    start, end = update - timedelta(hours=3), trigger + GAP
-    conflicts = []
-    for offset in (-1, 0, 1):
-        day = local + timedelta(days=offset)
-        for other in SLOTS:
-            if eligible_on(other, day):
-                at = slot_start(other, day)
-                if start <= at < end:
-                    conflicts.append((other.edition, at.isoformat()))
-        for name, (hour, minute) in SLOT_HOURS.items():
-            at = day.replace(hour=hour, minute=minute, second=0, microsecond=0)
-            if start <= at < end:
-                conflicts.append((name, at.isoformat()))
-    for other, at in special_triggers(snapshot, now):
-        if at is not None and start <= at < end:
-            if retryable(state.get(publication_key(other, now, snapshot.gameweek(), season_id(snapshot, now)), {})):
-                conflicts.append((other.edition, at.isoformat()))
-    if conflicts:
-        return None, {**info, "status": "skipped-schedule-conflict", "conflicts": sorted(set(conflicts))}
-    return slot, {**info, "status": "due" if now >= trigger else "waiting"}
+    season = season_id(snapshot, now)
+    key = publication_key(slot, now, snapshot.gameweek(), season)
+    target_deadline = upcoming_deadline(snapshot)
+    if not snapshot.gameweek() or target_deadline is None or now >= target_deadline or trigger >= target_deadline:
+        return None, {**info, "status":"no-actionable-gameweek"}
+    existing = state.get(key, {})
+    if existing.get("identity") or not retryable(existing):
+        return None, {**info, "status":"closed"}
+    if now >= trigger+PRICE_GRACE:
+        return None, {**info, "status":"skipped-schedule-conflict" if conflicts else "missed-window"}
+    if research_at <= now < research_at+PRICE_GRACE:
+        prior = state.get(RESEARCH_KEY,{})
+        if prior.get("update_at") != update.isoformat() or prior.get("post_at") != trigger.isoformat() or prior.get("gw") != snapshot.gameweek() or prior.get("season") != season:
+            state[RESEARCH_KEY] = {"update_at":update.isoformat(),"gw":snapshot.gameweek(),
+                                   "season":season,"checked_at":max(now,snapshot.fetched_at).isoformat(),
+                                   "fetched_at":snapshot.fetched_at.isoformat(),"players":price_observation(snapshot),
+                                   "research_at":research_at.isoformat(),"post_at":trigger.isoformat()}
+        return None, {**info,"status":"research-verified"}
+    if now < trigger:
+        return None, {**info,"status":"waiting"}
+    proof=research_evidence(snapshot,now,update,state,research_at=research_at,post_at=trigger)
+    if proof is None:
+        return None,{**info,"status":"research-missing"}
+    if not proof["changes"]:
+        return None,{**info,"status":"no-new-facts"}
+    observed=state.get(SETTLEMENT_KEY,{})
+    if not valid_settlement(observed,season,now):
+        return None,{**info,"status":"settlement-unverified"}
+    proof["observed_settlement"]=observed
+    return slot,{**info,"status":"due","research":proof}
 
 
 def numeric(value):
@@ -168,10 +360,10 @@ def select_rows(snapshot, update_at, previous=None):
                          hourly_rate=numeric(p.get("price_change_hourly_rate")),
                          owned=numeric(p.get("selected_by_percent")),
                          ownership_delta=ownership_trend(snapshot, previous, p)))
-    rises = sorted((r for r in rows if r["projected"] > 0), key=lambda r:(-r["projected"],-r["progress"],r["player"]["id"]))[:8]
-    falls = sorted((r for r in rows if r["projected"] < 0), key=lambda r:(r["projected"],r["progress"],r["player"]["id"]))[:8]
-    if len(rises) != 8 or len(falls) != 8:
-        raise RequiredInput("Need eight verified positive and eight negative next-update predictions")
+    rises = sorted((r for r in rows if r["projected"] > 0), key=lambda r:(-r["projected"],-r["progress"],r["player"]["id"]))[:10]
+    falls = sorted((r for r in rows if r["projected"] < 0), key=lambda r:(r["projected"],r["progress"],r["player"]["id"]))[:10]
+    if not rises and not falls:
+        raise RequiredInput("No verified next-update predictions")
     return rises, falls
 
 
@@ -183,134 +375,88 @@ def build_board(snapshot, update_at, previous=None):
     caption = (
         "⏱ PRICE CHANGE PREDICTION\n"
         f"MONITOR {label}\n\n"
-        "📈 Top 8 risers • 📉 Top 8 fallers\n"
+        f"📈 {len(rises)} rise candidates • 📉 {len(falls)} fall candidates\n"
         "Official FPL projections. Moves are not guaranteed.\n\n"
         "#FPL #PriceChanges #FPLTips #FantasyPremierLeague #FPLVORTEX #FPLUpdates"
     )
     return dict(rises=rises, falls=falls, update_at=update_at.isoformat(), caption=caption)
 
 
+PRICE_ART_SIZE = (1600, 1200)
+
+
 def render_board(snapshot, board, output, session):
-    """White data body, navy/gold 55-style masthead and icon footer; one portrait PNG."""
-    from PIL import Image, ImageDraw, ImageFilter
+    """The supplied 4:3 two-panel price reference, with current official data."""
+    from PIL import Image, ImageDraw
     from .brand_footer import MASTER, verify_exact_master
     from .comparison_board import contain, text
     from .matchup import _image_from_url, _media
-    from .minimal_theme import extra_social_handles
-    from .publication_rules import required_footer_handles
+
     verify_exact_master()
-    W,H = 1080,1920
-    navy=(5,15,40); gold=(255,205,82); cyan=(34,208,248)
-    white=(255,255,255); ink=(18,35,53); muted=(75,94,110)
-    green=(0,133,90); red=(202,32,65)
-    canvas=Image.new("RGB",(W,H),navy)
-    d=ImageDraw.Draw(canvas,"RGBA")
-    for points,col in [
-        ([(0,0),(290,0),(0,230)],(17,98,225,230)),
-        ([(0,40),(160,0),(0,142)],(20,183,255,200)),
-        ([(W,0),(W-240,0),(W,235)],(80,54,215,210)),
-        ([(0,H),(0,H-200),(220,H)],(20,87,200,190)),
-        ([(W,H),(W,H-220),(W-190,H)],(94,52,220,190))]:
-        d.polygon(points,fill=col)
+    W, H = PRICE_ART_SIZE
+    purple, ink, muted = "#37003C", "#201A29", "#535366"
+    white, cyan, emerald = "#FFFFFF", "#04F5FF", "#00FF87"
+    green, red = "#008553", "#B91F45"
+    canvas = Image.new("RGB", (W, H), purple)
+    d = ImageDraw.Draw(canvas)
     with Image.open(MASTER) as original:
-        master=original.convert("RGB").resize((1536,864))
-        canvas.paste(master.crop((0,0,310,80)).resize((218,56),Image.Resampling.LANCZOS),(15,12))
-        canvas.paste(master.crop((1336,0,1536,80)).resize((145,58),Image.Resampling.LANCZOS),(920,12))
-    d=ImageDraw.Draw(canvas,"RGBA")
-    text(d,"PRICE CHANGE PREDICTION",248,11,657,40,white,25,center=True)
-    update=datetime.fromisoformat(board["update_at"])
-    d.polygon([(273,77),(807,77),(793,126),(259,126)],fill=gold)
-    text(d,"MONITOR "+update.astimezone(UK).strftime("%H:%M UK"),280,83,520,31,navy,21,center=True)
-    text(d,"OFFICIAL FPL • NEXT UPDATE • RANKED BY PROJECTED PROGRESS",30,142,1020,24,white,17,center=True)
-    d.line((25,178,1055,178),fill=cyan,width=3)
+        master = original.convert("RGB").resize((1536,864))
+        canvas.paste(master.crop((0,0,310,80)).resize((158,41),Image.Resampling.LANCZOS),(34,37))
+    def label(value, x, y, width, size, color=white, center=False, minimum=14):
+        text(d, value, x, y, width, size=size, color=color, minimum=minimum, center=center)
 
-    cache={}
-    def fmt(v,dp=1,signed=False,suffix=""):
-        return "—" if v is None else (f"{v:+,.{dp}f}" if signed else f"{v:,.{dp}f}")+suffix
-
-    def side(rows,x,accent,heading):
-        width=512
-        d.rounded_rectangle((x,188,x+width,1763),radius=18,fill=white,outline=cyan,width=3)
-        d.rounded_rectangle((x+3,191,x+width-3,253),radius=12,fill=accent)
-        text(d,heading,x+12,204,width-24,32,white,23,center=True)
-        for rank,row in enumerate(rows,1):
-            p=row["player"]
-            y=262+(rank-1)*186
-            d.rounded_rectangle((x+8,y,x+width-8,y+176),radius=12,
-                                fill=(248,252,250) if accent==green else (255,248,250),
-                                outline=(218,230,232),width=2)
-            code=snapshot.photo_code(p)
-            urls=(
+    update = datetime.fromisoformat(board["update_at"])
+    local = snapshot.fetched_at.astimezone(UK)
+    label("PRICE CHANGE PREDICTIONS", 220, 26, 1340, 52)
+    label(local.strftime("%A, %d %B %Y"), 220, 83, 1340, 29, emerald)
+    label("Fantasy Premier League • daily price movement watch", 220, 119, 1340, 21)
+    cache = {}
+    def side(rows, x, accent, heading, pale):
+        width = 756
+        d.rounded_rectangle((x,160,x+width,1122),radius=20,fill=white,outline=cyan,width=2)
+        d.rounded_rectangle((x,160,x+width,216),radius=18,fill=accent)
+        d.rectangle((x,192,x+width,216),fill=accent)
+        label(heading,x+22,171,width-44,31)
+        label("PLAYER / CLUB",x+87,225,360,20,ink)
+        label("LIKELIHOOD",x+443,225,142,17,ink,True)
+        label("PREDICTION",x+598,225,145,17,ink,True)
+        if not rows:
+            label("No verified candidates",x+25,280,width-50,24,muted,True)
+        for index, row in enumerate(rows[:10]):
+            p = row["player"]
+            y = 260 + index*84
+            d.rounded_rectangle((x+12,y,x+width-12,y+76),radius=11,fill=pale,outline="#DDD6E0",width=1)
+            d.rectangle((x+12,y,x+19,y+76),fill=accent)
+            code = snapshot.photo_code(p)
+            urls = (
                 f"https://resources.premierleague.com/premierleague25/photos/players/250x250/{code}.png",
                 f"https://resources.premierleague.com/premierleague25/photos/players/110x140/{code}.png",
-                f"https://resources.premierleague.com/premierleague25/photos/players/250x250/p{code}.png",
                 f"https://resources.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
-                f"https://resources.premierleague.com/premierleague/photos/players/110x140/p{code}.png",
                 f"https://images.fantasy.premierleague.com/premierleague/photos/players/250x250/p{code}.png",
-                f"https://resources.premierleague.pulselive.com/photos/players/250x250/p{code}.png",
-                f"https://resources.premierleague.pulselive.com/photos/players/110x140/p{code}.png",
             )
-            photo=next((img for url in urls if (img:=_image_from_url(session,url)) is not None),None)
-            crest=_media(session,snapshot.team_code(p),"crest",cache)
+            photo = next((img for url in urls if (img := _image_from_url(session,url)) is not None),None)
+            crest = _media(session,snapshot.team_code(p),"crest",cache)
             if crest is None:
                 raise RequiredInput(f"Authentic club crest missing for official player {p['id']}")
-            if photo is None:
-                # Do not silently omit or substitute a top-ranked player.
-                # Authentic club crest and explicit missing-photo notice only.
-                contain(canvas,crest,(x+30,y+49,76,76))
-                text(d,"NO PHOTO",x+13,y+130,108,14,muted,12,center=True)
-                print(f"::warning::Authentic portrait unavailable for FPL player {p['id']}; rank retained")
+            if photo is not None:
+                contain(canvas,photo,(x+25,y+4,66,69),bottom=True,crop_alpha=True)
             else:
-                contain(canvas,photo,(x+16,y+34,104,116),bottom=True,crop_alpha=True)
-            contain(canvas,crest,(x+18,y+9,32,32))
-            text(d,f"{rank:02d}",x+74,y+8,36,18,accent,15,center=True)
-            name=snapshot.name(p)
-            text(d,name.upper(),x+126,y+9,width-142,28,ink,18)
-            position={1:"GK",2:"DEF",3:"MID",4:"FWD"}[p["element_type"]]
-            text(d,f"{snapshot.team(p)} • {position} • {snapshot.price(p)}",x+126,y+42,width-144,19,muted,14)
-            # Progress is signed and projected % is a threshold meter, not a probability.
-            text(d,"PROGRESS",x+126,y+69,162,17,muted,13)
-            text(d,"PREDICTED",x+305,y+69,187,17,muted,13)
-            text(d,fmt(row["progress"],signed=True,suffix="%"),x+126,y+89,166,25,ink,18)
-            text(d,fmt(row["projected"],signed=True,suffix="%"),x+305,y+86,187,30,accent,19)
-            bx=x+126; by=y+120; bw=163
-            d.rounded_rectangle((bx,by,bx+bw,by+7),radius=3,fill=(222,230,233))
-            n=max(1,round(bw*min(1,abs(row["progress"])/100)))
-            d.rounded_rectangle((bx,by,bx+n,by+7),radius=3,fill=accent)
-            # Raw hourly-rate unit is not independently documented: do not mislabel it
-            # as verified net transfers or manufacture an ownership trend.
-            text(d,"RATE/HR "+fmt(row["hourly_rate"],0,True),x+126,y+137,168,18,muted,12)
-            text(d,"OWN "+fmt(row["owned"],suffix="%"),x+305,y+137,187,18,muted,12)
-            status="THRESHOLD MET" if abs(row["projected"])>=100 else "BELOW THRESHOLD"
-            text(d,status,x+126,y+156,170,14,accent,11)
-            text(d,"OWN Δ "+fmt(row.get("ownership_delta"),2,True,"pp"),x+305,y+156,187,14,muted,11)
-    side(board["rises"],18,green,"TOP 8 RISE WATCH")
-    side(board["falls"],550,red,"TOP 8 FALL WATCH")
-    d.rectangle((0,1770,W,H),fill=navy)
-    text(d,"±100% THRESHOLD • NOT GUARANTEED • OWN Δ VS PRIOR SNAPSHOT",20,1778,1040,22,gold,16,center=True)
-    d.line((25,1812,1055,1812),fill=gold,width=2)
-    telegram,discord=required_footer_handles()
-    youtube,x_handle=extra_social_handles()
-    channels=[("youtube",youtube),("x",x_handle),("telegram","t.me/"+telegram.lstrip("@")),("discord",discord)]
-    for i,(kind,value) in enumerate(channels):
-        if not value:
-            continue
-        x=30+(i%2)*540;y=1824+(i//2)*43
-        if kind=="youtube":
-            d.rounded_rectangle((x,y,x+34,y+25),radius=6,fill="#ff1735")
-            d.polygon([(x+13,y+5),(x+13,y+20),(x+25,y+12)],fill="white")
-        elif kind=="x":
-            d.line((x+3,y,x+28,y+26),fill="white",width=3)
-            d.line((x+27,y,x+2,y+26),fill="white",width=2)
-        elif kind=="telegram":
-            d.ellipse((x,y-3,x+32,y+29),fill="#29a9ec")
-            d.polygon([(x+5,y+10),(x+27,y+2),(x+21,y+23),(x+15,y+17),(x+10,y+21),(x+12,y+13)],fill="white")
-        else:
-            d.rounded_rectangle((x,y,x+34,y+25),radius=8,fill="#5865f2")
-            d.ellipse((x+7,y+8,x+13,y+14),fill="white")
-            d.ellipse((x+21,y+8,x+27,y+14),fill="white")
-            d.arc((x+8,y+10,x+26,y+21),0,180,fill="white",width=2)
-        text(d,value,x+44,y+1,465,21,white,14)
+                contain(canvas,crest,(x+33,y+7,48,48))
+                label("NO PHOTO",x+23,y+56,70,11,muted,True,10)
+            label(snapshot.name(p),x+102,y+5,327,29,ink)
+            contain(canvas,crest,(x+103,y+43,23,23))
+            label(f"{snapshot.team(p)}  •  {snapshot.price(p)}",x+132,y+43,300,19,muted)
+            d.rounded_rectangle((x+446,y+25,x+583,y+54),radius=14,fill="#E2F5EA" if accent==green else "#FBE2E8")
+            # Official signed likelihood band; no invented probability/word mapping.
+            label(f"BAND {row['likelihood']:+d}",x+450,y+29,129,17,accent,True)
+            label("TARGET %",x+600,y+7,139,14,muted,True,12)
+            label(f"{abs(row['projected']):.1f}%",x+599,y+28,140,29,accent,True)
+    side(board["rises"],28,green,"▲ PRICE RISES","#F9FCFA")
+    side(board["falls"],816,red,"▼ PRICE DROPS","#FFF9FA")
+    label("FPL VORTEX • Official FPL projections • Target progress, not probability • Likelihood: official signed band",
+          30,1136,1540,19,white,True)
+    label("Expected update: "+update.astimezone(UK).strftime("%H:%M UK")+" • Price movements are not guaranteed",
+          30,1166,1540,17,emerald,True)
     output=Path(output)
     output.parent.mkdir(parents=True,exist_ok=True)
     canvas.save(output,"PNG",optimize=True)

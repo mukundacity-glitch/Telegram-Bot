@@ -81,7 +81,10 @@ def _base(post: ExtraPost) -> Image.Image:
     if not bg.is_file():
         raise FileNotFoundError("FPL VORTEX blue stadium background not installed")
     with Image.open(bg) as source:
-        return minimal_background(source, edition_key(post), CANVAS_SIZE)
+        canvas = minimal_background(source, edition_key(post), CANVAS_SIZE)
+        if post.kind in ("team_analysis", "most_transferred_in"):
+            ImageDraw.Draw(canvas).rectangle((0, 91, canvas.width, canvas.height), fill="#37003C")
+        return canvas
 
 
 def _header(canvas: Image.Image, post: ExtraPost) -> None:
@@ -292,7 +295,7 @@ def _team(canvas: Image.Image, post: ExtraPost,
         _line(draw, f"SEASON MINS {player['minutes'] if player['minutes'] is not None else 'N/A'}",
               x0 + 143, 615, 291, 20, TABLE_INK, 14)
         _paragraph(draw, player["opponent"], x0 + 143, 651, 296, 18, 2, WHITE)
-    return (f"{team['short']} LAST {len(hist)} FINISHED MATCHES: GF "
+    return (f"FPL VORTEX · MONITOR · {team['short']} LAST {len(hist)}: GF "
             f"{team['gf_total'] if team['gf_total'] is not None else 'N/A'} · "
             f"GA {team['ga_total'] if team['ga_total'] is not None else 'N/A'} · FPL FDR {team['fdr']}")
 
@@ -338,6 +341,32 @@ def _transfers(canvas: Image.Image, post: ExtraPost,
         _line(draw, row["reason"], x0 + 108, y0 + 108, x1-x0-139, 15, TABLE_INK, 13)
     return "FOUR POSITIONS · EVENT-TO-DATE TRANSFERS · OFFICIAL NEXT-GW FDR · NO INVENTED xPTS"
 
+
+
+def _most_transferred(canvas: Image.Image, post: ExtraPost, session, cache):
+    rows = post.transfers
+    if [row["position"] for row in rows] != ["GK", "DEF", "MID", "FWD"]:
+        raise ValueError("Four verified position groups required")
+    if len({row["player"]["id"] for row in rows}) != 4:
+        raise ValueError("Repeated player in transfer-in graphic")
+    draw = ImageDraw.Draw(canvas, "RGBA")
+    for i, row in enumerate(rows):
+        p = row["player"]
+        y = 155 + i * 143
+        draw.rounded_rectangle((34, y, 1502, y+132), radius=13, fill="#F8F4FA",
+                               outline="#00FF87", width=2)
+        draw.rounded_rectangle((48, y+15, 160, y+117), radius=10, fill="#37003C")
+        _center_text(draw, 104, y+48, row["position"], _font(32), WHITE)
+        pic = _required(session, cache, p["photo_code"], "photo", p["name"])
+        crest = _required(session, cache, p["club_code"], "crest", p["team"])
+        _portrait(canvas, pic, 174, y+5, 127, 122)
+        _crest(canvas, crest, 342, y+13, 55)
+        _line(draw, p["name"].upper(), 380, y+14, 630, 32, TABLE_INK, 18)
+        _line(draw, f"{p['team']} · {p['price']} · OWN {p['ownership']}%", 380, y+57, 630, 22, TABLE_INK)
+        _line(draw, p["opponent"], 380, y+91, 630, 19, TABLE_INK)
+        _line(draw, "GW TRANSFERS IN", 1090, y+22, 390, 21, TABLE_INK)
+        _line(draw, f"{p['in_event']:,}", 1090, y+56, 390, 40, (0, 112, 73))
+    return "OFFICIAL FPL · EVENT-TO-DATE TRANSFERS · DISTINCT PLAYERS BY POSITION"
 
 
 def _start_bench(canvas: Image.Image, post: ExtraPost,
@@ -388,6 +417,8 @@ def render_extra(post: ExtraPost, output: Path, session: requests.Session) -> Pa
         detail = _team(canvas, post, session, cache)
     elif post.kind == "transfer_suggestions":
         detail = _transfers(canvas, post, session, cache)
+    elif post.kind == "most_transferred_in":
+        detail = _most_transferred(canvas, post, session, cache)
     else:
         raise ValueError("Unsupported new graphics template")
     _footer(canvas, post, detail)

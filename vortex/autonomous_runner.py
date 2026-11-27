@@ -34,9 +34,13 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
+    if plan.kind == 'cutover_daily':
+        return {'edition': plan.edition, 'player_ids': plan.extra['player_ids'],
+                'research': plan.extra['research'], 'content': canonical(plan.extra['content'])}
     if plan.kind == 'price_prediction':
         return {'edition': plan.edition, 'update_at': plan.extra['update_at'],
-                'source_updated_at': plan.extra['source_updated_at'], 'board': canonical(plan.extra)}
+                'source_updated_at': plan.extra['source_updated_at'], 'research': plan.extra['research'],
+                'target_deadline': plan.extra['target_deadline'], 'board': canonical(plan.extra)}
     if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'weekly_wildcard_vulnerability', 'monday_intelligence', 'chip_strategy'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
@@ -47,6 +51,12 @@ def facts(plan,snapshot,evidence):
 
 
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
+    from .legacy_research_gap import WINDOWS, read_proof
+    legacy_proof = None
+    if slot.edition in WINDOWS and not audit:
+        legacy_proof = read_proof(slot.edition, snapshot, now, evidence)
+        if not legacy_proof:
+            raise RequiredInput('Missing verified advance research for existing weekly edition')
     if slot.edition == 'goalkeeper-striker-watch':
         from .weekly_position_watch import restore_research
         restore_research(snapshot, now, evidence)
@@ -63,7 +73,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         # Every active production edition must have a permanent catalog number.
         stamp(path, key, required=slot.edition in {s.edition for s in SLOTS} or slot.edition in SPECIAL_EDITIONS or slot.edition == 'price-prediction')
         with Image.open(path) as image:
-            if image.size not in ((1920,1080),(1080,1920)):raise RuntimeError('Generated PNG dimensions failed QA')
+            expected_sizes = ((1600,1200),) if plan.kind == 'price_prediction' else ((1920,1080),(1080,1920))
+            if image.size not in expected_sizes:raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()
     weekly = slot.edition == 'weekly-analysis'
     editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot in EVENING_WATCH_SLOTS
@@ -94,6 +105,12 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.kind not in ('wildcard', 'weekly_wildcard_vulnerability') and plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
+    if slot.edition in ('player-radar-comparison', 'saturday-fdr-grid') and not audit:
+        from .autonomous_schedule import RADAR_RESEARCH_STATE, FDR_RESEARCH_STATE
+        key = RADAR_RESEARCH_STATE if slot.edition == 'player-radar-comparison' else FDR_RESEARCH_STATE
+        record['facts']['research'] = read_state(STATE_FILE).get(key, {})
+    if legacy_proof:
+        record['facts']['research'] = legacy_proof
     if recurring:
         record['facts']['publication_date'] = day.isoformat()
     if not manual and not audit:
@@ -174,6 +191,11 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     for slot in slots:
         if slot.edition in RETIRED_EDITIONS:
             continue
+        from .daily_cutover import KINDS, eligible as daily_eligible
+        if slot.edition in KINDS and not audit:
+            if manual or selected_slots is None or not daily_eligible(slot, snapshot, now, state):
+                rows.append({'edition': slot.edition, 'status': 'no-new-facts', 'reason': 'Daily research/window gate'})
+                continue
         if slot.edition == 'goalkeeper-striker-watch' and not audit:
             from .weekly_position_watch import publication_due
             if not publication_due(now):
@@ -188,7 +210,20 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 continue
         if slot.edition == 'price-prediction' and (audit or manual or selected_slots is None):
             raise ValueError('Price prediction is available only through the API-clock due queue')
-        key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
+        if slot.edition == 'player-radar-comparison' and not audit:
+            from .autonomous_schedule import radar_research_valid
+            if not radar_research_valid(state, slot, snapshot, now):
+                rows.append({'edition': slot.edition, 'status': 'no-new-facts',
+                             'reason': 'Missing finalized GW research or minimum three-hour gap'})
+                continue
+        if slot.edition == 'saturday-fdr-grid' and not audit:
+            from .autonomous_schedule import fdr_research_valid
+            if not fdr_research_valid(state, snapshot, now):
+                rows.append({'edition': slot.edition, 'status': 'no-new-facts',
+                             'reason': 'Outside weekly FDR window or research not verified'})
+                continue
+        from .daily_cutover import day_key
+        key=day_key(slot, now) if slot.edition in KINDS else publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
         if not audit and state.get(key,{}).get('status') in ('delivered','already-delivered'):
             rows.append({'edition':slot.edition,'status':'already-delivered'});continue
         if slot.task=='press_news':

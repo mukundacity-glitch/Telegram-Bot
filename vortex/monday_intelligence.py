@@ -1,5 +1,5 @@
 """One Monday board: verified elite picks, defensive thresholds, and shot origins."""
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 from hashlib import sha256
 import json
 from pathlib import Path
@@ -12,7 +12,7 @@ RESEARCH = Path(__file__).resolve().parents[1] / "state" / "monday_intelligence_
 
 def research_due(now):
     t=now.astimezone(ET)
-    return t.weekday()==0 and (19,0)<=(t.hour,t.minute)<(20,0)
+    return t.weekday()==0 and (4,43)<=(t.hour,t.minute)<(4,58)
 
 def publication_due(now):
     t=now.astimezone(ET)
@@ -43,13 +43,13 @@ def _cache(snapshot,now):
     row=read_state(RESEARCH)
     try:
         stamp=datetime.fromisoformat(row["at"])
-        if row["scope"]==_scope(snapshot,now) and timedelta(0)<=now-stamp<=timedelta(hours=2):
+        if stamp.tzinfo is not None and row["scope"]==_scope(snapshot,now) and timedelta(0) <= now.astimezone(timezone.utc)-stamp.astimezone(timezone.utc) <= timedelta(hours=24):
             return row["defence"],row["zones"]
     except (KeyError, ValueError, TypeError):
         pass
     return None
 
-def prepare_research(snapshot,now):
+def prepare_research(snapshot, now, *, clock=None):
     if not research_due(now) or _cache(snapshot,now) is not None:
         return False
     from .bot import write_state
@@ -58,7 +58,7 @@ def prepare_research(snapshot,now):
     e=Evidence(snapshot,now)
     defence,zones=_historical(snapshot,now,e)
     picks=build_key_players(MONDAY_DEFENCE,snapshot,now,e)
-    write_state(RESEARCH,{"at":now.isoformat(),"scope":_scope(snapshot,now),
+    write_state(RESEARCH,{"at": (clock() if clock else now).isoformat(),"scope":_scope(snapshot,now),
                           "defence":defence,"zones":zones,"preliminary_picks":[p["id"] for p in picks.players]})
     print("Monday defence, shot origins and elite picks researched; no publication")
     return True

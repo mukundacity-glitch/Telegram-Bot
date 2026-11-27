@@ -1,11 +1,11 @@
-"""Numbering coverage for the complete permanent 51-graphic production catalog."""
+"""Numbering coverage for 50 active and one reserved historical graphic ID."""
 from PIL import Image
 import pytest
-from vortex.graphic_numbers import CATALOG, ACTIVE_CATALOG, PRESS_REPORT_KEY, graphic_key, stamp
+from vortex.graphic_numbers import CATALOG, ACTIVE_CATALOG, RESERVED_CATALOG, PRESS_REPORT_KEY, graphic_key, stamp
 from vortex.autonomous_schedule import SLOTS, SPECIAL_EDITIONS
 from vortex.schedule import SLOT_HOURS
 
-def test_all_active_scheduled_editions_cover_exactly_51_graphic_numbers():
+def test_active_scheduled_editions_cover_catalog_except_reserved_legacy_number():
     keys = set(SLOT_HOURS)
     for slot in SLOTS:
         for weekday in range(7):
@@ -15,8 +15,12 @@ def test_all_active_scheduled_editions_cover_exactly_51_graphic_numbers():
     keys.update((PRESS_REPORT_KEY, "news-rotation-planner", "price-prediction"))
     assert None not in keys
     assert len(CATALOG) == len(set(CATALOG)) == 51
-    assert len(ACTIVE_CATALOG) == 51
+    assert len(ACTIVE_CATALOG) == 50
+    assert RESERVED_CATALOG == {'friday-rotation-planner'}
     assert keys == set(ACTIVE_CATALOG)
+    assert keys.isdisjoint(RESERVED_CATALOG)
+    assert keys | RESERVED_CATALOG == set(CATALOG)
+    assert graphic_key('friday-rotation-planner', 4) is None
     assert graphic_key('striker-watch', 0) is None
     assert graphic_key('goalkeeper-striker-watch', 0, page=1) is None
     assert CATALOG[12] == PRESS_REPORT_KEY
@@ -67,3 +71,11 @@ def test_legacy_number_migration_replaces_header_without_rescaling(tmp_path):
             assert new.info['vortex_graphic_number'] == '51/51'
             assert new.size == size
             assert ImageChops.difference(new.crop((0, band, *size)), original.crop((0, band, *size))).getbbox() is None
+
+
+def test_retired_friday_graphic_cannot_be_stamped_for_publication(tmp_path):
+    source = tmp_path / "retired.png"
+    Image.new("RGB", (640, 360)).save(source)
+    with pytest.raises(ValueError, match="No permanent graphic number"):
+        stamp(source, "friday-rotation-planner", required=True)
+    assert CATALOG.index("friday-rotation-planner") == 47

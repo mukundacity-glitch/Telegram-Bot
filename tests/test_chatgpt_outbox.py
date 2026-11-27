@@ -208,3 +208,39 @@ def test_due_outbox_drains_in_time_order_after_a_failed_item(tmp_path, monkeypat
     status = json.loads(outbox.STATUS.read_text())
     assert status['z.json']['attempts'] == 1
     assert status['a.json']['status'] == 'delivered'
+
+
+def test_explicit_press_discord_only_never_constructs_or_sends_telegram(tmp_path, monkeypatch):
+    r = record(tmp_path)
+    r.update(task='press_news', edition='verified-press-availability', delivery='discord-only', pre_deadline=True)
+    queue = tmp_path/'outbox'
+    file = queue/'press.json'
+    file.write_text(json.dumps(r))
+    for name, path in {'ROOT': tmp_path, 'QUEUE': queue, 'RECEIPTS': tmp_path/'receipts.json', 'STATUS': tmp_path/'status.json'}.items():
+        monkeypatch.setattr(outbox, name, path)
+    def forbidden():
+        pytest.fail('Telegram constructor called for Discord-only press')
+    monkeypatch.setattr(outbox, 'TelegramClient', forbidden)
+    calls = []
+    class Discord:
+        def send(self, post):
+            calls.append(post.identity)
+            return '123456'
+    assert outbox.run(NOW, discord=Discord(), manual=True, target_file=file) == 0
+    assert outbox.run(NOW, discord=Discord(), manual=True, target_file=file) == 0
+    assert len(calls) == 1
+    receipt = json.loads(outbox.RECEIPTS.read_text())[calls[0]]
+    assert receipt['discord_message_id'] == '123456'
+    assert not receipt.get('delivered') and not receipt.get('telegram_message_id')
+
+
+def test_press_discord_only_cannot_bypass_window_or_apply_to_other_slots(tmp_path):
+    r = record(tmp_path)
+    r['delivery'] = 'discord-only'
+    with pytest.raises(ValueError, match='scoped'):
+        outbox.validate(r, tmp_path, NOW)
+    r.update(task='press_news', pre_deadline=True)
+    outside = datetime(2026, 11, 3, 10, 0, tzinfo=timezone.utc)
+    r.update(generated_at=outside.isoformat(), publish_at=outside.isoformat())
+    with pytest.raises(ValueError, match='approved due publication window'):
+        outbox.validate(r, tmp_path, outside, allow_outside_window=True)

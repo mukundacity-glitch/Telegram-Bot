@@ -24,7 +24,10 @@ CATALOG = (
 )
 
 
-ACTIVE_CATALOG = CATALOG
+# The two-club Friday board was replaced by the weekly four-club news route.
+# Reserve its historical number until the Telegram cleanup; never dispatch it.
+RESERVED_CATALOG = frozenset({'friday-rotation-planner'})
+ACTIVE_CATALOG = tuple(key for key in CATALOG if key not in RESERVED_CATALOG)
 
 def graphic_key(edition, weekday, series_day=None, page=0):
     if edition == 'goalkeeper-striker-watch' and page != 0:

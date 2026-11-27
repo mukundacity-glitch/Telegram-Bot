@@ -45,12 +45,13 @@ def test_migration_finishes_existing_series_before_using_weekdays():
 
 def test_regular_and_dynamic_catalogue_are_disjoint_and_complete():
     from vortex.autonomous_schedule import schedule_catalogue, SPECIAL_EDITIONS
-    from vortex.graphic_numbers import CATALOG, PRESS_REPORT_KEY
+    from vortex.graphic_numbers import ACTIVE_CATALOG, RESERVED_CATALOG, PRESS_REPORT_KEY
     regular, dynamic = schedule_catalogue()
-    assert len(regular) == 43 and len(dynamic) == 8
+    assert len(regular) == 42 and len(dynamic) == 8
     assert set(dynamic) == set(SPECIAL_EDITIONS) | {PRESS_REPORT_KEY, 'price-prediction'}
     assert not set(regular) & set(dynamic)
-    assert set(regular) | set(dynamic) == set(CATALOG)
+    assert set(regular) | set(dynamic) == set(ACTIVE_CATALOG)
+    assert not (set(regular) | set(dynamic)) & RESERVED_CATALOG
     assert all(('weekly-analysis' if day == 1 else f'weekly-analysis-{day}') in regular for day in range(1, 8))
 
 

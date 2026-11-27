@@ -143,6 +143,16 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    from .daily_cutover import KINDS, player_ids
+    if name in KINDS:
+        from dataclasses import asdict
+        from .extra_posts import generate_extra
+        proof = getattr(e, 'daily_research', None)
+        if not proof:
+            raise RequiredInput('Verified daily research required')
+        article = generate_extra(KINDS[name], snapshot, now, excluded_ids=getattr(e, 'daily_excluded', frozenset()))
+        return Plan(slot.task, name, article.title, article.caption, gw, [], [], kind='cutover_daily',
+                    extra={'content': asdict(article), 'research': proof, 'player_ids': player_ids(article)})
     if name == 'confirmed-price-changes':
         raise RequiredInput('Legacy confirmed price-change edition is retired')
     if name == 'price-prediction':
@@ -151,9 +161,15 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         if not slot.price_update_at or datetime.fromisoformat(slot.price_update_at) != update:
             raise RequiredInput('Price update changed after scheduling')
         board = build_board(snapshot, update, getattr(e, 'price_previous', None))
+        from .fpl import upcoming_deadline
+        proof = getattr(e, 'price_research', None)
+        if not proof or not proof.get('changes'):
+            raise NoUpdate('No verified advance research and material change')
+        board['research'] = proof
+        board['target_deadline'] = upcoming_deadline(snapshot).isoformat()
         board['source_updated_at'] = updated.isoformat()
         return Plan(slot.task, name, 'PRICE CHANGE PREDICTION', board['caption'], gw,
-                    [r['player'] for r in board['rises'] + board['falls']], ['RISE']*8+['FALL']*8,
+                    [r['player'] for r in board['rises'] + board['falls']], ['RISE']*len(board['rises'])+['FALL']*len(board['falls']),
                     kind='price_prediction', extra=board)
     if name == 'gw-key-players':
         from .gw_key_players import build_key_players

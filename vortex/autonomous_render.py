@@ -399,7 +399,7 @@ def render(plan,snapshot,now,output,session=None):
     if plan.kind=='market':return _market(plan,snapshot,output,client)
     if plan.kind=='value':return [_value(plan,snapshot,output,client)]
     if plan.kind=='market15':return [_market15(plan,snapshot,output,client)]
-    if plan.kind=='legacy':
+    if plan.kind in ('legacy', 'cutover_daily'):
         from .extra_posts import ExtraPost
         return [render_checked(ExtraPost(**plan.extra['content']),snapshot,output,session=client)]
     article=as_content(plan,snapshot,now)

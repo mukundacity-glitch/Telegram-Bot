@@ -75,3 +75,8 @@ For a partial failure, retry the same immutable outbox record. Never resend a
 confirmed destination or discard an ambiguous timeout receipt.
 
 Four-midfielder comparisons must use ONE combined four-player graphic and ONE caption, never two posts.
+
+
+## Explicit Discord-only press news (cutover branch)
+
+A newly reviewed manual press-news outbox record may specify `"delivery": "discord-only"` with `"task": "press_news"`. The existing outbox worker routes that one record through the shared receipt-aware Discord transport without constructing or sending a Telegram client for it. No other task can select this route. Require one reviewed 1920×1080 PNG, a five-line caption with four hashtags, current sources, an actionable pre-deadline edition, and the intersection of the repository and press windows (05:30–20:00 ET). Manual mode does not waive these restrictions. A real Discord message ID is required to report delivery; retries preserve pending/confirmed receipts. Legacy records and other publishers retain their prior routing. This is not evidence of production deployment or a live send; the cutover remains subject to all release gates.

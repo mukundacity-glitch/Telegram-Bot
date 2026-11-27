@@ -47,6 +47,9 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
         raise ValueError('Unrecognized task or edition')
     if record.get('edition') == 'confirmed-price-changes' or (record.get('task') == 'price_changes' and record.get('edition') != 'price-prediction'):
         raise ValueError('Retired edition cannot publish')
+    destination = record.get('delivery')
+    if destination is not None and (destination != 'discord-only' or record.get('task') != 'press_news'):
+        raise ValueError('Discord-only delivery is scoped to explicitly reviewed press news')
     gw = record.get('gameweek')
     if type(gw) is not int or not 1 <= gw <= 38 or not re.fullmatch(r'20\d{2}-\d{2}', record.get('season', '')):
         raise ValueError('Verified season and GW required')
@@ -56,27 +59,72 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
     publish_at = datetime.fromisoformat(record['publish_at'].replace('Z', '+00:00'))
     if publish_at.tzinfo is None or (not allow_outside_window and not allowed(publish_at)):
         raise ValueError('Requested publication is outside the Eastern posting window')
+    if destination == 'discord-only':
+        # A manual request is not permission to bypass this slot's window.
+        def press_window(at):
+            local = at.astimezone(ET)
+            return allowed(at) and (5, 0) <= (local.hour, local.minute) < (20, 0)
+        if not press_window(now) or not press_window(publish_at) or publish_at > now:
+            raise ValueError('Discord-only press news outside approved due publication window')
+        if record.get('pre_deadline') is not True:
+            raise ValueError('Discord-only press news must be pre-deadline')
     deadline = datetime.fromisoformat(record['deadline'].replace('Z', '+00:00'))
     if deadline.tzinfo is None or (record.get('pre_deadline', True) and deadline <= now):
         raise ValueError('Actionable deadline has elapsed')
     if record.get('edition') == 'price-prediction':
-        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE
-        if record.get('task') != 'price_changes' or allow_outside_window or not deadline-PRICE_LEAD <= now < deadline-PRICE_LEAD+PRICE_GRACE:
-            raise ValueError('Price prediction outside its verified one-hour lead window')
-        if not deadline-PRICE_LEAD <= publish_at < deadline-PRICE_LEAD+PRICE_GRACE:
-            raise ValueError('Invalid price prediction publication time')
+        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE, valid_settlement
+        from .research_gap import verified_gap
         facts = record.get('facts') or {}
+        try:
+            proof = facts['research']
+            post = datetime.fromisoformat(proof['post_at'])
+            research_at = datetime.fromisoformat(proof['research_at'])
+        except (KeyError,TypeError,ValueError,AttributeError) as exc:
+            raise ValueError('Verified price research/target deadline gate failed') from exc
+        if (record.get('task') != 'price_changes' or allow_outside_window or post > deadline-PRICE_LEAD
+                or not post <= now < post+PRICE_GRACE or not post <= publish_at < post+PRICE_GRACE):
+            raise ValueError('Price prediction outside its verified pre-change publication window')
         if datetime.fromisoformat(facts['update_at']) != deadline:
             raise ValueError('Price prediction deadline mismatch')
         updated = datetime.fromisoformat(facts['source_updated_at'])
         if updated.tzinfo is None or not -timedelta(minutes=2) <= now-updated <= timedelta(minutes=45):
             raise ValueError('Price prediction source stale')
+        try:
+            proof = facts['research']
+            checked = datetime.fromisoformat(proof['checked_at'])
+            target_deadline = datetime.fromisoformat(facts['target_deadline'])
+            if (not proof['changes'] or not research_at <= checked < research_at+PRICE_GRACE
+                    or not verified_gap(proof['checked_at'], post) or not verified_gap(proof['checked_at'], now)
+                    or not valid_settlement(proof.get('observed_settlement',{}),record['season'],now)
+                    or target_deadline <= now or target_deadline <= publish_at):
+                raise ValueError('Price research/target deadline gate failed')
+        except (KeyError, TypeError, AttributeError) as exc:
+            raise ValueError('Verified price research required') from exc
+    from .daily_cutover import KINDS, validate_record as validate_daily
+    daily_identity = None
+    if record.get('edition') in KINDS:
+        if allow_outside_window or record.get('task') != 'task2':
+            raise ValueError('Daily cutover cannot bypass the scheduled window')
+        daily_identity = validate_daily(record, now, publish_at)
+    if record.get('edition') in ('player-radar-comparison', 'saturday-fdr-grid') and not preview:
+        from .research_gap import verify_settled_or_weekly_record
+        if allow_outside_window:
+            raise ValueError('Research-gated edition cannot bypass publication window')
+        daily_identity = verify_settled_or_weekly_record(record, now, publish_at)
+    from .legacy_research_gap import WINDOWS, proof_valid as legacy_proof_valid
+    if record.get('edition') in WINDOWS and not preview:
+        proof = (record.get('facts') or {}).get('research') or {}
+        if (allow_outside_window or not legacy_proof_valid(record['edition'], proof, record['season'], gw, publish_at)
+                or not legacy_proof_valid(record['edition'], proof, record['season'], gw, now)):
+            raise ValueError('Existing weekly edition lacks verified three-hour research')
     if not record.get('qa_passed') or not record.get('sources'):
         raise ValueError('Graphic QA and source evidence are required')
     caption = str(record.get('caption', ''))
     if not caption.strip() or len(caption) > 1024 or not 3 <= len(re.findall(r'(?<!\w)#[\w]+', caption)) <= 6:
         raise ValueError('Caption must fit Telegram and contain three to six hashtags')
     images = record.get('images') or []
+    if destination == 'discord-only' and (len(images) != 1 or len(caption.splitlines()) != 5 or len(re.findall(r'(?<!\w)#[\w]+', caption)) != 4):
+        raise ValueError('Discord-only press news requires one graphic and five caption lines with four hashtags')
     if record.get('edition') == 'four-midfielders' and len(images) != 1:
         raise ValueError('Four midfielders require ONE combined graphic and ONE caption')
     if record.get('edition') == 'goalkeeper-striker-watch':
@@ -113,16 +161,19 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
         if path.stat().st_size > 8_000_000:
             raise ValueError('PNG upload exceeds safe size')
         with Image.open(path) as image:
-            if image.size not in ((1920, 1080), (1080, 1920)):
-                raise ValueError('Finished art must be 1920x1080 or 1080x1920')
+            expected_sizes = ((1600, 1200),) if record.get('edition') == 'price-prediction' else ((1920, 1080), (1080, 1920))
+            if destination == 'discord-only':
+                expected_sizes = ((1920, 1080),)
+            if image.size not in expected_sizes:
+                raise ValueError('Finished art dimensions do not match the edition contract')
             image.verify()
         resolved.append(path)
     version = digest.hexdigest()[:20]
     identity = f"chatgpt:{record['season']}:GW{gw}:{record['task']}:{record['edition']}:{version}"
     if record.get('edition') == 'price-prediction':
-        # One publication per update even if forecasts or the current GW change.
-        identity = f"chatgpt:{record['season']}:price_changes:price-prediction:{deadline.astimezone(timezone.utc).isoformat()}"
-    return identity, resolved, publish_at
+        # Stable across daily updates and cosmetic changes in the same target GW.
+        identity = f"chatgpt:{record['season']}:GW{gw}:price_changes:price-prediction"
+    return daily_identity or identity, resolved, publish_at
 
 
 def queued_files(now):
@@ -130,7 +181,8 @@ def queued_files(now):
     for file in sorted(QUEUE.glob('*.json')):
         try:
             row = json.loads(file.read_text())
-            if retired_record(row) or row.get('edition') == 'price-prediction':
+            from .daily_cutover import KINDS
+            if retired_record(row) or row.get('edition') in ('price-prediction', 'player-radar-comparison', 'saturday-fdr-grid') or row.get('edition') in KINDS:
                 continue
             due = datetime.fromisoformat(row['publish_at'].replace('Z', '+00:00'))
             if due.tzinfo and due <= now:
@@ -169,15 +221,18 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
                 continue
             journal = read_state(RECEIPTS)
             keys = [f'{identity}:page{i+1}' for i in range(len(images))]
-            if all(journal.get(k, {}).get('delivered') and journal.get(k, {}).get('discord_delivered') for k in keys):
+            discord_only = record.get('delivery') == 'discord-only'
+            if all(journal.get(k, {}).get('discord_delivered') and
+                   (bool(journal.get(k, {}).get('discord_message_id')) if discord_only else journal.get(k, {}).get('delivered')) for k in keys):
                 continue
             delivery_due = True
-            telegram = telegram or TelegramClient()
+            if not discord_only:
+                telegram = telegram or TelegramClient()
             if discord is None:
                 try:
                     discord = DiscordWebhookClient()
                 except ValueError:
-                    if not telegram_primary:
+                    if discord_only or not telegram_primary:
                         raise
                     print("Discord credential unavailable; continuing Telegram delivery")
             with TemporaryDirectory() as tmp:
@@ -202,8 +257,13 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
                     post = NewsPost(identity=key, title=record['title'], caption=record['caption'],
                                     gameweek=record['gameweek'], image=image)
                     result = publish_shared(post, RECEIPTS, telegram, discord,
-                                            send_discord=discord is not None, now_iso=now.isoformat())
-                    print(f"POSTED BOTH {key} Telegram#{result.get('telegram_message_id')} Discord#{result.get('discord_message_id')}")
+                                            send_telegram=not discord_only, send_discord=discord is not None, now_iso=now.isoformat())
+                    if discord_only:
+                        if not result.get('discord_delivered') or not result.get('discord_message_id'):
+                            raise RuntimeError('Discord receipt missing; publication unconfirmed')
+                        print(f"POSTED DISCORD {key} Discord#{result['discord_message_id']}")
+                    else:
+                        print(f"POSTED BOTH {key} Telegram#{result.get('telegram_message_id')} Discord#{result.get('discord_message_id')}")
             status[file.name] = {'status': 'delivered', 'identity': identity, 'at': now.isoformat()}
             write_state(STATUS, status)
         except (ValueError, RuntimeError, KeyError, OSError, TypeError) as exc:

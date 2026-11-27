@@ -97,6 +97,21 @@ def validate_article(article: Any, snapshot: Any) -> None:
             if any(_unverified(p.get(f)) or p.get(f) is None
                    for f in ("price", "form", "opponent", "fdr", "minutes")):
                 raise RuntimeError("Incomplete verified scout stats; hold this team graphic")
+    if getattr(article, "kind", None) == "most_transferred_in":
+        rows = article.transfers
+        if [r.get("position") for r in rows] != ["GK", "DEF", "MID", "FWD"]:
+            raise RuntimeError("Missing verified position group")
+        official = {p["id"]: p for p in snapshot.players}
+        ids = set()
+        for row in rows:
+            p = row["player"]
+            pid = p["id"]
+            source = official.get(pid)
+            if (pid in ids or not source or p.get("in_event") != source.get("transfers_in_event")
+                    or not p.get("photo_code") or not p.get("club_code")
+                    or any(_unverified(p.get(k)) or p.get(k) is None for k in ("price", "ownership", "opponent"))):
+                raise RuntimeError("Invalid or repeated transfer-in player")
+            ids.add(pid)
     if getattr(article, "kind", None) == "transfer_suggestions":
         rows = article.transfers
         if len(rows) != 4:

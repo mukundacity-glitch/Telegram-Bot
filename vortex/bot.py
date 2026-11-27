@@ -216,6 +216,9 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
             # Rendering can run across a deadline; abort before external delivery.
             if datetime.now(timezone.utc) >= deadline:
                 raise RuntimeError("GW deadline elapsed during recommendation generation")
+        if not preview_only and audit is not None:
+            from .daily_cutover import reserve_legacy_article
+            reserve_legacy_article(article, snapshot, now, key, STATE / "cutover_featured_players.json")
         if dual_publish or ((daily_board or audit is not None) and not preview_only):
             # One canonical image/caption, two independent durable receipts.
             # An existing Telegram delivery is never resent solely because

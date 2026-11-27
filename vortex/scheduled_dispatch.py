@@ -78,8 +78,10 @@ def upcoming_editorial(slot, trigger):
 
 def record_price_ownership(snapshot, editorial):
     """Keep spaced observations and return a baseline old enough for comparison."""
-    from .price_prediction_board import ownership_snapshot
+    from .price_prediction_board import ownership_snapshot, observe_settlement
 
+    if observe_settlement(snapshot, editorial):
+        write_state(STATE_FILE, editorial)
     latest = editorial.get('_price_ownership') or {}
     try:
         elapsed = snapshot.fetched_at - datetime.fromisoformat(latest['at'])
@@ -102,18 +104,71 @@ def observe_during_deferral(snapshot):
         record_price_ownership(snapshot, read_state(STATE_FILE))
 
 
+def exclusive_cutover_jobs(jobs, now, research_due=False):
+    """A guarded publication must own its run; do not displace other due jobs.
+
+    Idle rotation polling is not a publication. Preserve every unrelated real
+    job and hold guarded editions if another job actually competes for this run.
+    """
+    from .unified_runner import rotation_due
+    def guarded(job):
+        return ((job[1] == 'editorial' and job[3].edition in {
+            'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
+            'most-transferred-in', 'team-decision-desk'})
+            or (job[1] == 'news' and rotation_due(now)))
+    if research_due or any(guarded(job) for job in jobs):
+        jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
+    if len(jobs) > 1:
+        return [job for job in jobs if not guarded(job)]
+    return jobs
+
+
 def run(now=None, cron=None, snapshot=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
     schedule_catalogue()
+    from .daily_cutover import slots as daily_slots, research_window, prepare as prepare_daily
+    research_slots = [slot for slot in daily_slots(now) if research_window(slot, now)]
+    if research_slots:
+        from .outbox import QUEUE
+        try:
+            snapshot = snapshot or retry_source(collect_snapshot)
+            state = read_state(STATE_FILE)
+            if getattr(snapshot, 'game_config', None) is not None:
+                record_price_ownership(snapshot, state)
+            if len(research_slots) == 1 and prepare_daily(research_slots[0], snapshot, now, state, QUEUE,
+                    read_state(STATE / 'cutover_featured_players.json'),
+                    (lambda: now) if injected_time else (lambda: datetime.now(timezone.utc))):
+                write_state(STATE_FILE, state)
+                return {'status': 'research-verified', 'new_posts': 0, 'edition': research_slots[0].edition}
+        except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+            pass
+        return {'status': 'no-new-verified-content', 'new_posts': 0}
     if not allowed(now):
+        # Earlier price check is a read-only branch on the existing heartbeat.
+        # Never publish outside the approved window.
+        if snapshot is not None and getattr(snapshot, 'game_config', None) is not None:
+            from .price_prediction_board import opportunity, RESEARCH_KEY
+            from .editorial_inputs import RequiredInput
+            state = read_state(STATE_FILE)
+            record_price_ownership(snapshot, state)
+            try:
+                _, info = opportunity(snapshot, now, state)
+                if info.get('status') == 'research-verified':
+                    write_state(STATE_FILE, state)
+                    return {'status': 'research-verified', 'new_posts': 0, 'edition': 'price-prediction'}
+            except RequiredInput:
+                pass
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),
                   'new_posts': 0, 'window': WINDOW_LABEL, 'queue_enumerated': False}
         print(json.dumps(result, sort_keys=True))
         return result
 
     previous_report = read_state(REPORT) if spacing_enabled() else {}
-    if until := blocked_until(now):
+    from .autonomous_schedule import radar_research_due, fdr_phase
+    from .unified_runner import rotation_research_due
+    dedicated_research = radar_research_due(now) or rotation_research_due(now) or fdr_phase(now) == 'research'
+    if (until := blocked_until(now)) and not dedicated_research:
         observe_during_deferral(snapshot)
         result = {**previous_report, 'status': 'deferred-telegram-spacing',
                   'at': now.isoformat(), 'eastern_at': now.astimezone(ET).isoformat(),
@@ -121,7 +176,6 @@ def run(now=None, cron=None, snapshot=None):
                   'new_posts': 0, 'telegram_messages_sent': 0}
         for field in ('posts_generated', 'posts_retried', 'posts_failed', 'posts_retry_pending'):
             result[field] = 0
-        # The queue was not inspected; zero would falsely imply it was empty.
         result.update(queue_enumerated=False, posts_due=None, posts_processed=0,
                       queue_items_unprocessed=None,
                       next_due={'post': 'due-queue', 'trigger': until.isoformat()})
@@ -148,6 +202,7 @@ def run(now=None, cron=None, snapshot=None):
     last_news_scan = previous_report.get("last_news_scan")
     source_error = None
     price_status = {'status': 'unavailable'}
+    candidate_price_research = None
     try:
         snapshot = snapshot or retry_source(collect_snapshot)
     except (RuntimeError, ValueError, OSError) as exc:
@@ -168,7 +223,13 @@ def run(now=None, cron=None, snapshot=None):
             from .editorial_inputs import RequiredInput
             evidence.price_previous = record_price_ownership(snapshot, editorial)
             try:
-                price_slot, price_status = opportunity(snapshot, now, editorial)
+                from .price_prediction_board import RESEARCH_KEY
+                candidate_state = dict(editorial)
+                price_slot, price_status = opportunity(snapshot, now, candidate_state)
+                if price_status.get('status') == 'research-verified':
+                    candidate_price_research = candidate_state.get(RESEARCH_KEY)
+                if price_slot is not None:
+                    evidence.price_research = price_status['research']
                 if price_slot is not None:
                     trigger = datetime.fromisoformat(price_status['trigger'])
                     if trigger > now:
@@ -180,6 +241,22 @@ def run(now=None, cron=None, snapshot=None):
         for slot in catchup_slots(now, editorial, gw, season, limit=None):
             jobs.append((slot_start(slot, now), 'editorial',
                          publication_key(slot, now, gw, season), slot))
+        from .autonomous_schedule import finalized_radar_slot
+        radar = finalized_radar_slot(snapshot, now, editorial)
+        from .autonomous_schedule import radar_research_valid
+        if radar is not None and radar_research_valid(editorial, radar, snapshot, now):
+            jobs.append((slot_start(radar, now), 'editorial',
+                         publication_key(radar, now, gw, season), radar))
+        from .daily_cutover import eligible as daily_eligible, day_key, RESEARCH_STATE, claimed_ids
+        from .outbox import QUEUE
+        for daily in daily_slots(now):
+            if daily_eligible(daily, snapshot, now, editorial):
+                evidence.daily_research = editorial[RESEARCH_STATE][daily.edition]
+                try:
+                    evidence.daily_excluded = claimed_ids(snapshot, now, QUEUE, read_state(STATE / 'cutover_featured_players.json'))
+                except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+                    continue  # Unsafe historical state must not block unrelated slots.
+                jobs.append((slot_start(daily, now), 'editorial', day_key(daily, now), daily))
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
             key = publication_key(series, now, gw, season)
@@ -195,7 +272,9 @@ def run(now=None, cron=None, snapshot=None):
         check_news = cron is None or cron.startswith(f'{FIRST_RUN_NEWS_MINUTE} ')
         if spacing_enabled():
             check_news = not last_news_scan or now - datetime.fromisoformat(last_news_scan) >= timedelta(hours=1)
-        if check_news or news_pending:
+        from .unified_runner import rotation_due
+        if check_news or news_pending or rotation_due(now):
+            check_news = check_news or rotation_due(now)
             retry_times = [datetime.fromisoformat(item['queued_at']) for item in news_pending.values()
                            if item.get('queued_at') and item.get('attempts', 0) < ATTEMPTS]
             jobs.append((min(retry_times, default=now), 'news', f'{run_key}:news', check_news))
@@ -207,6 +286,62 @@ def run(now=None, cron=None, snapshot=None):
             continue
         if f'outbox/{file.name}' not in owned_files:
             jobs.append((trigger, 'outbox', file.name, file))
+    # Research occupies its own heartbeat, never a competing publication run.
+    from .autonomous_schedule import radar_research_due, fdr_phase
+    from .unified_runner import rotation_research_due
+    research_window = (candidate_price_research is not None or radar_research_due(now)
+                       or rotation_research_due(now) or fdr_phase(now) == 'research')
+    original_jobs = jobs
+    jobs = exclusive_cutover_jobs(jobs, now, research_window)
+    if price_status.get('status') == 'due' and not any(
+            lane == 'editorial' and payload.edition == 'price-prediction' for _, lane, _, payload in jobs):
+        price_status['status'] = 'skipped-schedule-conflict'
+    # Do not begin research on a run that had another real publication queued,
+    # even when the exclusivity guard removed it.
+    from .unified_runner import rotation_due
+    real_jobs = [job for job in original_jobs if job[1] != 'news' or rotation_due(now)]
+    research_allowed = snapshot is not None and not real_jobs
+    # The cooldown prevents a second send, not an isolated read-only check.
+    if dedicated_research and blocked_until(now):
+        jobs = []
+    if candidate_price_research is not None:
+        if research_allowed:
+            from .price_prediction_board import RESEARCH_KEY
+            editorial[RESEARCH_KEY] = candidate_price_research
+            write_state(STATE_FILE, editorial)
+        else:
+            price_status['status'] = 'skipped-schedule-conflict'
+    if research_allowed and candidate_price_research is None:
+        from .autonomous_schedule import prepare_radar_research
+        from .unified_runner import prepare_rotation_research
+        clock = (lambda: now) if injected_time else (lambda: datetime.now(timezone.utc))
+        try:
+            if prepare_radar_research(snapshot, now, editorial, evidence, clock):
+                write_state(STATE_FILE, editorial)
+            prepare_rotation_research(snapshot, now, clock=clock)
+        except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+            pass
+    # FDR is a strict weekly phase, not a generic late catch-up.
+    from .autonomous_schedule import SATURDAY_FDR_GRID, FDR_RESEARCH_STATE, fdr_phase, fdr_research_valid
+    phase = fdr_phase(now)
+    if research_allowed and candidate_price_research is None and phase == 'research':
+        from .evening_intelligence import build_evening
+        try:
+            build_evening(SATURDAY_FDR_GRID, snapshot, now, evidence)
+            editorial[FDR_RESEARCH_STATE] = {
+                'date': local.date().isoformat(), 'gw': snapshot.gameweek(),
+                'season': season_id(snapshot, now), 'verified': True,
+                'fetched_at': snapshot.fetched_at.isoformat(),
+                'checked_at': (now if injected_time else datetime.now(timezone.utc)).isoformat(),
+            }
+            write_state(STATE_FILE, editorial)
+        except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+            pass  # No verified research means no post.
+    if phase == 'post':
+        other_due = any(lane != 'editorial' or payload != SATURDAY_FDR_GRID
+                        for _, lane, _, payload in jobs)
+        if other_due or snapshot is None or not fdr_research_valid(editorial, snapshot, now):
+            jobs = [job for job in jobs if job[1] != 'editorial' or job[3] != SATURDAY_FDR_GRID]
     rows = []
     processed_jobs = 0
     deferred = None
@@ -218,13 +353,26 @@ def run(now=None, cron=None, snapshot=None):
             deferred = (upcoming_editorial(payload, until) if lane == 'editorial' else
                         {'post': payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()})
             break
-        processed_jobs += 1
+        live_now = now if injected_time else datetime.now(timezone.utc)
+        if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
+            from .daily_cutover import eligible as daily_eligible
+            if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
+        if lane == 'editorial' and payload.edition == 'player-radar-comparison':
+            from .autonomous_schedule import radar_post_due
+            if not radar_post_due(live_now):
+                continue
+        if lane == 'editorial' and payload.edition == 'saturday-fdr-grid' and fdr_phase(live_now) != 'post':
+            continue
+        if lane == 'news' and rotation_due(now) and not rotation_due(live_now):
+            continue
         if lane == 'editorial' and payload.edition == 'price-prediction':
             from .price_prediction_board import PRICE_GRACE
             live_now = now if injected_time else datetime.now(timezone.utc)
             if live_now >= trigger + PRICE_GRACE:
                 price_status['status'] = 'missed-window'
                 continue
+        processed_jobs += 1
         post = payload.edition if lane == 'editorial' else payload[0] if lane == 'legacy' else key
         row = {'post_id': key, 'type': post, 'trigger': trigger.isoformat(),
                'timestamp': run_key, 'status': 'PENDING', 'attempts': 0}
@@ -250,7 +398,7 @@ def run(now=None, cron=None, snapshot=None):
                     error = edition.get('reason') or 'Telegram delivery incomplete; see outbox receipt'
             elif lane == 'news':
                 run_news(now=now, snapshot=snapshot, drain=True, pending_only=not payload,
-                         audit_rows=news_rows)
+                         audit_rows=news_rows, live_clock=(lambda: now) if injected_time else (lambda: datetime.now(timezone.utc)))
                 if payload:
                     last_news_scan = run_key
             else:
@@ -302,7 +450,7 @@ def run(now=None, cron=None, snapshot=None):
         print(json.dumps(row, ensure_ascii=False))
 
     upcoming = [upcoming_editorial(slot, slot_start(slot, now))
-                for slot in SLOTS if slot_start(slot, now) > now
+                for slot in (*SLOTS, *daily_slots(now)) if slot_start(slot, now) > now
                 and eligible_on(slot, now)]
     for name, (hour, minute) in SLOT_HOURS.items():
         trigger = local.replace(hour=hour, minute=minute, second=0, microsecond=0)
@@ -379,24 +527,6 @@ def main():
         try:
             snapshot = retry_source(collect_snapshot)
             now = datetime.now(timezone.utc)
-            from .weekly_position_watch import prepare_research, research_due
-            if research_due(now):
-                try:
-                    prepare_research(snapshot, now)
-                except (RuntimeError, ValueError, OSError) as error:
-                    print('Weekly position research: ' + failure_reason(error))
-            from .weekly_wildcard_vulnerability import prepare_research as tuesday_research, research_due as tuesday_due
-            if tuesday_due(now):
-                try:
-                    tuesday_research(snapshot, now)
-                except (RuntimeError, ValueError, OSError) as error:
-                    print('Tuesday combined research: ' + failure_reason(error))
-            from .monday_intelligence import prepare_research as monday_research, research_due as monday_due
-            if monday_due(now):
-                try:
-                    monday_research(snapshot, now)
-                except (RuntimeError, ValueError, OSError) as error:
-                    print('Monday intelligence research: ' + failure_reason(error))
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
                          live_clock=lambda: datetime.now(timezone.utc),
                          discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):
@@ -407,6 +537,15 @@ def main():
                     return 1
                 print('Matchday press roundup has publication priority on this pass')
                 return 0
+            # Existing weekly research gets its own overnight heartbeat;
+            # the publication lane is not executed on the same pass.
+            from . import weekly_position_watch, weekly_wildcard_vulnerability, monday_intelligence
+            for module in (weekly_position_watch, weekly_wildcard_vulnerability, monday_intelligence):
+                now = datetime.now(timezone.utc)
+                if module.research_due(now):
+                    record_price_ownership(snapshot, read_state(STATE_FILE))
+                    module.prepare_research(snapshot, now, clock=lambda: datetime.now(timezone.utc))
+                    return 0
         except (RuntimeError, ValueError, OSError) as error:
             print('Matchday press check: ' + failure_reason(error))
             press_error = True
