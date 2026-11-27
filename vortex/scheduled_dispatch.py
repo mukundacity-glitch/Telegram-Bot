@@ -374,7 +374,7 @@ def run(now=None, cron=None, snapshot=None):
                 write_state(STATE_FILE, editorial)
             prepare_rotation_research(snapshot, now, clock=clock)
             from .position_watch import prepare as prepare_watch
-            if prepare_watch(snapshot,now,editorial,evidence,clock):
+            if not dedicated_research and prepare_watch(snapshot,now,editorial,evidence,clock):
                 write_state(STATE_FILE,editorial)
             elif not dedicated_research:
                 from .post_gameweek_zones import prepare as prepare_zones
@@ -401,13 +401,18 @@ def run(now=None, cron=None, snapshot=None):
         from .evening_intelligence import build_evening
         try:
             build_evening(SATURDAY_FDR_GRID, snapshot, now, evidence)
-            editorial[FDR_RESEARCH_STATE] = {
-                'date': local.date().isoformat(), 'gw': snapshot.gameweek(),
-                'season': season_id(snapshot, now), 'verified': True,
-                'fetched_at': snapshot.fetched_at.isoformat(),
-                'checked_at': (now if injected_time else datetime.now(timezone.utc)).isoformat(),
-            }
-            write_state(STATE_FILE, editorial)
+            checked = now if injected_time else datetime.now(timezone.utc)
+            from .research_gap import reserved_research_valid, fresh_research_source
+            post = local.replace(hour=20, minute=0, second=0, microsecond=0)
+            if (reserved_research_valid(checked.isoformat(), post, 15, 28, 12)
+                    and fresh_research_source(snapshot.fetched_at.isoformat(), checked.isoformat())):
+                editorial[FDR_RESEARCH_STATE] = {
+                    'date': local.date().isoformat(), 'gw': snapshot.gameweek(),
+                    'season': season_id(snapshot, now), 'verified': True,
+                    'fetched_at': snapshot.fetched_at.isoformat(),
+                    'checked_at': checked.isoformat(),
+                }
+                write_state(STATE_FILE, editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass  # No verified research means no post.
     if phase == 'post':

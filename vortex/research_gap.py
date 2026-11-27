@@ -27,6 +27,18 @@ def reserved_research_valid(checked_at, target, start_hour, start_minute, durati
         return False
 
 
+def fresh_research_source(fetched_at, checked_at):
+    """Require a real, timezone-aware source timestamp before research completion."""
+    try:
+        fetched = datetime.fromisoformat(fetched_at.replace("Z", "+00:00"))
+        checked = datetime.fromisoformat(checked_at.replace("Z", "+00:00"))
+        return (fetched.tzinfo is not None and checked.tzinfo is not None
+                and timedelta(0) <= checked.astimezone(timezone.utc)-fetched.astimezone(timezone.utc)
+                <= timedelta(minutes=30))
+    except (ValueError, TypeError, AttributeError, OverflowError):
+        return False
+
+
 def verify_settled_or_weekly_record(record, now, publish_at):
     """Final outbox gate: no direct/manual/late replay of research-gated slots."""
     from .autonomous_schedule import ET, radar_post_due, fdr_phase, slot_start, SATURDAY_FDR_GRID
@@ -45,7 +57,8 @@ def verify_settled_or_weekly_record(record, now, publish_at):
         target = slot_start(SATURDAY_FDR_GRID, publish_at)
         valid = (fdr_phase(now) == "post" and fdr_phase(publish_at) == "post"
                  and proof.get("verified") is True and proof.get("gw") == record["gameweek"])
-        valid = valid and reserved_research_valid(proof.get("checked_at"), target, 15, 28, 12)
+        valid = (valid and reserved_research_valid(proof.get("checked_at"), target, 15, 28, 12)
+                 and fresh_research_source(proof.get("fetched_at"), proof.get("checked_at")))
         year, week, _ = local.isocalendar()
         identity = f"chatgpt:{record['season']}:{year}-W{week:02d}:task2:saturday-fdr-grid"
     else:

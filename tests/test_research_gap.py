@@ -80,3 +80,17 @@ def test_outbox_rejects_radar_proof_outside_reserved_window():
     record["facts"]["research"]["checked_at"] = post.replace(hour=6, minute=10).isoformat()
     with pytest.raises(ValueError, match="research"):
         verify_settled_or_weekly_record(record, post, post)
+
+
+@pytest.mark.parametrize("age,expected", [(-1,False),(0,True),(30,True),(31,False)])
+def test_fdr_research_requires_fresh_source_before_completion(age, expected):
+    from vortex.research_gap import fresh_research_source
+    checked = NOW
+    fetched = checked - timedelta(minutes=age)
+    assert fresh_research_source(fetched.isoformat(), checked.isoformat()) is expected
+
+
+def test_fdr_research_rejects_missing_or_naive_source():
+    from vortex.research_gap import fresh_research_source
+    assert not fresh_research_source(None, NOW.isoformat())
+    assert not fresh_research_source("2026-11-27T17:50:00", NOW.isoformat())
