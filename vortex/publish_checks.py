@@ -123,7 +123,7 @@ def render_checked(article: Any, snapshot: Any, output: Path,
     if not enriched_mode():
         return render(article, output, session=session)
     validate_article(article, snapshot)
-    if article.kind in ("fixture_guide", "daily_stats"):
+    if article.kind in ("fixture_guide", "daily_stats", "sell"):
         result = render(article, output, session=session)
     elif hasattr(article, "cards") and len(article.cards) == 1:
         from .player_profile import render_player_profile

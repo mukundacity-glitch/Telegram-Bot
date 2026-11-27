@@ -135,9 +135,10 @@ def _header(canvas: Image.Image, content: Content) -> None:
 def _footer(canvas: Image.Image, content: Content) -> None:
     draw = ImageDraw.Draw(canvas, 'RGBA')
     if content.kind in ('buy', 'sell'):
-        draw.rounded_rectangle((69, 755, 1468, 796), radius=10,
+        bottom = 781 if content.kind == 'sell' else 796
+        draw.rounded_rectangle((69, 751, 1468, bottom), radius=10,
                                fill=(9, 22, 54, 255), outline=(*CYAN, 221), width=2)
-        _center_text(draw, 764, 761, content.verdict.upper(),
+        _center_text(draw, 764, 754 if content.kind == 'sell' else 761, content.verdict.upper(),
                      _fitted_font(draw, content.verdict.upper(), 1250, 25, 19), WHITE)
         draw.rectangle((1162, 802, 1536, 864), fill=(9, 22, 54, 255))
         _center_text(draw, 1347, 806, 'Source: Official Fantasy Premier League API',
@@ -308,8 +309,8 @@ def _recommendation_layout(canvas: Image.Image, content: Content,
         _wrapped(draw, str(m.get('reason', '')), x + 17, 544, width - 34, 2, 18, GOLD)
         risk_text = str(m.get('caveat', '')).split('. ')[0]
         _safe_line(draw, 'RISK: ' + risk_text, x + 16, 588, width - 32, 15, MUTED, 13)
-        if content.kind == 'sell':
-            _safe_line(draw, 'ALT: ' + str(m.get('replacement', 'N/A')),
+        if content.kind == 'sell' and m.get('replacement'):
+            _safe_line(draw, 'ALT: ' + str(m['replacement']),
                        x + 16, 610, width - 32, 15, CYAN, 13)
 
     # Compact next-GW FDR table; doubles are explicitly two entries, blanks marked.
@@ -388,7 +389,8 @@ def render_premium(content: Content, output: Path, session: requests.Session) ->
     _footer(canvas, content)
     import os
     if content.kind == 'sell':
-        from .brand_footer import approved_social_footer
+        from .brand_footer import approved_social_footer, approved_sell_logo
+        approved_sell_logo(canvas)
         approved_social_footer(canvas)
     else:
         social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))

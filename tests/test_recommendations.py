@@ -179,17 +179,21 @@ def test_sell_uses_exact_four_highest_official_transfer_out_counts():
     assert rows[0][1] is False
     assert "transfers out" not in rows[0][2].lower()
 
-def test_sell_footer_preserves_approved_four_platform_logos(tmp_path):
-    from vortex.brand_footer import approved_social_footer, ROOT
-    from PIL import ImageChops
+def test_sell_footer_preserves_exact_approved_artwork(tmp_path):
+    from vortex.brand_footer import approved_social_footer, SELL_FOOTER, approved_sell_logo, SELL_LOGO
+    from PIL import ImageChops, ImageOps
     canvas = Image.new("RGB", (1920, 1080), "#25364a")
     before = canvas.copy()
     approved_social_footer(canvas)
-    y = round(canvas.height*.928)
+    with Image.open(SELL_FOOTER) as original:
+        height = round(canvas.width * original.height / original.width)
+        expected = original.convert("RGB").resize((1920,height), Image.Resampling.LANCZOS)
+    y = 1080-height
     assert ImageChops.difference(before.crop((0,0,1920,y)),canvas.crop((0,0,1920,y))).getbbox() is None
-    # Original lockups contain cyan Telegram, red YouTube and blue Discord pixels.
-    for i, pred in enumerate((lambda r,g,b: b>150 and g>100 and r<100,
-                              lambda r,g,b: r>160 and g<100 and b<100,
-                              lambda r,g,b: b>140 and r<160 and g<170,
-                              lambda r,g,b: min(r,g,b)>210)):
-        assert any(pred(*pixel) for pixel in canvas.crop((i*480,y,(i+1)*480,1080)).getdata())
+    assert ImageChops.difference(expected,canvas.crop((0,y,1920,1080))).getbbox() is None
+    approved_sell_logo(canvas)
+    w,h = round(1920*314/1536), round(1080*145/864)
+    with Image.open(SELL_LOGO) as original:
+        logo = ImageOps.contain(original.convert("RGB"), (w-24,h-16), Image.Resampling.LANCZOS)
+    x0,y0=(w-logo.width)//2,(h-logo.height)//2
+    assert ImageChops.difference(logo, canvas.crop((x0,y0,x0+logo.width,y0+logo.height))).getbbox() is None

@@ -74,39 +74,34 @@ def apply_footer(output: Path, *, verdict: str = "",
     return output
 
 
-def approved_social_footer(canvas):
-    """Use the approved original social icon/handle artwork, not typed substitutes.
+# Original user-approved artwork, preserved byte-for-byte from the retired
+# timetable's brand assets. No timetable generator or schedule is restored.
+SELL_LOGO = ROOT / "assets/brand/sell-approved-logo.jpg"
+SELL_FOOTER = ROOT / "assets/brand/sell-approved-footer.jpg"
 
-    The four original lockups are distributed across the footer without
-    stretching their logos or altering the player's cards and fixture bands.
-    """
-    asset = ROOT / "assets" / "brand" / "midfield-watch-footer.png"
-    if not asset.is_file():
-        raise FileNotFoundError("Approved logo-and-handle footer artwork missing")
+def _approved_asset(path, expected):
+    import hashlib
+    raw = path.read_bytes()
+    digest = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+    if digest != expected:
+        raise RuntimeError("Approved SELL branding asset changed; hold graphic")
+    with Image.open(path) as source:
+        return source.convert("RGB")
+
+def approved_sell_logo(canvas):
+    """Place the exact green/gold lion wordmark in the existing left masthead."""
+    logo = _approved_asset(SELL_LOGO, "a6871f20a9a901570df252a24496b445881dd86b")
     w, h = canvas.size
-    y = round(h * .928)
-    band = h - y
-    draw = ImageDraw.Draw(canvas)
-    draw.rectangle((0, y, w, h), fill="#090e28")
-    inset = max(4, round(w * .014))
-    draw.rounded_rectangle((inset, y+2, w-inset, h-3), radius=max(7, band//3),
-                           fill="#100b28", outline="#f7b946", width=max(1, w//640))
-    with Image.open(asset) as source:
-        original = source.convert("RGB")
-        # Exact source artwork: Telegram, YouTube, Discord, X (846 x 83).
-        spans = ((19, 282), (299, 468), (484, 638), (653, 828))
-        for index, (left, right) in enumerate(spans):
-            cell_left = inset + (w-2*inset)*index//4
-            cell_right = inset + (w-2*inset)*(index+1)//4
-            crop = original.crop((round(left*original.width/846),
-                                  round(19*original.height/83),
-                                  round(right*original.width/846),
-                                  round(63*original.height/83)))
-            lockup = ImageOps.contain(crop, (cell_right-cell_left-12, max(1,band-15)),
-                                       Image.Resampling.LANCZOS)
-            canvas.paste(lockup, ((cell_left+cell_right-lockup.width)//2,
-                                  y+(band-lockup.height)//2))
-            if index:
-                draw.line((cell_left, y+band//5, cell_left, h-band//5),
-                          fill="#f7b946", width=max(1,w//950))
+    box_w, box_h = round(w*314/1536), round(h*145/864)
+    ImageDraw.Draw(canvas).rectangle((0,0,box_w-1,box_h-1), fill="#091636")
+    logo = ImageOps.contain(logo, (box_w-24, box_h-16), Image.Resampling.LANCZOS)
+    canvas.paste(logo, ((box_w-logo.width)//2, (box_h-logo.height)//2))
+    return canvas
+
+def approved_social_footer(canvas):
+    """Reuse the exact full-width YouTube / X / Telegram / Instagram strip."""
+    original = _approved_asset(SELL_FOOTER, "2f78e78c6bf29b02df6b10a505485bca2f95842f")
+    w, h = canvas.size
+    height = round(w * original.height / original.width)
+    canvas.paste(original.resize((w,height), Image.Resampling.LANCZOS), (0,h-height))
     return canvas
