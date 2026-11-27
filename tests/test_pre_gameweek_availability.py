@@ -52,5 +52,6 @@ def test_five_tier_renderer_keeps_unverified_forecasts_blank(tmp_path,monkeypatc
         assert im.size==(1920,1080)
         im.verify()
     assert seen.count("xPts1 —")==seen.count("xPts5 —")==25
-    assert all(seen.count(action)==6 for action in a.ACTIONS)
+    # VALUE also occurs in the two-line VALUE PLAYS row heading.
+    assert all(seen.count(action)==(7 if action=="VALUE" else 6) for action in a.ACTIONS)
     assert seen.count("AAA")==125

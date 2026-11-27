@@ -84,6 +84,9 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 
 - Friday, 27 November 2026 at 11:03:45 UTC — Slot 9 code and read-only CI committed (0ef26e3). Added per-card action badges, explicit researched sell/avoid/hold identity matching, final official price/availability/fixture revalidation and mutual Slot 7/8/9 reservations. Latest regression results pending.
 
+- Friday, 27 November 2026 at 11:04:28 UTC — Slot 9 refinement commit 6e4c3af.
+- Friday, 27 November 2026 at 11:07:02.4649103 UTC — 485 passed, 1 failed on 6e4c3af (run 45987422667). Root cause: test counted VALUE as six labels, but the tier title VALUE PLAYS includes a seventh literal VALUE. Corrected assertion preserves all 25 action badges and tier headings. Fresh CI required.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.
