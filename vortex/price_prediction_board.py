@@ -85,7 +85,9 @@ def material_changes(previous, current):
     changes = []
     for pid, new in current.items():
         old = previous.get(pid)
-        if not isinstance(old, dict) or old.get("code") != new.get("code"):
+        code = new.get("code")
+        if (not isinstance(old, dict) or type(code) is not int or code <= 0
+                or type(old.get("code")) is not int or old["code"] != code):
             continue
         fields = [key for key in ("cost", "threshold", "band")
                   if old.get(key) is not None and new.get(key) is not None and old[key] != new[key]]
@@ -317,6 +319,9 @@ def opportunity(snapshot, now, state):
     if now >= trigger+PRICE_GRACE:
         return None, {**info, "status":"skipped-schedule-conflict" if conflicts else "missed-window"}
     if research_at <= now < research_at+PRICE_GRACE:
+        checked_at = max(now, snapshot.fetched_at)
+        if checked_at >= research_at+PRICE_GRACE:
+            return None, {**info, "status":"research-window-expired"}
         prior = state.get(RESEARCH_KEY,{})
         if prior.get("update_at") != update.isoformat() or prior.get("post_at") != trigger.isoformat() or prior.get("gw") != snapshot.gameweek() or prior.get("season") != season:
             state[RESEARCH_KEY] = {"update_at":update.isoformat(),"gw":snapshot.gameweek(),

@@ -319,3 +319,34 @@ def test_price_delivery_rechecks_durable_evidence_and_live_deadline(world, monke
     monkeypatch.setattr("vortex.fpl.upcoming_deadline",lambda _:deadline+timedelta(hours=1))
     with pytest.raises(ValueError,match="target Gameweek changed"):
         verify_live_publication(record,at(posting),state,posting)
+
+
+def test_cost_delta_requires_verified_stable_player_code():
+    from vortex.price_prediction_board import material_changes, genuine_cost_changes
+    for old, new in ((None, None), (0, 0), (True, 1), (10, 11), ("10", "10")):
+        before = {"1": {"code": old, "cost": 50}}
+        after = {"1": {"code": new, "cost": 51}}
+        assert not genuine_cost_changes(material_changes(before, after))
+    assert genuine_cost_changes(material_changes(
+        {"1": {"code": 10, "cost": 50}}, {"1": {"code": 10, "cost": 51}}))
+
+
+def test_late_price_snapshot_does_not_record_reserved_research(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity, RESEARCH_KEY
+    from vortex import autonomous_schedule, schedule
+    s, _ = populated(world)
+    update = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    research = update - timedelta(hours=4, minutes=15)
+    posting = update - timedelta(hours=1)
+    late = research + timedelta(minutes=15)
+    monkeypatch.setattr(autonomous_schedule, "SLOTS", ())
+    monkeypatch.setattr(schedule, "SLOT_HOURS", {})
+    monkeypatch.setattr(autonomous_schedule, "special_triggers", lambda *_: [])
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline", lambda _: update+timedelta(days=1))
+    s = replace(s, fetched_at=late, game_config={
+        "settings": {"price_change_deadlines": [update.isoformat()]},
+        "status": {"price_change_last_updated": late.isoformat()}})
+    state = {}
+    slot, info = opportunity(s, research, state)
+    assert slot is None and info["status"] == "research-window-expired"
+    assert RESEARCH_KEY not in state
