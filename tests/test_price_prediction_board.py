@@ -281,3 +281,41 @@ def test_price_respects_persisted_dynamic_reservations(world, monkeypatch):
     research,post,conflicts=price_schedule(s,now,update,state)
     assert post is None or post!=now
     assert any("sweeper" in name for name,_ in conflicts)
+
+
+
+def test_price_delivery_rechecks_durable_evidence_and_live_deadline(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity, verify_live_publication, SETTLEMENT_KEY, RESEARCH_KEY
+    from vortex.autonomous_schedule import season_id
+    from vortex import autonomous_schedule, schedule
+    s,_=populated(world)
+    update=datetime(2026,11,27,0,tzinfo=timezone.utc)
+    research=update-timedelta(hours=4,minutes=15)
+    posting=update-timedelta(hours=1)
+    deadline=update+timedelta(days=1)
+    monkeypatch.setattr(autonomous_schedule,"SLOTS",())
+    monkeypatch.setattr(schedule,"SLOT_HOURS",{})
+    monkeypatch.setattr(autonomous_schedule,"special_triggers",lambda *_:[])
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline",lambda _:deadline)
+    def at(instant):
+        return replace(s,fetched_at=instant,game_config={
+            "settings":{"price_change_deadlines":[update.isoformat()]},
+            "status":{"price_change_last_updated":instant.isoformat()}})
+    season=season_id(s,posting)
+    state={SETTLEMENT_KEY:settlement_fixture(update,season)}
+    assert opportunity(at(research),research,state)[1]["status"]=="research-verified"
+    s.players[0]["now_cost"]+=1
+    slot,info=opportunity(at(posting),posting,state)
+    assert slot is not None
+    record={"season":season,"gameweek":s.gameweek(),"facts":{
+        "update_at":update.isoformat(),"target_deadline":deadline.isoformat(),"research":info["research"]}}
+    verify_live_publication(record,at(posting),state,posting)
+    with pytest.raises(ValueError,match="persisted settlement evidence"):
+        verify_live_publication(record,at(posting),{SETTLEMENT_KEY:state[SETTLEMENT_KEY]},posting)
+    s.players[0]["now_cost"]-=1
+    with pytest.raises(ValueError,match="persisted settlement evidence"):
+        verify_live_publication(record,at(posting),state,posting)
+    s.players[0]["now_cost"]+=1
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline",lambda _:deadline+timedelta(hours=1))
+    with pytest.raises(ValueError,match="target Gameweek changed"):
+        verify_live_publication(record,at(posting),state,posting)

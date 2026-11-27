@@ -243,6 +243,16 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
                    (bool(journal.get(k, {}).get('discord_message_id')) if discord_only else journal.get(k, {}).get('delivered')) for k in keys):
                 continue
             delivery_due = True
+            if record.get('edition') == 'price-prediction':
+                # Recheck actual durable research and official data before any
+                # platform client is created. A staged JSON is not sufficient.
+                from .price_prediction_board import verify_live_publication
+                from .autonomous_runner import STATE_FILE
+                from .fpl import collect_snapshot
+                fresh = collect_snapshot()
+                now = max(now, fresh.fetched_at, datetime.now(timezone.utc))
+                verify_live_publication(record, fresh, read_state(STATE_FILE), now)
+                validate(record, root=ROOT, now=now, allow_outside_window=manual)
             if not discord_only:
                 telegram = telegram or TelegramClient()
             if discord is None:

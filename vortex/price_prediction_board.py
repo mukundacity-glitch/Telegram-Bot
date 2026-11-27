@@ -338,6 +338,43 @@ def opportunity(snapshot, now, state):
     return slot,{**info,"status":"due","research":proof}
 
 
+def verify_live_publication(record, snapshot, state, now):
+    """Recheck persisted research and the live official clock before sending.
+
+    An outbox file alone is not evidence of an actual research run. Do not
+    recreate the research timestamp or shift the publication window.
+    """
+    from .autonomous_schedule import season_id
+    from .fpl import upcoming_deadline
+    facts = record.get("facts") or {}
+    try:
+        fresh = max(now, snapshot.fetched_at)
+        update, _ = official_clock({"game_config": snapshot.game_config}, fresh)
+        update = update.astimezone(timezone.utc)
+        if (snapshot.gameweek() != record["gameweek"]
+                or season_id(snapshot, fresh) != record["season"]
+                or update != datetime.fromisoformat(facts["update_at"])
+                or upcoming_deadline(snapshot) != datetime.fromisoformat(facts["target_deadline"])
+                or fresh >= upcoming_deadline(snapshot)):
+            raise ValueError("Official price clock or target Gameweek changed")
+        research_at, post_at, _ = price_schedule(snapshot, fresh, update, state)
+        if (research_at is None or post_at is None
+                or not post_at <= fresh < post_at + PRICE_GRACE):
+            raise ValueError("Price schedule is no longer conflict-free or timely")
+        research_at = research_at.astimezone(timezone.utc)
+        post_at = post_at.astimezone(timezone.utc)
+        proof = research_evidence(snapshot, fresh, update, state,
+                                  research_at=research_at, post_at=post_at)
+        observed = state.get(SETTLEMENT_KEY, {})
+        if not proof or not proof["changes"] or not valid_settlement(observed, record["season"], fresh):
+            raise ValueError("No genuine live price change with persisted settlement evidence")
+        proof["observed_settlement"] = observed
+        if proof != facts["research"]:
+            raise ValueError("Price research proof differs from persisted live evidence")
+    except (RequiredInput, KeyError, TypeError, AttributeError, OverflowError) as exc:
+        raise ValueError("Live price publication verification failed") from exc
+
+
 def numeric(value):
     if isinstance(value, bool):
         return None
