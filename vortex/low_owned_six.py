@@ -32,15 +32,21 @@ def build_low_owned(slot,snapshot,now,evidence):
         if not fixtures or any(r[2] not in (1,2,3,4,5) for r in fixtures):
             continue
         fdr=sum(r[2] for r in fixtures)/len(fixtures)
-        candidates.append((forecast,fdr,int(p.get('minutes') or 0),p))
+        # Require three distinct recent completed matches of at least 64 minutes
+        # before ranking. Missing history is not a license to invent a starter.
+        recent=evidence.recent(p)
+        if (len(recent)!=3 or any(type(r.get('minutes')) is not int or r['minutes']<64 for r in recent)
+                or any(type(r.get('fixture')) is not int for r in recent)
+                or len({r['fixture'] for r in recent})!=3):
+            continue
+        candidates.append((forecast,fdr,int(p.get('minutes') or 0),p,recent))
     # ep_next is already a gameweek forecast. Keep its source value intact,
     # including doubles; use official fixture difficulty only to break ties.
     candidates.sort(key=lambda row:(-row[0],row[1],-row[2],row[3]['id']))
     if len(candidates)<6:
-        raise RequiredInput('Six available under-10%-owned players with positive official ep_next and verified fixtures required')
+        raise RequiredInput('Six available under-10%-owned players with three recent 64+ minute appearances, positive official ep_next and verified fixtures required')
     selected=candidates[:6];players=[r[3] for r in selected];details={}
-    for forecast,fdr,_,p in selected:
-        recent=evidence.recent(p)
+    for forecast,fdr,_,p,recent in selected:
         metrics=player_metrics(snapshot,p,recent)
         points=[number(r.get('total_points')) for r in recent]
         minutes=[number(r.get('minutes')) for r in recent]
@@ -60,6 +66,7 @@ def build_low_owned(slot,snapshot,now,evidence):
                     'details':details,'forecast_source':'official FPL bootstrap-static ep_next',
                     'ranking':'ep_next descending; mean official next-GW FDR ascending; minutes descending; official ID',
                     'ownership_filter':'selected_by_percent < 10; status a; chance null or 100',
+                    'minutes_filter':'three distinct recent completed matches, each >=64 minutes',
                     'generated_at':now.isoformat()})
 
 

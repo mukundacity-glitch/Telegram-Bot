@@ -58,10 +58,27 @@ def test_double_fixture_does_not_multiply_source_forecast(world):
     assert len(plan.extra['details'][str(p['id'])]['fixtures'])==2
 
 
-def test_missing_history_is_explicitly_missing_not_zero(world):
+def test_missing_history_holds_instead_of_inventing_starter_security(world):
     s,now,e,_=world;e.recent=lambda p:[]
+    with pytest.raises(RequiredInput,match=r'64\+ minute'):
+        build(slot(),s,now,e)
+
+
+def test_recent_64_minute_gate_applies_before_ranking(world):
+    s,now,e,_=world
+    high=s.players[0]
+    high.update(selected_by_percent='1',ep_next='99')
+    original=e.recent
+    def recent(p):
+        rows=original(p)
+        if p['id']==high['id']:
+            rows[0]['minutes']=63
+        return rows
+    e.recent=recent
     plan=build(slot(),s,now,e)
-    assert all(r['l3_points'] is None and r['l3_minutes'] is None for r in plan.extra['details'].values())
+    assert high not in plan.players
+    assert all(len(row['recent'])==3 and min(r['minutes'] for r in row['recent'])>=64
+               for row in plan.extra['details'].values())
 
 
 def test_six_cards_render_as_one_landscape_graphic(world,tmp_path,monkeypatch):
