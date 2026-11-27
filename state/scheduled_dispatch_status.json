@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-26T23:14:12.239568+00:00",
-  "eastern_at": "2026-11-26T18:14:12.239568-05:00",
+  "at": "2026-11-27T00:00:07.363185+00:00",
+  "eastern_at": "2026-11-26T19:00:07.363185-05:00",
   "last_news_scan": "2026-11-26T11:15:57.539679+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "news",
-    "trigger": "2026-11-26T23:59:16.160517+00:00"
+    "trigger": "2026-11-27T00:45:11.346665+00:00"
   },
-  "next_telegram_at": "2026-11-26T23:59:16.160517+00:00",
+  "next_telegram_at": "2026-11-27T00:45:11.346665+00:00",
   "pending_triggers": [
     {
       "post": "start-bench-board",
@@ -25,21 +25,8 @@
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
-    "conflicts": [
-      [
-        "review",
-        "2026-11-26T17:30:00-05:00"
-      ],
-      [
-        "sell",
-        "2026-11-26T18:30:00-05:00"
-      ]
-    ],
-    "post": "price-prediction",
-    "source_updated_at": "2026-11-26T23:05:13.628255+00:00",
-    "status": "skipped-schedule-conflict",
-    "trigger": "2026-11-26T23:00:00+00:00",
-    "update_at": "2026-11-27T00:00:00+00:00"
+    "reason": "Official FPL price clock unavailable or stale",
+    "status": "unavailable"
   },
   "scheduled_cron": "28 * * * *",
   "source_error": null,
