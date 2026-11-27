@@ -20,7 +20,9 @@
   },
   "2026:GW12": {
     "checked": "2026-11-27T15:39:35.807847+00:00",
-    "discord_sending": true,
+    "discord_message": "1575926746975567932",
+    "discord_sending": false,
+    "discord_version": "9c27d1e8fb74b92f09e973150ebf34155d7faedd4b2d35b08a6fc0f5c006269c",
     "facts": {},
     "message": 650,
     "posted_at": "2026-11-27T17:30:05.403325+00:00",
