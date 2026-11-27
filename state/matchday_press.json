@@ -19,9 +19,9 @@
     "version": "231a4ae587dc048178aef749594415b9f104154c3b14e9b19d5cf5c8dc9daa8a"
   },
   "2026:GW12": {
-    "checked": "2026-11-27T14:07:38.561511+00:00",
+    "checked": "2026-11-27T15:39:35.807847+00:00",
     "facts": {},
-    "schedule_checked": "2026-11-27T14:54:19.483007+00:00",
+    "schedule_checked": "2026-11-27T15:39:35.807847+00:00",
     "timetable": {
       "2026-11-26": {
         "slots": [
@@ -110,7 +110,7 @@
           ]
         ],
         "summary": [
-          "Arsenal: Arteta unsure whether Raya will be fit but goalkeeper does train",
+          "Arsenal: Arteta unsure whether Raya will be fit but goalkeeper does train, Saliba to get mins this week",
           "Manchester United: Fernandes to be assessed after virus, Baleba out, Rashford on the grass",
           "Liverpool: Gakpo out, Gravenberch doubtful, Munoz not seriously injured",
           "Manchester City: Semenyo close to returning. no new concerns",
@@ -131,9 +131,9 @@
     }
   },
   "2026:GW13": {
-    "checked": "2026-11-27T14:07:38.561511+00:00",
+    "checked": "2026-11-27T15:39:35.807847+00:00",
     "facts": {},
-    "schedule_checked": "2026-11-27T14:54:19.483007+00:00",
+    "schedule_checked": "2026-11-27T15:39:35.807847+00:00",
     "timetable": {}
   }
 }

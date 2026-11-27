@@ -1,23 +1,18 @@
 {
-  "at": "2026-11-27T14:54:24.236702+00:00",
-  "eastern_at": "2026-11-27T09:54:24.236702-05:00",
+  "at": "2026-11-27T15:41:18.941751+00:00",
+  "eastern_at": "2026-11-27T10:41:18.941751-05:00",
   "last_news_scan": "2026-11-27T10:30:06.565372+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "news",
-    "trigger": "2026-11-27T15:39:34.947562+00:00"
+    "trigger": "2026-11-27T16:26:22.832720+00:00"
   },
-  "next_telegram_at": "2026-11-27T15:39:34.947562+00:00",
-  "pending_triggers": [
-    {
-      "post": "final-gameweek-news",
-      "trigger": "2026-11-27T15:00:00+00:00"
-    }
-  ],
+  "next_telegram_at": "2026-11-27T16:26:22.832720+00:00",
+  "pending_triggers": [],
   "posts_due": 2,
   "posts_failed": 0,
   "posts_generated": 1,
-  "posts_pending_trigger": 1,
+  "posts_pending_trigger": 0,
   "posts_processed": 1,
   "posts_retried": 0,
   "posts_retry_pending": 0,
@@ -38,7 +33,7 @@
     ],
     "post": "price-prediction",
     "research_at": "2026-11-27T07:43:00+00:00",
-    "source_updated_at": "2026-11-27T14:35:15.432891+00:00",
+    "source_updated_at": "2026-11-27T15:20:16.748512+00:00",
     "status": "no-actionable-gameweek",
     "trigger": "2026-11-27T21:30:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
