@@ -34,6 +34,9 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
+    if plan.kind == 'weekly_position_watch':
+        return {'edition':plan.edition,'player_ids':[p['id'] for p in plan.players],
+                'extra':canonical(plan.extra)}
     if plan.kind == 'cutover_daily':
         return {'edition': plan.edition, 'player_ids': plan.extra['player_ids'],
                 'research': plan.extra['research'], 'content': canonical(plan.extra['content'])}
@@ -53,6 +56,12 @@ def facts(plan,snapshot,evidence):
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
     from .legacy_research_gap import WINDOWS, read_proof
     legacy_proof = None
+    if slot.edition == 'weekly-position-watch':
+        from .position_watch import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Position Watch requires verified scheduled release')
+        evidence.position_watch_research = state[STATE_KEY]
     if slot.edition in WINDOWS and not audit:
         legacy_proof = read_proof(slot.edition, snapshot, now, evidence)
         if not legacy_proof:
@@ -85,6 +94,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
     if plan.kind == 'monday_intelligence':
         deadline = min(deadline, upcoming_deadline(snapshot)) if upcoming_deadline(snapshot) else None
+    if plan.kind == 'weekly_position_watch':
+        deadline = datetime.fromisoformat(plan.extra['research']['deadline'])
     if plan.kind == 'price_prediction':
         deadline = datetime.fromisoformat(plan.extra['update_at'])
     if deadline is None or deadline <= datetime.now(timezone.utc):
@@ -144,6 +155,8 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     now=now or datetime.now(timezone.utc)
     if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition, PASSING_CREATORS.edition, *(s.edition for s in EVENING_WATCH_SLOTS), *(s.edition for s in SATURDAY_BOARDS)):
         raise ValueError('This post is available through the due queue only')
+    if edition == 'weekly-position-watch':
+        raise ValueError('Position Watch is available only through the verified due queue')
     if edition == 'price-prediction':
         raise ValueError('Price prediction is available only through the API-clock due queue')
     if edition in RETIRED_EDITIONS:

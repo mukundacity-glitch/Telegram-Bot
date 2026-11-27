@@ -143,6 +143,12 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'weekly-position-watch':
+        from .position_watch import build as build_watch, RELEASE_VERIFIED
+        proof = getattr(e,'position_watch_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Position Watch release/research gate is closed')
+        return build_watch(slot,snapshot,now,e,proof)
     from .daily_cutover import KINDS, player_ids
     if name in KINDS:
         from dataclasses import asdict

@@ -375,6 +375,9 @@ def render(plan,snapshot,now,output,session=None):
     if plan.kind in ('rotation_value', 'rotation_transfers'):
         from .afternoon_rotation_render import render_players
         return [render_players(plan, snapshot, output, client)]
+    if plan.kind == 'weekly_position_watch':
+        from .position_watch_render import render_position_watch
+        return [render_position_watch(plan,snapshot,output,client)]
     if plan.kind == 'combined_position_watch':
         from .weekly_position_watch import render_combined
         return [render_combined(plan, snapshot, output, client)]

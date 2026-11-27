@@ -114,7 +114,7 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
     def guarded(job):
         return ((job[1] == 'editorial' and job[3].edition in {
             'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
-            'most-transferred-in', 'team-decision-desk'})
+            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch'})
             or (job[1] == 'news' and rotation_due(now)))
     if research_due or any(guarded(job) for job in jobs):
         jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
@@ -145,6 +145,19 @@ def run(now=None, cron=None, snapshot=None):
             pass
         return {'status': 'no-new-verified-content', 'new_posts': 0}
     if not allowed(now):
+        # Slot 7 research can fall overnight. Existing press/legacy priority
+        # in main runs before this branch; no publication is allowed here.
+        from .position_watch import RELEASE_VERIFIED, prepare as prepare_watch
+        if RELEASE_VERIFIED and snapshot is not None:
+            state = read_state(STATE_FILE)
+            if not list(queued_files(now)) and not read_state(NEWS_PENDING):
+                try:
+                    if prepare_watch(snapshot,now,state,Evidence(snapshot,now),
+                                     (lambda:now) if injected_time else (lambda:datetime.now(timezone.utc))):
+                        write_state(STATE_FILE,state)
+                        return {'status':'research-verified','new_posts':0,'edition':'weekly-position-watch'}
+                except (RuntimeError,ValueError,KeyError,TypeError,OSError):
+                    pass
         # Earlier price check is a read-only branch on the existing heartbeat.
         # Never publish outside the approved window.
         if snapshot is not None and getattr(snapshot, 'game_config', None) is not None:
@@ -257,6 +270,12 @@ def run(now=None, cron=None, snapshot=None):
                 except (RuntimeError, ValueError, KeyError, TypeError, OSError):
                     continue  # Unsafe historical state must not block unrelated slots.
                 jobs.append((slot_start(daily, now), 'editorial', day_key(daily, now), daily))
+        from .position_watch import eligible as position_eligible, STATE_KEY as POSITION_STATE
+        position = position_eligible(snapshot,now,editorial)
+        if position is not None:
+            evidence.position_watch_research = editorial[POSITION_STATE]
+            jobs.append((datetime.fromisoformat(editorial[POSITION_STATE]['post_at']),
+                         'editorial', publication_key(position,now,gw,season),position))
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
             key = publication_key(series, now, gw, season)
@@ -319,6 +338,9 @@ def run(now=None, cron=None, snapshot=None):
             if prepare_radar_research(snapshot, now, editorial, evidence, clock):
                 write_state(STATE_FILE, editorial)
             prepare_rotation_research(snapshot, now, clock=clock)
+            from .position_watch import prepare as prepare_watch
+            if prepare_watch(snapshot,now,editorial,evidence,clock):
+                write_state(STATE_FILE,editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass
     # FDR is a strict weekly phase, not a generic late catch-up.
@@ -357,6 +379,10 @@ def run(now=None, cron=None, snapshot=None):
         if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
             from .daily_cutover import eligible as daily_eligible
             if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
+        if lane == 'editorial' and payload.edition == 'weekly-position-watch':
+            from .position_watch import eligible as position_eligible
+            if position_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
                 continue
         if lane == 'editorial' and payload.edition == 'player-radar-comparison':
             from .autonomous_schedule import radar_post_due

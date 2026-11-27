@@ -119,6 +119,9 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.edition == 'weekly-position-watch':
+        from .position_watch import key
+        return key(season, gw)
     if slot.edition == 'player-radar-comparison' and slot.series_gw is not None:
         return f'{season}:GW{slot.series_gw}:task1:player-radar-comparison'
     if slot.edition == 'price-prediction':

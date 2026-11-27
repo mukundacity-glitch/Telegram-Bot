@@ -110,6 +110,10 @@ jobs:
           FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
           FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
         run: python -m vortex.six_slot_live_audit
+      - name: Verify Slot 7 landscape with live official data (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 4
+        run: python -m vortex.position_watch
       - name: Archive six-slot read-only verification
         if: always() && github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
         uses: actions/upload-artifact@v4
