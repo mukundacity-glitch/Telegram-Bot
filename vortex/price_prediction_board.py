@@ -524,7 +524,7 @@ def price_board_footer(snapshot, update_at):
 def render_board(snapshot, board, output, session):
     """The supplied 4:3 two-panel price reference, with current official data."""
     from PIL import Image, ImageDraw
-    from .brand_footer import MASTER, verify_exact_master
+    from .brand_footer import verify_exact_master, approved_sell_logo, approved_social_footer
     from .comparison_board import contain, text
     from .matchup import _image_from_url, _media
 
@@ -535,9 +535,7 @@ def render_board(snapshot, board, output, session):
     green, red = "#008553", "#B91F45"
     canvas = Image.new("RGB", (W, H), purple)
     d = ImageDraw.Draw(canvas)
-    with Image.open(MASTER) as original:
-        master = original.convert("RGB").resize((1536,864))
-        canvas.paste(master.crop((0,0,310,80)).resize((158,41),Image.Resampling.LANCZOS),(34,37))
+    approved_sell_logo(canvas, box=(0,0,215,151), matte=purple)
     def label(value, x, y, width, size, color=white, center=False, minimum=14):
         text(d, value, x, y, width, size=size, color=color, minimum=minimum, center=center)
 
@@ -549,7 +547,7 @@ def render_board(snapshot, board, output, session):
     cache = {}
     def side(rows, x, accent, heading, pale):
         width = 756
-        d.rounded_rectangle((x,160,x+width,1122),radius=20,fill=white,outline=cyan,width=2)
+        d.rounded_rectangle((x,160,x+width,1035),radius=20,fill=white,outline=cyan,width=2)
         d.rounded_rectangle((x,160,x+width,216),radius=18,fill=accent)
         d.rectangle((x,192,x+width,216),fill=accent)
         label(heading,x+22,171,width-44,31)
@@ -560,7 +558,7 @@ def render_board(snapshot, board, output, session):
             label("No verified candidates",x+25,280,width-50,24,muted,True)
         for index, row in enumerate(rows[:10]):
             p = row["player"]
-            y = 260 + index*84
+            y = 260 + index*77
             d.rounded_rectangle((x+12,y,x+width-12,y+76),radius=11,fill=pale,outline="#DDD6E0",width=1)
             d.rectangle((x+12,y,x+19,y+76),fill=accent)
             code = snapshot.photo_code(p)
@@ -590,8 +588,9 @@ def render_board(snapshot, board, output, session):
     side(board["rises"],28,green,"▲ PRICE RISES","#F9FCFA")
     side(board["falls"],816,red,"▼ PRICE DROPS","#FFF9FA")
     source_footer, timing_footer = price_board_footer(snapshot, update)
-    label(source_footer,30,1136,1540,19,white,True)
-    label(timing_footer,30,1166,1540,17,emerald,True)
+    label(source_footer,30,1046,1540,19,white,True)
+    label(timing_footer,30,1076,1540,17,emerald,True)
+    approved_social_footer(canvas, reserved_height=80)
     output=Path(output)
     output.parent.mkdir(parents=True,exist_ok=True)
     canvas.save(output,"PNG",optimize=True)
