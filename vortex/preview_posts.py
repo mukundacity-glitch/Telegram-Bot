@@ -56,6 +56,24 @@ def main() -> int:
     except Exception as exc:
         failures += 1
         print(f"COMBINED WATCH preview unavailable: {type(exc).__name__}: {str(exc)[:180]}", file=sys.stderr)
+    try:
+        from .autonomous_content import build, Evidence
+        from .autonomous_schedule import VULNERABILITY
+        from .autonomous_render import render as render_plan
+        from .graphic_numbers import stamp
+        now = datetime.now(timezone.utc)
+        evidence = Evidence(snapshot, now)
+        plan = build(VULNERABILITY, snapshot, now, evidence)
+        path = folder / f"FPLVortex_GW{plan.gw}_wildcard_vulnerability_PREVIEW.png"
+        pages = render_plan(plan, snapshot, now, path, evidence.session)
+        if len(pages) != 1:
+            raise RuntimeError("Expected one Tuesday combined page")
+        stamp(pages[0], VULNERABILITY.edition, required=True)
+        (folder / "wildcard_vulnerability_CAPTION.txt").write_text(plan.caption + "\n", encoding="utf-8")
+        print(f"COMBINED WILDCARD verified preview: {pages[0]}")
+    except Exception as exc:
+        failures += 1
+        print(f"COMBINED WILDCARD preview unavailable: {type(exc).__name__}: {str(exc)[:180]}", file=sys.stderr)
     return 1 if failures else 0
 
 

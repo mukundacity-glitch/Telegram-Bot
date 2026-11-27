@@ -15,20 +15,16 @@ from vortex.schedule import SLOT_CRONS
 DUE = datetime(2026, 11, 17, 15, 30, tzinfo=ET)
 
 
-def test_wildcard_repeats_on_tuesdays():
-    assert 'market-verdict' in RETIRED_EDITIONS
+def test_standalone_wildcard_is_retired_but_combined_keeps_tuesday_identity():
+    from vortex.autonomous_schedule import VULNERABILITY
+    assert 'wildcard-draft' in RETIRED_EDITIONS
     assert 'transfer_suggestions' not in SLOT_CRONS.values()
-    for timestamp in (DUE - timedelta(days=1), DUE - timedelta(seconds=1), DUE + timedelta(days=1)):
-        assert WILDCARD not in catchup_slots(timestamp, {}, 11, limit=None)
-    assert WILDCARD in catchup_slots(DUE, {}, 11, limit=None)
-    key = publication_key(WILDCARD, DUE, 11)
-    assert key == publication_key(WILDCARD, DUE + timedelta(hours=1), 12)
-    delivered = {key: {'status': 'delivered'}}
-    assert WILDCARD not in catchup_slots(DUE, delivered, 12, limit=None)
-    for weeks in (1, 12, 104):
-        future = DUE + timedelta(weeks=weeks)
-        assert WILDCARD in catchup_slots(future, delivered, 12, limit=None)
-        assert publication_key(WILDCARD, future, 11) != key
+    assert WILDCARD not in catchup_slots(DUE, {}, 11, limit=None)
+    assert VULNERABILITY in catchup_slots(DUE, {}, 11, limit=None)
+    key = publication_key(VULNERABILITY, DUE, 11)
+    assert key == publication_key(VULNERABILITY, DUE + timedelta(hours=1), 12)
+    assert VULNERABILITY not in catchup_slots(DUE, {key: {'status': 'delivered'}}, 12, limit=None)
+    assert VULNERABILITY in catchup_slots(DUE+timedelta(weeks=1), {}, 12, limit=None)
 
 
 def test_wildcard_draft_and_five_gameweek_art(world, tmp_path, monkeypatch):

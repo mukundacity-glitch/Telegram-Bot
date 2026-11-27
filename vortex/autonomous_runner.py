@@ -37,7 +37,7 @@ def facts(plan,snapshot,evidence):
     if plan.kind == 'price_prediction':
         return {'edition': plan.edition, 'update_at': plan.extra['update_at'],
                 'source_updated_at': plan.extra['source_updated_at'], 'board': canonical(plan.extra)}
-    if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'chip_strategy'):
+    if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'weekly_wildcard_vulnerability', 'chip_strategy'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
     return {'players':[{k:p.get(k) for k in keys}|{'recent':evidence.recent(p)} for p in plan.players],
@@ -87,10 +87,10 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                 'https://fantasy.premierleague.com/api/bootstrap-static/',
                 'https://fantasy.premierleague.com/api/fixtures/']+[
                 f"https://fantasy.premierleague.com/api/element-summary/{p['id']}/" for p in plan.players
-                if plan.kind not in ('wildcard', 'positional_vulnerability', 'chip_strategy', 'price_prediction')]+(
+                if plan.kind not in ('wildcard', 'positional_vulnerability', 'weekly_wildcard_vulnerability', 'chip_strategy', 'price_prediction')]+(
                     ['https://github.com/olbauday/FPL-Core-Insights',
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
-                    if plan.kind != 'wildcard' and plan.extra and plan.extra.get('model') else []),
+                    if plan.kind not in ('wildcard', 'weekly_wildcard_vulnerability') and plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
     if recurring:
         record['facts']['publication_date'] = day.isoformat()
@@ -114,7 +114,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         target = now.astimezone(ET).replace(hour=hour, minute=minute, second=0, microsecond=0)
         if target<now:target+=timedelta(days=1)
         record['publish_at']=target.isoformat()
-    identity,_,_=validate(record,root=base,allow_outside_window=manual)
+    identity,_,_=validate(record,root=base,allow_outside_window=manual,preview=audit)
     file=base/'outbox'/f'{now.astimezone(ET).date()}-{slot.edition}.json'
     file.parent.mkdir(parents=True,exist_ok=True)
     file.write_text(json.dumps(record,indent=2,ensure_ascii=False)+'\n')
@@ -174,6 +174,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
             continue
         if slot.edition == 'goalkeeper-striker-watch' and not audit:
             from .weekly_position_watch import publication_due
+            if not publication_due(now):
+                continue
+        if slot.edition == 'positional-vulnerability' and not audit:
+            from .weekly_wildcard_vulnerability import publication_due
             if not publication_due(now):
                 continue
         if slot.edition == 'price-prediction' and (audit or manual or selected_slots is None):

@@ -189,7 +189,7 @@ class MatchdayPress(TestCase):
         render_press(out, {**day, "data_at": clock(21, 8), "updated": True}, names, facts, False, teams=None)
         with Image.open(out) as im:
             self.assertEqual(im.size, (1920, 1080))
-            self.assertEqual(im.info.get("vortex_graphic_number"), "13/55")
+            self.assertEqual(im.info.get("vortex_graphic_number"), "13/53")
             self.assertEqual(im.mode, "RGB")
         self.assertGreater(out.stat().st_size, 10_000)
 

@@ -1,4 +1,4 @@
-"""Permanent graphic IDs. Append new layouts so existing references stay valid."""
+"""Active graphic IDs, compacted after explicitly approved mergers."""
 from pathlib import Path
 from shutil import copyfile
 from PIL import Image, ImageDraw, ImageFont
@@ -6,16 +6,15 @@ from PIL.PngImagePlugin import PngInfo
 
 PRESS_REPORT_KEY = 'verified-press-availability'  # existing 13/55; premium roundup is its replacement
 
-RESERVED_KEY = 'reserved-29'  # vacant; preserve every other permanent number
 CATALOG = (
     'elite', 'daily_stats', 'form-minutes-targets', 'defender-watch',
     'goalkeeper-striker-watch', 'player-radar-comparison', 'weekly-analysis',
     'afternoon-rotation', 'scouting-rotation', 'positional-vulnerability',
     'review', 'sell', PRESS_REPORT_KEY, 'monday-defence-watch',
-    'vortex-captain', 'price-prediction', 'wildcard-draft', 'chip-strategy',
+    'vortex-captain', 'price-prediction', 'chip-strategy',
     'passing-creators', 'bonus-magnets', 'top-100k-ownership', 'assists-vs-shot-quality',
     'chance-creators', 'captaincy-comparison', 'value-board', 'start-bench-board',
-    'final-gameweek-news', 'market-trends-next-five', RESERVED_KEY,
+    'final-gameweek-news', 'market-trends-next-five',
     *(f'weekly-analysis-{day}' for day in range(2, 8)),
     *(f'afternoon-rotation-{day}' for day in range(2, 8)),
     *(f'scouting-rotation-{day}' for day in range(2, 8)),
@@ -25,7 +24,7 @@ CATALOG = (
 )
 
 
-ACTIVE_CATALOG = tuple(key for key in CATALOG if key != RESERVED_KEY)
+ACTIVE_CATALOG = CATALOG
 
 def graphic_key(edition, weekday, series_day=None, page=0):
     if edition == 'goalkeeper-striker-watch' and page != 0:

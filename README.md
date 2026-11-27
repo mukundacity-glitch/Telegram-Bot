@@ -141,5 +141,8 @@ To preview any new template on demand without affecting the once-per-day ledger,
 
 **Manual normal runs:** explicitly selecting `comparison`, `news`, etc. sends a new post even if one already went out today. **Automatic scheduled runs:** deduplicated by the Eastern calendar date and slot. This avoids silently ignoring the user's manual tests while preventing routine duplicate scheduled posts.
 
-### Weekly goalkeeper and striker watch (5/55)
-Monday 09:30 Eastern: research official recent minutes, form and fixtures without publishing. Monday 10:30 Eastern: refresh the FPL snapshot and publish one combined landscape board (two goalkeepers, three strikers) when the shared Telegram cooldown permits. Slot 29/55 is reserved/vacant; all other graphic IDs remain unchanged. 54 active graphics occupy 55 permanent positions. Older two-page watch outbox records cannot replay.
+### Weekly goalkeeper and striker watch (5/53)
+Monday 09:30 Eastern: research official recent minutes, form and fixtures without publishing. Monday 10:30 Eastern: refresh the FPL snapshot and publish one combined landscape board (two goalkeepers, three strikers) when the shared Telegram cooldown permits. The standalone Striker Watch position is removed from the compacted 53-graphic catalogue. Older two-page watch outbox records cannot replay.
+
+### Weekly Wildcard and Positional Vulnerability (10/53)
+Tuesday 14:30 Eastern: research completed match data and a preliminary Wildcard without publishing. Tuesday 15:30 Eastern: refresh official prices, fixtures and availability, recompute the legal £100m wildcard, and publish one combined landscape board with the full 15-player five-GW fixture matrix and matchup scatterplot. No standalone Wildcard or off-day positional chart. Old records are blocked. The two merged slots are removed from the numbering: 53 active graphics, 1/53–53/53.

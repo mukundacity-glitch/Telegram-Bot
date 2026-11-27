@@ -173,8 +173,8 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         from .chance_creators import build_chance_creators
         return build_chance_creators(slot, snapshot, now, e.session)
     if name == 'positional-vulnerability':
-        from .positional_vulnerability import build_vulnerability
-        return build_vulnerability(slot, snapshot, now, e.session)
+        from .weekly_wildcard_vulnerability import build_combined
+        return build_combined(slot, snapshot, now, e)
     if name == 'chip-strategy':
         from .chip_strategy import build_chip_strategy
         return build_chip_strategy(slot, snapshot, now, e.session)

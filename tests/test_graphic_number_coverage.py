@@ -1,11 +1,11 @@
-"""Numbering coverage for the complete permanent 55-graphic production catalog."""
+"""Numbering coverage for the complete permanent 53-graphic production catalog."""
 from PIL import Image
 import pytest
-from vortex.graphic_numbers import CATALOG, ACTIVE_CATALOG, RESERVED_KEY, PRESS_REPORT_KEY, graphic_key, stamp
+from vortex.graphic_numbers import CATALOG, ACTIVE_CATALOG, PRESS_REPORT_KEY, graphic_key, stamp
 from vortex.autonomous_schedule import SLOTS, SPECIAL_EDITIONS
 from vortex.schedule import SLOT_HOURS
 
-def test_all_active_scheduled_editions_cover_exactly_55_graphic_numbers():
+def test_all_active_scheduled_editions_cover_exactly_53_graphic_numbers():
     keys = set(SLOT_HOURS)
     for slot in SLOTS:
         for weekday in range(7):
@@ -14,10 +14,9 @@ def test_all_active_scheduled_editions_cover_exactly_55_graphic_numbers():
     keys.update(graphic_key(edition, 0) for edition in SPECIAL_EDITIONS)
     keys.update((PRESS_REPORT_KEY, "news-rotation-planner", "price-prediction"))
     assert None not in keys
-    assert len(CATALOG) == len(set(CATALOG)) == 55
-    assert len(ACTIVE_CATALOG) == 54
+    assert len(CATALOG) == len(set(CATALOG)) == 53
+    assert len(ACTIVE_CATALOG) == 53
     assert keys == set(ACTIVE_CATALOG)
-    assert CATALOG[28] == RESERVED_KEY
     assert graphic_key('striker-watch', 0) is None
     assert graphic_key('goalkeeper-striker-watch', 0, page=1) is None
     assert CATALOG[12] == PRESS_REPORT_KEY
@@ -32,7 +31,7 @@ def test_every_catalog_number_is_visible_and_idempotent(key, tmp_path):
     stamp(source, key, required=True)
     with Image.open(source) as im:
         assert im.size == (640, 360)
-        assert im.info["vortex_graphic_number"] == f"{CATALOG.index(key)+1}/55"
+        assert im.info["vortex_graphic_number"] == f"{CATALOG.index(key)+1}/53"
         # Bright cyan number occupies the reserved header, not the content.
         assert any(g > 200 and b > 200 for r,g,b in im.crop((460, 0, 640, 32)).getdata())
     before = source.read_bytes()

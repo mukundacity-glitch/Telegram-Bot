@@ -58,9 +58,9 @@ def test_portrait_render_and_catalog_id(world,monkeypatch,tmp_path):
     stamp(p,"price-prediction")
     with Image.open(p) as im:
         assert im.size==(1080,1920)
-        assert im.info["vortex_graphic_number"]=="16/55"
+        assert im.info["vortex_graphic_number"]=="16/53"
         im.verify()
-    assert len(CATALOG)==55
+    assert len(CATALOG) == 53
     monkeypatch.setattr("vortex.matchup._image_from_url",lambda *a:None)
     missing = render_board(s,board,tmp_path/"missing.png",e.session)
     assert missing.exists()
@@ -105,7 +105,7 @@ def test_legacy_edition_retired_and_only_new_catalog_entry():
     assert all(s.task != 'price_changes' for s in SLOTS)
     assert CATALOG[15] == 'price-prediction'
     assert 'confirmed-price-changes' not in CATALOG
-    assert len(CATALOG) == 55
+    assert len(CATALOG) == 53
 
 
 def test_dynamic_clock_respects_existing_schedule(world, monkeypatch):

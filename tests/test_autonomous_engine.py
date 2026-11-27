@@ -76,7 +76,7 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
                      '15 0,20,21,23 * * *', '45 1,2 * * *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
-    assert len(SLOTS) == 22  # Matchday press is triggered by fixtures outside the fixed slots.
+    assert len(SLOTS) == 21  # Matchday press is triggered by fixtures outside the fixed slots.
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 
@@ -119,7 +119,7 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         stamp(pages[0], slot.edition, required=True)
         with Image.open(pages[0]) as image:
             assert image.size == (1920, 1080)
-            assert image.info['vortex_graphic_number'] == '5/55'
+            assert image.info['vortex_graphic_number'] == '5/53'
             image.verify()
     if name in ('form-minutes-targets', 'defender-watch'):
         from vortex.autonomous_render import render
