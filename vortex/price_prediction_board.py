@@ -113,41 +113,55 @@ def genuine_cost_changes(changes):
 
 
 def observe_settlement(snapshot, state):
-    """Bound observed cost settlement by actual consecutive snapshot times.
+    """Observe actual cost deltas even while the predictor clock rolls over.
 
-    The API prediction deadline is not an observed settlement timestamp.
-    A changed cost only establishes an interval, never an exact minute.
+    Only a previously verified pre-update deadline anchors settlement evidence.
+    A stale/missing current prediction clock cannot seed a new baseline or
+    authorize publication, but must not discard a genuine official cost change.
     """
     from .autonomous_schedule import season_id
     if not hasattr(snapshot, "events"):
         return False
     try:
         observed = snapshot.fetched_at
-        deadline, _ = official_clock({"game_config": snapshot.game_config}, observed)
+        if observed.tzinfo is None:
+            return False
         season = season_id(snapshot, observed)
+        try:
+            deadline, _ = official_clock({"game_config": snapshot.game_config}, observed)
+        except RequiredInput:
+            deadline = None
         costs = {pid: {"code": row["code"], "cost": row["cost"]}
                  for pid, row in price_observation(snapshot).items()
-                 if type(row["code"]) is int}
+                 if type(row["code"]) is int and row["code"] > 0}
         if not costs:
             return False
         previous = state.get(COST_SNAPSHOT_KEY, {})
+        pending = state.get(PENDING_SETTLEMENT_KEY, {})
+        settled = state.get(SETTLEMENT_KEY, {})
+        changed = False
         if previous.get("season") == season:
             at = datetime.fromisoformat(previous["at"])
-            if observed <= at:
-                return False
             prior_deadline = datetime.fromisoformat(previous["deadline"])
-            if at < prior_deadline <= observed < deadline and observed-at <= timedelta(hours=2):
-                # Retain the last pre-deadline observation across unchanged
-                # polls; the official prediction clock can roll before costs settle.
-                state[PENDING_SETTLEMENT_KEY] = {
-                    "season": season, "expected_at": prior_deadline.isoformat(),
-                    "last_before": at.isoformat(), "players": previous["players"],
-                }
-        pending = state.get(PENDING_SETTLEMENT_KEY, {})
+            if at.tzinfo is None or prior_deadline.tzinfo is None or observed <= at:
+                return False
+            if (at < prior_deadline <= observed and observed-at <= timedelta(hours=2)
+                    and (deadline is None or prior_deadline < deadline)
+                    and pending.get("expected_at") != prior_deadline.isoformat()
+                    and not (settled.get("season") == season
+                             and settled.get("expected_at") == prior_deadline.isoformat())):
+                pending = {"season": season, "expected_at": prior_deadline.isoformat(),
+                           "last_before": at.isoformat(), "players": previous["players"]}
+                state[PENDING_SETTLEMENT_KEY] = pending
+                changed = True
         if pending.get("season") == season:
             lower = datetime.fromisoformat(pending["last_before"])
             expected = datetime.fromisoformat(pending["expected_at"])
-            if lower < expected <= observed < deadline and observed-lower <= timedelta(hours=2):
+            last_seen = datetime.fromisoformat(pending.get("last_seen_at", pending["last_before"]))
+            if observed <= last_seen:
+                return changed
+            if (lower < expected <= observed and observed-lower <= timedelta(hours=2)
+                    and (deadline is None or observed < deadline)):
                 changes = genuine_cost_changes(material_changes(pending["players"], costs))
                 if changes:
                     state[SETTLEMENT_KEY] = {
@@ -156,13 +170,20 @@ def observe_settlement(snapshot, state):
                         "changes": changes,
                     }
                     state.pop(PENDING_SETTLEMENT_KEY, None)
+                else:
+                    state[PENDING_SETTLEMENT_KEY] = {**pending, "last_seen_at": observed.isoformat()}
+                changed = True
             else:
                 state.pop(PENDING_SETTLEMENT_KEY, None)
+                changed = True
         elif pending:
             state.pop(PENDING_SETTLEMENT_KEY, None)
-        state[COST_SNAPSHOT_KEY] = {"season": season, "at": observed.isoformat(),
-                                   "deadline": deadline.isoformat(), "players": costs}
-        return True
+            changed = True
+        if deadline is not None:
+            state[COST_SNAPSHOT_KEY] = {"season": season, "at": observed.isoformat(),
+                                       "deadline": deadline.isoformat(), "players": costs}
+            changed = True
+        return changed
     except (RequiredInput, ValueError, KeyError, TypeError, AttributeError):
         return False
 

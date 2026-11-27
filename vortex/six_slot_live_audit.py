@@ -78,6 +78,12 @@ def run(folder=Path("output/six-slot-live-audit")):
     covered = set(WINDOWS) | {"player-radar-comparison", "saturday-fdr-grid"}
     report["global_gap_unverified"] = sorted((set(SLOT_HOURS) | set(SPECIAL_EDITIONS) |
         {s.edition for s in SLOTS} | {"matchday-press", "manual/legacy-outbox"}) - covered)
+    # Report every nominal fixed publication collision rather than interpreting
+    # serialized transport as conflict-free scheduling. Dynamic routes and
+    # catch-up/manual/outbox paths still require separate evidence.
+    from .global_schedule_audit import fixed_conflicts
+    report["fixed_schedule_conflicts"] = fixed_conflicts(now)
+    report["global_gap_verified"] = not report["global_gap_unverified"] and not report["fixed_schedule_conflicts"]
     report["release_ready"] = False  # This audit cannot prove an actual timed platform delivery.
     (folder/"report.json").write_text(json.dumps(report,indent=2,default=str), encoding="utf-8")
     print(json.dumps(report,default=str))

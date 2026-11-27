@@ -393,3 +393,29 @@ def test_price_reference_footer_uses_verified_source_and_dynamic_uk_clock(world)
     assert "Target % is not probability" in timing
     with pytest.raises(ValueError, match="Timezone-aware"):
         price_board_footer(s, update.replace(tzinfo=None))
+
+
+def test_cost_settlement_survives_stale_predictor_clock(world):
+    from vortex.price_prediction_board import observe_settlement, SETTLEMENT_KEY, COST_SNAPSHOT_KEY, PENDING_SETTLEMENT_KEY
+    s, _ = populated(world)
+    expected = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    before = expected-timedelta(minutes=10)
+    def snap(at, deadlines):
+        return replace(s, fetched_at=at, game_config={
+            "settings":{"price_change_deadlines":[d.isoformat() for d in deadlines]},
+            "status":{"price_change_last_updated":at.isoformat()}})
+    state = {}
+    assert not observe_settlement(snap(expected, [expected]), state)
+    assert observe_settlement(snap(before, [expected]), state)
+    assert observe_settlement(snap(expected+timedelta(minutes=1), [expected]), state)
+    assert PENDING_SETTLEMENT_KEY in state
+    assert SETTLEMENT_KEY not in state
+    s.players[0]["now_cost"] += 1
+    after = expected+timedelta(minutes=7)
+    assert observe_settlement(snap(after, [expected]), state)
+    assert state[SETTLEMENT_KEY]["first_after"] == after.isoformat()
+    assert state[COST_SNAPSHOT_KEY]["at"] == before.isoformat()
+    assert not observe_settlement(snap(after, [expected]), state)
+    assert observe_settlement(snap(after+timedelta(minutes=10), [expected+timedelta(days=1)]), state)
+    assert state[SETTLEMENT_KEY]["first_after"] == after.isoformat()
+    assert PENDING_SETTLEMENT_KEY not in state
