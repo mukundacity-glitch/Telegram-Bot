@@ -59,7 +59,7 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Suspended until 5 Dec",
-    "now_cost": 78,
+    "now_cost": 77,
     "status": "s"
   },
   "107": {
@@ -129,7 +129,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 55,
+    "now_cost": 56,
     "status": "a"
   },
   "116": {
@@ -462,11 +462,11 @@
     "status": "i"
   },
   "159": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
-    "news": "Back injury - 75% chance of playing",
+    "news": "",
     "now_cost": 53,
-    "status": "d"
+    "status": "a"
   },
   "16": {
     "chance_of_playing_next_round": 100,
@@ -840,11 +840,11 @@
     "status": "i"
   },
   "207": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": null,
-    "news": "Thigh injury - 75% chance of playing",
+    "news": "",
     "now_cost": 42,
-    "status": "d"
+    "status": "a"
   },
   "208": {
     "chance_of_playing_next_round": 0,
@@ -1830,7 +1830,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 51,
+    "now_cost": 52,
     "status": "a"
   },
   "335": {
@@ -1844,7 +1844,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 57,
+    "now_cost": 58,
     "status": "a"
   },
   "337": {
@@ -2075,7 +2075,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 74,
+    "now_cost": 75,
     "status": "a"
   },
   "367": {
@@ -2432,7 +2432,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 158,
+    "now_cost": 157,
     "status": "a"
   },
   "412": {
@@ -3052,11 +3052,11 @@
     "status": "a"
   },
   "492": {
-    "chance_of_playing_next_round": 75,
+    "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 100,
-    "news": "Ankle injury - 75% chance of playing",
+    "news": "Ankle injury - Unknown return date",
     "now_cost": 54,
-    "status": "d"
+    "status": "i"
   },
   "493": {
     "chance_of_playing_next_round": null,
@@ -3083,7 +3083,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 44,
+    "now_cost": 45,
     "status": "a"
   },
   "497": {
@@ -3195,7 +3195,7 @@
     "chance_of_playing_next_round": 100,
     "chance_of_playing_this_round": 100,
     "news": "",
-    "now_cost": 44,
+    "now_cost": 43,
     "status": "a"
   },
   "510": {
@@ -3384,7 +3384,7 @@
     "chance_of_playing_next_round": null,
     "chance_of_playing_this_round": null,
     "news": "",
-    "now_cost": 42,
+    "now_cost": 41,
     "status": "a"
   },
   "535": {
@@ -3524,7 +3524,7 @@
     "chance_of_playing_next_round": 0,
     "chance_of_playing_this_round": 0,
     "news": "Muscular injury - Unknown return date",
-    "now_cost": 57,
+    "now_cost": 56,
     "status": "i"
   },
   "553": {
@@ -3990,11 +3990,11 @@
     "status": "a"
   },
   "612": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Illness - 75% chance of playing",
     "now_cost": 45,
-    "status": "a"
+    "status": "d"
   },
   "613": {
     "chance_of_playing_next_round": null,
@@ -4550,11 +4550,11 @@
     "status": "a"
   },
   "78": {
-    "chance_of_playing_next_round": 100,
+    "chance_of_playing_next_round": 75,
     "chance_of_playing_this_round": 100,
-    "news": "",
+    "news": "Illness - 75% chance of playing",
     "now_cost": 73,
-    "status": "a"
+    "status": "d"
   },
   "79": {
     "chance_of_playing_next_round": null,
