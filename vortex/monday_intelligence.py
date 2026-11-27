@@ -101,8 +101,9 @@ def render_combined(plan,snapshot,output,client):
     header=_background(article)
     _header(header,article)
     approved_sell_logo(header)
-    with Image.open(MASTER) as master:
-        canvas=background(master,edition_key(article),(1080,1920))
+    # The master logos are already present in the approved SELL header.
+    # Do not stretch a second set of logos down into the portrait body.
+    canvas=background(None,edition_key(article),(1080,1920))
     canvas.paste(header.crop((0,0,1536,145)).resize((1080,102),Image.Resampling.LANCZOS),(0,0))
     d=ImageDraw.Draw(canvas,"RGBA")
     NAVY="#0b1533"; PANEL="#142644"; WHITE="#f2f7ff"; MUTED="#bcd3e9"; GOLD="#ffce60"; CYAN="#65eaff"; GREEN="#76f1b0"
