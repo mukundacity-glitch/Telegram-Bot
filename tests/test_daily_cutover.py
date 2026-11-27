@@ -59,3 +59,16 @@ def test_final_outbox_weekly_and_radar_gate_rejects_short_gap_and_late_delivery(
     item["facts"]["extra"]["completed_gw"]=10
     with pytest.raises(ValueError, match="three-hour"):
         verify_settled_or_weekly_record(item,post,post)
+
+
+def test_new_daily_slots_have_nominal_spacing_and_existing_heartbeats():
+    from vortex.autonomous_schedule import SLOTS, eligible_on, slot_start
+    from vortex.schedule import SLOT_HOURS
+    from vortex.telegram_spacing import GAP
+    for day in range(23,30):
+        now=datetime(2026,11,day,12,tzinfo=ET)
+        daily=slots(now)
+        others=[slot_start(s,now) for s in SLOTS if eligible_on(s,now)]
+        others += [now.replace(hour=h,minute=m) for h,m in SLOT_HOURS.values()]
+        assert all(abs(slot_start(s,now)-t)>=GAP for s in daily for t in others)
+        assert all(slot_start(s,now).astimezone(timezone.utc).minute in (0,30) for s in daily)

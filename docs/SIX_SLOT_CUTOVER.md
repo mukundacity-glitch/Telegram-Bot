@@ -41,6 +41,10 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 
 - Added final outbox proof and exact-window checks for settled radar and weekly FDR, stable GW/ISO-week identities, no generic replay for guarded records, live rotation window recheck after rendering, elapsed-UTC gap arithmetic, and prospective legacy player-ID reservations. The shared publisher is unchanged. Historical legacy records with no reliable player identifiers remain an evidence limitation. The complete global all-legacy research schedule is not verified; existing Monday position/defence and Tuesday wildcard research caches still specify one-hour lead windows, so the global release gate remains blocked. No #7 work or production merge is authorized.
 
+- Price timing reconciliation: prefer the original T−1h publication only if free; otherwise select an earlier configured half-hour heartbeat before the live API deadline, with a separate 02:43 ET research check and >=3 elapsed hours. If no feasible slot, no post. Observed settlement is a timestamp interval from consecutive same-season official now_cost snapshots, not the API prediction clock. Actual cost changes and a recent observed settlement interval are required for a qualifying live publication; until actual evidence accumulates, hold. Exact observed settlement minute is not asserted.
+- Friday, 27 November 2026 at 10:07:44 UTC — daily dispatch implementation committed (e71c62d).
+- Friday, 27 November 2026 at 10:09:13 UTC — outbox proof and Saturday timing reconciliation committed (a324c7e).
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.

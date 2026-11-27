@@ -78,8 +78,10 @@ def upcoming_editorial(slot, trigger):
 
 def record_price_ownership(snapshot, editorial):
     """Keep spaced observations and return a baseline old enough for comparison."""
-    from .price_prediction_board import ownership_snapshot
+    from .price_prediction_board import ownership_snapshot, observe_settlement
 
+    if observe_settlement(snapshot, editorial):
+        write_state(STATE_FILE, editorial)
     latest = editorial.get('_price_ownership') or {}
     try:
         elapsed = snapshot.fetched_at - datetime.fromisoformat(latest['at'])
@@ -140,6 +142,20 @@ def run(now=None, cron=None, snapshot=None):
             pass
         return {'status': 'no-new-verified-content', 'new_posts': 0}
     if not allowed(now):
+        # Earlier price check is a read-only branch on the existing heartbeat.
+        # Never publish outside the approved window.
+        if snapshot is not None and getattr(snapshot, 'game_config', None) is not None:
+            from .price_prediction_board import opportunity, RESEARCH_KEY
+            from .editorial_inputs import RequiredInput
+            state = read_state(STATE_FILE)
+            record_price_ownership(snapshot, state)
+            try:
+                _, info = opportunity(snapshot, now, state)
+                if info.get('status') == 'research-verified':
+                    write_state(STATE_FILE, state)
+                    return {'status': 'research-verified', 'new_posts': 0, 'edition': 'price-prediction'}
+            except RequiredInput:
+                pass
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),
                   'new_posts': 0, 'window': WINDOW_LABEL}
         print(json.dumps(result, sort_keys=True))
