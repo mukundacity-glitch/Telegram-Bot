@@ -348,9 +348,12 @@ def main():
     press_error = False
     if os.getenv('GITHUB_EVENT_NAME') in ('schedule', 'push', 'workflow_dispatch'):
         from .retire_player_news import retire_calvert_lewin
-        retired = retire_calvert_lewin(datetime.now(timezone.utc))
-        print('Rejected player news retirement: Telegram=' + str(bool(retired.get('telegram_deleted'))) +
-              ', Discord=' + str(bool(retired.get('discord_deleted'))))
+        try:
+            retired = retire_calvert_lewin(datetime.now(timezone.utc))
+            print('Rejected player news retirement: Telegram=' + str(bool(retired.get('telegram_deleted'))) +
+                  ', Discord=' + str(bool(retired.get('discord_deleted'))))
+        except (RuntimeError, ValueError, OSError) as error:
+            print('Retirement audit held: ' + type(error).__name__)
         from .matchday_press import run as press_run
         from .telegram import TelegramClient
         from .syndication import DiscordWebhookClient
