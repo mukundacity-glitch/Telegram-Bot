@@ -152,3 +152,32 @@ def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_pat
     assert validate(item,tmp_path,NOW)[0]==first
     with pytest.raises(ValueError,match='one-hour'):
         validate(item,tmp_path,NOW+timedelta(minutes=15))
+
+
+def test_pre_gameweek_research_and_material_change_gate(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity
+    from vortex.autonomous_schedule import publication_key
+    from vortex import autonomous_schedule, schedule
+    s, _ = populated(world)
+    update = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    research = update - timedelta(hours=2)
+    posting = update - timedelta(hours=1)
+    monkeypatch.setattr(autonomous_schedule, 'SLOTS', ())
+    monkeypatch.setattr(schedule, 'SLOT_HOURS', {})
+    monkeypatch.setattr(autonomous_schedule, 'special_triggers', lambda *_: [])
+    def at(instant):
+        return replace(s, fetched_at=instant, game_config={
+            'settings': {'price_change_deadlines': [update.isoformat()]},
+            'status': {'price_change_last_updated': instant.isoformat()}})
+    # The official target deadline is future for both checks.
+    monkeypatch.setattr('vortex.fpl.upcoming_deadline', lambda _: update + timedelta(days=1))
+    state = {}
+    assert opportunity(at(posting), posting, state)[0] is None
+    assert opportunity(at(research), research, state)[1]['status'] == 'research-verified'
+    assert opportunity(at(posting), posting, state)[1]['status'] == 'no-new-facts'
+    s.players[0]['now_cost'] += 1
+    slot, info = opportunity(at(posting), posting, state)
+    assert slot is not None and info['status'] == 'due'
+    key = publication_key(slot, posting, 12, '2026-27')
+    assert key != publication_key(slot, posting, 13, '2026-27')
+    assert key == publication_key(replace(slot, price_update_at=(update+timedelta(days=1)).isoformat()), posting, 12, '2026-27')
