@@ -76,6 +76,32 @@ def upcoming_editorial(slot, trigger):
     return result
 
 
+def record_price_ownership(snapshot, editorial):
+    """Keep spaced observations and return a baseline old enough for comparison."""
+    from .price_prediction_board import ownership_snapshot
+
+    latest = editorial.get('_price_ownership') or {}
+    try:
+        elapsed = snapshot.fetched_at - datetime.fromisoformat(latest['at'])
+    except (KeyError, TypeError, ValueError):
+        elapsed = None
+    if elapsed is not None and elapsed < timedelta(minutes=5):
+        return editorial.get('_price_ownership_previous', {})
+
+    observation = ownership_snapshot(snapshot)
+    if not any(value is not None for value in observation['players'].values()):
+        return latest
+    editorial['_price_ownership_previous'] = latest
+    editorial['_price_ownership'] = observation
+    write_state(STATE_FILE, editorial)
+    return latest
+
+
+def observe_during_deferral(snapshot):
+    if getattr(snapshot, 'game_config', None) is not None:
+        record_price_ownership(snapshot, read_state(STATE_FILE))
+
+
 def run(now=None, cron=None, snapshot=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
@@ -87,6 +113,7 @@ def run(now=None, cron=None, snapshot=None):
 
     previous_report = read_state(REPORT) if spacing_enabled() else {}
     if until := blocked_until(now):
+        observe_during_deferral(snapshot)
         result = {**previous_report, 'status': 'deferred-telegram-spacing',
                   'at': now.isoformat(), 'eastern_at': now.astimezone(ET).isoformat(),
                   'scheduled_cron': cron, 'next_telegram_at': until.isoformat(),
@@ -132,19 +159,11 @@ def run(now=None, cron=None, snapshot=None):
         gw, season = snapshot.gameweek(), season_id(snapshot, now)
         evidence = Evidence(snapshot, now)
         if getattr(snapshot, 'game_config', None) is not None:
-            from .price_prediction_board import opportunity, ownership_snapshot
+            from .price_prediction_board import opportunity
             from .editorial_inputs import RequiredInput
+            evidence.price_previous = record_price_ownership(snapshot, editorial)
             try:
                 price_slot, price_status = opportunity(snapshot, now, editorial)
-                prior = editorial.get('_price_ownership', {})
-                evidence.price_previous = prior
-                try:
-                    elapsed = snapshot.fetched_at - datetime.fromisoformat(prior['at'])
-                except (KeyError, ValueError, TypeError):
-                    elapsed = timedelta(hours=27)
-                if elapsed >= timedelta(minutes=5):
-                    editorial['_price_ownership'] = ownership_snapshot(snapshot)
-                    write_state(STATE_FILE, editorial)
                 if price_slot is not None:
                     trigger = datetime.fromisoformat(price_status['trigger'])
                     if trigger > now:
@@ -374,6 +393,11 @@ def main():
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
                          live_clock=lambda: datetime.now(timezone.utc),
                          discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):
+                try:
+                    observe_during_deferral(snapshot)
+                except (RuntimeError, ValueError, OSError) as error:
+                    print('Price ownership research: ' + failure_reason(error))
+                    return 1
                 print('Matchday press roundup has publication priority on this pass')
                 return 0
         except (RuntimeError, ValueError, OSError) as error:
