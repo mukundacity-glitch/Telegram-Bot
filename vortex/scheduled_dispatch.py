@@ -114,7 +114,7 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
     def guarded(job):
         return ((job[1] == 'editorial' and job[3].edition in {
             'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
-            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins', 'weekly-availability-decisions', 'post-gameweek-vulnerability'})
+            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins', 'weekly-availability-decisions', 'post-gameweek-vulnerability', 'weekly-sweeper-keepers'})
             or (job[1] == 'news' and rotation_due(now)))
     if research_due or any(guarded(job) for job in jobs):
         jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
@@ -305,8 +305,14 @@ def run(now=None, cron=None, snapshot=None):
             evidence.vulnerability_research = editorial[MATCHUP_STATE]
             jobs.append((datetime.fromisoformat(editorial[MATCHUP_STATE]['post_at']),
                          'editorial',publication_key(matchup,now,gw,season),matchup))
+        from .pre_gameweek_sweepers import eligible as sweeper_eligible, STATE_KEY as SWEEPER_STATE, RELEASE_VERIFIED as SWEEPER_RELEASE
+        sweeper = sweeper_eligible(snapshot,now,editorial)
+        if sweeper is not None:
+            evidence.sweeper_research = editorial[SWEEPER_STATE]
+            jobs.append((datetime.fromisoformat(editorial[SWEEPER_STATE]['post_at']),
+                         'editorial',publication_key(sweeper,now,gw,season),sweeper))
         series = weekly_analysis_slot(snapshot, now, editorial)
-        if series is not None:
+        if series is not None and not (SWEEPER_RELEASE and series.series_day==3):
             key = publication_key(series, now, gw, season)
             if retryable(editorial.get(key, {})):
                 jobs.append((slot_start(series, now), 'editorial', key, series))
@@ -382,6 +388,10 @@ def run(now=None, cron=None, snapshot=None):
                         from .post_gameweek_vulnerability import prepare as prepare_matchups
                         if prepare_matchups(snapshot,now,editorial,evidence,clock):
                             write_state(STATE_FILE,editorial)
+                        else:
+                            from .pre_gameweek_sweepers import prepare as prepare_sweepers
+                            if prepare_sweepers(snapshot,now,editorial,evidence,clock):
+                                write_state(STATE_FILE,editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass
     # FDR is a strict weekly phase, not a generic late catch-up.
@@ -420,6 +430,10 @@ def run(now=None, cron=None, snapshot=None):
         if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
             from .daily_cutover import eligible as daily_eligible
             if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
+        if lane == 'editorial' and payload.edition == 'weekly-sweeper-keepers':
+            from .pre_gameweek_sweepers import eligible as sweeper_eligible
+            if sweeper_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
                 continue
         if lane == 'editorial' and payload.edition == 'post-gameweek-vulnerability':
             from .post_gameweek_vulnerability import eligible as matchup_eligible

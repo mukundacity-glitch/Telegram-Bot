@@ -119,6 +119,9 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.edition == 'weekly-sweeper-keepers':
+        from .pre_gameweek_sweepers import key
+        return key(season,gw)
     if slot.edition == 'post-gameweek-vulnerability':
         from .post_gameweek_vulnerability import key
         return key(season,slot.series_gw)

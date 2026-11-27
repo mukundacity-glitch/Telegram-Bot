@@ -143,6 +143,12 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'weekly-sweeper-keepers':
+        from .pre_gameweek_sweepers import build as build_sweepers, RELEASE_VERIFIED
+        proof = getattr(e,'sweeper_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Sweeper keepers release/research gate is closed')
+        return build_sweepers(snapshot,now,e,proof)
     if name == 'post-gameweek-vulnerability':
         from .post_gameweek_vulnerability import build as build_matchups, RELEASE_VERIFIED
         proof = getattr(e,'vulnerability_research',None)

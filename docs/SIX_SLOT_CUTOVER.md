@@ -90,6 +90,13 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 11:13:28 UTC — Slot 9 test correction pushed (4d98295), fresh validation required.
 - Slot 10: branch-only, release-disabled post-finalized-GW positional vulnerability with season-to-date linked non-penalty shot xG per 90, opponent venue/position percentiles and four highlighted matchups for next GW. Official event/fixture settlement and FPL Core match evidence must reconcile; no next fixture (including end of season) means hold. Existing serialized heartbeat, durable research digest, minimum 3-hour gap from research-window end, stable completed-GW identity and cross-slot reservations. Native 1920×1080 charcoal / warm ivory / teal / orchid / copper design, large axis labels and cards. The Tuesday combined wildcard/vulnerability graphic remains preserved pending cleanup; overlapping content must be reconciled before activation. No new cron, task, or production merge.
 
+- Friday, 27 November 2026 at 11:14:33 UTC — Slot 10 code pushed (ec5507e).
+- Friday, 27 November 2026 at 11:16:33.6099697 UTC — 489 passed, zero failures on ec5507e, run 45988858655.
+- Friday, 27 November 2026 at 11:16:44.0456050 UTC — six live renders passed; observed settlement false, 26 legacy routes unverified.
+- Friday, 27 November 2026 at 11:16:52.7094592 UTC — Slot 9 read-only audit: 22 eligible, no verified xPts5 coverage; publication withheld.
+- Friday, 27 November 2026 at 11:16:54.0271661 UTC — Slot 10 live read-only render: 215 players, 88.73% linked non-penalty shot xG.
+- Slot 11 branch-only implementation: once per upcoming GW before official transfer deadline/kickoff, at least three hours from research-window end, conflict reservations on existing heartbeat. FPL Core sweeper_actions (not an official FPL metric), 220+ archive minutes, official appearance-count cross-check, twelve unique keepers, all-qualifier per-90 leader, cream/burgundy/copper/sage portrait renderer. Existing catalog identity is reused (no renumbering). Prior weekly-analysis day 3 remains operational while release is disabled; eventual replacement skips day 3 only after release and honors existing cohort receipts. Reference attachment depicts Goals That Added Points rather than Sweeper Keepers; the written Slot 11 specification takes precedence; Goals That Added Points is untouched. No production activation until settlement/global legacy/delivery verification and latest CI pass.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.
@@ -105,3 +112,5 @@ Superseded Slot 8 standalone rule: Thursday 20:00 ET attacking-zones edition (re
 Retired availability-transfer-decisions: former 05:30 board; replaced in branch scope by Slot 9 dynamic pre-kickoff rule. Retain historic records, no replay or deletion.
 
 Slot 10 superseded cadence: fixed Tuesday standalone positional vulnerability rule. Preserve existing combined wildcard content and historical receipts until cleanup; do not activate overlapping standalone content before release validation.
+
+Superseded on Slot 11 activation: weekly-analysis day 3 fixed/cohort cadence for SWEEPER KEEPERS. Preserve original code and receipts for legacy cleanup; the release-disabled candidate does not alter active cadence. Goals That Added Points (day 6) remains unchanged.

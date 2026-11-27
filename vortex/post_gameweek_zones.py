@@ -82,6 +82,10 @@ def busy_windows(snapshot,now,state,anchor):
     if matchup.get("season")==season_id(snapshot,now):
         mr,mp=clock(matchup["research_at"]),clock(matchup["post_at"])
         busy.extend((("vulnerability-research",mr,mr+WINDOW),("vulnerability-post",mp-GAP,mp+GAP+WINDOW)))
+    sweeper=state.get("_weekly_sweeper_keepers",{})
+    if sweeper.get("season")==season_id(snapshot,now):
+        sr,sp=clock(sweeper["research_at"]),clock(sweeper["post_at"])
+        busy.extend((("sweeper-research",sr,sr+WINDOW),("sweeper-post",sp-GAP,sp+GAP+WINDOW)))
     return busy
 
 

@@ -126,6 +126,10 @@ jobs:
         if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
         timeout-minutes: 5
         run: python -m vortex.post_gameweek_vulnerability
+      - name: Verify Slot 11 live sweeper keepers (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 5
+        run: python -m vortex.pre_gameweek_sweepers
       - name: Archive six-slot read-only verification
         if: always() && github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
         uses: actions/upload-artifact@v4
