@@ -132,7 +132,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         return {'status':'deferred-outside-window','posted':0,'safe_to_delete_chatgpt_tasks':False}
     if cron in NEWS_CRONS and not audit and not edition:
         from .unified_runner import run as news
-        result=news(now=now,max_posts=1)
+        result=news(now=now,max_posts=1,rotation_only=True)
         return {'lane':'existing-news','result':result}
     if selected_slots is None and not audit and not edition and not due and slot_for(cron) is None and cron not in SPECIAL_CRONS and cron not in CATCHUP_CRONS:
         from .schedule import SLOT_CRONS
@@ -175,10 +175,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         if slot.task=='press_news':
             if audit:
                 from .unified_runner import run as news
-                result=news(dry_run=True,snapshot=snapshot,now=now,max_posts=1)
+                result=news(dry_run=True,snapshot=snapshot,now=now,max_posts=1,rotation_only=True)
             else:
                 from .unified_runner import run as news
-                result=news(snapshot=snapshot,now=now,drain=selected_slots is not None,max_posts=1)
+                result=news(snapshot=snapshot,now=now,drain=selected_slots is not None,max_posts=1,rotation_only=True)
             rows.append({'edition':slot.edition,'status':'news-checked','result':result})
             if not audit:
                 state[key]={'task':slot.task,'edition':slot.edition,'status':'checked','at':now.isoformat()};write_state(STATE_FILE,state)

@@ -227,7 +227,7 @@ def run(now=None, cron=None, snapshot=None):
                     error = edition.get('reason') or 'Telegram delivery incomplete; see outbox receipt'
             elif lane == 'news':
                 run_news(now=now, snapshot=snapshot, drain=True, pending_only=not payload,
-                         audit_rows=news_rows)
+                         audit_rows=news_rows, rotation_only=True)
                 if payload:
                     last_news_scan = run_key
             else:
@@ -346,16 +346,25 @@ def main():
         return 0
     snapshot = None
     press_error = False
-    if os.getenv('GITHUB_EVENT_NAME') == 'schedule':
+    if os.getenv('GITHUB_EVENT_NAME') in ('schedule', 'push', 'workflow_dispatch'):
+        from .retire_player_news import retire_calvert_lewin
+        try:
+            retired = retire_calvert_lewin(datetime.now(timezone.utc))
+            print('Rejected player news retirement: Telegram=' + str(bool(retired.get('telegram_deleted'))) +
+                  ', Discord=' + str(bool(retired.get('discord_deleted'))))
+        except (RuntimeError, ValueError, OSError) as error:
+            print('Retirement audit held: ' + type(error).__name__)
         from .matchday_press import run as press_run
         from .telegram import TelegramClient
+        from .syndication import DiscordWebhookClient
         from .press_schedule import retire_graphics
         retire_graphics(datetime.now(timezone.utc), read_state, write_state, TelegramClient)
         try:
             snapshot = retry_source(collect_snapshot)
             now = datetime.now(timezone.utc)
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
-                         live_clock=lambda: datetime.now(timezone.utc)):
+                         live_clock=lambda: datetime.now(timezone.utc),
+                         discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):
                 print('Matchday press roundup has publication priority on this pass')
                 return 0
         except (RuntimeError, ValueError, OSError) as error:

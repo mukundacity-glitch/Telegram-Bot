@@ -439,3 +439,18 @@ def test_live_discord_intent_written_before_any_webhook_call(tmp_path):
     result = publish_shared(post, ledger, Telegram(), Discord())
     assert result["discord_delivered"] and result["delivered"]
     assert not json.loads(ledger.read_text())["checkpoint"].get("discord_send_pending")
+
+
+def test_scheduled_rotation_only_retires_single_player_news(monkeypatch, tmp_path):
+    from vortex import unified_runner as runner
+    from vortex.syndication import save_journal
+    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
+        monkeypatch.setattr(runner, name, tmp_path / (name + ".json"))
+    save_journal(runner.BASELINE, {})
+    save_journal(runner.SEEN, {})
+    save_journal(runner.PENDING, {"rss:obsolete": {"title": "FPL NEWS"}})
+    monkeypatch.setattr(runner, "collect_reported_headlines",
+                        lambda *a: pytest.fail("Retired RSS scan must not run"))
+    monkeypatch.setattr("vortex.rotation_planner.build_rotation_plan", lambda *a: None)
+    result = runner.run(snapshot=sample_snapshot(), rotation_only=True, dry_run=True)
+    assert result["reported_headlines"] == result["pending"] == 0

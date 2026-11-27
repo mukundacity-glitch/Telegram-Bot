@@ -76,13 +76,14 @@ def matchdays(snapshot, now):
         }
 
 
-def caption_for(day, names, facts, now):
+def caption_for(day, names, facts, now, *, updated=False):
     """Exactly five Telegram lines, with clickable sources for each club."""
     coverage = f"{len(facts)}/{len(names)} clubs: verified pre-match reports"
     if len(facts) < len(names):
         coverage += "; others awaiting evidence"
     lines = [
-        f"GW{day['gw']} | FPL VORTEX PRESS CONFERENCE | {day['season']}/{str(day['season']+1)[-2:]}",
+        f"GW{day['gw']} | FPL VORTEX PRESS CONFERENCE | {day['season']}/{str(day['season']+1)[-2:]} | "
+        + ("UPDATED " if updated else "AS OF ") + now.astimezone(timezone.utc).strftime("%d %b %Y %H:%M UTC"),
         coverage,
         "Fantasy deadline: " + day["deadline"].astimezone(NEPAL).strftime("%a %d %b, %I:%M %p NPT"),
         "Report sources: ",
@@ -182,8 +183,48 @@ def report_target(deadline, times, clubs):
     return ready
 
 
+def _sync_discord(day, row, state, write, factory, path, caption, combined, version):
+    """Keep one independently receipted Discord report per official gameweek."""
+    if factory is None or row.get("discord_version") == version or row.get("discord_sending"):
+        return False
+    from .syndication import NewsPost, DeliveryRejected
+    from .publishing_window import press_delivery
+    sources = []
+    for fact in combined.values():
+        url = fact["url"]
+        if url not in sources:
+            sources.append(url)
+    content = caption
+    for url in sources:
+        if len(content)+len(url)+1 > 1950:
+            break
+        content += "\n" + url
+    post = NewsPost(day["key"]+":press", "Press conference", content, day["gw"], path)
+    client = factory()
+    if not row.get("discord_message"):
+        row["discord_sending"] = True
+        write(STATE, state)
+        if os.getenv("GITHUB_ACTIONS") == "true":
+            subprocess.run(["bash", ".github/scripts/persist-publishing-receipts.sh"], cwd=ROOT, check=True)
+    try:
+        with press_delivery():
+            if row.get("discord_message"):
+                mid = client.edit_news(row["discord_message"], post)
+            else:
+                mid = client.send(post)
+        if not str(mid).isdigit() or int(mid) <= 0:
+            raise RuntimeError("Discord press receipt missing")
+    except DeliveryRejected:
+        row.pop("discord_sending", None)
+        write(STATE, state)
+        raise
+    row.update(discord_message=str(mid), discord_version=version, discord_sending=False)
+    write(STATE, state)
+    return True
+
+
 def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=render,
-        live_clock=None, schedule_lookup=discover):
+        live_clock=None, schedule_lookup=discover, discord_factory=None):
     from .publishing_window import press_delivery
     from .telegram_spacing import blocked_until
 
@@ -259,15 +300,23 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
             print(f"GW{day['gw']} press roundup awaiting verified reports ({len(combined)}/{len(pairs)})")
             continue  # Do not publish a 1/20 pseudo-roundup or fabricate quotes.
         version = sha256(json.dumps(
-            [day["first"].isoformat(), day["deadline"].isoformat(), pairs,
+            ["premium-neon-v1", day["first"].isoformat(), day["deadline"].isoformat(), pairs,
              {key: (fact["news"], fact.get("quote"), fact["url"])
               for key, fact in combined.items()}],
             sort_keys=True, ensure_ascii=False).encode()).hexdigest()
-        if row.get("version") == version:
-            continue
         path = ROOT / "outbox/assets" / f"press-GW{day['gw']}-{day['season']}.png"
-        render_image(path, day, names, combined, False, teams=snapshot.teams)
-        caption, entities = caption_for(day, names, combined, current)
+        if row.get("version") == version:
+            if discord_factory and row.get("discord_version") != version and path.is_file():
+                caption, _ = caption_for(day, names, combined, clock(row.get("posted_at") or current.isoformat()),
+                                         updated=bool(row.get("was_update")))
+                if _sync_discord(day, row, state, write, discord_factory, path, caption, combined, version):
+                    return True
+            continue
+        updated = bool(row.get("message"))
+        render_day = {**day, "data_at": current.astimezone(timezone.utc), "updated": updated,
+                      "players": getattr(snapshot, "players", ())}
+        render_image(path, render_day, names, combined, False, teams=snapshot.teams)
+        caption, entities = caption_for(day, names, combined, current, updated=updated)
         current = live_clock() if live_clock else now
         if current >= day["deadline"]:
             continue
@@ -299,7 +348,9 @@ def run(snapshot, now, read, write, client_factory, fetch=lookup, render_image=r
                 row.pop("sending", None)
                 write(STATE, state)
             raise
-        row.update(message=mid, version=version, sending=False, facts=facts)
+        row.update(message=mid, version=version, sending=False, facts=facts,
+                   posted_at=render_day["data_at"].isoformat(), was_update=updated)
         write(STATE, state)
+        _sync_discord(day, row, state, write, discord_factory, path, caption, combined, version)
         return True
     return False

@@ -93,6 +93,7 @@ class MatchdayPress(TestCase):
         self.assertEqual(len(self.sent), 1)
         self.assertEqual(len(self.edited), 1)
         self.assertIn("5/20 clubs", self.edited[0])
+        self.assertIn("UPDATED 21 Nov 2026 08:00 UTC", self.edited[0])
         self.assertFalse(self.check(clock(21, 8, 30)))
         self.assertFalse(self.check(clock(21, 11)))
         self.assertEqual(len(self.edited), 1)
@@ -185,7 +186,7 @@ class MatchdayPress(TestCase):
             for i in range(1, 5)
         }
         out = Path("output/pr-preview/press-layout-review.png")
-        render_press(out, day, names, facts, False, teams=None)
+        render_press(out, {**day, "data_at": clock(21, 8), "updated": True}, names, facts, False, teams=None)
         with Image.open(out) as im:
             self.assertEqual(im.size, (1920, 1080))
             self.assertEqual(im.mode, "RGB")
@@ -200,3 +201,35 @@ class MatchdayPress(TestCase):
         self.assertLess(len(caption), 1024)
         self.assertEqual(len(entities), 1)
         self.assertIn("example.org", entities[0]["url"])
+
+
+def test_press_portrait_matches_only_named_current_club_player():
+    from vortex.press_graphic import featured_player
+    players = [{"team": 1, "code": 100, "web_name": "Example"},
+               {"team": 2, "code": 200, "web_name": "Example"}]
+    assert featured_player(players, {"1": {"news": "Example is fit"}})["code"] == 100
+    assert featured_player(players, {"3": {"news": "Example is fit"}}) is None
+    assert featured_player(players, {"1": {"news": "No injury updates"}}) is None
+
+def test_discord_press_report_send_edit_and_dedup(tmp_path, monkeypatch):
+    monkeypatch.setenv("GITHUB_ACTIONS", "false")
+    path = tmp_path / "press.png"
+    path.write_bytes(b"test media")
+    day = {"key": "2026:GW11", "gw": 11}
+    row, state, calls = {}, {}, []
+    class Discord:
+        def send(self, post):
+            assert is_press_delivery() and post.image == path
+            calls.append(("send", post.caption))
+            return "12345"
+        def edit_news(self, mid, post):
+            assert is_press_delivery() and mid == "12345"
+            calls.append(("edit", post.caption))
+            return mid
+    facts = {"1": {"url": "https://example.org/report"}}
+    args = (day, row, state, lambda *a: None, Discord, path, "Verified report", facts)
+    assert press._sync_discord(*args, "v1")
+    assert not press._sync_discord(*args, "v1")
+    assert press._sync_discord(*args, "v2")
+    assert [c[0] for c in calls] == ["send", "edit"]
+    assert row["discord_message"] == "12345"
