@@ -164,6 +164,10 @@ def run(now=None, cron=None, snapshot=None):
             evidence.price_previous = record_price_ownership(snapshot, editorial)
             try:
                 price_slot, price_status = opportunity(snapshot, now, editorial)
+                if price_status.get('status') == 'research-verified':
+                    write_state(STATE_FILE, editorial)
+                if price_slot is not None:
+                    evidence.price_research = price_status['research']
                 if price_slot is not None:
                     trigger = datetime.fromisoformat(price_status['trigger'])
                     if trigger > now:

@@ -13,7 +13,7 @@ GitHub is the execution owner; do not create ChatGPT schedules. Only replace ins
 
 Slot 6 uses existing Saturday 20:00 ET edition. Research check 19:28 ET (:28 UTC hourly heartbeat), research window 19:28–19:40; post window 20:00–20:15 ET (existing 0/13 minute heartbeats). UTC offsets follow America/New_York. If other due jobs, spacing lock, no verified same-day research or pending identity, skip. Never add another publisher. Existing serialized job is retained. These are nominal scheduling opportunities, not a guarantee of timely GitHub runner starts. Actual workflow validation is required before production cutover.
 
-The remaining requirements for slots 1, 2 and 4 and cross-slot coordination must be implemented and regression-tested before merging the cutover. No claim of completed migration from this document alone.
+Slot 1 now uses a target-season/GW key, T−2h research evidence and a verified material price/projection-state change gate before staging. Both dispatch and outbox validation require evidence. The existing 45-minute publisher cooldown and existing legacy schedules may prevent a qualifying price window; no conflicting publish is authorized. The remaining requirements for slots 1 (layout and full runtime verification), 2 and 4 and cross-slot coordination must be implemented and regression-tested before merging the cutover. No claim of completed migration from this document alone.
 
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 

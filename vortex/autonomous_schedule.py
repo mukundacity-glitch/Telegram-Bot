@@ -124,7 +124,7 @@ def publication_key(slot, now, gw, season=None):
     if slot.edition == 'price-prediction':
         if not slot.price_update_at:
             raise ValueError('Verified price update timestamp required')
-        return f'{season}:price_changes:price-prediction:{slot.price_update_at}'
+        return f'{season}:GW{gw}:price_changes:price-prediction'
     if slot.weekday is not None or slot in (AFTERNOON, SCOUTING, VULNERABILITY):
         return f'{now.astimezone(ET).date()}:{slot.task}:{slot.edition}'
     if slot.series_day is not None:

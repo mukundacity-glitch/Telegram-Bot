@@ -151,6 +151,12 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         if not slot.price_update_at or datetime.fromisoformat(slot.price_update_at) != update:
             raise RequiredInput('Price update changed after scheduling')
         board = build_board(snapshot, update, getattr(e, 'price_previous', None))
+        from .fpl import upcoming_deadline
+        proof = getattr(e, 'price_research', None)
+        if not proof or not proof.get('changes'):
+            raise NoUpdate('No verified T-2h research and material change')
+        board['research'] = proof
+        board['target_deadline'] = upcoming_deadline(snapshot).isoformat()
         board['source_updated_at'] = updated.isoformat()
         return Plan(slot.task, name, 'PRICE CHANGE PREDICTION', board['caption'], gw,
                     [r['player'] for r in board['rises'] + board['falls']], ['RISE']*8+['FALL']*8,

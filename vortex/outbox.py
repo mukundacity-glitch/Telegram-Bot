@@ -71,6 +71,14 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
         updated = datetime.fromisoformat(facts['source_updated_at'])
         if updated.tzinfo is None or not -timedelta(minutes=2) <= now-updated <= timedelta(minutes=45):
             raise ValueError('Price prediction source stale')
+        try:
+            proof = facts['research']
+            checked = datetime.fromisoformat(proof['checked_at'])
+            target_deadline = datetime.fromisoformat(facts['target_deadline'])
+            if not proof['changes'] or not deadline-timedelta(hours=2) <= checked < deadline-timedelta(hours=2)+PRICE_GRACE or target_deadline <= now or target_deadline <= publish_at:
+                raise ValueError('Price research/target deadline gate failed')
+        except (KeyError, TypeError, AttributeError) as exc:
+            raise ValueError('Verified price research required') from exc
     if not record.get('qa_passed') or not record.get('sources'):
         raise ValueError('Graphic QA and source evidence are required')
     caption = str(record.get('caption', ''))
@@ -120,8 +128,8 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
     version = digest.hexdigest()[:20]
     identity = f"chatgpt:{record['season']}:GW{gw}:{record['task']}:{record['edition']}:{version}"
     if record.get('edition') == 'price-prediction':
-        # One publication per update even if forecasts or the current GW change.
-        identity = f"chatgpt:{record['season']}:price_changes:price-prediction:{deadline.astimezone(timezone.utc).isoformat()}"
+        # Stable across daily updates and cosmetic changes in the same target GW.
+        identity = f"chatgpt:{record['season']}:GW{gw}:price_changes:price-prediction"
     return identity, resolved, publish_at
 
 

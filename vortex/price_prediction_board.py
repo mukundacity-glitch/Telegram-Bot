@@ -47,13 +47,75 @@ def official_clock(bootstrap, now):
 
 
 PRICE_LEAD = timedelta(hours=1)
+PRICE_RESEARCH_LEAD = timedelta(hours=2)
 PRICE_GRACE = timedelta(minutes=15)
+RESEARCH_KEY = "_pre_gameweek_price_research"
+
+
+def price_observation(snapshot):
+    """Verified cost and calibrated next-update state, keyed by official player ID."""
+    result = {}
+    for player in snapshot.players:
+        pid, cost = player.get("id"), player.get("now_cost")
+        if type(pid) is not int or type(cost) is not int or cost <= 0:
+            continue
+        if str(pid) in result:
+            raise RequiredInput("Duplicate official player identity")
+        projection = player.get("price_change_projections")
+        rows = [row for row in projection if isinstance(row, dict) and row.get("offset") == 0] if isinstance(projection, list) else []
+        projected = numeric(rows[0].get("projected_percent")) if len(rows) == 1 and player.get("price_change_calibrating") is False else None
+        band = rows[0].get("likelihood") if projected is not None else None
+        result[str(pid)] = {"code": player.get("code"), "cost": cost,
+                            "threshold": (1 if projected >= 100 else -1 if projected <= -100 else 0) if projected is not None else None,
+                            "band": band if type(band) is int and -5 <= band <= 5 else None,
+                            "transfers_in_event": player.get("transfers_in_event"),
+                            "transfers_out_event": player.get("transfers_out_event"),
+                            "ownership": player.get("selected_by_percent"),
+                            "status": player.get("status"), "news": player.get("news")}
+    if not result:
+        raise RequiredInput("No verified price observation")
+    return result
+
+
+def material_changes(previous, current):
+    """Only real cost deltas or a verified threshold/likelihood transition qualify."""
+    changes = []
+    for pid, new in current.items():
+        old = previous.get(pid)
+        if not isinstance(old, dict) or old.get("code") != new.get("code"):
+            continue
+        fields = [key for key in ("cost", "threshold", "band")
+                  if old.get(key) is not None and new.get(key) is not None and old[key] != new[key]]
+        if fields:
+            changes.append({"id": int(pid), "before": {key: old[key] for key in fields},
+                            "after": {key: new[key] for key in fields}})
+    return changes
+
+
+def research_evidence(snapshot, now, update, state):
+    """Match a real T-2 observation to this T-1 run; never manufacture a baseline."""
+    from .autonomous_schedule import season_id
+    row = state.get(RESEARCH_KEY, {})
+    if not isinstance(row, dict) or row.get("update_at") != update.isoformat() or row.get("gw") != snapshot.gameweek() or row.get("season") != season_id(snapshot, now):
+        return None
+    try:
+        checked = datetime.fromisoformat(row["checked_at"])
+        if not update-PRICE_RESEARCH_LEAD <= checked < update-PRICE_RESEARCH_LEAD+PRICE_GRACE:
+            return None
+        if snapshot.fetched_at <= checked:
+            return None
+        changes = material_changes(row["players"], price_observation(snapshot))
+    except (ValueError, TypeError, KeyError, AttributeError):
+        return None
+    return {"checked_at": checked.isoformat(), "changes": changes}
+
 
 
 def opportunity(snapshot, now, state):
     """Find the API-clock opportunity without moving any other editorial slot."""
     from .autonomous_schedule import ET, SLOTS, Slot, eligible_on, slot_start, special_triggers, publication_key, season_id, retryable
     from .schedule import SLOT_HOURS
+    from .fpl import upcoming_deadline
     from .publishing_window import allowed
     from .telegram_spacing import GAP
     update, updated = official_clock({"game_config": snapshot.game_config}, max(now, snapshot.fetched_at))
@@ -65,7 +127,11 @@ def opportunity(snapshot, now, state):
     key = publication_key(slot, now, snapshot.gameweek(), season_id(snapshot, now))
     info = {"post": EDITION, "trigger": trigger.isoformat(), "update_at": update.isoformat(),
             "source_updated_at": updated.isoformat()}
-    if not retryable(state.get(key, {})):
+    target_deadline = upcoming_deadline(snapshot)
+    if not snapshot.gameweek() or target_deadline is None or now >= target_deadline or trigger >= target_deadline:
+        return None, {**info, "status": "no-actionable-gameweek"}
+    existing = state.get(key, {})
+    if existing.get("identity") or not retryable(existing):
         return None, {**info, "status": "closed"}
     if now >= trigger + PRICE_GRACE:
         return None, {**info, "status": "missed-window"}
@@ -73,7 +139,7 @@ def opportunity(snapshot, now, state):
         return None, {**info, "status": "outside-publishing-window"}
     # User's agreed skip rule: protect scheduled posts during the three-hour
     # lead-up, including the target and the Telegram spacing interval after it.
-    start, end = update - timedelta(hours=3), trigger + GAP
+    start, end = update - PRICE_RESEARCH_LEAD, trigger + GAP
     conflicts = []
     for offset in (-1, 0, 1):
         day = local + timedelta(days=offset)
@@ -92,7 +158,22 @@ def opportunity(snapshot, now, state):
                 conflicts.append((other.edition, at.isoformat()))
     if conflicts:
         return None, {**info, "status": "skipped-schedule-conflict", "conflicts": sorted(set(conflicts))}
-    return slot, {**info, "status": "due" if now >= trigger else "waiting"}
+    research_at = update - PRICE_RESEARCH_LEAD
+    if research_at <= now < research_at + PRICE_GRACE:
+        prior = state.get(RESEARCH_KEY, {})
+        if prior.get("update_at") != update.isoformat() or prior.get("gw") != snapshot.gameweek() or prior.get("season") != season_id(snapshot, now):
+            state[RESEARCH_KEY] = {"update_at": update.isoformat(), "gw": snapshot.gameweek(),
+                                   "season": season_id(snapshot, now), "checked_at": now.isoformat(),
+                                   "fetched_at": snapshot.fetched_at.isoformat(), "players": price_observation(snapshot)}
+        return None, {**info, "status": "research-verified"}
+    if now < trigger:
+        return None, {**info, "status": "waiting"}
+    proof = research_evidence(snapshot, now, update, state)
+    if proof is None:
+        return None, {**info, "status": "research-missing"}
+    if not proof["changes"]:
+        return None, {**info, "status": "no-new-facts"}
+    return slot, {**info, "status": "due", "research": proof}
 
 
 def numeric(value):

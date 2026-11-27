@@ -125,11 +125,7 @@ def test_dynamic_clock_respects_existing_schedule(world, monkeypatch):
     monkeypatch.setattr(autonomous_schedule,'SLOTS',())
     monkeypatch.setattr(schedule,'SLOT_HOURS',{})
     slot,info=opportunity(s,now,{})
-    assert info['status']=='due'
-    assert slot.price_update_at=='2026-11-27T00:00:00+00:00'
-    key=publication_key(slot,now,12,'2026-27')
-    assert publication_key(slot,now,13,'2026-27')==key
-    assert opportunity(s,now,{key:{'status':'delivered'}})[1]['status']=='closed'
+    assert slot is None and info['status']=='research-missing'
     assert opportunity(s,now+timedelta(minutes=15),{})[1]['status']=='missed-window'
 
 def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_path):
@@ -145,11 +141,14 @@ def test_outbox_rejects_all_old_price_task_paths_and_deduplicates_update(tmp_pat
         validate(item,tmp_path,NOW)
     update=NOW+timedelta(hours=1)
     item.update(edition='price-prediction', deadline=update.isoformat(),
-                facts={'update_at':update.isoformat(),'source_updated_at':NOW.isoformat(),'projected':99})
+                facts={'update_at':update.isoformat(),'source_updated_at':NOW.isoformat(),'projected':99,
+                       'target_deadline':(update+timedelta(days=1)).isoformat(),
+                       'research':{'checked_at':(update-timedelta(hours=2)).isoformat(),'changes':[{'id':1,'before':{'cost':50},'after':{'cost':51}}]}})
     first=validate(item,tmp_path,NOW)[0]
     item['facts']['projected']=101
-    item['gameweek']=11
     assert validate(item,tmp_path,NOW)[0]==first
+    item['gameweek']=11
+    assert validate(item,tmp_path,NOW)[0]!=first
     with pytest.raises(ValueError,match='one-hour'):
         validate(item,tmp_path,NOW+timedelta(minutes=15))
 

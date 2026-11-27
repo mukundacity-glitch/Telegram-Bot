@@ -36,7 +36,8 @@ def facts(plan,snapshot,evidence):
           'minutes','total_points','form','expected_goals','expected_assists')
     if plan.kind == 'price_prediction':
         return {'edition': plan.edition, 'update_at': plan.extra['update_at'],
-                'source_updated_at': plan.extra['source_updated_at'], 'board': canonical(plan.extra)}
+                'source_updated_at': plan.extra['source_updated_at'], 'research': plan.extra['research'],
+                'target_deadline': plan.extra['target_deadline'], 'board': canonical(plan.extra)}
     if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'weekly_wildcard_vulnerability', 'monday_intelligence', 'chip_strategy'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
