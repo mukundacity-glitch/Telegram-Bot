@@ -56,6 +56,12 @@ def facts(plan,snapshot,evidence):
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
     from .legacy_research_gap import WINDOWS, read_proof
     legacy_proof = None
+    if slot.edition == 'post-gameweek-vulnerability':
+        from .post_gameweek_vulnerability import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Vulnerability requires verified scheduled release')
+        evidence.vulnerability_research = state[STATE_KEY]
     if slot.edition == 'weekly-availability-decisions':
         from .pre_gameweek_availability import eligible, STATE_KEY
         state = read_state(STATE_FILE)
@@ -98,7 +104,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
             if image.size not in expected_sizes:raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()
     weekly = slot.edition == 'weekly-analysis'
-    editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot in EVENING_WATCH_SLOTS or plan.kind == 'post_gameweek_zones'
+    editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot in EVENING_WATCH_SLOTS or plan.kind in ('post_gameweek_zones','post_gameweek_vulnerability')
     if plan.kind == 'post_gameweek_zones' and len(pages)!=1:
         raise RequiredInput('Shot origins requires one landscape board')
     deadline = ((now.astimezone(ET) + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
@@ -171,6 +177,8 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     now=now or datetime.now(timezone.utc)
     if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition, PASSING_CREATORS.edition, *(s.edition for s in EVENING_WATCH_SLOTS), *(s.edition for s in SATURDAY_BOARDS)):
         raise ValueError('This post is available through the due queue only')
+    if edition == 'post-gameweek-vulnerability':
+        raise ValueError('Vulnerability is available only through the verified due queue')
     if edition == 'weekly-availability-decisions':
         raise ValueError('Availability is available only through the verified due queue')
     if edition == 'post-gameweek-shot-origins':

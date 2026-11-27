@@ -47,6 +47,10 @@ def schedule(snapshot,now,state):
             if row and row.get("season")==season_id(snapshot,now):
                 r,p=clock(row["research_at"]),clock(row["post_at"])
                 busy.extend(((label+"-research",r,r+WINDOW),(label+"-post",p-GAP,p+GAP+WINDOW)))
+        matchup=state.get("_post_gameweek_vulnerability",{})
+        if matchup.get("season")==season_id(snapshot,now):
+            mr,mp=clock(matchup["research_at"]),clock(matchup["post_at"])
+            busy.extend((("vulnerability-research",mr,mr+WINDOW),("vulnerability-post",mp-GAP,mp+GAP+WINDOW)))
         pair=choose_schedule(kickoff,deadline,busy)
         if pair is None:
             return None

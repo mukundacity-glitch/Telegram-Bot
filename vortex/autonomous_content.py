@@ -143,6 +143,12 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'post-gameweek-vulnerability':
+        from .post_gameweek_vulnerability import build as build_matchups, RELEASE_VERIFIED
+        proof = getattr(e,'vulnerability_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Vulnerability release/research gate is closed')
+        return build_matchups(snapshot,now,e,proof)
     if name == 'weekly-availability-decisions':
         from .pre_gameweek_availability import build as build_availability, RELEASE_VERIFIED
         proof = getattr(e,'availability_research',None)

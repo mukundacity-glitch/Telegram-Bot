@@ -144,6 +144,10 @@ def schedule(snapshot, now, state):
             ar,ap=clock(availability["research_at"]),clock(availability["post_at"])
             busy.extend((("availability-research",ar,ar+WINDOW),
                          ("availability-post",ap-GAP,ap+GAP+WINDOW)))
+        matchup=state.get("_post_gameweek_vulnerability",{})
+        if matchup.get("season")==season_id(snapshot,now):
+            mr,mp=clock(matchup["research_at"]),clock(matchup["post_at"])
+            busy.extend((("vulnerability-research",mr,mr+WINDOW),("vulnerability-post",mp-GAP,mp+GAP+WINDOW)))
         selected = choose_schedule(kickoff,deadline,busy)
         if selected is None:
             return None

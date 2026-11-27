@@ -114,7 +114,7 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
     def guarded(job):
         return ((job[1] == 'editorial' and job[3].edition in {
             'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
-            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins', 'weekly-availability-decisions'})
+            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins', 'weekly-availability-decisions', 'post-gameweek-vulnerability'})
             or (job[1] == 'news' and rotation_due(now)))
     if research_due or any(guarded(job) for job in jobs):
         jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
@@ -299,6 +299,12 @@ def run(now=None, cron=None, snapshot=None):
             evidence.availability_research = editorial[AVAILABILITY_STATE]
             jobs.append((datetime.fromisoformat(editorial[AVAILABILITY_STATE]['post_at']),
                          'editorial',publication_key(availability,now,gw,season),availability))
+        from .post_gameweek_vulnerability import eligible as matchup_eligible, STATE_KEY as MATCHUP_STATE
+        matchup = matchup_eligible(snapshot,now,editorial)
+        if matchup is not None:
+            evidence.vulnerability_research = editorial[MATCHUP_STATE]
+            jobs.append((datetime.fromisoformat(editorial[MATCHUP_STATE]['post_at']),
+                         'editorial',publication_key(matchup,now,gw,season),matchup))
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
             key = publication_key(series, now, gw, season)
@@ -372,6 +378,10 @@ def run(now=None, cron=None, snapshot=None):
                     from .pre_gameweek_availability import prepare as prepare_availability
                     if prepare_availability(snapshot,now,editorial,evidence,clock):
                         write_state(STATE_FILE,editorial)
+                    else:
+                        from .post_gameweek_vulnerability import prepare as prepare_matchups
+                        if prepare_matchups(snapshot,now,editorial,evidence,clock):
+                            write_state(STATE_FILE,editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass
     # FDR is a strict weekly phase, not a generic late catch-up.
@@ -410,6 +420,10 @@ def run(now=None, cron=None, snapshot=None):
         if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
             from .daily_cutover import eligible as daily_eligible
             if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
+        if lane == 'editorial' and payload.edition == 'post-gameweek-vulnerability':
+            from .post_gameweek_vulnerability import eligible as matchup_eligible
+            if matchup_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
                 continue
         if lane == 'editorial' and payload.edition == 'weekly-availability-decisions':
             from .pre_gameweek_availability import eligible as availability_eligible

@@ -375,6 +375,9 @@ def render(plan,snapshot,now,output,session=None):
     if plan.kind in ('rotation_value', 'rotation_transfers'):
         from .afternoon_rotation_render import render_players
         return [render_players(plan, snapshot, output, client)]
+    if plan.kind == 'post_gameweek_vulnerability':
+        from .premium_vulnerability_render import render as render_matchups
+        return [render_matchups(plan,output,client)]
     if plan.kind == 'weekly_availability':
         from .weekly_availability_render import render as render_availability_weekly
         return [render_availability_weekly(plan,snapshot,output,client)]

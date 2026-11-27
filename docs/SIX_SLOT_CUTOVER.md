@@ -87,6 +87,9 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 11:04:28 UTC — Slot 9 refinement commit 6e4c3af.
 - Friday, 27 November 2026 at 11:07:02.4649103 UTC — 485 passed, 1 failed on 6e4c3af (run 45987422667). Root cause: test counted VALUE as six labels, but the tier title VALUE PLAYS includes a seventh literal VALUE. Corrected assertion preserves all 25 action badges and tier headings. Fresh CI required.
 
+- Friday, 27 November 2026 at 11:13:28 UTC — Slot 9 test correction pushed (4d98295), fresh validation required.
+- Slot 10: branch-only, release-disabled post-finalized-GW positional vulnerability with season-to-date linked non-penalty shot xG per 90, opponent venue/position percentiles and four highlighted matchups for next GW. Official event/fixture settlement and FPL Core match evidence must reconcile; no next fixture (including end of season) means hold. Existing serialized heartbeat, durable research digest, minimum 3-hour gap from research-window end, stable completed-GW identity and cross-slot reservations. Native 1920×1080 charcoal / warm ivory / teal / orchid / copper design, large axis labels and cards. The Tuesday combined wildcard/vulnerability graphic remains preserved pending cleanup; overlapping content must be reconciled before activation. No new cron, task, or production merge.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.
@@ -100,3 +103,5 @@ Superseded existing weekly research windows: Monday goalkeeper/striker 09:30–1
 Superseded Slot 8 standalone rule: Thursday 20:00 ET attacking-zones edition (retired). Replaced in the branch by official post-final-GW cadence, not reinstated. Monday combined shot-origin section is preserved pending cleanup; duplicate-content reconciliation remains a release prerequisite.
 
 Retired availability-transfer-decisions: former 05:30 board; replaced in branch scope by Slot 9 dynamic pre-kickoff rule. Retain historic records, no replay or deletion.
+
+Slot 10 superseded cadence: fixed Tuesday standalone positional vulnerability rule. Preserve existing combined wildcard content and historical receipts until cleanup; do not activate overlapping standalone content before release validation.
