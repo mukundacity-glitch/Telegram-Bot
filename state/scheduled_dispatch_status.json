@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-27T21:56:52.062956+00:00",
-  "eastern_at": "2026-11-27T16:56:52.062956-05:00",
+  "at": "2026-11-27T22:48:15.513026+00:00",
+  "eastern_at": "2026-11-27T17:48:15.513026-05:00",
   "last_news_scan": "2026-11-27T16:26:29.174996+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "news",
-    "trigger": "2026-11-27T22:41:56.234375+00:00"
+    "trigger": "2026-11-27T23:33:19.710259+00:00"
   },
-  "next_telegram_at": "2026-11-27T22:41:56.234375+00:00",
+  "next_telegram_at": "2026-11-27T23:33:19.710259+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -58,14 +58,14 @@
     ],
     "post": "price-prediction",
     "research_at": "2026-11-27T07:43:00+00:00",
-    "source_updated_at": "2026-11-27T21:50:13.986488+00:00",
+    "source_updated_at": "2026-11-27T22:35:11.508481+00:00",
     "status": "skipped-schedule-conflict",
     "trigger": "2026-11-27T21:30:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"
   },
   "queue_enumerated": true,
   "queue_items_unprocessed": 1,
-  "scheduled_cron": "0,30 0-3,9-23 * * *",
+  "scheduled_cron": "28 * * * *",
   "source_error": null,
   "status": "published",
   "telegram_messages_sent": 1
