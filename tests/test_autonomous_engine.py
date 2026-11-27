@@ -76,7 +76,11 @@ def test_original_news_and_additional_editions_never_share_a_clock_slot():
                      '15 0,20,21,23 * * *', '45 1,2 * * *']
     assert 'timezone:' not in workflow
     assert 'python -m vortex.scheduled_dispatch' in workflow
-    assert len(SLOTS) == 20  # Matchday press is triggered by fixtures outside the fixed slots.
+    # Matchday press and the weekly four-club rotation use their own routes.
+    from vortex.autonomous_schedule import FRIDAY_ROTATION_PLANNER, RETIRED_EDITIONS
+    assert len(SLOTS) == 19
+    assert FRIDAY_ROTATION_PLANNER not in SLOTS
+    assert FRIDAY_ROTATION_PLANNER.edition in RETIRED_EDITIONS
     assert 'vortex.combine_midfielder_posts' not in workflow
     assert 'deleteMessage' not in workflow
 

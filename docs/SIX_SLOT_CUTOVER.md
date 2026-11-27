@@ -17,4 +17,4 @@ Slot 1 now uses a target-season/GW key, T−2h research evidence and a verified 
 
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
-The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. No public posts or receipt deletions are authorized.
+The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.

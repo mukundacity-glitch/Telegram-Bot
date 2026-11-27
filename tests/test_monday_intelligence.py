@@ -21,5 +21,5 @@ def test_monday_only_research_and_one_active_slot():
     assert retired_record({"edition":"gw-key-players"})
     assert retired_record({"edition":"monday-defence-watch"})
     assert not retired_record({"edition":"monday-defence-watch","facts":{"extra":{"combined_monday":True}}})
-    assert CATALOG[13]=="monday-defence-watch" and len(CATALOG)==51 and len(ACTIVE_CATALOG)==51
+    assert CATALOG[13]=="monday-defence-watch" and len(CATALOG)==51 and len(ACTIVE_CATALOG)==50
     assert graphic_key("thursday-attacking-zones",3) is None and graphic_key("gw-key-players",0) is None
