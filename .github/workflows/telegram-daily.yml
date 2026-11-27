@@ -35,7 +35,6 @@ on:
           - reconcile-telegram
           - defender-watch
           - form-minutes-targets
-          - goalkeeper-striker-watch
           - vortex-captain
           - value-board
           - start-bench-board

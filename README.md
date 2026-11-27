@@ -140,3 +140,6 @@ Additional layouts are implemented in `vortex/premium.py` for `news`, `prices`, 
 To preview any new template on demand without affecting the once-per-day ledger, use Actions → FPL VORTEX Telegram Daily → Run workflow and choose `preview`, `preview-transfer`, `preview-prices`, `preview-captaincy`, `preview-review` or `preview-elite`.
 
 **Manual normal runs:** explicitly selecting `comparison`, `news`, etc. sends a new post even if one already went out today. **Automatic scheduled runs:** deduplicated by the Eastern calendar date and slot. This avoids silently ignoring the user's manual tests while preventing routine duplicate scheduled posts.
+
+### Weekly goalkeeper and striker watch (5/55)
+Monday 09:30 Eastern: research official recent minutes, form and fixtures without publishing. Monday 10:30 Eastern: refresh the FPL snapshot and publish one combined landscape board (two goalkeepers, three strikers) when the shared Telegram cooldown permits. Slot 29/55 is reserved/vacant; all other graphic IDs remain unchanged. 54 active graphics occupy 55 permanent positions. Older two-page watch outbox records cannot replay.

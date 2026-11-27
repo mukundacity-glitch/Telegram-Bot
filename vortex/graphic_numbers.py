@@ -6,6 +6,7 @@ from PIL.PngImagePlugin import PngInfo
 
 PRESS_REPORT_KEY = 'verified-press-availability'  # existing 13/55; premium roundup is its replacement
 
+RESERVED_KEY = 'reserved-29'  # vacant; preserve every other permanent number
 CATALOG = (
     'elite', 'daily_stats', 'form-minutes-targets', 'defender-watch',
     'goalkeeper-striker-watch', 'player-radar-comparison', 'weekly-analysis',
@@ -14,7 +15,7 @@ CATALOG = (
     'vortex-captain', 'price-prediction', 'wildcard-draft', 'chip-strategy',
     'passing-creators', 'bonus-magnets', 'top-100k-ownership', 'assists-vs-shot-quality',
     'chance-creators', 'captaincy-comparison', 'value-board', 'start-bench-board',
-    'final-gameweek-news', 'market-trends-next-five', 'striker-watch',
+    'final-gameweek-news', 'market-trends-next-five', RESERVED_KEY,
     *(f'weekly-analysis-{day}' for day in range(2, 8)),
     *(f'afternoon-rotation-{day}' for day in range(2, 8)),
     *(f'scouting-rotation-{day}' for day in range(2, 8)),
@@ -24,21 +25,23 @@ CATALOG = (
 )
 
 
+ACTIVE_CATALOG = tuple(key for key in CATALOG if key != RESERVED_KEY)
+
 def graphic_key(edition, weekday, series_day=None, page=0):
-    if edition == 'goalkeeper-striker-watch' and page == 1:
-        return 'striker-watch'
+    if edition == 'goalkeeper-striker-watch' and page != 0:
+        return None
     if edition in ('afternoon-rotation', 'scouting-rotation') and weekday:
         return f'{edition}-{weekday + 1}'
     if edition == 'weekly-analysis' and series_day in range(2, 8):
         return f'{edition}-{series_day}'
-    return edition if edition in CATALOG else None
+    return edition if edition in ACTIVE_CATALOG else None
 
 
 def stamp(path, key, destination=None, *, required=False):
     """Reserve a header above the complete artwork and keep the upload dimensions."""
     path = Path(path)
     # Uncatalogued custom/news artwork is no longer assigned the retired 55/55 slot.
-    if key not in CATALOG:
+    if key not in ACTIVE_CATALOG:
         if required:
             raise ValueError(f'No permanent graphic number registered for {key!r}')
         return path

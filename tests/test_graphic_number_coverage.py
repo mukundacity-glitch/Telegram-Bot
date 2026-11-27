@@ -1,7 +1,7 @@
 """Numbering coverage for the complete permanent 55-graphic production catalog."""
 from PIL import Image
 import pytest
-from vortex.graphic_numbers import CATALOG, PRESS_REPORT_KEY, graphic_key, stamp
+from vortex.graphic_numbers import CATALOG, ACTIVE_CATALOG, RESERVED_KEY, PRESS_REPORT_KEY, graphic_key, stamp
 from vortex.autonomous_schedule import SLOTS, SPECIAL_EDITIONS
 from vortex.schedule import SLOT_HOURS
 
@@ -11,18 +11,20 @@ def test_all_active_scheduled_editions_cover_exactly_55_graphic_numbers():
         for weekday in range(7):
             for day in range(1, 8) if slot.edition == "weekly-analysis" else (None,):
                 keys.add(graphic_key(slot.edition, weekday, day))
-                if slot.edition == "goalkeeper-striker-watch":
-                    keys.add(graphic_key(slot.edition, weekday, day, 1))
     keys.update(graphic_key(edition, 0) for edition in SPECIAL_EDITIONS)
     keys.update((PRESS_REPORT_KEY, "news-rotation-planner", "price-prediction"))
     assert None not in keys
     assert len(CATALOG) == len(set(CATALOG)) == 55
-    assert keys == set(CATALOG)
+    assert len(ACTIVE_CATALOG) == 54
+    assert keys == set(ACTIVE_CATALOG)
+    assert CATALOG[28] == RESERVED_KEY
+    assert graphic_key('striker-watch', 0) is None
+    assert graphic_key('goalkeeper-striker-watch', 0, page=1) is None
     assert CATALOG[12] == PRESS_REPORT_KEY
     assert CATALOG[15] == "price-prediction"
     assert CATALOG[-1] == "gw-key-players"
 
-@pytest.mark.parametrize("key", CATALOG)
+@pytest.mark.parametrize("key", ACTIVE_CATALOG)
 def test_every_catalog_number_is_visible_and_idempotent(key, tmp_path):
     source = tmp_path / "source.png"
     target = tmp_path / "stamped-copy.png"
