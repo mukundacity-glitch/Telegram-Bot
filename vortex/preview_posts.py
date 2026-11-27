@@ -20,7 +20,17 @@ def main() -> int:
         try:
             article = generate(kind, snapshot, datetime.now(timezone.utc), {})
             path = folder / f"FPLVortex_GW{article.gw}_{kind}_PREVIEW.png"
-            render(article, path)
+            if kind == 'sell':
+                # Use the same renderer and resolution as production.
+                from .publish_checks import render_checked
+                from .graphic_numbers import stamp
+                import os
+                for key, value in {'FPL_TELEGRAM_HANDLE':'@FPLVortexDailyBot', 'FPL_DISCORD_HANDLE':'@fplvortex', 'FPL_ENRICHED_VISUALS_ENABLED':'true'}.items():
+                    os.environ.setdefault(key, value)
+                render_checked(article, snapshot, path)
+                stamp(path, 'sell', required=True)
+            else:
+                render(article, path)
             (folder / f"FPLVortex_GW{article.gw}_{kind}_CAPTION.txt").write_text(
                 article.caption + "\n", encoding="utf-8")
             print(f"{kind.upper()} verified preview: {path}; data timestamp {article.data_at}")

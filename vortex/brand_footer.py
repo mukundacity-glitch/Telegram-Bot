@@ -4,7 +4,7 @@ from __future__ import annotations
 from pathlib import Path
 import os
 
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageOps
 
 from .publication_rules import required_footer_handles
 
@@ -72,3 +72,36 @@ def apply_footer(output: Path, *, verdict: str = "",
         check.verify()
     tmp.replace(output)
     return output
+
+
+# Original user-approved artwork, preserved byte-for-byte from the retired
+# timetable's brand assets. No timetable generator or schedule is restored.
+SELL_LOGO = ROOT / "assets/brand/sell-approved-logo.jpg"
+SELL_FOOTER = ROOT / "assets/brand/sell-approved-footer.jpg"
+
+def _approved_asset(path, expected):
+    import hashlib
+    raw = path.read_bytes()
+    digest = hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+    if digest != expected:
+        raise RuntimeError("Approved SELL branding asset changed; hold graphic")
+    with Image.open(path) as source:
+        return source.convert("RGB")
+
+def approved_sell_logo(canvas):
+    """Place the exact green/gold lion wordmark in the existing left masthead."""
+    logo = _approved_asset(SELL_LOGO, "a6871f20a9a901570df252a24496b445881dd86b")
+    w, h = canvas.size
+    box_w, box_h = round(w*314/1536), round(h*145/864)
+    ImageDraw.Draw(canvas).rectangle((0,0,box_w-1,box_h-1), fill="#091636")
+    logo = ImageOps.contain(logo, (box_w-24, box_h-16), Image.Resampling.LANCZOS)
+    canvas.paste(logo, ((box_w-logo.width)//2, (box_h-logo.height)//2))
+    return canvas
+
+def approved_social_footer(canvas):
+    """Reuse the exact full-width YouTube / X / Telegram / Instagram strip."""
+    original = _approved_asset(SELL_FOOTER, "2f78e78c6bf29b02df6b10a505485bca2f95842f")
+    w, h = canvas.size
+    height = round(w * original.height / original.width)
+    canvas.paste(original.resize((w,height), Image.Resampling.LANCZOS), (0,h-height))
+    return canvas

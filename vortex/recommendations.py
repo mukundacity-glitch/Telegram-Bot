@@ -137,7 +137,7 @@ def _evidence(player: dict[str, Any], fixtures: list[tuple], kind: str) -> tuple
         return True, "Low season minutes and limited FPL form.", "HOLD if an imminent start is independently verified."
     if fdr is not None and fdr >= 4 and form is not None and form <= 2.5:
         return True, f"Hard GW fixture (FDR {display(fdr, 1)}) and weak FPL form ({display(form, 1)}).", "HOLD if a free transfer has higher value elsewhere."
-    return False, "High transfers out do not, by themselves, make a player a sell.", risk(player, fixtures, status)
+    return False, "Current form and availability do not justify a firm sell.", risk(player, fixtures, status)
 
 
 def select(snapshot: FplSnapshot, kind: str) -> list[tuple[dict[str, Any], bool, str, str, list[tuple]]]:
@@ -149,11 +149,17 @@ def select(snapshot: FplSnapshot, kind: str) -> list[tuple[dict[str, Any], bool,
     eligible.sort(key=lambda p: (-p[transfer_key], p["id"]))
     strong: list[tuple] = []
     watch: list[tuple] = []
-    for player in eligible[:80]:
+    # SELL membership and order follow the official event-to-date ranking.
+    # Evidence still determines whether each candidate is a SELL or WATCHLIST.
+    ranked = []
+    for player in eligible[:4] if kind == "sell" else eligible[:80]:
         matches = snapshot.fixtures_for_gameweek(player)
         good, why, caution = _evidence(player, matches, kind)
         row = (player, good, why, caution, matches)
+        ranked.append(row)
         (strong if good else watch).append(row)
+    if kind == "sell":
+        return ranked
     # Prefer evidence over popularity, while still starting from the official
     # most-transferred cohorts. Never claim conditional picks are strong verdicts.
     return (strong[:4] + watch[:max(0, 4 - len(strong))])[:4]
@@ -226,6 +232,10 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
             "replacement": replacement,
             "next_gw": str(gw),
         }
+        if kind == "sell":
+            # Transfer-out counts rank candidates internally, never appear in public copy.
+            metrics.pop("transfers", None)
+            metrics.pop("transfer_period", None)
         metrics = {key: value for key, value in metrics.items() if "N/A" not in str(value)}
         cards.append(Card(
             snapshot.name(player), f"{snapshot.team(player)} · {pos}", metrics["decision"],
@@ -243,11 +253,12 @@ def build(kind: str, snapshot: FplSnapshot, now: datetime, session: requests.Ses
         f"GW{gw}: four {verb} candidates for the NEXT gameweek.",
         f"Featured: {lead}.",
         f"{count} evidence-backed; {4 - count} conditional watchlist.",
-        "Official event-to-date transfers, form and GW FDR.",
+        "VORTEX recommendation: form, availability and GW FDR." if kind == "sell" else "Official event-to-date transfers, form and GW FDR.",
         "Check final XI; avoid unnecessary points hits.",
     ], gw)
     from zoneinfo import ZoneInfo
     timestamp = snapshot.fetched_at.astimezone(ZoneInfo("America/New_York")).strftime("%d %b %Y · %I:%M %p ET")
-    return Content(kind, title, "ONE GAMEWEEK · OFFICIAL EVENT-TO-DATE TRANSFERS",
+    kicker = "VORTEX RECOMMENDATIONS · NEXT GW" if kind == "sell" else "ONE GAMEWEEK · OFFICIAL EVENT-TO-DATE TRANSFERS"
+    return Content(kind, title, kicker,
                    tuple(cards), "NO AUTOMATIC HITS · CHECK TEAM NEWS", caption,
                    timestamp, gw, "Source: Official Fantasy Premier League API")
