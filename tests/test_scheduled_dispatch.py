@@ -222,3 +222,31 @@ def test_retired_evening_has_no_legacy_publication_slot():
     assert 'evening' not in SLOT_HOURS
     with pytest.raises(ValueError):
         resolve_slot('evening', None, OPEN)
+
+
+def test_price_research_during_cooldown_keeps_a_usable_baseline(monkeypatch, tmp_path):
+    from datetime import timedelta
+    from types import SimpleNamespace
+    from vortex.price_prediction_board import ownership_trend
+
+    monkeypatch.setattr(dispatcher, 'STATE_FILE', tmp_path / 'editorial.json')
+    monkeypatch.setattr(dispatcher, 'REPORT', tmp_path / 'report.json')
+    monkeypatch.setattr(dispatcher, 'blocked_until', lambda now: now + timedelta(minutes=45))
+    monkeypatch.setattr(dispatcher, 'collect_snapshot', lambda: pytest.fail('Unexpected network read'))
+    monkeypatch.setattr(dispatcher, 'run_editions', lambda **kw: pytest.fail('Unexpected publication'))
+    dispatcher.write_state(dispatcher.STATE_FILE, {'existing-edition': {'status': 'delivered'}})
+
+    def snapshot(minutes, ownership):
+        return SimpleNamespace(fetched_at=OPEN + timedelta(minutes=minutes), game_config={},
+                               players=[{'code': 101, 'selected_by_percent': ownership}])
+
+    for minute, value in ((0, '10.0'), (15, '10.3'), (16, '10.4'), (21, None)):
+        current = snapshot(minute, value)
+        report = dispatcher.run(now=current.fetched_at, snapshot=current)
+        assert report['new_posts'] == 0
+    state = dispatcher.read_state(dispatcher.STATE_FILE)
+    assert state['_price_ownership']['at'] == snapshot(15, '').fetched_at.isoformat()
+    assert state['existing-edition']['status'] == 'delivered'
+    current = snapshot(16, '10.4')
+    baseline = dispatcher.record_price_ownership(current, state)
+    assert ownership_trend(current, baseline, current.players[0]) == 0.4
