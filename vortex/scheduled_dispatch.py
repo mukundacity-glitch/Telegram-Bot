@@ -175,6 +175,11 @@ def run(now=None, cron=None, snapshot=None):
         for slot in catchup_slots(now, editorial, gw, season, limit=None):
             jobs.append((slot_start(slot, now), 'editorial',
                          publication_key(slot, now, gw, season), slot))
+        from .autonomous_schedule import finalized_radar_slot
+        radar = finalized_radar_slot(snapshot, now, editorial)
+        if radar is not None:
+            jobs.append((slot_start(radar, now), 'editorial',
+                         publication_key(radar, now, gw, season), radar))
         old_series = editorial.get(SERIES_STATE)
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
