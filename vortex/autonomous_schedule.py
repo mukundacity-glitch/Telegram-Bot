@@ -119,6 +119,9 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.edition == 'weekly-availability-decisions':
+        from .pre_gameweek_availability import key
+        return key(season,gw)
     if slot.edition == 'post-gameweek-shot-origins':
         from .post_gameweek_zones import key
         return key(season,slot.series_gw)

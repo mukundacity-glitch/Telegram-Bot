@@ -56,6 +56,12 @@ def facts(plan,snapshot,evidence):
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
     from .legacy_research_gap import WINDOWS, read_proof
     legacy_proof = None
+    if slot.edition == 'weekly-availability-decisions':
+        from .pre_gameweek_availability import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Availability requires verified scheduled release')
+        evidence.availability_research = state[STATE_KEY]
     if slot.edition == 'post-gameweek-shot-origins':
         from .post_gameweek_zones import eligible, STATE_KEY
         state = read_state(STATE_FILE)
@@ -102,6 +108,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
     if plan.kind == 'monday_intelligence':
         deadline = min(deadline, upcoming_deadline(snapshot)) if upcoming_deadline(snapshot) else None
+    if plan.kind == 'weekly_availability':
+        deadline = datetime.fromisoformat(plan.extra['research']['deadline'])
     if plan.kind == 'weekly_position_watch':
         deadline = datetime.fromisoformat(plan.extra['research']['deadline'])
     if plan.kind == 'price_prediction':
@@ -163,6 +171,8 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     now=now or datetime.now(timezone.utc)
     if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition, PASSING_CREATORS.edition, *(s.edition for s in EVENING_WATCH_SLOTS), *(s.edition for s in SATURDAY_BOARDS)):
         raise ValueError('This post is available through the due queue only')
+    if edition == 'weekly-availability-decisions':
+        raise ValueError('Availability is available only through the verified due queue')
     if edition == 'post-gameweek-shot-origins':
         raise ValueError('Shot origins is available only through the verified due queue')
     if edition == 'weekly-position-watch':

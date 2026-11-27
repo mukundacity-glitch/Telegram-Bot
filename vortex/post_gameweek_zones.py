@@ -74,6 +74,10 @@ def busy_windows(snapshot,now,state,anchor):
         r,p=clock(position["research_at"]),clock(position["post_at"])
         busy.extend((("position-watch-research",r,r+WINDOW),
                      ("position-watch-post",p-GAP,p+GAP+WINDOW)))
+    availability=state.get("_weekly_availability_decisions",{})
+    if availability.get("season")==season_id(snapshot,now):
+        r,p=clock(availability["research_at"]),clock(availability["post_at"])
+        busy.extend((("availability-research",r,r+WINDOW),("availability-post",p-GAP,p+GAP+WINDOW)))
     return busy
 
 

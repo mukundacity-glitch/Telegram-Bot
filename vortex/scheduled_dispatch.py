@@ -114,7 +114,7 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
     def guarded(job):
         return ((job[1] == 'editorial' and job[3].edition in {
             'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
-            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins'})
+            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins', 'weekly-availability-decisions'})
             or (job[1] == 'news' and rotation_due(now)))
     if research_due or any(guarded(job) for job in jobs):
         jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
@@ -156,6 +156,17 @@ def run(now=None, cron=None, snapshot=None):
                                      (lambda:now) if injected_time else (lambda:datetime.now(timezone.utc))):
                         write_state(STATE_FILE,state)
                         return {'status':'research-verified','new_posts':0,'edition':'weekly-position-watch'}
+                except (RuntimeError,ValueError,KeyError,TypeError,OSError):
+                    pass
+        from .pre_gameweek_availability import RELEASE_VERIFIED as AVAILABILITY_RELEASE, prepare as prepare_availability
+        if AVAILABILITY_RELEASE and snapshot is not None:
+            state = read_state(STATE_FILE)
+            if not list(queued_files(now)) and not read_state(NEWS_PENDING):
+                try:
+                    if prepare_availability(snapshot,now,state,Evidence(snapshot,now),
+                                            (lambda:now) if injected_time else (lambda:datetime.now(timezone.utc))):
+                        write_state(STATE_FILE,state)
+                        return {'status':'research-verified','new_posts':0,'edition':'weekly-availability-decisions'}
                 except (RuntimeError,ValueError,KeyError,TypeError,OSError):
                     pass
         # Earlier price check is a read-only branch on the existing heartbeat.
@@ -282,6 +293,12 @@ def run(now=None, cron=None, snapshot=None):
             evidence.shot_origins_research = editorial[ZONES_STATE]
             jobs.append((datetime.fromisoformat(editorial[ZONES_STATE]['post_at']),
                          'editorial',publication_key(zones,now,gw,season),zones))
+        from .pre_gameweek_availability import eligible as availability_eligible, STATE_KEY as AVAILABILITY_STATE
+        availability = availability_eligible(snapshot,now,editorial)
+        if availability is not None:
+            evidence.availability_research = editorial[AVAILABILITY_STATE]
+            jobs.append((datetime.fromisoformat(editorial[AVAILABILITY_STATE]['post_at']),
+                         'editorial',publication_key(availability,now,gw,season),availability))
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
             key = publication_key(series, now, gw, season)
@@ -351,6 +368,10 @@ def run(now=None, cron=None, snapshot=None):
                 from .post_gameweek_zones import prepare as prepare_zones
                 if prepare_zones(snapshot,now,editorial,evidence,clock):
                     write_state(STATE_FILE,editorial)
+                else:
+                    from .pre_gameweek_availability import prepare as prepare_availability
+                    if prepare_availability(snapshot,now,editorial,evidence,clock):
+                        write_state(STATE_FILE,editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass
     # FDR is a strict weekly phase, not a generic late catch-up.
@@ -389,6 +410,10 @@ def run(now=None, cron=None, snapshot=None):
         if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
             from .daily_cutover import eligible as daily_eligible
             if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
+        if lane == 'editorial' and payload.edition == 'weekly-availability-decisions':
+            from .pre_gameweek_availability import eligible as availability_eligible
+            if availability_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
                 continue
         if lane == 'editorial' and payload.edition == 'post-gameweek-shot-origins':
             from .post_gameweek_zones import eligible as zones_eligible
