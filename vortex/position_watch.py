@@ -271,8 +271,10 @@ def build(slot, snapshot, now, evidence, proof=None):
 
 
 def prepare(snapshot, now, state, evidence, clock_now):
+    if not RELEASE_VERIFIED:
+        return False
     row = schedule(snapshot,now,state)
-    if not RELEASE_VERIFIED or phase(row,now) != "research":
+    if phase(row,now) != "research":
         return False
     prior = state.get(STATE_KEY,{})
     if proof_valid(prior,row,now,posting=False):
@@ -303,7 +305,9 @@ def eligible(snapshot, now, state):
 
 def validate_record(record, now, publish_at, *, manual=False):
     from .publishing_window import allowed
-    proof = (record.get("facts") or {}).get("extra",{}).get("research",{})
+    facts = record.get("facts") or {}
+    extra = facts.get("extra") or {}
+    proof = extra.get("research") or {}
     expected = {k:proof.get(k) for k in ("season","gw","kickoff","deadline","research_at","post_at")}
     if (not RELEASE_VERIFIED or manual or record.get("task")!="task2"
             or len(record.get("images") or [])!=1 or proof.get("season")!=record.get("season")
@@ -311,6 +315,21 @@ def validate_record(record, now, publish_at, *, manual=False):
             or not allowed(now) or not allowed(publish_at)
             or not proof_valid(proof,expected,publish_at) or not proof_valid(proof,expected,now)):
         raise ValueError("Position Watch release/research/publication gate is closed")
+    expected_ids = [pid for pos,_,_ in GROUPS for pid in proof["groups"][str(pos)]]
+    if extra.get("groups") != proof["groups"] or facts.get("player_ids") != expected_ids:
+        raise ValueError("Position Watch players do not match the researched groups")
+    # Recheck official fixture/deadline and current reserved windows at the
+    # final publisher boundary, not only at the start of the rendering run.
+    from .autonomous_runner import STATE_FILE
+    from .bot import read_state
+    from .fpl import collect_snapshot
+    state = read_state(STATE_FILE)
+    if state.get(STATE_KEY) != proof:
+        raise ValueError("Position Watch lacks matching durable research evidence")
+    snapshot = collect_snapshot()
+    fresh_now = max(now,snapshot.fetched_at)
+    if not proof_valid(proof,schedule(snapshot,fresh_now,state),fresh_now):
+        raise ValueError("Position Watch live kickoff or publication window changed")
     return "chatgpt:"+key(record["season"],record["gameweek"])
 
 
