@@ -1,19 +1,19 @@
 {
-  "at": "2026-11-27T16:26:29.174996+00:00",
-  "eastern_at": "2026-11-27T11:26:29.174996-05:00",
+  "at": "2026-11-27T16:30:01.413389+00:00",
+  "eastern_at": "2026-11-27T11:30:01.413389-05:00",
   "last_news_scan": "2026-11-27T16:26:29.174996+00:00",
   "new_posts": 0,
   "next_due": {
-    "post": "player-radar-comparison",
-    "trigger": "2026-11-27T11:30:00-05:00"
+    "post": "weekly-analysis",
+    "trigger": "2026-11-27T12:30:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [],
-  "posts_due": 1,
+  "posts_due": 0,
   "posts_failed": 0,
   "posts_generated": 0,
   "posts_pending_trigger": 0,
-  "posts_processed": 1,
+  "posts_processed": 0,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
