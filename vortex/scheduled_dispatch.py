@@ -393,7 +393,11 @@ def main():
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
                          live_clock=lambda: datetime.now(timezone.utc),
                          discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):
-                observe_during_deferral(snapshot)
+                try:
+                    observe_during_deferral(snapshot)
+                except (RuntimeError, ValueError, OSError) as error:
+                    print('Price ownership research: ' + failure_reason(error))
+                    return 1
                 print('Matchday press roundup has publication priority on this pass')
                 return 0
         except (RuntimeError, ValueError, OSError) as error:

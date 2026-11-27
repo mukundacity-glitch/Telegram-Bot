@@ -250,3 +250,21 @@ def test_price_research_during_cooldown_keeps_a_usable_baseline(monkeypatch, tmp
     current = snapshot(16, '10.4')
     baseline = dispatcher.record_price_ownership(current, state)
     assert ownership_trend(current, baseline, current.players[0]) == 0.4
+
+
+def test_press_priority_survives_ownership_journal_failure(monkeypatch):
+    from types import SimpleNamespace
+    from vortex import matchday_press, monday_intelligence, weekly_position_watch, weekly_wildcard_vulnerability
+
+    monkeypatch.setenv('GITHUB_EVENT_NAME', 'schedule')
+    monkeypatch.setattr(dispatcher, 'collect_snapshot', lambda: SimpleNamespace(game_config={}))
+    for module in (monday_intelligence, weekly_position_watch, weekly_wildcard_vulnerability):
+        monkeypatch.setattr(module, 'research_due', lambda now: False)
+    monkeypatch.setattr(matchday_press, 'run', lambda *args, **kwargs: True)
+
+    def unavailable(path):
+        raise OSError('journal unavailable')
+
+    monkeypatch.setattr(dispatcher, 'read_state', unavailable)
+    monkeypatch.setattr(dispatcher, 'run', lambda **kwargs: pytest.fail('Press already claimed this pass'))
+    assert dispatcher.main() == 1
