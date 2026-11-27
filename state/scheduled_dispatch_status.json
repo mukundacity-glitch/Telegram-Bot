@@ -1,8 +1,8 @@
 {
-  "at": "2026-11-27T00:00:07.363185+00:00",
-  "eastern_at": "2026-11-26T19:00:07.363185-05:00",
+  "at": "2026-11-27T00:00:50.881418+00:00",
+  "eastern_at": "2026-11-26T19:00:50.881418-05:00",
   "last_news_scan": "2026-11-26T11:15:57.539679+00:00",
-  "new_posts": 1,
+  "new_posts": 0,
   "next_due": {
     "post": "news",
     "trigger": "2026-11-27T00:45:11.346665+00:00"
@@ -18,9 +18,9 @@
       "trigger": "2026-11-27T15:00:00+00:00"
     }
   ],
-  "posts_due": 1,
+  "posts_due": 0,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 2,
   "posts_retried": 0,
   "posts_retry_pending": 0,
@@ -28,8 +28,8 @@
     "reason": "Official FPL price clock unavailable or stale",
     "status": "unavailable"
   },
-  "scheduled_cron": "28 * * * *",
+  "scheduled_cron": "43 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "deferred-telegram-spacing",
+  "telegram_messages_sent": 0
 }
