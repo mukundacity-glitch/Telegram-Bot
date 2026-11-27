@@ -153,11 +153,38 @@ def retryable(row):
     return row.get('status') not in CLOSED and row.get('attempts', 0) < MAX_ATTEMPTS
 
 
+# Slot 6 uses the existing Saturday edition and serialized GitHub heartbeat.
+FDR_RESEARCH_STATE = '_weekly_fdr_research'
+
+
+def fdr_phase(now):
+    local = now.astimezone(ET)
+    if local.weekday() != 5:
+        return None
+    minute = local.hour * 60 + local.minute
+    if 19 * 60 + 28 <= minute < 19 * 60 + 40:
+        return 'research'
+    if 20 * 60 <= minute < 20 * 60 + 15:
+        return 'post'
+    return None
+
+
+def fdr_research_valid(state, snapshot, now):
+    row = state.get(FDR_RESEARCH_STATE, {})
+    return (fdr_phase(now) == 'post'
+            and row.get('date') == now.astimezone(ET).date().isoformat()
+            and row.get('gw') == snapshot.gameweek()
+            and row.get('season') == season_id(snapshot, now)
+            and row.get('verified') is True)
+
+
 def catchup_slots(now, state, gw, season=None, limit=3):
     """Slots already due today with remaining attempts, oldest first."""
     return [
         slot for slot in sorted(SLOTS, key=lambda s: (s.hour, s.minute))
         if slot != SERIES and slot.edition != 'player-radar-comparison' and eligible_on(slot, now) and now >= slot_start(slot, now)
+        and (slot != SATURDAY_FDR_GRID or (fdr_phase(now) == 'post'
+             and not state.get(publication_key(slot, now, gw, season), {}).get('identity')))
         and retryable(state.get(publication_key(slot, now, gw, season), {}))
     ][:limit]
 

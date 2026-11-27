@@ -212,6 +212,26 @@ def run(now=None, cron=None, snapshot=None):
             continue
         if f'outbox/{file.name}' not in owned_files:
             jobs.append((trigger, 'outbox', file.name, file))
+    # FDR is a strict weekly phase, not a generic late catch-up.
+    from .autonomous_schedule import SATURDAY_FDR_GRID, FDR_RESEARCH_STATE, fdr_phase, fdr_research_valid
+    phase = fdr_phase(now)
+    if snapshot is not None and phase == 'research' and not jobs:
+        from .evening_intelligence import build_evening
+        try:
+            build_evening(SATURDAY_FDR_GRID, snapshot, now, evidence)
+            editorial[FDR_RESEARCH_STATE] = {
+                'date': local.date().isoformat(), 'gw': snapshot.gameweek(),
+                'season': season_id(snapshot, now), 'verified': True,
+                'fetched_at': snapshot.fetched_at.isoformat(),
+            }
+            write_state(STATE_FILE, editorial)
+        except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+            pass  # No verified research means no post.
+    if phase == 'post':
+        other_due = any(lane != 'editorial' or payload != SATURDAY_FDR_GRID
+                        for _, lane, _, payload in jobs)
+        if other_due or snapshot is None or not fdr_research_valid(editorial, snapshot, now):
+            jobs = [job for job in jobs if job[1] != 'editorial' or job[3] != SATURDAY_FDR_GRID]
     rows = []
     deferred = None
     # The 8 PM edition gets the next open send window once it is due.

@@ -163,3 +163,41 @@ def test_no_blank_colourless_graphic_and_png_dimensions(tmp_path, monkeypatch):
     with Image.open(target) as image:
         assert image.size == (1080, 1920)
         assert len(image.getcolors(1920*1080) or []) > 7
+
+
+def test_fdr_weekly_phase_and_existing_receipt_guard():
+    from vortex.autonomous_schedule import fdr_phase, fdr_research_valid, FDR_RESEARCH_STATE, season_id
+    snap = snapshot()
+    research = datetime(2026, 11, 21, 19, 28, tzinfo=ET)
+    post = research.replace(hour=20, minute=0)
+    assert fdr_phase(research) == 'research'
+    assert fdr_phase(post) == 'post'
+    assert fdr_phase(post + timedelta(minutes=15)) is None
+    assert fdr_phase(post + timedelta(days=1)) is None
+    assert not fdr_research_valid({}, snap, post)
+    state = {FDR_RESEARCH_STATE: {'date': post.date().isoformat(),
+        'gw': snap.gameweek(), 'season': season_id(snap, post), 'verified': True}}
+    assert fdr_research_valid(state, snap, post)
+    key = publication_key(SATURDAY_FDR_GRID, post, snap.gameweek())
+    state[key] = {'status': 'generated', 'identity': 'pending-acceptance'}
+    assert SATURDAY_FDR_GRID not in catchup_slots(post, state, snap.gameweek(), limit=None)
+    assert SATURDAY_FDR_GRID not in catchup_slots(post + timedelta(minutes=15), {}, snap.gameweek(), limit=None)
+
+
+def test_fdr_double_counts_each_fixture_and_blank_is_not_zero():
+    snap = snapshot()
+    # Move the first match from the second event into the first event.
+    match = next(f for f in snap.fixtures if f['event'] == 12 and f['team_h'] == 1)
+    match.update(event=11, team_h_difficulty=5)
+    plan = e.build_evening(SATURDAY_FDR_GRID, snap, snap.fetched_at, SimpleNamespace(session=None))
+    row = next(row for row in plan.extra['rows'] if row['short'] == 'LEE')
+    assert len(row['cells'][0]) == 2 and row['cells'][1] == []
+    assert row['games'] == 6 and row['average'] == 2.5
+
+
+def test_fdr_rejects_duplicate_official_fixture():
+    import pytest
+    snap = snapshot()
+    snap.fixtures.append(dict(snap.fixtures[0]))
+    with pytest.raises(RequiredInput, match='duplicate'):
+        e.build_evening(SATURDAY_FDR_GRID, snap, snap.fetched_at, SimpleNamespace(session=None))

@@ -223,20 +223,18 @@ def _rotation(plan, output, session):
 
 
 def _fdr_colour(value):
-    return {1: "#D3FF77", 2: "#ADFA65", 3: "#D4D4D8",
-            4: "#E10931", 5: "#60051D"}[value]
+    return {1: "#00C878", 2: "#86E5B4", 3: "#E8E5EF",
+            4: "#BA294A", 5: "#790B3B"}[value]
 
 
 def _fdr(plan, output, session):
-    """Keep the reference's cyan sheet, dense square grid and FDR colour scale."""
+    """Reference portrait matrix, refined ivory/official-purple data sheet."""
     weeks = plan.extra["weeks"]
-    canvas = Image.new("RGB", (1080, 1920))
+    canvas = Image.new("RGB", (1080, 1920), "#37003C")
     draw = ImageDraw.Draw(canvas)
-    for x in range(canvas.width):
-        fraction = x / (canvas.width - 1)
-        colour = (round(12 + 86*fraction), round(233 - 56*fraction), 242)
-        draw.line((x, 0, x, 1920), fill=colour)
-    ink, rule, blue = "#091C48", "#153960", "#5BD2F5"
+    draw.rounded_rectangle((12, 12, 1068, 1776), radius=18, fill="#FAF8FC",
+                           outline="#C6A15B", width=3)
+    ink, rule, blue = "#37003C", "#B9AFC4", "#EEE7F4"
     _label(draw, plan.title, 24, 34, 1032, 56, ink, center=True)
     _label(draw, f"GW{weeks[0]} – GW{weeks[-1]}", 24, 108, 1032, 39, ink, center=True)
     left, team_width, header_y, row_height = 24, 131, 175, 73
@@ -274,7 +272,7 @@ def _fdr(plan, output, session):
                     _label(draw, f"{label} {value:.1f}", x+crest_size+9, top+5, w-crest_size-11, 14, colour)
         x, w = cols[-1]
         draw.rectangle((x, y, x+w, y+row_height), fill=blue, outline=rule, width=2)
-        _label(draw, f'{row["average"]:.1f}', x+2, y+21, w-4, 28, ink, center=True)
+        _label(draw, f'{row["average"]:.1f}' if row["average"] is not None else "—", x+2, y+21, w-4, 28, ink, center=True)
     _label(draw, "OFFICIAL FPL FDR   •   1 EASIEST, 5 HARDEST   •   AVERAGE PER FIXTURE",
            24, 1713, 1032, 20, ink, center=True)
     social_footer(canvas)
