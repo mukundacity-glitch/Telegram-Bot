@@ -37,7 +37,7 @@ def facts(plan,snapshot,evidence):
     if plan.kind == 'price_prediction':
         return {'edition': plan.edition, 'update_at': plan.extra['update_at'],
                 'source_updated_at': plan.extra['source_updated_at'], 'board': canonical(plan.extra)}
-    if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'weekly_wildcard_vulnerability', 'chip_strategy'):
+    if plan.kind in ('player_radar', 'chance_creators', 'wildcard', 'positional_vulnerability', 'weekly_wildcard_vulnerability', 'monday_intelligence', 'chip_strategy'):
         return {'players': [{k:p.get(k) for k in keys} for p in plan.players],
                 'edition': plan.edition, 'extra': canonical(plan.extra)}
     return {'players':[{k:p.get(k) for k in keys}|{'recent':evidence.recent(p)} for p in plan.players],
@@ -72,6 +72,8 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
     if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS) and deadline is not None:
         close = datetime.combine(day, datetime.min.time(), tzinfo=ET)
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
+    if plan.kind == 'monday_intelligence':
+        deadline = min(deadline, upcoming_deadline(snapshot)) if upcoming_deadline(snapshot) else None
     if plan.kind == 'price_prediction':
         deadline = datetime.fromisoformat(plan.extra['update_at'])
     if deadline is None or deadline <= datetime.now(timezone.utc):
@@ -82,7 +84,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
             'generated_at':snapshot.fetched_at.isoformat(),'publish_at':now.isoformat(),
             'data_retrieval_at_et':snapshot.fetched_at.astimezone(ET).isoformat(),
             'graphic_generated_at_et':datetime.now(timezone.utc).astimezone(ET).isoformat(),
-            'deadline':deadline.isoformat(),'pre_deadline':not editorial_after_deadline,'qa_passed':True,
+            'deadline':deadline.isoformat(),'pre_deadline':not editorial_after_deadline or plan.kind == 'monday_intelligence','qa_passed':True,
             'generation_owner':'github-actions','sources':[
                 'https://fantasy.premierleague.com/api/bootstrap-static/',
                 'https://fantasy.premierleague.com/api/fixtures/']+[
@@ -178,6 +180,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 continue
         if slot.edition == 'positional-vulnerability' and not audit:
             from .weekly_wildcard_vulnerability import publication_due
+            if not publication_due(now):
+                continue
+        if slot.edition == 'monday-defence-watch' and not audit:
+            from .monday_intelligence import publication_due
             if not publication_due(now):
                 continue
         if slot.edition == 'price-prediction' and (audit or manual or selected_slots is None):

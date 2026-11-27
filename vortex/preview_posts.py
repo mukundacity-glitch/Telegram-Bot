@@ -74,6 +74,24 @@ def main() -> int:
     except Exception as exc:
         failures += 1
         print(f"COMBINED WILDCARD preview unavailable: {type(exc).__name__}: {str(exc)[:180]}", file=sys.stderr)
+    try:
+        from .autonomous_content import build, Evidence
+        from .autonomous_schedule import MONDAY_DEFENCE
+        from .autonomous_render import render as render_plan
+        from .graphic_numbers import stamp
+        now = datetime.now(timezone.utc)
+        evidence = Evidence(snapshot, now)
+        plan = build(MONDAY_DEFENCE, snapshot, now, evidence)
+        path = folder / f"FPLVortex_GW{plan.gw}_monday_intelligence_PREVIEW.png"
+        pages = render_plan(plan, snapshot, now, path, evidence.session)
+        if len(pages) != 1:
+            raise RuntimeError("Expected one Monday intelligence page")
+        stamp(pages[0], MONDAY_DEFENCE.edition, required=True)
+        (folder / "monday_intelligence_CAPTION.txt").write_text(plan.caption + "\n", encoding="utf-8")
+        print(f"MONDAY INTELLIGENCE verified preview: {pages[0]}")
+    except Exception as exc:
+        failures += 1
+        print(f"MONDAY INTELLIGENCE preview unavailable: {type(exc).__name__}: {str(exc)[:180]}", file=sys.stderr)
     return 1 if failures else 0
 
 

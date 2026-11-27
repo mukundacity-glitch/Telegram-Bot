@@ -48,25 +48,20 @@ def snapshot(*, length=11, players=True):
     return FplSnapshot(people, clubs, events, fixtures, at)
 
 
-def test_all_seven_evening_slots_are_20_et_and_exactly_once_per_weekday():
+def test_six_evening_slots_and_thursday_retirement():
     expected = (MONDAY_DEFENCE, TUESDAY_SET_PIECES, WEDNESDAY_PREDICTED_XG,
-                THURSDAY_ATTACKING_ZONES, FRIDAY_ROTATION_PLANNER,
-                SATURDAY_FDR_GRID, SUNDAY_CHANCES)
-    assert len(EVENING_WATCH_SLOTS) == len(expected) == 7
-    assert len({slot.edition for slot in EVENING_WATCH_SLOTS}) == 7
-    assert all((slot.hour, slot.minute) == (20, 0) for slot in expected)
-    for offset in range(7):
+                None, FRIDAY_ROTATION_PLANNER, SATURDAY_FDR_GRID, SUNDAY_CHANCES)
+    assert len(EVENING_WATCH_SLOTS) == 6
+    assert THURSDAY_ATTACKING_ZONES not in SLOTS
+    for offset, slot in enumerate(expected):
         date = datetime(2026, 11, 16 + offset, 20, 0, tzinfo=ET)
-        due = [slot for slot in catchup_slots(date, {}, 11, limit=None)
-               if slot in EVENING_WATCH_SLOTS]
-        assert due == [expected[offset]]
-        assert not [slot for slot in catchup_slots(date-timedelta(minutes=1), {}, 11,
-                                                  limit=None) if slot in EVENING_WATCH_SLOTS]
-        key = publication_key(expected[offset], date, 11)
-        assert not [slot for slot in catchup_slots(date, {
-            key: {"status": "delivered", "attempts": 1}}, 11, limit=None)
-                    if slot in EVENING_WATCH_SLOTS]
-    assert all(slot in SLOTS for slot in expected)
+        due = [s for s in catchup_slots(date, {}, 11, limit=None) if s in EVENING_WATCH_SLOTS]
+        assert due == ([slot] if slot else [])
+        if slot:
+            assert (slot.hour,slot.minute)==(20,0)
+            assert not [s for s in catchup_slots(date-timedelta(minutes=1), {}, 11, limit=None) if s in EVENING_WATCH_SLOTS]
+            key=publication_key(slot,date,11)
+            assert not [s for s in catchup_slots(date,{key:{"status":"delivered"}},11,limit=None) if s in EVENING_WATCH_SLOTS]
 
 
 def test_tuesday_uses_actual_official_orders_and_never_renders_fake_per90():

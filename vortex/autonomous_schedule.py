@@ -20,7 +20,7 @@ class Slot:
 
 
 RETIRED_EDITIONS = {
-    "wildcard-draft", "striker-watch",
+    "wildcard-draft", "striker-watch", "thursday-attacking-zones", "gw-key-players",
     "captaincy", "captaincy-showdown", "deadline-watch",
     "market-verdict", "transfer_suggestions", "transfer-suggestions",
     "four-team-targets", "transfer-desk", "transfer",
@@ -45,7 +45,7 @@ SUNDAY_CHANCES = Slot('task2', 'sunday-chance-watch', 20, 0, weekday=6,
                       display_name='Sunday Chance Watch')
 
 MONDAY_DEFENCE = Slot('task2', 'monday-defence-watch', 20, 0, weekday=0,
-                      display_name='Monday Defence Watch')
+                      display_name='Monday FPL Intelligence: Five Picks, Defence & Shot Origins')
 # Fill the previously unused 20:00 ET slots without modifying GitHub cron.
 # One weekday-only edition per date; Sunday and Monday remain unchanged.
 TUESDAY_SET_PIECES = Slot('task2', 'tuesday-set-pieces', 20, 0, weekday=1,
@@ -59,7 +59,7 @@ FRIDAY_ROTATION_PLANNER = Slot('task2', 'friday-rotation-planner', 20, 0, weekda
 SATURDAY_FDR_GRID = Slot('task2', 'saturday-fdr-grid', 20, 0, weekday=5,
                          display_name='Six-Gameweek FDR Grid')
 EVENING_INTELLIGENCE_SLOTS = (
-    TUESDAY_SET_PIECES, WEDNESDAY_PREDICTED_XG, THURSDAY_ATTACKING_ZONES,
+    TUESDAY_SET_PIECES, WEDNESDAY_PREDICTED_XG,
     FRIDAY_ROTATION_PLANNER, SATURDAY_FDR_GRID,
 )
 EVENING_WATCH_SLOTS = (SUNDAY_CHANCES, MONDAY_DEFENCE, *EVENING_INTELLIGENCE_SLOTS)
@@ -102,7 +102,7 @@ CATCHUP_CRONS = {f'{m} {h} * * *' for h in range(5, 23) for m in (10, 40) if (h,
 NEWS_CRONS = {f'5 {hour} * * *' for hour in range(6, 23)}
 SPECIAL_CRONS = {f'35 {hour} * * *' for hour in range(5, 23)}
 OUTBOX_CRONS = {f'50 {hour} * * *' for hour in range(5, 23)}
-SPECIAL_EDITIONS = ('chance-creators','captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five','gw-key-players')
+SPECIAL_EDITIONS = ('chance-creators','captaincy-comparison','value-board','start-bench-board','final-gameweek-news','market-trends-next-five')
 CLOSED = {'delivered', 'already-delivered', 'no-new-facts', 'checked'}
 MAX_ATTEMPTS = 3
 
@@ -163,7 +163,6 @@ def catchup_slots(now, state, gw, season=None, limit=3):
 SPECIAL_LEAD_HOURS = {
     'captaincy-comparison': 36, 'value-board': 27,
     'start-bench-board': 8, 'final-gameweek-news': 5,
-    'gw-key-players': 48,
 }
 
 

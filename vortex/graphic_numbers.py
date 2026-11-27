@@ -18,13 +18,13 @@ CATALOG = (
     *(f'weekly-analysis-{day}' for day in range(2, 8)),
     *(f'afternoon-rotation-{day}' for day in range(2, 8)),
     *(f'scouting-rotation-{day}' for day in range(2, 8)),
-    'tuesday-set-pieces', 'wednesday-predicted-xg', 'thursday-attacking-zones',
+    'tuesday-set-pieces', 'wednesday-predicted-xg', 'retired-48',
     'friday-rotation-planner', 'saturday-fdr-grid', 'sunday-chance-watch',
-    'news-rotation-planner', 'gw-key-players',
+    'news-rotation-planner', 'retired-53',
 )
 
 
-ACTIVE_CATALOG = CATALOG
+ACTIVE_CATALOG = tuple(key for key in CATALOG if not key.startswith('retired-'))
 
 def graphic_key(edition, weekday, series_day=None, page=0):
     if edition == 'goalkeeper-striker-watch' and page != 0:

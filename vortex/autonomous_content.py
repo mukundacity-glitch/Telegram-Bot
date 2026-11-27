@@ -182,8 +182,8 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
         from .wildcard import build_wildcard
         return build_wildcard(slot, snapshot, now, e)
     if name == 'monday-defence-watch':
-        from .sunday_chances import build_monday_defence
-        return build_monday_defence(slot, snapshot, now, e.session)
+        from .monday_intelligence import build_combined
+        return build_combined(slot, snapshot, now, e)
     if name == 'sunday-chance-watch':
         from .sunday_chances import build_sunday_chances
         return build_sunday_chances(slot, snapshot, now, e.session)

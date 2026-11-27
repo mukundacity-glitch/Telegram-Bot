@@ -22,6 +22,6 @@ def test_old_two_page_records_are_retired_and_number_is_vacant():
     assert retired_record({"edition":"striker-watch"})
     assert retired_record({"edition":"goalkeeper-striker-watch","facts":{"extra":{"pages":[]}}})
     assert not retired_record({"edition":"goalkeeper-striker-watch","facts":{"extra":{"combined_weekly":True}}})
-    assert len(CATALOG)==53 and len(ACTIVE_CATALOG)==53
+    assert len(CATALOG)==53 and len(ACTIVE_CATALOG)==51
     assert CATALOG[4]=="goalkeeper-striker-watch" and "reserved-29" not in CATALOG
     assert graphic_key("goalkeeper-striker-watch",0,page=1) is None
