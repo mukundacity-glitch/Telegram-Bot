@@ -86,6 +86,11 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
         if allow_outside_window or record.get('task') != 'task2':
             raise ValueError('Daily cutover cannot bypass the scheduled window')
         daily_identity = validate_daily(record, now, publish_at)
+    if record.get('edition') in ('player-radar-comparison', 'saturday-fdr-grid') and not preview:
+        from .research_gap import verify_settled_or_weekly_record
+        if allow_outside_window:
+            raise ValueError('Research-gated edition cannot bypass publication window')
+        daily_identity = verify_settled_or_weekly_record(record, now, publish_at)
     if not record.get('qa_passed') or not record.get('sources'):
         raise ValueError('Graphic QA and source evidence are required')
     caption = str(record.get('caption', ''))
@@ -147,7 +152,7 @@ def queued_files(now):
         try:
             row = json.loads(file.read_text())
             from .daily_cutover import KINDS
-            if retired_record(row) or row.get('edition') == 'price-prediction' or row.get('edition') in KINDS:
+            if retired_record(row) or row.get('edition') in ('price-prediction', 'player-radar-comparison', 'saturday-fdr-grid') or row.get('edition') in KINDS:
                 continue
             due = datetime.fromisoformat(row['publish_at'].replace('Z', '+00:00'))
             if due.tzinfo and due <= now:

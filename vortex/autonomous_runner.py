@@ -99,6 +99,10 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
                      'https://github.com/mukundacity-glitch/FPL-VORTEX-AGENT/blob/main/models/day3_fixture_forecast.py']
                     if plan.kind not in ('wildcard', 'weekly_wildcard_vulnerability') and plan.extra and plan.extra.get('model') else []),
             'images':[str(p.relative_to(base)) for p in pages]}
+    if slot.edition in ('player-radar-comparison', 'saturday-fdr-grid') and not audit:
+        from .autonomous_schedule import RADAR_RESEARCH_STATE, FDR_RESEARCH_STATE
+        key = RADAR_RESEARCH_STATE if slot.edition == 'player-radar-comparison' else FDR_RESEARCH_STATE
+        record['facts']['research'] = read_state(STATE_FILE).get(key, {})
     if recurring:
         record['facts']['publication_date'] = day.isoformat()
     if not manual and not audit:

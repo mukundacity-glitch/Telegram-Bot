@@ -227,7 +227,10 @@ def run(now=None, cron=None, snapshot=None):
         for daily in daily_slots(now):
             if daily_eligible(daily, snapshot, now, editorial):
                 evidence.daily_research = editorial[RESEARCH_STATE][daily.edition]
-                evidence.daily_excluded = claimed_ids(snapshot, now, QUEUE, read_state(STATE / 'cutover_featured_players.json'))
+                try:
+                    evidence.daily_excluded = claimed_ids(snapshot, now, QUEUE, read_state(STATE / 'cutover_featured_players.json'))
+                except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+                    continue  # Unsafe historical state must not block unrelated slots.
                 jobs.append((slot_start(daily, now), 'editorial', day_key(daily, now), daily))
         old_series = editorial.get(SERIES_STATE)
         series = weekly_analysis_slot(snapshot, now, editorial)
@@ -368,7 +371,7 @@ def run(now=None, cron=None, snapshot=None):
                     error = edition.get('reason') or 'Telegram delivery incomplete; see outbox receipt'
             elif lane == 'news':
                 run_news(now=now, snapshot=snapshot, drain=True, pending_only=not payload,
-                         audit_rows=news_rows)
+                         audit_rows=news_rows, live_clock=(lambda: now) if injected_time else (lambda: datetime.now(timezone.utc)))
                 if payload:
                     last_news_scan = run_key
             else:

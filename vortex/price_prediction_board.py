@@ -151,6 +151,11 @@ def opportunity(snapshot, now, state):
                 at = slot_start(other, day)
                 if collides(at):
                     conflicts.append((other.edition, at.isoformat()))
+        from .daily_cutover import slots as daily_slots
+        for daily in daily_slots(day):
+            at = slot_start(daily, day)
+            if collides(at):
+                conflicts.append((daily.edition, at.isoformat()))
         for name, (hour, minute) in SLOT_HOURS.items():
             at = day.replace(hour=hour, minute=minute, second=0, microsecond=0)
             if collides(at):

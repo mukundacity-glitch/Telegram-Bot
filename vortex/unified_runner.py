@@ -100,8 +100,9 @@ def _create_clients() -> tuple[TelegramClient, DiscordWebhookClient]:
 
 def run(dry_run: bool = False, *, snapshot=None,
         telegram=None, discord=None, now: datetime | None = None,
-        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None) -> dict[str, int]:
+        max_posts: int | None = None, drain=False, pending_only=False, audit_rows=None, live_clock=None) -> dict[str, int]:
     current_time = now or datetime.now(timezone.utc)
+    clock = live_clock or ((lambda: now) if now is not None else (lambda: datetime.now(timezone.utc)))
     if current_time.tzinfo is None:
         raise ValueError("Timestamp must include a timezone")
     snapshot = snapshot or collect_snapshot()
@@ -188,8 +189,11 @@ def run(dry_run: bool = False, *, snapshot=None,
             stamp(image_path, 'news-rotation-planner')
             record = replace(record, image=image_path)
             generated = True
+            delivered_at = clock()
+            if not rotation_due(delivered_at) or not rotation_research_valid(snapshot, delivered_at, _read(READY)):
+                break  # The window elapsed while rendering; never send late.
             result = publish_shared(record, RECEIPTS, telegram, discord,
-                                    send_discord=discord is not None, now_iso=current_time.isoformat())
+                                    send_discord=discord is not None, now_iso=delivered_at.isoformat())
         except (RuntimeError, ValueError, OSError, KeyError, TypeError) as exc:
             reason = failure_reason(exc)
             failures.append(f"{identity}: {reason}")

@@ -15,8 +15,9 @@ RESEARCH_STATE = "_daily_cutover_research"
 
 def slots(now):
     # 05:30 is the first approved time in the requested five-o'clock hour.
-    # On Saturdays the existing 22:30 edition needs its 45-minute spacing.
-    desk = (21, 45) if now.astimezone(ET).weekday() == 5 else (22, 0)
+    # Saturday has a 22:30 edition. Use the vacant 10:30 slot instead,
+    # retaining one hour of spacing from both adjacent scheduled editions.
+    desk = (10, 30) if now.astimezone(ET).weekday() == 5 else (22, 0)
     return (Slot("task2", "most-transferred-in", 5, 30),
             Slot("task2", "team-decision-desk", *desk))
 
@@ -73,7 +74,45 @@ def claimed_ids(snapshot, now, queue, ledger=None):
     for row in (ledger or {}).values():
         if row.get("season") == season and row.get("gw") == gw:
             walk(row)
+    # Previous ported receipts store official photo codes, not element IDs.
+    from .bot import read_state
+    versions = Path(queue).parent / "state" / "ported_task_versions.json"
+    for key, row in read_state(versions).items():
+        if key.startswith(f"{season}:GW{gw}:") and row.get("confirmed"):
+            ids.update(by_code[code] for code in row.get("last_player_ids", []) if code in by_code)
+    # Existing semantic group keys encode verified club/photo codes. Require
+    # the current season based on the actual receipt timestamp before joining.
+    versions = Path(queue).parent / "state" / "editorial_versions.json"
+    for key, row in read_state(versions).items():
+        if not row.get("confirmed") or row.get("evidence", {}).get("gw") != gw:
+            continue
+        try:
+            at = datetime.fromisoformat(row["timestamp"])
+            if at.tzinfo is None or season_id(snapshot, at) != season:
+                continue
+        except (ValueError, TypeError, KeyError):
+            continue
+        for member in key.split(":", 2)[-1].split("|"):
+            parts = member.split(":")
+            if len(parts) == 2 and all(s.isdecimal() for s in parts):
+                code = int(parts[1])
+                if code in by_code:
+                    ids.add(by_code[code])
+        walk(row.get("evidence", {}))
     return frozenset(ids)
+
+
+def reserve_legacy_article(article, snapshot, now, key, ledger_path):
+    """Persist the IDs selected by a legacy article before an uncertain upload."""
+    from .bot import read_state, write_state
+    by_code = {p["code"]: p["id"] for p in snapshot.players if type(p.get("code")) is int}
+    ids = {by_code[c.photo_code] for c in getattr(article, "cards", ()) if c.photo_code in by_code}
+    if not ids:
+        return
+    ledger = read_state(ledger_path)
+    ledger[key] = {"season": season_id(snapshot, now), "gw": article.gw,
+                   "player_ids": sorted(ids), "reserved_at": now.isoformat()}
+    write_state(ledger_path, ledger)
 
 
 def conflicts(slot, snapshot, now, state, *, research=False):
@@ -82,7 +121,7 @@ def conflicts(slot, snapshot, now, state, *, research=False):
     from .telegram_spacing import GAP
     from .price_prediction_board import official_clock, PRICE_LEAD, PRICE_RESEARCH_LEAD
     from .editorial_inputs import RequiredInput
-    at = now if research else slot_start(slot, now)
+    at = now if research else max(now, slot_start(slot, now))
     other_times = [(s.edition, slot_start(s, now)) for s in SLOTS if eligible_on(s, now)]
     other_times += [(name, now.astimezone(ET).replace(hour=h, minute=m, second=0, microsecond=0))
                     for name, (h,m) in SLOT_HOURS.items()]
@@ -99,7 +138,7 @@ def conflicts(slot, snapshot, now, state, *, research=False):
     # Publication needs the existing cooldown on either side. Research occupies
     # a separate serialized heartbeat. In-flight/late work is checked by the dispatcher.
     distance = timedelta(minutes=15) if research else GAP
-    return [name for name,t in other_times if abs(t-at) < distance]
+    return [name for name,t in other_times if abs(t.astimezone(timezone.utc)-at.astimezone(timezone.utc)) < distance]
 
 
 def proof_valid(slot, row, season, gw, now):
