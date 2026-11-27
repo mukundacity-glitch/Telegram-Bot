@@ -123,6 +123,9 @@ def build(snapshot,now,evidence,proof=None,*,audit=False):
     gw=snapshot.gameweek()
     rows={str(r["player"]["id"]):r for r in selected}
     decisions=signals(snapshot,evidence,set(ids))
+    if proof is not None and {label:(r["id"],r["reason"]) for label,r in decisions.items()} != {
+            label:tuple(value) for label,value in proof.get("signals",{}).items()}:
+        raise RequiredInput("Availability signals changed since research; hold")
     covered=sum(r["xpts5"] is not None for r in selected)
     caption="\n".join((f"GW{gw} | AVAILABILITY & TRANSFER DECISIONS",
         f"{len(ids)} verified selections · five tiers · last three match minutes.",
@@ -142,7 +145,9 @@ def prepare(snapshot,now,state,evidence,clock_now):
     if state.get(key(row["season"],row["gw"]),{}).get("identity"):
         return False
     plan=build(snapshot,now,evidence)
-    proof={**row,"tiers":plan.extra["tiers"],"checked_at":clock_now().isoformat(),
+    proof={**row,"tiers":plan.extra["tiers"],
+           "signals":{label:[r["id"],r["reason"]] for label,r in plan.extra["signals"].items()},
+           "checked_at":clock_now().isoformat(),
            "source_at":snapshot.fetched_at.isoformat()}
     if not proof_valid(proof,row,now,posting=False):
         return False
@@ -178,6 +183,21 @@ def validate_record(record,now,publish_at,*,manual=False):
     fresh=max(now,snapshot.fetched_at)
     if not proof_valid(proof,schedule(snapshot,fresh,state),publish_at) or eligible(snapshot,fresh,state) is None:
         raise ValueError("Availability official kickoff or publication window changed")
+    from .publication_rules import five_gw_fixtures
+    current={p["id"]:p for p in snapshot.players}
+    def fixture_identity(rows):
+        return [(r["gw"],r["fixture_id"],r["opponent"],r["venue"],r["fdr"],r["blank"]) for r in rows]
+    ids=[pid for tier in TIERS for pid in proof["tiers"][tier]]
+    for pid in ids:
+        live=current.get(pid,{})
+        row=extra["rows"][str(pid)]
+        original=row["player"]
+        if (live.get("status")!="a" or any(live.get(k)!=original.get(k)
+                for k in ("id","code","team","now_cost","chance_of_playing_next_round"))
+                or fixture_identity(five_gw_fixtures(snapshot,live))!=fixture_identity(row["fixtures"])):
+            raise ValueError("Availability or fixtures changed during rendering")
+    if {label:[r["id"],r["reason"]] for label,r in extra.get("signals",{}).items()}!=proof.get("signals"):
+        raise ValueError("Availability signals lack matching research")
     return "chatgpt:"+key(record["season"],record["gameweek"])
 
 def audit():

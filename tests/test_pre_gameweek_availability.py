@@ -26,3 +26,31 @@ def test_stable_identity_and_research_gate():
     assert a.eligible(None,post,{}) is None
     with pytest.raises(ValueError,match="release"):
         a.validate_record({},post,post)
+
+
+def test_five_tier_renderer_keeps_unverified_forecasts_blank(tmp_path,monkeypatch):
+    from types import SimpleNamespace
+    from PIL import Image
+    from vortex import weekly_availability_render as renderer
+    from vortex.comparison_board import text
+    tiers={t:list(range(i*5+1,i*5+6)) for i,t in enumerate(a.TIERS)}
+    rows={str(i):{"player":{"id":i},"xpts1":None,"xpts5":None,
+                  "recent_minutes":[90,85,90],
+                  "fixtures":[{"gw":gw,"opponent":"AAA","blank":False,"fdr":2} for gw in range(12,17)]}
+          for i in range(1,26)}
+    plan=SimpleNamespace(gw=12,extra={"tiers":tiers,"rows":rows,"signals":{}})
+    snapshot=SimpleNamespace(name=lambda p:f"Test {p['id']}",price=lambda p:"£5.5m")
+    monkeypatch.setattr("vortex.autonomous_render._assets",lambda *args:(
+        Image.new("RGBA",(120,180),"#358477"),Image.new("RGBA",(60,60),"#D9B66B")))
+    seen=[]
+    def record(draw,value,*args,**kwargs):
+        seen.append(str(value))
+        return text(draw,value,*args,**kwargs)
+    monkeypatch.setattr(renderer,"text",record)
+    path=renderer.render(plan,snapshot,tmp_path/"availability.png",None)
+    with Image.open(path) as im:
+        assert im.size==(1920,1080)
+        im.verify()
+    assert seen.count("xPts1 —")==seen.count("xPts5 —")==25
+    assert all(seen.count(action)==6 for action in a.ACTIONS)
+    assert seen.count("AAA")==125

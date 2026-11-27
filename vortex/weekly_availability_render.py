@@ -46,7 +46,9 @@ def render(plan,snapshot,output,session):
             contain(canvas,portrait,(x+7,y+8,97,97),bottom=True,crop_alpha=True)
             contain(canvas,crest,(x+92,y+13,31,31))
             text(d,snapshot.name(p),x+126,y+6,w-134,25,INK,18)
-            text(d,snapshot.price(p),x+126,y+34,w-134,22,INK,18)
+            text(d,snapshot.price(p),x+126,y+34,83,22,INK,17)
+            d.rounded_rectangle((x+210,y+33,x+w-7,y+55),radius=4,fill=color)
+            text(d,ACTIONS[index],x+211,y+35,w-219,16,INK,12,center=True)
             for j,metric in enumerate(("xpts1","xpts5")):
                 value=r[metric]
                 label=("xPts1" if j==0 else "xPts5")+(" —" if value is None else f" {value:.1f}")

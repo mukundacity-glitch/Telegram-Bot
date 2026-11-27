@@ -139,6 +139,11 @@ def schedule(snapshot, now, state):
             zr,zp=clock(zones["research_at"]),clock(zones["post_at"])
             busy.extend((("shot-origins-research",zr,zr+WINDOW),
                          ("shot-origins-post",zp-GAP,zp+GAP+WINDOW)))
+        availability = state.get("_weekly_availability_decisions",{})
+        if availability.get("season")==season_id(snapshot,now):
+            ar,ap=clock(availability["research_at"]),clock(availability["post_at"])
+            busy.extend((("availability-research",ar,ar+WINDOW),
+                         ("availability-post",ap-GAP,ap+GAP+WINDOW)))
         selected = choose_schedule(kickoff,deadline,busy)
         if selected is None:
             return None

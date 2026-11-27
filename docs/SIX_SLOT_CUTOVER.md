@@ -82,6 +82,8 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 - Friday, 27 November 2026 at 10:57:45.5807197 UTC — Slot 8 live read-only render passed (20 clubs, GW7–11).
 - Slot 9 branch scope: once per upcoming GW, target four hours before first official fixture (tolerance ±30 min), existing heartbeat, research ends at least three hours before publication. Five unique players per tier required for publication; missing qualified players hold rather than fabricate. Verified optional fixture-level xPts only; absent forecasts displayed as dashes. Native 1920×1080 slate/ivory board, availability-derived sell-review/avoid/hold signals, no personal squad advice. No new cron, no new catalogue number. Slot 9 release disabled; conflict and delivery checks remain outstanding. Old retired availability rule stays retired.
 
+- Friday, 27 November 2026 at 11:03:45 UTC — Slot 9 code and read-only CI committed (0ef26e3). Added per-card action badges, explicit researched sell/avoid/hold identity matching, final official price/availability/fixture revalidation and mutual Slot 7/8/9 reservations. Latest regression results pending.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.
