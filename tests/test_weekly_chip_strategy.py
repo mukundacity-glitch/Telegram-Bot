@@ -54,4 +54,5 @@ def test_reference_layout_png(tmp_path):
     with Image.open(path) as im:
         assert im.size==SIZE
         assert im.getpixel((0,600))==(8,45,37)
+    with Image.open(path) as im:
         im.verify()
