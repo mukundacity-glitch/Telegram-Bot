@@ -25,7 +25,7 @@ RETIRED_EDITIONS = {
     "market-verdict", "transfer_suggestions", "transfer-suggestions",
     "four-team-targets", "transfer-desk", "transfer",
     "availability-transfer-decisions", "rank-booster", "fixture-targets",
-    "confirmed-price-changes",
+    "confirmed-price-changes", "friday-rotation-planner",
     "start_bench", "squad-surgery", "transfer-market-team-news", "four-midfielders", "captain-differential",
 }
 
@@ -60,7 +60,7 @@ SATURDAY_FDR_GRID = Slot('task2', 'saturday-fdr-grid', 20, 0, weekday=5,
                          display_name='Six-Gameweek FDR Grid')
 EVENING_INTELLIGENCE_SLOTS = (
     TUESDAY_SET_PIECES, WEDNESDAY_PREDICTED_XG,
-    FRIDAY_ROTATION_PLANNER, SATURDAY_FDR_GRID,
+    SATURDAY_FDR_GRID,
 )
 EVENING_WATCH_SLOTS = (SUNDAY_CHANCES, MONDAY_DEFENCE, *EVENING_INTELLIGENCE_SLOTS)
 
