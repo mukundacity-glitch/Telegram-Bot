@@ -2803,6 +2803,19 @@
     "telegram_verification_source": "telegram-bot-api",
     "timestamp": "2026-11-23T01:00:05.296325+00:00"
   },
+  "chatgpt:2026-27:GW12:task2:thursday-attacking-zones:0d8d6ccddfc84a02075c:page1": {
+    "caption_sha256": "a557839b38ed212b1b1ed543d603e834212b10c555cd1ae70046d01124d6e6e0",
+    "delivered": true,
+    "discord_delivered": true,
+    "discord_message_id": "1575685509265498267",
+    "gameweek": 12,
+    "source": "",
+    "source_url": "",
+    "telegram_delivered_at": "2026-11-27T01:31:39.917908+00:00",
+    "telegram_message_id": 639,
+    "telegram_verification_source": "telegram-bot-api",
+    "timestamp": "2026-11-27T01:31:38.058777+00:00"
+  },
   "chatgpt:2026-27:GW12:task2:tuesday-set-pieces:cf1c649534d3bb9c15a3:page1": {
     "caption_sha256": "0c0b83c50312b89f8c5ec737c0532f204a59f73c7a8ea9e1f4903d19b5ebd930",
     "delivered": true,

@@ -1166,6 +1166,11 @@
     "identity": "chatgpt:2026-27:GW12:task2:scouting-rotation:4ccef7df696b41328df2",
     "status": "delivered"
   },
+  "2026-11-26-thursday-attacking-zones.json": {
+    "at": "2026-11-27T01:31:38.058777+00:00",
+    "identity": "chatgpt:2026-27:GW12:task2:thursday-attacking-zones:0d8d6ccddfc84a02075c",
+    "status": "delivered"
+  },
   "2026-11-26-value-board.json": {
     "at": "2026-11-26T18:14:21.207826+00:00",
     "identity": "chatgpt:2026-27:GW12:task1:value-board:46b989ae079eb2e1df6e",

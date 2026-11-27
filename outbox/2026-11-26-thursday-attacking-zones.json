@@ -1,0 +1,224 @@
+{
+  "task": "task2",
+  "edition": "thursday-attacking-zones",
+  "season": "2026-27",
+  "gameweek": 12,
+  "title": "ATTACKING ZONES • SHOT ORIGINS",
+  "caption": "📊 ATTACKING ZONES • SHOT ORIGINS | GW12 · 26 Nov 2026\nAll 20 clubs · 5 completed rounds through GW11.\nLateral shot locations by third; this is NOT the share of all attacks.\nOfficial data checked 26 Nov 2026; verify changes before deadline.\n\n#FPL #GW12 #FPLVORTEX #PremierLeague",
+  "facts": {
+    "players": [],
+    "edition": "thursday-attacking-zones",
+    "extra": {
+      "rows": [
+        {
+          "name": "Leeds",
+          "code": 2,
+          "left": 2.857142857142857,
+          "centre": 91.42857142857143,
+          "right": 5.714285714285714,
+          "shots": 70
+        },
+        {
+          "name": "Newcastle",
+          "code": 4,
+          "left": 9.375,
+          "centre": 85.9375,
+          "right": 4.6875,
+          "shots": 64
+        },
+        {
+          "name": "Coventry City",
+          "code": 9,
+          "left": 3.125,
+          "centre": 84.375,
+          "right": 12.5,
+          "shots": 64
+        },
+        {
+          "name": "Brighton",
+          "code": 36,
+          "left": 2.5974025974025974,
+          "centre": 83.11688311688312,
+          "right": 14.285714285714286,
+          "shots": 77
+        },
+        {
+          "name": "Brentford",
+          "code": 94,
+          "left": 10.344827586206897,
+          "centre": 82.75862068965517,
+          "right": 6.896551724137931,
+          "shots": 58
+        },
+        {
+          "name": "Spurs",
+          "code": 6,
+          "left": 7.6923076923076925,
+          "centre": 82.41758241758242,
+          "right": 9.89010989010989,
+          "shots": 91
+        },
+        {
+          "name": "Bournemouth",
+          "code": 91,
+          "left": 3.5294117647058822,
+          "centre": 82.3529411764706,
+          "right": 14.117647058823529,
+          "shots": 85
+        },
+        {
+          "name": "Ipswich Town",
+          "code": 40,
+          "left": 1.9607843137254901,
+          "centre": 82.3529411764706,
+          "right": 15.686274509803921,
+          "shots": 51
+        },
+        {
+          "name": "Liverpool",
+          "code": 14,
+          "left": 9.0,
+          "centre": 82.0,
+          "right": 9.0,
+          "shots": 100
+        },
+        {
+          "name": "Aston Villa",
+          "code": 7,
+          "left": 11.428571428571429,
+          "centre": 81.42857142857143,
+          "right": 7.142857142857143,
+          "shots": 70
+        },
+        {
+          "name": "Crystal Palace",
+          "code": 31,
+          "left": 10.526315789473685,
+          "centre": 80.70175438596492,
+          "right": 8.771929824561404,
+          "shots": 57
+        },
+        {
+          "name": "Everton",
+          "code": 11,
+          "left": 12.0,
+          "centre": 80.0,
+          "right": 8.0,
+          "shots": 50
+        },
+        {
+          "name": "Hull City",
+          "code": 88,
+          "left": 13.636363636363637,
+          "centre": 79.54545454545455,
+          "right": 6.818181818181818,
+          "shots": 44
+        },
+        {
+          "name": "Man City",
+          "code": 43,
+          "left": 11.11111111111111,
+          "centre": 77.77777777777777,
+          "right": 11.11111111111111,
+          "shots": 81
+        },
+        {
+          "name": "Fulham",
+          "code": 54,
+          "left": 11.666666666666666,
+          "centre": 76.66666666666667,
+          "right": 11.666666666666666,
+          "shots": 60
+        },
+        {
+          "name": "Sunderland",
+          "code": 56,
+          "left": 11.764705882352942,
+          "centre": 74.50980392156863,
+          "right": 13.72549019607843,
+          "shots": 51
+        },
+        {
+          "name": "Nott'm Forest",
+          "code": 17,
+          "left": 11.842105263157896,
+          "centre": 73.6842105263158,
+          "right": 14.473684210526315,
+          "shots": 76
+        },
+        {
+          "name": "Man Utd",
+          "code": 1,
+          "left": 11.688311688311689,
+          "centre": 71.42857142857143,
+          "right": 16.883116883116884,
+          "shots": 77
+        },
+        {
+          "name": "Arsenal",
+          "code": 3,
+          "left": 15.068493150684931,
+          "centre": 68.4931506849315,
+          "right": 16.438356164383563,
+          "shots": 73
+        },
+        {
+          "name": "Chelsea",
+          "code": 8,
+          "left": 14.925373134328359,
+          "centre": 65.67164179104478,
+          "right": 19.402985074626866,
+          "shots": 67
+        }
+      ],
+      "through": 11,
+      "weeks": [
+        7,
+        8,
+        9,
+        10,
+        11
+      ],
+      "sources": [
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/shots.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/matches.csv",
+        "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/shots.csv"
+      ],
+      "method": "FPL Core shot start_y, not FotMob attack-channel percentages"
+    },
+    "fixtures": [],
+    "publication_date": "2026-11-26"
+  },
+  "generated_at": "2026-11-27T01:30:27.948254+00:00",
+  "publish_at": "2026-11-27T01:31:35.438429+00:00",
+  "data_retrieval_at_et": "2026-11-26T20:30:27.948254-05:00",
+  "graphic_generated_at_et": "2026-11-26T20:31:38.054262-05:00",
+  "deadline": "2026-11-26T23:00:00-05:00",
+  "pre_deadline": false,
+  "qa_passed": true,
+  "generation_owner": "github-actions",
+  "sources": [
+    "https://fantasy.premierleague.com/api/bootstrap-static/",
+    "https://fantasy.premierleague.com/api/fixtures/",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW7/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW8/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW9/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW10/shots.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/matches.csv",
+    "https://raw.githubusercontent.com/olbauday/FPL-Core-Insights/main/data/2026-2027/By%20Tournament/Premier%20League/GW11/shots.csv"
+  ],
+  "images": [
+    "outbox/assets/2026-11-26-thursday-attacking-zones-GW12.png"
+  ]
+}

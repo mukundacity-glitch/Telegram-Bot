@@ -1,14 +1,13 @@
 {
-  "at": "2026-11-27T00:45:17.076427+00:00",
-  "eastern_at": "2026-11-26T19:45:17.076427-05:00",
+  "at": "2026-11-27T01:31:35.438429+00:00",
+  "eastern_at": "2026-11-26T20:31:35.438429-05:00",
   "last_news_scan": "2026-11-27T00:45:17.076427+00:00",
   "new_posts": 1,
   "next_due": {
-    "display_name": "Attacking Zones • Shot Origins",
-    "post": "thursday-attacking-zones",
-    "trigger": "2026-11-26T20:00:00-05:00"
+    "post": "news",
+    "trigger": "2026-11-27T02:16:39.917450+00:00"
   },
-  "next_telegram_at": null,
+  "next_telegram_at": "2026-11-27T02:16:39.917450+00:00",
   "pending_triggers": [
     {
       "post": "start-bench-board",
@@ -37,7 +36,7 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-27T00:35:12.656994+00:00",
+    "source_updated_at": "2026-11-27T01:20:12.846706+00:00",
     "status": "skipped-schedule-conflict",
     "trigger": "2026-11-27T23:00:00+00:00",
     "update_at": "2026-11-28T00:00:00+00:00"

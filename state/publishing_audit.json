@@ -10395,6 +10395,24 @@
     "trigger": "2026-11-26T14:30:00-05:00",
     "type": "scouting-rotation"
   },
+  "2026-11-26:task2:thursday-attacking-zones": {
+    "attempts": 1,
+    "completed_at": "2026-11-27T01:31:40.701572+00:00",
+    "confirmed_telegram_message_ids": [
+      639
+    ],
+    "display_name": "Attacking Zones • Shot Origins",
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-26:task2:thursday-attacking-zones",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      639
+    ],
+    "timestamp": "2026-11-27T01:31:35.438429+00:00",
+    "trigger": "2026-11-26T20:00:00-05:00",
+    "type": "thursday-attacking-zones"
+  },
   "2026-11-26T00:32:49.307087+00:00": {
     "posts": [
       {
@@ -10987,6 +11005,30 @@
     "timestamp": "2026-11-27T00:45:17.076427+00:00",
     "trigger": "2026-11-27T00:45:17.076427+00:00",
     "type": "2026-11-27T00:45:17.076427+00:00:news"
+  },
+  "2026-11-27T01:31:35.438429+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-27T01:31:40.701572+00:00",
+        "confirmed_telegram_message_ids": [
+          639
+        ],
+        "display_name": "Attacking Zones • Shot Origins",
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-26:task2:thursday-attacking-zones",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          639
+        ],
+        "timestamp": "2026-11-27T01:31:35.438429+00:00",
+        "trigger": "2026-11-26T20:00:00-05:00",
+        "type": "thursday-attacking-zones"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-27T01:31:35.438429+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
