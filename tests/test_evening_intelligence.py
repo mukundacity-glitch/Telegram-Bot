@@ -50,8 +50,9 @@ def snapshot(*, length=11, players=True):
 
 def test_six_evening_slots_and_thursday_retirement():
     expected = (MONDAY_DEFENCE, TUESDAY_SET_PIECES, WEDNESDAY_PREDICTED_XG,
-                None, FRIDAY_ROTATION_PLANNER, SATURDAY_FDR_GRID, SUNDAY_CHANCES)
-    assert len(EVENING_WATCH_SLOTS) == 6
+                None, None, SATURDAY_FDR_GRID, SUNDAY_CHANCES)
+    assert len(EVENING_WATCH_SLOTS) == 5
+    assert FRIDAY_ROTATION_PLANNER not in SLOTS
     assert THURSDAY_ATTACKING_ZONES not in SLOTS
     for offset, slot in enumerate(expected):
         date = datetime(2026, 11, 16 + offset, 20, 0, tzinfo=ET)
