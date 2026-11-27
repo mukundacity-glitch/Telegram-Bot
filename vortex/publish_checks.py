@@ -118,6 +118,8 @@ def validate_article(article: Any, snapshot: Any) -> None:
 
 def render_checked(article: Any, snapshot: Any, output: Path,
                    session: requests.Session | None = None) -> Path:
+    if article.kind in ('news', 'news_profile'):
+        raise ValueError('Individual FPL NEWS graphic has been permanently retired')
     if not enriched_mode():
         return render(article, output, session=session)
     validate_article(article, snapshot)

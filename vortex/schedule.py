@@ -26,7 +26,7 @@ SLOT_HOURS: dict[str, tuple[int, int]] = {
 
 def resolve_slot(requested: str, scheduled_cron: str | None, current: datetime) -> str:
     if requested != "auto":
-        permitted = set(SLOT_HOURS) | {"preview-news", "preview-midfielders", "preview-team_analysis", "preview-prices", "buy", "preview-buy", "comparison", "preview-comparison", "start_bench", "preview-start_bench", "test", "discover", "preview", "projections", "preview-projections"} | {f"preview-{slot}" for slot in SLOT_HOURS}
+        permitted = set(SLOT_HOURS) | {"preview-midfielders", "preview-team_analysis", "preview-prices", "buy", "preview-buy", "comparison", "preview-comparison", "start_bench", "preview-start_bench", "test", "discover", "preview", "projections", "preview-projections"} | {f"preview-{slot}" for slot in SLOT_HOURS}
         if requested not in permitted:
             raise ValueError(f"Unknown requested slot: {requested}")
         return requested

@@ -13,16 +13,12 @@ from vortex.render import render
 
 from test_content import fake_snapshot
 
-SLOTS = ('news', 'transfer', 'prices', 'captaincy', 'review', 'evening')
+SLOTS = ('transfer', 'prices', 'captaincy', 'review', 'evening')
 
 
 def sample_content(slot: str, monkeypatch: pytest.MonkeyPatch):
     snapshot = fake_snapshot()
     now = datetime(2026, 10, 16, 14, tzinfo=timezone.utc)
-    if slot == 'news':
-        for player in snapshot.players[:3]:
-            player['news'] = 'Injury status under review by the FPL team. Expected date unknown.'
-            player['news_added'] = '2026-10-16T12:00:00Z'
     if slot == 'prices':
         old_prices = price_snapshot(snapshot)
         for player in snapshot.players[:4]:
@@ -66,13 +62,6 @@ def test_player_templates_fail_closed_on_missing_images(slot: str, tmp_path: Pat
     with pytest.raises(RuntimeError, match='(Mandatory club badge unavailable|Neither official portrait nor club crest available)'):
         render(content, target, session=object())
     assert not target.exists()
-
-
-def test_no_news_is_honest_not_fabricated(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:
-    content = generate('news', fake_snapshot(), datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
-    monkeypatch.setattr('vortex.premium._media', lambda *args: pytest.fail('No requests for empty news'))
-    result = render(content, tmp_path / 'empty-news.png', session=object())
-    assert result.exists()
 
 
 def test_first_price_baseline_is_honest(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> None:

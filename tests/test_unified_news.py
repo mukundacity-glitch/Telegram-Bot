@@ -8,7 +8,6 @@ from pathlib import Path
 import pytest
 
 from vortex.fpl import FplSnapshot
-from vortex.news_sources import _feed_items, collect_fpl_changes, collect_reported_headlines, fpl_baseline, _tags
 from vortex.syndication import DiscordWebhookClient, NewsPost, load_journal, publish_shared
 import vortex.unified_runner as runner
 
@@ -28,22 +27,6 @@ def sample_snapshot(now=None, *, status="a", cost=70, news=""):
     return FplSnapshot([player], teams, events, fixtures, now)
 
 
-def test_official_baseline_has_no_false_changes():
-    snap = sample_snapshot()
-    assert collect_fpl_changes(snap, {}, snap.fetched_at) == []
-    assert collect_fpl_changes(snap, fpl_baseline(snap), snap.fetched_at) == []
-
-
-def test_real_injury_and_price_change_generate_verifiable_posts():
-    prior = fpl_baseline(sample_snapshot())
-    snap = sample_snapshot(status="d", cost=71, news="Knock")
-    news = collect_fpl_changes(snap, prior, snap.fetched_at)
-    assert len(news) == 2
-    assert all("Official FPL" in post.caption for post in news)
-    assert "£7.0m to £7.1m" in news[1].caption
-    assert "not a predicted start probability" not in news[0].caption
-    assert "Chelsea" not in news[0].caption
-    assert all(len([w for w in post.caption.split() if w.startswith("#")]) == 4 for post in news)
 
 
 class FakeTelegram:
@@ -101,71 +84,17 @@ def test_legacy_telegram_receipt_does_not_repost(tmp_path):
 
 def test_dry_run_creates_no_state_or_live_messages(monkeypatch, tmp_path):
     monkeypatch.setattr(runner, "BASE", tmp_path)
-    monkeypatch.setattr(runner, "BASELINE", tmp_path / "news_baseline.json")
-    monkeypatch.setattr(runner, "SEEN", tmp_path / "news_seen.json")
+    monkeypatch.setattr(runner, "READY", tmp_path / "rotation_initialized.json")
     monkeypatch.setattr(runner, "PENDING", tmp_path / "news_pending.json")
     monkeypatch.setattr(runner, "RECEIPTS", tmp_path / "news_deliveries.json")
     snap = sample_snapshot()
-    result = runner.run(dry_run=True, snapshot=snap, rss=[])
+    result = runner.run(dry_run=True, snapshot=snap)
     assert result["warmup"] == 1
     assert list(tmp_path.iterdir()) == []
 
 
-def test_first_run_warms_baseline_without_flood(monkeypatch, tmp_path):
-    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
-        monkeypatch.setattr(runner, name, tmp_path / (name.lower() + ".json"))
-    report = NewsPost("rss1", "Headline", "Only a report", 10)
-    snap = sample_snapshot()
-    output = runner.run(snapshot=snap, rss=[report], telegram=FakeTelegram(),
-                        discord=FakeDiscord())
-    assert output["warmup"] == 1
-    assert json.loads(runner.BASELINE.read_text())["99"]["now_cost"] == 70
-    assert json.loads(runner.SEEN.read_text())["rss1"]
 
 
-def test_news_queue_dispatched_to_both_without_repeating(monkeypatch, tmp_path):
-    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
-        monkeypatch.setattr(runner, name, tmp_path / (name.lower() + ".json"))
-    from PIL import Image
-    def fake_render(post, output):
-        output.parent.mkdir(parents=True, exist_ok=True)
-        Image.new("RGB", (1920, 1080), "navy").save(output)
-        return output
-    monkeypatch.setattr(runner, "render_news_card", fake_render)
-    monkeypatch.setattr(runner, "NEWS_OUTPUT", tmp_path / "output")
-    snap = sample_snapshot()
-    runner.run(snapshot=snap, rss=[], telegram=FakeTelegram(), discord=FakeDiscord())
-    t, d = FakeTelegram(), FakeDiscord()
-    story = NewsPost("rss-new", "Headline", "Attributed report with source", 10,
-                     player_name="Example", photo_code=123456, club_code=3)
-    first = runner.run(snapshot=snap, rss=[story], telegram=t, discord=d)
-    second = runner.run(snapshot=snap, rss=[story], telegram=t, discord=d)
-    assert first["sent"] == 1 and second["sent"] == 0
-    assert t.calls == d.calls == 1
-
-
-
-def test_retired_price_cards_do_not_publish_from_feed_or_retry_queue(monkeypatch, tmp_path):
-    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
-        monkeypatch.setattr(runner, name, tmp_path / (name.lower() + ".json"))
-    monkeypatch.setattr("vortex.rotation_planner.build_rotation_plan", lambda *args: None)
-    story = NewsPost("price:retired", "Price Change", "Confirmed price", 10)
-    monkeypatch.setattr(runner, "collect_fpl_changes", lambda *args: [story])
-    runner.BASELINE.write_text("{}")
-    runner.SEEN.write_text("{}")
-    runner.PENDING.write_text(json.dumps({story.identity: {"attempts": 1}}))
-    telegram, discord = FakeTelegram(), FakeDiscord()
-    for pending_only in (True, False):
-        result = runner.run(snapshot=sample_snapshot(), rss=[], telegram=telegram,
-                            discord=discord, pending_only=pending_only)
-        assert result["sent"] == result["pending"] == 0
-    assert json.loads(runner.PENDING.read_text()) == {}
-    assert telegram.calls == discord.calls == 0
-
-
-def test_feed_xml_rejects_unsafe_entities():
-    xml = b'<!DOCTYPE rss [<!ENTITY x SYSTEM "file:///etc/passwd">]><rss><channel/></rss>'
-    assert _feed_items(xml) == []
 
 
 def test_discord_rate_limit_bounded_and_success():
@@ -215,91 +144,8 @@ def test_telegram_failure_does_not_block_discord_and_recovers(tmp_path):
     assert (telegram.calls, discord.calls) == (2, 1)
 
 
-def test_x_source_registry_rss_filters_and_deduplicates():
-    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
-    xml = ('''<rss><channel><item><title>Arsenal player Example injury update from club</title>
-    <link>https://example.org/arsenal/1</link><pubDate>Mon, 02 Nov 2026 11:00:00 GMT</pubDate>
-    </item></channel></rss>''').encode()
-    class Response:
-        content = xml
-        def raise_for_status(self):
-            return None
-    class Session:
-        def __init__(self):
-            self.calls = []
-        def get(self, url, **kwargs):
-            self.calls.append(url)
-            return Response()
-    session = Session()
-    registry = {"feeds": [{"id": "rss-a", "url": "https://feeds.bbci.co.uk/a"},
-                          {"id": "rss-b", "url": "https://feeds.bbci.co.uk/b"}]}
-    posts = collect_reported_headlines(sample_snapshot(now), now,
-                                      session=session, registry=registry)
-    assert len(session.calls) == 2
-    assert len(posts) == 1
-    assert posts[0].source == "rss-a"
-    assert "Report only; details not independently confirmed." in posts[0].caption
-    assert "https://example.org/arsenal/1" in posts[0].caption
 
 
-def test_unapproved_feed_host_is_not_fetched():
-    now = datetime(2026, 11, 2, 12, tzinfo=timezone.utc)
-    class NeverRequest:
-        def get(self, url, **kwargs):
-            raise AssertionError("Unapproved external domain must not be fetched")
-    registry = {"feeds": [{"id": "bad", "url": "https://127.0.0.1/internal"}]}
-    assert collect_reported_headlines(sample_snapshot(now), now, session=NeverRequest(),
-                                      registry=registry) == []
-
-
-def test_failed_head_story_cannot_starve_following_verified_news(monkeypatch, tmp_path):
-    """A held story remains retryable without blocking tomorrow's usable news."""
-    from PIL import Image
-    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
-        monkeypatch.setattr(runner, name, tmp_path / (name.lower() + ".json"))
-    monkeypatch.setattr(runner, "NEWS_OUTPUT", tmp_path / "images")
-    now = datetime(2026, 11, 2, 15, 0, tzinfo=timezone.utc)
-    snapshot = sample_snapshot(now)
-    telegram, discord = FakeTelegram(), FakeDiscord()
-    runner.run(snapshot=snapshot, now=now, rss=[],
-               telegram=telegram, discord=discord)
-
-    def render(post, output):
-        if post.identity == "unrenderable":
-            raise RuntimeError("Missing verified media")
-        output.parent.mkdir(parents=True, exist_ok=True)
-        Image.new("RGB", (1920, 1080), "navy").save(output)
-        return output
-
-    monkeypatch.setattr(runner, "render_news_card", render)
-    unavailable = NewsPost("unrenderable", "Bad media", "Verified facts", 10)
-    ready = NewsPost("ready", "Verified news", "Verified facts", 10)
-    with pytest.raises(RuntimeError, match="unrenderable"):
-        runner.run(snapshot=snapshot, now=now, rss=[unavailable, ready],
-                   telegram=telegram, discord=discord, max_posts=1)
-    assert list(json.loads(runner.PENDING.read_text())) == ["ready", "unrenderable"]
-    report = runner.run(snapshot=snapshot, now=now, rss=[unavailable, ready],
-                        telegram=telegram, discord=discord, max_posts=1)
-    assert report["sent"] == 1
-    assert telegram.calls == discord.calls == 1
-    assert list(json.loads(runner.PENDING.read_text())) == ["unrenderable"]
-
-def test_expired_news_queue_never_replays_old_verified_headlines():
-    now = datetime(2026, 11, 10, 18, 0, tzinfo=timezone.utc)
-    pending = {
-        'old': {'gameweek': 11,
-                'caption': 'GW11 change. Source: Official FPL, 2026-11-07 16:00 UTC'},
-        'fresh': {'gameweek': 11,
-                  'caption': 'GW11 change. Source: Official FPL, 2026-11-10 17:30 UTC'},
-        'past-gw': {'gameweek': 10,
-                    'caption': 'GW10 change. Source: Official FPL, 2026-11-10 17:30 UTC'},
-        'partial': {'gameweek': 11,
-                    'caption': 'GW11 change. Source: Official FPL, 2026-11-02 17:30 UTC'}
-    }
-    ledger = {'partial': {'delivered': True}}
-    expired = runner._expire_undelivered_old_news(pending, ledger, now, 11)
-    assert set(expired) == {'old', 'past-gw'}
-    assert set(pending) == {'fresh', 'partial'}
 
 
 def test_read_timeout_fences_telegram_and_keeps_discord_receipt(tmp_path):
@@ -441,16 +287,22 @@ def test_live_discord_intent_written_before_any_webhook_call(tmp_path):
     assert not json.loads(ledger.read_text())["checkpoint"].get("discord_send_pending")
 
 
-def test_scheduled_rotation_only_retires_single_player_news(monkeypatch, tmp_path):
-    from vortex import unified_runner as runner
+
+
+def test_retired_player_news_cannot_reenter_rotation_queue(monkeypatch, tmp_path):
     from vortex.syndication import save_journal
-    for name in ("BASELINE", "SEEN", "PENDING", "RECEIPTS"):
+    for name in ("READY", "PENDING", "RECEIPTS"):
         monkeypatch.setattr(runner, name, tmp_path / (name + ".json"))
-    save_journal(runner.BASELINE, {})
-    save_journal(runner.SEEN, {})
-    save_journal(runner.PENDING, {"rss:obsolete": {"title": "FPL NEWS"}})
-    monkeypatch.setattr(runner, "collect_reported_headlines",
-                        lambda *a: pytest.fail("Retired RSS scan must not run"))
+    save_journal(runner.READY, {"initialized": True})
+    save_journal(runner.PENDING, {"rss:obsolete": {"title": "FPL NEWS"},
+                                 "availability:old": {"title": "STATUS"}})
+    save_journal(runner.RECEIPTS, {"rss:obsolete": {"telegram_message_id": 42, "delivered": True}})
     monkeypatch.setattr("vortex.rotation_planner.build_rotation_plan", lambda *a: None)
-    result = runner.run(snapshot=sample_snapshot(), rotation_only=True, dry_run=True)
-    assert result["reported_headlines"] == result["pending"] == 0
+    t, d = FakeTelegram(), FakeDiscord()
+    result = runner.run(snapshot=sample_snapshot(), telegram=t, discord=d)
+    assert result["retired_status_cards"] == 2 and result["pending"] == result["sent"] == 0
+    assert load_journal(runner.PENDING) == {}
+    assert load_journal(runner.RECEIPTS)["rss:obsolete"]["telegram_message_id"] == 42
+    assert t.calls == d.calls == 0
+    assert not hasattr(runner, "render_news_card")
+    assert not hasattr(runner, "collect_reported_headlines")

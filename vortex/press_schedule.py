@@ -1,7 +1,6 @@
 """Discover source-published press conference times before each FPL deadline."""
 from datetime import date, datetime, timedelta
 from html.parser import HTMLParser
-from pathlib import Path
 import re
 from unicodedata import normalize
 from urllib.parse import urljoin, urlsplit
@@ -9,8 +8,6 @@ from zoneinfo import ZoneInfo
 
 import requests
 
-ROOT = Path(__file__).resolve().parents[1]
-STATE = ROOT / "state/press_schedule.json"
 SCOUT = "https://www.fantasyfootballscout.co.uk"
 UK = ZoneInfo("Europe/London")
 TIME = r"(?:1[0-2]|0?[1-9])(?:[.:][0-5]\d)?\s*[ap]m"
@@ -141,26 +138,3 @@ def conference_times(days, deadline):
             key = "".join(char for char in normalize("NFKD", manager.casefold()) if char.isalnum())
             times[key] = max(times.get(key, at), at)
     return sorted(at for at in times.values() if at < deadline)
-
-
-def retire_graphics(now, read, write, client_factory):
-    """Remove only Telegram messages recorded by the retired timetable publisher."""
-    state = read(STATE)
-    for row in state.values():
-        message = row.get("message")
-        if type(message) is not int or not row.get("version") or row.get("removed"):
-            continue
-        # Telegram only permits deletion within 48 hours. The recorded check time
-        # is a lower bound for a send on the same dispatch.
-        try:
-            checked = datetime.fromisoformat(row["checked"])
-        except (KeyError, TypeError, ValueError):
-            continue
-        if checked.tzinfo is None or not timedelta(0) <= now - checked < timedelta(hours=48):
-            continue
-        try:
-            if client_factory().delete_shared_message(message):
-                row["removed"] = True
-                write(STATE, state)
-        except (RuntimeError, ValueError, OSError) as exc:
-            print(f"Retired press timetable {message}: {type(exc).__name__}")
