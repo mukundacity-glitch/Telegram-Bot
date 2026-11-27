@@ -20,6 +20,7 @@ class Slot:
 
 
 RETIRED_EDITIONS = {
+    "wildcard-draft", "striker-watch",
     "captaincy", "captaincy-showdown", "deadline-watch",
     "market-verdict", "transfer_suggestions", "transfer-suggestions",
     "four-team-targets", "transfer-desk", "transfer",
@@ -32,7 +33,7 @@ SERIES = Slot('task2', 'weekly-analysis', 12, 30)
 SERIES_STATE = '_weekly_analysis'
 AFTERNOON = Slot('task2', 'afternoon-rotation', 13, 30)
 SCOUTING = Slot('task2', 'scouting-rotation', 14, 30, display_name='FPL Player Performance Comparisons')
-VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30)
+VULNERABILITY = Slot('task2', 'positional-vulnerability', 15, 30, weekday=1)
 CLOCK_CRON = '0,30 0-3,9-23 * * *'
 WILDCARD = Slot('task2', 'wildcard-draft', 15, 30, weekday=1)
 CHIP_STRATEGY = Slot('task2', 'chip-strategy', 16, 30, weekday=1,
@@ -80,7 +81,6 @@ SLOTS = (
     AFTERNOON,
     SCOUTING,
     VULNERABILITY,
-    WILDCARD,
     PASSING_CREATORS,
     BONUS_MAGNETS,
     SHOT_QUALITY,
@@ -144,8 +144,6 @@ def slot_start(slot, now):
 
 def eligible_on(slot, now):
     weekday = now.astimezone(ET).weekday()
-    if slot == VULNERABILITY and weekday == WILDCARD.weekday:
-        return False
     return slot.weekday is None or slot.weekday == weekday
 
 

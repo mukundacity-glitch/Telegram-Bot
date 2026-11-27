@@ -359,6 +359,12 @@ def main():
                     prepare_research(snapshot, now)
                 except (RuntimeError, ValueError, OSError) as error:
                     print('Weekly position research: ' + failure_reason(error))
+            from .weekly_wildcard_vulnerability import prepare_research as tuesday_research, research_due as tuesday_due
+            if tuesday_due(now):
+                try:
+                    tuesday_research(snapshot, now)
+                except (RuntimeError, ValueError, OSError) as error:
+                    print('Tuesday combined research: ' + failure_reason(error))
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
                          live_clock=lambda: datetime.now(timezone.utc),
                          discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):

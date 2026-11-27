@@ -354,6 +354,9 @@ def render(plan,snapshot,now,output,session=None):
     if plan.edition == 'weekly-analysis':
         from .weekly_analysis_render import render_weekly_analysis
         return [render_weekly_analysis(plan, output, client)]
+    if plan.kind == 'weekly_wildcard_vulnerability':
+        from .weekly_wildcard_vulnerability import render_combined
+        return [render_combined(plan, snapshot, output, client)]
     if plan.kind == 'positional_vulnerability':
         from .vulnerability_render import render_vulnerability
         return [render_vulnerability(plan, output, client)]

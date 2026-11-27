@@ -214,7 +214,7 @@ def test_monitor_and_sell_share_identical_brand_regions(monkeypatch, tmp_path):
             images.append(im.convert("RGB"))
         stamp(out, kind, required=True)
         with Image.open(out) as im:
-            assert im.info["vortex_graphic_number"] == ("11/55" if kind=="review" else "12/55")
+            assert im.info["vortex_graphic_number"] == ("11/53" if kind=="review" else "12/53")
     for box in ((0,0,314,145), (0,787,1536,864)):
         assert ImageChops.difference(images[0].crop(box), images[1].crop(box)).getbbox() is None
 

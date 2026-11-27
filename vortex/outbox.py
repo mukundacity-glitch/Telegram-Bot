@@ -33,11 +33,13 @@ def retired_record(record):
     return (record.get('edition') == 'striker-watch'
             or (record.get('edition') == 'goalkeeper-striker-watch' and
                 not (record.get('facts') or {}).get('extra', {}).get('combined_weekly'))
+            or (record.get('edition') == 'positional-vulnerability' and
+                not (record.get('facts') or {}).get('extra', {}).get('combined_wildcard'))
             or record.get('edition') in RETIRED_EDITIONS
             or (record.get('task') == 'price_changes' and record.get('edition') != 'price-prediction'))
 
 
-def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
+def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview=False):
     now = now or datetime.now(timezone.utc)
     if record.get('task') not in TASKS or not re.fullmatch(r'[a-z0-9-]+', str(record.get('edition', ''))):
         raise ValueError('Unrecognized task or edition')
@@ -78,10 +80,17 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
     if record.get('edition') == 'goalkeeper-striker-watch':
         from .weekly_position_watch import publication_due
         if (len(images) != 1 or not (record.get('facts') or {}).get('extra', {}).get('combined_weekly')
-                or allow_outside_window or not publication_due(now)
+                or (not preview and (allow_outside_window or not publication_due(now)
                 or not publication_due(publish_at)
-                or publish_at.astimezone(ET).date() != now.astimezone(ET).date()):
+                or publish_at.astimezone(ET).date() != now.astimezone(ET).date()))):
             raise ValueError('Combined weekly position watch requires one Monday graphic at or after 10:30 ET')
+    if record.get('edition') == 'positional-vulnerability':
+        from .weekly_wildcard_vulnerability import publication_due
+        if (len(images) != 1 or not (record.get('facts') or {}).get('extra', {}).get('combined_wildcard')
+                or (not preview and (allow_outside_window or not publication_due(now)
+                or not publication_due(publish_at)
+                or publish_at.astimezone(ET).date() != now.astimezone(ET).date()))):
+            raise ValueError('Combined Wildcard requires one Tuesday graphic at or after 15:30 ET')
     if not 1 <= len(images) <= 6:
         raise ValueError('One to six finished PNG pages required')
     resolved = []
