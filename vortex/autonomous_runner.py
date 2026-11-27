@@ -34,6 +34,9 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
+    if plan.kind == 'cutover_daily':
+        return {'edition': plan.edition, 'player_ids': plan.extra['player_ids'],
+                'research': plan.extra['research'], 'content': canonical(plan.extra['content'])}
     if plan.kind == 'price_prediction':
         return {'edition': plan.edition, 'update_at': plan.extra['update_at'],
                 'source_updated_at': plan.extra['source_updated_at'], 'research': plan.extra['research'],
@@ -176,6 +179,11 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     for slot in slots:
         if slot.edition in RETIRED_EDITIONS:
             continue
+        from .daily_cutover import KINDS, eligible as daily_eligible
+        if slot.edition in KINDS and not audit:
+            if manual or selected_slots is None or not daily_eligible(slot, snapshot, now, state):
+                rows.append({'edition': slot.edition, 'status': 'no-new-facts', 'reason': 'Daily research/window gate'})
+                continue
         if slot.edition == 'goalkeeper-striker-watch' and not audit:
             from .weekly_position_watch import publication_due
             if not publication_due(now):
@@ -202,7 +210,8 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
                 rows.append({'edition': slot.edition, 'status': 'no-new-facts',
                              'reason': 'Outside weekly FDR window or research not verified'})
                 continue
-        key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
+        from .daily_cutover import day_key
+        key=day_key(slot, now) if slot.edition in KINDS else publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
         if not audit and state.get(key,{}).get('status') in ('delivered','already-delivered'):
             rows.append({'edition':slot.edition,'status':'already-delivered'});continue
         if slot.task=='press_news':

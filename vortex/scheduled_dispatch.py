@@ -111,7 +111,8 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
     from .unified_runner import rotation_due
     def guarded(job):
         return ((job[1] == 'editorial' and job[3].edition in {
-            'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid'})
+            'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
+            'most-transferred-in', 'team-decision-desk'})
             or (job[1] == 'news' and rotation_due(now)))
     if research_due or any(guarded(job) for job in jobs):
         jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
@@ -123,6 +124,21 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
 def run(now=None, cron=None, snapshot=None):
     injected_time = now is not None
     now = now or datetime.now(timezone.utc)
+    from .daily_cutover import slots as daily_slots, research_window, prepare as prepare_daily
+    research_slots = [slot for slot in daily_slots(now) if research_window(slot, now)]
+    if research_slots:
+        from .outbox import QUEUE
+        try:
+            snapshot = snapshot or retry_source(collect_snapshot)
+            state = read_state(STATE_FILE)
+            if len(research_slots) == 1 and prepare_daily(research_slots[0], snapshot, now, state, QUEUE,
+                    read_state(STATE / 'cutover_featured_players.json'),
+                    (lambda: now) if injected_time else (lambda: datetime.now(timezone.utc))):
+                write_state(STATE_FILE, state)
+                return {'status': 'research-verified', 'new_posts': 0, 'edition': research_slots[0].edition}
+        except (RuntimeError, ValueError, KeyError, TypeError, OSError):
+            pass
+        return {'status': 'no-new-verified-content', 'new_posts': 0}
     if not allowed(now):
         result = {'status': 'deferred-outside-window', 'at': now.isoformat(),
                   'new_posts': 0, 'window': WINDOW_LABEL}
@@ -206,6 +222,13 @@ def run(now=None, cron=None, snapshot=None):
         if radar is not None and radar_research_valid(editorial, radar, snapshot, now):
             jobs.append((slot_start(radar, now), 'editorial',
                          publication_key(radar, now, gw, season), radar))
+        from .daily_cutover import eligible as daily_eligible, day_key, RESEARCH_STATE, claimed_ids
+        from .outbox import QUEUE
+        for daily in daily_slots(now):
+            if daily_eligible(daily, snapshot, now, editorial):
+                evidence.daily_research = editorial[RESEARCH_STATE][daily.edition]
+                evidence.daily_excluded = claimed_ids(snapshot, now, QUEUE, read_state(STATE / 'cutover_featured_players.json'))
+                jobs.append((slot_start(daily, now), 'editorial', day_key(daily, now), daily))
         old_series = editorial.get(SERIES_STATE)
         series = weekly_analysis_slot(snapshot, now, editorial)
         if series is not None:
@@ -302,6 +325,10 @@ def run(now=None, cron=None, snapshot=None):
                         {'post': payload[0] if lane == 'legacy' else lane, 'trigger': until.isoformat()})
             break
         live_now = now if injected_time else datetime.now(timezone.utc)
+        if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
+            from .daily_cutover import eligible as daily_eligible
+            if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
         if lane == 'editorial' and payload.edition == 'player-radar-comparison':
             from .autonomous_schedule import radar_post_due
             if not radar_post_due(live_now):
@@ -392,7 +419,7 @@ def run(now=None, cron=None, snapshot=None):
         print(json.dumps(row, ensure_ascii=False))
 
     upcoming = [upcoming_editorial(slot, slot_start(slot, now))
-                for slot in SLOTS if slot_start(slot, now) > now
+                for slot in (*SLOTS, *daily_slots(now)) if slot_start(slot, now) > now
                 and eligible_on(slot, now)]
     for name, (hour, minute) in SLOT_HOURS.items():
         trigger = local.replace(hour=hour, minute=minute, second=0, microsecond=0)

@@ -34,6 +34,11 @@ Slot 1 now uses a target-season/GW key, T−4h15m research evidence and at least
 
 - Dispatch exclusivity increment: price, finalized radar, rotation and FDR hold when another real due job is present; idle rotation polling does not block research. Radar no longer permits late-day catch-up, and guarded publication windows are checked again at execution. This is a fail-closed runtime safeguard, not proof of conflict-free operation for every legacy workflow.
 
+- Slot 2/4 dispatch wiring: existing serialized GitHub workflow now evaluates Slot 2 at 05:30 ET (research 01:13–01:30 ET; at least four elapsed hours) and Slot 4 at 22:00 ET except Saturday 21:45 ET (research 04:13–04:28 ET). The 05:30 boundary preserves the approved publishing window; Saturday uses the only nominal 45-minute spacing between 21:00 and 22:30. Dynamic price/special triggers, pending jobs, cooldown and late windows may suppress an edition. These are nominal candidates, not guaranteed delivery. Durable staged outbox facts reserve players across editions in the current season/GW; historical legacy receipts without IDs cannot be reconstructed from this alone. No unrelated schedule or catalogue ID is changed.
+- Friday, 27 November 2026 at 10:01:03 UTC — exclusivity commit 3167ef9.
+- Friday, 27 November 2026 at 10:03:09.485999 UTC — 457 regression tests passed on 3167ef9 (run 45978524376).
+- Friday, 27 November 2026 at 10:03:13.852944 UTC — read-only live source audit passed on 3167ef9.
+
 ## Legacy / Moved Slots (Pending Telegram Cleanup)
 
 The retired Friday two-club rotation and daily radar dispatch rules remain in Git history and the retired edition definitions; do not run them as replacements. Preserve existing catalog numbers and delivery journals. The old Friday two-club graphic retains its reserved historical ID (48/51), but cannot be stamped or scheduled for production; the weekly four-club route retains 51/51. The branch has 50 active graphic IDs plus one reserved ID, with no renumbering or duplicate Friday publication route. No public posts or receipt deletions are authorized.

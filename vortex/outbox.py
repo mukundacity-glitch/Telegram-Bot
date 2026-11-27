@@ -80,6 +80,12 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
                 raise ValueError('Price research/target deadline gate failed')
         except (KeyError, TypeError, AttributeError) as exc:
             raise ValueError('Verified price research required') from exc
+    from .daily_cutover import KINDS, validate_record as validate_daily
+    daily_identity = None
+    if record.get('edition') in KINDS:
+        if allow_outside_window or record.get('task') != 'task2':
+            raise ValueError('Daily cutover cannot bypass the scheduled window')
+        daily_identity = validate_daily(record, now, publish_at)
     if not record.get('qa_passed') or not record.get('sources'):
         raise ValueError('Graphic QA and source evidence are required')
     caption = str(record.get('caption', ''))
@@ -132,7 +138,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
     if record.get('edition') == 'price-prediction':
         # Stable across daily updates and cosmetic changes in the same target GW.
         identity = f"chatgpt:{record['season']}:GW{gw}:price_changes:price-prediction"
-    return identity, resolved, publish_at
+    return daily_identity or identity, resolved, publish_at
 
 
 def queued_files(now):
@@ -140,7 +146,8 @@ def queued_files(now):
     for file in sorted(QUEUE.glob('*.json')):
         try:
             row = json.loads(file.read_text())
-            if retired_record(row) or row.get('edition') == 'price-prediction':
+            from .daily_cutover import KINDS
+            if retired_record(row) or row.get('edition') == 'price-prediction' or row.get('edition') in KINDS:
                 continue
             due = datetime.fromisoformat(row['publish_at'].replace('Z', '+00:00'))
             if due.tzinfo and due <= now:

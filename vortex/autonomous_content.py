@@ -143,6 +143,16 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    from .daily_cutover import KINDS, player_ids
+    if name in KINDS:
+        from dataclasses import asdict
+        from .extra_posts import generate_extra
+        proof = getattr(e, 'daily_research', None)
+        if not proof:
+            raise RequiredInput('Verified daily research required')
+        article = generate_extra(KINDS[name], snapshot, now, excluded_ids=getattr(e, 'daily_excluded', frozenset()))
+        return Plan(slot.task, name, article.title, article.caption, gw, [], [], kind='cutover_daily',
+                    extra={'content': asdict(article), 'research': proof, 'player_ids': player_ids(article)})
     if name == 'confirmed-price-changes':
         raise RequiredInput('Legacy confirmed price-change edition is retired')
     if name == 'price-prediction':
