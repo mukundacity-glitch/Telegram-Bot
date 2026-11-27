@@ -19,9 +19,9 @@
     "version": "231a4ae587dc048178aef749594415b9f104154c3b14e9b19d5cf5c8dc9daa8a"
   },
   "2026:GW12": {
-    "checked": "2026-11-27T13:01:36.035925+00:00",
+    "checked": "2026-11-27T14:07:38.561511+00:00",
     "facts": {},
-    "schedule_checked": "2026-11-27T13:01:36.035925+00:00",
+    "schedule_checked": "2026-11-27T14:07:38.561511+00:00",
     "timetable": {
       "2026-11-26": {
         "slots": [
@@ -110,17 +110,23 @@
           ]
         ],
         "summary": [
-          "Bournemouth: Kroupi misses win over Celta Vigo due to illness",
-          "Fulham: Smith Rowe + Andersen ruled out"
+          "Manchester United: Fernandes to be assessed after virus, Baleba out, Rashford on the grass",
+          "Liverpool: Gakpo out, Gravenberch doubtful, Munoz not seriously injured",
+          "Manchester City: Semenyo close to returning. no new concerns",
+          "Bournemouth: Kroupi misses win over Celta Vigo due to illness, Gannon-Doak also sick",
+          "Crystal Palace: Mateta + Pino suspended, Sarr still out, no fresh fitness issues",
+          "Fulham: Smith Rowe + Andersen ruled out",
+          "Ipswich Town: Davis fit and will start",
+          "Hull City: Iroegbunam joins injury list, Ansah back in training"
         ],
         "url": "https://www.fantasyfootballscout.co.uk/2026/11/27/fpl-gameweek-12-team-news-fridays-live-injury-updates-raya-latest"
       }
     }
   },
   "2026:GW13": {
-    "checked": "2026-11-27T13:01:36.035925+00:00",
+    "checked": "2026-11-27T14:07:38.561511+00:00",
     "facts": {},
-    "schedule_checked": "2026-11-27T13:01:36.035925+00:00",
+    "schedule_checked": "2026-11-27T14:07:38.561511+00:00",
     "timetable": {}
   }
 }
