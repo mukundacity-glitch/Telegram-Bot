@@ -369,21 +369,11 @@ def render(plan,snapshot,now,output,session=None):
     if plan.kind in ('rotation_value', 'rotation_transfers'):
         from .afternoon_rotation_render import render_players
         return [render_players(plan, snapshot, output, client)]
+    if plan.kind == 'combined_position_watch':
+        from .weekly_position_watch import render_combined
+        return [render_combined(plan, snapshot, output, client)]
     if plan.kind == 'position_watch':
-        groups = plan.extra.get('pages')
-        if not groups:
-            return [_position_watch(plan, snapshot, output, client)]
-        by_id = {player['id']: (player, label)
-                 for player, label in zip(plan.players, plan.labels)}
-        pages = []
-        for group in groups:
-            position = group['position']
-            players, labels = zip(*(by_id[pid] for pid in group['ids']))
-            page = replace(plan, title=f'{position.upper()} WATCH', players=list(players),
-                           labels=list(labels), extra={**plan.extra, 'position': position})
-            pages.append(_position_watch(page, snapshot,
-                                         output.with_stem(f'{output.stem}-{position}'), client))
-        return pages
+        return [_position_watch(plan, snapshot, output, client)]
     if plan.kind == 'player_radar':
         from .radar_render import render_radar
         return [render_radar(plan, snapshot, output, client)]

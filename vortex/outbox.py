@@ -30,7 +30,10 @@ TASKS = {'task1', 'task2', 'three_daily', 'press_news', 'price_changes'}
 def retired_record(record):
     # Reject legacy/custom submissions from the former price_changes task,
     # regardless of which edition slug an external generator supplied.
-    return (record.get('edition') in RETIRED_EDITIONS
+    return (record.get('edition') == 'striker-watch'
+            or (record.get('edition') == 'goalkeeper-striker-watch' and
+                not (record.get('facts') or {}).get('extra', {}).get('combined_weekly'))
+            or record.get('edition') in RETIRED_EDITIONS
             or (record.get('task') == 'price_changes' and record.get('edition') != 'price-prediction'))
 
 
@@ -72,6 +75,13 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False):
     images = record.get('images') or []
     if record.get('edition') == 'four-midfielders' and len(images) != 1:
         raise ValueError('Four midfielders require ONE combined graphic and ONE caption')
+    if record.get('edition') == 'goalkeeper-striker-watch':
+        from .weekly_position_watch import publication_due
+        if (len(images) != 1 or not (record.get('facts') or {}).get('extra', {}).get('combined_weekly')
+                or allow_outside_window or not publication_due(now)
+                or not publication_due(publish_at)
+                or publish_at.astimezone(ET).date() != now.astimezone(ET).date()):
+            raise ValueError('Combined weekly position watch requires one Monday graphic at or after 10:30 ET')
     if not 1 <= len(images) <= 6:
         raise ValueError('One to six finished PNG pages required')
     resolved = []

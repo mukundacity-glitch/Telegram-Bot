@@ -135,7 +135,7 @@ def _goalkeeper_striker_watch(slot, snapshot, now, evidence):
         f'#FPL #GW{gw} #FPLTransfers #FPLVORTEX'
     )
     return Plan(slot.task, slot.edition, title, copy, gw, players, ['MONITOR'] * len(players),
-                'position_watch', {'edition_date': date, 'pages': pages,
+                'combined_position_watch', {'edition_date': date, 'groups': pages, 'combined_weekly': True,
                                    'recent': {str(p['id']): evidence.recent(p) for p in players}})
 
 

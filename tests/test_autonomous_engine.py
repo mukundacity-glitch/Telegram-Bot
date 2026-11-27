@@ -108,16 +108,19 @@ def test_every_editorial_builder_is_executable_offline_without_chatgpt(world,nam
         from vortex.autonomous_render import render
         assert (slot.hour, slot.minute) == (10, 30)
         assert [p['element_type'] for p in plan.players] == [1, 1, 4, 4, 4]
-        assert [p['position'] for p in plan.extra['pages']] == ['goalkeeper', 'striker']
+        assert slot.weekday == 0
+        assert [p['position'] for p in plan.extra['groups']] == ['goalkeeper', 'striker']
         assert len(plan.caption.splitlines()) == 5
         asset = Image.new('RGBA', (100, 140), '#5a9ac9')
         monkeypatch.setattr('vortex.autonomous_render._assets', lambda *args: (asset, asset))
         pages = render(plan, s, now, tmp_path / 'watch.png')
-        assert [page.stem for page in pages] == ['watch-goalkeeper', 'watch-striker']
-        for page in pages:
-            with Image.open(page) as image:
-                assert image.size == (1080, 1920)
-                image.verify()
+        assert pages == [tmp_path / 'watch.png']
+        from vortex.graphic_numbers import stamp
+        stamp(pages[0], slot.edition, required=True)
+        with Image.open(pages[0]) as image:
+            assert image.size == (1920, 1080)
+            assert image.info['vortex_graphic_number'] == '5/55'
+            image.verify()
     if name in ('form-minutes-targets', 'defender-watch'):
         from vortex.autonomous_render import render
         defenders = name == 'defender-watch'

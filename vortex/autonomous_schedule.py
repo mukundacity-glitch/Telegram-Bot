@@ -74,7 +74,7 @@ SATURDAY_BOARDS = (BONUS_MAGNETS, TOP_100K_OWNERSHIP)
 SLOTS = (
     Slot('task1', 'form-minutes-targets', 8, 30),
     Slot('task2', 'defender-watch', 9, 30),
-    Slot('task2', 'goalkeeper-striker-watch', 10, 30),
+    Slot('task2', 'goalkeeper-striker-watch', 10, 30, weekday=0),
     Slot('task1', 'player-radar-comparison', 11, 30),
     SERIES,
     AFTERNOON,

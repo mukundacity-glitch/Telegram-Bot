@@ -47,13 +47,16 @@ def facts(plan,snapshot,evidence):
 
 
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
+    if slot.edition == 'goalkeeper-striker-watch':
+        from .weekly_position_watch import restore_research
+        restore_research(snapshot, now, evidence)
     plan=retry_source(lambda: build(slot,snapshot,now,evidence,model,prices,research), required=True)
     recurring = not manual and not audit and slot in SLOTS and slot != SERIES
     day = now.astimezone(ET).date()
     base=ROOT/'output/autonomous-audit' if audit else ROOT
     output=base/'outbox/assets'/f'{now.astimezone(ET).date()}-{slot.edition}-GW{plan.gw}.png'
     pages=render(plan,snapshot,now,output,evidence.session)
-    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation', 'passing-creators')) and len(pages) != 1:
+    if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS or plan.edition in ('four-midfielders', 'afternoon-rotation', 'scouting-rotation', 'passing-creators', 'goalkeeper-striker-watch')) and len(pages) != 1:
         raise RuntimeError(f'{plan.edition} requires exactly one graphic')
     for index, path in enumerate(pages):
         key = graphic_key(slot.edition, day.weekday(), slot.series_day, index)
@@ -93,7 +96,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         record['facts']['publication_date'] = day.isoformat()
     if not manual and not audit:
         safe_caption = plan.caption if plan.kind == 'price_prediction' else verified_caption(plan.title, plan.caption)
-        if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or plan.kind == 'position_watch' or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation', 'passing-creators'):
+        if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or plan.kind in ('position_watch', 'combined_position_watch') or slot.edition in ('weekly-analysis', 'afternoon-rotation', 'scouting-rotation', 'passing-creators'):
             safe_caption = '\n'.join(line for line in safe_caption.splitlines() if line)
             if len(safe_caption.splitlines()) != 5:
                 raise RequiredInput('Watch editions require a five-line caption')
@@ -126,7 +129,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         raise ValueError('Price prediction is available only through the API-clock due queue')
     if edition in RETIRED_EDITIONS:
         raise ValueError('This edition has been retired')
-    if manual and edition in ('afternoon-rotation', 'scouting-rotation'):
+    if manual and edition in ('afternoon-rotation', 'scouting-rotation', 'goalkeeper-striker-watch'):
         raise ValueError('Scheduled rotations are available through the due queue only')
     if manual and not edition:
         raise ValueError('Manual delivery requires one explicitly selected edition')
@@ -134,7 +137,7 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         return {'status':'deferred-outside-window','posted':0,'safe_to_delete_chatgpt_tasks':False}
     if cron in NEWS_CRONS and not audit and not edition:
         from .unified_runner import run as news
-        result=news(now=now,max_posts=1,rotation_only=True)
+        result=news(now=now,max_posts=1)
         return {'lane':'existing-news','result':result}
     if selected_slots is None and not audit and not edition and not due and slot_for(cron) is None and cron not in SPECIAL_CRONS and cron not in CATCHUP_CRONS:
         from .schedule import SLOT_CRONS
@@ -169,6 +172,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     for slot in slots:
         if slot.edition in RETIRED_EDITIONS:
             continue
+        if slot.edition == 'goalkeeper-striker-watch' and not audit:
+            from .weekly_position_watch import publication_due
+            if not publication_due(now):
+                continue
         if slot.edition == 'price-prediction' and (audit or manual or selected_slots is None):
             raise ValueError('Price prediction is available only through the API-clock due queue')
         key=publication_key(slot,now,snapshot.gameweek(),season_id(snapshot,now))
@@ -177,10 +184,10 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
         if slot.task=='press_news':
             if audit:
                 from .unified_runner import run as news
-                result=news(dry_run=True,snapshot=snapshot,now=now,max_posts=1,rotation_only=True)
+                result=news(dry_run=True,snapshot=snapshot,now=now,max_posts=1)
             else:
                 from .unified_runner import run as news
-                result=news(snapshot=snapshot,now=now,drain=selected_slots is not None,max_posts=1,rotation_only=True)
+                result=news(snapshot=snapshot,now=now,drain=selected_slots is not None,max_posts=1)
             rows.append({'edition':slot.edition,'status':'news-checked','result':result})
             if not audit:
                 state[key]={'task':slot.task,'edition':slot.edition,'status':'checked','at':now.isoformat()};write_state(STATE_FILE,state)

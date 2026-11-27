@@ -353,6 +353,12 @@ def main():
         try:
             snapshot = retry_source(collect_snapshot)
             now = datetime.now(timezone.utc)
+            from .weekly_position_watch import prepare_research, research_due
+            if research_due(now):
+                try:
+                    prepare_research(snapshot, now)
+                except (RuntimeError, ValueError, OSError) as error:
+                    print('Weekly position research: ' + failure_reason(error))
             if press_run(snapshot, now, read_state, write_state, TelegramClient,
                          live_clock=lambda: datetime.now(timezone.utc),
                          discord_factory=DiscordWebhookClient if os.getenv('DISCORD_WEBHOOK_URL') else None):
