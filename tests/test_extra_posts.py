@@ -206,3 +206,41 @@ def test_new_posts_have_exact_four_hashtags_not_legacy_three():
     text = caption(["a", "b", "c", "d"], 7)
     assert len(text.splitlines()) == 5
     assert text.splitlines()[-1] == "#FPL #GW7 #FPLVortex #PremierLeague"
+
+
+def test_most_transferred_in_excludes_previously_featured_and_ranks_each_position():
+    from vortex.extra_posts import most_transferred_in, POS
+    snap = sample()
+    initial = most_transferred_in(snap)
+    excluded = {r["player"]["id"] for r in initial}
+    assert len(excluded) == 4
+    second = most_transferred_in(snap, excluded)
+    assert not excluded.intersection(r["player"]["id"] for r in second)
+    for row in second:
+        candidates = [p["transfers_in_event"] for p in snap.players
+                      if p["id"] not in excluded and POS[p["element_type"]] == row["position"]
+                      and snap.photo_code(p) and snap.team_code(p)]
+        assert row["player"]["in_event"] == max(candidates)
+
+
+def test_team_desk_distinct_players_and_ownership_ranking():
+    snap = sample()
+    first = generate_extra("team_analysis", snap, snap.fetched_at).team_analysis
+    excluded = {p["id"] for p in first["players"]}
+    second = generate_extra("team_analysis", snap, snap.fetched_at, excluded_ids=excluded).team_analysis
+    assert len({p["id"] for p in second["players"]}) == 3
+    assert not excluded.intersection(p["id"] for p in second["players"])
+    assert second["selection_metric"] == "selected_by_percent"
+    values = [float(p["ownership"]) for p in second["players"]]
+    assert values == sorted(values, reverse=True)
+
+
+def test_most_transferred_preview_renders_one_png(tmp_path, monkeypatch):
+    snap = sample()
+    post = generate_extra("most_transferred_in", snap, snap.fetched_at)
+    monkeypatch.setattr("vortex.extra_render._media", lambda *a:
+                        Image.new("RGBA", (120, 150), "#66ccaa"))
+    out = render(post, tmp_path / "most-transferred.png", session=object())
+    with Image.open(out) as image:
+        assert image.size == (1920, 1080)
+        image.verify()
