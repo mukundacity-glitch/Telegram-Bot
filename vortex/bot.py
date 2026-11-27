@@ -203,8 +203,8 @@ def run(requested: str, scheduled_cron: str | None = None, *, snapshot=None, now
         else:
             render(article, path)
         from .graphic_numbers import CATALOG, stamp
-        if path is not None and publication_slot in CATALOG:
-            stamp(path, publication_slot)
+        if path is not None and (publication_slot in CATALOG or scheduled_cron):
+            stamp(path, publication_slot, required=bool(scheduled_cron))
         if audit is not None:
             audit["generated"] = True
         if publication_slot in ("buy", "sell", "projections", "team_analysis", "transfer_suggestions", "midfielders", "start_bench"):

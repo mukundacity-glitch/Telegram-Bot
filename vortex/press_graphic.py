@@ -274,3 +274,5 @@ def render(path, day, names, facts, locked, teams=None):
     path=Path(path)
     path.parent.mkdir(parents=True,exist_ok=True)
     canvas.save(path,format="PNG")
+    from .graphic_numbers import PRESS_REPORT_KEY, stamp as stamp_graphic
+    stamp_graphic(path, PRESS_REPORT_KEY, required=True)
