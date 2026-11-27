@@ -1,11 +1,12 @@
-"""Daily rotation planner queue only; individual news publishing is removed."""
+"""Weekly four-club rotation planner queue; retired news rules remain historical."""
 from __future__ import annotations
 
 import argparse
 import json
 import os
 from dataclasses import asdict, replace
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
+from zoneinfo import ZoneInfo
 from pathlib import Path
 from typing import Any
 
@@ -19,6 +20,30 @@ PENDING = BASE / "news_pending.json"
 READY = BASE / "rotation_initialized.json"
 RECEIPTS = BASE / "news_deliveries.json"
 NEWS_OUTPUT = BASE.parent / "output" / "news"
+ET = ZoneInfo('America/New_York')
+
+
+def rotation_due(now):
+    """Friday 20:00 ET, using the existing Friday rotation publication slot."""
+    local = now.astimezone(ET)
+    return local.weekday() == 4 and (20, 0) <= (local.hour, local.minute) < (20, 15)
+
+
+def rotation_week_claimed(receipts, pending, now):
+    """Legacy date-keyed receipts also count; never replay an uncertain send."""
+    week = now.astimezone(ET).date().isocalendar()[:2]
+    for identity, row in {**receipts, **pending}.items():
+        if not identity.startswith('rotation:'):
+            continue
+        try:
+            date = datetime.fromisoformat(identity.split(':')[1]).date()
+        except (ValueError, IndexError):
+            raise ValueError('Unreadable rotation receipt identity')
+        if date.isocalendar()[:2] == week and (identity in pending or any(
+            row.get(k) for k in ('delivered', 'discord_delivered', 'telegram_send_pending', 'discord_send_pending')
+        )):
+            return True
+    return False
 
 
 def _read(path: Path) -> dict[str, Any]:
@@ -66,7 +91,8 @@ def run(dry_run: bool = False, *, snapshot=None,
         raise ValueError("MAX_NEWS_PER_RUN must be between 0 and 6")
     initial = not READY.exists()
 
-    if not initial and rotation is not None and not pending_only:
+    if (not initial and rotation is not None and not pending_only and rotation_due(current_time)
+            and not rotation_week_claimed(receipt, pending, current_time)):
         identity = rotation.identity
         if identity not in pending and not (
             receipt.get(identity, {}).get("delivered") and
@@ -89,7 +115,8 @@ def run(dry_run: bool = False, *, snapshot=None,
         return summary
     save_journal(PENDING, pending)
 
-    eligible = [(key, row) for key, row in pending.items() if row.get("attempts", 0) < ATTEMPTS]
+    eligible = [(key, row) for key, row in pending.items()
+                if rotation_due(current_time) and row.get("attempts", 0) < ATTEMPTS]
     if drain:
         eligible.sort(key=lambda item: item[1].get("queued_at", ""))
     if not eligible or (cap == 0 and not drain):
