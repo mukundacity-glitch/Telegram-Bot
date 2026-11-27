@@ -238,10 +238,13 @@ def recommendations(snapshot, rows, windows, start):
     return cards
 
 
-def fixture_targets(snapshot, players, fixture_lists, external):
+def fixture_targets(snapshot, players, fixture_lists, external, *, all_clubs=False):
     opponents = {team['short_name']: name for team in snapshot.teams.values()
                  for name in WATCH_CLUBS if team.get('name') in (name, name.split(' City')[0], name.split(' Town')[0])
                  and team.get('short_name')}
+    if all_clubs:
+        opponents = {team['short_name']: team['name'] for team in snapshot.teams.values()
+                     if team.get('short_name') and team.get('name')}
     by_fixture = {}
     field = 'xpts' if external else 'estimated_xpts'
     for player, fixtures in zip(players, fixture_lists, strict=True):
@@ -266,7 +269,7 @@ def fixture_targets(snapshot, players, fixture_lists, external):
     return list(clubs.values())[:3]
 
 
-def build_chip_strategy(slot, snapshot, now, session):
+def build_chip_strategy(slot, snapshot, now, session, *, dynamic_targets=False):
     start = snapshot.gameweek()
     if not start:
         raise NoUpdate('No upcoming FPL deadline for Chip Strategy')
@@ -293,7 +296,7 @@ def build_chip_strategy(slot, snapshot, now, session):
     source = getenv('FPL_XPTS_SNAPSHOT_URL', '').strip() if external else ''
     return Plan(slot.task, slot.edition, title, caption, start, [], [], 'chip_strategy', {
         'weeks': weeks, 'span': span, 'rows': rows, 'cards': cards, 'squad': squad,
-        'targets': fixture_targets(snapshot, players, fixtures, external),
+        'targets': fixture_targets(snapshot, players, fixtures, external, all_clubs=dynamic_targets),
         'forecast': 'VERIFIED FIXTURE PROJECTIONS' if external else 'FPL EP NEXT + FORM / MINUTES / FDR ESTIMATES',
         'data_date': snapshot.fetched_at.astimezone(ET).strftime('%d %b %Y'),
         'sources': [RULES_URL] + ([source] if source else []),
