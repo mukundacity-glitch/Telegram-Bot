@@ -11,8 +11,6 @@ from .fpl import (
     choose_comparison,
     choose_creators,
     confirmed_price_changes,
-    latest_completed_gw,
-    previous_gw_top_players,
 )
 
 
@@ -107,7 +105,7 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
     if kind == "midfielders":
         from .midfielders import generate_midfielders
         return generate_midfielders(snapshot, now)
-    if kind in ("buy", "sell"):
+    if kind in ("buy", "sell", "review"):
         from .recommendations import build
         return build(kind, snapshot, now)
     gw = snapshot.gameweek()
@@ -165,25 +163,6 @@ def generate(kind: str, snapshot: FplSnapshot, now: datetime, previous_prices: d
         title, kicker = "CAPTAINCY SHOWDOWN", "4:00 PM • DAILY CAPTAINCY ANALYSIS"
         verdict = f"CAPTAIN: {snapshot.name(ranked[0])} • VC: {snapshot.name(ranked[1])}"
         lines = [f"FPL GW{gw}: captaincy showdown.", f"Top pick: {snapshot.name(ranked[0])}.", f"Vice-captain: {snapshot.name(ranked[1])}.", "Balance form, fixtures and minutes risk.", "Who gets your armband?"]
-    elif kind == "review":
-        highlights = previous_gw_top_players(snapshot)
-        prev = latest_completed_gw(snapshot)
-        cards = [replace(
-            _card(snapshot, player, f"GW{prev} RETURN"),
-            fields=(f"{points} FPL points", f"Current price: {snapshot.price(player)}",
-                    f"Season total: {player.get('total_points', 0)}"),
-            metrics={**_card(snapshot, player, f"GW{prev} RETURN").metrics, "gw_points": points},
-        ) for player, points in highlights[:4]]
-        if not cards:
-            cards = [Card("NO COMPLETED GW YET", "Official FPL", "REVIEW STATUS", ("Upcoming GW watch only.", "Do not treat unfinished fixtures as final."))]
-        title = f"GW{prev or '–'} REVIEW → GW{gw} WATCH"
-        pending = [e["id"] for e in snapshot.events if isinstance(e.get("id"), int)
-                   and prev is not None and prev < e["id"] < gw and not e.get("finished")]
-        kicker = (f"GW{max(pending)} UNFINISHED • LAST VERIFIED GW{prev}" if pending
-                  else "5:30 PM • VERIFIED COMPLETED GAMEWEEK")
-        verdict = "PREVIOUS RESULTS + NEXT FIXTURE TARGETS"
-        leader = snapshot.name(highlights[0][0]) if highlights else "No completed GW"
-        lines = [f"FPL GW{prev or 0} review → GW{gw} watch.", f"Top completed-GW return: {leader}.", "Review official points and upcoming fixtures.", "Avoid chasing points without checking minutes.", "Who is your next target?"]
     elif kind == "evening":
         creators = choose_creators(snapshot)
         cards = [replace(

@@ -33,7 +33,7 @@ def validate_article(article: Any, snapshot: Any) -> None:
     required_footer_handles()
     if not snapshot.gameweek() or snapshot.fetched_at.tzinfo is None:
         raise RuntimeError("Official FPL gameweek / dated snapshot not established")
-    if article.gw != snapshot.gameweek() and article.kind != "review":
+    if article.gw != snapshot.gameweek():
         raise RuntimeError("Graphic is for the wrong future Gameweek")
     if article.kind == "daily_stats":
         from datetime import datetime
@@ -123,7 +123,7 @@ def render_checked(article: Any, snapshot: Any, output: Path,
     if not enriched_mode():
         return render(article, output, session=session)
     validate_article(article, snapshot)
-    if article.kind in ("fixture_guide", "daily_stats", "sell"):
+    if article.kind in ("fixture_guide", "daily_stats", "sell", "review"):
         result = render(article, output, session=session)
     elif hasattr(article, "cards") and len(article.cards) == 1:
         from .player_profile import render_player_profile

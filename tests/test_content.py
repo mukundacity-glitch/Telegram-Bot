@@ -99,14 +99,21 @@ def test_caption_does_not_accept_six_story_lines():
         raise AssertionError("Expected six-line story rejection")
 
 
-def test_review_uses_only_last_completed_gameweek(monkeypatch):
-    import vortex.content as content_module
-    snapshot = fake_snapshot()
-    player = snapshot.players[3]
-    monkeypatch.setattr(content_module, "previous_gw_top_players", lambda current: [(player, 14)])
+def test_monitor_uses_official_transfer_in_ranking_not_previous_points(monkeypatch):
+    from test_recommendations import recommendation_snapshot
+    snapshot = recommendation_snapshot()
+    # Reverse the old order and make a lower-ranked player more attractive.
+    for player in snapshot.players:
+        player["transfers_in_event"] = player["id"] * 100
+    snapshot.players[0]["form"] = "99.0"
+    monkeypatch.setattr("vortex.recommendations.get_history", lambda *args: [])
     content = generate("review", snapshot, datetime(2026, 10, 16, 14, tzinfo=timezone.utc), {})
-    assert "GW6 REVIEW" in content.title
-    assert "14 FPL points" in content.cards[0].fields[0]
+    expected = sorted(snapshot.players, key=lambda p: (-p["transfers_in_event"], p["id"]))[:4]
+    assert [card.headline for card in content.cards] == [p["web_name"] for p in expected]
+    assert content.title == "GW7: FOUR PLAYERS TO MONITOR"
+    assert all(card.label == "MONITOR" for card in content.cards)
+    assert all("transfers" not in card.metrics for card in content.cards)
+    assert "event-to-date" not in (content.caption + content.kicker).lower()
     assert content.caption.endswith("#FPL #GW7 #FPLVortex #PremierLeague")
 
 

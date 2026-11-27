@@ -40,7 +40,7 @@ One **existing** GitHub Actions workflow, thirteen Eastern-time publication slot
 | 2:00 PM | Transfer comparison/decision | Daily |
 | **3:00 PM** | **NEW — Positional GK/DEF/MID/FWD transfer suggestions** | Daily |
 | 4:00 PM | Captaincy showdown | Daily |
-| 5:30 PM | Last completed gameweek review | Daily |
+| 5:30 PM | Four players to monitor (11/55) | Daily |
 | 6:30 PM | Four next-GW sell candidates (firm or conditional) | Daily |
 | 8:00 PM | Sunday Chance Watch (midfielders and forwards) | Sunday |
 | 8:00 PM | Monday Defence Watch (goalkeepers and defenders) | Monday |
@@ -50,7 +50,7 @@ Each successful delivery sends a 1536×864 branded PNG to Telegram with five sho
 
 ## Next-GW recommendations and metric periods
 
-The two new graphics target the **first future FPL deadline event**. They identify the most recently **confirmed completed** review GW by checking the official event completion marker **and every assigned fixture**, rather than subtracting one from the next event. During an unfinished round the review explicitly notes that the prior round remains live; postponed fixtures prevent premature completion labels.
+The MONITOR (11/55) and SELL (12/55) graphics target the first future FPL deadline. MONITOR selects the four highest verified official `transfers_in_event` counts, SELL selects the four highest `transfers_out_event` counts. Both keep the counts internal and use evidence-based assessments and identical approved branding. Completed-round history is used only when verified.
 
 The next-GW BUY/SELL research starts with the official `transfers_in_event` and `transfers_out_event` counters, clearly labeled **event-to-date at the snapshot**. These counters are not 24-hour movements and are not treated as evidence of managers' motives. Four names appear, but those without a defensible strong verdict are explicitly **WATCHLIST**. Only the next gameweek's official fixtures enter the FDR table; a blank is marked and double fixtures are individually shown. No automatic transfer or points hit is executed.
 
