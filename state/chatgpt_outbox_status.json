@@ -1206,6 +1206,11 @@
     "identity": "chatgpt:2026-27:GW13:task1:form-minutes-targets:4275ec282f1e8e8b3720",
     "status": "delivered"
   },
+  "2026-11-27-scouting-rotation.json": {
+    "at": "2026-11-27T21:56:54.337678+00:00",
+    "identity": "chatgpt:2026-27:GW13:task2:scouting-rotation:18237cbb7affa553505e",
+    "status": "delivered"
+  },
   "2026-11-27-start-bench-board.json": {
     "at": "2026-11-27T12:16:32.511208+00:00",
     "identity": "chatgpt:2026-27:GW12:task1:start-bench-board:79727cc5c4e871363069",
