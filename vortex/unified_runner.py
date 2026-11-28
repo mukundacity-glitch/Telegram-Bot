@@ -36,14 +36,14 @@ def rotation_research_due(now):
 
 def rotation_research_valid(snapshot, now, state):
     from .autonomous_schedule import season_id
-    from .research_gap import verified_gap
+    from .research_gap import reserved_research_valid, verified_gap
     local = now.astimezone(ET)
     post = local.replace(hour=20, minute=0, second=0, microsecond=0)
     row = state.get('research', {})
     return (row.get('date') == local.date().isoformat()
             and row.get('gw') == snapshot.gameweek()
             and row.get('season') == season_id(snapshot, now)
-            and verified_gap(row.get('checked_at'), post)
+            and reserved_research_valid(row.get('checked_at'), post, 15, 28, 12)
             and verified_gap(row.get('checked_at'), now))
 
 
@@ -53,10 +53,15 @@ def prepare_rotation_research(snapshot, now, *, clock=None):
     from .rotation_planner import build_rotation_plan
     from .autonomous_schedule import season_id
     plan = build_rotation_plan(snapshot, now)
+    from .research_gap import reserved_research_valid
+    checked = clock() if clock else now
+    post = now.astimezone(ET).replace(hour=20, minute=0, second=0, microsecond=0)
+    if not reserved_research_valid(checked.isoformat(), post, 15, 28, 12):
+        return False
     state = _read(READY)
     state.update(initialized=True, research={
         'date': now.astimezone(ET).date().isoformat(), 'gw': plan.gameweek,
-        'season': season_id(snapshot, now), 'checked_at': (clock() if clock else now).isoformat(),
+        'season': season_id(snapshot, now), 'checked_at': checked.isoformat(),
         'club_ids': [club['id'] for club in plan.clubs],
     })
     save_journal(READY, state)

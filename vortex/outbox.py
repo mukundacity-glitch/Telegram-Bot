@@ -72,7 +72,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
     if deadline.tzinfo is None or (record.get('pre_deadline', True) and deadline <= now):
         raise ValueError('Actionable deadline has elapsed')
     if record.get('edition') == 'price-prediction':
-        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE, valid_settlement
+        from .price_prediction_board import PRICE_LEAD, PRICE_GRACE, valid_settlement, genuine_cost_changes
         from .research_gap import verified_gap
         facts = record.get('facts') or {}
         try:
@@ -93,7 +93,7 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
             proof = facts['research']
             checked = datetime.fromisoformat(proof['checked_at'])
             target_deadline = datetime.fromisoformat(facts['target_deadline'])
-            if (not proof['changes'] or not research_at <= checked < research_at+PRICE_GRACE
+            if (not genuine_cost_changes(proof['changes']) or not research_at <= checked < research_at+PRICE_GRACE
                     or not verified_gap(proof['checked_at'], post) or not verified_gap(proof['checked_at'], now)
                     or not valid_settlement(proof.get('observed_settlement',{}),record['season'],now)
                     or target_deadline <= now or target_deadline <= publish_at):
@@ -102,6 +102,21 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
             raise ValueError('Verified price research required') from exc
     from .daily_cutover import KINDS, validate_record as validate_daily
     daily_identity = None
+    if record.get('edition') == 'weekly-sweeper-keepers':
+        from .pre_gameweek_sweepers import validate_record as validate_sweepers
+        daily_identity = validate_sweepers(record,now,publish_at,manual=allow_outside_window)
+    if record.get('edition') == 'post-gameweek-vulnerability':
+        from .post_gameweek_vulnerability import validate_record as validate_matchups
+        daily_identity = validate_matchups(record,now,publish_at,manual=allow_outside_window)
+    if record.get('edition') == 'weekly-availability-decisions':
+        from .pre_gameweek_availability import validate_record as validate_availability
+        daily_identity = validate_availability(record,now,publish_at,manual=allow_outside_window)
+    if record.get('edition') == 'post-gameweek-shot-origins':
+        from .post_gameweek_zones import validate_record as validate_zones
+        daily_identity = validate_zones(record,now,publish_at,manual=allow_outside_window)
+    if record.get('edition') == 'weekly-position-watch':
+        from .position_watch import validate_record as validate_watch
+        daily_identity = validate_watch(record,now,publish_at,manual=allow_outside_window)
     if record.get('edition') in KINDS:
         if allow_outside_window or record.get('task') != 'task2':
             raise ValueError('Daily cutover cannot bypass the scheduled window')
@@ -162,8 +177,10 @@ def validate(record, root=ROOT, now=None, *, allow_outside_window=False, preview
             raise ValueError('PNG upload exceeds safe size')
         with Image.open(path) as image:
             expected_sizes = ((1600, 1200),) if record.get('edition') == 'price-prediction' else ((1920, 1080), (1080, 1920))
-            if destination == 'discord-only':
+            if destination == 'discord-only' or record.get('edition') in ('weekly-position-watch','post-gameweek-shot-origins','weekly-availability-decisions','post-gameweek-vulnerability'):
                 expected_sizes = ((1920, 1080),)
+            if record.get('edition') == 'weekly-sweeper-keepers':
+                expected_sizes = ((1080,1920),)
             if image.size not in expected_sizes:
                 raise ValueError('Finished art dimensions do not match the edition contract')
             image.verify()
@@ -182,7 +199,7 @@ def queued_files(now):
         try:
             row = json.loads(file.read_text())
             from .daily_cutover import KINDS
-            if retired_record(row) or row.get('edition') in ('price-prediction', 'player-radar-comparison', 'saturday-fdr-grid') or row.get('edition') in KINDS:
+            if retired_record(row) or row.get('edition') in ('price-prediction', 'player-radar-comparison', 'saturday-fdr-grid', 'weekly-position-watch', 'post-gameweek-shot-origins', 'weekly-availability-decisions', 'post-gameweek-vulnerability', 'weekly-sweeper-keepers') or row.get('edition') in KINDS:
                 continue
             due = datetime.fromisoformat(row['publish_at'].replace('Z', '+00:00'))
             if due.tzinfo and due <= now:
@@ -226,6 +243,16 @@ def run(now=None, telegram=None, discord=None, *, manual=False, target_file=None
                    (bool(journal.get(k, {}).get('discord_message_id')) if discord_only else journal.get(k, {}).get('delivered')) for k in keys):
                 continue
             delivery_due = True
+            if record.get('edition') == 'price-prediction':
+                # Recheck actual durable research and official data before any
+                # platform client is created. A staged JSON is not sufficient.
+                from .price_prediction_board import verify_live_publication
+                from .autonomous_runner import STATE_FILE
+                from .fpl import collect_snapshot
+                fresh = collect_snapshot()
+                now = max(now, fresh.fetched_at, datetime.now(timezone.utc))
+                verify_live_publication(record, fresh, read_state(STATE_FILE), now)
+                validate(record, root=ROOT, now=now, allow_outside_window=manual)
             if not discord_only:
                 telegram = telegram or TelegramClient()
             if discord is None:

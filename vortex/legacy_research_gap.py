@@ -1,5 +1,5 @@
 """Three-hour proof for existing weekly legacy boards; not the new Slot 7."""
-from datetime import datetime
+from datetime import datetime, timedelta
 from .autonomous_schedule import ET, season_id
 from .research_gap import verified_gap
 
@@ -22,8 +22,9 @@ def proof_valid(edition, proof, season, gw, at):
                 and (local.hour, local.minute) < (23, 0)
                 and proof["date"] == local.date().isoformat()
                 and proof["season"] == season and proof["gw"] == gw
-                and start <= checked.astimezone(ET)
-                and checked.astimezone(ET).date() == local.date()
+                # Research that finishes outside its reserved window can
+                # overlap another workflow even when the elapsed gap is long.
+                and start <= checked.astimezone(ET) < start + timedelta(minutes=15)
                 and verified_gap(proof["checked_at"], nominal)
                 and verified_gap(proof["checked_at"], at))
     except (KeyError, ValueError, TypeError, AttributeError):

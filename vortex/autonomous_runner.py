@@ -34,6 +34,9 @@ def canonical(value):
 def facts(plan,snapshot,evidence):
     keys=('id','code','team','element_type','now_cost','selected_by_percent','status','news',
           'minutes','total_points','form','expected_goals','expected_assists')
+    if plan.kind == 'weekly_position_watch':
+        return {'edition':plan.edition,'player_ids':[p['id'] for p in plan.players],
+                'extra':canonical(plan.extra)}
     if plan.kind == 'cutover_daily':
         return {'edition': plan.edition, 'player_ids': plan.extra['player_ids'],
                 'research': plan.extra['research'], 'content': canonical(plan.extra['content'])}
@@ -53,6 +56,36 @@ def facts(plan,snapshot,evidence):
 def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audit=False,manual=False):
     from .legacy_research_gap import WINDOWS, read_proof
     legacy_proof = None
+    if slot.edition == 'weekly-sweeper-keepers':
+        from .pre_gameweek_sweepers import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Sweeper keepers requires verified scheduled release')
+        evidence.sweeper_research = state[STATE_KEY]
+    if slot.edition == 'post-gameweek-vulnerability':
+        from .post_gameweek_vulnerability import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Vulnerability requires verified scheduled release')
+        evidence.vulnerability_research = state[STATE_KEY]
+    if slot.edition == 'weekly-availability-decisions':
+        from .pre_gameweek_availability import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Availability requires verified scheduled release')
+        evidence.availability_research = state[STATE_KEY]
+    if slot.edition == 'post-gameweek-shot-origins':
+        from .post_gameweek_zones import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Shot origins requires verified scheduled release')
+        evidence.shot_origins_research = state[STATE_KEY]
+    if slot.edition == 'weekly-position-watch':
+        from .position_watch import eligible, STATE_KEY
+        state = read_state(STATE_FILE)
+        if manual or audit or eligible(snapshot,now,state) != slot:
+            raise RequiredInput('Position Watch requires verified scheduled release')
+        evidence.position_watch_research = state[STATE_KEY]
     if slot.edition in WINDOWS and not audit:
         legacy_proof = read_proof(slot.edition, snapshot, now, evidence)
         if not legacy_proof:
@@ -77,7 +110,9 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
             if image.size not in expected_sizes:raise RuntimeError('Generated PNG dimensions failed QA')
             image.verify()
     weekly = slot.edition == 'weekly-analysis'
-    editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot in EVENING_WATCH_SLOTS
+    editorial_after_deadline = weekly or slot in SATURDAY_BOARDS or slot in EVENING_WATCH_SLOTS or plan.kind in ('post_gameweek_zones','post_gameweek_vulnerability')
+    if plan.kind == 'post_gameweek_zones' and len(pages)!=1:
+        raise RequiredInput('Shot origins requires one landscape board')
     deadline = ((now.astimezone(ET) + timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
                 if editorial_after_deadline else upcoming_deadline(snapshot))
     if (slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) + EVENING_WATCH_SLOTS or slot in SATURDAY_BOARDS) and deadline is not None:
@@ -85,6 +120,14 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         deadline = min(deadline, close.replace(hour=WINDOW_CLOSE[0], minute=WINDOW_CLOSE[1]))
     if plan.kind == 'monday_intelligence':
         deadline = min(deadline, upcoming_deadline(snapshot)) if upcoming_deadline(snapshot) else None
+    if plan.kind == 'weekly_sweeper_keepers':
+        deadline = datetime.fromisoformat(plan.extra['research']['deadline'])
+        if len(pages)!=1:
+            raise RequiredInput('Sweeper keepers requires one portrait board')
+    if plan.kind == 'weekly_availability':
+        deadline = datetime.fromisoformat(plan.extra['research']['deadline'])
+    if plan.kind == 'weekly_position_watch':
+        deadline = datetime.fromisoformat(plan.extra['research']['deadline'])
     if plan.kind == 'price_prediction':
         deadline = datetime.fromisoformat(plan.extra['update_at'])
     if deadline is None or deadline <= datetime.now(timezone.utc):
@@ -124,7 +167,7 @@ def stage(slot,snapshot,now,evidence,*,model=None,prices=None,research=None,audi
         record['editorial_reference'] = plan.extra.get('editorial_reference')
     if plan.kind == 'chance_creators':
         record['sources'].append(plan.extra['source'])
-    if editorial_after_deadline:
+    if editorial_after_deadline or plan.kind == 'weekly_sweeper_keepers':
         record['sources'].extend(plan.extra['sources'])
     if slot in (WILDCARD, VULNERABILITY, SHOT_QUALITY, CHIP_STRATEGY) or plan.kind == 'odds_board' or slot.edition in ('afternoon-rotation', 'scouting-rotation', 'passing-creators'):
         record['sources'].extend(plan.extra.get('sources', []))
@@ -144,6 +187,16 @@ def run(*,cron=None,edition=None,audit=False,due=False,manual=False,now=None,sna
     now=now or datetime.now(timezone.utc)
     if edition in (WILDCARD.edition, VULNERABILITY.edition, SHOT_QUALITY.edition, CHIP_STRATEGY.edition, PASSING_CREATORS.edition, *(s.edition for s in EVENING_WATCH_SLOTS), *(s.edition for s in SATURDAY_BOARDS)):
         raise ValueError('This post is available through the due queue only')
+    if edition == 'weekly-sweeper-keepers':
+        raise ValueError('Sweeper keepers is available only through the verified due queue')
+    if edition == 'post-gameweek-vulnerability':
+        raise ValueError('Vulnerability is available only through the verified due queue')
+    if edition == 'weekly-availability-decisions':
+        raise ValueError('Availability is available only through the verified due queue')
+    if edition == 'post-gameweek-shot-origins':
+        raise ValueError('Shot origins is available only through the verified due queue')
+    if edition == 'weekly-position-watch':
+        raise ValueError('Position Watch is available only through the verified due queue')
     if edition == 'price-prediction':
         raise ValueError('Price prediction is available only through the API-clock due queue')
     if edition in RETIRED_EDITIONS:

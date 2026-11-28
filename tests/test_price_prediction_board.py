@@ -233,3 +233,189 @@ def test_observed_settlement_is_bounded_by_real_snapshots(world):
     observed=state[SETTLEMENT_KEY]
     assert observed["last_before"]==before.isoformat() and observed["first_after"]==after.isoformat()
     assert valid_settlement(observed,season_id(s,after),after)
+
+
+def test_delayed_observed_settlement_retains_real_pre_deadline_baseline(world):
+    from vortex.price_prediction_board import observe_settlement, SETTLEMENT_KEY, PENDING_SETTLEMENT_KEY
+    s,_=populated(world)
+    expected=datetime(2026,11,27,0,tzinfo=timezone.utc)
+    before=expected-timedelta(minutes=10)
+    def snap(at,next_update):
+        return replace(s,fetched_at=at,game_config={"settings":{"price_change_deadlines":[next_update.isoformat()]},
+             "status":{"price_change_last_updated":at.isoformat()}})
+    state={}
+    assert observe_settlement(snap(before,expected),state)
+    assert observe_settlement(snap(expected+timedelta(minutes=10),expected+timedelta(days=1)),state)
+    assert SETTLEMENT_KEY not in state and PENDING_SETTLEMENT_KEY in state
+    s.players[0]["now_cost"]+=1
+    after=expected+timedelta(minutes=25)
+    assert observe_settlement(snap(after,expected+timedelta(days=1)),state)
+    assert state[SETTLEMENT_KEY]["last_before"]==before.isoformat()
+    assert state[SETTLEMENT_KEY]["first_after"]==after.isoformat()
+    assert PENDING_SETTLEMENT_KEY not in state
+
+
+def test_projection_only_movement_is_not_a_genuine_price_delta():
+    from vortex.price_prediction_board import genuine_cost_changes, material_changes
+    before={"1":{"code":10,"cost":50,"threshold":0,"band":1}}
+    after={"1":{"code":10,"cost":50,"threshold":1,"band":2}}
+    assert material_changes(before,after)
+    assert not genuine_cost_changes(material_changes(before,after))
+    after["1"]["cost"]=51
+    assert len(genuine_cost_changes(material_changes(before,after)))==1
+    assert not genuine_cost_changes([{"id":1,"before":{"cost":True},"after":{"cost":51}}])
+
+
+def test_price_respects_persisted_dynamic_reservations(world, monkeypatch):
+    from vortex.price_prediction_board import price_schedule
+    from vortex.autonomous_schedule import season_id
+    from vortex import autonomous_schedule,schedule
+    s,_,_,_=world
+    update=datetime(2026,11,27,0,tzinfo=timezone.utc)
+    now=update-timedelta(hours=1)
+    monkeypatch.setattr(autonomous_schedule,"SLOTS",())
+    monkeypatch.setattr(schedule,"SLOT_HOURS",{})
+    monkeypatch.setattr(autonomous_schedule,"special_triggers",lambda *_:[])
+    state={"_weekly_sweeper_keepers":{"season":season_id(s,now),
+        "research_at":(now-timedelta(hours=4)).isoformat(),"post_at":now.isoformat()}}
+    research,post,conflicts=price_schedule(s,now,update,state)
+    assert post is None or post!=now
+    assert any("sweeper" in name for name,_ in conflicts)
+
+
+
+def test_price_delivery_rechecks_durable_evidence_and_live_deadline(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity, verify_live_publication, SETTLEMENT_KEY, RESEARCH_KEY
+    from vortex.autonomous_schedule import season_id
+    from vortex import autonomous_schedule, schedule
+    s,_=populated(world)
+    update=datetime(2026,11,27,0,tzinfo=timezone.utc)
+    research=update-timedelta(hours=4,minutes=15)
+    posting=update-timedelta(hours=1)
+    deadline=update+timedelta(days=1)
+    monkeypatch.setattr(autonomous_schedule,"SLOTS",())
+    monkeypatch.setattr(schedule,"SLOT_HOURS",{})
+    monkeypatch.setattr(autonomous_schedule,"special_triggers",lambda *_:[])
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline",lambda _:deadline)
+    def at(instant):
+        return replace(s,fetched_at=instant,game_config={
+            "settings":{"price_change_deadlines":[update.isoformat()]},
+            "status":{"price_change_last_updated":instant.isoformat()}})
+    season=season_id(s,posting)
+    state={SETTLEMENT_KEY:settlement_fixture(update,season)}
+    assert opportunity(at(research),research,state)[1]["status"]=="research-verified"
+    s.players[0]["now_cost"]+=1
+    slot,info=opportunity(at(posting),posting,state)
+    assert slot is not None
+    record={"season":season,"gameweek":s.gameweek(),"facts":{
+        "update_at":update.isoformat(),"target_deadline":deadline.isoformat(),"research":info["research"]}}
+    verify_live_publication(record,at(posting),state,posting)
+    with pytest.raises(ValueError,match="persisted settlement evidence"):
+        verify_live_publication(record,at(posting),{SETTLEMENT_KEY:state[SETTLEMENT_KEY]},posting)
+    s.players[0]["now_cost"]-=1
+    with pytest.raises(ValueError,match="persisted settlement evidence"):
+        verify_live_publication(record,at(posting),state,posting)
+    s.players[0]["now_cost"]+=1
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline",lambda _:deadline+timedelta(hours=1))
+    with pytest.raises(ValueError,match="target Gameweek changed"):
+        verify_live_publication(record,at(posting),state,posting)
+
+
+def test_cost_delta_requires_verified_stable_player_code():
+    from vortex.price_prediction_board import material_changes, genuine_cost_changes
+    for old, new in ((None, None), (0, 0), (True, 1), (10, 11), ("10", "10")):
+        before = {"1": {"code": old, "cost": 50}}
+        after = {"1": {"code": new, "cost": 51}}
+        assert not genuine_cost_changes(material_changes(before, after))
+    assert genuine_cost_changes(material_changes(
+        {"1": {"code": 10, "cost": 50}}, {"1": {"code": 10, "cost": 51}}))
+
+
+def test_late_price_snapshot_does_not_record_reserved_research(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity, RESEARCH_KEY
+    from vortex import autonomous_schedule, schedule
+    s, _ = populated(world)
+    update = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    research = update - timedelta(hours=4, minutes=15)
+    posting = update - timedelta(hours=1)
+    late = research + timedelta(minutes=15)
+    monkeypatch.setattr(autonomous_schedule, "SLOTS", ())
+    monkeypatch.setattr(schedule, "SLOT_HOURS", {})
+    monkeypatch.setattr(autonomous_schedule, "special_triggers", lambda *_: [])
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline", lambda _: update+timedelta(days=1))
+    s = replace(s, fetched_at=late, game_config={
+        "settings": {"price_change_deadlines": [update.isoformat()]},
+        "status": {"price_change_last_updated": late.isoformat()}})
+    state = {}
+    slot, info = opportunity(s, research, state)
+    assert slot is None and info["status"] == "research-window-expired"
+    assert RESEARCH_KEY not in state
+
+
+def test_price_research_records_actual_completion_and_rejects_stale_source(world, monkeypatch):
+    from vortex.price_prediction_board import opportunity, RESEARCH_KEY
+    from vortex import autonomous_schedule, schedule
+    s, _ = populated(world)
+    update = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    research = update - timedelta(hours=4, minutes=15)
+    monkeypatch.setattr(autonomous_schedule, "SLOTS", ())
+    monkeypatch.setattr(schedule, "SLOT_HOURS", {})
+    monkeypatch.setattr(autonomous_schedule, "special_triggers", lambda *_: [])
+    monkeypatch.setattr("vortex.fpl.upcoming_deadline", lambda _: update+timedelta(days=1))
+    def at(instant):
+        return replace(s, fetched_at=instant, game_config={
+            "settings": {"price_change_deadlines": [update.isoformat()]},
+            "status": {"price_change_last_updated": research.isoformat()}})
+    state = {}
+    _, info = opportunity(at(research), research, state, clock=lambda: research+timedelta(minutes=15))
+    assert info["status"] == "research-window-expired"
+    assert RESEARCH_KEY not in state
+    _, info = opportunity(at(research-timedelta(minutes=31)), research, state, clock=lambda: research)
+    assert info["status"] == "research-source-stale"
+    assert RESEARCH_KEY not in state
+    checked = research+timedelta(minutes=2)
+    _, info = opportunity(at(research), research, state, clock=lambda: checked)
+    assert info["status"] == "research-verified"
+    assert state[RESEARCH_KEY]["checked_at"] == checked.isoformat()
+
+
+def test_price_reference_footer_uses_verified_source_and_dynamic_uk_clock(world):
+    from vortex.price_prediction_board import price_board_footer
+    s, _, _, _ = world
+    s = replace(s, fetched_at=datetime(2027, 5, 1, 18, 10, tzinfo=timezone.utc))
+    update = datetime(2027, 5, 1, 22, 45, tzinfo=timezone.utc)
+    source, timing = price_board_footer(s, update)
+    assert "Official FPL predictor + player data" in source
+    assert "Prediction is a guide, not a guarantee" in source
+    assert "LiveFPL" not in source
+    assert "Price-change check: 01 May 2027 23:45 UK" in timing
+    assert "Data retrieved: 01 May 2027 19:10 UK" in timing
+    assert "Target % is not probability" in timing
+    with pytest.raises(ValueError, match="Timezone-aware"):
+        price_board_footer(s, update.replace(tzinfo=None))
+
+
+def test_cost_settlement_survives_stale_predictor_clock(world):
+    from vortex.price_prediction_board import observe_settlement, SETTLEMENT_KEY, COST_SNAPSHOT_KEY, PENDING_SETTLEMENT_KEY
+    s, _ = populated(world)
+    expected = datetime(2026, 11, 27, 0, tzinfo=timezone.utc)
+    before = expected-timedelta(minutes=10)
+    def snap(at, deadlines):
+        return replace(s, fetched_at=at, game_config={
+            "settings":{"price_change_deadlines":[d.isoformat() for d in deadlines]},
+            "status":{"price_change_last_updated":at.isoformat()}})
+    state = {}
+    assert not observe_settlement(snap(expected, [expected]), state)
+    assert observe_settlement(snap(before, [expected]), state)
+    assert observe_settlement(snap(expected+timedelta(minutes=1), [expected]), state)
+    assert PENDING_SETTLEMENT_KEY in state
+    assert SETTLEMENT_KEY not in state
+    s.players[0]["now_cost"] += 1
+    after = expected+timedelta(minutes=7)
+    assert observe_settlement(snap(after, [expected]), state)
+    assert state[SETTLEMENT_KEY]["first_after"] == after.isoformat()
+    assert state[COST_SNAPSHOT_KEY]["at"] == before.isoformat()
+    assert not observe_settlement(snap(after, [expected]), state)
+    assert observe_settlement(snap(after+timedelta(minutes=10), [expected+timedelta(days=1)]), state)
+    assert state[SETTLEMENT_KEY]["first_after"] == after.isoformat()
+    assert PENDING_SETTLEMENT_KEY not in state

@@ -110,6 +110,26 @@ jobs:
           FPL_YOUTUBE_HANDLE: ${{ vars.FPL_YOUTUBE_HANDLE || 'FPLVORTEX' }}
           FPL_X_HANDLE: ${{ vars.FPL_X_HANDLE || 'FPLVORTEXM' }}
         run: python -m vortex.six_slot_live_audit
+      - name: Verify Slot 7 landscape with live official data (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 4
+        run: python -m vortex.position_watch
+      - name: Verify Slot 8 live finalized-GW shot origins (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 4
+        run: python -m vortex.post_gameweek_zones
+      - name: Verify Slot 9 live availability and transfer decisions (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 5
+        run: python -m vortex.pre_gameweek_availability
+      - name: Verify Slot 10 live finalized-GW vulnerability (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 5
+        run: python -m vortex.post_gameweek_vulnerability
+      - name: Verify Slot 11 live sweeper keepers (read only)
+        if: github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
+        timeout-minutes: 5
+        run: python -m vortex.pre_gameweek_sweepers
       - name: Archive six-slot read-only verification
         if: always() && github.event_name == 'pull_request' && github.head_ref == 'feature/github-five-slot-cutover'
         uses: actions/upload-artifact@v4
@@ -131,7 +151,9 @@ jobs:
           if-no-files-found: ignore
           retention-days: 5
   publish:
-    if: ${{ github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]') || contains(github.event.head_commit.message, '[FPL-AUTO-REPAIR]'))) }}
+    # Feature-branch dispatches may validate but never use production tokens,
+    # send posts or persist receipts to main.
+    if: ${{ github.ref == 'refs/heads/main' && (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && (contains(github.event.head_commit.message, '[FPL-AUTONOMOUS]') || contains(github.event.head_commit.message, '[FPL-OUTBOX]') || contains(github.event.head_commit.message, '[FPL-COMBINE-MIDS]') || contains(github.event.head_commit.message, '[FPL-MANUAL-PUBLISH]') || contains(github.event.head_commit.message, '[FPL-AUTO-REPAIR]')))) }}
     permissions:
       contents: write
     concurrency:

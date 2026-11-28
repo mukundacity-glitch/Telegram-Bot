@@ -179,6 +179,8 @@ def test_fdr_weekly_phase_and_existing_receipt_guard():
         'gw': snap.gameweek(), 'season': season_id(snap, post), 'verified': True,
         'checked_at': research.isoformat()}}
     assert fdr_research_valid(state, snap, post)
+    state[FDR_RESEARCH_STATE]['checked_at'] = (research + timedelta(minutes=12)).isoformat()
+    assert not fdr_research_valid(state, snap, post)
     state[FDR_RESEARCH_STATE]['checked_at'] = (post - timedelta(hours=2, minutes=59)).isoformat()
     assert not fdr_research_valid(state, snap, post)
     state[FDR_RESEARCH_STATE]['checked_at'] = research.isoformat()

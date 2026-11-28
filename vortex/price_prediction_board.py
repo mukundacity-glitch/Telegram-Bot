@@ -52,6 +52,7 @@ PRICE_GRACE = timedelta(minutes=15)
 RESEARCH_KEY = "_pre_gameweek_price_research"
 SETTLEMENT_KEY = "_observed_price_settlement"
 COST_SNAPSHOT_KEY = "_consecutive_cost_snapshot"
+PENDING_SETTLEMENT_KEY = "_pending_price_settlement"
 
 
 def price_observation(snapshot):
@@ -84,7 +85,9 @@ def material_changes(previous, current):
     changes = []
     for pid, new in current.items():
         old = previous.get(pid)
-        if not isinstance(old, dict) or old.get("code") != new.get("code"):
+        code = new.get("code")
+        if (not isinstance(old, dict) or type(code) is not int or code <= 0
+                or type(old.get("code")) is not int or old["code"] != code):
             continue
         fields = [key for key in ("cost", "threshold", "band")
                   if old.get(key) is not None and new.get(key) is not None and old[key] != new[key]]
@@ -94,41 +97,93 @@ def material_changes(previous, current):
     return changes
 
 
-def observe_settlement(snapshot, state):
-    """Bound observed cost settlement by actual consecutive snapshot times.
+def genuine_cost_changes(changes):
+    """A forecast threshold or likelihood transition is not a settled cost change."""
+    result = []
+    for change in changes:
+        if not isinstance(change, dict):
+            continue
+        before, after = change.get("before"), change.get("after")
+        if not isinstance(before, dict) or not isinstance(after, dict):
+            continue
+        old, new = before.get("cost"), after.get("cost")
+        if type(change.get("id")) is int and type(old) is int and type(new) is int and old > 0 and new > 0 and old != new:
+            result.append(change)
+    return result
 
-    The API prediction deadline is not an observed settlement timestamp.
-    A changed cost only establishes an interval, never an exact minute.
+
+def observe_settlement(snapshot, state):
+    """Observe actual cost deltas even while the predictor clock rolls over.
+
+    Only a previously verified pre-update deadline anchors settlement evidence.
+    A stale/missing current prediction clock cannot seed a new baseline or
+    authorize publication, but must not discard a genuine official cost change.
     """
     from .autonomous_schedule import season_id
     if not hasattr(snapshot, "events"):
         return False
     try:
         observed = snapshot.fetched_at
-        deadline, _ = official_clock({"game_config": snapshot.game_config}, observed)
+        if observed.tzinfo is None:
+            return False
         season = season_id(snapshot, observed)
+        try:
+            deadline, _ = official_clock({"game_config": snapshot.game_config}, observed)
+        except RequiredInput:
+            deadline = None
         costs = {pid: {"code": row["code"], "cost": row["cost"]}
                  for pid, row in price_observation(snapshot).items()
-                 if type(row["code"]) is int}
+                 if type(row["code"]) is int and row["code"] > 0}
         if not costs:
             return False
         previous = state.get(COST_SNAPSHOT_KEY, {})
+        pending = state.get(PENDING_SETTLEMENT_KEY, {})
+        settled = state.get(SETTLEMENT_KEY, {})
+        changed = False
         if previous.get("season") == season:
             at = datetime.fromisoformat(previous["at"])
-            if observed <= at:
-                return False
             prior_deadline = datetime.fromisoformat(previous["deadline"])
-            if at < prior_deadline <= observed < deadline and observed-at <= timedelta(hours=2):
-                changes = material_changes(previous["players"], costs)
+            if at.tzinfo is None or prior_deadline.tzinfo is None or observed <= at:
+                return False
+            if (at < prior_deadline <= observed and observed-at <= timedelta(hours=2)
+                    and (deadline is None or prior_deadline < deadline)
+                    and pending.get("expected_at") != prior_deadline.isoformat()
+                    and not (settled.get("season") == season
+                             and settled.get("expected_at") == prior_deadline.isoformat())):
+                pending = {"season": season, "expected_at": prior_deadline.isoformat(),
+                           "last_before": at.isoformat(), "players": previous["players"]}
+                state[PENDING_SETTLEMENT_KEY] = pending
+                changed = True
+        if pending.get("season") == season:
+            lower = datetime.fromisoformat(pending["last_before"])
+            expected = datetime.fromisoformat(pending["expected_at"])
+            last_seen = datetime.fromisoformat(pending.get("last_seen_at", pending["last_before"]))
+            if observed <= last_seen:
+                return changed
+            if (lower < expected <= observed and observed-lower <= timedelta(hours=2)
+                    and (deadline is None or observed < deadline)):
+                changes = genuine_cost_changes(material_changes(pending["players"], costs))
                 if changes:
                     state[SETTLEMENT_KEY] = {
-                        "season": season, "expected_at": prior_deadline.isoformat(),
-                        "last_before": at.isoformat(), "first_after": observed.isoformat(),
+                        "season": season, "expected_at": expected.isoformat(),
+                        "last_before": lower.isoformat(), "first_after": observed.isoformat(),
                         "changes": changes,
                     }
-        state[COST_SNAPSHOT_KEY] = {"season": season, "at": observed.isoformat(),
-                                   "deadline": deadline.isoformat(), "players": costs}
-        return True
+                    state.pop(PENDING_SETTLEMENT_KEY, None)
+                else:
+                    state[PENDING_SETTLEMENT_KEY] = {**pending, "last_seen_at": observed.isoformat()}
+                changed = True
+            else:
+                state.pop(PENDING_SETTLEMENT_KEY, None)
+                changed = True
+        elif pending:
+            state.pop(PENDING_SETTLEMENT_KEY, None)
+            changed = True
+        if deadline is not None:
+            state[COST_SNAPSHOT_KEY] = {"season": season, "at": observed.isoformat(),
+                                       "deadline": deadline.isoformat(), "players": costs}
+            changed = True
+        return changed
     except (RequiredInput, ValueError, KeyError, TypeError, AttributeError):
         return False
 
@@ -140,8 +195,7 @@ def valid_settlement(row, season, now):
         expected = datetime.fromisoformat(row["expected_at"])
         return (row["season"] == season and lower < expected <= upper <= now
                 and upper-lower <= timedelta(hours=2) and now-upper <= timedelta(days=7)
-                and any("cost" in c.get("before", {}) and c["before"]["cost"] != c["after"]["cost"]
-                        for c in row["changes"]))
+                and bool(genuine_cost_changes(row["changes"])))
     except (ValueError, KeyError, TypeError, AttributeError):
         return False
 
@@ -160,10 +214,14 @@ def research_evidence(snapshot, now, update, state, *, research_at=None, post_at
             return None
         if not research_at <= checked < research_at+PRICE_GRACE:
             return None
-        from .research_gap import verified_gap
-        if snapshot.fetched_at <= checked or not verified_gap(row['checked_at'], post_at) or not verified_gap(row['checked_at'], now):
+        from .research_gap import fresh_research_source, verified_gap
+        if (not fresh_research_source(row.get("fetched_at"), row.get("checked_at"))
+                or not fresh_research_source(snapshot.fetched_at.isoformat(), now.isoformat())
+                or snapshot.fetched_at <= checked
+                or not verified_gap(row['checked_at'], post_at)
+                or not verified_gap(row['checked_at'], now)):
             return None
-        changes = material_changes(row["players"], price_observation(snapshot))
+        changes = genuine_cost_changes(material_changes(row["players"], price_observation(snapshot)))
     except (ValueError, TypeError, KeyError, AttributeError):
         return None
     return {"checked_at": checked.isoformat(), "changes": changes,
@@ -208,6 +266,23 @@ def price_schedule(snapshot, now, update, state):
     for other, at in special_triggers(snapshot, now):
         if at is not None and retryable(state.get(publication_key(other,now,snapshot.gameweek(),season_id(snapshot,now)),{})):
             posts.append((other.edition,at))
+    # Previously researched dynamic slots are durable reservations, even when
+    # their proposed post time is outside today's fixed catalogue.
+    reserved = []
+    for key in ("_weekly_pre_kickoff_position_watch", "_post_gameweek_shot_origins",
+                "_weekly_availability_decisions", "_post_gameweek_vulnerability",
+                "_weekly_sweeper_keepers"):
+        row = state.get(key, {})
+        if row.get("season") != season_id(snapshot, now):
+            continue
+        try:
+            r, p = (datetime.fromisoformat(row[k]) for k in ("research_at", "post_at"))
+            if r.tzinfo is None or p.tzinfo is None:
+                raise ValueError("timezone required")
+            reserved.extend(((key+"-research", r, r+timedelta(minutes=10)),
+                             (key+"-post", p-GAP, p+GAP+timedelta(minutes=10))))
+        except (TypeError, ValueError, KeyError, AttributeError):
+            return None, None, [(key, "invalid persisted reservation")]
     def conflicts(check, post):
         reasons=[]
         check, post = check.astimezone(timezone.utc), post.astimezone(timezone.utc)
@@ -219,6 +294,9 @@ def price_schedule(snapshot, now, update, state):
             at = at.astimezone(timezone.utc)
             if (at < check+PRICE_GRACE and check < at+length) or (at < post+PRICE_GRACE and post < at+length):
                 reasons.append((name,at.isoformat()))
+        for name, start, end in reserved:
+            if (start < check+PRICE_GRACE and check < end) or (start < post+PRICE_GRACE and post < end):
+                reasons.append((name,start.isoformat()))
         return sorted(set(reasons))
     # Compare elapsed time and overlaps in UTC, including the DST transition.
     check=update.astimezone(timezone.utc)-PRICE_RESEARCH_LEAD
@@ -238,7 +316,7 @@ def price_schedule(snapshot, now, update, state):
     return None,None,original
 
 
-def opportunity(snapshot, now, state):
+def opportunity(snapshot, now, state, *, clock=None):
     """Find a verified pre-change opportunity without moving other slots."""
     from .autonomous_schedule import ET, Slot, publication_key, season_id, retryable
     from .fpl import upcoming_deadline
@@ -266,11 +344,20 @@ def opportunity(snapshot, now, state):
     if now >= trigger+PRICE_GRACE:
         return None, {**info, "status":"skipped-schedule-conflict" if conflicts else "missed-window"}
     if research_at <= now < research_at+PRICE_GRACE:
+        from .research_gap import fresh_research_source, verified_gap
+        players = price_observation(snapshot)
+        checked_at = clock() if clock is not None else max(now, snapshot.fetched_at)
+        if checked_at.tzinfo is None or not research_at <= checked_at < research_at+PRICE_GRACE:
+            return None, {**info, "status":"research-window-expired"}
+        if not fresh_research_source(snapshot.fetched_at.isoformat(), checked_at.isoformat()):
+            return None, {**info, "status":"research-source-stale"}
+        if not verified_gap(checked_at.isoformat(), trigger):
+            return None, {**info, "status":"research-gap-insufficient"}
         prior = state.get(RESEARCH_KEY,{})
         if prior.get("update_at") != update.isoformat() or prior.get("post_at") != trigger.isoformat() or prior.get("gw") != snapshot.gameweek() or prior.get("season") != season:
             state[RESEARCH_KEY] = {"update_at":update.isoformat(),"gw":snapshot.gameweek(),
-                                   "season":season,"checked_at":max(now,snapshot.fetched_at).isoformat(),
-                                   "fetched_at":snapshot.fetched_at.isoformat(),"players":price_observation(snapshot),
+                                   "season":season,"checked_at":checked_at.isoformat(),
+                                   "fetched_at":snapshot.fetched_at.isoformat(),"players":players,
                                    "research_at":research_at.isoformat(),"post_at":trigger.isoformat()}
         return None, {**info,"status":"research-verified"}
     if now < trigger:
@@ -285,6 +372,43 @@ def opportunity(snapshot, now, state):
         return None,{**info,"status":"settlement-unverified"}
     proof["observed_settlement"]=observed
     return slot,{**info,"status":"due","research":proof}
+
+
+def verify_live_publication(record, snapshot, state, now):
+    """Recheck persisted research and the live official clock before sending.
+
+    An outbox file alone is not evidence of an actual research run. Do not
+    recreate the research timestamp or shift the publication window.
+    """
+    from .autonomous_schedule import season_id
+    from .fpl import upcoming_deadline
+    facts = record.get("facts") or {}
+    try:
+        fresh = max(now, snapshot.fetched_at)
+        update, _ = official_clock({"game_config": snapshot.game_config}, fresh)
+        update = update.astimezone(timezone.utc)
+        if (snapshot.gameweek() != record["gameweek"]
+                or season_id(snapshot, fresh) != record["season"]
+                or update != datetime.fromisoformat(facts["update_at"])
+                or upcoming_deadline(snapshot) != datetime.fromisoformat(facts["target_deadline"])
+                or fresh >= upcoming_deadline(snapshot)):
+            raise ValueError("Official price clock or target Gameweek changed")
+        research_at, post_at, _ = price_schedule(snapshot, fresh, update, state)
+        if (research_at is None or post_at is None
+                or not post_at <= fresh < post_at + PRICE_GRACE):
+            raise ValueError("Price schedule is no longer conflict-free or timely")
+        research_at = research_at.astimezone(timezone.utc)
+        post_at = post_at.astimezone(timezone.utc)
+        proof = research_evidence(snapshot, fresh, update, state,
+                                  research_at=research_at, post_at=post_at)
+        observed = state.get(SETTLEMENT_KEY, {})
+        if not proof or not proof["changes"] or not valid_settlement(observed, record["season"], fresh):
+            raise ValueError("No genuine live price change with persisted settlement evidence")
+        proof["observed_settlement"] = observed
+        if proof != facts["research"]:
+            raise ValueError("Price research proof differs from persisted live evidence")
+    except (RequiredInput, KeyError, TypeError, AttributeError, OverflowError) as exc:
+        raise ValueError("Live price publication verification failed") from exc
 
 
 def numeric(value):
@@ -385,10 +509,22 @@ def build_board(snapshot, update_at, previous=None):
 PRICE_ART_SIZE = (1600, 1200)
 
 
+def price_board_footer(snapshot, update_at):
+    """Distinguish the live prediction deadline from the data retrieval time."""
+    if update_at.tzinfo is None or snapshot.fetched_at.tzinfo is None:
+        raise ValueError("Timezone-aware price board timestamps required")
+    target = update_at.astimezone(UK).strftime("%d %b %Y %H:%M UK")
+    observed = snapshot.fetched_at.astimezone(UK).strftime("%d %b %Y %H:%M UK")
+    return (
+        "FPL VORTEX • Official FPL predictor + player data • Prediction is a guide, not a guarantee",
+        f"Price-change check: {target} • Data retrieved: {observed} • Target % is not probability",
+    )
+
+
 def render_board(snapshot, board, output, session):
     """The supplied 4:3 two-panel price reference, with current official data."""
     from PIL import Image, ImageDraw
-    from .brand_footer import MASTER, verify_exact_master
+    from .brand_footer import verify_exact_master, approved_sell_logo, approved_social_footer
     from .comparison_board import contain, text
     from .matchup import _image_from_url, _media
 
@@ -399,9 +535,7 @@ def render_board(snapshot, board, output, session):
     green, red = "#008553", "#B91F45"
     canvas = Image.new("RGB", (W, H), purple)
     d = ImageDraw.Draw(canvas)
-    with Image.open(MASTER) as original:
-        master = original.convert("RGB").resize((1536,864))
-        canvas.paste(master.crop((0,0,310,80)).resize((158,41),Image.Resampling.LANCZOS),(34,37))
+    approved_sell_logo(canvas, box=(0,0,215,151), matte=purple)
     def label(value, x, y, width, size, color=white, center=False, minimum=14):
         text(d, value, x, y, width, size=size, color=color, minimum=minimum, center=center)
 
@@ -413,7 +547,7 @@ def render_board(snapshot, board, output, session):
     cache = {}
     def side(rows, x, accent, heading, pale):
         width = 756
-        d.rounded_rectangle((x,160,x+width,1122),radius=20,fill=white,outline=cyan,width=2)
+        d.rounded_rectangle((x,160,x+width,1035),radius=20,fill=white,outline=cyan,width=2)
         d.rounded_rectangle((x,160,x+width,216),radius=18,fill=accent)
         d.rectangle((x,192,x+width,216),fill=accent)
         label(heading,x+22,171,width-44,31)
@@ -424,7 +558,7 @@ def render_board(snapshot, board, output, session):
             label("No verified candidates",x+25,280,width-50,24,muted,True)
         for index, row in enumerate(rows[:10]):
             p = row["player"]
-            y = 260 + index*84
+            y = 260 + index*77
             d.rounded_rectangle((x+12,y,x+width-12,y+76),radius=11,fill=pale,outline="#DDD6E0",width=1)
             d.rectangle((x+12,y,x+19,y+76),fill=accent)
             code = snapshot.photo_code(p)
@@ -453,10 +587,10 @@ def render_board(snapshot, board, output, session):
             label(f"{abs(row['projected']):.1f}%",x+599,y+28,140,29,accent,True)
     side(board["rises"],28,green,"▲ PRICE RISES","#F9FCFA")
     side(board["falls"],816,red,"▼ PRICE DROPS","#FFF9FA")
-    label("FPL VORTEX • Official FPL projections • Target progress, not probability • Likelihood: official signed band",
-          30,1136,1540,19,white,True)
-    label("Expected update: "+update.astimezone(UK).strftime("%H:%M UK")+" • Price movements are not guaranteed",
-          30,1166,1540,17,emerald,True)
+    source_footer, timing_footer = price_board_footer(snapshot, update)
+    label(source_footer,30,1046,1540,19,white,True)
+    label(timing_footer,30,1076,1540,17,emerald,True)
+    approved_social_footer(canvas, reserved_height=80)
     output=Path(output)
     output.parent.mkdir(parents=True,exist_ok=True)
     canvas.save(output,"PNG",optimize=True)

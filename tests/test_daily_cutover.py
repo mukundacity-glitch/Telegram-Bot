@@ -44,16 +44,24 @@ def test_final_outbox_weekly_and_radar_gate_rejects_short_gap_and_late_delivery(
     from vortex.research_gap import verify_settled_or_weekly_record
     post = datetime(2026,11,28,20,0,tzinfo=ET)
     row = {"date":post.date().isoformat(),"season":"2026-27","gw":12,
-           "verified":True,"checked_at":(post-timedelta(hours=4)).isoformat()}
+           "verified":True,"checked_at":post.replace(hour=15,minute=28).isoformat(),
+           "fetched_at":post.replace(hour=15,minute=25).isoformat()}
     item = {"edition":"saturday-fdr-grid","season":"2026-27","gameweek":12,"facts":{"research":row}}
     assert "2026-W48" in verify_settled_or_weekly_record(item,post,post)
     with pytest.raises(ValueError, match="three-hour"):
         verify_settled_or_weekly_record(item,post+timedelta(minutes=15),post)
+    row["checked_at"]=post.replace(hour=16,minute=0).isoformat()
+    with pytest.raises(ValueError, match="three-hour"):
+        verify_settled_or_weekly_record(item,post,post)
+    row["checked_at"]=post.replace(hour=15,minute=28).isoformat()
+    row["fetched_at"]=post.replace(hour=14,minute=57).isoformat()
+    with pytest.raises(ValueError, match="three-hour"):
+        verify_settled_or_weekly_record(item,post,post)
     row["checked_at"]=(post-timedelta(minutes=179)).isoformat()
     with pytest.raises(ValueError, match="three-hour"):
         verify_settled_or_weekly_record(item,post,post)
     post=post.replace(hour=11,minute=30)
-    row.update(completed_gw=11,checked_at=(post-timedelta(hours=3)).isoformat())
+    row.update(completed_gw=11,checked_at=post.replace(hour=5,minute=58).isoformat())
     item.update(edition="player-radar-comparison",facts={"research":row,"extra":{"completed_gw":11}})
     assert ":GW11:" in verify_settled_or_weekly_record(item,post,post)
     item["facts"]["extra"]["completed_gw"]=10

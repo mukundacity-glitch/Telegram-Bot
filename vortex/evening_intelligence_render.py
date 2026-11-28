@@ -235,8 +235,10 @@ def _fdr(plan, output, session):
     draw.rounded_rectangle((12, 12, 1068, 1776), radius=18, fill="#FAF8FC",
                            outline="#C6A15B", width=3)
     ink, rule, blue = "#37003C", "#B9AFC4", "#EEE7F4"
-    _label(draw, plan.title, 24, 34, 1032, 56, ink, center=True)
-    _label(draw, f"GW{weeks[0]} – GW{weeks[-1]}", 24, 108, 1032, 39, ink, center=True)
+    from .brand_footer import approved_sell_logo, approved_social_footer
+    approved_sell_logo(canvas, box=(12,12,270,155), matte="#FAF8FC")
+    _label(draw, plan.title, 282, 34, 774, 46, ink, center=True)
+    _label(draw, f"GW{weeks[0]} – GW{weeks[-1]}", 282, 108, 774, 39, ink, center=True)
     left, team_width, header_y, row_height = 24, 131, 175, 73
     width = (1032 - team_width) / (len(weeks) + 1)
     cols = [(left, team_width)] + [(left + team_width + n*width, width)
@@ -275,7 +277,7 @@ def _fdr(plan, output, session):
         _label(draw, f'{row["average"]:.1f}' if row["average"] is not None else "—", x+2, y+21, w-4, 28, ink, center=True)
     _label(draw, "OFFICIAL FPL FDR   •   1 EASIEST, 5 HARDEST   •   AVERAGE PER FIXTURE",
            24, 1713, 1032, 20, ink, center=True)
-    social_footer(canvas)
+    approved_social_footer(canvas, reserved_height=144)
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output, "PNG", optimize=True)
     return output

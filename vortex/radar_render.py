@@ -4,7 +4,7 @@ from math import cos, pi, sin
 
 from PIL import Image, ImageDraw
 
-from .brand_footer import MASTER, verify_exact_master
+from .brand_footer import MASTER, verify_exact_master, approved_sell_logo, approved_social_footer
 from .comparison_board import contain, text
 from .matchup import _image_from_url, _media
 from .minimal_theme import social_footer
@@ -108,7 +108,8 @@ def render_radar(plan, snapshot, output, session):
                 color = FDR_COLORS.get(row["fdr"], "#9db7d8")
                 draw.rounded_rectangle((start, y+7, start+width-4, y+42), 5, outline=color)
                 text(draw, label, start+3, y+15, width-10, 18, color, 10, center=True)
-    social_footer(canvas, *required_footer_handles())
+    approved_sell_logo(canvas, box=(0,0,310,114))
+    approved_social_footer(canvas, reserved_height=79)
     output.parent.mkdir(parents=True, exist_ok=True)
     canvas.save(output, "PNG", optimize=True)
     return output

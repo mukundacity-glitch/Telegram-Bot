@@ -143,6 +143,36 @@ def build(slot, snapshot, now, evidence=None, model=None, prices=None, research=
     e = evidence or Evidence(snapshot, now)
     gw = snapshot.gameweek()
     name = slot.edition
+    if name == 'weekly-sweeper-keepers':
+        from .pre_gameweek_sweepers import build as build_sweepers, RELEASE_VERIFIED
+        proof = getattr(e,'sweeper_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Sweeper keepers release/research gate is closed')
+        return build_sweepers(snapshot,now,e,proof)
+    if name == 'post-gameweek-vulnerability':
+        from .post_gameweek_vulnerability import build as build_matchups, RELEASE_VERIFIED
+        proof = getattr(e,'vulnerability_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Vulnerability release/research gate is closed')
+        return build_matchups(snapshot,now,e,proof)
+    if name == 'weekly-availability-decisions':
+        from .pre_gameweek_availability import build as build_availability, RELEASE_VERIFIED
+        proof = getattr(e,'availability_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Availability release/research gate is closed')
+        return build_availability(snapshot,now,e,proof)
+    if name == 'post-gameweek-shot-origins':
+        from .post_gameweek_zones import build as build_zones, RELEASE_VERIFIED
+        proof = getattr(e,'shot_origins_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Shot origins release/research gate is closed')
+        return build_zones(snapshot,now,e,proof)
+    if name == 'weekly-position-watch':
+        from .position_watch import build as build_watch, RELEASE_VERIFIED
+        proof = getattr(e,'position_watch_research',None)
+        if not RELEASE_VERIFIED or not proof:
+            raise RequiredInput('Position Watch release/research gate is closed')
+        return build_watch(slot,snapshot,now,e,proof)
     from .daily_cutover import KINDS, player_ids
     if name in KINDS:
         from dataclasses import asdict

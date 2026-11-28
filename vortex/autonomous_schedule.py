@@ -119,6 +119,21 @@ def season_id(snapshot, now):
 
 
 def publication_key(slot, now, gw, season=None):
+    if slot.edition == 'weekly-sweeper-keepers':
+        from .pre_gameweek_sweepers import key
+        return key(season,gw)
+    if slot.edition == 'post-gameweek-vulnerability':
+        from .post_gameweek_vulnerability import key
+        return key(season,slot.series_gw)
+    if slot.edition == 'weekly-availability-decisions':
+        from .pre_gameweek_availability import key
+        return key(season,gw)
+    if slot.edition == 'post-gameweek-shot-origins':
+        from .post_gameweek_zones import key
+        return key(season,slot.series_gw)
+    if slot.edition == 'weekly-position-watch':
+        from .position_watch import key
+        return key(season, gw)
     if slot.edition == 'player-radar-comparison' and slot.series_gw is not None:
         return f'{season}:GW{slot.series_gw}:task1:player-radar-comparison'
     if slot.edition == 'price-prediction':
@@ -170,10 +185,10 @@ def fdr_phase(now):
 
 
 def fdr_research_valid(state, snapshot, now):
-    from .research_gap import verified_gap
+    from .research_gap import reserved_research_valid, verified_gap
     row = state.get(FDR_RESEARCH_STATE, {})
     return (fdr_phase(now) == 'post'
-            and verified_gap(row.get('checked_at'), slot_start(SATURDAY_FDR_GRID, now))
+            and reserved_research_valid(row.get('checked_at'), slot_start(SATURDAY_FDR_GRID, now), 15, 28, 12)
             and verified_gap(row.get('checked_at'), now)
             and row.get('date') == now.astimezone(ET).date().isoformat()
             and row.get('gw') == snapshot.gameweek()
@@ -313,12 +328,12 @@ def radar_post_due(now):
 
 
 def radar_research_valid(state, slot, snapshot, now):
-    from .research_gap import verified_gap
+    from .research_gap import reserved_research_valid, verified_gap
     row = state.get(RADAR_RESEARCH_STATE, {})
     return (radar_post_due(now) and slot.series_gw is not None and row.get('completed_gw') == slot.series_gw
             and row.get('season') == season_id(snapshot, now)
             and row.get('date') == now.astimezone(ET).date().isoformat()
-            and verified_gap(row.get('checked_at'), slot_start(slot, now))
+            and reserved_research_valid(row.get('checked_at'), slot_start(slot, now), 5, 58, 12)
             and verified_gap(row.get('checked_at'), now))
 
 
@@ -331,9 +346,13 @@ def prepare_radar_research(snapshot, now, state, evidence, clock):
         return False
     from .radar_comparison import build_radar
     plan = build_radar(slot, snapshot, now, evidence)
+    from .research_gap import reserved_research_valid
+    checked = clock()
+    if not reserved_research_valid(checked.isoformat(), post, 5, 58, 12):
+        return False
     state[RADAR_RESEARCH_STATE] = {
         'date': now.astimezone(ET).date().isoformat(), 'season': season_id(snapshot, now),
-        'completed_gw': slot.series_gw, 'checked_at': clock().isoformat(),
+        'completed_gw': slot.series_gw, 'checked_at': checked.isoformat(),
         'player_ids': [p['id'] for p in plan.players],
     }
     return True

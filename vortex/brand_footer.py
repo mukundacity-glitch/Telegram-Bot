@@ -88,20 +88,30 @@ def _approved_asset(path, expected):
     with Image.open(path) as source:
         return source.convert("RGB")
 
-def approved_sell_logo(canvas):
+def approved_sell_logo(canvas, *, box=None, matte='#091636'):
     """Place the exact green/gold lion wordmark in the existing left masthead."""
     logo = _approved_asset(SELL_LOGO, "a6871f20a9a901570df252a24496b445881dd86b")
     w, h = canvas.size
-    box_w, box_h = round(w*314/1536), round(h*145/864)
-    ImageDraw.Draw(canvas).rectangle((0,0,box_w-1,box_h-1), fill="#091636")
+    x, y, right, bottom = box or (0,0,round(w*314/1536),round(h*145/864))
+    if not (0 <= x < right <= w and 0 <= y < bottom <= h and right-x > 24 and bottom-y > 16):
+        raise ValueError("Invalid branding region")
+    box_w, box_h = right-x, bottom-y
+    ImageDraw.Draw(canvas).rectangle((x,y,right-1,bottom-1), fill=matte)
     logo = ImageOps.contain(logo, (box_w-24, box_h-16), Image.Resampling.LANCZOS)
-    canvas.paste(logo, ((box_w-logo.width)//2, (box_h-logo.height)//2))
+    canvas.paste(logo, (x+(box_w-logo.width)//2, y+(box_h-logo.height)//2))
     return canvas
 
-def approved_social_footer(canvas):
+def approved_social_footer(canvas, *, reserved_height=None):
     """Reuse the exact full-width YouTube / X / Telegram / Instagram strip."""
     original = _approved_asset(SELL_FOOTER, "2f78e78c6bf29b02df6b10a505485bca2f95842f")
     w, h = canvas.size
     height = round(w * original.height / original.width)
-    canvas.paste(original.resize((w,height), Image.Resampling.LANCZOS), (0,h-height))
+    if reserved_height is None:
+        canvas.paste(original.resize((w,height), Image.Resampling.LANCZOS), (0,h-height))
+    else:
+        if not 0 < reserved_height <= h:
+            raise ValueError("Invalid footer region")
+        strip = ImageOps.contain(original, (w,reserved_height), Image.Resampling.LANCZOS)
+        ImageDraw.Draw(canvas).rectangle((0,h-reserved_height,w-1,h-1), fill="#091636")
+        canvas.paste(strip, ((w-strip.width)//2,h-reserved_height+(reserved_height-strip.height)//2))
     return canvas

@@ -13,7 +13,7 @@ from zoneinfo import ZoneInfo
 import requests
 from PIL import Image, ImageDraw, ImageFont
 
-from .brand_footer import MASTER
+from .brand_footer import MASTER, approved_sell_logo, approved_social_footer
 from .matchup import _media
 from .minimal_theme import background, social_footer
 
@@ -159,7 +159,7 @@ def render_rotation_plan(plan: RotationPlan, output: Path,
     with Image.open(MASTER) as master:
         if master.width * 9 != master.height * 16:
             raise ValueError("Brand master not 16:9")
-        canvas = background(master, plan.identity, (1536, 864))
+        canvas = Image.new('RGB', (1536, 864), '#FFFFFF')
     draw = ImageDraw.Draw(canvas)
     draw.rounded_rectangle((28, 79, 1508, 798), radius=18,
                            fill=(255, 255, 255), outline=(198, 161, 91), width=2)
@@ -204,7 +204,8 @@ def render_rotation_plan(plan: RotationPlan, output: Path,
         _center(draw, str(fdr), (x, 761, x + 61, 791), 18, ink)
     draw.text((652, 766), "5 HARDEST  •  H HOME / A AWAY  •  — NO FIXTURE",
               font=_font(17), fill=INK)
-    social_footer(canvas, "FPLVortexDailyBot", "@fplvortex")
+    approved_sell_logo(canvas, box=(0,0,314,79), matte="#FFFFFF")
+    approved_social_footer(canvas, reserved_height=64)
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_suffix(".tmp.png")
     canvas.resize((1920, 1080), Image.Resampling.LANCZOS).save(tmp, "PNG", optimize=True)

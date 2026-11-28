@@ -12,6 +12,7 @@ from PIL import Image, ImageDraw, ImageOps
 import requests
 
 from .extra_posts import ExtraPost
+from .brand_footer import approved_sell_logo, approved_social_footer
 from .comparison_board import TABLE_YELLOW, TABLE_INK, TABLE_RULE
 from .matchup import (ROOT, CANVAS_SIZE, _font, _fitted_font, _text_width,
                       _center_text, _media, _brighten_portrait,
@@ -82,8 +83,9 @@ def _base(post: ExtraPost) -> Image.Image:
         raise FileNotFoundError("FPL VORTEX blue stadium background not installed")
     with Image.open(bg) as source:
         canvas = minimal_background(source, edition_key(post), CANVAS_SIZE)
-        if post.kind in ("team_analysis", "most_transferred_in"):
-            ImageDraw.Draw(canvas).rectangle((0, 91, canvas.width, canvas.height), fill="#37003C")
+        palette = {"team_analysis": "#102B46", "most_transferred_in": "#103C32"}
+        if post.kind in palette:
+            ImageDraw.Draw(canvas).rectangle((0, 91, canvas.width, canvas.height), fill=palette[post.kind])
         return canvas
 
 
@@ -423,7 +425,13 @@ def render_extra(post: ExtraPost, output: Path, session: requests.Session) -> Pa
         raise ValueError("Unsupported new graphics template")
     _footer(canvas, post, detail)
     import os
-    social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))
+    if post.kind in ("most_transferred_in", "team_analysis"):
+        approved_sell_logo(canvas, box=(0,0,290,91))
+        approved_social_footer(canvas, reserved_height=canvas.height-800)
+        ordinal = "02/24" if post.kind == "most_transferred_in" else "04/24"
+        _center_text(ImageDraw.Draw(canvas), 1260, 99, ordinal, _font(21), WHITE)
+    else:
+        social_footer(canvas, os.getenv('FPL_TELEGRAM_HANDLE', ''), os.getenv('FPL_DISCORD_HANDLE', ''))
     output.parent.mkdir(parents=True, exist_ok=True)
     tmp = output.with_suffix(".tmp.png")
     # Every edition is a true 1920x1080 PNG, without cropping, stretching

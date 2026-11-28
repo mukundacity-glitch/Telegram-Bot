@@ -114,7 +114,7 @@ def exclusive_cutover_jobs(jobs, now, research_due=False):
     def guarded(job):
         return ((job[1] == 'editorial' and job[3].edition in {
             'price-prediction', 'player-radar-comparison', 'saturday-fdr-grid',
-            'most-transferred-in', 'team-decision-desk'})
+            'most-transferred-in', 'team-decision-desk', 'weekly-position-watch', 'post-gameweek-shot-origins', 'weekly-availability-decisions', 'post-gameweek-vulnerability', 'weekly-sweeper-keepers'})
             or (job[1] == 'news' and rotation_due(now)))
     if research_due or any(guarded(job) for job in jobs):
         jobs = [job for job in jobs if job[1] != 'news' or rotation_due(now)]
@@ -145,6 +145,30 @@ def run(now=None, cron=None, snapshot=None):
             pass
         return {'status': 'no-new-verified-content', 'new_posts': 0}
     if not allowed(now):
+        # Slot 7 research can fall overnight. Existing press/legacy priority
+        # in main runs before this branch; no publication is allowed here.
+        from .position_watch import RELEASE_VERIFIED, prepare as prepare_watch
+        if RELEASE_VERIFIED and snapshot is not None:
+            state = read_state(STATE_FILE)
+            if not list(queued_files(now)) and not read_state(NEWS_PENDING):
+                try:
+                    if prepare_watch(snapshot,now,state,Evidence(snapshot,now),
+                                     (lambda:now) if injected_time else (lambda:datetime.now(timezone.utc))):
+                        write_state(STATE_FILE,state)
+                        return {'status':'research-verified','new_posts':0,'edition':'weekly-position-watch'}
+                except (RuntimeError,ValueError,KeyError,TypeError,OSError):
+                    pass
+        from .pre_gameweek_availability import RELEASE_VERIFIED as AVAILABILITY_RELEASE, prepare as prepare_availability
+        if AVAILABILITY_RELEASE and snapshot is not None:
+            state = read_state(STATE_FILE)
+            if not list(queued_files(now)) and not read_state(NEWS_PENDING):
+                try:
+                    if prepare_availability(snapshot,now,state,Evidence(snapshot,now),
+                                            (lambda:now) if injected_time else (lambda:datetime.now(timezone.utc))):
+                        write_state(STATE_FILE,state)
+                        return {'status':'research-verified','new_posts':0,'edition':'weekly-availability-decisions'}
+                except (RuntimeError,ValueError,KeyError,TypeError,OSError):
+                    pass
         # Earlier price check is a read-only branch on the existing heartbeat.
         # Never publish outside the approved window.
         if snapshot is not None and getattr(snapshot, 'game_config', None) is not None:
@@ -153,7 +177,7 @@ def run(now=None, cron=None, snapshot=None):
             state = read_state(STATE_FILE)
             record_price_ownership(snapshot, state)
             try:
-                _, info = opportunity(snapshot, now, state)
+                _, info = opportunity(snapshot, now, state, clock=(None if injected_time else lambda: datetime.now(timezone.utc)))
                 if info.get('status') == 'research-verified':
                     write_state(STATE_FILE, state)
                     return {'status': 'research-verified', 'new_posts': 0, 'edition': 'price-prediction'}
@@ -225,7 +249,7 @@ def run(now=None, cron=None, snapshot=None):
             try:
                 from .price_prediction_board import RESEARCH_KEY
                 candidate_state = dict(editorial)
-                price_slot, price_status = opportunity(snapshot, now, candidate_state)
+                price_slot, price_status = opportunity(snapshot, now, candidate_state, clock=(None if injected_time else lambda: datetime.now(timezone.utc)))
                 if price_status.get('status') == 'research-verified':
                     candidate_price_research = candidate_state.get(RESEARCH_KEY)
                 if price_slot is not None:
@@ -257,8 +281,38 @@ def run(now=None, cron=None, snapshot=None):
                 except (RuntimeError, ValueError, KeyError, TypeError, OSError):
                     continue  # Unsafe historical state must not block unrelated slots.
                 jobs.append((slot_start(daily, now), 'editorial', day_key(daily, now), daily))
+        from .position_watch import eligible as position_eligible, STATE_KEY as POSITION_STATE
+        position = position_eligible(snapshot,now,editorial)
+        if position is not None:
+            evidence.position_watch_research = editorial[POSITION_STATE]
+            jobs.append((datetime.fromisoformat(editorial[POSITION_STATE]['post_at']),
+                         'editorial', publication_key(position,now,gw,season),position))
+        from .post_gameweek_zones import eligible as zones_eligible, STATE_KEY as ZONES_STATE
+        zones = zones_eligible(snapshot,now,editorial)
+        if zones is not None:
+            evidence.shot_origins_research = editorial[ZONES_STATE]
+            jobs.append((datetime.fromisoformat(editorial[ZONES_STATE]['post_at']),
+                         'editorial',publication_key(zones,now,gw,season),zones))
+        from .pre_gameweek_availability import eligible as availability_eligible, STATE_KEY as AVAILABILITY_STATE
+        availability = availability_eligible(snapshot,now,editorial)
+        if availability is not None:
+            evidence.availability_research = editorial[AVAILABILITY_STATE]
+            jobs.append((datetime.fromisoformat(editorial[AVAILABILITY_STATE]['post_at']),
+                         'editorial',publication_key(availability,now,gw,season),availability))
+        from .post_gameweek_vulnerability import eligible as matchup_eligible, STATE_KEY as MATCHUP_STATE
+        matchup = matchup_eligible(snapshot,now,editorial)
+        if matchup is not None:
+            evidence.vulnerability_research = editorial[MATCHUP_STATE]
+            jobs.append((datetime.fromisoformat(editorial[MATCHUP_STATE]['post_at']),
+                         'editorial',publication_key(matchup,now,gw,season),matchup))
+        from .pre_gameweek_sweepers import eligible as sweeper_eligible, STATE_KEY as SWEEPER_STATE, RELEASE_VERIFIED as SWEEPER_RELEASE
+        sweeper = sweeper_eligible(snapshot,now,editorial)
+        if sweeper is not None:
+            evidence.sweeper_research = editorial[SWEEPER_STATE]
+            jobs.append((datetime.fromisoformat(editorial[SWEEPER_STATE]['post_at']),
+                         'editorial',publication_key(sweeper,now,gw,season),sweeper))
         series = weekly_analysis_slot(snapshot, now, editorial)
-        if series is not None:
+        if series is not None and not (SWEEPER_RELEASE and series.series_day==3):
             key = publication_key(series, now, gw, season)
             if retryable(editorial.get(key, {})):
                 jobs.append((slot_start(series, now), 'editorial', key, series))
@@ -319,6 +373,25 @@ def run(now=None, cron=None, snapshot=None):
             if prepare_radar_research(snapshot, now, editorial, evidence, clock):
                 write_state(STATE_FILE, editorial)
             prepare_rotation_research(snapshot, now, clock=clock)
+            from .position_watch import prepare as prepare_watch
+            if not dedicated_research and prepare_watch(snapshot,now,editorial,evidence,clock):
+                write_state(STATE_FILE,editorial)
+            elif not dedicated_research:
+                from .post_gameweek_zones import prepare as prepare_zones
+                if prepare_zones(snapshot,now,editorial,evidence,clock):
+                    write_state(STATE_FILE,editorial)
+                else:
+                    from .pre_gameweek_availability import prepare as prepare_availability
+                    if prepare_availability(snapshot,now,editorial,evidence,clock):
+                        write_state(STATE_FILE,editorial)
+                    else:
+                        from .post_gameweek_vulnerability import prepare as prepare_matchups
+                        if prepare_matchups(snapshot,now,editorial,evidence,clock):
+                            write_state(STATE_FILE,editorial)
+                        else:
+                            from .pre_gameweek_sweepers import prepare as prepare_sweepers
+                            if prepare_sweepers(snapshot,now,editorial,evidence,clock):
+                                write_state(STATE_FILE,editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass
     # FDR is a strict weekly phase, not a generic late catch-up.
@@ -328,13 +401,18 @@ def run(now=None, cron=None, snapshot=None):
         from .evening_intelligence import build_evening
         try:
             build_evening(SATURDAY_FDR_GRID, snapshot, now, evidence)
-            editorial[FDR_RESEARCH_STATE] = {
-                'date': local.date().isoformat(), 'gw': snapshot.gameweek(),
-                'season': season_id(snapshot, now), 'verified': True,
-                'fetched_at': snapshot.fetched_at.isoformat(),
-                'checked_at': (now if injected_time else datetime.now(timezone.utc)).isoformat(),
-            }
-            write_state(STATE_FILE, editorial)
+            checked = now if injected_time else datetime.now(timezone.utc)
+            from .research_gap import reserved_research_valid, fresh_research_source
+            post = local.replace(hour=20, minute=0, second=0, microsecond=0)
+            if (reserved_research_valid(checked.isoformat(), post, 15, 28, 12)
+                    and fresh_research_source(snapshot.fetched_at.isoformat(), checked.isoformat())):
+                editorial[FDR_RESEARCH_STATE] = {
+                    'date': local.date().isoformat(), 'gw': snapshot.gameweek(),
+                    'season': season_id(snapshot, now), 'verified': True,
+                    'fetched_at': snapshot.fetched_at.isoformat(),
+                    'checked_at': checked.isoformat(),
+                }
+                write_state(STATE_FILE, editorial)
         except (RuntimeError, ValueError, KeyError, TypeError, OSError):
             pass  # No verified research means no post.
     if phase == 'post':
@@ -357,6 +435,26 @@ def run(now=None, cron=None, snapshot=None):
         if lane == 'editorial' and payload.edition in ('most-transferred-in', 'team-decision-desk'):
             from .daily_cutover import eligible as daily_eligible
             if not daily_eligible(payload, snapshot, live_now, read_state(STATE_FILE)):
+                continue
+        if lane == 'editorial' and payload.edition == 'weekly-sweeper-keepers':
+            from .pre_gameweek_sweepers import eligible as sweeper_eligible
+            if sweeper_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
+                continue
+        if lane == 'editorial' and payload.edition == 'post-gameweek-vulnerability':
+            from .post_gameweek_vulnerability import eligible as matchup_eligible
+            if matchup_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
+                continue
+        if lane == 'editorial' and payload.edition == 'weekly-availability-decisions':
+            from .pre_gameweek_availability import eligible as availability_eligible
+            if availability_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
+                continue
+        if lane == 'editorial' and payload.edition == 'post-gameweek-shot-origins':
+            from .post_gameweek_zones import eligible as zones_eligible
+            if zones_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
+                continue
+        if lane == 'editorial' and payload.edition == 'weekly-position-watch':
+            from .position_watch import eligible as position_eligible
+            if position_eligible(snapshot,live_now,read_state(STATE_FILE)) != payload:
                 continue
         if lane == 'editorial' and payload.edition == 'player-radar-comparison':
             from .autonomous_schedule import radar_post_due

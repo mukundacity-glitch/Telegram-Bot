@@ -273,12 +273,12 @@ def _predicted_xg(slot, snapshot, now, session):
                      "sources": source_names,
                  })
 
-def _attacking_zones(slot, snapshot, now, session):
+def _attacking_zones(slot, snapshot, now, session, *, through=None, verified_weeks=None):
     """Summarize shot origin, explicitly NOT all touches or attack channels."""
-    through = latest_completed_gw(snapshot)
+    through = latest_completed_gw(snapshot) if through is None else through
     if through is None:
         raise RequiredInput("No verified finished gameweek for shot-origin zones")
-    weeks = rounds_for(snapshot, through)[-5:]
+    weeks = rounds_for(snapshot, through)[-5:] if verified_weeks is None else list(verified_weeks)
     if not weeks:
         raise RequiredInput("No completed round for shot-origin zones")
     year = int(season_id(snapshot, now).split("-")[0])
@@ -317,10 +317,22 @@ def _attacking_zones(slot, snapshot, now, session):
                 raise RequiredInput("Duplicate archive match for zone board")
             matched.add(f["id"])
             by_match[row["match_id"]] = f
+        covered = set()
+        seen = set()
         for shot in shots:
             match = by_match.get(shot.get("match_id"))
             if match is None:
                 continue
+            if verified_weeks is not None:
+                # Match and shot IDs, where supplied, must be unique; a duplicate
+                # coordinate alone is not evidence of a duplicate shot.
+                shot_id = shot.get("shot_id") or shot.get("id")
+                if shot_id:
+                    identity = (shot["match_id"], shot_id)
+                    if identity in seen:
+                        raise RequiredInput("Duplicate source shot identity")
+                    seen.add(identity)
+                covered.add(match["id"])
             side = shot.get("is_home", "").lower()
             if side not in ("true", "false", "1", "0"):
                 raise RequiredInput("Unverified shot team-side label")
@@ -328,6 +340,8 @@ def _attacking_zones(slot, snapshot, now, session):
             team = match["team_h"] if side in ("true", "1") else match["team_a"]
             zone = "left" if y < 100/3 else "centre" if y < 200/3 else "right"
             counts[team][zone] += 1
+        if verified_weeks is not None and covered != {f["id"] for f in by_match.values()}:
+            raise RequiredInput("Missing shot records for an official match")
     if matched != {f["id"] for f in official.values()}:
         raise RequiredInput("FPL Core zone source does not cover completed official matches")
     rows = []
