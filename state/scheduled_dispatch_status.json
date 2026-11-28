@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-28T14:24:20.114270+00:00",
-  "eastern_at": "2026-11-28T09:24:20.114270-05:00",
+  "at": "2026-11-28T15:09:32.751460+00:00",
+  "eastern_at": "2026-11-28T10:09:32.751460-05:00",
   "last_news_scan": "2026-11-28T12:15:09.101673+00:00",
   "new_posts": 1,
   "next_due": {
     "post": "news",
-    "trigger": "2026-11-28T15:09:29.857840+00:00"
+    "trigger": "2026-11-28T15:54:42.651538+00:00"
   },
-  "next_telegram_at": "2026-11-28T15:09:29.857840+00:00",
+  "next_telegram_at": "2026-11-28T15:54:42.651538+00:00",
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -57,7 +57,7 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-28T14:05:11.431572+00:00",
+    "source_updated_at": "2026-11-28T14:50:12.262181+00:00",
     "status": "skipped-schedule-conflict",
     "update_at": "2026-11-29T00:00:00+00:00"
   },
