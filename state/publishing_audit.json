@@ -10035,6 +10035,23 @@
     "trigger": "2026-11-27T14:30:00-05:00",
     "type": "scouting-rotation"
   },
+  "2026-11-27:three_daily:vortex-captain:GW13": {
+    "attempts": 1,
+    "completed_at": "2026-11-28T02:00:09.074910+00:00",
+    "confirmed_telegram_message_ids": [
+      658
+    ],
+    "error": null,
+    "generated": true,
+    "post_id": "2026-11-27:three_daily:vortex-captain:GW13",
+    "status": "POSTED",
+    "telegram_message_ids": [
+      658
+    ],
+    "timestamp": "2026-11-28T02:00:01.254533+00:00",
+    "trigger": "2026-11-27T21:00:00-05:00",
+    "type": "vortex-captain"
+  },
   "2026-11-27T00:00:07.363185+00:00": {
     "posts": [
       {
@@ -10658,6 +10675,29 @@
     "timestamp": "2026-11-28T01:56:42.456798+00:00",
     "trigger": "2026-11-28T01:56:42.456798+00:00",
     "type": "2026-11-28T01:56:42.456798+00:00:news"
+  },
+  "2026-11-28T02:00:01.254533+00:00": {
+    "posts": [
+      {
+        "attempts": 1,
+        "completed_at": "2026-11-28T02:00:09.074910+00:00",
+        "confirmed_telegram_message_ids": [
+          658
+        ],
+        "error": null,
+        "generated": true,
+        "post_id": "2026-11-27:three_daily:vortex-captain:GW13",
+        "status": "POSTED",
+        "telegram_message_ids": [
+          658
+        ],
+        "timestamp": "2026-11-28T02:00:01.254533+00:00",
+        "trigger": "2026-11-27T21:00:00-05:00",
+        "type": "vortex-captain"
+      }
+    ],
+    "status": "RUN",
+    "timestamp": "2026-11-28T02:00:01.254533+00:00"
   },
   "2026-27:GW10:task2:weekly-analysis:day1": {
     "attempts": 1,
