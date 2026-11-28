@@ -1,6 +1,6 @@
 {
-  "at": "2026-11-28T00:19:32.170300+00:00",
-  "eastern_at": "2026-11-27T19:19:32.170300-05:00",
+  "at": "2026-11-28T00:21:27.897273+00:00",
+  "eastern_at": "2026-11-27T19:21:27.897273-05:00",
   "last_news_scan": "2026-11-28T00:18:53.374328+00:00",
   "new_posts": 0,
   "next_due": {
@@ -57,13 +57,13 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-28T00:05:28.193354+00:00",
+    "source_updated_at": "2026-11-28T00:20:10.545157+00:00",
     "status": "skipped-schedule-conflict",
     "update_at": "2026-11-29T00:00:00+00:00"
   },
   "queue_enumerated": true,
   "queue_items_unprocessed": 0,
-  "scheduled_cron": "43 * * * *",
+  "scheduled_cron": "58 * * * *",
   "source_error": null,
   "status": "no-new-verified-content",
   "telegram_messages_sent": 0
