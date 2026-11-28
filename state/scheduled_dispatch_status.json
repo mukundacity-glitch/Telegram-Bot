@@ -1,11 +1,11 @@
 {
-  "at": "2026-11-28T03:02:03.766462+00:00",
-  "eastern_at": "2026-11-27T22:02:03.766462-05:00",
-  "last_news_scan": "2026-11-28T03:00:31.089658+00:00",
+  "at": "2026-11-28T10:31:02.159074+00:00",
+  "eastern_at": "2026-11-28T05:31:02.159074-05:00",
+  "last_news_scan": "2026-11-28T10:31:02.159074+00:00",
   "new_posts": 0,
   "next_due": {
-    "post": "chance-creators",
-    "trigger": "2026-11-29T06:00:00-05:00"
+    "post": "elite",
+    "trigger": "2026-11-28T06:30:00-05:00"
   },
   "next_telegram_at": null,
   "pending_triggers": [
@@ -34,11 +34,11 @@
       "trigger": "2026-11-29T06:00:00-05:00"
     }
   ],
-  "posts_due": 0,
+  "posts_due": 1,
   "posts_failed": 0,
   "posts_generated": 0,
   "posts_pending_trigger": 6,
-  "posts_processed": 0,
+  "posts_processed": 1,
   "posts_retried": 0,
   "posts_retry_pending": 0,
   "price_prediction": {
@@ -57,13 +57,13 @@
       ]
     ],
     "post": "price-prediction",
-    "source_updated_at": "2026-11-28T02:50:10.296950+00:00",
+    "source_updated_at": "2026-11-28T10:20:11.187496+00:00",
     "status": "skipped-schedule-conflict",
     "update_at": "2026-11-29T00:00:00+00:00"
   },
   "queue_enumerated": true,
   "queue_items_unprocessed": 0,
-  "scheduled_cron": "0,30 0-3,9-23 * * *",
+  "scheduled_cron": "45 1,2 * * *",
   "source_error": null,
   "status": "no-new-verified-content",
   "telegram_messages_sent": 0
