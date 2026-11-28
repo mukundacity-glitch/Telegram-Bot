@@ -1,13 +1,13 @@
 {
-  "at": "2026-11-27T23:33:46.875572+00:00",
-  "eastern_at": "2026-11-27T18:33:46.875572-05:00",
-  "last_news_scan": "2026-11-27T16:26:29.174996+00:00",
-  "new_posts": 1,
+  "at": "2026-11-28T00:18:53.374328+00:00",
+  "eastern_at": "2026-11-27T19:18:53.374328-05:00",
+  "last_news_scan": "2026-11-28T00:18:53.374328+00:00",
+  "new_posts": 0,
   "next_due": {
-    "post": "news",
-    "trigger": "2026-11-28T00:18:50.877597+00:00"
+    "post": "vortex-captain",
+    "trigger": "2026-11-27T21:00:00-05:00"
   },
-  "next_telegram_at": "2026-11-28T00:18:50.877597+00:00",
+  "next_telegram_at": null,
   "pending_triggers": [
     {
       "post": "captaincy-comparison",
@@ -34,9 +34,9 @@
       "trigger": "2026-11-29T06:00:00-05:00"
     }
   ],
-  "posts_due": 2,
+  "posts_due": 1,
   "posts_failed": 0,
-  "posts_generated": 1,
+  "posts_generated": 0,
   "posts_pending_trigger": 6,
   "posts_processed": 1,
   "posts_retried": 0,
@@ -45,28 +45,26 @@
     "conflicts": [
       [
         "review",
-        "2026-11-27T22:30:00+00:00"
+        "2026-11-28T22:30:00+00:00"
       ],
       [
         "scouting-rotation",
-        "2026-11-27T19:30:00+00:00"
+        "2026-11-28T19:30:00+00:00"
       ],
       [
         "sell",
-        "2026-11-27T23:30:00+00:00"
+        "2026-11-28T23:30:00+00:00"
       ]
     ],
     "post": "price-prediction",
-    "research_at": "2026-11-27T07:43:00+00:00",
-    "source_updated_at": "2026-11-27T23:20:11.659127+00:00",
+    "source_updated_at": "2026-11-28T00:05:28.193354+00:00",
     "status": "skipped-schedule-conflict",
-    "trigger": "2026-11-27T21:30:00+00:00",
-    "update_at": "2026-11-28T00:00:00+00:00"
+    "update_at": "2026-11-29T00:00:00+00:00"
   },
   "queue_enumerated": true,
-  "queue_items_unprocessed": 1,
+  "queue_items_unprocessed": 0,
   "scheduled_cron": "28 * * * *",
   "source_error": null,
-  "status": "published",
-  "telegram_messages_sent": 1
+  "status": "no-new-verified-content",
+  "telegram_messages_sent": 0
 }
